@@ -162,7 +162,7 @@ public class Board {
             for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
                 // i and j are only 0 once and never are 0 again 0, 0 = center
                 /*
-                 * for each hexagon in hexagonIdRings:
+                 *  for each hexagon in hexagonIdRings:
                  *   1. check the next hexagon in the same ring
                  *     a. make sure that this 'wraps' around at the end using %
                  *   2 look at the two adjacent hexagons in the next ring
@@ -793,16 +793,8 @@ public class Board {
         return hexagonIdRings;
     }
 
-    public void setHexagonIdRings(ArrayList<ArrayList<Integer>> hexagonIdRings) {
-        this.hexagonIdRings = hexagonIdRings;
-    }
-
     public ArrayList<ArrayList<Integer>> getIntersectionIdRings() {
         return intersectionIdRings;
-    }
-
-    public void setIntersectionIdRings(ArrayList<ArrayList<Integer>> intersectionIdRings) {
-        this.intersectionIdRings = intersectionIdRings;
     }
 
     public boolean[][] gethGraph() {

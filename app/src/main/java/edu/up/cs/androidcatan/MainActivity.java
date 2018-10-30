@@ -11,23 +11,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+/**
+ External Citation
+ Date: 20 September 2018
+ Problem: Needed more screen space and wanted to get rid of the title bar and the
+ notification bar
+ Resource:
+ https://stackoverflow.com/questions/2591036/how-to-hide-the-title-bar-for-an-activity-in-xml-with-existing-custom-theme
+ Solution: I used the code from the stack overflow post.
+ */
 public class MainActivity extends Activity {
-
-    // TODO dev branch
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
-        /**
-         External Citation
-         Date: 20 September 2018
-         Problem: Needed more screen space and wanted to get rid of the title bar and the
-         notification bar
-         Resource:
-         https://stackoverflow.com/questions/2591036/how-to-hide-the-title-bar-for-an-activity-in-xml-with-existing-custom-theme
-         Solution: I used the code from the stackoverflow post.
-         */
+
 
         // remove title bar and notification bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -39,7 +38,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // boardSurfaceView board is the custom SurfaceView
-        boardSurfaceView board = (boardSurfaceView) findViewById(R.id.board);
+        boardSurfaceView board = findViewById(R.id.board);
 
         // create Canvas object
         Canvas canvas = new Canvas();
@@ -51,8 +50,8 @@ public class MainActivity extends Activity {
 
         board.draw(canvas);
 
-        Button scoreButton = (Button) findViewById(R.id.sidebar_button_score);
-	    final Group scoreBoardGroup = (Group) findViewById(R.id.group_scoreboard);
+        Button scoreButton = findViewById(R.id.sidebar_button_score);
+	    final Group scoreBoardGroup = findViewById(R.id.group_scoreboard);
         scoreButton.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View view) {
@@ -64,8 +63,8 @@ public class MainActivity extends Activity {
 	        }
         });
 
-	    Button developmentButton = (Button) findViewById(R.id.sidebar_button_devcards);
-	    final Group developmentGroup = (Group) findViewById(R.id.group_development_card_menu);
+	    Button developmentButton = findViewById(R.id.sidebar_button_devcards);
+	    final Group developmentGroup = findViewById(R.id.group_development_card_menu);
 	    developmentButton.setOnClickListener(new View.OnClickListener() {
 		    @Override
 		    public void onClick(View view) {
@@ -78,9 +77,9 @@ public class MainActivity extends Activity {
 	    });
 
 	    // build menu layout group
-	    final Group buildMenuGroup = (Group) findViewById(R.id.group_build_menu);
+	    final Group buildMenuGroup = findViewById(R.id.group_build_menu);
 
-	    Button roadButton = (Button) findViewById(R.id.sidebar_button_road);
+	    Button roadButton = findViewById(R.id.sidebar_button_road);
 
 	    roadButton.setOnClickListener(new View.OnClickListener() {
 		    @Override
@@ -94,7 +93,7 @@ public class MainActivity extends Activity {
 	    });
 
         // the spinner that holds the development cards the player has
-        Spinner developmentSpinner = (Spinner) findViewById(R.id.development_Card_Spinner);
+        Spinner developmentSpinner = findViewById(R.id.development_Card_Spinner);
 
         // spinner logic and handlers
         ArrayAdapter<CharSequence> developmentChoices = ArrayAdapter.createFromResource(this, R.array.resource_Card, android.R.layout.simple_spinner_item);
