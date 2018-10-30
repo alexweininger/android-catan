@@ -10,7 +10,7 @@ package edu.up.cs.androidcatan;
  **/
 public class RoadDevCard extends DevelopmentCard {
 
-    public RoadDevCard() {
+    /*public RoadDevCard() {
         super("Road");
     }
 
