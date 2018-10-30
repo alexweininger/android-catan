@@ -236,7 +236,7 @@ public class GameState {
      */
     public boolean rollDice(int playerId, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradePort - invalid player id: " + playerId);
+            Log.d("devError", "ERROR: tradeWithPort - invalid player id: " + playerId);
             return false;
         }
         if (playerId != this.currentPlayerId) {
@@ -271,21 +271,21 @@ public class GameState {
      * @param edit
      * @return
      */
-    public boolean tradePort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
+    public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
         // check if current player's turn and then if player has rolled dice
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devInfo", "INFO: tradePort - player " + playerId + " tried to trade with port, but it is player " + this.currentPlayerId + "'s turn.");
+            Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " tried to trade with port, but it is player " + this.currentPlayerId + "'s turn.");
             return false;
         }
         // check if the turn is in the action phase
         if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
-            Log.d("devInfo", "INFO: tradePort - player " + playerId + " tried to trade with port, but it isn't the action phase.");
+            Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " tried to trade with port, but it isn't the action phase.");
             return false;
         }
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradePort - invalid player id: " + playerId);
+            Log.d("devError", "ERROR: tradeWithPort - invalid player id: " + playerId);
             return false;
         }
 
@@ -301,7 +301,7 @@ public class GameState {
         this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
 
         edit.append("Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with a Port!\n");
-        Log.d("devInfo", "INFO: tradePort - player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.\n");
+        Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.\n");
         return true;
     }
 
@@ -318,15 +318,15 @@ public class GameState {
      * @param edit
      * @return
      */
-    public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
+    public boolean tradeWithBank(int playerId, String resGiven, String resReceive, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradeBank - invalid player id: " + playerId);
+            Log.d("devError", "ERROR: tradeWithBank - invalid player id: " + playerId);
             return false;
         }
         //Check if current player's turn and then if player has rolled dice
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: tradeBank - it is not " + playerId + "'s turn.");
+            Log.d("devError", "ERROR: tradeWithBank - it is not " + playerId + "'s turn.");
             return false;
         }
         if (!this.isActionPhase) {
@@ -410,13 +410,23 @@ public class GameState {
             return false;
         }
 
+        // TODO WTF is this shit we should change this
         if (this.playerList.get(playerId).getResources().get("Brick") == 1 && this.playerList.get(playerId).getResources().get("Grain") == 1
                 && this.playerList.get(playerId).getResources().get("Wood") == 1 && this.playerList.get(playerId).getResources().get("Wool") == 1) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
+            return false;
+        }
+        if (!this.board.isIntresectionBuildable(intersectionID)) { // check if intersection is free for building
+            return false;
         }
 
-        Settlement settlement = new Settlement(intersectionID, playerId);
-        //board.addSettlement
+        // TODO add checking in here or somewhere else to check that this intersection is connected with the players roads
+        // TODO the goal is to do all appropriate checks before we make a building object to ensure no errors
+
+        Settlement settlement = new Settlement(playerId);
+        // TODO board.addSettlement
+
+        this.board.addBuilding(intersectionID, settlement);
 
         edit.append("Player " + playerId + " built a Settlement!\n");
         return true;

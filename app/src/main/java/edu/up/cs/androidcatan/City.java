@@ -13,19 +13,24 @@ public class City extends Building {
     private int intersectionID;
     private static HashMap<String, Integer> checkResources = new HashMap<>();
     private int productionNumber = 2;
+    private final static int[] resourceCost = {0, 3, 0, 2, 0};
 
     /**
-     *
      * @param ownerId id of who owns the building
      */
     public City(int intersectionID, int ownerId) {
-        super("City", 2, ownerId);
+        super(ownerId);
         this.intersectionID = intersectionID;
         HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
     }
 
+
+    public static void cityResourcePriceMake() {
+        checkResources.put("ore", 3);
+        checkResources.put("grain", 2);
+    }
+
     /**
-     *
      * @return string representation of a City
      */
     @Override
@@ -35,18 +40,5 @@ public class City extends Building {
         sb.append(super.toString());
 
         return sb.toString();
-    }
-
-    public static void cityResourcePriceMake(){
-        checkResources.put("ore", 3);
-        checkResources.put("grain", 2);
-    }
-
-    public int getProductionNumber() {
-        return productionNumber;
-    }
-
-    public void setProductionNumber(int productionNumber) {
-        this.productionNumber = productionNumber;
     }
 }

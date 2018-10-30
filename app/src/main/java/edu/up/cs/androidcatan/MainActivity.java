@@ -25,31 +25,23 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
-
         // remove title bar and notification bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // boardSurfaceView board is the custom SurfaceView
-        boardSurfaceView board = findViewById(R.id.board);
+        boardSurfaceView board = findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
-        // create Canvas object
-        Canvas canvas = new Canvas();
+        Canvas canvas = new Canvas(); // create Canvas object
 
-        // draw the board of hexagons and ports on the canvas
-        board.createHexagons();
+        board.createHexagons();        // draw the board of hexagons and ports on the canvas
 
-        // TODO
+        board.draw(canvas); // draw
 
-        board.draw(canvas);
-
+        // button listeners TODO move to separate class
         Button scoreButton = findViewById(R.id.sidebar_button_score);
 	    final Group scoreBoardGroup = findViewById(R.id.group_scoreboard);
         scoreButton.setOnClickListener(new View.OnClickListener() {
