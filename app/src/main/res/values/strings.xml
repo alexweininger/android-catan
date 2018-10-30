@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Android Catan</string>
+
+    <string name="heading_build">Build</string>
+    <string name="road">Road</string>
+    <string name="settlement">Settlement</string>
+    <string name="city">City</string>
+
+    <string name="heading_playerName">PlayerName</string>
+    <string name="victoryPoints">Victory Points</string>
+    <string name="roll">Roll</string>
+    <string name="endTurn">End Turn</string>
+
+    <string name="heading_trade">Trade</string>
+    <string name="trade">Trade</string>
+
+    <string name="heading_resources">Resources</string>
+    <string name="ore">Ore</string>
+    <string name="grain">Grain</string>
+    <string name="lumber">Lumber</string>
+    <string name="wool">Wool</string>
+    <string name="brick">Brick</string>
+
+    <string name="heading_game">Game</string>
+    <string name="scoreboard">Scoreboard</string>
+    <string name="menu">Menu</string>
+
+    <string name="Player1">Player 1</string>
+    <string name="Player2">Player 2</string>
+    <string name="Player3">Player 3</string>
+    <string name="Player4">Player 4</string>
+
+    <string name="Player1_Score">0</string>
+    <string name="Player2_Score">4</string>
+    <string name="Player3_Score">2</string>
+    <string name="Player4_Score">8</string>
+
+    <string name="Trading_Menu">Trading Menu</string>
+    <string name="you_Want">You Want:</string>
+    <string name="you_Give">You Give:</string>
+
+    <string name="sheep_you_give_amount">0</string>
+    <string name="sheep_you_want_amount">2</string>
+    <string name="wood_you_give_amount">1</string>
+    <string name="wood_you_want_amount">2</string>
+    <string name="ore_you_give_amount">1</string>
+    <string name="ore_you_want_amount">1</string>
+    <string name="grain_you_give_amount">0</string>
+    <string name="grain_you_want_amount">0</string>
+    <string name="brick_you_give_amount">1</string>
+    <string name="brick_you_want_amount">0</string>
+
+    <string name="Use_Button">Use Card</string>
+
+    <string name="development_Card_Info">Development Card Info</string>
+    <string name="development_Card_Name">Development Card Name</string>
+    <string name="development_Card_Spinner">Development Card Selection</string>
+
+    <string name="value_lumber">0</string>
+    <string name="value_wool">0</string>
+    <string name="value_brick">0</string>
+    <string name="value_grain">0</string>
+    <string name="value_ore">0</string>
+
+    <string name="confirmString">Would you like to build this here?</string>
+
+
+    <!--resources-->
+
+    <string name="developmentCards">Development Cards</string>
+
+    <string-array name="resource_Card">
+        <item>Knights</item>
+        <item>Victory Points</item>
+        <item>Road Building</item>
+        <item>Monopoly</item>
+        <item>Year of Plenty</item>
+    </string-array>
+</resources>
