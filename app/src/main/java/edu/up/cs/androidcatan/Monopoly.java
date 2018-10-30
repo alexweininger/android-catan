@@ -2,7 +2,7 @@ package edu.up.cs.androidcatan;
 
 public class Monopoly extends DevelopmentCard {
 
-    public Monopoly() {
+    /*public Monopoly() {
         super("Monopoly");
     }
 

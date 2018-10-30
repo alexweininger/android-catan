@@ -7,7 +7,7 @@ package edu.up.cs.androidcatan;
 
 public class VictoryPoints extends DevelopmentCard {
 
-    public VictoryPoints() {
+    /*public VictoryPoints() {
         super("Victory Points");
     }
 
