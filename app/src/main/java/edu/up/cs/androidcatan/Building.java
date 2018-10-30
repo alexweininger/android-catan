@@ -36,9 +36,7 @@ public abstract class Building {
         }
         return true;
     }*/
-    public String getBuildingName() {
-        return buildingName;
-    }
+
 
     /**
      * @return number of victory points
@@ -59,13 +57,11 @@ public abstract class Building {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         sb.append("Building{");
-        sb.append("buildingName='");
-        sb.append(buildingName);
         sb.append('\'');
         sb.append(", resourceCost=");
-        sb.append(resourceCost);
+        sb.append(resourceCost.toString());
         sb.append(", victoryPoints=");
         sb.append(victoryPoints);
         sb.append(", intersectionId=");
