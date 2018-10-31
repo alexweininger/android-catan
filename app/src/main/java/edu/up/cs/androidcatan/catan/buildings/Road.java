@@ -1,6 +1,8 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan.buildings;
 
 import java.util.Arrays;
+
+import edu.up.cs.androidcatan.catan.buildings.Building;
 
 /**
  * @author Alex Weininger
@@ -13,13 +15,13 @@ import java.util.Arrays;
 public class Road extends Building {
 
     private int intersectionAId, intersectionBId;
-    static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
+    public static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
      * @param intersectionAId -
      * @param intersectionBId -
      */
-    Road(int playerId, int intersectionAId, int intersectionBId) {
+    public Road(int playerId, int intersectionAId, int intersectionBId) {
         super(playerId);
 
         this.intersectionAId = intersectionAId;

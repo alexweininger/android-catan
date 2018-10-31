@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan.buildings;
 
 /**
  * @author Alex Weininger
@@ -18,7 +18,7 @@ public abstract class Building {
      *
      * @param ownerId - player who owns and built building
      */
-    Building(int ownerId) {
+    public Building(int ownerId) {
         this.ownerId = ownerId;
     }
 

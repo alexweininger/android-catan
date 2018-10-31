@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan.graphics;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,6 +7,11 @@ import android.util.Log;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+
+import edu.up.cs.androidcatan.catan.graphics.House;
+import edu.up.cs.androidcatan.catan.hexagon.*;
+import edu.up.cs.androidcatan.catan.trading.*;
+
 
 public class boardSurfaceView extends SurfaceView {
 

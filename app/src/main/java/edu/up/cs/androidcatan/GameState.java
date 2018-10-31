@@ -4,6 +4,14 @@ import android.util.Log;
 
 import gameframework.*;
 
+import android.widget.EditText;
+
+import edu.up.cs.androidcatan.catan.buildings.Building;
+import edu.up.cs.androidcatan.catan.buildings.City;
+import edu.up.cs.androidcatan.catan.buildings.Road;
+import edu.up.cs.androidcatan.catan.buildings.Settlement;
+import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -171,21 +179,28 @@ public class GameState {
      * probably just calls a method in board?
      * recursion???
      */
-    private void checkRoadLength() {
+    /*private void checkRoadLength() {
         int max = -1;
         int playerIdWithLongestRoad = -1;
         if (currentLongestRoadPlayerId != -1) {
             max = playerVictoryPoints[currentLargestArmyPlayerId];
         }
         for (int i = 0; i < 4; i++) {
-            if (board.getPlayerRoadLength(i) > max) {
-                max = board.getPlayerRoadLength(i);
+            if (board.getPlayerWithLongestRoad(i) > max) {
+                max = board.getPlayerWithLongestRoad(i);
                 playerIdWithLongestRoad = i;
             }
         }
         if (max > 4) {
             this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
         }
+    }*/
+
+    /**
+     * Gets the player who has the longest road.
+     */
+    private int checkLongestRoad(){
+        return this.board.getPlayerWithLongestRoad(this.playerList);
     }
 
     /**
@@ -195,7 +210,7 @@ public class GameState {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
         }
-        checkRoadLength();
+        //checkRoadLength();
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
         }
@@ -293,6 +308,7 @@ public class GameState {
      * @return - action success
      */
     public boolean endTurn(int playerId) {
+        boolean devCardPlayable = false;
         if (!valAction(playerId)) {
             return false;
         }
@@ -306,6 +322,13 @@ public class GameState {
         Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + "'s turn.");
 
         updateVictoryPoints();
+
+        devCardPlayable = true;
+
+        for (DevelopmentCard developmentCard : playerList.get(playerId).getDevelopmentCards()) {
+            developmentCard.setPlayable(devCardPlayable);
+        }
+
         return true;
     } // end endTurn method
 
@@ -509,27 +532,19 @@ public class GameState {
     }
 
     /**
-     * TODO needs to take a dev card id as parameter and use that specific card
-     * Player will select a development card they own and use it; Game State will determine legality and then carry out development cards function
      *
-     * @param playerId
+     * @param playerId - player playing development card
+     * @param devCardId - id of the development card
      * @return - action success
      */
-    public boolean useDevCard(int playerId) {
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: useDevCard - invalid player id: " + playerId);
+    public boolean useDevCard(int playerId, int devCardId) {
+
+        if(!valAction(playerId)) {
             return false;
         }
-        if (!checkTurn(playerId)) {
 
-        }
-        DevelopmentCard dc = new DevelopmentCard();
-        if (playerId == this.currentPlayerId) {
-            //playerList.get(playerId).useDevCard(dc.generateDevCardDeck());
-
-        }
-
-        return false;
+        DevelopmentCard dc = new DevelopmentCard(devCardId);
+        return true;
     }
 
     /**

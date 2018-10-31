@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang

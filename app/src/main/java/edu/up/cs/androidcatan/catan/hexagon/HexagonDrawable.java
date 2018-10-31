@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan.hexagon;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,9 @@ import android.graphics.Path;
 import android.util.Log;
 
 import java.util.Random;
+
+import edu.up.cs.androidcatan.catan.graphics.RoadDrawable;
+import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 
 public class HexagonDrawable extends boardSurfaceView {
 
