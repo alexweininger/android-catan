@@ -103,6 +103,7 @@ public class Board {
         this.portIntersectionLocations = b.getPortIntersectionLocations();
     } // end Board deep copy constructor
 
+
     private void initRoadGraph() {
         for (int i = 0; i < iGraph.length; i++) {
             for (int j = 0; j < iGraph[i].length; j++) {
@@ -116,26 +117,58 @@ public class Board {
         }
     }
 
-    public boolean isConnected(int playerId, int intersectionId) {
+    /**
+     *
+     * @param playerId
+     * @param intersectionId
+     * @return
+     */
+    private boolean isConnected(int playerId, int intersectionId) {
         // check if intersection has no building and no road
         if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
-            return true;
+            return false;
         }
         // check if player is an owner of intersection
         return getIntersectionOwners(intersectionId).contains(playerId);
     }
 
+    /**
+     *
+     * @param playerId
+     * @param a
+     * @param b
+     * @return
+     */
     public boolean validRoadPlacement(int playerId, int a, int b) {
+        // check if road is connected to players roads / buildings at either intersection
         if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
             return false;
         }
 
-        // check if road
-
-        if (hasRoad(a)) {
-
+        // check if 3 roads at either intersection
+        if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+            return false;
         }
+
+        // check if road is already built
+        if (this.roadGraph[a][b].getOwnerId() != -1) {
+            return false;
+        }
+
         return true;
+    }
+
+    /**
+     *
+     * @param playerId
+     * @param intersectionA
+     * @param intersectionB
+     */
+    public void addRoad(int playerId, int intersectionA, int intersectionB) {
+        Road road = new Road(playerId, intersectionA, intersectionB);
+        this.roads.add(road);
+        this.roadGraph[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
+        this.roadGraph[road.getIntersectionBId()][road.getIntersectionAId()] = road;
     }
 
     /**
@@ -568,13 +601,6 @@ public class Board {
     }
 
 
-    /**
-     * @param road - road to add to the board, this is called after checks are made in the GameState class
-     */
-    public boolean addRoad(Road road) {
-        this.roads.add(road);
-        return false;
-    }
 
     /**
      * @param intersectionId - to check for owners
