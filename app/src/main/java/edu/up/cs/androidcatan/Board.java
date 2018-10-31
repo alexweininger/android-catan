@@ -180,7 +180,7 @@ public class Board {
         return false;
     }
 
-    void getPlayerRoadLength(ArrayList<Player> playerList){
+    int getLongestRoadLength(ArrayList<Player> playerList){
         for (Player player: playerList){
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
