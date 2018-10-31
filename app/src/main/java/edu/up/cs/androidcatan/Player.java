@@ -117,24 +117,32 @@ public class Player {
      */
     public boolean removeResourceCard(int resourceCardId, int numToRemove) {
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
-            Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+            Log.i(TAG, "removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         } else {
             if (this.resourceCards[resourceCardId] >= numToRemove) { // check to prevent negative card counts
-                Log.d("devInfo", "INFO removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
+                Log.i(TAG, "removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
                 this.resourceCards[resourceCardId] -= numToRemove; // remove cards
                 return true; // removed cards to players inventory
             } else {
-                Log.d("devError", "ERROR removeResourceCard: cannot remove numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + ". Player currently has " + this.resourceCards[resourceCardId] + " cards of this resource.");
+                Log.i(TAG, "removeResourceCard: cannot remove numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + ". Player currently has " + this.resourceCards[resourceCardId] + " cards of this resource.");
                 return false; // did not remove resource cards to players inventory
             }
         }
     }
 
     public boolean removeResourceBundle(int[] resourceCost) {
-
-
-
+        if (checkResourceBundle(resourceCost)) {
+            Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
+            return false;
+        }
+        for (int i : resourceCost) {
+            if(!this.removeResourceCard(i, resourceCost[i])) {
+                Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Player.removeResourceCard method returned false.");
+                return false;
+            }
+        }
+        Log.d(TAG, "removeResourceBundle successfully removed resourceCost = [" + resourceCost.toString() + "] from players inventory.");
         return true;
     }
 
