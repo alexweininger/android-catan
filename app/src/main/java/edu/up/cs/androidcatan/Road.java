@@ -13,14 +13,14 @@ import java.util.Arrays;
 public class Road extends Building {
 
     private int intersectionAId, intersectionBId;
-    private final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
+    static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
      * @param intersectionAId -
      * @param intersectionBId -
      */
-    Road(int intersectionAId, int intersectionBId, int ownerId) {
-        super(ownerId);
+    Road(int playerId, int intersectionAId, int intersectionBId) {
+        super(playerId);
 
         this.intersectionAId = intersectionAId;
         this.intersectionBId = intersectionBId;
@@ -38,9 +38,7 @@ public class Road extends Building {
         }
     }
 
-    public int[] getResourceCost() {
-        return this.resourceCost;
-    }
+    // getters
 
     public int getIntersectionAId() {
         return this.intersectionAId;

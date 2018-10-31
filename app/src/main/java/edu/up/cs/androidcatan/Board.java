@@ -49,6 +49,8 @@ public class Board {
 
     private ArrayList<Road> roads = new ArrayList<>();
 
+    private Road[][] roadGraph = new Road[54][54];
+
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
     private Robber robber; // robber object
 
@@ -63,6 +65,7 @@ public class Board {
         // generate adj. graphs
         generateHexagonGraph();
         generateIntersectionGraph();
+        initRoadGraph();
 
         // print graphs
         printGraph(hGraph);
@@ -98,7 +101,96 @@ public class Board {
         this.hexagons = b.getHexagons();
         this.robber = new Robber(b.getRobber());
         this.portIntersectionLocations = b.getPortIntersectionLocations();
+        this.roadGraph = b.roadGraph;
+
     } // end Board deep copy constructor
+
+
+    private void initRoadGraph() {
+        for (int i = 0; i < iGraph.length; i++) {
+            for (int j = 0; j < iGraph[i].length; j++) {
+                roadGraph[i][j] = new Road(i, j, -1);
+            }
+        }
+        for (int i = 0; i < roadGraph.length; i++) {
+            for (int j = 0; j < roadGraph[i].length; j++) {
+                roadGraph[j][i] = roadGraph[i][j];
+            }
+        }
+    }
+
+    /**
+     * @param playerId - player to test if the intersection is connected
+     * @param intersectionId - intersection to test
+     * @return - is the intersection connected to the players buildings or roads?
+     */
+    private boolean isConnected(int playerId, int intersectionId) {
+        // check if intersection has no building and no road
+        if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
+            return false;
+        }
+        // check if player is an owner of intersection
+        return getIntersectionOwners(intersectionId).contains(playerId);
+    }
+
+    /**
+     * @param playerId - player building the road
+     * @param a - intersection
+     * @param b - intersection
+     * @return - if road can be placed
+     */
+    public boolean validRoadPlacement(int playerId, int a, int b) {
+        // check if intersections are adjacent
+        if (!iGraph[a][b]) {
+            return false;
+        }
+
+        // check if road is connected to players roads / buildings at either intersection
+        if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
+            return false;
+        }
+
+        // check if 3 roads at either intersection
+        if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+            return false;
+        }
+
+        // check if road is already built
+        if (this.roadGraph[a][b].getOwnerId() != -1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param playerId
+     * @param intersectionA
+     * @param intersectionB
+     */
+    public void addRoad(int playerId, int intersectionA, int intersectionB) {
+        Road road = new Road(playerId, intersectionA, intersectionB);
+        this.roads.add(road);
+        this.roadGraph[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
+        this.roadGraph[road.getIntersectionBId()][road.getIntersectionAId()] = road;
+    }
+
+    /**
+     * @param i - intersection to check
+     * @return returns if road is connected to given intersection
+     */
+    public boolean hasRoad(int i) {
+        for (Road road : roadGraph[i]) {
+            if (road.getOwnerId() != -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasBuilding(int intersectionId) {
+        return this.buildings[intersectionId] != null;
+    }
 
     /**
      * @param intersectionId
@@ -512,24 +604,6 @@ public class Board {
         return portIntersectionLocations.contains(intersectionId);
     }
 
-
-    /**
-     * @param road - road to add to the board, this is called after checks are made in the GameState class
-     */
-    public boolean addRoad(Road road) {
-        this.roads.add(road);
-        return false;
-    }
-
-
-    /**
-     * @param intersectionId
-     * @return
-     */
-    public boolean checkIntersectionForBuilding(int intersectionId) {
-        return this.buildings[intersectionId] != null;
-    }
-
     /**
      * @param intersectionId - to check for owners
      * @return - ArrayList of playerIds who either own a road that is connected to intersection, or have a building that is on this intersection
@@ -537,7 +611,7 @@ public class Board {
     public ArrayList<Integer> getIntersectionOwners(int intersectionId) {
         ArrayList<Integer> result = new ArrayList<Integer>();
 
-        if (!this.checkIntersectionForBuilding(intersectionId)) {
+        if (!this.hasBuilding(intersectionId)) {
             if (this.hasRoad(intersectionId)) {
                 for (Road r : this.getRoadsAtIntersection(intersectionId)) {
                     result.add(r.getOwnerId());
@@ -750,18 +824,6 @@ public class Board {
         return 0;
     }
 
-    /**
-     * @param i - intersection to check
-     * @return returns if road is connected to given intersection
-     */
-    public boolean hasRoad(int i) {
-        for (Road r : this.roads) {
-            if (r.getIntersectionAId() == i || r.getIntersectionBId() == i) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public ArrayList<ArrayList<Integer>> getHexagonIdRings() {
         return hexagonIdRings;

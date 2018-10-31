@@ -14,24 +14,18 @@ import java.util.HashMap;
 
 public class City extends Building {
 
-    private final int[] resourceCost = {0, 2, 0, 3, 0}; // Brick, Grain, Lumber, Ore, Wool
+    static final int[] resourceCost = {0, 2, 0, 3, 0}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
      * @param ownerId id of who owns the building
      */
-    public City(int intersectionID, int ownerId) {
+    City(int intersectionID, int ownerId) {
         super(ownerId);
-        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
     }
 
     @Override
     public int getVictoryPoints() {
         return 2;
-    }
-
-    @Override
-    public int[] getResourceCost() {
-        return this.resourceCost;
     }
 
     @Override

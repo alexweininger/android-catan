@@ -1,4 +1,5 @@
 package edu.up.cs.androidcatan;
+
 import android.util.Log;
 import android.widget.EditText;
 
@@ -168,7 +169,7 @@ public class GameState {
     }
 
     /**
-     * TODO HELP me do this
+     * TODO we need a new layout for this
      * method for when a player must select a number resource cards from their inventory
      *
      * @param player        - player to select cards
@@ -200,30 +201,34 @@ public class GameState {
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
-     * @param playerId
-     * @param edit
-     * @return
+     * @param playerId - player that attempts to roll the dice
+     * @param edit     - edit text
+     * @return - if action suceesful
      */
     public boolean rollDice(int playerId, EditText edit) {
         if (!valPlId(playerId)) {
             Log.d("devError", "ERROR: rollDice - invalid player id: " + playerId);
             return false;
         }
+
         if (playerId != this.currentPlayerId) {
             Log.d("devInfo", "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
             return false;
-
         }
+
         if (this.isActionPhase) {
             Log.d("devInfo", "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
             return false;
         }
+
         int rollNum = dice.roll();
+        edit.append("Player " + playerId + " rolled a " + rollNum + "\n");
         Log.d("devInfo", "INFO: rollDice - player " + playerId + " rolled a " + rollNum);
+
         produceResources(rollNum, edit);
+
         this.isActionPhase = true;
 
-        edit.append("Player " + playerId + " rolled a " + rollNum + "\n");
         return true;
     } // end rollDice action method
 
@@ -235,11 +240,11 @@ public class GameState {
      * - checks if it is the action phase of the turn
      * - checks if the player has enough resources to trade
      *
-     * @param playerId
-     * @param givenResourceId
-     * @param receivedResourceId
-     * @param edit
-     * @return
+     * @param playerId           - player attempting to trade with port
+     * @param givenResourceId    - what player is giving in the trade
+     * @param receivedResourceId - what the player is receiving in the trade
+     * @param edit               - edit text
+     * @return - action success
      */
     public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
         // check if current player's turn and then if player has rolled dice
@@ -282,13 +287,13 @@ public class GameState {
     /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
      *
-     * @param playerId
-     * @param resGiven
-     * @param resReceive
-     * @param edit
-     * @return
+     * @param playerId   - player attempting to trade with port
+     * @param resGiven   - what player is giving in the trade
+     * @param resReceive - what the player is receiving in the trade
+     * @param edit       - edit text
+     * @return - action success
      */
-    public boolean tradeWithBank(int playerId, String resGiven, String resReceive, EditText edit) {
+    public boolean tradeWithBank(int playerId, int resGiven, int resReceive, EditText edit) {
         if (!valPlId(playerId)) {
             Log.d("devError", "ERROR: tradeWithBank - invalid player id: " + playerId);
             return false;
@@ -308,15 +313,17 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if (this.playerList.get(playerId).getResources().get(resGiven) < ratio) {
+        // Player.removeResources returns false if the player does not have enough, if they do it removes them.
+        if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
             edit.append("Player " + playerId + " does not have enough resources!\n");
+            Log.d("devError", "ERROR: tradeWithBank - not enough resources player id: " + playerId);
             return false;
         }
 
-        this.playerList.get(playerId).removeResources(resGiven, ratio);
-        this.playerList.get(playerId).addResources(resReceive, 1);
+        this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
 
         edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with the Bank!\n");
+        Log.d("devInfo", "INFO: tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
     }
 
@@ -330,30 +337,46 @@ public class GameState {
      * @return
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
+        if (!valAction(playerId)) {
+            return false;
+        }
+
+        if (this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
+            edit.append("Player " + playerId + " does not have enough resources!\n");
+            Log.d("devInfo", "INFO: buildRoad - player " + playerId + " does not have enough resources.\n");
+            return false;
+        }
+
+        if (!board.validRoadPlacement(playerId, startIntersectionID, endIntersectionID)) {
+            Log.d("devInfo", "INFO: buildRoad - invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+            return false;
+        }
+
+        this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
+
+        edit.append("Player " + playerId + " built a Road!\n");
+        return true;
+    }
+
+    /**
+     * validates the player id, checks if its their turn, and checks if it is the action phase
+     *
+     * @param playerId - player id to validate an action for
+     * @return - can this player make an action?
+     */
+    private boolean valAction(int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buildRoad - invalid player id: " + playerId);
+            Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildRoad - it is not " + playerId + "'s turn.");
+            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
             return false;
         }
         if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+            Log.d("devInfo", "INFO: valAction - it is not the action phase.");
             return false;
         }
-
-        if (this.playerList.get(playerId).getResources().get("Brick") < 1 && this.playerList.get(playerId).getResources().get("Wood") < 1) {
-            edit.append("Player " + playerId + " does not have enough resources!\n");
-        }
-
-        Road road = new Road(startIntersectionID, endIntersectionID, playerId);
-
-
-        //board.addRoad
-
-        edit.append("Player " + playerId + " built a Road!\n");
         return true;
     }
 
@@ -366,26 +389,16 @@ public class GameState {
      * @return
      */
     public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buildSettlement - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildSettlement - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+        // validates the player id, checks if its their turn, and checks if it is the action phase
+        if (!valAction(playerId)) {
             return false;
         }
 
-        // TODO WTF is this shit we should change this
-        if (this.playerList.get(playerId).getResources().get("Brick") == 1 && this.playerList.get(playerId).getResources().get("Grain") == 1
-                && this.playerList.get(playerId).getResources().get("Wood") == 1 && this.playerList.get(playerId).getResources().get("Wool") == 1) {
+        if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
             return false;
         }
+
         if (!this.board.isIntresectionBuildable(intersectionID)) { // check if intersection is free for building
             return false;
         }

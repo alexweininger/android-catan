@@ -22,9 +22,11 @@ public abstract class Building {
         this.ownerId = ownerId;
     }
 
-    abstract public int getVictoryPoints();
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
 
-    abstract public int[] getResourceCost();
+    abstract public int getVictoryPoints();
 
     abstract public String toString();
 

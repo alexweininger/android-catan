@@ -78,6 +78,33 @@ public class Player {
     }
 
     /**
+     *
+     * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
+     * @return - true of false, does the player have all of these resources?
+     */
+    public boolean checkResourceBundle(int[] resourceCost) {
+        for (Integer id: resourceCost) {
+            if(!checkResourceCard(id, resourceCost[id])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param resourceCardId - resource to check
+     * @param numToCheckFor  - number of resources to make sure the player has
+     * @return - whether they have at least that many resources of the given type
+     */
+    public boolean checkResourceCard(int resourceCardId, int numToCheckFor) {
+        if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
+            Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+            return false; // did not remove resource cards to players inventory
+        }
+        return this.resourceCards[resourceCardId] < numToCheckFor;
+    }
+
+    /**
      * error checking:
      * - error checks for valid resourceCardId
      * - error checks for preventing negative resource card counts
