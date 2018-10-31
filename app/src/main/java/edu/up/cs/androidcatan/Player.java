@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * @author Alex Weininger
@@ -15,6 +16,8 @@ import java.util.HashMap;
  **/
 
 public class Player {
+
+    private static final String TAG = "Player";
 
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
@@ -78,20 +81,6 @@ public class Player {
     }
 
     /**
-     *
-     * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
-     * @return - true of false, does the player have all of these resources?
-     */
-    public boolean checkResourceBundle(int[] resourceCost) {
-        for (Integer id: resourceCost) {
-            if(!checkResourceCard(id, resourceCost[id])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * @param resourceCardId - resource to check
      * @param numToCheckFor  - number of resources to make sure the player has
      * @return - whether they have at least that many resources of the given type
@@ -105,6 +94,19 @@ public class Player {
     }
 
     /**
+     * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
+     * @return - true of false, does the player have all of these resources?
+     */
+    public boolean checkResourceBundle(int[] resourceCost) {
+        for (Integer id : resourceCost) {
+            if (!checkResourceCard(id, resourceCost[id])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * error checking:
      * - error checks for valid resourceCardId
      * - error checks for preventing negative resource card counts
@@ -115,18 +117,33 @@ public class Player {
      */
     public boolean removeResourceCard(int resourceCardId, int numToRemove) {
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
-            Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+            Log.i(TAG, "removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         } else {
             if (this.resourceCards[resourceCardId] >= numToRemove) { // check to prevent negative card counts
-                Log.d("devInfo", "INFO removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
+                Log.i(TAG, "removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
                 this.resourceCards[resourceCardId] -= numToRemove; // remove cards
                 return true; // removed cards to players inventory
             } else {
-                Log.d("devError", "ERROR removeResourceCard: cannot remove numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + ". Player currently has " + this.resourceCards[resourceCardId] + " cards of this resource.");
+                Log.i(TAG, "removeResourceCard: cannot remove numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + ". Player currently has " + this.resourceCards[resourceCardId] + " cards of this resource.");
                 return false; // did not remove resource cards to players inventory
             }
         }
+    }
+
+    public boolean removeResourceBundle(int[] resourceCost) {
+        if (checkResourceBundle(resourceCost)) {
+            Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
+            return false;
+        }
+        for (int i : resourceCost) {
+            if(!this.removeResourceCard(i, resourceCost[i])) {
+                Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Player.removeResourceCard method returned false.");
+                return false;
+            }
+        }
+        Log.d(TAG, "removeResourceBundle successfully removed resourceCost = [" + resourceCost.toString() + "] from players inventory.");
+        return true;
     }
 
     /**
@@ -163,32 +180,6 @@ public class Player {
     }
 
 
-    /**
-     * @param res name of resource
-     * @param num amount to add
-     * @return if action was possible
-     */
-    public boolean addResources(String res, int num) {
-        if (this.resources.containsKey(res)) {
-            this.resources.put(res, this.resources.get(res) + num);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param res name of resource
-     * @param num amount to add
-     * @return if action was possible
-     */
-    public boolean removeResources(String res, int num) {
-        if (this.resources.containsKey(res)) {
-            this.resources.put(res, this.resources.get(res) - num);
-            return true;
-        }
-        return false;
-    }
-
     public boolean hasResources(String key, int amount) {
         return resources.get(key).intValue() >= amount;
     }
@@ -196,7 +187,7 @@ public class Player {
     /**
      * @param devCard dev card to add
      */
-    public void addDevCard(DevelopmentCard devCard) {
+    public void addDevelopmentCard(DevelopmentCard devCard) {
         developmentCards.add(devCard);
     }
 
@@ -275,22 +266,33 @@ public class Player {
         this.availableBuildings = availableBuildings;
     }
 
-    public String getRandomCard() {
-        ArrayList<String> resourceNames = new ArrayList<>();
-        String[] baseResources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
-        for (int n = 0; n < resources.size(); n++) {
-            for (int x = 0; x < baseResources.length; x++) {
-                if (resources.containsKey(baseResources[n])) {
-                    resourceNames.add(baseResources[n]);
-                }
-            }
+    private int getTotalResourceCardCount() {
+        int result = 0;
+        for (int i = 0; i < this.resourceCards.length; i++) {
+            result += this.resourceCards[i];
         }
-        if (resourceNames.size() == 0) {
-            return "No Cards in this person's hands!";
+        return result;
+    }
+
+    int getRandomCard() {
+
+        if(this.getTotalResourceCardCount() < 1) {
+            Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
+            return -1;
         }
-        String stolenResource = resourceNames.get((int) (Math.random() * resourceNames.size()));
-        this.removeResources(stolenResource, 1);
-        return stolenResource;
+
+        Random random = new Random();
+        int randomResourceId;
+        do {
+            randomResourceId = random.nextInt(4); // 0-4
+        } while (!checkResourceCard(randomResourceId, 1));
+
+        if (!removeResourceCard(randomResourceId, 1)) {
+            Log.e(TAG, "getRandomCard: Player does not have random card that was checked for.");
+            return -1;
+        }
+
+        return randomResourceId;
     }
 
     /**

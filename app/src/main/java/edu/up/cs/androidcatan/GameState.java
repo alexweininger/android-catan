@@ -2,9 +2,10 @@ package edu.up.cs.androidcatan;
 
 import android.util.Log;
 import android.widget.EditText;
-
+import gameframework.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * @author Alex Weininger
@@ -16,10 +17,14 @@ import java.util.Random;
  **/
 public class GameState {
 
+    private static final String TAG = "GameState";
+
     private Dice dice; // dice object
     private Board board = new Board(); // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
+
+    private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
@@ -34,6 +39,8 @@ public class GameState {
 
     GameState() { // GameState constructor
         this.dice = new Dice();
+        generateDevCardDeck();
+
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
@@ -42,7 +49,7 @@ public class GameState {
         this.playerList.add(new Player(2));
         this.playerList.add(new Player(3));
 
-        this.board.toString();
+        Log.i(TAG, this.board.toString());
 
         // set all vic points to 0 to start
         for (int i = 0; i < playerVictoryPoints.length; i++) {
@@ -62,7 +69,7 @@ public class GameState {
         this.currentPlayerId = gameState.currentPlayerId;
         this.currentDiceSum = gameState.currentDiceSum;
         this.isActionPhase = gameState.isActionPhase;
-        this.board = new Board(this.board);
+        this.board = new Board(gameState.board); // FIXME
         this.currentLongestRoadPlayerId = gameState.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = gameState.currentLargestArmyPlayerId;
 
@@ -75,6 +82,69 @@ public class GameState {
             this.playerPrivateVictoryPoints[i] = gameState.playerPrivateVictoryPoints[i];
         }
     } // end deep copy constructor
+
+
+    /**
+     * creates a deck of int representing the exact number each type of card
+     */
+    private void generateDevCardDeck() {
+        int[] devCardCounts = {14, 5, 2, 2, 2};
+        for (int i = 0; i < devCardCounts.length; i++) {
+            for (int j = 0; j < devCardCounts[i]; j++) {
+                this.developmentCards.add(i);
+            }
+        }
+    }
+
+    /**
+     * @return the random dev card the player drew
+     */
+    public DevelopmentCard getRandomCard() {
+        Random random = new Random();
+        int randomDevCard = random.nextInt(developmentCards.size() - 1);
+        int drawnDevCard = developmentCards.get(randomDevCard);
+        developmentCards.remove(randomDevCard);
+        return new DevelopmentCard(drawnDevCard);
+
+    }
+
+    private boolean valPlId(int playerId) {
+        return playerId > -1 && playerId < 4;
+    }
+
+    /**
+     * @param playerId - id to check
+     * @return - if it is that players turn or not
+     */
+    private boolean checkTurn(int playerId) {
+        if (valPlId(playerId)) {
+            return playerId == this.currentPlayerId;
+        }
+        Log.e(TAG, "checkTurn: Invalid player id: " + playerId);
+        return false;
+    }
+
+    /**
+     * validates the player id, checks if its their turn, and checks if it is the action phase
+     *
+     * @param playerId - player id to validate an action for
+     * @return - can this player make an action?
+     */
+    private boolean valAction(int playerId) {
+        if (valPlId(playerId)) {
+            if (checkTurn(playerId)) {
+                if (this.isActionPhase) {
+                    return true;
+                }
+                Log.d("devInfo", "INFO: valAction - it is not the action phase.");
+                return false;
+            }
+            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
+            return false;
+        }
+        Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
+        return false;
+    }
 
     /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
@@ -101,7 +171,7 @@ public class GameState {
      * probably just calls a method in board?
      * recursion???
      */
-    private void checkRoadLength() {
+    /*private void checkRoadLength() {
         int max = -1;
         int playerIdWithLongestRoad = -1;
         if (currentLongestRoadPlayerId != -1) {
@@ -116,16 +186,40 @@ public class GameState {
         if (max > 4) {
             this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
         }
-    }
+    }*/
 
     /**
-     *
+     * Checks which player has the longest road and return's true if that player is the current player
+     */
+    private boolean checkLongestRoad(int playerId){
+        boolean longestRoad = false;
+        if (this.currentPlayerId != playerId){
+            return false;
+        }
+        int currPlayerRoadLength = board.getPlayerRoadLength(playerId);
+        for (int n = 0; n < playerList.size(); n++){
+            if (playerList.get(n) != playerList.get(playerId)){
+                if (board.getPlayerRoadLength(playerList.get(n).getPlayerId()) > board.getPlayerRoadLength(playerId)){
+                    return longestRoad;
+                }
+                else {
+                    longestRoad = true;
+                }
+            }
+        }
+
+        return longestRoad;
+    }
+
+
+    /**
+     * updates the victory points of each player, should be called after every turn
      */
     private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
         }
-        checkRoadLength();
+        //checkRoadLength();
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
         }
@@ -137,6 +231,8 @@ public class GameState {
         if (this.currentLargestArmyPlayerId != -1) {
             this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
         }
+
+        // TODO go through all buildings and tally up players victory points
     }
 
     /**
@@ -144,56 +240,37 @@ public class GameState {
      *
      * @param diceSum - dice sum
      */
-    private void produceResources(int diceSum, EditText edit) {
+    private void produceResources(int diceSum) {
+        if (isActionPhase) {
+            Log.e(TAG, "produceResources: It is the action phase.");
+            return;
+        }
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
-        Log.d("devInfo", "INFO: produceResources - hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
+        Log.i(TAG, "produceResources: Hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
         for (Integer i : productionHexagonIds) {
             Hexagon hex = board.getHexagonFromId(i);
-            edit.append("producing " + hex.getResourceId());
-            Log.d("devInfo", "INFO: produceResources - hexagon " + i + " producing " + hex.getResourceId());
+            Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
             ArrayList<Integer> receivingIntersections = this.board.getAdjacentIntersections(i); // intersections adjacent to producing hexagon tile
 
             for (Integer intersectionId : receivingIntersections) {
 
                 Building b = this.board.getBuildingAtIntersection(intersectionId);
-
                 if (null != b) {
 
                     this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
-                    edit.append("giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
-                    Log.d("devInfo", "INFO: giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                    Log.i(TAG, "produceResources: Giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
                 }
             }
         }
     }
 
     /**
-     * TODO we need a new layout for this
-     * method for when a player must select a number resource cards from their inventory
+     * TODO Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
      *
-     * @param player        - player to select cards
-     * @param numberOfCards - number of cards to select
-     * @return - array list of card types that were selected: String
+     * @return - action success
      */
-    private ArrayList<String> selectResourceCards(Player player, int numberOfCards) {
-        return null;
-    }
-
-    /**
-     * Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
-     *
-     * @param move
-     * @param edit
-     * @return
-     */
-    public boolean initBuilding(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 placed their settlements and roads!\n");
-            edit.append("Player 2 placed their settlements and roads!\n");
-            edit.append("Player 3 placed their settlements and roads!\n");
-            return true;
-        }
+    public boolean initBuilding() {
 
         return false;
     } // end initBuilding action method
@@ -202,35 +279,67 @@ public class GameState {
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
      * @param playerId - player that attempts to roll the dice
-     * @param edit     - edit text
-     * @return - if action suceesful
+     * @return - action success
      */
-    public boolean rollDice(int playerId, EditText edit) {
+    public boolean rollDice(int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: rollDice - invalid player id: " + playerId);
+            Log.e(TAG, "rollDice: Invalid player id: " + playerId);
             return false;
         }
 
         if (playerId != this.currentPlayerId) {
-            Log.d("devInfo", "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
+            Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         if (this.isActionPhase) {
-            Log.d("devInfo", "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
+            Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         int rollNum = dice.roll();
-        edit.append("Player " + playerId + " rolled a " + rollNum + "\n");
-        Log.d("devInfo", "INFO: rollDice - player " + playerId + " rolled a " + rollNum);
+        Log.i(TAG, "rollDice: Player " + playerId + " rolled a " + rollNum);
 
-        produceResources(rollNum, edit);
+        produceResources(rollNum);
 
         this.isActionPhase = true;
 
         return true;
     } // end rollDice action method
+
+    /**
+     * action for a player ending their turn, increments currentPlayerId. As of now does no checks.
+     * error checking:
+     * - valid player id
+     * - it is players turn
+     *
+     * @param playerId - player requesting to end turn
+     * @return - action success
+     */
+    public boolean endTurn(int playerId) {
+        boolean devCardPlayable = false;
+        if (!valAction(playerId)) {
+            return false;
+        }
+
+        if (this.currentPlayerId == 3) {
+            this.currentPlayerId = 0;
+        } else {
+            this.currentPlayerId++;
+        }
+
+        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + "'s turn.");
+
+        updateVictoryPoints();
+
+        devCardPlayable = true;
+
+        for (DevelopmentCard developmentCard : playerList.get(playerId).getDevelopmentCards()) {
+            developmentCard.setPlayable(devCardPlayable);
+        }
+
+        return true;
+    } // end endTurn method
 
     /**
      * Player trades with ports, gives resources and receives a resource;
@@ -243,45 +352,26 @@ public class GameState {
      * @param playerId           - player attempting to trade with port
      * @param givenResourceId    - what player is giving in the trade
      * @param receivedResourceId - what the player is receiving in the trade
-     * @param edit               - edit text
      * @return - action success
      */
-    public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
+    public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId) {
         // check if current player's turn and then if player has rolled dice
-        if (playerId != this.currentPlayerId) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " tried to trade with port, but it is player " + this.currentPlayerId + "'s turn.");
+        if(!valAction(playerId)) {
             return false;
         }
-        // check if the turn is in the action phase
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
-            Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " tried to trade with port, but it isn't the action phase.");
-            return false;
-        }
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradeWithPort - invalid player id: " + playerId);
-            return false;
-        }
-
+        
         // creating a random trade ratio
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
         // check if player has enough resources to complete trade
         if (this.playerList.get(playerId).removeResourceCard(givenResourceId, ratio)) {
-            edit.append("Player" + playerId + " does not have enough resources!\n");
+            Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
             return false;
         }
         this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
-
-        edit.append("Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with a Port!\n");
-        Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.\n");
+        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.");
         return true;
-    }
-
-    private boolean valPlId(int playerId) {
-        return playerId > -1 && playerId < 4;
     }
 
     /**
@@ -290,22 +380,10 @@ public class GameState {
      * @param playerId   - player attempting to trade with port
      * @param resGiven   - what player is giving in the trade
      * @param resReceive - what the player is receiving in the trade
-     * @param edit       - edit text
      * @return - action success
      */
-    public boolean tradeWithBank(int playerId, int resGiven, int resReceive, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradeWithBank - invalid player id: " + playerId);
-            return false;
-        }
-        //Check if current player's turn and then if player has rolled dice
-        if (playerId != this.currentPlayerId) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: tradeWithBank - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+    public boolean tradeWithBank(int playerId, int resGiven, int resReceive) {
+        if (valAction(playerId)) {
             return false;
         }
 
@@ -315,68 +393,47 @@ public class GameState {
 
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
         if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
-            edit.append("Player " + playerId + " does not have enough resources!\n");
-            Log.d("devError", "ERROR: tradeWithBank - not enough resources player id: " + playerId);
+            Log.d(TAG, "ERROR: tradeWithBank - not enough resources player id: " + playerId);
             return false;
         }
 
         this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
 
-        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with the Bank!\n");
         Log.d("devInfo", "INFO: tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
     }
 
     /**
-     * Player requests to build road ands Gamestate processes requests and returns true if build was successful
+     * Player requests to build road ands Game State processes requests and returns true if build was successful
      *
      * @param playerId            - player building a road
-     * @param startIntersectionID
-     * @param endIntersectionID
-     * @param edit
-     * @return
+     * @param startIntersectionID - intersection id
+     * @param endIntersectionID   - intersection id
+     * @return - action success
      */
-    public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
+    public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
         if (!valAction(playerId)) {
             return false;
         }
 
         if (this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
-            edit.append("Player " + playerId + " does not have enough resources!\n");
-            Log.d("devInfo", "INFO: buildRoad - player " + playerId + " does not have enough resources.\n");
+            Log.i(TAG, "buildRoad: BuildRoad - player " + playerId + " does not have enough resources.\n");
             return false;
         }
 
         if (!board.validRoadPlacement(playerId, startIntersectionID, endIntersectionID)) {
-            Log.d("devInfo", "INFO: buildRoad - invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+            Log.i(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+            return false;
+        }
+
+        // remove resources from players inventory (also does checks)
+        if(!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
+            Log.e(TAG, "buildRoad: Player.removeResourceBundle returned false.");
             return false;
         }
 
         this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
-
-        edit.append("Player " + playerId + " built a Road!\n");
-        return true;
-    }
-
-    /**
-     * validates the player id, checks if its their turn, and checks if it is the action phase
-     *
-     * @param playerId - player id to validate an action for
-     * @return - can this player make an action?
-     */
-    private boolean valAction(int playerId) {
-        if (!valPlId(playerId)) {
-            Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            Log.d("devInfo", "INFO: valAction - it is not the action phase.");
-            return false;
-        }
+        Log.i(TAG, "buildRoad: Player " + playerId + " built a road.");
         return true;
     }
 
@@ -384,68 +441,72 @@ public class GameState {
      * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
      *
      * @param playerId       - player building a settlement
-     * @param intersectionID
-     * @param edit
-     * @return
+     * @param intersectionId - intersection the player wants to build at
+     * @return - action success
      */
-    public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
+    public boolean buildSettlement(int playerId, int intersectionId) {
         // validates the player id, checks if its their turn, and checks if it is the action phase
         if (!valAction(playerId)) {
             return false;
         }
 
+        // check if player has the required resources to build a Settlement
         if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
-            edit.append("Player " + playerId + " does not have enough resources!\n");
+            Log.i(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
             return false;
         }
 
-        if (!this.board.isIntresectionBuildable(intersectionID)) { // check if intersection is free for building
+        // check if the selected building location is valid
+        if (!this.board.validBuildingLocation(playerId, intersectionId)) {
             return false;
         }
 
-        // TODO add checking in here or somewhere else to check that this intersection is connected with the players roads
-        // TODO the goal is to do all appropriate checks before we make a building object to ensure no errors
+        // remove resources from players inventory (also does checks)
+        if(!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
+            Log.e(TAG, "buildSettlement: Player.removeResourceBundle returned false.");
+            return false;
+        }
 
+        // create Settlement object and add to Board object
         Settlement settlement = new Settlement(playerId);
-        // TODO board.addSettlement
+        this.board.addBuilding(intersectionId, settlement);
+        Log.i(TAG, "buildSettlement: Player " + playerId + " built a Settlement.");
 
-        this.board.addBuilding(intersectionID, settlement);
-
-        edit.append("Player " + playerId + " built a Settlement!\n");
         return true;
     }
 
     /**
-     * Player requests to build city and Gamestate processes requests and returns true if build was successful
+     * Player requests to build city and Game State processes requests and returns true if build was successful
      *
      * @param playerId       - player building a city
-     * @param intersectionID
-     * @param edit
-     * @return
+     * @param intersectionId - intersection
+     * @return - action success
      */
-    public boolean buildCity(int playerId, int intersectionID, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buildCity - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildCity - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+    public boolean buildCity(int playerId, int intersectionId) {
+        Log.d(TAG, "buildCity() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
+        // check if valid player id, turn, and action phase
+        if (!valAction(playerId)) {
+            Log.e(TAG, "buildCity: valAction failed.");
             return false;
         }
 
-        if (this.playerList.get(playerId).getResources().get("Ore") == 3 && this.playerList.get(playerId).getResources().get("Grain") == 2) {
-            edit.append("Player " + playerId + " does not have enough resources!\n");
+        // check if player has enough resources
+        if (!this.playerList.get(playerId).checkResourceBundle(City.resourceCost)) {
+            Log.i(TAG, "buildCity: Player " + playerId + " does not have enough resources to build a City.");
+            return false;
         }
 
-        City city = new City(intersectionID, playerId);
-        //board.addCity
+        // remove resources from players inventory (also does checks)
+        if(!this.playerList.get(playerId).removeResourceBundle(City.resourceCost)) {
+            Log.e(TAG, "buildCity: Player.removeResourceBundle returned false.");
+            return false;
+        }
 
-        edit.append("Player " + playerId + " built a City!\n");
+        // create City object and add to Board object
+        City city = new City(intersectionId, playerId);
+        this.board.addBuilding(intersectionId, city);
+
+        Log.i(TAG, "buildCity: Player " + playerId + " built a city.");
         return true;
     }
 
@@ -454,40 +515,41 @@ public class GameState {
      * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory
      *
      * @param playerId - player who is requesting to buy dev card
-     * @param edit     -
-     * @return - if dev card was purchased or not
+     * @return - action success
      */
-    public boolean buyDevCard(int playerId, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buyDevCard - invalid player id: " + playerId);
+    public boolean buyDevCard(int playerId) {
+        // check if player id is valid and if action phase of players turn
+        if (!valAction(playerId)) {
             return false;
         }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buyDevCard - it is not " + playerId + "'s turn.");
+
+        Player p = this.playerList.get(playerId);
+
+        // check if player can build dev card
+        if (!p.checkResourceBundle(DevelopmentCard.resourceCost)) {
             return false;
         }
-        DevelopmentCard dc = new DevelopmentCard();
-        int[] resources = this.playerList.get(playerId).getResourceCards();
-        if (resources[1] > 0 && resources[2] > 0 && resources[3] > 0) {
-            dc.build(this.playerList.get(playerId));
-            return true;
+
+        // remove resources from players inventory (also does checks)
+        if(!p.removeResourceBundle(DevelopmentCard.resourceCost)) {
+            return false;
         }
-        return false;
+
+        // add random dev card to players inventory
+        p.addDevelopmentCard(getRandomCard());
+        return true;
     }
 
     /**
      * TODO needs to take a dev card id as parameter and use that specific card
-     * Player will select a development card they own and use it; gamestate will determine legality and then carry out development cards function
+     * Player will select a development card they own and use it; Game State will determine legality and then carry out development cards function
      *
-     * @param move
-     * @param edit
      * @param playerId
-     * @return
+     * @return - action success
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: useDevCard - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: useDevCard - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
@@ -508,130 +570,83 @@ public class GameState {
     }
 
     /**
+     * TODO
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
-     * @param move
-     * @param edit
-     * @return
+     * @return - action success
      */
-    public boolean robberDiscard(boolean move, EditText edit) {
-
-        //go through players
-        //check if they need to discard
-        //make an array list of strings that will be discarded
-        //selectResourceCards
-        ArrayList<String> discardedCards = new ArrayList<>();
-
+    public boolean robberDiscard(ArrayList<Integer> resourceCards) {
         for (int n = 0; n < 4; n++) {
             int handSize = this.playerList.get(n).getResources().size();
             if (handSize > 7) {
                 int newHandSize = handSize / 2;
-                discardedCards = selectResourceCards(this.playerList.get(n), newHandSize);
-                for (int x = 0; x < discardedCards.size(); x++) {
-                    this.playerList.get(n).removeResources(discardedCards.get(x), 1);
+                // TODO !!! somehow need to make users select newHandSize resource cards to discard !!!
+                for (int x = 0; x < resourceCards.size(); x++) {
+                    this.playerList.get(n).removeResourceCard(resourceCards.get(x), 1);
                 }
             }
         }
-        edit.append("Removed half of all resources from players with more than 7 cards\n");
+        Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
         return true;
-    }
-
-    /**
-     * @param playerId - id to check
-     * @return - if it is that players turn or not
-     */
-    private boolean checkTurn(int playerId) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: checkTurn - invalid player id: " + playerId);
-            return false;
-        }
-        return playerId == this.currentPlayerId;
     }
 
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
-     * @param move
-     * @param edit
      * @param hexagonId
      * @param playerId
      * @return
      */
-    public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
+    public boolean robberMove(int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: robberMove - invalid player id: " + playerId);
+            Log.d(TAG, "robberMove: invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: robberMove - it is not " + playerId + "'s turn.");
+            Log.i(TAG, "robberMove: it is not " + playerId + "'s turn.");
             return false;
         }
         if (this.board.moveRobber(hexagonId)) {
-            edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
+            Log.i(TAG, "robberMove: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
             return true;
         }
-        edit.append("Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId + "!\n");
+        Log.i(TAG, "robberMove: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
         return false;
     }
 
     /**
      * After the player has moved the Robber, the player will choose a player to steal from and receive a random card from their hand
      *
-     * @param move
-     * @param edit
-     * @param hexagonId
-     * @param playerId
-     * @return
+     * @param hexagonId - hexagon that the robber is moved to
+     * @param playerId  - player stealing resources
+     * @return - action success
      */
-    public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
+    public boolean robberSteal(int hexagonId, int playerId) {
+        // check if valid player if
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: robberSteal - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildRoad - it is not " + playerId + "'s turn.");
+            Log.e(TAG, "robberSteal: invalid player id: " + playerId);
             return false;
         }
 
+        // check if it is the players turn
+        if (!checkTurn(playerId)) {
+            Log.i(TAG, "robberSteal: it is not " + playerId + "'s turn.");
+            return false;
+        }
+
+        // As of now this selects a random player and then steals a random card from their inventory. TODO enable the player moving the robber to choose to steal a resource from the players who have buildings adjacent to the new robbers location
         Random random = new Random();
-        String resource = this.playerList.get(random.nextInt(3)).getRandomCard();
+        int randomStolenResourceId = this.playerList.get(random.nextInt(3)).getRandomCard();
 
-        this.playerList.get(playerId).addResources(resource, 1);
-        edit.append("Stolen card " + resource + " added to: " + this.playerList.get(playerId));
+        if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
+            Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomCard method.");
+        }
 
+        this.playerList.get(playerId).addResourceCard(randomStolenResourceId, 1);
+        Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
     }
 
-    /**
-     * action for a player ending their turn, increments currentPlayerId. As of now does no checks.
-     * error checking:
-     * - valid player id
-     * - it is players turn
-     *
-     * @param playerId - player requesting to end turn
-     * @param move     - ???
-     * @param edit     - text displayed on tablet
-     * @return boolean
-     */
-    public boolean endTurn(int playerId, boolean move, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: endTurn - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: endTurn - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        edit.append("Player " + this.currentPlayerId + " has ended their turn.");
-        this.currentPlayerId++;
-        edit.append("It is now player id: " + this.currentPlayerId + " turn.");
-        updateVictoryPoints();
-        return true;
-
-    }
 
     /**
      * TODO update???
