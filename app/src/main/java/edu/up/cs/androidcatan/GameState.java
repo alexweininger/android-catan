@@ -95,6 +95,28 @@ public class GameState {
     }
 
     /**
+     * validates the player id, checks if its their turn, and checks if it is the action phase
+     *
+     * @param playerId - player id to validate an action for
+     * @return - can this player make an action?
+     */
+    private boolean valAction(int playerId) {
+        if (valPlId(playerId)) {
+            if (checkTurn(playerId)) {
+                if (this.isActionPhase) {
+                    return true;
+                }
+                Log.d("devInfo", "INFO: valAction - it is not the action phase.");
+                return false;
+            }
+            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
+            return false;
+        }
+        Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
+        return false;
+    }
+
+    /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize() {
@@ -137,7 +159,7 @@ public class GameState {
     }
 
     /**
-     *
+     * updates the victory points of each player, should be called after every turn
      */
     private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
@@ -162,25 +184,26 @@ public class GameState {
      *
      * @param diceSum - dice sum
      */
-    private void produceResources(int diceSum, EditText edit) {
+    private void produceResources(int diceSum) {
+        if (isActionPhase) {
+            Log.e(TAG, "produceResources: It is the action phase.");
+            return;
+        }
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
-        Log.d(TAG, "INFO: produceResources - hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
+        Log.i(TAG, "produceResources: Hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
         for (Integer i : productionHexagonIds) {
             Hexagon hex = board.getHexagonFromId(i);
-            edit.append("producing " + hex.getResourceId());
-            Log.d(TAG, "INFO: produceResources - hexagon " + i + " producing " + hex.getResourceId());
+            Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
             ArrayList<Integer> receivingIntersections = this.board.getAdjacentIntersections(i); // intersections adjacent to producing hexagon tile
 
             for (Integer intersectionId : receivingIntersections) {
 
                 Building b = this.board.getBuildingAtIntersection(intersectionId);
-
                 if (null != b) {
 
                     this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
-                    edit.append("giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
-                    Log.d(TAG, "INFO: giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                    Log.i(TAG, "produceResources: Giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
                 }
             }
         }
@@ -199,11 +222,9 @@ public class GameState {
     }
 
     /**
-     * Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
+     * TODO Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
      *
-     * @param move
-     * @param edit
-     * @return
+     * @return - action success
      */
     public boolean initBuilding(boolean move, EditText edit) {
         if (move) {
@@ -220,30 +241,28 @@ public class GameState {
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
      * @param playerId - player that attempts to roll the dice
-     * @param edit     - edit text
-     * @return - if action suceesful
+     * @return - action success
      */
-    public boolean rollDice(int playerId, EditText edit) {
+    public boolean rollDice(int playerId) {
         if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: rollDice - invalid player id: " + playerId);
+            Log.e(TAG, "rollDice: Invalid player id: " + playerId);
             return false;
         }
 
         if (playerId != this.currentPlayerId) {
-            Log.d(TAG, "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
+            Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         if (this.isActionPhase) {
-            Log.d(TAG, "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
+            Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         int rollNum = dice.roll();
-        edit.append("Player " + playerId + " rolled a " + rollNum + "\n");
-        Log.d(TAG, "INFO: rollDice - player " + playerId + " rolled a " + rollNum);
+        Log.i(TAG, "rollDice: Player " + playerId + " rolled a " + rollNum);
 
-        produceResources(rollNum, edit);
+        produceResources(rollNum);
 
         this.isActionPhase = true;
 
@@ -297,7 +316,6 @@ public class GameState {
         Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.\n");
         return true;
     }
-
 
     /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
@@ -370,28 +388,6 @@ public class GameState {
         this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
 
         edit.append("Player " + playerId + " built a Road!\n");
-        return true;
-    }
-
-    /**
-     * validates the player id, checks if its their turn, and checks if it is the action phase
-     *
-     * @param playerId - player id to validate an action for
-     * @return - can this player make an action?
-     */
-    private boolean valAction(int playerId) {
-        if (!valPlId(playerId)) {
-            Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            Log.d("devInfo", "INFO: valAction - it is not the action phase.");
-            return false;
-        }
         return true;
     }
 
