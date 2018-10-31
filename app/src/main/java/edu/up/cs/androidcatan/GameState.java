@@ -16,6 +16,8 @@ import java.util.Random;
  **/
 public class GameState {
 
+    private static final String TAG = "GameState";
+
     private Dice dice; // dice object
     private Board board = new Board(); // board object
 
@@ -146,11 +148,11 @@ public class GameState {
      */
     private void produceResources(int diceSum, EditText edit) {
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
-        Log.d("devInfo", "INFO: produceResources - hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
+        Log.d(TAG, "INFO: produceResources - hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
         for (Integer i : productionHexagonIds) {
             Hexagon hex = board.getHexagonFromId(i);
             edit.append("producing " + hex.getResourceId());
-            Log.d("devInfo", "INFO: produceResources - hexagon " + i + " producing " + hex.getResourceId());
+            Log.d(TAG, "INFO: produceResources - hexagon " + i + " producing " + hex.getResourceId());
 
             ArrayList<Integer> receivingIntersections = this.board.getAdjacentIntersections(i); // intersections adjacent to producing hexagon tile
 
@@ -162,7 +164,7 @@ public class GameState {
 
                     this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
                     edit.append("giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
-                    Log.d("devInfo", "INFO: giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                    Log.d(TAG, "INFO: giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
                 }
             }
         }
@@ -207,23 +209,23 @@ public class GameState {
      */
     public boolean rollDice(int playerId, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: rollDice - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: rollDice - invalid player id: " + playerId);
             return false;
         }
 
         if (playerId != this.currentPlayerId) {
-            Log.d("devInfo", "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
+            Log.d(TAG, "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         if (this.isActionPhase) {
-            Log.d("devInfo", "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
+            Log.d(TAG, "INFO: rollDice - player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         int rollNum = dice.roll();
         edit.append("Player " + playerId + " rolled a " + rollNum + "\n");
-        Log.d("devInfo", "INFO: rollDice - player " + playerId + " rolled a " + rollNum);
+        Log.d(TAG, "INFO: rollDice - player " + playerId + " rolled a " + rollNum);
 
         produceResources(rollNum, edit);
 
@@ -260,7 +262,7 @@ public class GameState {
             return false;
         }
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradeWithPort - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: tradeWithPort - invalid player id: " + playerId);
             return false;
         }
 
@@ -295,13 +297,13 @@ public class GameState {
      */
     public boolean tradeWithBank(int playerId, int resGiven, int resReceive, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradeWithBank - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: tradeWithBank - invalid player id: " + playerId);
             return false;
         }
         //Check if current player's turn and then if player has rolled dice
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: tradeWithBank - it is not " + playerId + "'s turn.");
+            Log.d(TAG, "ERROR: tradeWithBank - it is not " + playerId + "'s turn.");
             return false;
         }
         if (!this.isActionPhase) {
@@ -316,7 +318,7 @@ public class GameState {
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
         if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
             edit.append("Player " + playerId + " does not have enough resources!\n");
-            Log.d("devError", "ERROR: tradeWithBank - not enough resources player id: " + playerId);
+            Log.d(TAG, "ERROR: tradeWithBank - not enough resources player id: " + playerId);
             return false;
         }
 
@@ -384,34 +386,31 @@ public class GameState {
      * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
      *
      * @param playerId       - player building a settlement
-     * @param intersectionID
-     * @param edit
+     * @param intersectionId
      * @return
      */
-    public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
+    public boolean buildSettlement(int playerId, int intersectionId) {
         // validates the player id, checks if its their turn, and checks if it is the action phase
         if (!valAction(playerId)) {
             return false;
         }
 
+        // check if player has the required resources to build a Settlement
         if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
-            edit.append("Player " + playerId + " does not have enough resources!\n");
+            Log.i(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
             return false;
         }
 
-        if (!this.board.isIntresectionBuildable(intersectionID)) { // check if intersection is free for building
+        // check if the selected building location is valid
+        if(!this.board.validBuildingLocation(playerId, intersectionId)) {
             return false;
         }
 
-        // TODO add checking in here or somewhere else to check that this intersection is connected with the players roads
-        // TODO the goal is to do all appropriate checks before we make a building object to ensure no errors
-
+        // create Settlement object and add to Board object
         Settlement settlement = new Settlement(playerId);
-        // TODO board.addSettlement
+        this.board.addBuilding(intersectionId, settlement);
 
-        this.board.addBuilding(intersectionID, settlement);
 
-        edit.append("Player " + playerId + " built a Settlement!\n");
         return true;
     }
 
@@ -425,12 +424,12 @@ public class GameState {
      */
     public boolean buildCity(int playerId, int intersectionID, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buildCity - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: buildCity - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildCity - it is not " + playerId + "'s turn.");
+            Log.d(TAG, "ERROR: buildCity - it is not " + playerId + "'s turn.");
             return false;
         }
         if (!this.isActionPhase) {
@@ -459,12 +458,12 @@ public class GameState {
      */
     public boolean buyDevCard(int playerId, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buyDevCard - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: buyDevCard - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buyDevCard - it is not " + playerId + "'s turn.");
+            Log.d(TAG, "ERROR: buyDevCard - it is not " + playerId + "'s turn.");
             return false;
         }
         DevelopmentCard dc = new DevelopmentCard();
@@ -487,7 +486,7 @@ public class GameState {
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: useDevCard - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: useDevCard - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
@@ -542,7 +541,7 @@ public class GameState {
      */
     private boolean checkTurn(int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: checkTurn - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: checkTurn - invalid player id: " + playerId);
             return false;
         }
         return playerId == this.currentPlayerId;
@@ -559,12 +558,12 @@ public class GameState {
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: robberMove - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: robberMove - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: robberMove - it is not " + playerId + "'s turn.");
+            Log.d(TAG, "ERROR: robberMove - it is not " + playerId + "'s turn.");
             return false;
         }
         if (this.board.moveRobber(hexagonId)) {
@@ -586,12 +585,12 @@ public class GameState {
      */
     public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: robberSteal - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: robberSteal - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildRoad - it is not " + playerId + "'s turn.");
+            Log.d(TAG, "ERROR: buildRoad - it is not " + playerId + "'s turn.");
             return false;
         }
 
@@ -617,12 +616,12 @@ public class GameState {
      */
     public boolean endTurn(int playerId, boolean move, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: endTurn - invalid player id: " + playerId);
+            Log.d(TAG, "ERROR: endTurn - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: endTurn - it is not " + playerId + "'s turn.");
+            Log.d(TAG, "ERROR: endTurn - it is not " + playerId + "'s turn.");
             return false;
         }
         edit.append("Player " + this.currentPlayerId + " has ended their turn.");
