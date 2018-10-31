@@ -8,10 +8,10 @@ import edu.up.cs.androidcatan.catan.buildings.Road;
 import edu.up.cs.androidcatan.catan.buildings.Settlement;
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
+import edu.up.cs.androidcatan.gameframework.infoMsg.*;
+
 import java.util.ArrayList;
 import java.util.Random;
-
-import gameframework.infoMsg.*;
 
 /**
  * @author Alex Weininger
@@ -21,7 +21,7 @@ import gameframework.infoMsg.*;
  * @version October 30th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanGameState extends CatanGameState {
+public class CatanGameState extends GameState {
 
     private static final String TAG = "CatanGameState";
 

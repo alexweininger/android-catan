@@ -60,7 +60,7 @@ public class DevelopmentCard {
     }
 
     /**
-     * @param playerList - copy of GameState.playerList
+     * @param playerList - copy of CatanGameState.playerList
      * @param resourceId - resource id of what the player wants to steal from all other players
      */
     public void useMonopolyCard(int playerId, ArrayList<Player> playerList, int resourceId) {
