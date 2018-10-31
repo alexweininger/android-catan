@@ -206,7 +206,7 @@ public class GameState {
      */
     public boolean rollDice(int playerId, EditText edit) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradeWithPort - invalid player id: " + playerId);
+            Log.d("devError", "ERROR: rollDice - invalid player id: " + playerId);
             return false;
         }
         if (playerId != this.currentPlayerId) {
