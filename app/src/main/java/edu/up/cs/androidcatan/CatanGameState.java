@@ -8,7 +8,7 @@ import edu.up.cs.androidcatan.catan.buildings.Road;
 import edu.up.cs.androidcatan.catan.buildings.Settlement;
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
-import edu.up.cs.androidcatan.gameframework.infoMsg.*;
+import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
 import java.util.ArrayList;
 import java.util.Random;

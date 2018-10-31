@@ -1,0 +1,43 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabHost"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <TabWidget
+        android:id="@android:id/tabs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@android:id/tabcontent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/localGameTab"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/tab_height" >
+
+            <include
+                android:id="@+id/localTabLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/game_local_tab" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/remoteGameTab"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/tab_height" >
+
+            <include
+                android:id="@+id/remoteTabLayout"
+                layout="@layout/game_remote_tab" />
+        </LinearLayout>
+    </FrameLayout>
+
+</TabHost>
