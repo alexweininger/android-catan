@@ -101,6 +101,8 @@ public class Board {
         this.hexagons = b.getHexagons();
         this.robber = new Robber(b.getRobber());
         this.portIntersectionLocations = b.getPortIntersectionLocations();
+        this.roadGraph = b.roadGraph;
+
     } // end Board deep copy constructor
 
 
