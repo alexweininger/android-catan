@@ -62,7 +62,7 @@ public class Board {
 
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
-    Board() {
+    public Board() {
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();
@@ -95,7 +95,7 @@ public class Board {
     /**
      * @param b - board to copy
      */
-    Board(Board b) {
+    public Board(Board b) {
         this.hexagonIdRings = b.getHexagonIdRings();
         this.intersectionIdRings = b.getIntersectionIdRings();
         this.hGraph = b.getHGraph();
@@ -135,7 +135,7 @@ public class Board {
      * @param b        - intersection
      * @return - if road can be placed
      */
-    boolean validRoadPlacement(int playerId, int a, int b) {
+    public boolean validRoadPlacement(int playerId, int a, int b) {
         // check if intersections are adjacent
         if (!iGraph[a][b]) {
             return false;
@@ -164,7 +164,7 @@ public class Board {
      * @param intersectionA
      * @param intersectionB
      */
-    void addRoad(int playerId, int intersectionA, int intersectionB) {
+    public void addRoad(int playerId, int intersectionA, int intersectionB) {
         Road road = new Road(playerId, intersectionA, intersectionB);
         this.roads.add(road);
         this.roadGraph[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
@@ -184,7 +184,7 @@ public class Board {
         return false;
     }
 
-    void getPlayerRoadLength(ArrayList<Player> playerList){
+    public void getPlayerRoadLength(ArrayList<Player> playerList){
         for (Player player: playerList){
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
@@ -198,7 +198,7 @@ public class Board {
         }
     }
 
-    boolean checkIntersectionBreak(int intersectionId, int playerId){
+    public boolean checkIntersectionBreak(int intersectionId, int playerId){
         if (this.buildings[intersectionId].getOwnerId() != playerId){
             return true;
         }
@@ -215,7 +215,7 @@ public class Board {
     }
 
     //Recursive method that will call other helper methods within board
-    int traverseRoads(int intersectionId, int playerId, Road[][] road){
+    public int traverseRoads(int intersectionId, int playerId, Road[][] road){
         if (checkIntersectionBreak(intersectionId, playerId)){
             return 0;
         }
@@ -237,7 +237,7 @@ public class Board {
      * @param intersectionId - intersection of building
      * @return - is the building location valid
      */
-    boolean validBuildingLocation(int playerId, int intersectionId) {
+    public boolean validBuildingLocation(int playerId, int intersectionId) {
         /* checks:
          * 1. if connected
          * 2. if occupied by building
@@ -275,7 +275,7 @@ public class Board {
      * @param intersectionId - intersection id
      * @return - the building located at given intersection
      */
-    Building getBuildingAtIntersection(int intersectionId) {
+    public Building getBuildingAtIntersection(int intersectionId) {
         return this.buildings[intersectionId];
     }
 
@@ -380,7 +380,7 @@ public class Board {
      * @param hexagonId - hexagonId to move the robber to
      * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
      */
-    boolean moveRobber(int hexagonId) {
+    public boolean moveRobber(int hexagonId) {
         // check if moving to same hexagon
         if (hexagonId == this.robber.getHexagonId()) return false;
 
@@ -396,7 +396,7 @@ public class Board {
      * @param intersectionId - intersection id of the building location
      * @param building       - building object
      */
-    boolean addBuilding(int intersectionId, Building building) {
+    public boolean addBuilding(int intersectionId, Building building) {
         if (this.buildings[intersectionId] != null) {
             Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
             return false;
@@ -414,7 +414,7 @@ public class Board {
      * @param intersectionId - given intersection i (0-53)
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
-    ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
+    public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
         for (int i = 0; i < 54; i++) {
             if (adjacentIntersections.size() > 3) {
@@ -452,7 +452,7 @@ public class Board {
      * @param intId2 - intersection id
      * @return - boolean adjacency
      */
-    boolean intersectionAdjCheck(int intId1, int intId2) {
+    public boolean intersectionAdjCheck(int intId1, int intId2) {
         return (iGraph[intId1][intId2] || iGraph[intId2][intId1]);
     }
 
@@ -495,7 +495,7 @@ public class Board {
      * @param hexagonId - hexagon id - AW
      * @return Hexagon
      */
-    Hexagon getHexagonFromId(int hexagonId) {
+    public Hexagon getHexagonFromId(int hexagonId) {
         if (hexagonId < 0 || hexagonId >= this.hexagons.size()) { // error checking
             Log.d(TAG, "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
             return null;
