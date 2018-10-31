@@ -127,7 +127,7 @@ public class Board {
      * @param b        - intersection
      * @return - if road can be placed
      */
-    public boolean validRoadPlacement(int playerId, int a, int b) {
+    boolean validRoadPlacement(int playerId, int a, int b) {
         // check if intersections are adjacent
         if (!iGraph[a][b]) {
             return false;
@@ -156,7 +156,7 @@ public class Board {
      * @param intersectionA
      * @param intersectionB
      */
-    public void addRoad(int playerId, int intersectionA, int intersectionB) {
+    void addRoad(int playerId, int intersectionA, int intersectionB) {
         Road road = new Road(playerId, intersectionA, intersectionB);
         this.roads.add(road);
         this.roadGraph[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
@@ -167,7 +167,7 @@ public class Board {
      * @param i - intersection to check
      * @return returns if road is connected to given intersection
      */
-    public boolean hasRoad(int i) {
+    private boolean hasRoad(int i) {
         for (Road road : roadGraph[i]) {
             if (road.getOwnerId() != -1) {
                 return true;
