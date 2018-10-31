@@ -21,6 +21,7 @@ public class DevelopmentCard {
     private boolean isPlayable;
     private DevelopmentCard Knight, Monopoly, YearofPlenty, RoadBuilding, VictoryPoints;
 
+
     public DevelopmentCard(String cardName, DevelopmentCard Knight, DevelopmentCard Monopoly, DevelopmentCard YearofPlenty, DevelopmentCard RoadBuilding, DevelopmentCard VictoryPoints) {
         this.cardName = cardName;
         this.isPlayable = false;

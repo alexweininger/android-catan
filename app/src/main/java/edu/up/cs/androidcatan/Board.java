@@ -180,9 +180,10 @@ public class Board {
         return false;
     }
 
-    // TODO
+    //TODO: find the player with the longest road length
     int getPlayerRoadLength(int playerId) {
-        return 0;
+        boolean stillContinuous = true;
+        return 1;
     }
 
     /**
@@ -192,6 +193,7 @@ public class Board {
      * @param checkedIntersections - array list of already checked roads / intersections
      * @return - road length
      */
+    /*
     int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
         checkedIntersections.add(intersectionId);
         // base case if road is dead end
@@ -202,7 +204,9 @@ public class Board {
             }
         }
         return 0;
-    }
+    }*/
+
+
 
     /* ----- building methods ----- */
 
