@@ -32,6 +32,8 @@ public class Board {
      * hexagon. Ring 2 has 6, and ring 3 (outer ring) has 12 hexagons.
      */
 
+    private static final String TAG = "Board";
+
     // hexagonIdRings holds the IDs of each hexagon on the board, organized into rings.
     private ArrayList<ArrayList<Integer>> hexagonIdRings = new ArrayList<>();
     // intersectionIdRings holds the IDs of each intersection on the board, organized into rings.
@@ -218,6 +220,7 @@ public class Board {
 
         // check if the intersection is connected to players' roads/buildings
         if(!isConnected(playerId, intersectionId)) {
+            Log.i("dev", "")
             return false;
         }
 
@@ -325,12 +328,12 @@ public class Board {
                 if (this.robber.getHexagonId() != i) {
                     hexagonIdList.add(i);
                 } else {
-                    Log.d("dev", "getHexagonsFromChitValue: robber was detected on hexagon, hexagon with id: " + i + " not producing resources chit values: " + chitValue);
+                    Log.i(TAG, "getHexagonsFromChitValue: robber was detected on hexagon, hexagon with id: " + i + " not producing resources chit values: " + chitValue);
                 }
             }
         }
         if (hexagonIdList.size() > 2) { // error checking
-            Log.d("devError", "getHexagonsFromChitValue: ERROR returning a list with more than 2 hexagons with chit values of: " + chitValue);
+            Log.e(TAG, "getHexagonsFromChitValue: ERROR returning a list with more than 2 hexagons with chit values of: " + chitValue);
         }
         return hexagonIdList;
     }
@@ -357,7 +360,7 @@ public class Board {
      */
     public boolean addBuilding(int intersectionId, Building building) {
         if (this.buildings[intersectionId] != null) {
-            Log.d("devError", "addBuilding: ERROR added a building when there was already a building here intersection id: " + intersectionId);
+            Log.i(TAG, "addBuilding: ERROR added a building when there was already a building here intersection id: " + intersectionId);
             return false;
         }
         this.buildings[intersectionId] = building;
@@ -370,7 +373,7 @@ public class Board {
      * @param intersectionId
      * @return
      */
-    public boolean isIntresectionBuildable(int intersectionId) {
+    public boolean isIntersectionBuildable(int intersectionId) {
         return this.buildings[intersectionId] == null;
     }
 
