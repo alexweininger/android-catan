@@ -177,6 +177,8 @@ public class GameState {
         if (this.currentLargestArmyPlayerId != -1) {
             this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
         }
+
+        // TODO go through all buildings and tally up players victory points
     }
 
     /**
