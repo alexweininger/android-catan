@@ -21,10 +21,9 @@ public class DevelopmentCard {
         this.isPlayable = false;
     }
 
-
     //default use method
-    public void useCard(Player player) {
-        player.useDevCard(this);
+    public void useCard(int devCardId) {
+        // todo
     }
 
     public void useKnightCard(Robber robber, Player player) {

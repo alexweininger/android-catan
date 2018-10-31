@@ -1,11 +1,9 @@
 package edu.up.cs.androidcatan;
 
 import android.util.Log;
-import android.widget.EditText;
 import gameframework.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * @author Alex Weininger
