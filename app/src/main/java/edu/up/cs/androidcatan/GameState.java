@@ -435,36 +435,31 @@ public class GameState {
     }
 
     /**
-     * Player requests to build city and Gamestate processes requests and returns true if build was successful
+     * Player requests to build city and Game State processes requests and returns true if build was successful
      *
      * @param playerId       - player building a city
-     * @param intersectionID
-     * @param edit
+     * @param intersectionId - intersection
      * @return - action success
      */
-    public boolean buildCity(int playerId, int intersectionID, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: buildCity - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d(TAG, "ERROR: buildCity - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+    public boolean buildCity(int playerId, int intersectionId) {
+        Log.d(TAG, "buildCity() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
+        // check if valid player id, turn, and action phase
+        if (!valAction(playerId)) {
+            Log.e(TAG, "buildCity: valAction failed.");
             return false;
         }
 
-        if (this.playerList.get(playerId).getResources().get("Ore") == 3 && this.playerList.get(playerId).getResources().get("Grain") == 2) {
-            edit.append("Player " + playerId + " does not have enough resources!\n");
+        // check if player has enough resources
+        if (!this.playerList.get(playerId).checkResourceBundle(City.resourceCost)) {
+            Log.e(TAG, "buildCity: Player " + playerId + " does not have enough resources.");
+            return false;
         }
 
-        City city = new City(intersectionID, playerId);
-        //board.addCity
+        // create City object and add to Board object
+        City city = new City(intersectionId, playerId);
+        this.board.addBuilding(intersectionId, city);
 
-        edit.append("Player " + playerId + " built a City!\n");
+        Log.e(TAG, "buildCity: Player " + playerId + " built a city.");
         return true;
     }
 
