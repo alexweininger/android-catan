@@ -432,16 +432,6 @@ public class Board {
     }
 
     /**
-     * TODO used for resource production
-     *
-     * @param hexagonId - hexagon id
-     * @return - array list of intersection ids that are adjacent to the given hexagon
-     */
-    public ArrayList<Integer> getIntersectoinsAdjToHexagon(int hexagonId) {
-        return this.hexToIntIdMap.get(hexagonId);
-    }
-
-    /**
      * @param intId1 - intersection id
      * @param intId2 - intersection id
      * @return - boolean adjacency
@@ -459,7 +449,7 @@ public class Board {
         return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
     }
 
-    /**
+    /** TODO ports
      * @param intersectionId - intersection to check for port adjacency
      * @return - if the given intersection is adjacent to a port AW
      */
