@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * @author Alex Weininger
@@ -15,6 +16,8 @@ import java.util.HashMap;
  **/
 
 public class Player {
+
+    private static final String TAG = "Player";
 
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
@@ -78,13 +81,12 @@ public class Player {
     }
 
     /**
-     *
      * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
      * @return - true of false, does the player have all of these resources?
      */
     public boolean checkResourceBundle(int[] resourceCost) {
-        for (Integer id: resourceCost) {
-            if(!checkResourceCard(id, resourceCost[id])) {
+        for (Integer id : resourceCost) {
+            if (!checkResourceCard(id, resourceCost[id])) {
                 return false;
             }
         }
@@ -275,22 +277,33 @@ public class Player {
         this.availableBuildings = availableBuildings;
     }
 
-    public String getRandomCard() {
-        ArrayList<String> resourceNames = new ArrayList<>();
-        String[] baseResources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
-        for (int n = 0; n < resources.size(); n++) {
-            for (int x = 0; x < baseResources.length; x++) {
-                if (resources.containsKey(baseResources[n])) {
-                    resourceNames.add(baseResources[n]);
-                }
-            }
+    private int getTotalResourceCardCount() {
+        int result = 0;
+        for (int i = 0; i < this.resourceCards.length; i++) {
+            result += this.resourceCards[i];
         }
-        if (resourceNames.size() == 0) {
-            return "No Cards in this person's hands!";
+        return result;
+    }
+
+    int getRandomCard() {
+
+        if(this.getTotalResourceCardCount() < 1) {
+            Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
+            return -1;
         }
-        String stolenResource = resourceNames.get((int) (Math.random() * resourceNames.size()));
-        this.removeResources(stolenResource, 1);
-        return stolenResource;
+
+        Random random = new Random();
+        int randomResourceId;
+        do {
+            randomResourceId = random.nextInt(4); // 0-4
+        } while (!checkResourceCard(randomResourceId, 1));
+
+        if (!removeResourceCard(randomResourceId, 1)) {
+            Log.e(TAG, "getRandomCard: Player does not have random card that was checked for.");
+            return -1;
+        }
+
+        return randomResourceId;
     }
 
     /**
