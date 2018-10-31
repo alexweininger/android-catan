@@ -5,6 +5,7 @@ package edu.up.cs.androidcatan.catan.devcards;
  * https://github.com/alexweininger/game-state
  **/
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.Player;
