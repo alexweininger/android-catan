@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="del_player_button_size">35dp</dimen>
+    <dimen name="table_heading_font_size">14sp</dimen>
+    <dimen name="tab_height">75dp</dimen>
+    <dimen name="table_row_vert_pad">10dp</dimen>
+    <dimen name="table_row_horiz_pad">50dp</dimen>
+    <dimen name="config_horiz_margin">20dp</dimen>
+    
+</resources>

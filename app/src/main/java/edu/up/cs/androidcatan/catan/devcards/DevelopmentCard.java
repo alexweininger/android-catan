@@ -60,19 +60,16 @@ public class DevelopmentCard {
     }
 
     /**
-     * @param playerList - copy of GameState.playerList
+     * @param playerList - copy of CatanGameState.playerList
      * @param resourceId - resource id of what the player wants to steal from all other players
      */
     public void useMonopolyCard(int playerId, ArrayList<Player> playerList, int resourceId) {
-        int totalCollected = 0;
 
         // go through each player
         for (Player player : playerList) {
 
             // if player isn't the player who is playing the dev card
             if (player.getPlayerId() != playerId) {
-                // add the number of resource of this type the player has
-                totalCollected += player.getResourceCards()[resourceId];
                 // remove these resource cards from players inventory
                 player.removeResourceCard(resourceId, player.getResourceCards()[resourceId]);
                 playerList.get(playerId).addResourceCard(resourceId, player.getResourceCards()[resourceId]);
