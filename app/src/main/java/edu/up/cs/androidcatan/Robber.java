@@ -1,18 +1,21 @@
 package edu.up.cs.androidcatan;
 
-/** Robber class
- * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version October 10th, 2018
- * https://github.com/alexweininger/game-state
- *
- * contains the position of the robber as well as methods to get and set position
- *
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version October 30th, 2018
+ * https://github.com/alexweininger/android-catan
  **/
+
 public class Robber {
 
     private int hexagonId; // hexagon where the robber is located
 
-    /** Robber constructor
+    /**
+     * Robber constructor
+     *
      * @param currentHexagonId - where the robber is currently
      */
     public Robber(int currentHexagonId) {
@@ -20,7 +23,7 @@ public class Robber {
     }
 
     //deep copy constructor
-    public Robber(Robber robber){
+    public Robber(Robber robber) {
         this.hexagonId = robber.hexagonId;
     }
 

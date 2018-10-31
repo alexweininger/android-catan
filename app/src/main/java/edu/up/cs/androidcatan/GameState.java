@@ -1,16 +1,18 @@
 package edu.up.cs.androidcatan;
-/**
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
- * https://github.com/alexweininger/game-state
- **/
-
 import android.util.Log;
 import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version October 30th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 public class GameState {
 
     private Dice dice; // dice object
@@ -38,10 +40,6 @@ public class GameState {
         this.playerList.add(new Player(1));
         this.playerList.add(new Player(2));
         this.playerList.add(new Player(3));
-
-        Road.roadResourcePriceMake();
-        Settlement.cityResourcePriceMake();
-        City.cityResourcePriceMake();
 
         this.board.toString();
 
@@ -161,41 +159,13 @@ public class GameState {
 
                 if (null != b) {
 
-                    if (b.getBuildingName().equals("City")) {
-
-                        this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), 2);
-
-                        edit.append("giving 2 resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
-                        Log.d("devInfo", "INFO: giving 2 resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
-
-                    } else {
-
-                        this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), 1);
-
-                        edit.append("giving 1 resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
-                        Log.d("devInfo", "INFO: giving 1 resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
-                    }
+                    this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
+                    edit.append("giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                    Log.d("devInfo", "INFO: giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
                 }
             }
         }
     }
-
-    private void produceResource(int diceSum) {
-        for (Integer i : this.board.getHexagonsFromChitValue(diceSum)) {
-            Hexagon hex = this.board.getHexagonFromId(i);
-            for (Integer intersectionId : this.board.getAdjacentIntersections(i)) {
-                Building b = this.board.getBuildingAtIntersection(intersectionId);
-                if (null != b) {
-                    if (b.getBuildingName().equals("City")) {
-                        this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), 2);
-                    } else {
-                        this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), 1);
-                    }
-                }
-            }
-        }
-    }
-
 
     /**
      * TODO HELP me do this

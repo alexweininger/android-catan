@@ -1,8 +1,14 @@
 package edu.up.cs.androidcatan;
 
 /**
- *
- */
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version October 30th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
+
 public class Hexagon {
     private int resourceId;
     private int chitValue;
