@@ -181,10 +181,55 @@ public class Board {
     }
 
     //TODO: find the player with the longest road length
-    int getPlayerRoadLength(int playerId) {
+    /*int getPlayerRoadLength(int playerId, int intersection) {
         boolean stillContinuous = true;
-        return 1;
+        int currentRoadLength = 0;
+        for (int row = 0; row < roadGraph.length; row++){
+            for (int col = 0; col < roadGraph.length; col++){
+                if (roadGraph[row][col].getOwnerId() == playerId){
+                    Log.i(TAG, "getPlayerRoadLength: " + roadGraph[row][col].getOppositeIntersection(row));
+                    int oppositeSide = roadGraph[row][col].getOppositeIntersection(row);
+
+                }
+            }
+        }
+        return 0;
+    }*/
+
+    void getPlayerRoadLength(ArrayList<Player> playerList){
+        for (Player player: playerList){
+            ArrayList<Road> playerRoads = new ArrayList<>();
+            Road[][] playerRoadList = new Road[54][54];
+            for (Road road: roads){
+                if (road.getOwnerId() == player.getPlayerId()){
+                    playerRoads.add(road);
+                    playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
+                }
+            }
+            playerRoads.get(0).getIntersectionAId();
+        }
     }
+
+    boolean checkIntersectionBreak(int intersectionId, int playerId){
+        return true;
+    }
+
+    boolean checkDeadEnd(int intersectionId, Road[][] road){
+        for (Integer intersection : getAdjacentIntersections(intersectionId)) {
+            if (road[intersectionId][intersection] != null){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Recursive method that will call other helper methods within board
+    int traverseRoads(int intersectionId){
+        return 0;
+    }
+
+
+
 
     /**
      * TODO
