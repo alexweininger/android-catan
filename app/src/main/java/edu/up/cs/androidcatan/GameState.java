@@ -429,7 +429,7 @@ public class GameState {
         // create Settlement object and add to Board object
         Settlement settlement = new Settlement(playerId);
         this.board.addBuilding(intersectionId, settlement);
-
+        Log.i(TAG, "buildSettlement: Player " + playerId + " built a Settlement.");
 
         return true;
     }
@@ -451,7 +451,7 @@ public class GameState {
 
         // check if player has enough resources
         if (!this.playerList.get(playerId).checkResourceBundle(City.resourceCost)) {
-            Log.e(TAG, "buildCity: Player " + playerId + " does not have enough resources.");
+            Log.i(TAG, "buildCity: Player " + playerId + " does not have enough resources to build a City.");
             return false;
         }
 
@@ -459,7 +459,7 @@ public class GameState {
         City city = new City(intersectionId, playerId);
         this.board.addBuilding(intersectionId, city);
 
-        Log.e(TAG, "buildCity: Player " + playerId + " built a city.");
+        Log.i(TAG, "buildCity: Player " + playerId + " built a city.");
         return true;
     }
 
