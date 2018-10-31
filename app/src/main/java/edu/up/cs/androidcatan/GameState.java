@@ -375,11 +375,11 @@ public class GameState {
     }
 
     /**
-     * Player requests to build road ands Gamestate processes requests and returns true if build was successful
+     * Player requests to build road ands Game State processes requests and returns true if build was successful
      *
      * @param playerId            - player building a road
-     * @param startIntersectionID
-     * @param endIntersectionID
+     * @param startIntersectionID - intersection id
+     * @param endIntersectionID - intersection id
      * @return - action success
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
