@@ -180,29 +180,51 @@ public class Board {
         return false;
     }
 
-    // TODO
-    int getPlayerRoadLength(int playerId) {
-        return 0;
+    void getPlayerRoadLength(ArrayList<Player> playerList){
+        for (Player player: playerList){
+            ArrayList<Road> playerRoads = new ArrayList<>();
+            Road[][] playerRoadList = new Road[54][54];
+            for (Road road: roads){
+                if (road.getOwnerId() == player.getPlayerId()){
+                    playerRoads.add(road);
+                    playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
+                }
+            }
+            playerRoads.get(0).getIntersectionAId();
+        }
     }
 
-    /**
-     * TODO Andrew
-     *
-     * @param intersectionId       - intersection to start at
-     * @param checkedIntersections - array list of already checked roads / intersections
-     * @return - road length
-     */
-    int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
-        checkedIntersections.add(intersectionId);
-        // base case if road is dead end
-        ArrayList<Integer> adjInts = getAdjacentIntersections(intersectionId);
-        for (int i = 0; i < adjInts.size(); i++) {
-            if (hasRoad(adjInts.get(i)) && !checkedIntersections.contains(adjInts.get(i))) {
-                return getRoadLength(adjInts.get(i), checkedIntersections) + 1;
+    boolean checkIntersectionBreak(int intersectionId, int playerId){
+        if (this.buildings[intersectionId].getOwnerId() != playerId){
+            return true;
+        }
+        return false;
+    }
+
+    boolean checkDeadEnd(int intersectionId, Road[][] road){
+        for (Integer intersection : getAdjacentIntersections(intersectionId)) {
+            if (road[intersectionId][intersection] != null){
+                return true;
             }
+        }
+        return false;
+    }
+
+    //Recursive method that will call other helper methods within board
+    int traverseRoads(int intersectionId, int playerId, Road[][] road){
+        if (checkIntersectionBreak(intersectionId, playerId)){
+            return 0;
+        }
+        if (checkDeadEnd(intersectionId, road)){
+            return 0;
+        }
+        for (Integer intersection: getAdjacentIntersections(intersectionId)){
+            return 1 + traverseRoads(intersection, playerId, road);
         }
         return 0;
     }
+
+
 
     /* ----- building methods ----- */
 

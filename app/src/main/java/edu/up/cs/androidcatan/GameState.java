@@ -171,7 +171,7 @@ public class GameState {
      * probably just calls a method in board?
      * recursion???
      */
-    private void checkRoadLength() {
+    /*private void checkRoadLength() {
         int max = -1;
         int playerIdWithLongestRoad = -1;
         if (currentLongestRoadPlayerId != -1) {
@@ -186,7 +186,31 @@ public class GameState {
         if (max > 4) {
             this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
         }
+    }*/
+
+    /**
+     * Checks which player has the longest road and return's true if that player is the current player
+     */
+    private boolean checkLongestRoad(int playerId){
+        boolean longestRoad = false;
+        if (this.currentPlayerId != playerId){
+            return false;
+        }
+        int currPlayerRoadLength = board.getPlayerRoadLength(playerId);
+        for (int n = 0; n < playerList.size(); n++){
+            if (playerList.get(n) != playerList.get(playerId)){
+                if (board.getPlayerRoadLength(playerList.get(n).getPlayerId()) > board.getPlayerRoadLength(playerId)){
+                    return longestRoad;
+                }
+                else {
+                    longestRoad = true;
+                }
+            }
+        }
+
+        return longestRoad;
     }
+
 
     /**
      * updates the victory points of each player, should be called after every turn
@@ -195,7 +219,7 @@ public class GameState {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
         }
-        checkRoadLength();
+        //checkRoadLength();
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
         }
@@ -293,6 +317,7 @@ public class GameState {
      * @return - action success
      */
     public boolean endTurn(int playerId) {
+        boolean devCardPlayable = false;
         if (!valAction(playerId)) {
             return false;
         }
@@ -306,6 +331,13 @@ public class GameState {
         Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + "'s turn.");
 
         updateVictoryPoints();
+
+        devCardPlayable = true;
+
+        for (DevelopmentCard developmentCard : playerList.get(playerId).getDevelopmentCards()) {
+            developmentCard.setPlayable(devCardPlayable);
+        }
+
         return true;
     } // end endTurn method
 
