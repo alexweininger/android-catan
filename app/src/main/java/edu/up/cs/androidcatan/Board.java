@@ -65,7 +65,7 @@ public class Board {
         // generate adj. graphs
         generateHexagonGraph();
         generateIntersectionGraph();
-        initRoadGraph();
+        generateRoadMatrix();
 
         // print graphs
         printGraph(hGraph);
@@ -92,8 +92,8 @@ public class Board {
     Board(Board b) {
         this.hexagonIdRings = b.getHexagonIdRings();
         this.intersectionIdRings = b.getIntersectionIdRings();
-        this.hGraph = b.gethGraph();
-        this.iGraph = b.getiGraph();
+        this.hGraph = b.getHGraph();
+        this.iGraph = b.getIGraph();
         this.hexToIntIdMap = b.getHexToIntIdMap();
         this.intToHexIdMap = b.getIntToHexIdMap();
         this.buildings = b.getBuildings();
@@ -105,22 +105,10 @@ public class Board {
 
     } // end Board deep copy constructor
 
-
-    private void initRoadGraph() {
-        for (int i = 0; i < iGraph.length; i++) {
-            for (int j = 0; j < iGraph[i].length; j++) {
-                roadGraph[i][j] = new Road(i, j, -1);
-            }
-        }
-        for (int i = 0; i < roadGraph.length; i++) {
-            for (int j = 0; j < roadGraph[i].length; j++) {
-                roadGraph[j][i] = roadGraph[i][j];
-            }
-        }
-    }
+    /* ----- road methods ----- */
 
     /**
-     * @param playerId - player to test if the intersection is connected
+     * @param playerId       - player to test if the intersection is connected
      * @param intersectionId - intersection to test
      * @return - is the intersection connected to the players buildings or roads?
      */
@@ -135,8 +123,8 @@ public class Board {
 
     /**
      * @param playerId - player building the road
-     * @param a - intersection
-     * @param b - intersection
+     * @param a        - intersection
+     * @param b        - intersection
      * @return - if road can be placed
      */
     public boolean validRoadPlacement(int playerId, int a, int b) {
@@ -188,6 +176,30 @@ public class Board {
         return false;
     }
 
+    // TODO
+    private int getPlayerRoadLength(int playerId) {
+        return 0;
+    }
+
+    /**
+     * TODO
+     *
+     * @param intersectionId       - intersection to start at
+     * @param checkedIntersections - array list of already checked roads / intersections
+     * @return
+     */
+    private int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
+        checkedIntersections.add(intersectionId);
+        // base case if road is dead end
+        ArrayList<Integer> adjInts = getAdjacentIntersections(intersectionId);
+        for (int i = 0; i < adjInts.size(); i++) {
+            if (hasRoad(adjInts.get(i)) && !checkedIntersections.contains(adjInts.get(i))) {
+                return getRoadLength(adjInts.get(i), checkedIntersections) + 1;
+            }
+        }
+        return 0;
+    }
+
     public boolean hasBuilding(int intersectionId) {
         return this.buildings[intersectionId] != null;
     }
@@ -199,6 +211,269 @@ public class Board {
     public Building getBuildingAtIntersection(int intersectionId) {
         return this.buildings[intersectionId];
     }
+
+
+
+    /**
+     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
+     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
+     */
+    private void populateHexagonList() {
+        int[] resourceTypeCount = {4, 3, 3, 3, 4};
+        int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
+        int[] resources = {0, 1, 2, 3, 4};
+        for (int i = 0; i < 18; i++) {
+            int max = resourceTypeCount.length - 1;
+            Random random = new Random();
+            int randomResourceType = random.nextInt((max) + 1);
+            while (resourceTypeCount[randomResourceType] < 0) {
+                randomResourceType = random.nextInt((max) + 1);
+            }
+            max = chitValuesCount.length - 1;
+            int randomChitValue = random.nextInt((max) + 1);
+            while (chitValuesCount[randomChitValue] < 0) {
+                randomChitValue = random.nextInt((max) + 1);
+            }
+
+
+            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
+            resourceTypeCount[randomResourceType]--;
+        }
+    }
+
+    /**
+     * TODO remove and fix
+     * adds ports to the intersection and port hash map
+     */
+    private void populatePortIntersectionIds() {
+        for (int i = 0; i < 6; i++) {
+            portIntersectionLocations.add(17 + i * 6);
+            portIntersectionLocations.add(17 + i * 6 + 1);
+        }
+    }
+
+
+
+    /**
+     * @param intersectionId - intersection to check for port adjacency
+     * @return - if the given intersection is adjacent to a port AW
+     */
+    public boolean checkPortAdjacency(int intersectionId) {
+        return portIntersectionLocations.contains(intersectionId);
+    }
+
+    /**
+     * @param intersectionId - to check for owners
+     * @return - ArrayList of playerIds who either own a road that is connected to intersection, or have a building that is on this intersection
+     */
+    public ArrayList<Integer> getIntersectionOwners(int intersectionId) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+
+        if (!this.hasBuilding(intersectionId)) {
+            if (this.hasRoad(intersectionId)) {
+                for (Road r : this.getRoadsAtIntersection(intersectionId)) {
+                    result.add(r.getOwnerId());
+                }
+            } else {
+                return result;
+            }
+        } else {
+            result.add(this.buildings[intersectionId].getOwnerId());
+        }
+        return result;
+    }
+
+    /**
+     * @param i - intersection id
+     * @return ArrayList of roads connected to that intersection
+     */
+    private ArrayList<Road> getRoadsAtIntersection(int i) {
+        ArrayList<Road> result = new ArrayList<>();
+
+        for (Road r : this.roads) {
+            if (r.getIntersectionAId() == i || r.getIntersectionBId() == i) {
+                result.add(r);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * returns whether a given player is an owner of the intersection
+     *
+     * @param intersectionId - intersection to check if playerId owns
+     * @param playerId       - playerId to check against
+     * @return
+     */
+    public boolean isIntersectionOwner(int intersectionId, int playerId) {
+        return false;
+    }
+
+    /**
+     * @param chitValue - value of dice sum and tile chit value that will produce resources
+     * @return list of hexagons with chitValue AND DO NOT HAVE ROBBER - AW
+     */
+    ArrayList<Integer> getHexagonsFromChitValue(int chitValue) {
+        ArrayList<Integer> hexagonIdList = new ArrayList<>();
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            // check for chit value
+            if (this.hexagons.get(i).getChitValue() == chitValue) {
+                // check if robber is on hexagon
+                if (this.robber.getHexagonId() != i) {
+                    hexagonIdList.add(i);
+                } else {
+                    Log.d("dev", "getHexagonsFromChitValue: robber was detected on hexagon, hexagon with id: " + i + " not producing resources chit values: " + chitValue);
+                }
+            }
+        }
+        if (hexagonIdList.size() > 2) { // error checking
+            Log.d("devError", "getHexagonsFromChitValue: ERROR returning a list with more than 2 hexagons with chit values of: " + chitValue);
+        }
+        return hexagonIdList;
+    }
+
+    /**
+     * @param hexagonId - hexagonId to move the robber to
+     * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
+     */
+    public boolean moveRobber(int hexagonId) {
+        // check if moving to same hexagon
+        if (hexagonId == this.robber.getHexagonId()) return false;
+
+        // change robber position
+        this.robber.setHexagonId(hexagonId);
+        return true;
+    }
+
+    /**
+     * ! Error checking is not done here, this method assumes error checking has already been done.
+     * adds the building to the building array - AW
+     *
+     * @param intersectionId - intersection id of the building location
+     * @param building       - building object
+     */
+    public boolean addBuilding(int intersectionId, Building building) {
+        if (this.buildings[intersectionId] != null) {
+            Log.d("devError", "addBuilding: ERROR added a building when there was already a building here intersection id: " + intersectionId);
+            return false;
+        }
+        this.buildings[intersectionId] = building;
+        return true;
+    }
+
+    /**
+     * isIntersectionBuildable
+     *
+     * @param intersectionId
+     * @return
+     */
+    public boolean isIntresectionBuildable(int intersectionId) {
+        return this.buildings[intersectionId] == null;
+    }
+
+    /* ----- adjacency checking methods -----*/
+
+    /**
+     * TODO TEST
+     * getAdjacentIntersections
+     *
+     * @param intersectionId - given intersection i (0-53)
+     * @return - ArrayList of intersection ids that are adjacent to the given intersection id
+     */
+    public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
+        ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
+        for (int i = 0; i < 54; i++) {
+            if (adjacentIntersections.size() > 3) {
+                Log.d("devError", "getAdjacentIntersections: ERROR got more than 3 adjacent intersections");
+                break;
+            }
+            if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
+                adjacentIntersections.add(i);
+            }
+        }
+        return adjacentIntersections;
+    }
+
+    /**
+     * TODO TEST
+     *
+     * @param hexagonId - hexagon id that you want to get adjacency of
+     * @return ArrayList<Integer> - list of adj. hex id's
+     */
+    public ArrayList<Integer> getAdjacentHexagons(int hexagonId) {
+        ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
+        for (int i = 0; i < 19; i++) {
+            if (adjacentHexagons.size() > 6) {
+                Log.d("devError", "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
+                break;
+            }
+            if (hGraph[hexagonId][i] || hGraph[i][hexagonId]) {
+                adjacentHexagons.add(i);
+            }
+        }
+        return adjacentHexagons;
+    }
+
+    /**
+     * TODO used for resource production
+     *
+     * @param hexagonId - hexagon id
+     * @return - array list of intersection ids that are adjacent to the given hexagon
+     */
+    public ArrayList<Integer> getIntersectoinsAdjToHexagon(int hexagonId) {
+        return this.hexToIntIdMap.get(hexagonId);
+    }
+
+    /**
+     * @param intId1 - intersection id
+     * @param intId2 - intersection id
+     * @return - boolean adjacency
+     */
+    boolean intersectionAdjCheck(int intId1, int intId2) {
+        return (iGraph[intId1][intId2] || iGraph[intId2][intId1]);
+    }
+
+    /**
+     * @param hexId1 -
+     * @param hexId2 -
+     * @return - boolean
+     */
+    public boolean checkHexagonAdjacency(int hexId1, int hexId2) {
+        return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
+    }
+
+    /**
+     * @param ring - ring of intersection
+     * @param col  - column within ring of intersection
+     * @return - int intersection id
+     */
+    private int getIntersectionId(int ring, int col) {
+        return intersectionIdRings.get(ring).get(col);
+    }
+
+    /**
+     * @param ring - hexagon ring (0-2)
+     * @param col  - column within hexagon ring
+     * @return - int hexagon id
+     */
+    private int getHexagonId(int ring, int col) {
+        return hexagonIdRings.get(ring).get(col);
+    }
+
+    /**
+     * @param hexagonId - hexagon id - AW
+     * @return Hexagon
+     */
+    Hexagon getHexagonFromId(int hexagonId) {
+        if (hexagonId < 0 || hexagonId >= this.hexagons.size()) { // error checking
+            Log.d("devError", "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
+            return null;
+        }
+        return this.hexagons.get(hexagonId);
+    }
+
+
+    /*----- board helper methods for setting up board and populating data structures -----*/
 
     /**
      * populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
@@ -257,16 +532,12 @@ public class Board {
                  *     a. corner vs. non-corner hexagons = if j % i == 0
                  *     b. sextants (0-5), calculated with sextant = j / i;
                  */
-                int sextant = -1;
-                boolean corner = true;
-                if (i == 0) {
-                    sextant = j;
-                    corner = false;
-                } else {
+                int sextant = j;
+                boolean corner = false;
+                if (i != 0) {
                     sextant = j / i;
-                    corner = j % i == 0;
+                    corner = true;
                 }
-
                 this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant)] = true;
                 this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant + 1)] = true;
 
@@ -276,7 +547,6 @@ public class Board {
                     if (nextIndex < 12 && nextIndex >= 0) {
                         hGraph[getHexagonId(i, j)][getHexagonId(i + 1, nextIndex)] = true;
                     } else {
-                        // Log.d("dev", "id value wrapped: " + (Math.abs(j - 1 + sextant) % size));
                         hGraph[getHexagonId(i, j)][getHexagonId(i + 1, size - Math.abs(j - 1 + sextant) % size)] = true;
                     }
                 }
@@ -546,315 +816,52 @@ public class Board {
     }
 
     /**
-     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
-     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
+     * generates an intersection adjacency matrix for the roads
      */
-    private void populateHexagonList() {
-        int[] resourceTypeCount = {4, 3, 3, 3, 4};
-        int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-        int[] resources = {0, 1, 2, 3, 4};
-        for (int i = 0; i < 18; i++) {
-            int max = resourceTypeCount.length - 1;
-            Random random = new Random();
-            int randomResourceType = random.nextInt((max) + 1);
-            while (resourceTypeCount[randomResourceType] < 0) {
-                randomResourceType = random.nextInt((max) + 1);
-            }
-            max = chitValuesCount.length - 1;
-            int randomChitValue = random.nextInt((max) + 1);
-            while (chitValuesCount[randomChitValue] < 0) {
-                randomChitValue = random.nextInt((max) + 1);
-            }
-
-
-            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
-            resourceTypeCount[randomResourceType]--;
-        }
-    }
-
-    /**
-     * TODO remove and fix
-     * adds ports to the intersection and port hash map
-     */
-    private void populatePortIntersectionIds() {
-        for (int i = 0; i < 6; i++) {
-            portIntersectionLocations.add(17 + i * 6);
-            portIntersectionLocations.add(17 + i * 6 + 1);
-        }
-    }
-
-    /**
-     * @param hexagonId - hexagon id - AW
-     * @return Hexagon
-     */
-    Hexagon getHexagonFromId(int hexagonId) {
-        if (hexagonId < 0 || hexagonId >= this.hexagons.size()) { // error checking
-            Log.d("devError", "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
-            return null;
-        }
-        return this.hexagons.get(hexagonId);
-    }
-
-
-    /**
-     * @param intersectionId - intersection to check for port adjacency
-     * @return - if the given intersection is adjacent to a port AW
-     */
-    public boolean checkPortAdjacency(int intersectionId) {
-        return portIntersectionLocations.contains(intersectionId);
-    }
-
-    /**
-     * @param intersectionId - to check for owners
-     * @return - ArrayList of playerIds who either own a road that is connected to intersection, or have a building that is on this intersection
-     */
-    public ArrayList<Integer> getIntersectionOwners(int intersectionId) {
-        ArrayList<Integer> result = new ArrayList<Integer>();
-
-        if (!this.hasBuilding(intersectionId)) {
-            if (this.hasRoad(intersectionId)) {
-                for (Road r : this.getRoadsAtIntersection(intersectionId)) {
-                    result.add(r.getOwnerId());
-                }
-            } else {
-                return result;
-            }
-        } else {
-            result.add(this.buildings[intersectionId].getOwnerId());
-        }
-        return result;
-    }
-
-    /**
-     * @param i - intersection id
-     * @return ArrayList of roads connected to that intersection
-     */
-    private ArrayList<Road> getRoadsAtIntersection(int i) {
-        ArrayList<Road> result = new ArrayList<>();
-
-        for (Road r : this.roads) {
-            if (r.getIntersectionAId() == i || r.getIntersectionBId() == i) {
-                result.add(r);
+    private void generateRoadMatrix() {
+        for (int i = 0; i < iGraph.length; i++) {
+            for (int j = 0; j < iGraph[i].length; j++) {
+                roadGraph[i][j] = new Road(i, j, -1);
             }
         }
-        return result;
-    }
-
-    /**
-     * returns whether a given player is an owner of the intersection
-     *
-     * @param intersectionId - intersection to check if playerId owns
-     * @param playerId       - playerId to check against
-     * @return
-     */
-    public boolean isIntersectionOwner(int intersectionId, int playerId) {
-        return false;
-    }
-
-    /**
-     * @param chitValue - value of dice sum and tile chit value that will produce resources
-     * @return list of hexagons with chitValue AND DO NOT HAVE ROBBER - AW
-     */
-    ArrayList<Integer> getHexagonsFromChitValue(int chitValue) {
-        ArrayList<Integer> hexagonIdList = new ArrayList<>();
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            // check for chit value
-            if (this.hexagons.get(i).getChitValue() == chitValue) {
-                // check if robber is on hexagon
-                if (this.robber.getHexagonId() != i) {
-                    hexagonIdList.add(i);
-                } else {
-                    Log.d("dev", "getHexagonsFromChitValue: robber was detected on hexagon, hexagon with id: " + i + " not producing resources chit values: " + chitValue);
-                }
+        for (int i = 0; i < roadGraph.length; i++) {
+            for (int j = 0; j < roadGraph[i].length; j++) {
+                roadGraph[j][i] = roadGraph[i][j];
             }
         }
-        if (hexagonIdList.size() > 2) { // error checking
-            Log.d("devError", "getHexagonsFromChitValue: ERROR returning a list with more than 2 hexagons with chit values of: " + chitValue);
-        }
-        return hexagonIdList;
     }
 
-    /**
-     * @param hexagonId - hexagonId to move the robber to
-     * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
-     */
-    public boolean moveRobber(int hexagonId) {
-        // check if moving to same hexagon
-        if (hexagonId == this.robber.getHexagonId()) return false;
+    /*----- generic getter methods -----*/
 
-        // change robber position
-        this.robber.setHexagonId(hexagonId);
-        return true;
-    }
-
-    /**
-     * adds the building to the building HashMap - AW
-     *
-     * @param intersectionId - intersection id of the building location
-     * @param building       - building object
-     */
-    public boolean addBuilding(int intersectionId, Building building) {
-        if (this.buildings[intersectionId] != null) {
-            Log.d("devError", "addBuilding: ERROR added a building when there was already a building here intersection id: " + intersectionId);
-            return false;
-        }
-        this.buildings[intersectionId] = building;
-        return true;
-    }
-
-    /**
-     * isIntersectionBuildable
-     *
-     * @param intersectionId
-     * @return
-     */
-    public boolean isIntresectionBuildable(int intersectionId) {
-        return this.buildings[intersectionId] == null;
-    }
-
-
-    /**
-     * TODO TEST
-     * getAdjacentIntersections
-     *
-     * @param intersectionId - given intersection i (0-53)
-     * @return - ArrayList of intersection ids that are adjacent to the given intersection id
-     */
-    public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
-        ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
-        for (int i = 0; i < 54; i++) {
-            if (adjacentIntersections.size() > 3) {
-                Log.d("devError", "getAdjacentIntersections: ERROR got more than 3 adjacent intersections");
-                break;
-            }
-            if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
-                adjacentIntersections.add(i);
-            }
-        }
-        return adjacentIntersections;
-    }
-
-    /**
-     * TODO TEST
-     *
-     * @param hexagonId - hexagon id that you want to get adjacency of
-     * @return ArrayList<Integer> - list of adj. hex id's
-     */
-    public ArrayList<Integer> getAdjacentHexagons(int hexagonId) {
-        ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
-        for (int i = 0; i < 19; i++) {
-            if (adjacentHexagons.size() > 6) {
-                Log.d("devError", "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
-                break;
-            }
-            if (hGraph[hexagonId][i] || hGraph[i][hexagonId]) {
-                adjacentHexagons.add(i);
-            }
-        }
-        return adjacentHexagons;
-    }
-
-    /**
-     * TODO used for resource production
-     *
-     * @param hexagonId - hexagon id
-     * @return - array list of intersection ids that are adjacent to the given hexagon
-     */
-    public ArrayList<Integer> getIntersectoinsAdjToHexagon(int hexagonId) {
-        return this.hexToIntIdMap.get(hexagonId);
-    }
-
-    /**
-     * @param intId1 - intersection id
-     * @param intId2 - intersection id
-     * @return - boolean adjacency
-     */
-    boolean intersectionAdjCheck(int intId1, int intId2) {
-        return (iGraph[intId1][intId2] || iGraph[intId2][intId1]);
-    }
-
-    /**
-     * @param hexId1 -
-     * @param hexId2 -
-     * @return - boolean
-     */
-    public boolean checkHexagonAdjacency(int hexId1, int hexId2) {
-        return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
-    }
-
-
-    /**
-     * @param ring - ring of intersection
-     * @param col  - column within ring of intersection
-     * @return - int intersection id
-     */
-    private int getIntersectionId(int ring, int col) {
-        return intersectionIdRings.get(ring).get(col);
-    }
-
-
-    /**
-     * @param ring - hexagon ring (0-2)
-     * @param col  - column within hexagon ring
-     * @return - int hexagon id
-     */
-    private int getHexagonId(int ring, int col) {
-        return hexagonIdRings.get(ring).get(col);
-    }
-
-    // TODO
-    public int getPlayerRoadLength(int playerId) {
-        return 0;
-    }
-
-    /**
-     * @param intersectionId
-     * @param checkedIntersections
-     * @return
-     */
-    private int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
-        checkedIntersections.add(intersectionId);
-        // base case if road is dead end
-        ArrayList<Integer> adjInts = getAdjacentIntersections(intersectionId);
-        for (int i = 0; i < adjInts.size(); i++) {
-            if (hasRoad(adjInts.get(i)) && !checkedIntersections.contains(adjInts.get(i))) {
-                return getRoadLength(adjInts.get(i), checkedIntersections) + 1;
-            }
-        }
-        return 0;
-    }
-
-
-    public ArrayList<ArrayList<Integer>> getHexagonIdRings() {
+    private ArrayList<ArrayList<Integer>> getHexagonIdRings() {
         return hexagonIdRings;
     }
 
-    public ArrayList<ArrayList<Integer>> getIntersectionIdRings() {
+    private ArrayList<ArrayList<Integer>> getIntersectionIdRings() {
         return intersectionIdRings;
     }
 
-    public boolean[][] gethGraph() {
+    private boolean[][] getHGraph() {
         return hGraph;
     }
 
-    public boolean[][] getiGraph() {
+    private boolean[][] getIGraph() {
         return iGraph;
     }
 
-    public ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
+    private ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
     }
 
-    public ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
+    private ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
         return intToHexIdMap;
     }
 
-    public ArrayList<Road> getRoads() {
+    private ArrayList<Road> getRoads() {
         return this.roads;
     }
 
-
-    public ArrayList<Hexagon> getHexagons() {
+    private ArrayList<Hexagon> getHexagons() {
         return this.hexagons;
     }
 
@@ -862,11 +869,11 @@ public class Board {
         return this.robber;
     }
 
-    public Building[] getBuildings() {
+    private Building[] getBuildings() {
         return this.buildings;
     }
 
-    protected ArrayList<Integer> getPortIntersectionLocations() {
+    private ArrayList<Integer> getPortIntersectionLocations() {
         return this.portIntersectionLocations;
     }
 
@@ -907,14 +914,14 @@ public class Board {
      * @return - String
      */
     private String listToString(ArrayList<ArrayList<Integer>> list) {
-        String result = "";
+        StringBuilder str = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
-            result += "Ring " + i + ": ";
+            str.append(i).append(": ");
             for (int j = 0; j < list.get(i).size(); j++) {
-                result += list.get(i).get(j) + " ";
+                str.append(list.get(i).get(j)).append(" ");
             }
-            result += "\n";
+            str.append("\n");
         }
-        return result;
+        return str.toString();
     } // end listToString method
 } // end Class
