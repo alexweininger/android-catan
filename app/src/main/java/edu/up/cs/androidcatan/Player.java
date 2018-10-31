@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
