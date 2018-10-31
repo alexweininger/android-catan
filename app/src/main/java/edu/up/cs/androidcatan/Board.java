@@ -220,13 +220,25 @@ public class Board {
 
         // check if the intersection is connected to players' roads/buildings
         if(!isConnected(playerId, intersectionId)) {
-            Log.i("dev", "")
+            Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " is not connected.");
             return false;
         }
 
+        // check if intersection already has a building on it
+        if(this.buildings[intersectionId] != null) {
+            Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " already has a building on it.");
+            return false;
+        }
 
+        // check if adjacent intersections do not have buildings
+        for (int intersection : getAdjacentIntersections(intersectionId)) { // for each adj. intersection
+            if (this.buildings[intersectionId] != null) { // check if building exists there
+                Log.i(TAG, "validBuildingLocation: invalid - building at intersection " + intersectionId + " violates the distance rule (" + intersection + " is adj. and has a building).");
+                return false;
+            }
+        }
 
-        return false;
+        return true;
     }
 
     private boolean hasBuilding(int intersectionId) {
@@ -333,7 +345,7 @@ public class Board {
             }
         }
         if (hexagonIdList.size() > 2) { // error checking
-            Log.e(TAG, "getHexagonsFromChitValue: ERROR returning a list with more than 2 hexagons with chit values of: " + chitValue);
+            Log.e(TAG, "getHexagonsFromChitValue: returning a list with more than 2 hexagons with chit values of: " + chitValue);
         }
         return hexagonIdList;
     }
@@ -358,9 +370,9 @@ public class Board {
      * @param intersectionId - intersection id of the building location
      * @param building       - building object
      */
-    public boolean addBuilding(int intersectionId, Building building) {
+    boolean addBuilding(int intersectionId, Building building) {
         if (this.buildings[intersectionId] != null) {
-            Log.i(TAG, "addBuilding: ERROR added a building when there was already a building here intersection id: " + intersectionId);
+            Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
             return false;
         }
         this.buildings[intersectionId] = building;
@@ -386,11 +398,11 @@ public class Board {
      * @param intersectionId - given intersection i (0-53)
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
-    public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
+    ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
         for (int i = 0; i < 54; i++) {
             if (adjacentIntersections.size() > 3) {
-                Log.d("devError", "getAdjacentIntersections: ERROR got more than 3 adjacent intersections");
+                Log.e(TAG, "getAdjacentIntersections: Got more than 3 adjacent intersections. That makes no sense.");
                 break;
             }
             if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
