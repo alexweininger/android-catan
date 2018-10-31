@@ -530,32 +530,19 @@ public class GameState {
     }
 
     /**
-     * TODO needs to take a dev card id as parameter and use that specific card
-     * Player will select a development card they own and use it; Game State will determine legality and then carry out development cards function
      *
-     * @param playerId
+     * @param playerId - player playing development card
+     * @param devCardId - id of the development card
      * @return - action success
      */
-    public boolean useDevCard(boolean move, EditText edit, int playerId) {
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: useDevCard - invalid player id: " + playerId);
+    public boolean useDevCard(int playerId, int devCardId) {
+
+        if(!valAction(playerId)) {
             return false;
         }
-        if (!checkTurn(playerId)) {
 
-        }
-        DevelopmentCard dc = new DevelopmentCard();
-        if (playerId == this.currentPlayerId) {
-            //playerList.get(playerId).useDevCard(dc.generateDevCardDeck());
-
-        }
-
-        if (move) {
-            edit.append("Player 3 used their Knight Card!\n");
-            return true;
-        }
-        edit.append("Player 3 cannon use their Development Card!\n");
-        return false;
+        DevelopmentCard dc = new DevelopmentCard(devCardId);
+        return true;
     }
 
     /**
