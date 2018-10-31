@@ -118,10 +118,9 @@ public class Board {
     }
 
     /**
-     *
-     * @param playerId
-     * @param intersectionId
-     * @return
+     * @param playerId - player to test if the intersection is connected
+     * @param intersectionId - intersection to test
+     * @return - is the intersection connected to the players buildings or roads?
      */
     private boolean isConnected(int playerId, int intersectionId) {
         // check if intersection has no building and no road
@@ -133,13 +132,17 @@ public class Board {
     }
 
     /**
-     *
-     * @param playerId
-     * @param a
-     * @param b
-     * @return
+     * @param playerId - player building the road
+     * @param a - intersection
+     * @param b - intersection
+     * @return - if road can be placed
      */
     public boolean validRoadPlacement(int playerId, int a, int b) {
+        // check if intersections are adjacent
+        if (!iGraph[a][b]) {
+            return false;
+        }
+
         // check if road is connected to players roads / buildings at either intersection
         if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
             return false;
@@ -159,7 +162,6 @@ public class Board {
     }
 
     /**
-     *
      * @param playerId
      * @param intersectionA
      * @param intersectionB
@@ -599,8 +601,6 @@ public class Board {
     public boolean checkPortAdjacency(int intersectionId) {
         return portIntersectionLocations.contains(intersectionId);
     }
-
-
 
     /**
      * @param intersectionId - to check for owners
