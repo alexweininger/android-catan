@@ -2,10 +2,6 @@ package edu.up.cs.androidcatan;
 
 import android.util.Log;
 
-import gameframework.*;
-
-import android.widget.EditText;
-
 import edu.up.cs.androidcatan.catan.buildings.Building;
 import edu.up.cs.androidcatan.catan.buildings.City;
 import edu.up.cs.androidcatan.catan.buildings.Road;
