@@ -168,7 +168,7 @@ public class GameState {
     }
 
     /**
-     * TODO HELP me do this
+     * TODO we need a new layout for this
      * method for when a player must select a number resource cards from their inventory
      *
      * @param player        - player to select cards
