@@ -89,32 +89,9 @@ public class DevelopmentCard {
         player.removeResourceCard(3, 1);
 
         //adds the building to the player's array list of built buildings TODO
-        player.addDevCard(getRandomCard());
     }
 
-    /**
-     * @return the random dev card the player drew
-     */
-    public DevelopmentCard getRandomCard() {
-        Random random = new Random();
-        int randomDevCard = random.nextInt(developmentCards.size() - 1);
-        int drawnDevCard = developmentCards.get(randomDevCard);
-        developmentCards.remove(randomDevCard);
-        switch (drawnDevCard) { // switch to create new dev card
-            case 0:
-                return Knight;
-            case 1:
-                return VictoryPoints;
-            case 2:
-                return RoadBuilding;
-            case 3:
-                return Monopoly;
-            case 4:
-                return YearOfPlenty;
-            default:
-                return null;
-        }
-    }
+
 
     /**
      * @param playable allows the player to play the card or not
@@ -131,18 +108,12 @@ public class DevelopmentCard {
     //as if they selected to play this card (may need a boolean to see if they have
     //the card)
 
-    /**
-     * @return string representation of a DevelopmnentCard
-     */
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("DevelopmentCard{");
-        sb.append("name=");
-        sb.append(cardName);
-        sb.append(", isPlayable=");
-        sb.append(isPlayable);
-
-        return sb.toString();
+        return "DevelopmentCard{" +
+                "devCardId=" + devCardId +
+                ", isPlayable=" + isPlayable +
+                '}';
     }
 }

@@ -81,19 +81,6 @@ public class Player {
     }
 
     /**
-     * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
-     * @return - true of false, does the player have all of these resources?
-     */
-    public boolean checkResourceBundle(int[] resourceCost) {
-        for (Integer id : resourceCost) {
-            if (!checkResourceCard(id, resourceCost[id])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * @param resourceCardId - resource to check
      * @param numToCheckFor  - number of resources to make sure the player has
      * @return - whether they have at least that many resources of the given type
@@ -104,6 +91,19 @@ public class Player {
             return false; // did not remove resource cards to players inventory
         }
         return this.resourceCards[resourceCardId] < numToCheckFor;
+    }
+
+    /**
+     * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
+     * @return - true of false, does the player have all of these resources?
+     */
+    public boolean checkResourceBundle(int[] resourceCost) {
+        for (Integer id : resourceCost) {
+            if (!checkResourceCard(id, resourceCost[id])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -165,32 +165,6 @@ public class Player {
     }
 
 
-    /**
-     * @param res name of resource
-     * @param num amount to add
-     * @return if action was possible
-     */
-    public boolean addResources(String res, int num) {
-        if (this.resources.containsKey(res)) {
-            this.resources.put(res, this.resources.get(res) + num);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param res name of resource
-     * @param num amount to add
-     * @return if action was possible
-     */
-    public boolean removeResources(String res, int num) {
-        if (this.resources.containsKey(res)) {
-            this.resources.put(res, this.resources.get(res) - num);
-            return true;
-        }
-        return false;
-    }
-
     public boolean hasResources(String key, int amount) {
         return resources.get(key).intValue() >= amount;
     }
@@ -198,7 +172,7 @@ public class Player {
     /**
      * @param devCard dev card to add
      */
-    public void addDevCard(DevelopmentCard devCard) {
+    public void addDevelopmentCard(DevelopmentCard devCard) {
         developmentCards.add(devCard);
     }
 

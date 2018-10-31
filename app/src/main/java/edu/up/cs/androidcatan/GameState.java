@@ -95,6 +95,18 @@ public class GameState {
         }
     }
 
+    /**
+     * @return the random dev card the player drew
+     */
+    public DevelopmentCard getRandomCard() {
+        Random random = new Random();
+        int randomDevCard = random.nextInt(developmentCards.size() - 1);
+        int drawnDevCard = developmentCards.get(randomDevCard);
+        developmentCards.remove(randomDevCard);
+        return new DevelopmentCard(drawnDevCard);
+
+    }
+
     private boolean valPlId(int playerId) {
         return playerId > -1 && playerId < 4;
     }
@@ -459,12 +471,17 @@ public class GameState {
             return false;
         }
 
-        DevelopmentCard dc = new DevelopmentCard();
-        int[] resources = this.playerList.get(playerId).checkResourceBundle(DevelopmentCard.resourceCost);
-        if (resources[1] > 0 && resources[2] > 0 && resources[3] > 0) {
-            dc.build(this.playerList.get(playerId));
-            return true;
+        Player p = this.playerList.get(playerId);
+
+        // check if player can build dev card
+        if (!p.checkResourceBundle(DevelopmentCard.resourceCost)) {
+            return false;
         }
+
+
+
+        // add random dev card to players inventory
+        this.playerList.get(playerId).addDevelopmentCard(getRandomCard());
         return false;
     }
 
