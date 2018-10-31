@@ -186,7 +186,7 @@ public class Board {
     }
 
     /**
-     * TODO
+     * TODO Andrew
      *
      * @param intersectionId       - intersection to start at
      * @param checkedIntersections - array list of already checked roads / intersections
@@ -316,7 +316,7 @@ public class Board {
         return result;
     }
 
-    /**
+    /** TODO? do we need this?
      * returns whether a given player is an owner of the intersection
      *
      * @param intersectionId - intersection to check if playerId owns
@@ -354,7 +354,7 @@ public class Board {
      * @param hexagonId - hexagonId to move the robber to
      * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
      */
-    public boolean moveRobber(int hexagonId) {
+    boolean moveRobber(int hexagonId) {
         // check if moving to same hexagon
         if (hexagonId == this.robber.getHexagonId()) return false;
 
@@ -377,16 +377,6 @@ public class Board {
         }
         this.buildings[intersectionId] = building;
         return true;
-    }
-
-    /**
-     * isIntersectionBuildable
-     *
-     * @param intersectionId
-     * @return
-     */
-    public boolean isIntersectionBuildable(int intersectionId) {
-        return this.buildings[intersectionId] == null;
     }
 
     /* ----- adjacency checking methods -----*/
