@@ -12,7 +12,7 @@ import java.util.Arrays;
  **/
 public class Settlement extends Building {
 
-    private final int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
+    final static int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
      * @param ownerId - player id of who owns the settlement
@@ -21,13 +21,10 @@ public class Settlement extends Building {
         super(ownerId);
     } // end constructor
 
-    public int[] getResourceCost() {
-        return this.resourceCost;
-    }
-
     public int getVictoryPoints() {
         return 1;
     }
+
 
     @Override
     public String toString() {
