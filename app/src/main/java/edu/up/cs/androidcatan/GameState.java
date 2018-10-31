@@ -216,13 +216,7 @@ public class GameState {
      *
      * @return - action success
      */
-    public boolean initBuilding(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 placed their settlements and roads!\n");
-            edit.append("Player 2 placed their settlements and roads!\n");
-            edit.append("Player 3 placed their settlements and roads!\n");
-            return true;
-        }
+    public boolean initBuilding() {
 
         return false;
     } // end initBuilding action method
@@ -296,40 +290,25 @@ public class GameState {
      * @param playerId           - player attempting to trade with port
      * @param givenResourceId    - what player is giving in the trade
      * @param receivedResourceId - what the player is receiving in the trade
-     * @param edit               - edit text
      * @return - action success
      */
-    public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
+    public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId) {
         // check if current player's turn and then if player has rolled dice
-        if (playerId != this.currentPlayerId) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " tried to trade with port, but it is player " + this.currentPlayerId + "'s turn.");
+        if(!valAction(playerId)) {
             return false;
         }
-        // check if the turn is in the action phase
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
-            Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " tried to trade with port, but it isn't the action phase.");
-            return false;
-        }
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: tradeWithPort - invalid player id: " + playerId);
-            return false;
-        }
-
+        
         // creating a random trade ratio
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
         // check if player has enough resources to complete trade
         if (this.playerList.get(playerId).removeResourceCard(givenResourceId, ratio)) {
-            edit.append("Player" + playerId + " does not have enough resources!\n");
+            Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
             return false;
         }
         this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
-
-        edit.append("Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with a Port!\n");
-        Log.d("devInfo", "INFO: tradeWithPort - player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.\n");
+        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.");
         return true;
     }
 
@@ -339,22 +318,10 @@ public class GameState {
      * @param playerId   - player attempting to trade with port
      * @param resGiven   - what player is giving in the trade
      * @param resReceive - what the player is receiving in the trade
-     * @param edit       - edit text
      * @return - action success
      */
-    public boolean tradeWithBank(int playerId, int resGiven, int resReceive, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: tradeWithBank - invalid player id: " + playerId);
-            return false;
-        }
-        //Check if current player's turn and then if player has rolled dice
-        if (playerId != this.currentPlayerId) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d(TAG, "ERROR: tradeWithBank - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+    public boolean tradeWithBank(int playerId, int resGiven, int resReceive) {
+        if (valAction(playerId)) {
             return false;
         }
 
@@ -364,14 +331,12 @@ public class GameState {
 
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
         if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
-            edit.append("Player " + playerId + " does not have enough resources!\n");
             Log.d(TAG, "ERROR: tradeWithBank - not enough resources player id: " + playerId);
             return false;
         }
 
         this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
 
-        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with the Bank!\n");
         Log.d("devInfo", "INFO: tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
     }
