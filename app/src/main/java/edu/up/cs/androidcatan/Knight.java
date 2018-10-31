@@ -8,7 +8,7 @@ package edu.up.cs.androidcatan;
 
 public class Knight extends DevelopmentCard {
 
-    public Knight() {
+    /*public Knight() {
         super("Knight");
     }
 

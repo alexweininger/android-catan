@@ -6,7 +6,7 @@ package edu.up.cs.androidcatan;
  * https://github.com/alexweininger/game-state
  **/
 public class YearOfPlenty extends DevelopmentCard {
-    public YearOfPlenty() {
+    /*public YearOfPlenty() {
         super("Year Of plenty");
     }
 

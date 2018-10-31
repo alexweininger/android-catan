@@ -9,18 +9,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.print.DocFlavor;
+
 public class DevelopmentCard {
 
     private ArrayList<Integer> developmentCards = new ArrayList<Integer>(); // ArrayList of the development card in the deck
     private HashMap<String, Integer> resourceCost = new HashMap<>();
+    private String[] resources = {"Brick", "Ore", "Sheep", "Wheat", "Wood"};
 
+    //private String[] cards = {"Knight","Monopoly", "Year of Plenty", "Road Building", "Victory Points"};
     //default instance variable
-    private String name;
+    private String cardName;
     private boolean isPlayable;
+    private DevelopmentCard Knight, Monopoly, YearofPlenty, RoadBuilding, VictoryPoints;
 
-    public DevelopmentCard(String name) {
-        this.name = name;
+    public DevelopmentCard(String cardName, DevelopmentCard Knight, DevelopmentCard Monopoly, DevelopmentCard YearofPlenty, DevelopmentCard RoadBuilding, DevelopmentCard VictoryPoints) {
+        this.cardName = cardName;
         this.isPlayable = false;
+        this.Knight = Knight;
+        this.Monopoly = Monopoly;
+        this.YearofPlenty = YearofPlenty;
+        this.RoadBuilding = RoadBuilding;
+        this.VictoryPoints = VictoryPoints;
     }
 
     public DevelopmentCard(){
@@ -47,6 +57,47 @@ public class DevelopmentCard {
         player.useDevCard(this);
     }
 
+    public void useKnightCard(Robber robber, Player player){
+        //TODO: need to get input of tile user pressed on screen to move robber to
+        int hexNumber = 5; //placeholder
+        robber.setHexagonId(hexNumber);
+        player.setArmySize(player.getArmySize() + 1);
+    }
+
+    public void useVictoryPointsCard(Player player){
+        player.useDevCard(this);
+    }
+
+    public void useRoadDevCard(Player player){
+        for(int n = 0; n < 2; n++){
+            int startIntersection = 5;//TODO: get the start and end intersection id from users tap
+            int endIntersection = 2; //placeholder
+            //TODO: need to check if valid intersection
+            Road road = new Road(startIntersection, endIntersection, player.getPlayerId());
+        }
+    }
+
+    public void useYearofPlentyCard(Player player){
+        for (int n = 0; n < 2; n++){
+            int rand = (int) (Math.random() * 5);
+            player.addResources(resources[n], 1);
+        }
+    }
+
+    public void useMonopolyCard(Player player1, Player player2, Player player3, Player player4, String resource){
+        int totalCollected;
+        totalCollected = player2.getResources().get(resource);
+        totalCollected = player3.getResources().get(resource);
+        totalCollected = player4.getResources().get(resource);
+
+        //TODO: Don't know whether this removes all the cards or just one
+        player2.setResources(resource, player2.getResources().remove(resource));
+        player3.setResources(resource, player3.getResources().remove(resource));
+        player4.setResources(resource, player4.getResources().remove(resource));
+
+        player1.setResources(resource, totalCollected);
+    }
+
     /**
      * @param player player who is building a dev card
      */
@@ -69,15 +120,15 @@ public class DevelopmentCard {
         developmentCards.remove(randomDevCard);
         switch (drawnDevCard) { // switch to create new dev card
             case 0:
-                return new Knight();
+                return Knight;
             case 1:
-                return new VictoryPoints();
+                return VictoryPoints;
             case 2:
-                return new RoadDevCard();
+                return RoadBuilding;
             case 3:
-                return new Monopoly();
+                return Monopoly;
             case 4:
-                return new YearOfPlenty();
+                return YearofPlenty;
             default:
                 return null;
         }
@@ -108,7 +159,7 @@ public class DevelopmentCard {
         StringBuilder sb = new StringBuilder("");
         sb.append("DevelopmentCard{");
         sb.append("name=");
-        sb.append(name);
+        sb.append(cardName);
         sb.append(", isPlayable=");
         sb.append(isPlayable);
 
