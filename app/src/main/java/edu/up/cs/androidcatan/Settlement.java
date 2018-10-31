@@ -1,40 +1,38 @@
 package edu.up.cs.androidcatan;
 
-import java.util.HashMap;
+import java.util.Arrays;
 
-/** Settlement class
- * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version October th, 2018
- * https://github.com/alexweininger/game-state
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version October 30th, 2018
+ * https://github.com/alexweininger/android-catan
  **/
 public class Settlement extends Building {
 
-    private int intersectionID;
-    private static HashMap<String, Integer> checkResources = new HashMap<>();
+    private final int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
-     *
      * @param ownerId - player id of who owns the settlement
      */
-    public Settlement(int intersectionID, int ownerId) {
-        super("Settlement", 1, ownerId);
-        this.intersectionID = intersectionID;
-        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
+    Settlement(int ownerId) {
+        super(ownerId);
     } // end constructor
 
-    /**
-     *
-     * @return string representation of a settlement
-     */
+    public int[] getResourceCost() {
+        return this.resourceCost;
+    }
+
+    public int getVictoryPoints() {
+        return 1;
+    }
+
     @Override
     public String toString() {
-        return super.toString();
-    } // end toString
-
-    public static void cityResourcePriceMake(){
-        checkResources.put("brick", 3);
-        checkResources.put("grain", 2);
-        checkResources.put("wood", 3);
-        checkResources.put("wool", 2);
+        return "Settlement{" +
+                "resourceCost=" + Arrays.toString(resourceCost) +
+                '}';
     }
 } // end Class
