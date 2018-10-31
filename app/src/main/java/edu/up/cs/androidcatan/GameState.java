@@ -337,30 +337,46 @@ public class GameState {
      * @return
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
+        if (!valAction(playerId)) {
+            return false;
+        }
+
+        if (this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
+            edit.append("Player " + playerId + " does not have enough resources!\n");
+            Log.d("devInfo", "INFO: buildRoad - player " + playerId + " does not have enough resources.\n");
+            return false;
+        }
+
+        if (!board.validRoadPlacement(playerId, startIntersectionID, endIntersectionID)) {
+            Log.d("devInfo", "INFO: buildRoad - invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+            return false;
+        }
+
+        this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
+
+        edit.append("Player " + playerId + " built a Road!\n");
+        return true;
+    }
+
+    /**
+     * validates the player id, checks if its their turn, and checks if it is the action phase
+     *
+     * @param playerId - player id to validate an action for
+     * @return - can this player make an action?
+     */
+    private boolean valAction(int playerId) {
         if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buildRoad - invalid player id: " + playerId);
+            Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildRoad - it is not " + playerId + "'s turn.");
+            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
             return false;
         }
         if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+            Log.d("devInfo", "INFO: valAction - it is not the action phase.");
             return false;
         }
-
-        if (this.playerList.get(playerId).getResources().get("Brick") < 1 && this.playerList.get(playerId).getResources().get("Wood") < 1) {
-            edit.append("Player " + playerId + " does not have enough resources!\n");
-        }
-
-        Road road = new Road(startIntersectionID, endIntersectionID, playerId);
-
-
-        //board.addRoad
-
-        edit.append("Player " + playerId + " built a Road!\n");
         return true;
     }
 
@@ -373,23 +389,12 @@ public class GameState {
      * @return
      */
     public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: buildSettlement - invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d("devError", "ERROR: buildSettlement - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (!this.isActionPhase) {
-            edit.append("Player " + playerId + " must roll dice first!\n");
+        // validates the player id, checks if its their turn, and checks if it is the action phase
+        if (!valAction(playerId)) {
             return false;
         }
 
-        Player p = this.playerList.get(playerId);
-
-        if(!p.checkResourceBundle(Settlement.resourceCost)) {
+        if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
             return false;
         }
