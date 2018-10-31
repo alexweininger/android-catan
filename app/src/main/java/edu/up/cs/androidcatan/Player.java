@@ -131,6 +131,13 @@ public class Player {
         }
     }
 
+    public boolean removeResourceBundle(int[] resourceCost) {
+
+
+
+        return true;
+    }
+
     /**
      * @return String showing the number of each resource card the player has
      */
