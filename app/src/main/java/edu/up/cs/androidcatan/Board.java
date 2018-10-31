@@ -76,7 +76,7 @@ public class Board {
         generateHexToIntMap();
 
         // generate hex tiles
-        populateHexagonList();
+        generateHexagonTiles();
 
         Log.d("devInfo", "INFO: int to hex map: " + this.intToHexIdMap.toString());
         Log.d("devInfo", "INFO: hex to int map" + this.hexToIntIdMap.toString());
@@ -105,7 +105,7 @@ public class Board {
 
     } // end Board deep copy constructor
 
-    /* ----- road methods ----- */
+    /* ----- helper / checking methods ----- */
 
     /**
      * @param playerId       - player to test if the intersection is connected
@@ -120,6 +120,8 @@ public class Board {
         // check if player is an owner of intersection
         return getIntersectionOwners(intersectionId).contains(playerId);
     }
+
+    /* ----- road methods ----- */
 
     /**
      * @param playerId - player building the road
@@ -186,7 +188,7 @@ public class Board {
      *
      * @param intersectionId       - intersection to start at
      * @param checkedIntersections - array list of already checked roads / intersections
-     * @return
+     * @return - road length
      */
     private int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
         checkedIntersections.add(intersectionId);
@@ -200,25 +202,47 @@ public class Board {
         return 0;
     }
 
-    public boolean hasBuilding(int intersectionId) {
+    /* ----- building methods ----- */
+
+    /**
+     * @param playerId       - player building the building
+     * @param intersectionId - intersection of building
+     * @return - is the building location valid
+     */
+    boolean validBuildingLocation(int playerId, int intersectionId) {
+        /* checks:
+         * 1. if connected
+         * 2. if occupied by building
+         * 3. distance rule
+         */
+
+        // check if the intersection is connected to players' roads/buildings
+        if(!isConnected(playerId, intersectionId)) {
+            return false;
+        }
+
+
+
+        return false;
+    }
+
+    private boolean hasBuilding(int intersectionId) {
         return this.buildings[intersectionId] != null;
     }
 
     /**
-     * @param intersectionId
-     * @return
+     * @param intersectionId - intersection id
+     * @return - the building located at given intersection
      */
-    public Building getBuildingAtIntersection(int intersectionId) {
+    Building getBuildingAtIntersection(int intersectionId) {
         return this.buildings[intersectionId];
     }
-
-
 
     /**
      * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
      */
-    private void populateHexagonList() {
+    private void generateHexagonTiles() {
         int[] resourceTypeCount = {4, 3, 3, 3, 4};
         int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
         int[] resources = {0, 1, 2, 3, 4};
@@ -239,27 +263,6 @@ public class Board {
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
         }
-    }
-
-    /**
-     * TODO remove and fix
-     * adds ports to the intersection and port hash map
-     */
-    private void populatePortIntersectionIds() {
-        for (int i = 0; i < 6; i++) {
-            portIntersectionLocations.add(17 + i * 6);
-            portIntersectionLocations.add(17 + i * 6 + 1);
-        }
-    }
-
-
-
-    /**
-     * @param intersectionId - intersection to check for port adjacency
-     * @return - if the given intersection is adjacent to a port AW
-     */
-    public boolean checkPortAdjacency(int intersectionId) {
-        return portIntersectionLocations.contains(intersectionId);
     }
 
     /**
@@ -440,6 +443,14 @@ public class Board {
      */
     public boolean checkHexagonAdjacency(int hexId1, int hexId2) {
         return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
+    }
+
+    /**
+     * @param intersectionId - intersection to check for port adjacency
+     * @return - if the given intersection is adjacent to a port AW
+     */
+    public boolean checkPortAdjacency(int intersectionId) {
+        return portIntersectionLocations.contains(intersectionId);
     }
 
     /**
@@ -828,6 +839,17 @@ public class Board {
             for (int j = 0; j < roadGraph[i].length; j++) {
                 roadGraph[j][i] = roadGraph[i][j];
             }
+        }
+    }
+
+    /**
+     * TODO remove and fix
+     * adds ports to the intersection and port hash map
+     */
+    private void populatePortIntersectionIds() {
+        for (int i = 0; i < 6; i++) {
+            portIntersectionLocations.add(17 + i * 6);
+            portIntersectionLocations.add(17 + i * 6 + 1);
         }
     }
 
