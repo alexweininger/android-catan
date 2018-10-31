@@ -5,7 +5,6 @@ import android.widget.EditText;
 import gameframework.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * @author Alex Weininger
@@ -178,8 +177,8 @@ public class GameState {
             max = playerVictoryPoints[currentLargestArmyPlayerId];
         }
         for (int i = 0; i < 4; i++) {
-            if (board.getPlayerRoadLength(i) > max) {
-                max = board.getPlayerRoadLength(i);
+            if (board.getLongestRoadLength(i) > max) {
+                max = board.getLongestRoadLength(i);
                 playerIdWithLongestRoad = i;
             }
         }
@@ -191,15 +190,15 @@ public class GameState {
     /**
      * Checks which player has the longest road and return's true if that player is the current player
      */
-    private boolean checkLongestRoad(int playerId){
-        boolean longestRoad = false;
-        if (this.currentPlayerId != playerId){
-            return false;
-        }
-        int currPlayerRoadLength = board.getPlayerRoadLength(playerId);
+    private int checkLongestRoad(){
+        int playerWithLongestRoad = this.currentLongestRoadPlayerId;
+
+            int roadLength = this.board.getLongestRoadLength(this.playerList);
+
+
         for (int n = 0; n < playerList.size(); n++){
             if (playerList.get(n) != playerList.get(playerId)){
-                if (board.getPlayerRoadLength(playerList.get(n).getPlayerId()) > board.getPlayerRoadLength(playerId)){
+                if (board.getLongestRoadLength(playerList.get(n).getPlayerId()) > board.getLongestRoadLength(playerId)){
                     return longestRoad;
                 }
                 else {
@@ -208,7 +207,7 @@ public class GameState {
             }
         }
 
-        return longestRoad;
+        return playerWithLongestRoad;
     }
 
 
