@@ -78,6 +78,22 @@ public class GameState {
         }
     } // end deep copy constructor
 
+    private boolean valPlId(int playerId) {
+        return playerId > -1 && playerId < 4;
+    }
+
+    /**
+     * @param playerId - id to check
+     * @return - if it is that players turn or not
+     */
+    private boolean checkTurn(int playerId) {
+        if (valPlId(playerId)) {
+            return playerId == this.currentPlayerId;
+        }
+        Log.e(TAG, "checkTurn: Invalid player id: " + playerId);
+        return false;
+    }
+
     /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
@@ -282,9 +298,6 @@ public class GameState {
         return true;
     }
 
-    private boolean valPlId(int playerId) {
-        return playerId > -1 && playerId < 4;
-    }
 
     /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
@@ -386,8 +399,8 @@ public class GameState {
      * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
      *
      * @param playerId       - player building a settlement
-     * @param intersectionId
-     * @return
+     * @param intersectionId - intersection the player wants to build at
+     * @return - action success
      */
     public boolean buildSettlement(int playerId, int intersectionId) {
         // validates the player id, checks if its their turn, and checks if it is the action phase
@@ -402,7 +415,7 @@ public class GameState {
         }
 
         // check if the selected building location is valid
-        if(!this.board.validBuildingLocation(playerId, intersectionId)) {
+        if (!this.board.validBuildingLocation(playerId, intersectionId)) {
             return false;
         }
 
@@ -420,7 +433,7 @@ public class GameState {
      * @param playerId       - player building a city
      * @param intersectionID
      * @param edit
-     * @return
+     * @return - action success
      */
     public boolean buildCity(int playerId, int intersectionID, EditText edit) {
         if (!valPlId(playerId)) {
@@ -454,7 +467,7 @@ public class GameState {
      *
      * @param playerId - player who is requesting to buy dev card
      * @param edit     -
-     * @return - if dev card was purchased or not
+     * @return - action success
      */
     public boolean buyDevCard(int playerId, EditText edit) {
         if (!valPlId(playerId)) {
@@ -482,7 +495,7 @@ public class GameState {
      * @param move
      * @param edit
      * @param playerId
-     * @return
+     * @return - action success
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         if (!valPlId(playerId)) {
@@ -511,7 +524,7 @@ public class GameState {
      *
      * @param move
      * @param edit
-     * @return
+     * @return - action success
      */
     public boolean robberDiscard(boolean move, EditText edit) {
 
@@ -533,18 +546,6 @@ public class GameState {
         }
         edit.append("Removed half of all resources from players with more than 7 cards\n");
         return true;
-    }
-
-    /**
-     * @param playerId - id to check
-     * @return - if it is that players turn or not
-     */
-    private boolean checkTurn(int playerId) {
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: checkTurn - invalid player id: " + playerId);
-            return false;
-        }
-        return playerId == this.currentPlayerId;
     }
 
     /**
