@@ -4,7 +4,7 @@ package edu.up.cs.androidcatan;
  * @version: October 10th, 2018
  * https://github.com/alexweininger/game-state
  **/
-
+import gameframework.*;
 import android.util.Log;
 import android.widget.EditText;
 
