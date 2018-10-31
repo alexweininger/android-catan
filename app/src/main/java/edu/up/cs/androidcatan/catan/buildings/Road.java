@@ -1,6 +1,8 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan.buildings;
 
 import java.util.Arrays;
+
+import edu.up.cs.androidcatan.catan.buildings.Building;
 
 /**
  * @author Alex Weininger
@@ -19,7 +21,7 @@ public class Road extends Building {
      * @param intersectionAId -
      * @param intersectionBId -
      */
-    Road(int playerId, int intersectionAId, int intersectionBId) {
+    public Road(int playerId, int intersectionAId, int intersectionBId) {
         super(playerId);
 
         this.intersectionAId = intersectionAId;

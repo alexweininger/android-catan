@@ -5,6 +5,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.up.cs.androidcatan.catan.buildings.Building;
+import edu.up.cs.androidcatan.catan.buildings.Road;
+import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang

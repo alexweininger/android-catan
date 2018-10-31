@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan.hexagon;
 
 /**
  * @author Alex Weininger

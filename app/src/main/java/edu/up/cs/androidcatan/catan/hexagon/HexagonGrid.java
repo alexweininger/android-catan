@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan.hexagon;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import edu.up.cs.androidcatan.catan.graphics.RoadDrawable;
+import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 
 public class HexagonGrid extends boardSurfaceView {
 
@@ -32,7 +35,7 @@ public class HexagonGrid extends boardSurfaceView {
 
         this.x = x;
         this.y = y;
-        this.size = size;
+        //this.size = size;     TODO Size appears to be unneeded
         this.height = size * 2;
         this.width = size * Math.sqrt(3);
         this.margin = margin;
@@ -55,7 +58,7 @@ public class HexagonGrid extends boardSurfaceView {
 		getHexagons(x, y, size);
 	}
 
-    protected void drawGrid(Canvas canvas) {
+    public void drawGrid(Canvas canvas) {
         for(HexagonDrawable h: hexagons) {
             h.drawHexagon(canvas);
         }
@@ -67,7 +70,7 @@ public class HexagonGrid extends boardSurfaceView {
     }
 
     // method that generates the individual hexagon objects from the Hexagon class
-    protected void getHexagons(int x, int y, int size) {
+    public void getHexagons(int x, int y, int size) {
 
         hexagons = new ArrayList<HexagonDrawable>();
 
@@ -102,7 +105,7 @@ public class HexagonGrid extends boardSurfaceView {
 
     // getTile method generated random tiles to fill the grid
 	// TODO needs to be redone
-    protected int getTile(int i, int j) {
+    public int getTile(int i, int j) {
 
         if(i == 2 && j == 2) {
             return Color.GRAY;
