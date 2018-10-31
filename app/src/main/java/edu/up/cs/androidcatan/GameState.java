@@ -2,7 +2,7 @@ package edu.up.cs.androidcatan;
 
 import android.util.Log;
 import android.widget.EditText;
-
+import gameframework.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -379,7 +379,7 @@ public class GameState {
      *
      * @param playerId            - player building a road
      * @param startIntersectionID - intersection id
-     * @param endIntersectionID - intersection id
+     * @param endIntersectionID   - intersection id
      * @return - action success
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
@@ -492,10 +492,8 @@ public class GameState {
 
     /**
      * TODO needs to take a dev card id as parameter and use that specific card
-     * Player will select a development card they own and use it; gamestate will determine legality and then carry out development cards function
+     * Player will select a development card they own and use it; Game State will determine legality and then carry out development cards function
      *
-     * @param move
-     * @param edit
      * @param playerId
      * @return - action success
      */
@@ -590,7 +588,7 @@ public class GameState {
         Random random = new Random();
         int randomStolenResourceId = this.playerList.get(random.nextInt(3)).getRandomCard();
 
-        if(randomStolenResourceId < 0 || randomStolenResourceId > 4) {
+        if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
             Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomCard method.");
         }
 
@@ -598,7 +596,6 @@ public class GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
     }
-
 
 
     /**
