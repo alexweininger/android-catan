@@ -11,6 +11,8 @@ import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
 import java.util.ArrayList;
 import java.util.Random;
 
+import gameframework.infoMsg.*;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -19,9 +21,9 @@ import java.util.Random;
  * @version October 30th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class GameState {
+public class CatanGameState extends CatanGameState {
 
-    private static final String TAG = "GameState";
+    private static final String TAG = "CatanGameState";
 
     private Dice dice; // dice object
     private Board board = new Board(); // board object
@@ -41,7 +43,7 @@ public class GameState {
     private int currentLongestRoadPlayerId = -1;
 
 
-    GameState() { // GameState constructor
+    CatanGameState() { // CatanGameState constructor
         this.dice = new Dice();
         generateDevCardDeck();
 
@@ -60,30 +62,30 @@ public class GameState {
             playerVictoryPoints[i] = 0;
             playerPrivateVictoryPoints[i] = 0;
         }
-    } // end GameState constructor
+    } // end CatanGameState constructor
 
     /**
      * TODO use deep copies of other classes
-     * GameState deep copy constructor
+     * CatanGameState deep copy constructor
      *
-     * @param gameState - GameState object to make a copy of
+     * @param catanGameState - CatanGameState object to make a copy of
      */
-    GameState(GameState gameState) {
-        this.dice = gameState.dice;
-        this.currentPlayerId = gameState.currentPlayerId;
-        this.currentDiceSum = gameState.currentDiceSum;
-        this.isActionPhase = gameState.isActionPhase;
-        this.board = new Board(gameState.board); // FIXME
-        this.currentLongestRoadPlayerId = gameState.currentLongestRoadPlayerId;
-        this.currentLargestArmyPlayerId = gameState.currentLargestArmyPlayerId;
+    CatanGameState(CatanGameState catanGameState) {
+        this.dice = catanGameState.dice;
+        this.currentPlayerId = catanGameState.currentPlayerId;
+        this.currentDiceSum = catanGameState.currentDiceSum;
+        this.isActionPhase = catanGameState.isActionPhase;
+        this.board = new Board(catanGameState.board); // FIXME
+        this.currentLongestRoadPlayerId = catanGameState.currentLongestRoadPlayerId;
+        this.currentLargestArmyPlayerId = catanGameState.currentLargestArmyPlayerId;
 
-        for (int i = 0; i < gameState.playerList.size(); i++) {
-            this.playerList.add(new Player(gameState.playerList.get(i)));
+        for (int i = 0; i < catanGameState.playerList.size(); i++) {
+            this.playerList.add(new Player(catanGameState.playerList.get(i)));
         }
 
-        for (int i = 0; i < gameState.playerVictoryPoints.length; i++) {
-            this.playerVictoryPoints[i] = gameState.playerVictoryPoints[i];
-            this.playerPrivateVictoryPoints[i] = gameState.playerPrivateVictoryPoints[i];
+        for (int i = 0; i < catanGameState.playerVictoryPoints.length; i++) {
+            this.playerVictoryPoints[i] = catanGameState.playerVictoryPoints[i];
+            this.playerPrivateVictoryPoints[i] = catanGameState.playerPrivateVictoryPoints[i];
         }
     } // end deep copy constructor
 
@@ -632,7 +634,7 @@ public class GameState {
         StringBuilder result = new StringBuilder();
         String str = "";
 
-        result.append("GameState:\n");
+        result.append("CatanGameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
         result.append(this.currentPlayerId);
         result.append("\n");
@@ -654,5 +656,5 @@ public class GameState {
 
         str = result.toString();
         return str;
-    } // end GameState toString()
+    } // end CatanGameState toString()
 }
