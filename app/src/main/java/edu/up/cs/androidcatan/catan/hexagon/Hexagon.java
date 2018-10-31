@@ -19,7 +19,7 @@ public class Hexagon {
      * @param resourceType - resourceType type of hexagon
      * @param chitValue    - dice value of hexagon
      */
-    Hexagon(int resourceType, int chitValue) {
+    public Hexagon(int resourceType, int chitValue) {
         this.resourceId = resourceType;
         this.chitValue = chitValue;
     }

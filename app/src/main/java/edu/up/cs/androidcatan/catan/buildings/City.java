@@ -15,12 +15,12 @@ import edu.up.cs.androidcatan.catan.buildings.Building;
 
 public class City extends Building {
 
-    static final int[] resourceCost = {0, 2, 0, 3, 0}; // Brick, Grain, Lumber, Ore, Wool
+    public static final int[] resourceCost = {0, 2, 0, 3, 0}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
      * @param ownerId id of who owns the building
      */
-    City(int intersectionID, int ownerId) {
+    public City(int intersectionID, int ownerId) {
         super(ownerId);
     }
 

@@ -9,7 +9,6 @@ import edu.up.cs.androidcatan.catan.buildings.Road;
 import edu.up.cs.androidcatan.catan.buildings.Settlement;
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
-import gameframework.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -184,8 +183,8 @@ public class GameState {
             max = playerVictoryPoints[currentLargestArmyPlayerId];
         }
         for (int i = 0; i < 4; i++) {
-            if (board.getLongestRoadLength(i) > max) {
-                max = board.getLongestRoadLength(i);
+            if (board.getPlayerWithLongestRoad(i) > max) {
+                max = board.getPlayerWithLongestRoad(i);
                 playerIdWithLongestRoad = i;
             }
         }
@@ -195,26 +194,10 @@ public class GameState {
     }*/
 
     /**
-     * Checks which player has the longest road and return's true if that player is the current player
+     * Gets the player who has the longest road.
      */
     private int checkLongestRoad(){
-        int playerWithLongestRoad = this.currentLongestRoadPlayerId;
-
-            int roadLength = this.board.getLongestRoadLength(this.playerList);
-
-
-        for (int n = 0; n < playerList.size(); n++){
-            if (playerList.get(n) != playerList.get(playerId)){
-                if (board.getLongestRoadLength(playerList.get(n).getPlayerId()) > board.getLongestRoadLength(playerId)){
-                    return longestRoad;
-                }
-                else {
-                    longestRoad = true;
-                }
-            }
-        }
-
-        return playerWithLongestRoad;
+        return this.board.getPlayerWithLongestRoad(this.playerList);
     }
 
 

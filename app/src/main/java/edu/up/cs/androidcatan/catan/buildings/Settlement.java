@@ -14,12 +14,12 @@ import edu.up.cs.androidcatan.catan.buildings.Building;
  **/
 public class Settlement extends Building {
 
-    final static int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
+    public final static int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
      * @param ownerId - player id of who owns the settlement
      */
-    Settlement(int ownerId) {
+    public Settlement(int ownerId) {
         super(ownerId);
     } // end constructor
 

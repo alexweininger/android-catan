@@ -184,7 +184,7 @@ public class Board {
         return false;
     }
 
-    int getLongestRoadLength(ArrayList<Player> playerList){
+    int getPlayerWithLongestRoad(ArrayList<Player> playerList){
         for (Player player: playerList){
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
@@ -196,6 +196,7 @@ public class Board {
             }
             playerRoads.get(0).getIntersectionAId();
         }
+        return 0;
     }
 
     boolean checkIntersectionBreak(int intersectionId, int playerId){
