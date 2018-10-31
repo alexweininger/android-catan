@@ -23,6 +23,8 @@ public class GameState {
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
 
+    private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
+
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
     private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
@@ -36,6 +38,8 @@ public class GameState {
 
     GameState() { // GameState constructor
         this.dice = new Dice();
+        generateDevCardDeck();
+
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
@@ -77,6 +81,19 @@ public class GameState {
             this.playerPrivateVictoryPoints[i] = gameState.playerPrivateVictoryPoints[i];
         }
     } // end deep copy constructor
+
+
+    /**
+     * creates a deck of int representing the exact number each type of card
+     */
+    private void generateDevCardDeck() {
+        int[] devCardCounts = {14, 5, 2, 2, 2};
+        for (int i = 0; i < devCardCounts.length; i++) {
+            for (int j = 0; j < devCardCounts[i]; j++) {
+                this.developmentCards.add(i);
+            }
+        }
+    }
 
     private boolean valPlId(int playerId) {
         return playerId > -1 && playerId < 4;
@@ -443,7 +460,7 @@ public class GameState {
         }
 
         DevelopmentCard dc = new DevelopmentCard();
-        int[] resources = this.playerList.get(playerId).checkResourceBundle(DevelopmentCard);
+        int[] resources = this.playerList.get(playerId).checkResourceBundle(DevelopmentCard.resourceCost);
         if (resources[1] > 0 && resources[2] > 0 && resources[3] > 0) {
             dc.build(this.playerList.get(playerId));
             return true;

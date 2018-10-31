@@ -10,41 +10,17 @@ import java.util.Random;
 
 public class DevelopmentCard {
 
-    private ArrayList<Integer> developmentCards = new ArrayList<Integer>(); // ArrayList of the development card in the deck
     public static int[] resourceCost = {0, 0, 1, 1, 1};
-    private String[] resources = {"Brick", "Ore", "Sheep", "Wheat", "Wood"};
 
     //default instance variable
-    private String cardName;
+    private int devCardId;
     private boolean isPlayable;
-    private DevelopmentCard Knight, Monopoly, YearOfPlenty, RoadBuilding, VictoryPoints;
 
-    public DevelopmentCard(String cardName, DevelopmentCard Knight, DevelopmentCard Monopoly, DevelopmentCard YearOfPlenty, DevelopmentCard RoadBuilding, DevelopmentCard VictoryPoints) {
-        this.cardName = cardName;
+    public DevelopmentCard (int devCardId) {
+        this.devCardId = devCardId;
         this.isPlayable = false;
-        this.Knight = Knight;
-        this.Monopoly = Monopoly;
-        this.YearOfPlenty = YearOfPlenty;
-        this.RoadBuilding = RoadBuilding;
-        this.VictoryPoints = VictoryPoints;
     }
 
-    public DevelopmentCard() {
-        // TODO what is this @Andrew
-    }
-
-    /**
-     * creates a deck of int representing the exact number each type of card
-     */
-    public void generateDevCardDeck() {
-
-        int[] devCardCounts = {14, 5, 2, 2, 2};
-        for (int i = 0; i < devCardCounts.length; i++) {
-            for (int j = 0; j < devCardCounts[i]; j++) {
-                developmentCards.add(i);
-            }
-        }
-    }
 
     //default use method
     public void useCard(Player player) {
