@@ -181,7 +181,7 @@ public class Board {
     }
 
     // TODO
-    private int getPlayerRoadLength(int playerId) {
+    int getPlayerRoadLength(int playerId) {
         return 0;
     }
 
@@ -192,7 +192,7 @@ public class Board {
      * @param checkedIntersections - array list of already checked roads / intersections
      * @return - road length
      */
-    private int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
+    int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
         checkedIntersections.add(intersectionId);
         // base case if road is dead end
         ArrayList<Integer> adjInts = getAdjacentIntersections(intersectionId);
@@ -402,8 +402,7 @@ public class Board {
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
         for (int i = 0; i < 54; i++) {
             if (adjacentIntersections.size() > 3) {
-                Log.e(TAG, "getAdjacentIntersections: Got more than 3 adjacent intersections. That makes no sense.");
-                break;
+                Log.e(TAG, "getAdjacentIntersections: Received more than 3 adjacent intersections. That makes no sense.");
             }
             if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
                 adjacentIntersections.add(i);
@@ -422,7 +421,7 @@ public class Board {
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
         for (int i = 0; i < 19; i++) {
             if (adjacentHexagons.size() > 6) {
-                Log.d("devError", "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
+                Log.d(TAG, "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
                 break;
             }
             if (hGraph[hexagonId][i] || hGraph[i][hexagonId]) {
@@ -492,7 +491,7 @@ public class Board {
      */
     Hexagon getHexagonFromId(int hexagonId) {
         if (hexagonId < 0 || hexagonId >= this.hexagons.size()) { // error checking
-            Log.d("devError", "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
+            Log.d(TAG, "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
             return null;
         }
         return this.hexagons.get(hexagonId);
