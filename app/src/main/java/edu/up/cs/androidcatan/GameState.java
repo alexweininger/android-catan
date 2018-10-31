@@ -515,7 +515,7 @@ public class GameState {
      * @param playerId
      * @return - action success
      */
-    public boolean useDevCard(boolean move, EditText edit, int playerId) {
+    public boolean useDevCard(int playerId) {
         if (!valPlId(playerId)) {
             Log.d(TAG, "ERROR: useDevCard - invalid player id: " + playerId);
             return false;
@@ -529,11 +529,6 @@ public class GameState {
 
         }
 
-        if (move) {
-            edit.append("Player 3 used their Knight Card!\n");
-            return true;
-        }
-        edit.append("Player 3 cannon use their Development Card!\n");
         return false;
     }
 

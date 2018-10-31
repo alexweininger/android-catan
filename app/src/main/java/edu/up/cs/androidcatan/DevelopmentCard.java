@@ -16,7 +16,7 @@ public class DevelopmentCard {
     private int devCardId;
     private boolean isPlayable;
 
-    public DevelopmentCard (int devCardId) {
+    public DevelopmentCard(int devCardId) {
         this.devCardId = devCardId;
         this.isPlayable = false;
     }
@@ -48,8 +48,7 @@ public class DevelopmentCard {
     }
 
     /**
-     *
-     * @param player
+     * @param player - player playing development card
      */
     public void useYearofPlentyCard(Player player) {
         Random random = new Random();
@@ -58,40 +57,25 @@ public class DevelopmentCard {
     }
 
     /**
-     *
-     * @param player1
-     * @param player2
-     * @param player3
-     * @param player4
-     * @param resource
+     * @param playerList - copy of GameState.playerList
+     * @param resourceId - resource id of what the player wants to steal from all other players
      */
-    public void useMonopolyCard(Player player1, Player player2, Player player3, Player player4, String resource) {
-        int totalCollected;
-        totalCollected = player2.getResources().get(resource);
-        totalCollected = player3.getResources().get(resource);
-        totalCollected = player4.getResources().get(resource);
+    public void useMonopolyCard(int playerId, ArrayList<Player> playerList, int resourceId) {
+        int totalCollected = 0;
 
-        //TODO: Don't know whether this removes all the cards or just one
+        // go through each player
+        for (Player player : playerList) {
 
-        player2.setResources(resource, player2.getResources().remove(resource));
-        player3.setResources(resource, player3.getResources().remove(resource));
-        player4.setResources(resource, player4.getResources().remove(resource));
-
-        player1.setResources(resource, totalCollected);
+            // if player isn't the player who is playing the dev card
+            if (player.getPlayerId() != playerId) {
+                // add the number of resource of this type the player has
+                totalCollected += player.getResourceCards()[resourceId];
+                // remove these resource cards from players inventory
+                player.removeResourceCard(resourceId, player.getResourceCards()[resourceId]);
+                playerList.get(playerId).addResourceCard(resourceId, player.getResourceCards()[resourceId]);
+            }
+        }
     }
-
-    /**
-     * @param player player who is building a dev card
-     */
-    public void build(Player player) {
-        player.removeResourceCard(1, 1);
-        player.removeResourceCard(2, 1);
-        player.removeResourceCard(3, 1);
-
-        //adds the building to the player's array list of built buildings TODO
-    }
-
-
 
     /**
      * @param playable allows the player to play the card or not
@@ -99,15 +83,6 @@ public class DevelopmentCard {
     public void setPlayable(boolean playable) {
         isPlayable = playable;
     }
-
-    // play card based on given dev card id
-
-    //Step 1: Create developmentCards object somewhere
-    //Step 2: Call toString on the object
-    //Step 3: For one of the players, have this toString printed to the console
-    //as if they selected to play this card (may need a boolean to see if they have
-    //the card)
-
 
     @Override
     public String toString() {
