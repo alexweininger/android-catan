@@ -435,21 +435,15 @@ public class GameState {
      * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory
      *
      * @param playerId - player who is requesting to buy dev card
-     * @param edit     -
      * @return - action success
      */
-    public boolean buyDevCard(int playerId, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "ERROR: buyDevCard - invalid player id: " + playerId);
+    public boolean buyDevCard(int playerId) {
+        if (!valAction(playerId)) {
             return false;
         }
-        if (!checkTurn(playerId)) {
-            edit.append("It is not Player " + playerId + "'s turn!\n");
-            Log.d(TAG, "ERROR: buyDevCard - it is not " + playerId + "'s turn.");
-            return false;
-        }
+
         DevelopmentCard dc = new DevelopmentCard();
-        int[] resources = this.playerList.get(playerId).getResourceCards();
+        int[] resources = this.playerList.get(playerId).checkResourceBundle(DevelopmentCard);
         if (resources[1] > 0 && resources[2] > 0 && resources[3] > 0) {
             dc.build(this.playerList.get(playerId));
             return true;

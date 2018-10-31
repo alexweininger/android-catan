@@ -6,41 +6,37 @@ package edu.up.cs.androidcatan;
  **/
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public class DevelopmentCard {
 
     private ArrayList<Integer> developmentCards = new ArrayList<Integer>(); // ArrayList of the development card in the deck
-    private HashMap<String, Integer> resourceCost = new HashMap<>();
+    public static int[] resourceCost = {0, 0, 1, 1, 1};
     private String[] resources = {"Brick", "Ore", "Sheep", "Wheat", "Wood"};
 
-    //private String[] cards = {"Knight","Monopoly", "Year of Plenty", "Road Building", "Victory Points"};
     //default instance variable
     private String cardName;
     private boolean isPlayable;
-    private DevelopmentCard Knight, Monopoly, YearofPlenty, RoadBuilding, VictoryPoints;
+    private DevelopmentCard Knight, Monopoly, YearOfPlenty, RoadBuilding, VictoryPoints;
 
-    public DevelopmentCard(String cardName, DevelopmentCard Knight, DevelopmentCard Monopoly, DevelopmentCard YearofPlenty, DevelopmentCard RoadBuilding, DevelopmentCard VictoryPoints) {
+    public DevelopmentCard(String cardName, DevelopmentCard Knight, DevelopmentCard Monopoly, DevelopmentCard YearOfPlenty, DevelopmentCard RoadBuilding, DevelopmentCard VictoryPoints) {
         this.cardName = cardName;
         this.isPlayable = false;
         this.Knight = Knight;
         this.Monopoly = Monopoly;
-        this.YearofPlenty = YearofPlenty;
+        this.YearOfPlenty = YearOfPlenty;
         this.RoadBuilding = RoadBuilding;
         this.VictoryPoints = VictoryPoints;
     }
 
     public DevelopmentCard(){
+        // TODO what is this @Andrew
     }
 
     /**
      * creates a deck of int representing the exact number each type of card
      */
     public void generateDevCardDeck() {
-        resourceCost.put("Ore", 1);
-        resourceCost.put("Wheat", 1);
-        resourceCost.put("Sheep", 1);
 
         int[] devCardCounts = {14, 5, 2, 2, 2};
         for (int i = 0; i < devCardCounts.length; i++) {
@@ -126,7 +122,7 @@ public class DevelopmentCard {
             case 3:
                 return Monopoly;
             case 4:
-                return YearofPlenty;
+                return YearOfPlenty;
             default:
                 return null;
         }
@@ -154,7 +150,7 @@ public class DevelopmentCard {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         sb.append("DevelopmentCard{");
         sb.append("name=");
         sb.append(cardName);
