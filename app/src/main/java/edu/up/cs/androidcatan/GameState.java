@@ -1,7 +1,9 @@
 package edu.up.cs.androidcatan;
 
 import android.util.Log;
+
 import gameframework.*;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -322,10 +324,10 @@ public class GameState {
      */
     public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId) {
         // check if current player's turn and then if player has rolled dice
-        if(!valAction(playerId)) {
+        if (!valAction(playerId)) {
             return false;
         }
-        
+
         // creating a random trade ratio
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
@@ -393,7 +395,7 @@ public class GameState {
         }
 
         // remove resources from players inventory (also does checks)
-        if(!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
+        if (!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
             Log.e(TAG, "buildRoad: Player.removeResourceBundle returned false.");
             return false;
         }
@@ -428,7 +430,7 @@ public class GameState {
         }
 
         // remove resources from players inventory (also does checks)
-        if(!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
+        if (!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
             Log.e(TAG, "buildSettlement: Player.removeResourceBundle returned false.");
             return false;
         }
@@ -463,7 +465,7 @@ public class GameState {
         }
 
         // remove resources from players inventory (also does checks)
-        if(!this.playerList.get(playerId).removeResourceBundle(City.resourceCost)) {
+        if (!this.playerList.get(playerId).removeResourceBundle(City.resourceCost)) {
             Log.e(TAG, "buildCity: Player.removeResourceBundle returned false.");
             return false;
         }
@@ -497,7 +499,7 @@ public class GameState {
         }
 
         // remove resources from players inventory (also does checks)
-        if(!p.removeResourceBundle(DevelopmentCard.resourceCost)) {
+        if (!p.removeResourceBundle(DevelopmentCard.resourceCost)) {
             return false;
         }
 
@@ -631,17 +633,14 @@ public class GameState {
         result.append("\n");
 
         for (int i = 0; i < this.playerList.size(); i++) {
-            result.append(this.playerList.get(i).toString() + " "); // TODO
+            result.append(this.playerList.get(i).toString()).append(" "); // TODO
             result.append("\n\n");
         }
         result.append(this.board.toString());
 
-        result.append("currentLargestArmyPlayerId: " + this.currentLargestArmyPlayerId + "\n");
-        result.append("currentLongestRoadPlayerId: " + this.currentLongestRoadPlayerId + "\n\n");
+        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append("\n\n");
+        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n\n");
 
-        for (int i = 0; i < this.playerList.size(); i++) {
-            // TODO ???
-        }
         str = result.toString();
         return str;
     } // end GameState toString()
