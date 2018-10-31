@@ -5,6 +5,7 @@ import android.widget.EditText;
 import gameframework.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * @author Alex Weininger
@@ -393,6 +394,12 @@ public class GameState {
             return false;
         }
 
+        // remove resources from players inventory (also does checks)
+        if(!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
+            Log.e(TAG, "buildRoad: Player.removeResourceBundle returned false.");
+            return false;
+        }
+
         this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
         Log.i(TAG, "buildRoad: Player " + playerId + " built a road.");
         return true;
@@ -419,6 +426,12 @@ public class GameState {
 
         // check if the selected building location is valid
         if (!this.board.validBuildingLocation(playerId, intersectionId)) {
+            return false;
+        }
+
+        // remove resources from players inventory (also does checks)
+        if(!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
+            Log.e(TAG, "buildSettlement: Player.removeResourceBundle returned false.");
             return false;
         }
 
@@ -451,6 +464,12 @@ public class GameState {
             return false;
         }
 
+        // remove resources from players inventory (also does checks)
+        if(!this.playerList.get(playerId).removeResourceBundle(City.resourceCost)) {
+            Log.e(TAG, "buildCity: Player.removeResourceBundle returned false.");
+            return false;
+        }
+
         // create City object and add to Board object
         City city = new City(intersectionId, playerId);
         this.board.addBuilding(intersectionId, city);
@@ -467,6 +486,7 @@ public class GameState {
      * @return - action success
      */
     public boolean buyDevCard(int playerId) {
+        // check if player id is valid and if action phase of players turn
         if (!valAction(playerId)) {
             return false;
         }
@@ -478,11 +498,14 @@ public class GameState {
             return false;
         }
 
-
+        // remove resources from players inventory (also does checks)
+        if(!p.removeResourceBundle(DevelopmentCard.resourceCost)) {
+            return false;
+        }
 
         // add random dev card to players inventory
-        this.playerList.get(playerId).addDevelopmentCard(getRandomCard());
-        return false;
+        p.addDevelopmentCard(getRandomCard());
+        return true;
     }
 
     /**
