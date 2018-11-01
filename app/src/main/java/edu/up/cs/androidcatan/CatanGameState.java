@@ -222,7 +222,11 @@ public class CatanGameState extends GameState {
             this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
         }
 
-        // TODO go through all buildings and tally up players victory points
+        // goes through all buildings and the amount of victory points to the player to who owns the building
+        for(int i = 0; i < board.getBuildings().length; i++)
+        {
+            playerVictoryPoints[board.getBuildings()[i].getOwnerId()] += board.getBuildings()[i].getVictoryPoints();
+        }
     }
 
     /**
