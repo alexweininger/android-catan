@@ -254,6 +254,8 @@ public class CatanGameState extends GameState {
         }
     }
 
+    /* ----- action methods ----- */
+
     /**
      * TODO Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
      *
@@ -572,9 +574,9 @@ public class CatanGameState extends GameState {
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
-     * @param hexagonId
-     * @param playerId
-     * @return
+     * @param hexagonId Hexagon the robber is going to move to.
+     * @param playerId Player who is moving the robber.
+     * @return action success.
      */
     public boolean robberMove(int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
@@ -625,7 +627,6 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
     }
-
 
     /**
      * TODO update???
