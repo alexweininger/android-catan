@@ -259,15 +259,17 @@ public class CatanGameState extends GameState {
         }
     }
 
+    /* ----- action methods ----- */
+
     /**
      * TODO Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
      *
      * @return - action success
      */
-    public boolean initBuilding() {
+    public boolean setupBuilding() {
 
         return false;
-    } // end initBuilding action method
+    } // end setupBuilding action method
 
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
@@ -577,24 +579,24 @@ public class CatanGameState extends GameState {
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
-     * @param hexagonId
-     * @param playerId
-     * @return
+     * @param hexagonId Hexagon the robber is going to move to.
+     * @param playerId Player who is moving the robber.
+     * @return action success.
      */
-    public boolean robberMove(int hexagonId, int playerId) {
+    public boolean moveRobber(int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d(TAG, "robberMove: invalid player id: " + playerId);
+            Log.d(TAG, "moveRobber: invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
-            Log.i(TAG, "robberMove: it is not " + playerId + "'s turn.");
+            Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
             return false;
         }
         if (this.board.moveRobber(hexagonId)) {
-            Log.i(TAG, "robberMove: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
+            Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
             return true;
         }
-        Log.i(TAG, "robberMove: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
+        Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
         return false;
     }
 
@@ -630,7 +632,6 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
     }
-
 
     /**
      * TODO update???

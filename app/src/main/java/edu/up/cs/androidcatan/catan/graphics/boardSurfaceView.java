@@ -12,7 +12,14 @@ import edu.up.cs.androidcatan.catan.graphics.House;
 import edu.up.cs.androidcatan.catan.hexagon.*;
 import edu.up.cs.androidcatan.catan.trading.*;
 
-
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version October 31, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 public class boardSurfaceView extends SurfaceView {
 
     ArrayList<Ports> ports = new ArrayList<>();
@@ -35,18 +42,18 @@ public class boardSurfaceView extends SurfaceView {
     // TODO Alex
     public void createHexagons() {
 
-    	grid = new HexagonGrid(this.getContext(), 100, 200, 145, 40);
+        grid = new HexagonGrid(this.getContext(), 100, 200, 145, 40);
     }
 
     public void onDraw(Canvas canvas) {
         canvas.drawARGB(255, 237, 237, 171);
         grid.drawGrid(canvas);
-        for(int i = 0; i < 9; i++){
+        for (int i = 0; i < 9; i++) {
             Log.d("user1", "" + i);
             ports.get(i).drawPort(canvas);
         }
         Log.d("house", "yeet");
-        for(int j = 0; j < 4; j++){
+        for (int j = 0; j < 4; j++) {
             Log.d("house", "h" + j);
             houses.get(j).drawHouse(canvas);
         }

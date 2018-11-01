@@ -15,12 +15,12 @@ import edu.up.cs.androidcatan.players.Player;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 30th, 2018
+ * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
 
 public class Board {
-    /*
+    /**
      * External Citation
      * Date: 8 October 2018
      * Problem: Struggling to represent board and tiles.
@@ -31,13 +31,17 @@ public class Board {
      * information and the hexagons.
      */
 
-    /* 'Rings' are used to organize the following ID 2D-ArrayLists. Rings in context mean ring of hexagons or intersections
+    /*
+     * 'Rings' are used to organize the following ID 2D-ArrayLists. Rings in context mean ring of hexagons or intersections
      * on the board. So for hexagons, the first ring contains the very middle hexagon. Ring 2 are the hexagons around that one.
      * Hexagon 0 is the center, and hex 1 is directly right of hex 0, and then they are numbered by ring. So ring 0 has 1
      * hexagon. Ring 2 has 6, and ring 3 (outer ring) has 12 hexagons.
      */
 
     private static final String TAG = "Board";
+
+    // Robber object.
+    private Robber robber;
 
     // hexagonIdRings holds the IDs of each hexagon on the board, organized into rings.
     private ArrayList<ArrayList<Integer>> hexagonIdRings = new ArrayList<>();
@@ -48,19 +52,23 @@ public class Board {
     private boolean[][] hGraph = new boolean[19][19];
     private boolean[][] iGraph = new boolean[54][54];
 
-    /* maps relating hex to intersection and intersection to hex ids */
+    // Maps relating hex to intersection and intersection to hex ids
     private ArrayList<ArrayList<Integer>> hexToIntIdMap = new ArrayList<>(); // rows: hex id - col: int ids
     private ArrayList<ArrayList<Integer>> intToHexIdMap = new ArrayList<>(); // rows: int id - col: hex id
 
+    // Array of buildings on the board - indexed by intersection.
     private Building[] buildings = new Building[53];
 
+    // List of all roads on board, in no particular order.
     private ArrayList<Road> roads = new ArrayList<>();
 
+    // Adjacency graph identical to iGraph, however only contains Road objects and null.
     private Road[][] roadGraph = new Road[54][54];
 
+    // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
-    private Robber robber; // robber object
 
+    // List of port intersection locations. TODO
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
     public Board() {
@@ -85,10 +93,11 @@ public class Board {
         // generate hex tiles
         generateHexagonTiles();
 
+        // logging
         Log.d("devInfo", "INFO: int to hex map: " + this.intToHexIdMap.toString());
         Log.d("devInfo", "INFO: hex to int map" + this.hexToIntIdMap.toString());
 
-        int desertTileId = 0;
+        int desertTileId = 0; // TODO
         robber = new Robber(desertTileId);
 
     } // end Board constructor
@@ -97,25 +106,25 @@ public class Board {
      * @param b - board to copy
      */
     public Board(Board b) {
-        this.hexagonIdRings = b.getHexagonIdRings();
-        this.intersectionIdRings = b.getIntersectionIdRings();
-        this.hGraph = b.getHGraph();
-        this.iGraph = b.getIGraph();
-        this.hexToIntIdMap = b.getHexToIntIdMap();
-        this.intToHexIdMap = b.getIntToHexIdMap();
-        this.buildings = b.getBuildings();
-        this.roads = b.getRoads();
-        this.hexagons = b.getHexagons();
-        this.robber = new Robber(b.getRobber());
-        this.portIntersectionLocations = b.getPortIntersectionLocations();
-        this.roadGraph = b.roadGraph;
-
+        this.setHexagonIdRings(b.getHexagonIdRings());
+        this.setIntersectionIdRings(b.getIntersectionIdRings());
+        this.sethGraph(b.getHGraph());
+        this.setiGraph(b.getIGraph());
+        this.setHexToIntIdMap(b.getHexToIntIdMap());
+        this.setIntToHexIdMap(b.getIntToHexIdMap());
+        this.setBuildings(b.getBuildings());
+        this.setRoads(b.getRoads());
+        this.setHexagons(b.getHexagons());
+        this.setRobber(b.getRobber()); // class
+        this.setPortIntersectionLocations(b.getPortIntersectionLocations());
+        this.setRoadGraph(b.getRoadGraph());
+        this.setRoadGraph(b.getRoadGraph());
     } // end Board deep copy constructor
 
     /* ----- helper / checking methods ----- */
 
     /**
-     * @param playerId       - player to test if the intersection is connected
+     * @param playerId - player to test if the intersection is connected
      * @param intersectionId - intersection to test
      * @return - is the intersection connected to the players buildings or roads?
      */
@@ -132,8 +141,8 @@ public class Board {
 
     /**
      * @param playerId - player building the road
-     * @param a        - intersection
-     * @param b        - intersection
+     * @param a - intersection
+     * @param b - intersection
      * @return - if road can be placed
      */
     boolean validRoadPlacement(int playerId, int a, int b) {
@@ -185,12 +194,12 @@ public class Board {
         return false;
     }
 
-    int getPlayerWithLongestRoad(ArrayList<Player> playerList){
-        for (Player player: playerList){
+    int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
+        for (Player player : playerList) {
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
-            for (Road road: roads){
-                if (road.getOwnerId() == player.getPlayerId()){
+            for (Road road : roads) {
+                if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoads.add(road);
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
@@ -200,16 +209,16 @@ public class Board {
         return 0;
     }
 
-    boolean checkIntersectionBreak(int intersectionId, int playerId){
-        if (this.buildings[intersectionId].getOwnerId() != playerId){
+    boolean checkIntersectionBreak(int intersectionId, int playerId) {
+        if (this.buildings[intersectionId].getOwnerId() != playerId) {
             return true;
         }
         return false;
     }
 
-    boolean checkDeadEnd(int intersectionId, Road[][] road){
+    boolean checkDeadEnd(int intersectionId, Road[][] road) {
         for (Integer intersection : getAdjacentIntersections(intersectionId)) {
-            if (road[intersectionId][intersection] != null){
+            if (road[intersectionId][intersection] != null) {
                 return true;
             }
         }
@@ -217,14 +226,14 @@ public class Board {
     }
 
     //Recursive method that will call other helper methods within board
-    int traverseRoads(int intersectionId, int playerId, Road[][] road){
-        if (checkIntersectionBreak(intersectionId, playerId)){
+    int traverseRoads(int intersectionId, int playerId, Road[][] road) {
+        if (checkIntersectionBreak(intersectionId, playerId)) {
             return 0;
         }
-        if (checkDeadEnd(intersectionId, road)){
+        if (checkDeadEnd(intersectionId, road)) {
             return 0;
         }
-        for (Integer intersection: getAdjacentIntersections(intersectionId)){
+        for (Integer intersection : getAdjacentIntersections(intersectionId)) {
             return 1 + traverseRoads(intersection, playerId, road);
         }
         return 0;
@@ -235,7 +244,7 @@ public class Board {
     /* ----- building methods ----- */
 
     /**
-     * @param playerId       - player building the building
+     * @param playerId - player building the building
      * @param intersectionId - intersection of building
      * @return - is the building location valid
      */
@@ -247,13 +256,13 @@ public class Board {
          */
 
         // check if the intersection is connected to players' roads/buildings
-        if(!isConnected(playerId, intersectionId)) {
+        if (!isConnected(playerId, intersectionId)) {
             Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " is not connected.");
             return false;
         }
 
         // check if intersection already has a building on it
-        if(this.buildings[intersectionId] != null) {
+        if (this.buildings[intersectionId] != null) {
             Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " already has a building on it.");
             return false;
         }
@@ -344,11 +353,12 @@ public class Board {
         return result;
     }
 
-    /** TODO? do we need this?
+    /**
+     * TODO? do we need this?
      * returns whether a given player is an owner of the intersection
      *
      * @param intersectionId - intersection to check if playerId owns
-     * @param playerId       - playerId to check against
+     * @param playerId - playerId to check against
      * @return
      */
     public boolean isIntersectionOwner(int intersectionId, int playerId) {
@@ -396,7 +406,7 @@ public class Board {
      * adds the building to the building array - AW
      *
      * @param intersectionId - intersection id of the building location
-     * @param building       - building object
+     * @param building - building object
      */
     boolean addBuilding(int intersectionId, Building building) {
         if (this.buildings[intersectionId] != null) {
@@ -467,7 +477,9 @@ public class Board {
         return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
     }
 
-    /** TODO ports
+    /**
+     * TODO ports
+     *
      * @param intersectionId - intersection to check for port adjacency
      * @return - if the given intersection is adjacent to a port AW
      */
@@ -477,7 +489,7 @@ public class Board {
 
     /**
      * @param ring - ring of intersection
-     * @param col  - column within ring of intersection
+     * @param col - column within ring of intersection
      * @return - int intersection id
      */
     private int getIntersectionId(int ring, int col) {
@@ -486,7 +498,7 @@ public class Board {
 
     /**
      * @param ring - hexagon ring (0-2)
-     * @param col  - column within hexagon ring
+     * @param col - column within hexagon ring
      * @return - int hexagon id
      */
     private int getHexagonId(int ring, int col) {
@@ -875,50 +887,176 @@ public class Board {
         }
     }
 
-    /*----- generic getter methods -----*/
+    /* ----- generic getter methods ----- */
 
+    /**
+     * @return Hexagons organized into 2D ArrayList by rings.
+     */
     private ArrayList<ArrayList<Integer>> getHexagonIdRings() {
         return hexagonIdRings;
     }
 
+    /**
+     * @return Intersections organized into a 2D ArrayList by rings.
+     */
     private ArrayList<ArrayList<Integer>> getIntersectionIdRings() {
         return intersectionIdRings;
     }
 
+    /**
+     * @return Hexagon adjacency graph.
+     */
     private boolean[][] getHGraph() {
         return hGraph;
     }
 
+    /**
+     * @return Intersection adjacency graph.
+     */
     private boolean[][] getIGraph() {
         return iGraph;
     }
 
+    /**
+     * @return Map of hexagons to intersections.
+     */
     private ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
     }
 
+    /**
+     * @return Map of intersections to hexagons.
+     */
     private ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
         return intToHexIdMap;
     }
 
+    /**
+     * @return Array List of Road objects.
+     */
     private ArrayList<Road> getRoads() {
         return this.roads;
     }
 
+    /**
+     * @return Array List of hexagons.
+     */
     private ArrayList<Hexagon> getHexagons() {
         return this.hexagons;
     }
 
+    /**
+     * @return Robber object.
+     */
     private Robber getRobber() {
         return this.robber;
     }
 
+    /**
+     * @return Array of Building objects. Indexed by intersection.
+     */
     public Building[] getBuildings() {
         return this.buildings;
     }
 
+    /**
+     * @return Port intersection locations in an Array List. Index is the intersection.
+     */
     private ArrayList<Integer> getPortIntersectionLocations() {
         return this.portIntersectionLocations;
+    }
+
+    /**
+     * @return Road adjacency graph.
+     */
+    public Road[][] getRoadGraph() {
+        return roadGraph;
+    }
+
+    /* ----- generic setter methods ----- */
+
+    /**
+     * @param hexagonIdRings 2d Array List of hexagons ids by rings.
+     */
+    public void setHexagonIdRings(ArrayList<ArrayList<Integer>> hexagonIdRings) {
+        this.hexagonIdRings = hexagonIdRings;
+    }
+
+    /**
+     * @param intersectionIdRings 2d Array List of intersection ids by rings.
+     */
+    public void setIntersectionIdRings(ArrayList<ArrayList<Integer>> intersectionIdRings) {
+        this.intersectionIdRings = intersectionIdRings;
+    }
+
+    /**
+     * @param hGraph A graph representing adjacency of intersections. E.g. iGraph[1][2] returns whether intersection 1 and intersection 2 are adjacent.
+     */
+    public void sethGraph(boolean[][] hGraph) {
+        this.hGraph = hGraph;
+    }
+
+    /**
+     * @param iGraph A graph representing adjacency of intersections. E.g. iGraph[1][2] returns whether intersection 1 and intersection 2 are adjacent.
+     */
+    public void setiGraph(boolean[][] iGraph) {
+        this.iGraph = iGraph;
+    }
+
+    /**
+     * @param hexToIntIdMap A map relating a hexagon to 6 adjacent intersections.
+     */
+    public void setHexToIntIdMap(ArrayList<ArrayList<Integer>> hexToIntIdMap) {
+        this.hexToIntIdMap = hexToIntIdMap;
+    }
+
+    /**
+     * @param intToHexIdMap A map relating an intersection to 3 adjacent hexagons.
+     */
+    public void setIntToHexIdMap(ArrayList<ArrayList<Integer>> intToHexIdMap) {
+        this.intToHexIdMap = intToHexIdMap;
+    }
+
+    /**
+     * @param buildings Array of all buildings on the board, indexed by intersection id.
+     */
+    public void setBuildings(Building[] buildings) {
+        this.buildings = buildings;
+    }
+
+    /**
+     * @param roads list of all roads on the board
+     */
+    public void setRoads(ArrayList<Road> roads) {
+        this.roads = roads;
+    }
+
+    /**
+     * @param roadGraph adjacency graph for roads
+     */
+    public void setRoadGraph(Road[][] roadGraph) {
+        this.roadGraph = roadGraph;
+    }
+
+    /**
+     * @param hexagons list of hexagons
+     */
+    public void setHexagons(ArrayList<Hexagon> hexagons) {
+        this.hexagons = hexagons;
+    }
+
+    /**
+     * @param robber Robber object
+     */
+    public void setRobber(Robber robber) {
+        this.robber = robber;
+    }
+
+    /**
+     * @param portIntersectionLocations list of intersections that have access to a port
+     */
+    public void setPortIntersectionLocations(ArrayList<Integer> portIntersectionLocations) {
+        this.portIntersectionLocations = portIntersectionLocations;
     }
 
     /**

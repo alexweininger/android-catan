@@ -4,11 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-/** TODO this entire class needs to be redone
- *
- *  we need to sit and think out how to approach implementing roads
- *  9/23 Alex
- */
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version October 31, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 public class RoadDrawable {
 
     protected int[][] points;
