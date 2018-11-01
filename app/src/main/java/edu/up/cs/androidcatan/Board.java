@@ -184,12 +184,12 @@ public class Board {
         return false;
     }
 
-    int getPlayerWithLongestRoad(ArrayList<Player> playerList){
-        for (Player player: playerList){
+    int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
+        for (Player player : playerList) {
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
-            for (Road road: roads){
-                if (road.getOwnerId() == player.getPlayerId()){
+            for (Road road : roads) {
+                if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoads.add(road);
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
@@ -199,16 +199,16 @@ public class Board {
         return 0;
     }
 
-    boolean checkIntersectionBreak(int intersectionId, int playerId){
-        if (this.buildings[intersectionId].getOwnerId() != playerId){
+    boolean checkIntersectionBreak(int intersectionId, int playerId) {
+        if (this.buildings[intersectionId].getOwnerId() != playerId) {
             return true;
         }
         return false;
     }
 
-    boolean checkDeadEnd(int intersectionId, Road[][] road){
+    boolean checkDeadEnd(int intersectionId, Road[][] road) {
         for (Integer intersection : getAdjacentIntersections(intersectionId)) {
-            if (road[intersectionId][intersection] != null){
+            if (road[intersectionId][intersection] != null) {
                 return true;
             }
         }
@@ -216,14 +216,14 @@ public class Board {
     }
 
     //Recursive method that will call other helper methods within board
-    int traverseRoads(int intersectionId, int playerId, Road[][] road){
-        if (checkIntersectionBreak(intersectionId, playerId)){
+    int traverseRoads(int intersectionId, int playerId, Road[][] road) {
+        if (checkIntersectionBreak(intersectionId, playerId)) {
             return 0;
         }
-        if (checkDeadEnd(intersectionId, road)){
+        if (checkDeadEnd(intersectionId, road)) {
             return 0;
         }
-        for (Integer intersection: getAdjacentIntersections(intersectionId)){
+        for (Integer intersection : getAdjacentIntersections(intersectionId)) {
             return 1 + traverseRoads(intersection, playerId, road);
         }
         return 0;
@@ -246,13 +246,13 @@ public class Board {
          */
 
         // check if the intersection is connected to players' roads/buildings
-        if(!isConnected(playerId, intersectionId)) {
+        if (!isConnected(playerId, intersectionId)) {
             Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " is not connected.");
             return false;
         }
 
         // check if intersection already has a building on it
-        if(this.buildings[intersectionId] != null) {
+        if (this.buildings[intersectionId] != null) {
             Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " already has a building on it.");
             return false;
         }
@@ -343,7 +343,8 @@ public class Board {
         return result;
     }
 
-    /** TODO? do we need this?
+    /**
+     * TODO? do we need this?
      * returns whether a given player is an owner of the intersection
      *
      * @param intersectionId - intersection to check if playerId owns
@@ -466,7 +467,9 @@ public class Board {
         return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
     }
 
-    /** TODO ports
+    /**
+     * TODO ports
+     *
      * @param intersectionId - intersection to check for port adjacency
      * @return - if the given intersection is adjacent to a port AW
      */
@@ -922,50 +925,86 @@ public class Board {
 
     /* ----- generic setter methods ----- */
 
+    /**
+     * @param hexagonIdRings
+     */
     public void setHexagonIdRings(ArrayList<ArrayList<Integer>> hexagonIdRings) {
         this.hexagonIdRings = hexagonIdRings;
     }
 
+    /**
+     * @param intersectionIdRings
+     */
     public void setIntersectionIdRings(ArrayList<ArrayList<Integer>> intersectionIdRings) {
         this.intersectionIdRings = intersectionIdRings;
     }
 
+    /**
+     * @param hGraph
+     */
     public void sethGraph(boolean[][] hGraph) {
         this.hGraph = hGraph;
     }
 
+    /**
+     * @param iGraph A graph representing adjacency
+     */
     public void setiGraph(boolean[][] iGraph) {
         this.iGraph = iGraph;
     }
 
+    /**
+     * @param hexToIntIdMap A map relating a hexagon to 6 adjacent intersections.
+     */
     public void setHexToIntIdMap(ArrayList<ArrayList<Integer>> hexToIntIdMap) {
         this.hexToIntIdMap = hexToIntIdMap;
     }
 
+    /**
+     * @param intToHexIdMap A map relating an intersection to 3 adjacent hexagons.
+     */
     public void setIntToHexIdMap(ArrayList<ArrayList<Integer>> intToHexIdMap) {
         this.intToHexIdMap = intToHexIdMap;
     }
 
+    /**
+     * @param buildings Array of all buildings on the board, indexed by intersection id.
+     */
     public void setBuildings(Building[] buildings) {
         this.buildings = buildings;
     }
 
+    /**
+     * @param roads list of all roads on the board
+     */
     public void setRoads(ArrayList<Road> roads) {
         this.roads = roads;
     }
 
+    /**
+     * @param roadGraph adjacency graph for roads
+     */
     public void setRoadGraph(Road[][] roadGraph) {
         this.roadGraph = roadGraph;
     }
 
+    /**
+     * @param hexagons list of hexagons
+     */
     public void setHexagons(ArrayList<Hexagon> hexagons) {
         this.hexagons = hexagons;
     }
 
+    /**
+     * @param robber Robber object
+     */
     public void setRobber(Robber robber) {
         this.robber = robber;
     }
 
+    /**
+     * @param portIntersectionLocations list of intersections that have access to a port
+     */
     public void setPortIntersectionLocations(ArrayList<Integer> portIntersectionLocations) {
         this.portIntersectionLocations = portIntersectionLocations;
     }
