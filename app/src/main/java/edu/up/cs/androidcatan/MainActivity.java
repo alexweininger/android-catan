@@ -39,7 +39,7 @@ public class MainActivity extends GameMainActivity {
 
     /*protected void onCreate(Bundle savedInstanceState) {
 
-        *//*
+        /*
          * External Citation
          * Date: 20 September 2018
          * Problem: Needed more screen space and wanted to get rid of the title bar and the
