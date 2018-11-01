@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -31,52 +32,71 @@ import android.view.View.OnClickListener;
  * https://github.com/alexweininger/android-catan
  **/
 
+
 public class Player extends GameHumanPlayer implements OnClickListener {
 
-    private static final String TAG = "Player";
+    private static final String TAG = "Player"; // TAG used for Logging
 
-    /* Player instance variables */
+    /* ----- Player instance variables ----- */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = new int[5]; // array for number of each resource card a player has
+    private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
 
     // array for relating resource card names to resource card ids in the resourceCards array above
-    private String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
+    private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
 
-    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
-    private int[] buildingInventory = {15, 5, 4}; // number of buildings the player has to build {roads, settlements, cities}
+    // ArrayList of the development cards the player owns
+    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>();
 
-    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available TODO change data type to better one
+    // number of buildings the player has to build {roads, settlements, cities}
+    private int[] buildingInventory = {15, 5, 4};
 
-    private int armySize; // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
-    private int playerId;   // playerId
+    // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
+    private int armySize;
+
+    // playerId
+    private int playerId;
 
     /**
      * Player constructor
      */
     public Player(int id) {
-        // initialize all resource card counts to 0
         super("" + id + "");
-        for (int i = 0; i < this.resourceCards.length; i++) {
-            this.resourceCards[i] = 0;
-        }
-        this.armySize = 0;
         this.playerId = id;
+        this.armySize = 0;
     }
 
     /**
      * deepCopy constructor
      *
-     * @param player - Player object to copy
+     * @param p - Player object to copy
      */
-    public Player(Player player) {
-        super("" + player.getPlayerId() + "");
-        this.developmentCards = player.getDevelopmentCards();
-        this.armySize = player.getArmySize();
-        this.availableBuildings = player.getAvailableBuildings();
-        this.playerId = player.getPlayerId();
-        this.resourceCards = player.getResourceCards();
-        this.resourceCardIds = player.getResourceCardIds();
+    public Player(Player p) {
+        super("" + p.getPlayerId() + "");
+        this.setPlayerId(p.getPlayerId());
+        this.setArmySize(p.getArmySize());
+        this.setDevelopmentCards(p.getDevelopmentCards());
+        this.setBuildingInventory(p.getBuildingInventory());
+        this.setResourceCards(p.getResourceCards());
+    }
+
+    // TODO Figure out what these methods from the GameHumanPlayer and OnClickListener do and implement them TODO @DB @NJ
+
+    public void onClick(View button) {
+
+    }
+
+    public void setAsGui(GameMainActivity activity) {
+
+    }
+
+    public View getTopView() {
+        //return myActivity.findViewById(R.id.top_gui_layout);
+        return null;
+    }
+
+    public void receiveInfo(GameInfo info) {
+
     }
 
     /**
@@ -161,6 +181,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         return true;
     }
 
+
     /**
      * @return String showing the number of each resource card the player has
      */
@@ -170,6 +191,18 @@ public class Player extends GameHumanPlayer implements OnClickListener {
             str.append(this.resourceCardIds[i]).append(": ").append(this.resourceCards[i]).append(", ");
         }
         return str.toString();
+    }
+
+    public int[] getBuildingInventory() {
+        return buildingInventory;
+    }
+
+    public void setBuildingInventory(int[] buildingInventory) {
+        this.buildingInventory = buildingInventory;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
     /**
@@ -248,14 +281,6 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         this.developmentCards = developmentCards;
     }
 
-    public void setAvailableBuildings(HashMap<String, Integer> availableBuildings) {
-        this.availableBuildings = availableBuildings;
-    }
-
-    public String[] getResourceCardIds() {
-        return resourceCardIds;
-    }
-
     private int getTotalResourceCardCount() {
         int result = 0;
         for (int i = 0; i < this.resourceCards.length; i++) {
@@ -285,41 +310,20 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         return randomResourceId;
     }
 
-    //TODO Figure out what these methods from the GameHumanPlayer and OnClickListener do and implement them
 
-    public void onClick(View button) {
-
-    }
-
-    public void setAsGui(GameMainActivity activity) {
-
-    }
-
-    public View getTopView() {
-        //return myActivity.findViewById(R.id.top_gui_layout);
-        return null;
-    }
-
-    public void receiveInfo(GameInfo info) {
-
-    }
 
     /**
      * @return string representation of a Player
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Player ");
-        sb.append(playerId);
-        sb.append("\nDevelopment Cards = ");
-        sb.append(this.developmentCards);
-        sb.append("\navailableBuildings = ");
-        sb.append(availableBuildings);
-        sb.append("\narmySize = ");
-        sb.append(armySize);
-        sb.append("\n");
-        return sb.toString();
+        return "Player{" +
+                "resourceCards=" + Arrays.toString(resourceCards) +
+                ", developmentCards=" + developmentCards +
+                ", buildingInventory=" + Arrays.toString(buildingInventory) +
+                ", armySize=" + armySize +
+                ", playerId=" + playerId +
+                '}';
     }
 }
 
