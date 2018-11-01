@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.players;
 
 import android.util.Log;
 import android.view.View;
@@ -8,22 +8,11 @@ import java.util.HashMap;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
-import edu.up.cs.androidcatan.game.Game;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
-import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
-import edu.up.cs.androidcatan.game.GameHumanPlayer;
-import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.view.View.OnClickListener;
 
 /**

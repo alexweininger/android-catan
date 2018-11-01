@@ -54,12 +54,13 @@ public class MainActivity extends GameMainActivity {
          */
 
         // remove title bar and notification bar
+        //TODO: Speak to Dr. Tribelhorn about moving to GameMainActivity
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_main);
 
         boardSurfaceView board = findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 

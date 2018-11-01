@@ -8,6 +8,7 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.buildings.Building;
 import edu.up.cs.androidcatan.catan.buildings.Road;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
+import edu.up.cs.androidcatan.players.Player;
 
 /**
  * @author Alex Weininger
