@@ -874,7 +874,7 @@ public class Board {
         }
     }
 
-    /*----- generic getter methods -----*/
+    /* ----- generic getter methods ----- */
 
     private ArrayList<ArrayList<Integer>> getHexagonIdRings() {
         return hexagonIdRings;
@@ -918,6 +918,56 @@ public class Board {
 
     private ArrayList<Integer> getPortIntersectionLocations() {
         return this.portIntersectionLocations;
+    }
+
+    /* ----- generic setter methods ----- */
+
+    public void setHexagonIdRings(ArrayList<ArrayList<Integer>> hexagonIdRings) {
+        this.hexagonIdRings = hexagonIdRings;
+    }
+
+    public void setIntersectionIdRings(ArrayList<ArrayList<Integer>> intersectionIdRings) {
+        this.intersectionIdRings = intersectionIdRings;
+    }
+
+    public void sethGraph(boolean[][] hGraph) {
+        this.hGraph = hGraph;
+    }
+
+    public void setiGraph(boolean[][] iGraph) {
+        this.iGraph = iGraph;
+    }
+
+    public void setHexToIntIdMap(ArrayList<ArrayList<Integer>> hexToIntIdMap) {
+        this.hexToIntIdMap = hexToIntIdMap;
+    }
+
+    public void setIntToHexIdMap(ArrayList<ArrayList<Integer>> intToHexIdMap) {
+        this.intToHexIdMap = intToHexIdMap;
+    }
+
+    public void setBuildings(Building[] buildings) {
+        this.buildings = buildings;
+    }
+
+    public void setRoads(ArrayList<Road> roads) {
+        this.roads = roads;
+    }
+
+    public void setRoadGraph(Road[][] roadGraph) {
+        this.roadGraph = roadGraph;
+    }
+
+    public void setHexagons(ArrayList<Hexagon> hexagons) {
+        this.hexagons = hexagons;
+    }
+
+    public void setRobber(Robber robber) {
+        this.robber = robber;
+    }
+
+    public void setPortIntersectionLocations(ArrayList<Integer> portIntersectionLocations) {
+        this.portIntersectionLocations = portIntersectionLocations;
     }
 
     /**
