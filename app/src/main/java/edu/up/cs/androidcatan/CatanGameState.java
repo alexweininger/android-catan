@@ -9,6 +9,7 @@ import edu.up.cs.androidcatan.catan.buildings.Settlement;
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
+import edu.up.cs.androidcatan.players.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -221,7 +222,11 @@ public class CatanGameState extends GameState {
             this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
         }
 
-        // TODO go through all buildings and tally up players victory points
+        // goes through all buildings and the amount of victory points to the player to who owns the building
+        for(int i = 0; i < board.getBuildings().length; i++)
+        {
+            playerVictoryPoints[board.getBuildings()[i].getOwnerId()] += board.getBuildings()[i].getVictoryPoints();
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.buildings.Building;
 import edu.up.cs.androidcatan.catan.buildings.Road;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
+import edu.up.cs.androidcatan.players.Player;
 
 /**
  * @author Alex Weininger
@@ -954,7 +955,7 @@ public class Board {
     /**
      * @return Array of Building objects. Indexed by intersection.
      */
-    private Building[] getBuildings() {
+    public Building[] getBuildings() {
         return this.buildings;
     }
 
