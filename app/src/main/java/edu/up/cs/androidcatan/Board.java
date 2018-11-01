@@ -92,10 +92,11 @@ public class Board {
         // generate hex tiles
         generateHexagonTiles();
 
+        // logging
         Log.d("devInfo", "INFO: int to hex map: " + this.intToHexIdMap.toString());
         Log.d("devInfo", "INFO: hex to int map" + this.hexToIntIdMap.toString());
 
-        int desertTileId = 0;
+        int desertTileId = 0; // TODO
         robber = new Robber(desertTileId);
 
     } // end Board constructor
