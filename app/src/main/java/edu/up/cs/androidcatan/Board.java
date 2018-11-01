@@ -117,13 +117,12 @@ public class Board {
         this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
-
     } // end Board deep copy constructor
 
     /* ----- helper / checking methods ----- */
 
     /**
-     * @param playerId       - player to test if the intersection is connected
+     * @param playerId - player to test if the intersection is connected
      * @param intersectionId - intersection to test
      * @return - is the intersection connected to the players buildings or roads?
      */
@@ -140,8 +139,8 @@ public class Board {
 
     /**
      * @param playerId - player building the road
-     * @param a        - intersection
-     * @param b        - intersection
+     * @param a - intersection
+     * @param b - intersection
      * @return - if road can be placed
      */
     boolean validRoadPlacement(int playerId, int a, int b) {
@@ -243,7 +242,7 @@ public class Board {
     /* ----- building methods ----- */
 
     /**
-     * @param playerId       - player building the building
+     * @param playerId - player building the building
      * @param intersectionId - intersection of building
      * @return - is the building location valid
      */
@@ -357,7 +356,7 @@ public class Board {
      * returns whether a given player is an owner of the intersection
      *
      * @param intersectionId - intersection to check if playerId owns
-     * @param playerId       - playerId to check against
+     * @param playerId - playerId to check against
      * @return
      */
     public boolean isIntersectionOwner(int intersectionId, int playerId) {
@@ -405,7 +404,7 @@ public class Board {
      * adds the building to the building array - AW
      *
      * @param intersectionId - intersection id of the building location
-     * @param building       - building object
+     * @param building - building object
      */
     boolean addBuilding(int intersectionId, Building building) {
         if (this.buildings[intersectionId] != null) {
@@ -488,7 +487,7 @@ public class Board {
 
     /**
      * @param ring - ring of intersection
-     * @param col  - column within ring of intersection
+     * @param col - column within ring of intersection
      * @return - int intersection id
      */
     private int getIntersectionId(int ring, int col) {
@@ -497,7 +496,7 @@ public class Board {
 
     /**
      * @param ring - hexagon ring (0-2)
-     * @param col  - column within hexagon ring
+     * @param col - column within hexagon ring
      * @return - int hexagon id
      */
     private int getHexagonId(int ring, int col) {
