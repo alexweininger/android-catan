@@ -197,7 +197,7 @@ public class CatanGameState extends GameState {
     /**
      * Gets the player who has the longest road.
      */
-    private int checkLongestRoad(){
+    private int checkLongestRoad() {
         return this.board.getPlayerWithLongestRoad(this.playerList);
     }
 
@@ -289,7 +289,14 @@ public class CatanGameState extends GameState {
         int rollNum = dice.roll();
         Log.i(TAG, "rollDice: Player " + playerId + " rolled a " + rollNum);
 
-        produceResources(rollNum);
+        // if the robber is rolled
+        if (rollNum == 7) {
+            // todo activate robber
+            Log.i(TAG, "rollDice: Robber has been activated.");
+        } else {
+            produceResources(rollNum);
+        }
+
 
         this.isActionPhase = true;
 
@@ -306,7 +313,6 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean endTurn(int playerId) {
-        boolean devCardPlayable = false;
         if (!valAction(playerId)) {
             return false;
         }
@@ -321,10 +327,8 @@ public class CatanGameState extends GameState {
 
         updateVictoryPoints();
 
-        devCardPlayable = true;
-
         for (DevelopmentCard developmentCard : playerList.get(playerId).getDevelopmentCards()) {
-            developmentCard.setPlayable(devCardPlayable);
+            developmentCard.setPlayable(true);
         }
 
         return true;
@@ -530,14 +534,13 @@ public class CatanGameState extends GameState {
     }
 
     /**
-     *
-     * @param playerId - player playing development card
+     * @param playerId  - player playing development card
      * @param devCardId - id of the development card
      * @return - action success
      */
     public boolean useDevCard(int playerId, int devCardId) {
 
-        if(!valAction(playerId)) {
+        if (!valAction(playerId)) {
             return false;
         }
 
@@ -552,13 +555,13 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean robberDiscard(ArrayList<Integer> resourceCards) {
-        for (int n = 0; n < 4; n++) {
-            int handSize = this.playerList.get(n).getResources().size();
+        for (Player player : this.playerList) {
+            int handSize = player.getTotalResourceCardCount();
             if (handSize > 7) {
                 int newHandSize = handSize / 2;
                 // TODO !!! somehow need to make users select newHandSize resource cards to discard !!!
                 for (int x = 0; x < resourceCards.size(); x++) {
-                    this.playerList.get(n).removeResourceCard(resourceCards.get(x), 1);
+                    player.removeResourceCard(resourceCards.get(x), 1);
                 }
             }
         }

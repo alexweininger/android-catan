@@ -5,7 +5,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
@@ -31,7 +30,6 @@ import android.view.View.OnClickListener;
  * @version October 30th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-
 
 public class Player extends GameHumanPlayer implements OnClickListener {
 
@@ -91,7 +89,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     }
 
     public View getTopView() {
-        //return myActivity.findViewById(R.id.top_gui_layout);
+        //FIXME return myActivity.findViewById(R.id.top_gui_layout);
         return null;
     }
 
@@ -193,14 +191,23 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         return str.toString();
     }
 
+    /**
+     * @return -
+     */
     public int[] getBuildingInventory() {
         return buildingInventory;
     }
 
+    /**
+     * @param buildingInventory
+     */
     public void setBuildingInventory(int[] buildingInventory) {
         this.buildingInventory = buildingInventory;
     }
 
+    /**
+     * @param playerId
+     */
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
     }
@@ -277,18 +284,27 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         return developmentCards;
     }
 
+    /**
+     * @param developmentCards List of DevelopmentCards the player currently has.
+     */
     public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
         this.developmentCards = developmentCards;
     }
 
-    private int getTotalResourceCardCount() {
+    /**
+     * @return The total amount of resourceCards a player has.
+     */
+    public int getTotalResourceCardCount() {
         int result = 0;
-        for (int i = 0; i < this.resourceCards.length; i++) {
-            result += this.resourceCards[i];
+        for (int resourceCard : this.resourceCards) {
+            result += resourceCard;
         }
         return result;
     }
 
+    /**
+     * @return - A random resourceCard is removed from the players inventory and returned.
+     */
     int getRandomCard() {
 
         if (this.getTotalResourceCardCount() < 1) {
@@ -311,18 +327,17 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     }
 
 
-
     /**
      * @return string representation of a Player
      */
     @Override
     public String toString() {
         return "Player{" +
-                "resourceCards=" + Arrays.toString(resourceCards) +
-                ", developmentCards=" + developmentCards +
-                ", buildingInventory=" + Arrays.toString(buildingInventory) +
-                ", armySize=" + armySize +
-                ", playerId=" + playerId +
+                "resourceCards=" + this.printResourceCards() +
+                ", developmentCards=" + this.developmentCards +
+                ", buildingInventory=" + Arrays.toString(this.buildingInventory) +
+                ", armySize=" + this.armySize +
+                ", playerId=" + this.playerId +
                 '}';
     }
 }
