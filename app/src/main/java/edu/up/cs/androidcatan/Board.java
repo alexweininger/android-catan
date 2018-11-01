@@ -38,6 +38,9 @@ public class Board {
 
     private static final String TAG = "Board";
 
+    // Robber object.
+    private Robber robber;
+
     // hexagonIdRings holds the IDs of each hexagon on the board, organized into rings.
     private ArrayList<ArrayList<Integer>> hexagonIdRings = new ArrayList<>();
     // intersectionIdRings holds the IDs of each intersection on the board, organized into rings.
@@ -47,21 +50,23 @@ public class Board {
     private boolean[][] hGraph = new boolean[19][19];
     private boolean[][] iGraph = new boolean[54][54];
 
-    /* maps relating hex to intersection and intersection to hex ids */
+    // Maps relating hex to intersection and intersection to hex ids
     private ArrayList<ArrayList<Integer>> hexToIntIdMap = new ArrayList<>(); // rows: hex id - col: int ids
     private ArrayList<ArrayList<Integer>> intToHexIdMap = new ArrayList<>(); // rows: int id - col: hex id
 
-    // array of buildings on the board - indexed by intersection
+    // Array of buildings on the board - indexed by intersection.
     private Building[] buildings = new Building[53];
 
-    // list of all roads on board, in no particular order
+    // List of all roads on board, in no particular order.
     private ArrayList<Road> roads = new ArrayList<>();
 
+    // Adjacency graph identical to iGraph, however only contains Road objects and null.
     private Road[][] roadGraph = new Road[54][54];
 
+    // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
-    private Robber robber; // robber object
 
+    // TODO List of
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
     public Board() {
