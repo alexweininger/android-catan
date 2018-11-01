@@ -1,12 +1,30 @@
 package edu.up.cs.androidcatan;
 
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
+import edu.up.cs.androidcatan.game.Game;
+import edu.up.cs.androidcatan.game.GameHumanPlayer;
+import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
+import edu.up.cs.androidcatan.game.GameHumanPlayer;
+import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
+
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 /**
  * @author Alex Weininger
@@ -17,7 +35,7 @@ import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Player {
+public class Player extends GameHumanPlayer implements OnClickListener{
 
     private static final String TAG = "Player";
 
@@ -38,8 +56,9 @@ public class Player {
     /**
      * Player constructor
      */
-    Player(int id) {
+    public Player(int id) {
         // initialize all resource card counts to 0
+        super("" + id + "");
         for (int i = 0; i < this.resourceCards.length; i++) {
             this.resourceCards[i] = 0;
         }
@@ -57,7 +76,8 @@ public class Player {
      *
      * @param player - Player object to copy
      */
-    Player(Player player) {
+    public Player(Player player) {
+        super("" + player.getPlayerId() + "");
         this.developmentCards = player.getDevelopmentCards();
         this.armySize = player.getArmySize();
         this.resources = player.getResources();
@@ -295,6 +315,25 @@ public class Player {
         }
 
         return randomResourceId;
+    }
+
+    //TODO Figure out what these methods from the GameHumanPlayer and OnClickListener do and implement them
+
+    public void onClick(View button){
+
+    }
+
+    public void setAsGui(GameMainActivity activity){
+
+    }
+
+    public View getTopView() {
+        //return myActivity.findViewById(R.id.top_gui_layout);
+        return null;
+    }
+
+    public void receiveInfo(GameInfo info){
+
     }
 
     /**

@@ -405,7 +405,7 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        if (this.playerList.get(playerId).checkResourceBundle(Road.getResourceCost())) {
+        if (this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
             Log.i(TAG, "buildRoad: BuildRoad - player " + playerId + " does not have enough resources.\n");
             return false;
         }
@@ -417,7 +417,6 @@ public class CatanGameState extends GameState {
 
         // remove resources from players inventory (also does checks)
         if (!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
-        if(!this.playerList.get(playerId).removeResourceBundle(Road.getResourceCost())) {
             Log.e(TAG, "buildRoad: Player.removeResourceBundle returned false.");
             return false;
         }
