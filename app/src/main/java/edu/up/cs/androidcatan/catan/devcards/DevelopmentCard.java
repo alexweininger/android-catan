@@ -15,7 +15,6 @@ import edu.up.cs.androidcatan.catan.buildings.Road;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-
 public class DevelopmentCard {
 
     public static int[] resourceCost = {0, 0, 1, 1, 1};

@@ -5,10 +5,9 @@ package edu.up.cs.androidcatan;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 30th, 2018
+ * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-
 public class Robber {
 
     private int hexagonId; // hexagon where the robber is located
