@@ -77,7 +77,7 @@ public class MainActivity extends GameMainActivity {
 
         board.draw(canvas); // draw
 
-        // button listeners TODO move to separate class
+        // button listeners TODO move to separate class?
         Button scoreButton = findViewById(R.id.sidebar_button_score);
         final Group scoreBoardGroup = findViewById(R.id.group_scoreboard);
         scoreButton.setOnClickListener(new View.OnClickListener() {
