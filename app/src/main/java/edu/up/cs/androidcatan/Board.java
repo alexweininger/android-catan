@@ -39,7 +39,6 @@ public class Board {
      */
 
     private static final String TAG = "Board";
-
     // Robber object.
     private Robber robber;
 
