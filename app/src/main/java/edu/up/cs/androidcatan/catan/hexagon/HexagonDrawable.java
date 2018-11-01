@@ -37,7 +37,7 @@ public class HexagonDrawable extends boardSurfaceView {
     }
 
     // TODO look over and determine if needs to be redone
-    protected void drawHexagon(Canvas canvas) {
+    public  void drawHexagon(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(this.color);
         paint.setStyle(Paint.Style.FILL);
@@ -78,7 +78,7 @@ public class HexagonDrawable extends boardSurfaceView {
      * @param size - size, measured from center to a corner
      * @return int[][]
      */
-    protected int[][] calculateHexagonPoints(int x, int y, int size) {
+    public int[][] calculateHexagonPoints(int x, int y, int size) {
         int[][] points = new int[6][2];
         double angle_deg, angle_rad;
 
@@ -102,7 +102,7 @@ public class HexagonDrawable extends boardSurfaceView {
 	 * @param corners - 2d array of x and y cords for the corners
 	 * @return Path
 	 */
-    protected Path createHexagonPath(int[][] corners) {
+    public Path createHexagonPath(int[][] corners) {
         hexagonPath = new Path();
         hexagonPath.moveTo(corners[0][0], corners[0][1]);
 
@@ -114,7 +114,7 @@ public class HexagonDrawable extends boardSurfaceView {
         return hexagonPath;
     }
 
-    protected int[][] getHexagonPoints() {
+    public int[][] getHexagonPoints() {
         return this.points;
     }
 

@@ -13,8 +13,10 @@ import android.widget.Spinner;
 
 import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.config.GameConfig;
+import edu.up.cs.androidcatan.game.config.GamePlayerType;
 
 /**
  * @author Alex Weininger
@@ -24,10 +26,7 @@ import edu.up.cs.androidcatan.game.config.GameConfig;
  * @version October 30th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-
-
 public class MainActivity extends GameMainActivity {
-
     @Override
     public GameConfig createDefaultConfig() {
         return null;

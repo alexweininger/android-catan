@@ -9,7 +9,7 @@ package edu.up.cs.androidcatan.game.infoMsg;
  * @author Steven R. Vegdahl 
  * @version July 2013
  */
-public abstract class GameState extends GameInfo {
+public abstract class  GameState extends GameInfo {
 
 	// to satisfy the Serializable interface
 	private static final long serialVersionUID = -5109179064333136954L;
