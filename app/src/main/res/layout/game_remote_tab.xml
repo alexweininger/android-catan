@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/remoteTabLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="@dimen/config_horiz_margin"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*" >
+
+        <TableRow
+            android:id="@+id/tableHeadingRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/playerNameHeadingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:text="@string/player_name" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player Type"
+                android:textStyle="bold|italic" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableDataRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/remoteNameEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@string/guest" />
+
+            <Spinner
+                android:id="@+id/remote_player_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/serverIPCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/server_ip_code"
+        android:textStyle="bold|italic" />
+
+    <EditText
+        android:id="@+id/remoteIPCodeEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="" >
+
+        <requestFocus />
+    </EditText>
+
+</LinearLayout>

@@ -15,7 +15,7 @@ import edu.up.cs.androidcatan.catan.buildings.Building;
 public class Road extends Building {
 
     private int intersectionAId, intersectionBId;
-    static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
+    public static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
      * @param intersectionAId -
