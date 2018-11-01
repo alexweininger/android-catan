@@ -96,17 +96,18 @@ public class Board {
      * @param b - board to copy
      */
     public Board(Board b) {
-        this.hexagonIdRings = b.getHexagonIdRings();
-        this.intersectionIdRings = b.getIntersectionIdRings();
-        this.hGraph = b.getHGraph();
-        this.iGraph = b.getIGraph();
-        this.hexToIntIdMap = b.getHexToIntIdMap();
-        this.intToHexIdMap = b.getIntToHexIdMap();
-        this.buildings = b.getBuildings();
-        this.roads = b.getRoads();
-        this.hexagons = b.getHexagons();
-        this.robber = new Robber(b.getRobber());
-        this.portIntersectionLocations = b.getPortIntersectionLocations();
+        this.setHexagonIdRings(b.getHexagonIdRings());
+        this.setIntersectionIdRings(b.getIntersectionIdRings());
+        this.sethGraph(b.getHGraph());
+        this.setiGraph(b.getIGraph());
+        this.setHexToIntIdMap(b.getHexToIntIdMap());
+        this.setIntToHexIdMap(b.getIntToHexIdMap());
+        this.setBuildings(b.getBuildings());
+        this.setRoads(b.getRoads());
+        this.setHexagons(b.getHexagons());
+        this.setRobber(b.getRobber()); // class
+        this.setPortIntersectionLocations(b.getPortIntersectionLocations());
+        this.setRoadGraph(b.getRoadGraph());
         this.roadGraph = b.roadGraph;
 
     } // end Board deep copy constructor
@@ -879,48 +880,88 @@ public class Board {
 
     /* ----- generic getter methods ----- */
 
+    /**
+     * @return
+     */
     private ArrayList<ArrayList<Integer>> getHexagonIdRings() {
         return hexagonIdRings;
     }
 
+    /**
+     * @return
+     */
     private ArrayList<ArrayList<Integer>> getIntersectionIdRings() {
         return intersectionIdRings;
     }
 
+    /**
+     * @return
+     */
     private boolean[][] getHGraph() {
         return hGraph;
     }
 
+    /**
+     * @return
+     */
     private boolean[][] getIGraph() {
         return iGraph;
     }
 
+    /**
+     * @return
+     */
     private ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
     }
 
+    /**
+     * @return
+     */
     private ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
         return intToHexIdMap;
     }
 
+    /**
+     * @return
+     */
     private ArrayList<Road> getRoads() {
         return this.roads;
     }
 
+    /**
+     * @return
+     */
     private ArrayList<Hexagon> getHexagons() {
         return this.hexagons;
     }
 
+    /**
+     * @return
+     */
     private Robber getRobber() {
         return this.robber;
     }
 
+    /**
+     * @return
+     */
     private Building[] getBuildings() {
         return this.buildings;
     }
 
+    /**
+     * @return
+     */
     private ArrayList<Integer> getPortIntersectionLocations() {
         return this.portIntersectionLocations;
+    }
+
+    /**
+     * @return Road adjacency graph.
+     */
+    public Road[][] getRoadGraph() {
+        return roadGraph;
     }
 
     /* ----- generic setter methods ----- */
