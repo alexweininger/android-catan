@@ -1,9 +1,4 @@
 package edu.up.cs.androidcatan.catan.devcards;
-/**
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 25th, 2018
- * https://github.com/alexweininger/game-state
- **/
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +6,15 @@ import java.util.Random;
 import edu.up.cs.androidcatan.Player;
 import edu.up.cs.androidcatan.Robber;
 import edu.up.cs.androidcatan.catan.buildings.Road;
+
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version October 31, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 
 public class DevelopmentCard {
 
