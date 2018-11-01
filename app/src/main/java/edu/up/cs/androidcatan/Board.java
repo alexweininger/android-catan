@@ -881,21 +881,21 @@ public class Board {
     /* ----- generic getter methods ----- */
 
     /**
-     * @return
+     * @return Hexagons organized into 2D ArrayList by rings.
      */
     private ArrayList<ArrayList<Integer>> getHexagonIdRings() {
         return hexagonIdRings;
     }
 
     /**
-     * @return
+     * @return Intersections organized into a 2D ArrayList by rings.
      */
     private ArrayList<ArrayList<Integer>> getIntersectionIdRings() {
         return intersectionIdRings;
     }
 
     /**
-     * @return
+     * @return Hexagon adjacency graph.
      */
     private boolean[][] getHGraph() {
         return hGraph;
@@ -909,49 +909,49 @@ public class Board {
     }
 
     /**
-     * @return
+     * @return Map of hexagons to intersections.
      */
     private ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
     }
 
     /**
-     * @return
+     * @return Map of intersections to hexagons.
      */
     private ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
         return intToHexIdMap;
     }
 
     /**
-     * @return
+     * @return Array List of Road objects.
      */
     private ArrayList<Road> getRoads() {
         return this.roads;
     }
 
     /**
-     * @return
+     * @return Array List of hexagons.
      */
     private ArrayList<Hexagon> getHexagons() {
         return this.hexagons;
     }
 
     /**
-     * @return
+     * @return Robber object.
      */
     private Robber getRobber() {
         return this.robber;
     }
 
     /**
-     * @return
+     * @return Array of Building objects. Indexed by intersection.
      */
     private Building[] getBuildings() {
         return this.buildings;
     }
 
     /**
-     * @return
+     * @return Port intersection locations in an Array List. Index is the intersection.
      */
     private ArrayList<Integer> getPortIntersectionLocations() {
         return this.portIntersectionLocations;
