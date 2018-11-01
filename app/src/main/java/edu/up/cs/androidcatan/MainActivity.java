@@ -38,9 +38,9 @@ public class MainActivity extends GameMainActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    /*protected void onCreate(Bundle savedInstanceState) {
 
-        /*
+        *//*
          * External Citation
          * Date: 20 September 2018
          * Problem: Needed more screen space and wanted to get rid of the title bar and the
@@ -48,7 +48,7 @@ public class MainActivity extends GameMainActivity {
          * Resource:
          * https://stackoverflow.com/questions/2591036/how-to-hide-the-title-bar-for-an-activity-in-xml-with-existing-custom-theme
          * Solution: I used the code from the stack overflow post.
-         */
+         *//*
 
         // remove title bar and notification bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -116,7 +116,7 @@ public class MainActivity extends GameMainActivity {
         ArrayAdapter<CharSequence> developmentChoices = ArrayAdapter.createFromResource(this, R.array.resource_Card, android.R.layout.simple_spinner_item);
         developmentChoices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         developmentSpinner.setAdapter(developmentChoices);
-    }
+    }*/
 
     // TODO cite this https://stackoverflow.com/questions/46065897/android-studio-how-to-remove-navigation-bar-in-android-app-to-get-a-full-screen
     @Override
