@@ -51,8 +51,10 @@ public class Board {
     private ArrayList<ArrayList<Integer>> hexToIntIdMap = new ArrayList<>(); // rows: hex id - col: int ids
     private ArrayList<ArrayList<Integer>> intToHexIdMap = new ArrayList<>(); // rows: int id - col: hex id
 
+    // array of buildings on the board - indexed by intersection
     private Building[] buildings = new Building[53];
 
+    // list of all roads on board, in no particular order
     private ArrayList<Road> roads = new ArrayList<>();
 
     private Road[][] roadGraph = new Road[54][54];
