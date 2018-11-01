@@ -261,10 +261,10 @@ public class CatanGameState extends GameState {
      *
      * @return - action success
      */
-    public boolean initBuilding() {
+    public boolean setupBuilding() {
 
         return false;
-    } // end initBuilding action method
+    } // end setupBuilding action method
 
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
@@ -578,20 +578,20 @@ public class CatanGameState extends GameState {
      * @param playerId Player who is moving the robber.
      * @return action success.
      */
-    public boolean robberMove(int hexagonId, int playerId) {
+    public boolean moveRobber(int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d(TAG, "robberMove: invalid player id: " + playerId);
+            Log.d(TAG, "moveRobber: invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
-            Log.i(TAG, "robberMove: it is not " + playerId + "'s turn.");
+            Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
             return false;
         }
         if (this.board.moveRobber(hexagonId)) {
-            Log.i(TAG, "robberMove: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
+            Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
             return true;
         }
-        Log.i(TAG, "robberMove: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
+        Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
         return false;
     }
 
