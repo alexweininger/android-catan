@@ -26,14 +26,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/robber_discard_menu_header"
-        android:textSize="36sp"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="@+id/leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/topHorizontalGuideline" />
 
     <ImageView
         android:id="@+id/brickImg"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="120"
+        android:layout_height="120"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/brick"
@@ -43,8 +43,8 @@
 
     <ImageView
         android:id="@+id/lumberImg"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="120"
+        android:layout_height="120"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/lumber"
         app:layout_constraintStart_toEndOf="@+id/brickImg"
@@ -53,8 +53,8 @@
 
     <ImageView
         android:id="@+id/grainImg"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="120"
+        android:layout_height="120"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/grain"
         app:layout_constraintStart_toEndOf="@+id/lumberImg"
@@ -63,8 +63,8 @@
 
     <ImageView
         android:id="@+id/oreImg"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="120"
+        android:layout_height="120"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/ore"
         app:layout_constraintStart_toEndOf="@+id/grainImg"
@@ -73,8 +73,8 @@
 
     <ImageView
         android:id="@+id/woolImg"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="120"
+        android:layout_height="120"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/wool"
         app:layout_constraintStart_toEndOf="@+id/oreImg"
