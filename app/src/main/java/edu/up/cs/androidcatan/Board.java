@@ -19,7 +19,7 @@ import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
  **/
 
 public class Board {
-    /*
+    /**
      * External Citation
      * Date: 8 October 2018
      * Problem: Struggling to represent board and tiles.
@@ -30,7 +30,8 @@ public class Board {
      * information and the hexagons.
      */
 
-    /* 'Rings' are used to organize the following ID 2D-ArrayLists. Rings in context mean ring of hexagons or intersections
+    /*
+     * 'Rings' are used to organize the following ID 2D-ArrayLists. Rings in context mean ring of hexagons or intersections
      * on the board. So for hexagons, the first ring contains the very middle hexagon. Ring 2 are the hexagons around that one.
      * Hexagon 0 is the center, and hex 1 is directly right of hex 0, and then they are numbered by ring. So ring 0 has 1
      * hexagon. Ring 2 has 6, and ring 3 (outer ring) has 12 hexagons.
@@ -66,7 +67,7 @@ public class Board {
     // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
 
-    // TODO List of
+    // List of port intersection locations. TODO
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
     public Board() {
@@ -115,7 +116,7 @@ public class Board {
         this.setRobber(b.getRobber()); // class
         this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
-        this.roadGraph = b.roadGraph;
+        this.setRoadGraph(b.getRoadGraph());
 
     } // end Board deep copy constructor
 
