@@ -2,21 +2,16 @@ package edu.up.cs.androidcatan;
 
 import android.util.Log;
 import android.view.View;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
-import edu.up.cs.androidcatan.game.Game;
-import edu.up.cs.androidcatan.game.GameHumanPlayer;
-import edu.up.cs.androidcatan.game.GameMainActivity;
-import edu.up.cs.androidcatan.game.actionMsg.GameAction;
-
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
+// todo removed unused imports please
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -40,7 +35,6 @@ public class Player extends GameHumanPlayer implements OnClickListener{
     private static final String TAG = "Player";
 
     /* Player instance variables */
-    private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
     private int[] resourceCards = new int[5]; // array for number of each resource card a player has
@@ -63,11 +57,6 @@ public class Player extends GameHumanPlayer implements OnClickListener{
             this.resourceCards[i] = 0;
         }
         this.armySize = 0;
-        this.resources.put("Brick", 20);
-        this.resources.put("Ore", 20);
-        this.resources.put("Wool", 20);
-        this.resources.put("Wheat", 20);
-        this.resources.put("Wood", 20);
         this.playerId = id;
     }
 
@@ -80,7 +69,6 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         super("" + player.getPlayerId() + "");
         this.developmentCards = player.getDevelopmentCards();
         this.armySize = player.getArmySize();
-        this.resources = player.getResources();
         this.availableBuildings = player.getAvailableBuildings();
         this.playerId = player.getPlayerId();
         this.resourceCards = player.getResourceCards();
@@ -202,34 +190,12 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         this.armySize = armySize;
     }
 
-
-    public boolean hasResources(String key, int amount) {
-        return resources.get(key).intValue() >= amount;
-    }
-
     /**
      * @param devCard dev card to add
      */
     public void addDevelopmentCard(DevelopmentCard devCard) {
         developmentCards.add(devCard);
     }
-
-    /**
-     * @param res name of resource
-     * @param num amount to add
-     * @return if action was possible
-     */
-    /*
-    public boolean useResource(String res, int num) {
-        if (this.resources.containsKey(res)) {
-            if (this.resources.get(res) >= num) {
-                this.resources.put(res, this.resources.get(res) - num);
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }*/
 
     /**
      * @param devCard dev card to remove
@@ -255,22 +221,6 @@ public class Player extends GameHumanPlayer implements OnClickListener{
      */
     public int getPlayerId() {
         return this.playerId;
-    }
-
-
-    /**
-     * @return hashmap of resources
-     */
-    public HashMap<String, Integer> getResources() {
-        return resources;
-    }
-
-    /**
-     * @param resource name of resource
-     * @param value    amount of resource
-     */
-    public void setResources(String resource, int value) {
-        this.resources.put(resource, value);
     }
 
     public ArrayList<DevelopmentCard> getDevelopmentCards() {
@@ -349,8 +299,6 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         StringBuilder sb = new StringBuilder();
         sb.append("Player ");
         sb.append(playerId);
-        sb.append("\nResources = ");
-        sb.append(this.resources);
         sb.append("\nDevelopment Cards = ");
         sb.append(this.developmentCards);
         sb.append("\navailableBuildings = ");
