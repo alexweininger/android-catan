@@ -62,7 +62,7 @@ public class Board {
 
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
-    Board() {
+    public Board() {
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();
@@ -95,7 +95,7 @@ public class Board {
     /**
      * @param b - board to copy
      */
-    Board(Board b) {
+    public Board(Board b) {
         this.hexagonIdRings = b.getHexagonIdRings();
         this.intersectionIdRings = b.getIntersectionIdRings();
         this.hGraph = b.getHGraph();

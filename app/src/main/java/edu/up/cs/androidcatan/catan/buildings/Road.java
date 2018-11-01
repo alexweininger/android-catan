@@ -54,6 +54,8 @@ public class Road extends Building {
         return 0;
     }
 
+    public static int[] getResourceCost() { return resourceCost;}
+
     @Override
     public String toString() {
         return "Road{" +
