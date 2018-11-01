@@ -84,6 +84,7 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         this.availableBuildings = player.getAvailableBuildings();
         this.playerId = player.getPlayerId();
         this.resourceCards = player.getResourceCards();
+        this.resourceCardIds = player.getResourceCardIds();
     }
 
     /**
@@ -286,6 +287,10 @@ public class Player extends GameHumanPlayer implements OnClickListener{
 
     public void setAvailableBuildings(HashMap<String, Integer> availableBuildings) {
         this.availableBuildings = availableBuildings;
+    }
+
+    public String[] getResourceCardIds() {
+        return resourceCardIds;
     }
 
     private int getTotalResourceCardCount() {
