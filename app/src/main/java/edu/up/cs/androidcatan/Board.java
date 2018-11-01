@@ -224,8 +224,6 @@ public class Board {
         return 0;
     }
 
-
-
     /* ----- building methods ----- */
 
     /**
