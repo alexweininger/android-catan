@@ -102,7 +102,7 @@
     <Button
         android:id="@+id/confirm"
         android:layout_width="120dp"
-        android:layout_height="50"
+        android:layout_height="50dp"
         android:layout_marginEnd="53dp"
         android:text="@string/confirm"
         app:layout_constraintBottom_toTopOf="@+id/bottomHorizontalGuideline"
@@ -111,7 +111,7 @@
     <TextView
         android:id="@+id/selectMoreResources"
         android:layout_width="443dp"
-        android:layout_height="50"
+        android:layout_height="50dp"
         android:text="@string/select_more_resources"
         android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/bottomHorizontalGuideline"
@@ -175,8 +175,8 @@
 
     <ImageView
         android:id="@+id/birckMinusImg"
-        android:layout_width="44"
-        android:layout_height="44"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/brickAmount"
         app:layout_constraintTop_toBottomOf="@+id/brickImg"
@@ -184,8 +184,8 @@
 
     <ImageView
         android:id="@+id/lumberMinusImg"
-        android:layout_width="44"
-        android:layout_height="44"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/lumberAmount"
         app:layout_constraintTop_toBottomOf="@+id/lumberImg"
@@ -194,7 +194,7 @@
     <ImageView
         android:id="@+id/grainMinusImg"
         android:layout_width="45dp"
-        android:layout_height="44"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/grainAmount"
         app:layout_constraintTop_toBottomOf="@+id/grainImg"
@@ -203,7 +203,7 @@
     <ImageView
         android:id="@+id/oreMinusImg"
         android:layout_width="45dp"
-        android:layout_height="44"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/oreAmount"
         app:layout_constraintTop_toBottomOf="@+id/oreImg"
@@ -212,7 +212,7 @@
     <ImageView
         android:id="@+id/woolMinusImg"
         android:layout_width="45dp"
-        android:layout_height="44"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/woolAmount"
         app:layout_constraintTop_toBottomOf="@+id/woolImg"
@@ -220,8 +220,8 @@
 
     <ImageView
         android:id="@+id/birckAddImg"
-        android:layout_width="44"
-        android:layout_height="44"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@+id/brickAmount"
         app:layout_constraintTop_toBottomOf="@+id/brickImg"
@@ -229,8 +229,8 @@
 
     <ImageView
         android:id="@+id/lumberAddImg"
-        android:layout_width="44"
-        android:layout_height="44"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@+id/lumberAmount"
         app:layout_constraintTop_toBottomOf="@+id/lumberImg"
@@ -238,8 +238,8 @@
 
     <ImageView
         android:id="@+id/grainAddImg"
-        android:layout_width="44"
-        android:layout_height="44"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@+id/grainAmount"
         app:layout_constraintTop_toBottomOf="@+id/grainImg"
@@ -247,8 +247,8 @@
 
     <ImageView
         android:id="@+id/oreAddImg"
-        android:layout_width="44"
-        android:layout_height="44"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@+id/oreAmount"
         app:layout_constraintTop_toBottomOf="@+id/oreImg"
@@ -256,8 +256,8 @@
 
     <ImageView
         android:id="@+id/woolAddImg"
-        android:layout_width="44"
-        android:layout_height="44"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@+id/woolAmount"
         app:layout_constraintTop_toBottomOf="@+id/woolImg"
