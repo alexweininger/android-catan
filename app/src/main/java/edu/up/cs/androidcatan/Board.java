@@ -5,6 +5,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.up.cs.androidcatan.catan.buildings.Building;
+import edu.up.cs.androidcatan.catan.buildings.Road;
+import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
+import edu.up.cs.androidcatan.players.Player;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -58,7 +63,7 @@ public class Board {
 
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
-    Board() {
+    public Board() {
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();
@@ -91,7 +96,7 @@ public class Board {
     /**
      * @param b - board to copy
      */
-    Board(Board b) {
+    public Board(Board b) {
         this.hexagonIdRings = b.getHexagonIdRings();
         this.intersectionIdRings = b.getIntersectionIdRings();
         this.hGraph = b.getHGraph();
@@ -180,7 +185,7 @@ public class Board {
         return false;
     }
 
-    void getPlayerRoadLength(ArrayList<Player> playerList){
+    int getPlayerWithLongestRoad(ArrayList<Player> playerList){
         for (Player player: playerList){
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
@@ -192,6 +197,7 @@ public class Board {
             }
             playerRoads.get(0).getIntersectionAId();
         }
+        return 0;
     }
 
     boolean checkIntersectionBreak(int intersectionId, int playerId){
@@ -905,7 +911,7 @@ public class Board {
         return this.robber;
     }
 
-    private Building[] getBuildings() {
+    public Building[] getBuildings() {
         return this.buildings;
     }
 

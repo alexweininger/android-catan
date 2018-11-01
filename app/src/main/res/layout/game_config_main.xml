@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/tabHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/game_config_tabhost" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/table_row_vert_pad" >
+
+        <Button
+            android:id="@+id/saveConfigButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/config_horiz_margin"
+            android:text="@string/save_config_as_default" />
+
+        <Button
+            android:id="@+id/playGameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/config_horiz_margin"
+            android:text="@string/start_the_game" />
+
+        <Button
+            android:id="@+id/backButton2"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="193dp"
+            android:layout_toRightOf="@+id/saveConfigButton"
+            android:onClick="doFinish"
+            android:text="Back" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
