@@ -39,7 +39,7 @@ public class MainActivity extends GameMainActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
         /*
          * External Citation
