@@ -3,7 +3,7 @@ package edu.up.cs.androidcatan.players;
 
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
-import edu.up.cs.androidcatan.game.R;
+import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
 import android.graphics.Color;
