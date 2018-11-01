@@ -1,17 +1,9 @@
 package edu.up.cs.androidcatan;
 
-import android.app.Activity;
-import android.graphics.Canvas;
-import android.os.Bundle;
-import android.support.constraint.Group;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
 
-import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
+import java.util.ArrayList;
+
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
@@ -27,14 +19,34 @@ import edu.up.cs.androidcatan.game.config.GamePlayerType;
  * https://github.com/alexweininger/android-catan
  **/
 public class MainActivity extends GameMainActivity {
+
+    // the port number that this game will use when playing over the network
+    private static final int PORT_NUMBER = 2278;
+
     @Override
     public GameConfig createDefaultConfig() {
-        return null;
+        // Define the allowed player types
+        ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+
+        // Pig has two player types:  human and computer
+        playerTypes.add(new GamePlayerType("Local Human Player") {
+            public GamePlayer createPlayer(String name) {
+                return new Player(0);
+            }});
+
+        // Create a game configuration class for Pig:
+        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Settlers of Catan", PORT_NUMBER);
+        defaultConfig.addPlayer("Human", 0); // player 1: a human player
+        defaultConfig.addPlayer("Computer", 1); // player 2: a computer player
+        defaultConfig.addPlayer("Smart Computer", 2); // Player 3 a smart computer player
+        defaultConfig.setRemoteData("Remote Human Player", "", 0);
+
+        return defaultConfig;
     }
 
     @Override
     public LocalGame createLocalGame() {
-        return null;
+        return new CatanLocalGame;
     }
 
     /*protected void onCreate(Bundle savedInstanceState) {
