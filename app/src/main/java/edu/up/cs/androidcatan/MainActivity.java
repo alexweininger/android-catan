@@ -26,10 +26,7 @@ import edu.up.cs.androidcatan.game.config.GamePlayerType;
  * @version October 30th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-
-
 public class MainActivity extends GameMainActivity {
-
     @Override
     public GameConfig createDefaultConfig() {
         return null;
@@ -40,7 +37,6 @@ public class MainActivity extends GameMainActivity {
         return null;
     }
 
-    @Override
     /*protected void onCreate(Bundle savedInstanceState) {
 
         *//*
