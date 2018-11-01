@@ -926,28 +926,28 @@ public class Board {
     /* ----- generic setter methods ----- */
 
     /**
-     * @param hexagonIdRings
+     * @param hexagonIdRings 2d Array List of hexagons ids by rings.
      */
     public void setHexagonIdRings(ArrayList<ArrayList<Integer>> hexagonIdRings) {
         this.hexagonIdRings = hexagonIdRings;
     }
 
     /**
-     * @param intersectionIdRings
+     * @param intersectionIdRings 2d Array List of intersection ids by rings.
      */
     public void setIntersectionIdRings(ArrayList<ArrayList<Integer>> intersectionIdRings) {
         this.intersectionIdRings = intersectionIdRings;
     }
 
     /**
-     * @param hGraph
+     * @param hGraph A graph representing adjacency of intersections. E.g. iGraph[1][2] returns whether intersection 1 and intersection 2 are adjacent.
      */
     public void sethGraph(boolean[][] hGraph) {
         this.hGraph = hGraph;
     }
 
     /**
-     * @param iGraph A graph representing adjacency
+     * @param iGraph A graph representing adjacency of intersections. E.g. iGraph[1][2] returns whether intersection 1 and intersection 2 are adjacent.
      */
     public void setiGraph(boolean[][] iGraph) {
         this.iGraph = iGraph;
