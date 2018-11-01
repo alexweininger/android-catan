@@ -37,7 +37,6 @@ public class MainActivity extends GameMainActivity {
         return null;
     }
 
-    @Override
     /*protected void onCreate(Bundle savedInstanceState) {
 
         *//*
