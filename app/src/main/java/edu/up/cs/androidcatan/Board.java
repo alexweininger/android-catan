@@ -902,7 +902,7 @@ public class Board {
     }
 
     /**
-     * @return
+     * @return Intersection adjacency graph.
      */
     private boolean[][] getIGraph() {
         return iGraph;
