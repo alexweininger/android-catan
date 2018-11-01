@@ -46,7 +46,7 @@ public class MainActivity extends GameMainActivity {
 
     @Override
     public LocalGame createLocalGame() {
-        return new CatanLocalGame;
+        return new CatanLocalGame();
     }
 
     /*protected void onCreate(Bundle savedInstanceState) {
