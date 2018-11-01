@@ -913,7 +913,7 @@ public class Board {
         return this.robber;
     }
 
-    private Building[] getBuildings() {
+    public Building[] getBuildings() {
         return this.buildings;
     }
 
