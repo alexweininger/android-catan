@@ -305,7 +305,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /**
      * @return - A random resourceCard is removed from the players inventory and returned.
      */
-    int getRandomCard() {
+    public int getRandomCard() {
 
         if (this.getTotalResourceCardCount() < 1) {
             Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
