@@ -24,6 +24,7 @@ public class MainActivity extends GameMainActivity {
     // the port number that this game will use when playing over the network
     private static final int PORT_NUMBER = 2278;
 
+    // default game configuration
     @Override
     public GameConfig createDefaultConfig() {
         // Define the allowed player types
