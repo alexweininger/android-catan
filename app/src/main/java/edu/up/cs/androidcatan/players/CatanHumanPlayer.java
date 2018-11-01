@@ -67,7 +67,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /**
      * this method gets called when the user clicks the die or hold button. It
-     * creates a new PigRollAction or PigHoldAction and sends it to the game.
+     * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
+     * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
      *
      * @param button
      * 		the button that was clicked
@@ -89,15 +90,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         myActivity = activity;
 
         // Load the layout resource for our GUI
-        activity.setContentView(R.layout.pig_layout);
+        activity.setContentView(R.layout.activity_main);
 
         //Initialize the widget reference member variables
-        this.playerScoreTextView = (TextView)activity.findViewById(R.id.yourScoreValue);
-        this.oppScoreTextView    = (TextView)activity.findViewById(R.id.oppScoreValue);
-        this.turnTotalTextView   = (TextView)activity.findViewById(R.id.turnTotalValue);
-        this.messageTextView     = (TextView)activity.findViewById(R.id.messageTextView);
-        this.dieImageButton      = (ImageButton)activity.findViewById(R.id.dieButton);
-        this.holdButton          = (Button)activity.findViewById(R.id.holdButton);
+//        this.playerScoreTextView = (TextView)activity.findViewById(R.id.yourScoreValue);
+//        this.oppScoreTextView    = (TextView)activity.findViewById(R.id.oppScoreValue);
+//        this.turnTotalTextView   = (TextView)activity.findViewById(R.id.turnTotalValue);
+//        this.messageTextView     = (TextView)activity.findViewById(R.id.messageTextView);
+//        this.dieImageButton      = (ImageButton)activity.findViewById(R.id.dieButton);
+//        this.holdButton          = (Button)activity.findViewById(R.id.holdButton);
 
         //Listen for button presses
         dieImageButton.setOnClickListener(this);
@@ -105,5 +106,5 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     }//setAsGui
 
-}// class PigHumanPlayer
+}// class CatanHumanPlayer
 
