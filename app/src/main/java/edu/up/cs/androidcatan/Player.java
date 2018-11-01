@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan;
 
 import android.util.Log;
 import android.view.View;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -30,7 +31,7 @@ import android.view.View.OnClickListener;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Player extends GameHumanPlayer implements OnClickListener{
+public class Player extends GameHumanPlayer implements OnClickListener {
 
     private static final String TAG = "Player";
 
@@ -43,7 +44,10 @@ public class Player extends GameHumanPlayer implements OnClickListener{
     private String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
 
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
+    private int[] buildingInventory = {15, 5, 4}; // number of buildings the player has to build {roads, settlements, cities}
+
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available TODO change data type to better one
+
     private int armySize; // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
     private int playerId;   // playerId
 
@@ -148,7 +152,7 @@ public class Player extends GameHumanPlayer implements OnClickListener{
             return false;
         }
         for (int i : resourceCost) {
-            if(!this.removeResourceCard(i, resourceCost[i])) {
+            if (!this.removeResourceCard(i, resourceCost[i])) {
                 Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Player.removeResourceCard method returned false.");
                 return false;
             }
@@ -168,10 +172,16 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         return str.toString();
     }
 
+    /**
+     * @return - resource card array
+     */
     public int[] getResourceCards() {
         return this.resourceCards;
     }
 
+    /**
+     * @param resourceCards - resource card array
+     */
     public void setResourceCards(int[] resourceCards) {
         this.resourceCards = resourceCards;
     }
@@ -209,7 +219,11 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         return false;
     }
 
-    //use to allow the player to use the dev card they built the turn prior
+    public void decrementBuildingInventory(int buildingId) {
+        this.buildingInventory[buildingId]--;
+    }
+
+    // use to allow the player to use the dev card they built the turn prior
     public void setDevelopmentCardsAsPlayable() {
         for (int i = 0; i < developmentCards.size(); i++) {
             developmentCards.get(i).setPlayable(true);
@@ -223,16 +237,15 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         return this.playerId;
     }
 
+    /**
+     * @return - list of players' development cards
+     */
     public ArrayList<DevelopmentCard> getDevelopmentCards() {
         return developmentCards;
     }
 
     public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
         this.developmentCards = developmentCards;
-    }
-
-    public HashMap<String, Integer> getAvailableBuildings() {
-        return availableBuildings;
     }
 
     public void setAvailableBuildings(HashMap<String, Integer> availableBuildings) {
@@ -253,7 +266,7 @@ public class Player extends GameHumanPlayer implements OnClickListener{
 
     int getRandomCard() {
 
-        if(this.getTotalResourceCardCount() < 1) {
+        if (this.getTotalResourceCardCount() < 1) {
             Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
             return -1;
         }
@@ -274,11 +287,11 @@ public class Player extends GameHumanPlayer implements OnClickListener{
 
     //TODO Figure out what these methods from the GameHumanPlayer and OnClickListener do and implement them
 
-    public void onClick(View button){
+    public void onClick(View button) {
 
     }
 
-    public void setAsGui(GameMainActivity activity){
+    public void setAsGui(GameMainActivity activity) {
 
     }
 
@@ -287,7 +300,7 @@ public class Player extends GameHumanPlayer implements OnClickListener{
         return null;
     }
 
-    public void receiveInfo(GameInfo info){
+    public void receiveInfo(GameInfo info) {
 
     }
 
