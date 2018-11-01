@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
+import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.LocalGame;
+import edu.up.cs.androidcatan.game.config.GameConfig;
 
 /**
  * @author Alex Weininger
@@ -23,7 +26,17 @@ import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
  **/
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends GameMainActivity {
+
+    @Override
+    public GameConfig createDefaultConfig() {
+        return null;
+    }
+
+    @Override
+    public LocalGame createLocalGame() {
+        return null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
