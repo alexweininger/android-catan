@@ -311,8 +311,9 @@ public class CatanGameState extends GameState {
         // if the robber is rolled
         if (rollNum == 7) {
             // todo activate robber
-            Log.i(TAG, "rollDice: Robber has been activated.");
+            Log.i(TAG, "rollDice: The robber has been activated.");
         } else {
+            Log.i(TAG, "rollDice: Calling the produceResources method.");
             produceResources(rollNum);
         }
 
