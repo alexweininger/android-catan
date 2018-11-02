@@ -32,14 +32,17 @@ public class MainActivity extends GameMainActivity {
         // Pig has two player types:  human and computer
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new Player(0);
+                return new CatanHumanPlayer("p");
+            }});
+        playerTypes.add(new GamePlayerType("Computer") {
+            public GamePlayer createPlayer(String name) {
+                return new CatanComputerPlayer("k");
             }});
 
         // Create a game configuration class for Pig:
         GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Settlers of Catan", PORT_NUMBER);
         defaultConfig.addPlayer("Human", 0); // player 1: a human player
         defaultConfig.addPlayer("Computer", 1); // player 2: a computer player
-        // defaultConfig.addPlayer("Smart Computer", 2); // Player 3 a smart computer player
         defaultConfig.setRemoteData("Remote Human Player", "", 0);
 
         return defaultConfig;

@@ -196,20 +196,47 @@ public class Board {
         return false;
     }
 
+    //returns the playerid with the longest road for now (may need to change so that it returns the value instead)
     public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
+        ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
+            //for each player there is an adjacency map as well as a list
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
+            ArrayList<Integer> currentPlayerRoadLength = new ArrayList<>();
             for (Road road : roads) {
                 if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoads.add(road);
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
-            playerRoads.get(0).getIntersectionAId();
+            for (int n = 0; n < playerRoads.size(); n++){
+                currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList));
+            }
+            int max = 0;
+            for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
+                max = currentPlayerRoadLength.get(0);
+                if (currentPlayerRoadLength.get(n) >= max) {
+                    max = currentPlayerRoadLength.get(n);
+                }
+            }
+            longestRoadPerPlayer.add(player.getPlayerId(), max);
         }
-        return 0;
+        int playerIdLongestRoad = -1;
+        int currLongestRoad = 0;
+        //currently gives the longest road trophy to the most recent player checked within the array if
+        //it shares the longest road with a prior player
+        for (int n = 0; n < longestRoadPerPlayer.size(); n++){
+            if (longestRoadPerPlayer.get(n) > currLongestRoad){
+                currLongestRoad = longestRoadPerPlayer.get(n);
+                playerIdLongestRoad = n;
+            }
+        }
+        return playerIdLongestRoad;
     }
+
+    //TODO: helper method to return a playerId's longest road (possibly for later)
+
 
     public boolean checkIntersectionBreak(int intersectionId, int playerId) {
         if (this.buildings[intersectionId].getOwnerId() != playerId) {

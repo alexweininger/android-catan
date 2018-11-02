@@ -206,6 +206,7 @@ public class CatanGameState extends GameState {
     /**
      * updates the victory points of each player, should be called after every turn
      */
+    /*
     private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
@@ -221,6 +222,20 @@ public class CatanGameState extends GameState {
         checkArmySize();
         if (this.currentLargestArmyPlayerId != -1) {
             this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
+        }
+
+        // goes through all buildings and the amount of victory points to the player to who owns the building
+        for(int i = 0; i < board.getBuildings().length; i++)
+        {
+            playerVictoryPoints[board.getBuildings()[i].getOwnerId()] += board.getBuildings()[i].getVictoryPoints();
+        }
+    }*/
+
+    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL
+    private void updateVictoryPoints(){
+        //calculates the longest road for the players and checks if it is the current player
+        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId){
+            currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
         }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
@@ -275,11 +290,11 @@ public class CatanGameState extends GameState {
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
-     * @param playerId - player that attempts to roll the dice
      * @return - action success
      */
-    public boolean rollDice(int playerId) {
-        if (!valPlId(playerId)) {
+    public boolean rollDice(){
+        //TODO checkAndHandleAction() from LocalGame takes cares of playerId checks
+        /*if (!valPlId(playerId)) {
             Log.e(TAG, "rollDice: Invalid player id: " + playerId);
             return false;
         }
@@ -287,15 +302,15 @@ public class CatanGameState extends GameState {
         if (playerId != this.currentPlayerId) {
             Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
             return false;
-        }
+        }*/
 
         if (this.isActionPhase) {
-            Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
+            Log.i(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         int rollNum = dice.roll();
-        Log.i(TAG, "rollDice: Player " + playerId + " rolled a " + rollNum);
+        Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
 
         // if the robber is rolled
         if (rollNum == 7) {
