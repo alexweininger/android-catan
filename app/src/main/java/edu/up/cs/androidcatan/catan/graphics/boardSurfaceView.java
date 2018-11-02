@@ -8,10 +8,6 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
-import edu.up.cs.androidcatan.catan.graphics.House;
-import edu.up.cs.androidcatan.catan.hexagon.*;
-import edu.up.cs.androidcatan.catan.trading.*;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang

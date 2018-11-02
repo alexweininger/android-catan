@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
@@ -9,7 +9,7 @@ import edu.up.cs.androidcatan.catan.buildings.Settlement;
 import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
-import edu.up.cs.androidcatan.players.Player;
+import edu.up.cs.androidcatan.catan.players.Player;
 
 import java.util.ArrayList;
 import java.util.Random;

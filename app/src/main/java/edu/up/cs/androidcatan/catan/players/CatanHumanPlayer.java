@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.players;
+package edu.up.cs.androidcatan.catan.players;
 
 
 import android.view.View;

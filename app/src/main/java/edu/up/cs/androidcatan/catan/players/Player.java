@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.players;
+package edu.up.cs.androidcatan.catan.players;
 
 import android.util.Log;
 import android.view.View;
@@ -13,13 +13,6 @@ import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
 // todo removed unused imports please
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.view.View.OnClickListener;
 
 /**

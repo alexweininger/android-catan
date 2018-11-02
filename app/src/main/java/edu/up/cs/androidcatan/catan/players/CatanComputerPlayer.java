@@ -1,9 +1,7 @@
-package edu.up.cs.androidcatan.players;
+package edu.up.cs.androidcatan.catan.players;
 
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
-import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
-import edu.up.cs.androidcatan.game.util.Tickable;
 
 /**
  * @author Alex Weininger

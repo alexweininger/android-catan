@@ -3,8 +3,8 @@ package edu.up.cs.androidcatan.catan.devcards;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.up.cs.androidcatan.players.Player;
-import edu.up.cs.androidcatan.Robber;
+import edu.up.cs.androidcatan.catan.players.Player;
+import edu.up.cs.androidcatan.catan.Robber;
 import edu.up.cs.androidcatan.catan.buildings.Road;
 
 /**

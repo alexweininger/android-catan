@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
@@ -8,7 +8,7 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.buildings.Building;
 import edu.up.cs.androidcatan.catan.buildings.Road;
 import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
-import edu.up.cs.androidcatan.players.Player;
+import edu.up.cs.androidcatan.catan.players.Player;
 
 /**
  * @author Alex Weininger
