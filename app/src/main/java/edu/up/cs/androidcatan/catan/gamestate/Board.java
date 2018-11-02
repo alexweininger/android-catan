@@ -83,7 +83,9 @@ public class Board {
         generateRoadMatrix();
 
         // print graphs
+        Log.i(TAG, "Board: Printing hGraph...");
         printGraph(hGraph);
+        Log.i(TAG, "Board: Printing iGraph...");
         printGraph(iGraph);
 
         // generate maps
@@ -453,15 +455,19 @@ public class Board {
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
     public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
+        Log.d(TAG, "getAdjacentIntersections() called with: intersectionId = [" + intersectionId + "]");
+
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
         for (int i = 0; i < 54; i++) {
-            if (adjacentIntersections.size() > 3) {
-                Log.e(TAG, "getAdjacentIntersections: Received more than 3 adjacent intersections. That makes no sense.");
-            }
             if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
                 adjacentIntersections.add(i);
             }
         }
+
+        if (adjacentIntersections.size() > 3) {
+            Log.e(TAG, "getAdjacentIntersections: Received more than 3 adjacent intersections. That makes no sense.");
+        }
+
         return adjacentIntersections;
     }
 
