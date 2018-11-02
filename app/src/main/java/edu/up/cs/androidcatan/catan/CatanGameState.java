@@ -232,15 +232,14 @@ public class CatanGameState extends GameState {
     }*/
 
     //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL
-    private void updateVictoryPoints(){
+    private void updateVictoryPoints() {
         //calculates the longest road for the players and checks if it is the current player
-        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId){
+        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
             currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
         }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
-        for(int i = 0; i < board.getBuildings().length; i++)
-        {
+        for (int i = 0; i < board.getBuildings().length; i++) {
             playerVictoryPoints[board.getBuildings()[i].getOwnerId()] += board.getBuildings()[i].getVictoryPoints();
         }
     }
@@ -292,7 +291,7 @@ public class CatanGameState extends GameState {
      *
      * @return - action success
      */
-    public boolean rollDice(){
+    public boolean rollDice() {
         //TODO checkAndHandleAction() from LocalGame takes cares of playerId checks
         /*if (!valPlId(playerId)) {
             Log.e(TAG, "rollDice: Invalid player id: " + playerId);
@@ -365,12 +364,12 @@ public class CatanGameState extends GameState {
      * - checks if it is the action phase of the turn
      * - checks if the player has enough resources to trade
      *
-     * @param playerId           - player attempting to trade with port
-     * @param givenResourceId    - what player is giving in the trade
+     * @param playerId - player attempting to trade with port
+     * @param givenResourceId - what player is giving in the trade
      * @param receivedResourceId - what the player is receiving in the trade
      * @return - action success
      */
-    public boolean tradeWithPort(int playerId, int intersectionId,  int givenResourceId, int receivedResourceId) {
+    public boolean tradeWithPort(int playerId, int intersectionId, int givenResourceId, int receivedResourceId) {
         // check if current player's turn and then if player has rolled dice
         if (!valAction(playerId)) {
             return false;
@@ -401,12 +400,11 @@ public class CatanGameState extends GameState {
     }
 
 
-
     /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
      *
-     * @param playerId   - player attempting to trade with port
-     * @param resGiven   - what player is giving in the trade
+     * @param playerId - player attempting to trade with port
+     * @param resGiven - what player is giving in the trade
      * @param resReceive - what the player is receiving in the trade
      * @return - action success
      */
@@ -434,9 +432,9 @@ public class CatanGameState extends GameState {
     /**
      * Player requests to build road ands Game State processes requests and returns true if build was successful
      *
-     * @param playerId            - player building a road
+     * @param playerId - player building a road
      * @param startIntersectionID - intersection id
-     * @param endIntersectionID   - intersection id
+     * @param endIntersectionID - intersection id
      * @return - action success
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
@@ -468,7 +466,7 @@ public class CatanGameState extends GameState {
     /**
      * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
      *
-     * @param playerId       - player building a settlement
+     * @param playerId - player building a settlement
      * @param intersectionId - intersection the player wants to build at
      * @return - action success
      */
@@ -506,7 +504,7 @@ public class CatanGameState extends GameState {
     /**
      * Player requests to build city and Game State processes requests and returns true if build was successful
      *
-     * @param playerId       - player building a city
+     * @param playerId - player building a city
      * @param intersectionId - intersection
      * @return - action success
      */
@@ -569,7 +567,7 @@ public class CatanGameState extends GameState {
     }
 
     /**
-     * @param playerId  - player playing development card
+     * @param playerId - player playing development card
      * @param devCardId - id of the development card
      * @return - action success
      */
@@ -632,7 +630,7 @@ public class CatanGameState extends GameState {
      * After the player has moved the Robber, the player will choose a player to steal from and receive a random card from their hand
      *
      * @param hexagonId - hexagon that the robber is moved to
-     * @param playerId  - player stealing resources
+     * @param playerId - player stealing resources
      * @return - action success
      */
     public boolean robberSteal(int hexagonId, int playerId) {
