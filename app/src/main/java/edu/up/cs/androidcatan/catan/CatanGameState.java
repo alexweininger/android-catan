@@ -73,15 +73,16 @@ public class CatanGameState extends GameState {
      * @param cgs - CatanGameState object to make a copy of
      */
     public CatanGameState(CatanGameState cgs) {
-        this.dice = new Dice(cgs.getDice());
-        this.setDice(cgs.getDice());
+        this.setDice(new Dice(cgs.getDice()));
+        this.setBoard(new Board(cgs.getBoard()));
+
         this.currentPlayerId = cgs.currentPlayerId;
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
-        this.setBoard(cgs.getBoard());
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
+        // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
         }
