@@ -206,6 +206,7 @@ public class CatanGameState extends GameState {
     /**
      * updates the victory points of each player, should be called after every turn
      */
+    /*
     private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
@@ -221,6 +222,20 @@ public class CatanGameState extends GameState {
         checkArmySize();
         if (this.currentLargestArmyPlayerId != -1) {
             this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
+        }
+
+        // goes through all buildings and the amount of victory points to the player to who owns the building
+        for(int i = 0; i < board.getBuildings().length; i++)
+        {
+            playerVictoryPoints[board.getBuildings()[i].getOwnerId()] += board.getBuildings()[i].getVictoryPoints();
+        }
+    }*/
+
+    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL
+    private void updateVictoryPoints(){
+        //calculates the longest road for the players and checks if it is the current player
+        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId){
+            currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
         }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building

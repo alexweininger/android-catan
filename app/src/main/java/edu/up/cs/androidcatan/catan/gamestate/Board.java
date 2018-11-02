@@ -69,6 +69,8 @@ public class Board {
     // List of port intersection locations. TODO
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
+    private ArrayList<Port> portList = new ArrayList<>();
+
     public Board() {
         // populate ids
         populateHexagonIds();
@@ -97,6 +99,8 @@ public class Board {
 
         int desertTileId = 0; // TODO
         robber = new Robber(desertTileId);
+
+        designatePorts();
 
     } // end Board constructor
 
@@ -192,20 +196,47 @@ public class Board {
         return false;
     }
 
+    //returns the playerid with the longest road for now (may need to change so that it returns the value instead)
     public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
+        ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
+            //for each player there is an adjacency map as well as a list
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
+            ArrayList<Integer> currentPlayerRoadLength = new ArrayList<>();
             for (Road road : roads) {
                 if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoads.add(road);
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
-            playerRoads.get(0).getIntersectionAId();
+            for (int n = 0; n < playerRoads.size(); n++){
+                currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList));
+            }
+            int max = 0;
+            for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
+                max = currentPlayerRoadLength.get(0);
+                if (currentPlayerRoadLength.get(n) >= max) {
+                    max = currentPlayerRoadLength.get(n);
+                }
+            }
+            longestRoadPerPlayer.add(player.getPlayerId(), max);
         }
-        return 0;
+        int playerIdLongestRoad = -1;
+        int currLongestRoad = 0;
+        //currently gives the longest road trophy to the most recent player checked within the array if
+        //it shares the longest road with a prior player
+        for (int n = 0; n < longestRoadPerPlayer.size(); n++){
+            if (longestRoadPerPlayer.get(n) > currLongestRoad){
+                currLongestRoad = longestRoadPerPlayer.get(n);
+                playerIdLongestRoad = n;
+            }
+        }
+        return playerIdLongestRoad;
     }
+
+    //TODO: helper method to return a playerId's longest road (possibly for later)
+
 
     public boolean checkIntersectionBreak(int intersectionId, int playerId) {
         if (this.buildings[intersectionId].getOwnerId() != playerId) {
@@ -236,8 +267,6 @@ public class Board {
         }
         return 0;
     }
-
-
 
     /* ----- building methods ----- */
 
@@ -883,6 +912,35 @@ public class Board {
             portIntersectionLocations.add(17 + i * 6);
             portIntersectionLocations.add(17 + i * 6 + 1);
         }
+    }
+
+    private void designatePorts(){
+        portList.add(new Port(25, 3, 3)); //Ore
+        portList.add(new Port(26, 3, 3));
+
+        portList.add(new Port(29, 2, 1)); //Grain
+        portList.add(new Port(30, 2,1));
+
+        portList.add(new Port(32, 3, -1)); //Anything
+        portList.add(new Port(33, 3, -1));
+
+        portList.add(new Port(35,2,2)); //Lumber
+        portList.add(new Port(36,2,2));
+
+        portList.add(new Port(39,2,0)); //Brick
+        portList.add(new Port(40,2,0));
+
+        portList.add(new Port(42, 3, -1)); //anything
+        portList.add(new Port(43,3,-1));
+
+        portList.add(new Port(45,3,-1)); //anything
+        portList.add(new Port(46,3,-1));
+
+        portList.add(new Port(52, 3, -1)); //anything
+        portList.add(new Port(53, 3, -1));
+
+        portList.add(new Port(49, 2, 4));  //Wool
+        portList.add(new Port(50, 2, 4));
     }
 
     /* ----- generic getter methods ----- */
