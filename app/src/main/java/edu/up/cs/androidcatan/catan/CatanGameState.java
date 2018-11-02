@@ -235,7 +235,7 @@ public class CatanGameState extends GameState {
         }
     }*/
 
-    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL
+    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL; I TOUCHED THIS BECAUSE IT HAD A BUG - AW
     private void updateVictoryPoints() {
         //calculates the longest road for the players and checks if it is the current player
         if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
