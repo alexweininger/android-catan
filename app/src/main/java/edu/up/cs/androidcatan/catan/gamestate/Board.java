@@ -1088,7 +1088,13 @@ public class Board {
         this.portIntersectionLocations = portIntersectionLocations;
     }
 
+    public ArrayList<Port> getPortList() {
+        return portList;
+    }
 
+    public void setPortList(ArrayList<Port> portList) {
+        this.portList = portList;
+    }
 
     /**
      * @param arr - graph array 2d boolean array

@@ -372,9 +372,10 @@ public class CatanGameState extends GameState {
         }
 
         // code to commence trade
-        int tradeRatio = this.board.getPorts()[intersectionId].getRatio();
+        int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();
+        int tradeResrouceId = this.board.getPortList().get(intersectionId).getResourceId();
 
-        if (tradeRatio == -1) {
+        if (tradeResrouceId == -1) {
 
         } else {
 
