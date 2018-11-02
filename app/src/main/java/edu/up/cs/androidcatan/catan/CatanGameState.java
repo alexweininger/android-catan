@@ -371,9 +371,10 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        // creating a random trade ratio
-        Random random = new Random();
-        int ratio = random.nextInt(1) + 2;
+        // code to commence trade
+
+
+
 
         // check if player has enough resources to complete trade
         if (this.playerList.get(playerId).removeResourceCard(givenResourceId, ratio)) {
