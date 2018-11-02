@@ -87,6 +87,7 @@ public class CatanGameState extends GameState {
             this.playerList.add(new Player(cgs.playerList.get(i)));
         }
 
+        // copy victory points of each player
         for (int i = 0; i < cgs.playerVictoryPoints.length; i++) {
             this.playerVictoryPoints[i] = cgs.playerVictoryPoints[i];
             this.playerPrivateVictoryPoints[i] = cgs.playerPrivateVictoryPoints[i];
