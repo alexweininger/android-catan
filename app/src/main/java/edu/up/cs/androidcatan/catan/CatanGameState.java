@@ -67,7 +67,6 @@ public class CatanGameState extends GameState {
     } // end CatanGameState constructor
 
     /**
-     * TODO use deep copies of other classes
      * CatanGameState deep copy constructor
      *
      * @param cgs - CatanGameState object to make a copy of
@@ -136,7 +135,7 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-    /**
+    /** todo maybe this is deprecated?
      * validates the player id, checks if its their turn, and checks if it is the action phase
      *
      * @param playerId - player id to validate an action for
@@ -148,13 +147,13 @@ public class CatanGameState extends GameState {
                 if (this.isActionPhase) {
                     return true;
                 }
-                Log.d("devInfo", "INFO: valAction - it is not the action phase.");
+                Log.i(TAG, "valAction - it is not the action phase.");
                 return false;
             }
-            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
+            Log.i(TAG, "valAction - it is not " + playerId + "'s turn.");
             return false;
         }
-        Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
+        Log.i(TAG, "valAction - invalid player id: " + playerId);
         return false;
     }
 
@@ -178,44 +177,43 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /**
-     * checkRoadLength - after each turn check if any player has longest road, with a min of 5 road segments
-     * probably just calls a method in board?
-     * recursion???
+    /** todo
+     *
+     * updateLongestRoadPlayer - after each turn check if any player has longest road, with a min of 5 road segments
      */
-    /*private void checkRoadLength() {
-        int max = -1;
-        int playerIdWithLongestRoad = -1;
-        if (currentLongestRoadPlayerId != -1) {
-            max = playerVictoryPoints[currentLargestArmyPlayerId];
-        }
-        for (int i = 0; i < 4; i++) {
-            if (board.getPlayerWithLongestRoad(i) > max) {
-                max = board.getPlayerWithLongestRoad(i);
-                playerIdWithLongestRoad = i;
-            }
-        }
-        if (max > 4) {
-            this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
-        }
-    }*/
+    private void updateLongestRoadPlayer() {
+//        int max = -1;
+//        int playerIdWithLongestRoad = -1;
+//        if (currentLongestRoadPlayerId != -1) {
+//            max = playerVictoryPoints[currentLargestArmyPlayerId];
+//        }
+//        for (int i = 0; i < 4; i++) {
+//            if (board.getPlayerWithLongestRoad(this.playerList) > max) {
+//                max = board.getPlayerWithLongestRoad(i);
+//                playerIdWithLongestRoad = i;
+//            }
+//        }
+//        if (max > 4) {
+//            this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
+//        }
+    }
 
     /**
      * Gets the player who has the longest road.
      */
-    private int checkLongestRoad() {
+    private int checkLongestRoad() { // todo this should be called somewhere...
         return this.board.getPlayerWithLongestRoad(this.playerList);
     }
 
     /**
      * updates the victory points of each player, should be called after every turn
      */
-    /*
+    /* TODO lol pls remove when we can
     private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
         }
-        //checkRoadLength();
+        //updateLongestRoadPlayer();
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
         }
@@ -235,7 +233,7 @@ public class CatanGameState extends GameState {
         }
     }*/
 
-    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL
+    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL; I TOUCHED THIS BECAUSE IT HAD A BUG - AW
     private void updateVictoryPoints() {
         //calculates the longest road for the players and checks if it is the current player
         if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
@@ -243,8 +241,12 @@ public class CatanGameState extends GameState {
         }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
-        for (int i = 0; i < board.getBuildings().length; i++) {
-            playerVictoryPoints[board.getBuildings()[i].getOwnerId()] += board.getBuildings()[i].getVictoryPoints();
+        Building[] buildings = this.board.getBuildings();
+
+        for (Building building : buildings) {
+            if (building != null) {
+                playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
+            }
         }
     }
 
@@ -255,7 +257,7 @@ public class CatanGameState extends GameState {
      */
     private void produceResources(int diceSum) {
         if (isActionPhase) {
-            Log.e(TAG, "produceResources: It is the action phase.");
+            Log.e(TAG, "produceResources: It is the action phase. Returned false.");
             return;
         }
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
@@ -296,12 +298,10 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean rollDice() {
-        //TODO checkAndHandleAction() from LocalGame takes cares of playerId checks
-        Log.d(TAG, "rollDice() called");
-
+        Log.d(TAG, "rollDice() called.");
 
         if (this.isActionPhase) {
-            Log.i(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
+            Log.e(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn. Returned false.");
             return false;
         }
 
@@ -311,12 +311,13 @@ public class CatanGameState extends GameState {
         // if the robber is rolled
         if (rollNum == 7) {
             // todo activate robber
-            Log.i(TAG, "rollDice: Robber has been activated.");
+            Log.i(TAG, "rollDice: The robber has been activated.");
         } else {
+            Log.i(TAG, "rollDice: Calling the produceResources method.");
             produceResources(rollNum);
         }
 
-
+        Log.i(TAG, "rollDice: Set isActionPhase to true.");
         this.isActionPhase = true;
 
         return true;
@@ -324,14 +325,12 @@ public class CatanGameState extends GameState {
 
     /**
      * action for a player ending their turn, increments currentPlayerId. As of now does no checks.
-     * error checking:
-     * - valid player id
-     * - it is players turn
      *
      * @return - action success
      */
     public boolean endTurn() {
-        if (!valAction(currentPlayerId)) {
+        if (!isActionPhase) {
+            Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
             return false;
         }
 
@@ -353,10 +352,10 @@ public class CatanGameState extends GameState {
     } // end endTurn method
 
     /**
+     * TODO
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
      * error checking:
-     * - checks if it is given players turn
      * - checks if it is the action phase of the turn
      * - checks if the player has enough resources to trade
      *
