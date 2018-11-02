@@ -223,10 +223,20 @@ public class Board {
             longestRoadPerPlayer.add(player.getPlayerId(), max);
         }
         int playerIdLongestRoad = -1;
+        int currLongestRoad = 0;
+        //currently gives the longest road trophy to the most recent player checked within the array if
+        //it shares the longest road with a prior player
         for (int n = 0; n < longestRoadPerPlayer.size(); n++){
+            if (longestRoadPerPlayer.get(n) > currLongestRoad){
+                currLongestRoad = longestRoadPerPlayer.get(n);
+                playerIdLongestRoad = n;
+            }
         }
-        return -1;
+        return playerIdLongestRoad;
     }
+
+    //TODO: helper method to return a playerId's longest road (possibly for later)
+
 
     public boolean checkIntersectionBreak(int intersectionId, int playerId) {
         if (this.buildings[intersectionId].getOwnerId() != playerId) {
