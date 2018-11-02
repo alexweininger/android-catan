@@ -181,7 +181,7 @@ public class CatanGameState extends GameState {
     /**
      * checkRoadLength - after each turn check if any player has longest road, with a min of 5 road segments
      */
-    /*private void checkRoadLength() {
+    private void checkRoadLength() {
         int max = -1;
         int playerIdWithLongestRoad = -1;
         if (currentLongestRoadPlayerId != -1) {
@@ -196,7 +196,7 @@ public class CatanGameState extends GameState {
         if (max > 4) {
             this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
         }
-    }*/
+    }
 
     /**
      * Gets the player who has the longest road.
