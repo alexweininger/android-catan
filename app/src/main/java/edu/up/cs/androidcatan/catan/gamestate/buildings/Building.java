@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.catan.buildings;
+package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
 /**
  * @author Alex Weininger
@@ -21,15 +21,13 @@ public abstract class Building {
         this.ownerId = ownerId;
     }
 
+    public int getOwnerId() {
+        return this.ownerId;
+    }
     public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
     }
 
     abstract public int getVictoryPoints();
-
     abstract public String toString();
-
-    public int getOwnerId() {
-        return this.ownerId;
-    }
 }

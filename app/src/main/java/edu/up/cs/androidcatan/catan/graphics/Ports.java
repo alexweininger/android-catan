@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.catan.trading;
+package edu.up.cs.androidcatan.catan.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

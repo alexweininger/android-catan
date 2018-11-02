@@ -1,8 +1,6 @@
-package edu.up.cs.androidcatan.catan.buildings;
+package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
 import java.util.Arrays;
-
-import edu.up.cs.androidcatan.catan.buildings.Building;
 
 /**
  * @author Alex Weininger
@@ -53,8 +51,6 @@ public class Road extends Building {
     public int getVictoryPoints() {
         return 0;
     }
-
-    public static int[] getResourceCost() { return resourceCost;}
 
     @Override
     public String toString() {

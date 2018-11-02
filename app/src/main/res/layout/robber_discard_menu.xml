@@ -11,37 +11,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.0" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/rightVerticalGuideLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="1.0" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <android.support.constraint.Guideline
         android:id="@+id/topHorizontalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".2" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/bottomHorizontalGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".8" />
+        app:layout_constraintGuide_percent="0.52" />
 
     <TextView
         android:id="@+id/robberMenuHeaderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="16dp"
         android:text="@string/robber_discard_menu_header"
-        android:textSize="48sp"
-        android:typeface="normal"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="@+id/leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/topHorizontalGuideline" />
 
@@ -49,8 +34,8 @@
         android:id="@+id/brickImg"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="51dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/brick"
         app:layout_constraintStart_toEndOf="@+id/leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/robberMenuHeaderText"
@@ -60,223 +45,203 @@
         android:id="@+id/lumberImg"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="24dp"
         android:contentDescription="@string/lumber"
         app:layout_constraintStart_toEndOf="@+id/brickImg"
-        app:layout_constraintTop_toBottomOf="@+id/robberMenuHeaderText"
+        app:layout_constraintTop_toTopOf="@+id/brickImg"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/grainImg"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="24dp"
         android:contentDescription="@string/grain"
         app:layout_constraintStart_toEndOf="@+id/lumberImg"
-        app:layout_constraintTop_toBottomOf="@+id/robberMenuHeaderText"
+        app:layout_constraintTop_toTopOf="@+id/lumberImg"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/oreImg"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="24dp"
         android:contentDescription="@string/ore"
         app:layout_constraintStart_toEndOf="@+id/grainImg"
-        app:layout_constraintTop_toBottomOf="@+id/robberMenuHeaderText"
+        app:layout_constraintTop_toTopOf="@+id/grainImg"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/woolImg"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="24dp"
         android:contentDescription="@string/wool"
         app:layout_constraintStart_toEndOf="@+id/oreImg"
-        app:layout_constraintTop_toBottomOf="@+id/robberMenuHeaderText"
+        app:layout_constraintTop_toTopOf="@+id/oreImg"
         app:srcCompat="@drawable/placerholder_image" />
 
     <Button
         android:id="@+id/confirm"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="53dp"
         android:text="@string/confirm"
-        app:layout_constraintBottom_toTopOf="@+id/bottomHorizontalGuideline"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/selectMoreResources"
+        app:layout_constraintEnd_toEndOf="@+id/woolImg"
+        app:layout_constraintTop_toTopOf="@+id/selectMoreResources"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/selectMoreResources"
         android:layout_width="443dp"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/select_more_resources"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomHorizontalGuideline"
-        app:layout_constraintEnd_toStartOf="@+id/confirm" />
+        app:layout_constraintEnd_toStartOf="@+id/confirm"
+        app:layout_constraintTop_toBottomOf="@+id/brickAmount" />
 
     <TextView
         android:id="@+id/brickAmount"
-        android:layout_width="36dp"
-        android:layout_height="44dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="0"
-        android:textAlignment="center"
         android:textSize="32sp"
-        app:layout_constraintStart_toEndOf="@+id/brickMinusImg"
+        app:layout_constraintEnd_toStartOf="@+id/birckAddImg"
+        app:layout_constraintStart_toEndOf="@+id/birckMinusImg"
         app:layout_constraintTop_toBottomOf="@+id/brickImg" />
 
     <TextView
         android:id="@+id/lumberAmount"
-        android:layout_width="36dp"
-        android:layout_height="44dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="0"
-        android:textAlignment="center"
         android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/lumberAddImg"
         app:layout_constraintStart_toEndOf="@+id/lumberMinusImg"
         app:layout_constraintTop_toBottomOf="@+id/lumberImg" />
 
     <TextView
         android:id="@+id/grainAmount"
-        android:layout_width="36dp"
-        android:layout_height="44sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="0"
-        android:textAlignment="center"
         android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/grainAddImg"
         app:layout_constraintStart_toEndOf="@+id/grainMinusImg"
         app:layout_constraintTop_toBottomOf="@+id/grainImg" />
 
     <TextView
         android:id="@+id/oreAmount"
-        android:layout_width="36dp"
-        android:layout_height="44dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="0"
-        android:textAlignment="center"
         android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/oreAddImg"
         app:layout_constraintStart_toEndOf="@+id/oreMinusImg"
         app:layout_constraintTop_toBottomOf="@+id/oreImg" />
 
     <TextView
         android:id="@+id/woolAmount"
-        android:layout_width="36dp"
-        android:layout_height="44dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:contentDescription="@string/wool"
         android:text="0"
-        android:textAlignment="center"
         android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/woolAddImg"
         app:layout_constraintStart_toEndOf="@+id/woolMinusImg"
         app:layout_constraintTop_toBottomOf="@+id/woolImg" />
 
     <ImageView
-        android:id="@+id/brickMinusImg"
+        android:id="@+id/birckMinusImg"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/brick"
-        app:layout_constraintStart_toStartOf="@+id/leftVerticalGuideLine"
-        app:layout_constraintTop_toBottomOf="@+id/brickImg"
+        app:layout_constraintStart_toStartOf="@+id/brickImg"
+        app:layout_constraintTop_toTopOf="@+id/brickAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/lumberMinusImg"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/lumber"
-        app:layout_constraintStart_toEndOf="@+id/brickAddImg"
-        app:layout_constraintTop_toBottomOf="@+id/lumberImg"
+        app:layout_constraintStart_toStartOf="@+id/lumberImg"
+        app:layout_constraintTop_toTopOf="@+id/lumberAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/grainMinusImg"
         android:layout_width="45dp"
         android:layout_height="44dp"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/grain"
-        app:layout_constraintStart_toEndOf="@+id/lumberAddImg"
-        app:layout_constraintTop_toBottomOf="@+id/grainImg"
+        app:layout_constraintStart_toStartOf="@+id/grainImg"
+        app:layout_constraintTop_toTopOf="@+id/grainAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/oreMinusImg"
         android:layout_width="45dp"
         android:layout_height="44dp"
-        android:layout_marginStart="74dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/ore"
-        app:layout_constraintStart_toEndOf="@+id/grainAddImg"
-        app:layout_constraintTop_toBottomOf="@+id/oreImg"
+        app:layout_constraintStart_toStartOf="@+id/oreImg"
+        app:layout_constraintTop_toTopOf="@+id/oreAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/woolMinusImg"
         android:layout_width="45dp"
         android:layout_height="44dp"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/wool"
-        app:layout_constraintStart_toEndOf="@+id/oreAddImg"
-        app:layout_constraintTop_toBottomOf="@+id/woolImg"
+        app:layout_constraintStart_toStartOf="@+id/woolImg"
+        app:layout_constraintTop_toTopOf="@+id/woolAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
-        android:id="@+id/brickAddImg"
+        android:id="@+id/birckAddImg"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/brick"
-        app:layout_constraintStart_toEndOf="@+id/brickAmount"
-        app:layout_constraintTop_toBottomOf="@+id/brickImg"
+        app:layout_constraintEnd_toEndOf="@+id/brickImg"
+        app:layout_constraintTop_toTopOf="@+id/brickAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/lumberAddImg"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/lumber"
-        app:layout_constraintStart_toEndOf="@+id/lumberAmount"
-        app:layout_constraintTop_toBottomOf="@+id/lumberImg"
+        app:layout_constraintEnd_toEndOf="@+id/lumberImg"
+        app:layout_constraintTop_toTopOf="@+id/lumberAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/grainAddImg"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/grain"
-        app:layout_constraintStart_toEndOf="@+id/grainAmount"
-        app:layout_constraintTop_toBottomOf="@+id/grainImg"
+        app:layout_constraintEnd_toEndOf="@+id/grainImg"
+        app:layout_constraintTop_toTopOf="@+id/grainAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/oreAddImg"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/ore"
-        app:layout_constraintStart_toEndOf="@+id/oreAmount"
-        app:layout_constraintTop_toBottomOf="@+id/oreImg"
+        app:layout_constraintEnd_toEndOf="@+id/oreImg"
+        app:layout_constraintTop_toTopOf="@+id/oreAmount"
         app:srcCompat="@drawable/placerholder_image" />
 
     <ImageView
         android:id="@+id/woolAddImg"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@string/wool"
-        app:layout_constraintStart_toEndOf="@+id/woolAmount"
-        app:layout_constraintTop_toBottomOf="@+id/woolImg"
+        app:layout_constraintEnd_toEndOf="@+id/woolImg"
+        app:layout_constraintTop_toTopOf="@+id/woolAmount"
         app:srcCompat="@drawable/placerholder_image" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="grainMinusImg,lumberImg,robberMenuHeaderText,lumberMinusImg,birckMinusImg,grainImg,woolImg,woolAddImg,oreAddImg,oreAmount,brickImg,oreMinusImg,grainAddImg,woolMinusImg,oreImg,grainAmount,birckAddImg,confirm,brickAmount,lumberAmount,woolAmount,selectMoreResources,lumberAddImg" />
 
 </android.support.constraint.ConstraintLayout>

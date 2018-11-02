@@ -1,8 +1,6 @@
-package edu.up.cs.androidcatan.catan.buildings;
+package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
 import java.util.Arrays;
-
-import edu.up.cs.androidcatan.catan.buildings.Building;
 
 /**
  * @author Alex Weininger
@@ -12,26 +10,26 @@ import edu.up.cs.androidcatan.catan.buildings.Building;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class Settlement extends Building {
+public class City extends Building {
 
-    public final static int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
+    public static final int[] resourceCost = {0, 2, 0, 3, 0}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
-     * @param ownerId - player id of who owns the settlement
+     * @param ownerId id of who owns the building
      */
-    public Settlement(int ownerId) {
+    public City(int intersectionId, int ownerId) {
         super(ownerId);
-    } // end constructor
-
-    public int getVictoryPoints() {
-        return 1;
     }
 
+    @Override
+    public int getVictoryPoints() {
+        return 2;
+    }
 
     @Override
     public String toString() {
-        return "Settlement{" +
+        return "City{" +
                 "resourceCost=" + Arrays.toString(resourceCost) +
                 '}';
     }
-} // end Class
+}

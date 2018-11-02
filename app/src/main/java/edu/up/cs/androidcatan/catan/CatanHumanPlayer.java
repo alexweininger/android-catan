@@ -1,18 +1,16 @@
-package edu.up.cs.androidcatan.players;
+package edu.up.cs.androidcatan.catan;
 
 
-import edu.up.cs.androidcatan.game.GameHumanPlayer;
-import edu.up.cs.androidcatan.game.GameMainActivity;
-import edu.up.cs.androidcatan.R;
-import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
-
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
+
+import edu.up.cs.androidcatan.R;
+import edu.up.cs.androidcatan.game.GameHumanPlayer;
+import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
 /**
  * @author Alex Weininger
@@ -27,12 +25,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* instance variables */
 
     // These variables will reference widgets that will be modified during play
-    private TextView    playerScoreTextView = null;
-    private TextView    oppScoreTextView    = null;
-    private TextView    turnTotalTextView   = null;
-    private TextView    messageTextView     = null;
-    private ImageButton dieImageButton      = null;
-    private Button      holdButton          = null;
+    private TextView playerScoreTextView = null;
+    private TextView oppScoreTextView = null;
+    private TextView turnTotalTextView = null;
+    private TextView messageTextView = null;
+    private ImageButton dieImageButton = null;
+    private Button holdButton = null;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -47,8 +45,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /**
      * Returns the GUI's top view object
      *
-     * @return
-     * 		the top object in the GUI's view heirarchy
+     * @return the top object in the GUI's view heirarchy
      */
     public View getTopView() {
         return myActivity.findViewById(R.id.top_gui_layout);
@@ -57,12 +54,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /**
      * callback method when we get a message (e.g., from the game)
      *
-     * @param info
-     * 		the message
+     * @param info the message
      */
     @Override
     public void receiveInfo(GameInfo info) {
         //TODO You will implement this method to receive state objects from the game
+
     }//receiveInfo
 
     /**
@@ -70,22 +67,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
      * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
      *
-     * @param button
-     * 		the button that was clicked
+     * @param button the button that was clicked
      */
     public void onClick(View button) {
         //TODO  You will implement this method to send appropriate action objects to the game
+
+
     }// onClick
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
      * called from the GUI thread
      *
-     * @param activity
-     * 		the activity under which we are running
+     * @param activity the activity under which we are running
      */
     public void setAsGui(GameMainActivity activity) {
-
+        // TODO this is where we draw things...
         // remember the activity
         myActivity = activity;
 
