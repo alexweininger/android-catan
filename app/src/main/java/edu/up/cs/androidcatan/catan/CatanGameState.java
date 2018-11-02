@@ -67,7 +67,6 @@ public class CatanGameState extends GameState {
     } // end CatanGameState constructor
 
     /**
-     * TODO use deep copies of other classes
      * CatanGameState deep copy constructor
      *
      * @param cgs - CatanGameState object to make a copy of
@@ -136,7 +135,7 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-    /**
+    /** todo maybe this is deprecated?
      * validates the player id, checks if its their turn, and checks if it is the action phase
      *
      * @param playerId - player id to validate an action for
