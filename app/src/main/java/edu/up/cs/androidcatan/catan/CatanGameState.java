@@ -180,8 +180,6 @@ public class CatanGameState extends GameState {
 
     /**
      * checkRoadLength - after each turn check if any player has longest road, with a min of 5 road segments
-     * probably just calls a method in board?
-     * recursion???
      */
     /*private void checkRoadLength() {
         int max = -1;
@@ -246,7 +244,7 @@ public class CatanGameState extends GameState {
         Building[] buildings = this.board.getBuildings();
 
         for (Building building : buildings) {
-            if(building != null) {
+            if (building != null) {
                 playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
             }
         }
@@ -353,7 +351,8 @@ public class CatanGameState extends GameState {
         return true;
     } // end endTurn method
 
-    /** TODO
+    /**
+     * TODO
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
      * error checking:
