@@ -296,12 +296,10 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean rollDice() {
-        //TODO checkAndHandleAction() from LocalGame takes cares of playerId checks
-        Log.d(TAG, "rollDice() called");
-
+        Log.d(TAG, "rollDice() called.");
 
         if (this.isActionPhase) {
-            Log.i(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
+            Log.e(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn. Returned false.");
             return false;
         }
 
@@ -317,6 +315,7 @@ public class CatanGameState extends GameState {
             produceResources(rollNum);
         }
 
+        Log.i(TAG, "rollDice: Set isActionPhase to true.");
         this.isActionPhase = true;
 
         return true;
