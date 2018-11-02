@@ -327,7 +327,8 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean endTurn() {
-        if (!valAction(currentPlayerId)) {
+        if (!isActionPhase) {
+            Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
             return false;
         }
 

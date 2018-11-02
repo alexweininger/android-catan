@@ -84,7 +84,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     public void onClick(View button) {
         //TODO  You will implement this method to send appropriate action objects to the game
-        Log.d(TAG, "onClick: ");
+        Log.d(TAG, "onClick() called with: button = [" + button + "]");
         if(button.getId() == R.id.sidebar_button_city) {
             CatanBuildCityAction a = new CatanBuildCityAction(this);
             Log.d(TAG, "onClick: City");
@@ -103,12 +103,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(a);
             return;
         }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
+        if(button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
         if(button.getId() == R.id.sidebar_button_endturn) {
             CatanEndTurnAction a = new CatanEndTurnAction(this);
             Log.d(TAG, "onClick: End Turn");
