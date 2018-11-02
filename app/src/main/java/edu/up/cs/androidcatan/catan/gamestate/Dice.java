@@ -21,7 +21,9 @@ public class Dice {
         this.diceValues = new int[2];
     }
 
-
+    public Dice(Dice d) {
+        this.setDiceValues(d.getDiceValues());
+    }
 
     /**
      * roll() - sets both dice values to random int from 1 to 6 (inclusive)
@@ -42,7 +44,10 @@ public class Dice {
     public int getSum() {
         return diceValues[0] + diceValues[1];
     }
-
+    public int[] getDiceValues() { return this.diceValues; };
+    public void setDiceValues(int[] diceValues) {
+        this.diceValues = diceValues;
+    }
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
