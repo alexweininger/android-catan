@@ -203,7 +203,7 @@ public class CatanGameState extends GameState {
     /**
      * Gets the player who has the longest road.
      */
-    private int checkLongestRoad() {
+    private int checkLongestRoad() { // todo this should be called somewhere...
         return this.board.getPlayerWithLongestRoad(this.playerList);
     }
 
