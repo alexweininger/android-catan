@@ -32,7 +32,7 @@ public class MainActivity extends GameMainActivity {
         // Pig has two player types:  human and computer
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new Player(0);
+                return new CatanHumanPlayer("p");
             }});
         playerTypes.add(new GamePlayerType("Computer") {
             public GamePlayer createPlayer(String name) {
