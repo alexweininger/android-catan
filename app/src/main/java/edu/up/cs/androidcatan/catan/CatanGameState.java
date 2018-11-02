@@ -238,6 +238,8 @@ public class CatanGameState extends GameState {
         //calculates the longest road for the players and checks if it is the current player
         if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
             currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
+            //assigns the player with the longest road an extra 2 victory points
+            playerVictoryPoints[currentLongestRoadPlayerId] += 2;
         }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
