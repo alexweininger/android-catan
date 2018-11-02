@@ -10,6 +10,9 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAcation;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
@@ -86,6 +89,18 @@ public class CatanLocalGame extends LocalGame {
 
         // TODO what is this?
         if (action instanceof CatanBuildAction) {
+
+        }
+
+        if (action instanceof CatanTradeAction) {
+
+        }
+
+        if (action instanceof CatanTradeWithBankAction) {
+
+        }
+
+        if (action instanceof CatanTradeWithPortAction) {
 
         }
 
