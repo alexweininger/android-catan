@@ -244,6 +244,7 @@ public class CatanGameState extends GameState {
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
         Building[] buildings = this.board.getBuildings();
+
         for (Building building : buildings) {
             if(building != null) {
                 playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
