@@ -375,19 +375,13 @@ public class CatanGameState extends GameState {
         int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();
         int tradeResrouceId = this.board.getPortList().get(intersectionId).getResourceId();
 
-        if (tradeResrouceId == -1) {
-
-        } else {
-
-        }
-
         // check if player has enough resources to complete trade
         if (this.playerList.get(playerId).removeResourceCard(givenResourceId, 0)) {
             Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
             return false;
         }
         this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
-        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with port.");
+        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + tradeRatio + " " + givenResourceId + " for a " + receivedResourceId + " with port.");
         return true;
     }
 
