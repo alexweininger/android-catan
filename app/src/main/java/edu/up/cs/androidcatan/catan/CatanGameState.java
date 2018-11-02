@@ -298,15 +298,7 @@ public class CatanGameState extends GameState {
     public boolean rollDice() {
         //TODO checkAndHandleAction() from LocalGame takes cares of playerId checks
         Log.d(TAG, "rollDice() called");
-        /*if (!valPlId(playerId)) {
-            Log.e(TAG, "rollDice: Invalid player id: " + playerId);
-            return false;
-        }
 
-        if (playerId != this.currentPlayerId) {
-            Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
-            return false;
-        }*/
 
         if (this.isActionPhase) {
             Log.i(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
