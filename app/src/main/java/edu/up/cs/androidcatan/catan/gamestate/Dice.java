@@ -33,7 +33,7 @@ public class Dice {
         this.diceValues[0] = random.nextInt(5) + 1;
         this.diceValues[1] = random.nextInt(5) + 1;
 
-        return diceValues[0] + diceValues[1];
+        return this.diceValues[0] + this.diceValues[1];
     }
 
     /**
@@ -42,7 +42,7 @@ public class Dice {
      * @return the sum of the dice values
      */
     public int getSum() {
-        return diceValues[0] + diceValues[1];
+        return this.diceValues[0] + this.diceValues[1];
     }
     public int[] getDiceValues() { return this.diceValues; };
     public void setDiceValues(int[] diceValues) {
