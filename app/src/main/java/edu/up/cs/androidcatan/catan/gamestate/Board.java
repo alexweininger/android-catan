@@ -69,6 +69,8 @@ public class Board {
     // List of port intersection locations. TODO
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
+    private ArrayList<Port> portList = new ArrayList<>();
+
     public Board() {
         // populate ids
         populateHexagonIds();
@@ -97,6 +99,8 @@ public class Board {
 
         int desertTileId = 0; // TODO
         robber = new Robber(desertTileId);
+
+        designatePorts();
 
     } // end Board constructor
 
@@ -881,6 +885,35 @@ public class Board {
             portIntersectionLocations.add(17 + i * 6);
             portIntersectionLocations.add(17 + i * 6 + 1);
         }
+    }
+
+    private void designatePorts(){
+        portList.add(new Port(25, 3, 3)); //Ore
+        portList.add(new Port(26, 3, 3));
+
+        portList.add(new Port(29, 2, 1)); //Grain
+        portList.add(new Port(30, 2,1));
+
+        portList.add(new Port(32, 3, -1)); //Anything
+        portList.add(new Port(33, 3, -1));
+
+        portList.add(new Port(35,2,2)); //Lumber
+        portList.add(new Port(36,2,2));
+
+        portList.add(new Port(39,2,0)); //Brick
+        portList.add(new Port(40,2,0));
+
+        portList.add(new Port(42, 3, -1)); //anything
+        portList.add(new Port(43,3,-1));
+
+        portList.add(new Port(45,3,-1)); //anything
+        portList.add(new Port(46,3,-1));
+
+        portList.add(new Port(52, 3, -1)); //anything
+        portList.add(new Port(53, 3, -1));
+
+        portList.add(new Port(49, 2, 4));  //Wool
+        portList.add(new Port(50, 2, 4));
     }
 
     /* ----- generic getter methods ----- */
