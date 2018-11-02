@@ -1,13 +1,12 @@
-package edu.up.cs.androidcatan.catan;
+package edu.up.cs.androidcatan.catan.board;
 
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.up.cs.androidcatan.catan.buildings.Building;
-import edu.up.cs.androidcatan.catan.buildings.Road;
-import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
+import edu.up.cs.androidcatan.catan.board.buildings.Building;
+import edu.up.cs.androidcatan.catan.board.buildings.Road;
 import edu.up.cs.androidcatan.catan.players.Player;
 
 /**
@@ -277,7 +276,7 @@ public class Board {
         return true;
     }
 
-    private boolean hasBuilding(int intersectionId) {
+    public boolean hasBuilding(int intersectionId) {
         return this.buildings[intersectionId] != null;
     }
 
@@ -285,7 +284,7 @@ public class Board {
      * @param intersectionId - intersection id
      * @return - the building located at given intersection
      */
-    Building getBuildingAtIntersection(int intersectionId) {
+    public Building getBuildingAtIntersection(int intersectionId) {
         return this.buildings[intersectionId];
     }
 
@@ -341,7 +340,7 @@ public class Board {
      * @param i - intersection id
      * @return ArrayList of roads connected to that intersection
      */
-    private ArrayList<Road> getRoadsAtIntersection(int i) {
+    public ArrayList<Road> getRoadsAtIntersection(int i) {
         ArrayList<Road> result = new ArrayList<>();
 
         for (Road r : this.roads) {
@@ -368,7 +367,7 @@ public class Board {
      * @param chitValue - value of dice sum and tile chit value that will produce resources
      * @return list of hexagons with chitValue AND DO NOT HAVE ROBBER - AW
      */
-    ArrayList<Integer> getHexagonsFromChitValue(int chitValue) {
+    public ArrayList<Integer> getHexagonsFromChitValue(int chitValue) {
         ArrayList<Integer> hexagonIdList = new ArrayList<>();
         for (int i = 0; i < this.hexagons.size(); i++) {
             // check for chit value
@@ -391,7 +390,7 @@ public class Board {
      * @param hexagonId - hexagonId to move the robber to
      * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
      */
-    boolean moveRobber(int hexagonId) {
+    public boolean moveRobber(int hexagonId) {
         // check if moving to same hexagon
         if (hexagonId == this.robber.getHexagonId()) return false;
 
@@ -407,7 +406,7 @@ public class Board {
      * @param intersectionId - intersection id of the building location
      * @param building - building object
      */
-    boolean addBuilding(int intersectionId, Building building) {
+    public boolean addBuilding(int intersectionId, Building building) {
         if (this.buildings[intersectionId] != null) {
             Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
             return false;
@@ -425,7 +424,7 @@ public class Board {
      * @param intersectionId - given intersection i (0-53)
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
-    ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
+    public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
         for (int i = 0; i < 54; i++) {
             if (adjacentIntersections.size() > 3) {
@@ -463,7 +462,7 @@ public class Board {
      * @param intId2 - intersection id
      * @return - boolean adjacency
      */
-    boolean intersectionAdjCheck(int intId1, int intId2) {
+    public boolean intersectionAdjCheck(int intId1, int intId2) {
         return (iGraph[intId1][intId2] || iGraph[intId2][intId1]);
     }
 
@@ -500,7 +499,7 @@ public class Board {
      * @param col - column within hexagon ring
      * @return - int hexagon id
      */
-    private int getHexagonId(int ring, int col) {
+    public int getHexagonId(int ring, int col) {
         return hexagonIdRings.get(ring).get(col);
     }
 
@@ -508,7 +507,7 @@ public class Board {
      * @param hexagonId - hexagon id - AW
      * @return Hexagon
      */
-    Hexagon getHexagonFromId(int hexagonId) {
+    public Hexagon getHexagonFromId(int hexagonId) {
         if (hexagonId < 0 || hexagonId >= this.hexagons.size()) { // error checking
             Log.d(TAG, "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
             return null;

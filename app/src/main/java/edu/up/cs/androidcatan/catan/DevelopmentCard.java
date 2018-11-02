@@ -1,11 +1,11 @@
-package edu.up.cs.androidcatan.catan.devcards;
+package edu.up.cs.androidcatan.catan;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.players.Player;
-import edu.up.cs.androidcatan.catan.Robber;
-import edu.up.cs.androidcatan.catan.buildings.Road;
+import edu.up.cs.androidcatan.catan.board.Robber;
+import edu.up.cs.androidcatan.catan.board.buildings.*;
 
 /**
  * @author Alex Weininger

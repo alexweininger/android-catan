@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.catan;
+package edu.up.cs.androidcatan.catan.board;
 
 /**
  * @author Alex Weininger
