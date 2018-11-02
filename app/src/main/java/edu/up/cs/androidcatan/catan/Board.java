@@ -127,7 +127,7 @@ public class Board {
      * @param intersectionId - intersection to test
      * @return - is the intersection connected to the players buildings or roads?
      */
-    private boolean isConnected(int playerId, int intersectionId) {
+    public boolean isConnected(int playerId, int intersectionId) {
         // check if intersection has no building and no road
         if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
             return false;
@@ -144,7 +144,7 @@ public class Board {
      * @param b - intersection
      * @return - if road can be placed
      */
-    boolean validRoadPlacement(int playerId, int a, int b) {
+    public boolean validRoadPlacement(int playerId, int a, int b) {
         // check if intersections are adjacent
         if (!iGraph[a][b]) {
             return false;
@@ -173,7 +173,7 @@ public class Board {
      * @param intersectionA
      * @param intersectionB
      */
-    void addRoad(int playerId, int intersectionA, int intersectionB) {
+    public void addRoad(int playerId, int intersectionA, int intersectionB) {
         Road road = new Road(playerId, intersectionA, intersectionB);
         this.roads.add(road);
         this.roadGraph[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
@@ -184,7 +184,7 @@ public class Board {
      * @param i - intersection to check
      * @return returns if road is connected to given intersection
      */
-    private boolean hasRoad(int i) {
+    public boolean hasRoad(int i) {
         for (Road road : roadGraph[i]) {
             if (road.getOwnerId() != -1) {
                 return true;
@@ -193,7 +193,7 @@ public class Board {
         return false;
     }
 
-    int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
+    public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
         for (Player player : playerList) {
             ArrayList<Road> playerRoads = new ArrayList<>();
             Road[][] playerRoadList = new Road[54][54];
@@ -208,14 +208,14 @@ public class Board {
         return 0;
     }
 
-    boolean checkIntersectionBreak(int intersectionId, int playerId) {
+    public boolean checkIntersectionBreak(int intersectionId, int playerId) {
         if (this.buildings[intersectionId].getOwnerId() != playerId) {
             return true;
         }
         return false;
     }
 
-    boolean checkDeadEnd(int intersectionId, Road[][] road) {
+    public boolean checkDeadEnd(int intersectionId, Road[][] road) {
         for (Integer intersection : getAdjacentIntersections(intersectionId)) {
             if (road[intersectionId][intersection] != null) {
                 return true;
@@ -225,7 +225,7 @@ public class Board {
     }
 
     //Recursive method that will call other helper methods within board
-    int traverseRoads(int intersectionId, int playerId, Road[][] road) {
+    public int traverseRoads(int intersectionId, int playerId, Road[][] road) {
         if (checkIntersectionBreak(intersectionId, playerId)) {
             return 0;
         }
@@ -247,7 +247,7 @@ public class Board {
      * @param intersectionId - intersection of building
      * @return - is the building location valid
      */
-    boolean validBuildingLocation(int playerId, int intersectionId) {
+    public boolean validBuildingLocation(int playerId, int intersectionId) {
         /* checks:
          * 1. if connected
          * 2. if occupied by building
