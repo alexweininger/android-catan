@@ -183,9 +183,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         buildSettlement.setOnClickListener(this);
         buyDevCard.setOnClickListener(this);
         endTurn.setOnClickListener(this);
-        robberDiscard.setOnClickListener(this);
-        robberMove.setOnClickListener(this);
-        robberSteal.setOnClickListener(this);
+//        robberDiscard.setOnClickListener(this);
+//        robberMove.setOnClickListener(this);
+//        robberSteal.setOnClickListener(this);
         roll.setOnClickListener(this);
         tradeBank.setOnClickListener(this);
         tradeCustomPort.setOnClickListener(this);
