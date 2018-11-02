@@ -70,24 +70,25 @@ public class CatanGameState extends GameState {
      * TODO use deep copies of other classes
      * CatanGameState deep copy constructor
      *
-     * @param catanGameState - CatanGameState object to make a copy of
+     * @param cgs - CatanGameState object to make a copy of
      */
-    public CatanGameState(CatanGameState catanGameState) {
-        this.dice = catanGameState.dice;
-        this.currentPlayerId = catanGameState.currentPlayerId;
-        this.currentDiceSum = catanGameState.currentDiceSum;
-        this.isActionPhase = catanGameState.isActionPhase;
-        this.setBoard(catanGameState.getBoard());
-        this.currentLongestRoadPlayerId = catanGameState.currentLongestRoadPlayerId;
-        this.currentLargestArmyPlayerId = catanGameState.currentLargestArmyPlayerId;
+    public CatanGameState(CatanGameState cgs) {
+        this.dice = new Dice(cgs.getDice());
+        this.setDice(cgs.getDice());
+        this.currentPlayerId = cgs.currentPlayerId;
+        this.currentDiceSum = cgs.currentDiceSum;
+        this.isActionPhase = cgs.isActionPhase;
+        this.setBoard(cgs.getBoard());
+        this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
+        this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
-        for (int i = 0; i < catanGameState.playerList.size(); i++) {
-            this.playerList.add(new Player(catanGameState.playerList.get(i)));
+        for (int i = 0; i < cgs.playerList.size(); i++) {
+            this.playerList.add(new Player(cgs.playerList.get(i)));
         }
 
-        for (int i = 0; i < catanGameState.playerVictoryPoints.length; i++) {
-            this.playerVictoryPoints[i] = catanGameState.playerVictoryPoints[i];
-            this.playerPrivateVictoryPoints[i] = catanGameState.playerPrivateVictoryPoints[i];
+        for (int i = 0; i < cgs.playerVictoryPoints.length; i++) {
+            this.playerVictoryPoints[i] = cgs.playerVictoryPoints[i];
+            this.playerPrivateVictoryPoints[i] = cgs.playerPrivateVictoryPoints[i];
         }
     } // end deep copy constructor
 
