@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan;
 
+import android.util.Log;
+
 import edu.up.cs.androidcatan.catan.actions.CatanBuildAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
@@ -20,6 +22,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanLocalGame extends LocalGame {
     CatanGameState gameState;
+    private final static String TAG = "CatanLocalGame";
 
     public CatanLocalGame() {
         gameState = new CatanGameState();
@@ -45,8 +48,9 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-
+        Log.d(TAG, "makeMove() called with: action = [" + action + "]");
         if (action instanceof CatanRollDiceAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.rollDice();
         }
 
