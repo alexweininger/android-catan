@@ -28,13 +28,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private final String TAG = "CatanHumanPlayer";
 
     // These variables will reference widgets that will be modified during play
-    private TextView playerScoreTextView = null;
-    private TextView oppScoreTextView = null;
-    private TextView turnTotalTextView = null;
-    private TextView messageTextView = null;
-    private ImageButton dieImageButton = null;
-    private Button holdButton = null;
+    
     private Button roll = null;
+
 
     // the android activity that we are running
     private GameMainActivity myActivity;
