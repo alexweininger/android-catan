@@ -467,7 +467,7 @@ public class Board {
         if (adjacentIntersections.size() > 3) {
             Log.e(TAG, "getAdjacentIntersections: Received more than 3 adjacent intersections. That makes no sense.");
         }
-
+        Log.i(TAG, "getAdjacentIntersections: Found " + adjacentIntersections.toString() + " as adjacent to " + intersectionId);
         return adjacentIntersections;
     }
 
