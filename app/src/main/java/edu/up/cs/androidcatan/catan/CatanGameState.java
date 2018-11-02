@@ -83,6 +83,7 @@ public class CatanGameState extends GameState {
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
         this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
+
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
@@ -119,6 +120,10 @@ public class CatanGameState extends GameState {
 
     }
 
+    /**
+     * @param playerId -
+     * @return If id is valid.
+     */
     private boolean valPlId(int playerId) {
         return playerId > -1 && playerId < 4;
     }
@@ -135,7 +140,8 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-    /** todo maybe this is deprecated?
+    /**
+     * todo maybe this is deprecated?
      * validates the player id, checks if its their turn, and checks if it is the action phase
      *
      * @param playerId - player id to validate an action for
@@ -177,8 +183,9 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /** todo
-     *
+    /**
+     * todo
+     * <p>
      * updateLongestRoadPlayer - after each turn check if any player has longest road, with a min of 5 road segments
      */
     private void updateLongestRoadPlayer() {
