@@ -457,7 +457,7 @@ public class Board {
     public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
         Log.d(TAG, "getAdjacentIntersections() called with: intersectionId = [" + intersectionId + "]");
 
-        ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
+        ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
         for (int i = 0; i < 54; i++) {
             if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
                 adjacentIntersections.add(i);
