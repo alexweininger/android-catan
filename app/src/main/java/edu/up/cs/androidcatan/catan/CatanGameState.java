@@ -178,24 +178,24 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /**
-     * checkRoadLength - after each turn check if any player has longest road, with a min of 5 road segments
+    /** TOOD
+     * updateLongestRoadPlayer - after each turn check if any player has longest road, with a min of 5 road segments
      */
-    private void checkRoadLength() {
-        int max = -1;
-        int playerIdWithLongestRoad = -1;
-        if (currentLongestRoadPlayerId != -1) {
-            max = playerVictoryPoints[currentLargestArmyPlayerId];
-        }
-        for (int i = 0; i < 4; i++) {
-            if (board.getPlayerWithLongestRoad(i) > max) {
-                max = board.getPlayerWithLongestRoad(i);
-                playerIdWithLongestRoad = i;
-            }
-        }
-        if (max > 4) {
-            this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
-        }
+    private void updateLongestRoadPlayer() {
+//        int max = -1;
+//        int playerIdWithLongestRoad = -1;
+//        if (currentLongestRoadPlayerId != -1) {
+//            max = playerVictoryPoints[currentLargestArmyPlayerId];
+//        }
+//        for (int i = 0; i < 4; i++) {
+//            if (board.getPlayerWithLongestRoad(this.playerList) > max) {
+//                max = board.getPlayerWithLongestRoad(i);
+//                playerIdWithLongestRoad = i;
+//            }
+//        }
+//        if (max > 4) {
+//            this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
+//        }
     }
 
     /**
@@ -213,7 +213,7 @@ public class CatanGameState extends GameState {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
         }
-        //checkRoadLength();
+        //updateLongestRoadPlayer();
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
         }
