@@ -275,7 +275,6 @@ public class CatanGameState extends GameState {
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
-     * @param playerId - player that attempts to roll the dice
      * @return - action success
      */
     public boolean rollDice(){
