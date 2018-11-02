@@ -10,8 +10,8 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanBuildSettlementAcation extends GameAction {
-    public CatanBuildSettlementAcation(GamePlayer player)
+public class CatanBuildSettlementAction extends GameAction {
+    public CatanBuildSettlementAction(GamePlayer player)
     {
         super(player);
     }

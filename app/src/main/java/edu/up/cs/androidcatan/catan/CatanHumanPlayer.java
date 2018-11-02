@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import edu.up.cs.androidcatan.R;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
+import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
@@ -28,13 +30,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private final String TAG = "CatanHumanPlayer";
 
     // These variables will reference widgets that will be modified during play
-    private TextView playerScoreTextView = null;
-    private TextView oppScoreTextView = null;
-    private TextView turnTotalTextView = null;
-    private TextView messageTextView = null;
-    private ImageButton dieImageButton = null;
-    private Button holdButton = null;
+    private Button buildCity = null;
+    private Button buildRoad = null;
+    private Button buildSettlement = null;
+    private Button buyDevCard = null;
+    private Button endTurn = null;
+    private Button robberDiscard = null;
+    private Button robberMove = null;
+    private Button robberSteal = null;
     private Button roll = null;
+    private Button tradeBank= null;
+    private Button tradeCustomPort = null;
+    private Button tradePort = null;
+    private Button useDevCard = null;
+
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -76,12 +85,66 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public void onClick(View button) {
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick: ");
-        if(button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
+        if(button.getId() == R.id.sidebar_button_city) {
+            CatanBuildCityAction a = new CatanBuildCityAction(this);
+            Log.d(TAG, "onClick: City");
+            game.sendAction(a);
+            return;
+        }
+        if(button.getId() == R.id.sidebar_button_road) {
+            CatanBuildRoadAction a = new CatanBuildRoadAction(this);
+            Log.d(TAG, "onClick: Road");
+            game.sendAction(a);
+            return;
+        }
+        if(button.getId() == R.id.sidebar_button_settlement) {
+            CatanBuildSettlementAction a = new CatanBuildSettlementAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
-
+            return;
         }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+        if(button.getId() == R.id.sidebar_button_endturn) {
+            CatanEndTurnAction a = new CatanEndTurnAction(this);
+            Log.d(TAG, "onClick: End Turn");
+            game.sendAction(a);
+            return;
+        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
 
     }// onClick
 
@@ -102,18 +165,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.roll = (Button) activity.findViewById(R.id.sidebar_button_roll);
         Log.d(TAG, "setAsGui: ");
 
+        buildCity.setOnClickListener(this);
+        buildRoad.setOnClickListener(this);
+        buildSettlement.setOnClickListener(this);
+        buyDevCard.setOnClickListener(this);
+        endTurn.setOnClickListener(this);
+        robberDiscard.setOnClickListener(this);
+        robberMove.setOnClickListener(this);
+        robberSteal.setOnClickListener(this);
         roll.setOnClickListener(this);
-        //Initialize the widget reference member variables
-//        this.playerScoreTextView = (TextView)activity.findViewById(R.id.yourScoreValue);
-//        this.oppScoreTextView    = (TextView)activity.findViewById(R.id.oppScoreValue);
-//        this.turnTotalTextView   = (TextView)activity.findViewById(R.id.turnTotalValue);
-//        this.messageTextView     = (TextView)activity.findViewById(R.id.messageTextView);
-//        this.dieImageButton      = (ImageButton)activity.findViewById(R.id.dieButton);
-//        this.holdButton          = (Button)activity.findViewById(R.id.holdButton);
-
-        //Listen for button presses
-//        dieImageButton.setOnClickListener(this);
-//        holdButton.setOnClickListener(this);
+        tradeBank.setOnClickListener(this);
+        tradeCustomPort.setOnClickListener(this);
+        tradePort.setOnClickListener(this);
+        useDevCard.setOnClickListener(this);
 
     }//setAsGui
 
