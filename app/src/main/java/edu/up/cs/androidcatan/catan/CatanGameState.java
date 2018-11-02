@@ -336,11 +336,10 @@ public class CatanGameState extends GameState {
      * - valid player id
      * - it is players turn
      *
-     * @param playerId - player requesting to end turn
      * @return - action success
      */
-    public boolean endTurn(int playerId) {
-        if (!valAction(playerId)) {
+    public boolean endTurn() {
+        if (!valAction(currentPlayerId)) {
             return false;
         }
 
@@ -354,7 +353,7 @@ public class CatanGameState extends GameState {
 
         updateVictoryPoints();
 
-        for (DevelopmentCard developmentCard : playerList.get(playerId).getDevelopmentCards()) {
+        for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
         }
 

@@ -5,7 +5,7 @@ import android.util.Log;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
-import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAcation;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
@@ -55,14 +55,15 @@ public class CatanLocalGame extends LocalGame {
         }
 
         if (action instanceof CatanEndTurnAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.endTurn();
         }
 
         if (action instanceof CatanBuildRoadAction) {
 
         }
 
-        if (action instanceof CatanBuildSettlementAcation) {
+        if (action instanceof CatanBuildSettlementAction) {
 
         }
 

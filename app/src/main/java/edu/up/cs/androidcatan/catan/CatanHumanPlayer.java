@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import edu.up.cs.androidcatan.R;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
+import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
@@ -83,12 +85,66 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public void onClick(View button) {
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick: ");
-        if(button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
+        if(button.getId() == R.id.sidebar_button_city) {
+            CatanBuildCityAction a = new CatanBuildCityAction(this);
+            Log.d(TAG, "onClick: City");
+            game.sendAction(a);
+            return;
+        }
+        if(button.getId() == R.id.sidebar_button_road) {
+            CatanBuildRoadAction a = new CatanBuildRoadAction(this);
+            Log.d(TAG, "onClick: Road");
+            game.sendAction(a);
+            return;
+        }
+        if(button.getId() == R.id.sidebar_button_settlement) {
+            CatanBuildSettlementAction a = new CatanBuildSettlementAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
-
+            return;
         }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+        if(button.getId() == R.id.sidebar_button_endturn) {
+            CatanEndTurnAction a = new CatanEndTurnAction(this);
+            Log.d(TAG, "onClick: End Turn");
+            game.sendAction(a);
+            return;
+        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
+//        if(button.getId() == R.id.sidebar_button_roll) {
+//            CatanRollDiceAction a = new CatanRollDiceAction(this);
+//            Log.d(TAG, "onClick: Roll");
+//            game.sendAction(a);
+//            return;
+//        }
 
     }// onClick
 
