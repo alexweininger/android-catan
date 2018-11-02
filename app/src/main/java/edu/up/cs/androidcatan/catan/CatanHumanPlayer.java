@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -44,6 +45,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradePort = null;
     private Button useDevCard = null;
 
+    private TextView oreValue = null;
+    private TextView grainValue = null;
+    private TextView lumberValue = null;
+    private TextView woolValue = null;
+    private TextView brickValue = null;
+
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -71,8 +78,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        Log.d(TAG, "receiveInfo() called with: info = [" + info.toString() + "]");
         //TODO You will implement this method to receive state objects from the game
+        if(info instanceof CatanGameState) {
+            // set resource count TextViews to the players resource inventory amounts
+            this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
+            this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
+            this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
+            this.oreValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
+            this.woolValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
 
+
+        }
     }//receiveInfo
 
     /**
@@ -191,6 +208,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeCustomPort.setOnClickListener(this);
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
+
+        // resource value text
+        oreValue = activity.findViewById(R.id.oreAmount);
+        grainValue = activity.findViewById(R.id.grainAmount);
+        lumberValue = activity.findViewById(R.id.lumberAmount);
+        woolValue = activity.findViewById(R.id.woolAmount);
+        brickValue = activity.findViewById(R.id.brickAmount);
+
 
     }//setAsGui
 
