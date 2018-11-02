@@ -259,7 +259,7 @@ public abstract class LocalGame implements Game, Tickable {
 	 * 			the action that was sent
 	 */
 	private final void checkAndHandleAction(GameAction action) {
-		
+        Log.d("LocalGame", "checkAndHandleAction() called with: action = [" + action + "]");
 		// get the player and player ID
 		GamePlayer player = action.getPlayer();
 		int playerId = getPlayerIdx(player);

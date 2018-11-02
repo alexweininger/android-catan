@@ -83,7 +83,9 @@ public class Board {
         generateRoadMatrix();
 
         // print graphs
+        Log.i(TAG, "Board: Printing hGraph...");
         printGraph(hGraph);
+        Log.i(TAG, "Board: Printing iGraph...");
         printGraph(iGraph);
 
         // generate maps
@@ -101,7 +103,6 @@ public class Board {
         robber = new Robber(desertTileId);
 
         designatePorts();
-
     } // end Board constructor
 
     /**
@@ -454,15 +455,19 @@ public class Board {
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
     public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
-        ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
+        Log.d(TAG, "getAdjacentIntersections() called with: intersectionId = [" + intersectionId + "]");
+
+        ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
         for (int i = 0; i < 54; i++) {
-            if (adjacentIntersections.size() > 3) {
-                Log.e(TAG, "getAdjacentIntersections: Received more than 3 adjacent intersections. That makes no sense.");
-            }
             if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
                 adjacentIntersections.add(i);
             }
         }
+
+        if (adjacentIntersections.size() > 3) {
+            Log.e(TAG, "getAdjacentIntersections: Received more than 3 adjacent intersections. That makes no sense.");
+        }
+        Log.i(TAG, "getAdjacentIntersections: Found " + adjacentIntersections.toString() + " as adjacent to " + intersectionId);
         return adjacentIntersections;
     }
 
@@ -1113,6 +1118,14 @@ public class Board {
      */
     public void setPortIntersectionLocations(ArrayList<Integer> portIntersectionLocations) {
         this.portIntersectionLocations = portIntersectionLocations;
+    }
+
+    public ArrayList<Port> getPortList() {
+        return portList;
+    }
+
+    public void setPortList(ArrayList<Port> portList) {
+        this.portList = portList;
     }
 
     /**

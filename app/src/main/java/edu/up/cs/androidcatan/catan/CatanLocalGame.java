@@ -1,11 +1,20 @@
 package edu.up.cs.androidcatan.catan;
 
+import android.util.Log;
+
+import edu.up.cs.androidcatan.catan.actions.CatanBuildAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
-import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAcation;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAcation;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
@@ -13,6 +22,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanLocalGame extends LocalGame {
     CatanGameState gameState;
+    private final static String TAG = "CatanLocalGame";
 
     public CatanLocalGame() {
         gameState = new CatanGameState();
@@ -38,20 +48,22 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-
+        Log.d(TAG, "makeMove() called with: action = [" + action + "]");
         if (action instanceof CatanRollDiceAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.rollDice();
         }
 
         if (action instanceof CatanEndTurnAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.endTurn();
         }
 
         if (action instanceof CatanBuildRoadAction) {
 
         }
 
-        if (action instanceof CatanBuildSettlementAcation) {
+        if (action instanceof CatanBuildSettlementAction) {
 
         }
 
@@ -68,7 +80,34 @@ public class CatanLocalGame extends LocalGame {
 
         }
 
+        if (action instanceof CatanRobberMoveAction) {
 
+        }
+
+        if (action instanceof CatanRobberStealAction) {
+
+        }
+
+        if (action instanceof CatanRobberDiscardAction) {
+
+        }
+
+        // TODO what is this?
+        if (action instanceof CatanBuildAction) {
+
+        }
+
+        if (action instanceof CatanTradeAction) {
+
+        }
+
+        if (action instanceof CatanTradeWithBankAction) {
+
+        }
+
+        if (action instanceof CatanTradeWithPortAction) {
+
+        }
 
         return false;
     }

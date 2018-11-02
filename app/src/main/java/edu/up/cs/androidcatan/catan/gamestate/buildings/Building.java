@@ -10,7 +10,7 @@ package edu.up.cs.androidcatan.catan.gamestate.buildings;
  **/
 public abstract class Building {
 
-    private int ownerId;
+    private int ownerId = -1;
 
     /**
      * Building constructor
