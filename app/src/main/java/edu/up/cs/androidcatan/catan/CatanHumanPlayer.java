@@ -78,15 +78,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        Log.d(TAG, "receiveInfo() called with: info = [" + info.toString() + "]");
         //TODO You will implement this method to receive state objects from the game
         if(info instanceof CatanGameState) {
-
             // set resource count TextViews to the players resource inventory amounts
             this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
             this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
             this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
             this.oreValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
             this.woolValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
+
+
         }
     }//receiveInfo
 
