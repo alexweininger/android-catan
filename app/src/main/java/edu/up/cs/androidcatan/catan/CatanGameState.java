@@ -210,7 +210,7 @@ public class CatanGameState extends GameState {
     /**
      * updates the victory points of each player, should be called after every turn
      */
-    /*
+    /* TODO lol pls remove when we can
     private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
