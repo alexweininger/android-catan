@@ -101,7 +101,6 @@ public class Board {
         robber = new Robber(desertTileId);
 
         designatePorts();
-
     } // end Board constructor
 
     /**
@@ -1113,6 +1112,14 @@ public class Board {
      */
     public void setPortIntersectionLocations(ArrayList<Integer> portIntersectionLocations) {
         this.portIntersectionLocations = portIntersectionLocations;
+    }
+
+    public ArrayList<Port> getPortList() {
+        return portList;
+    }
+
+    public void setPortList(ArrayList<Port> portList) {
+        this.portList = portList;
     }
 
     /**
