@@ -294,6 +294,7 @@ public class CatanGameState extends GameState {
      */
     public boolean rollDice(){
         //TODO checkAndHandleAction() from LocalGame takes cares of playerId checks
+        Log.d(TAG, "rollDice() called");
         /*if (!valPlId(playerId)) {
             Log.e(TAG, "rollDice: Invalid player id: " + playerId);
             return false;
