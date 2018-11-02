@@ -2,14 +2,15 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
-import edu.up.cs.androidcatan.catan.board.Board;
-import edu.up.cs.androidcatan.catan.board.buildings.Building;
-import edu.up.cs.androidcatan.catan.board.buildings.City;
-import edu.up.cs.androidcatan.catan.board.buildings.Road;
-import edu.up.cs.androidcatan.catan.board.buildings.Settlement;
-import edu.up.cs.androidcatan.catan.board.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.Board;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.gamestate.Dice;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
-import edu.up.cs.androidcatan.catan.players.Player;
 
 import java.util.ArrayList;
 import java.util.Random;

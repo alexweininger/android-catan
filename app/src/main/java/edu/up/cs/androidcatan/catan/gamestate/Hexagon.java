@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.catan.board;
+package edu.up.cs.androidcatan.catan.gamestate;
 
 /**
  * @author Alex Weininger

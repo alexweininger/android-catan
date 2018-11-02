@@ -1,19 +1,19 @@
-package edu.up.cs.androidcatan.catan.players;
+package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import edu.up.cs.androidcatan.catan.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
 // todo removed unused imports please
-import android.view.View.OnClickListener;
 
 /**
  * @author Alex Weininger

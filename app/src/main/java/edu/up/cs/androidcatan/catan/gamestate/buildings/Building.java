@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.catan.board.buildings;
+package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
 /**
  * @author Alex Weininger

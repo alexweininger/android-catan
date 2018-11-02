@@ -9,7 +9,6 @@ import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.config.GameConfig;
 import edu.up.cs.androidcatan.game.config.GamePlayerType;
-import edu.up.cs.androidcatan.catan.players.*;
 
 /**
  * @author Alex Weininger

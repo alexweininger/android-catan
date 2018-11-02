@@ -1,4 +1,4 @@
-package edu.up.cs.androidcatan.catan.players;
+package edu.up.cs.androidcatan.catan;
 
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
