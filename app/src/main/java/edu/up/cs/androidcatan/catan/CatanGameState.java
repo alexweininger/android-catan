@@ -259,7 +259,7 @@ public class CatanGameState extends GameState {
      */
     private void produceResources(int diceSum) {
         if (isActionPhase) {
-            Log.e(TAG, "produceResources: It is the action phase.");
+            Log.e(TAG, "produceResources: It is the action phase. Returned false.");
             return;
         }
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
