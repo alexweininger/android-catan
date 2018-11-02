@@ -2,18 +2,18 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Dice;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
-import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * @author Alex Weininger
@@ -632,6 +632,94 @@ public class CatanGameState extends GameState {
         this.playerList.get(playerId).addResourceCard(randomStolenResourceId, 1);
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
+    }
+
+    public Dice getDice() {
+        return dice;
+    }
+
+    public void setDice(Dice dice) {
+        this.dice = dice;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(ArrayList<Player> playerList) {
+        this.playerList = playerList;
+    }
+
+    public ArrayList<Integer> getDevelopmentCards() {
+        return developmentCards;
+    }
+
+    public void setDevelopmentCards(ArrayList<Integer> developmentCards) {
+        this.developmentCards = developmentCards;
+    }
+
+    public int[] getPlayerVictoryPoints() {
+        return playerVictoryPoints;
+    }
+
+    public void setPlayerVictoryPoints(int[] playerVictoryPoints) {
+        this.playerVictoryPoints = playerVictoryPoints;
+    }
+
+    public int[] getPlayerPrivateVictoryPoints() {
+        return playerPrivateVictoryPoints;
+    }
+
+    public void setPlayerPrivateVictoryPoints(int[] playerPrivateVictoryPoints) {
+        this.playerPrivateVictoryPoints = playerPrivateVictoryPoints;
+    }
+
+    public int getCurrentDiceSum() {
+        return currentDiceSum;
+    }
+
+    public void setCurrentDiceSum(int currentDiceSum) {
+        this.currentDiceSum = currentDiceSum;
+    }
+
+    public int getCurrentPlayerId() {
+        return currentPlayerId;
+    }
+
+    public void setCurrentPlayerId(int currentPlayerId) {
+        this.currentPlayerId = currentPlayerId;
+    }
+
+    public boolean isActionPhase() {
+        return isActionPhase;
+    }
+
+    public void setActionPhase(boolean actionPhase) {
+        isActionPhase = actionPhase;
+    }
+
+    public int getCurrentLargestArmyPlayerId() {
+        return currentLargestArmyPlayerId;
+    }
+
+    public void setCurrentLargestArmyPlayerId(int currentLargestArmyPlayerId) {
+        this.currentLargestArmyPlayerId = currentLargestArmyPlayerId;
+    }
+
+    public int getCurrentLongestRoadPlayerId() {
+        return currentLongestRoadPlayerId;
+    }
+
+    public void setCurrentLongestRoadPlayerId(int currentLongestRoadPlayerId) {
+        this.currentLongestRoadPlayerId = currentLongestRoadPlayerId;
     }
 
     /**
