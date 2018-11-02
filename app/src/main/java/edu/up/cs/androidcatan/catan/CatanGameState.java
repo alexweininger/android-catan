@@ -1,18 +1,19 @@
-package edu.up.cs.androidcatan;
+package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
-import edu.up.cs.androidcatan.catan.buildings.Building;
-import edu.up.cs.androidcatan.catan.buildings.City;
-import edu.up.cs.androidcatan.catan.buildings.Road;
-import edu.up.cs.androidcatan.catan.buildings.Settlement;
-import edu.up.cs.androidcatan.catan.devcards.DevelopmentCard;
-import edu.up.cs.androidcatan.catan.hexagon.Hexagon;
-import edu.up.cs.androidcatan.game.infoMsg.GameState;
-import edu.up.cs.androidcatan.players.Player;
-
 import java.util.ArrayList;
 import java.util.Random;
+
+import edu.up.cs.androidcatan.catan.gamestate.Board;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.gamestate.Dice;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
+import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
 /**
  * @author Alex Weininger
@@ -259,15 +260,17 @@ public class CatanGameState extends GameState {
         }
     }
 
+    /* ----- action methods ----- */
+
     /**
      * TODO Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
      *
      * @return - action success
      */
-    public boolean initBuilding() {
+    public boolean setupBuilding() {
 
         return false;
-    } // end initBuilding action method
+    } // end setupBuilding action method
 
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
@@ -577,24 +580,24 @@ public class CatanGameState extends GameState {
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
-     * @param hexagonId
-     * @param playerId
-     * @return
+     * @param hexagonId Hexagon the robber is going to move to.
+     * @param playerId Player who is moving the robber.
+     * @return action success.
      */
-    public boolean robberMove(int hexagonId, int playerId) {
+    public boolean moveRobber(int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
-            Log.d(TAG, "robberMove: invalid player id: " + playerId);
+            Log.d(TAG, "moveRobber: invalid player id: " + playerId);
             return false;
         }
         if (!checkTurn(playerId)) {
-            Log.i(TAG, "robberMove: it is not " + playerId + "'s turn.");
+            Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
             return false;
         }
         if (this.board.moveRobber(hexagonId)) {
-            Log.i(TAG, "robberMove: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
+            Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
             return true;
         }
-        Log.i(TAG, "robberMove: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
+        Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
         return false;
     }
 
@@ -631,6 +634,93 @@ public class CatanGameState extends GameState {
         return true;
     }
 
+    public Dice getDice() {
+        return dice;
+    }
+
+    public void setDice(Dice dice) {
+        this.dice = dice;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(ArrayList<Player> playerList) {
+        this.playerList = playerList;
+    }
+
+    public ArrayList<Integer> getDevelopmentCards() {
+        return developmentCards;
+    }
+
+    public void setDevelopmentCards(ArrayList<Integer> developmentCards) {
+        this.developmentCards = developmentCards;
+    }
+
+    public int[] getPlayerVictoryPoints() {
+        return playerVictoryPoints;
+    }
+
+    public void setPlayerVictoryPoints(int[] playerVictoryPoints) {
+        this.playerVictoryPoints = playerVictoryPoints;
+    }
+
+    public int[] getPlayerPrivateVictoryPoints() {
+        return playerPrivateVictoryPoints;
+    }
+
+    public void setPlayerPrivateVictoryPoints(int[] playerPrivateVictoryPoints) {
+        this.playerPrivateVictoryPoints = playerPrivateVictoryPoints;
+    }
+
+    public int getCurrentDiceSum() {
+        return currentDiceSum;
+    }
+
+    public void setCurrentDiceSum(int currentDiceSum) {
+        this.currentDiceSum = currentDiceSum;
+    }
+
+    public int getCurrentPlayerId() {
+        return currentPlayerId;
+    }
+
+    public void setCurrentPlayerId(int currentPlayerId) {
+        this.currentPlayerId = currentPlayerId;
+    }
+
+    public boolean isActionPhase() {
+        return isActionPhase;
+    }
+
+    public void setActionPhase(boolean actionPhase) {
+        isActionPhase = actionPhase;
+    }
+
+    public int getCurrentLargestArmyPlayerId() {
+        return currentLargestArmyPlayerId;
+    }
+
+    public void setCurrentLargestArmyPlayerId(int currentLargestArmyPlayerId) {
+        this.currentLargestArmyPlayerId = currentLargestArmyPlayerId;
+    }
+
+    public int getCurrentLongestRoadPlayerId() {
+        return currentLongestRoadPlayerId;
+    }
+
+    public void setCurrentLongestRoadPlayerId(int currentLongestRoadPlayerId) {
+        this.currentLongestRoadPlayerId = currentLongestRoadPlayerId;
+    }
 
     /**
      * TODO update???

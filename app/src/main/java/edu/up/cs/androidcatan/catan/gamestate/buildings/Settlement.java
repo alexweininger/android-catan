@@ -1,15 +1,13 @@
-package edu.up.cs.androidcatan.catan.buildings;
+package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
 import java.util.Arrays;
-
-import edu.up.cs.androidcatan.catan.buildings.Building;
 
 /**
  * @author Alex Weininger
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 30th, 2018
+ * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class Settlement extends Building {

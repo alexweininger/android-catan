@@ -1,18 +1,15 @@
-package edu.up.cs.androidcatan.catan.buildings;
+package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
 import java.util.Arrays;
-
-import edu.up.cs.androidcatan.catan.buildings.Building;
 
 /**
  * @author Alex Weininger
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 30th, 2018
+ * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-
 public class City extends Building {
 
     public static final int[] resourceCost = {0, 2, 0, 3, 0}; // Brick, Grain, Lumber, Ore, Wool
@@ -20,7 +17,7 @@ public class City extends Building {
     /**
      * @param ownerId id of who owns the building
      */
-    public City(int intersectionID, int ownerId) {
+    public City(int intersectionId, int ownerId) {
         super(ownerId);
     }
 
