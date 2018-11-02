@@ -23,7 +23,6 @@ public class CatanLocalGame extends LocalGame {
         return playerIdx == gameState.getCurrentPlayerId();
     }
 
-
     /**
      * Makes a move on behalf of a player.
      *
@@ -48,8 +47,6 @@ public class CatanLocalGame extends LocalGame {
 
     }
 
-
-
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
@@ -61,5 +58,4 @@ public class CatanLocalGame extends LocalGame {
     protected String checkIfGameOver() {
         return null;
     }
-
 }
