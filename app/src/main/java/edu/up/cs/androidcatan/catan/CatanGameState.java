@@ -148,13 +148,13 @@ public class CatanGameState extends GameState {
                 if (this.isActionPhase) {
                     return true;
                 }
-                Log.d("devInfo", "INFO: valAction - it is not the action phase.");
+                Log.i(TAG, "valAction - it is not the action phase.");
                 return false;
             }
-            Log.d("devInfo", "INFO: valAction - it is not " + playerId + "'s turn.");
+            Log.i(TAG, "valAction - it is not " + playerId + "'s turn.");
             return false;
         }
-        Log.d("devInfo", "INFO: valAction - invalid player id: " + playerId);
+        Log.i(TAG, "valAction - invalid player id: " + playerId);
         return false;
     }
 
@@ -323,9 +323,6 @@ public class CatanGameState extends GameState {
 
     /**
      * action for a player ending their turn, increments currentPlayerId. As of now does no checks.
-     * error checking:
-     * - valid player id
-     * - it is players turn
      *
      * @return - action success
      */
@@ -351,11 +348,10 @@ public class CatanGameState extends GameState {
         return true;
     } // end endTurn method
 
-    /**
+    /** TODO
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
      * error checking:
-     * - checks if it is given players turn
      * - checks if it is the action phase of the turn
      * - checks if the player has enough resources to trade
      *
