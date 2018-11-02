@@ -77,7 +77,7 @@ public class CatanGameState extends GameState {
         this.currentPlayerId = catanGameState.currentPlayerId;
         this.currentDiceSum = catanGameState.currentDiceSum;
         this.isActionPhase = catanGameState.isActionPhase;
-        this.board = new Board(catanGameState.board); // FIXME
+        this.setBoard(catanGameState.getBoard());
         this.currentLongestRoadPlayerId = catanGameState.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = catanGameState.currentLargestArmyPlayerId;
 
