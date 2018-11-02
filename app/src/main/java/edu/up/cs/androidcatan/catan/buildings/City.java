@@ -2,8 +2,6 @@ package edu.up.cs.androidcatan.catan.buildings;
 
 import java.util.Arrays;
 
-import edu.up.cs.androidcatan.catan.buildings.Building;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -19,7 +17,7 @@ public class City extends Building {
     /**
      * @param ownerId id of who owns the building
      */
-    public City(int intersectionID, int ownerId) {
+    public City(int intersectionId, int ownerId) {
         super(ownerId);
     }
 
