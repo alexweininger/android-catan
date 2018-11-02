@@ -355,9 +355,19 @@ public class CatanGameState extends GameState {
      * @param receivedResourceId - what the player is receiving in the trade
      * @return - action success
      */
-    public boolean tradeWithPort(int playerId, int givenResourceId, int receivedResourceId) {
+    public boolean tradeWithPort(int playerId, int intersectionId,  int givenResourceId, int receivedResourceId) {
         // check if current player's turn and then if player has rolled dice
         if (!valAction(playerId)) {
+            return false;
+        }
+
+        // check if the intersection has a building on it
+        if (!board.hasBuilding(intersectionId)) {
+            return false;
+        }
+
+        // check if the player owns the building
+        if (board.getBuildings()[intersectionId].getOwnerId() != playerId) {
             return false;
         }
 
