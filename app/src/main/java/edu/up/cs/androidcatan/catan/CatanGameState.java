@@ -81,7 +81,9 @@ public class CatanGameState extends GameState {
         this.isActionPhase = cgs.isActionPhase;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
-
+        this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
+        this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
+        this.setDevelopmentCards(cgs.getDevelopmentCards());
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
@@ -93,7 +95,6 @@ public class CatanGameState extends GameState {
             this.playerPrivateVictoryPoints[i] = cgs.playerPrivateVictoryPoints[i];
         }
     } // end deep copy constructor
-
 
     /**
      * creates a deck of int representing the exact number each type of card

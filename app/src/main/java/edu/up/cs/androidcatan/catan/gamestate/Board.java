@@ -101,7 +101,6 @@ public class Board {
         robber = new Robber(desertTileId);
 
         designatePorts();
-
     } // end Board constructor
 
     /**
