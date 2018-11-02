@@ -1,5 +1,12 @@
 package edu.up.cs.androidcatan.catan;
 
+import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAcation;
+import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAcation;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
@@ -7,7 +14,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 public class CatanLocalGame extends LocalGame {
     CatanGameState gameState;
 
-    public CatanLocalGame () {
+    public CatanLocalGame() {
         gameState = new CatanGameState();
     }
 
@@ -31,6 +38,38 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+
+        if (action instanceof CatanRollDiceAction) {
+
+        }
+
+        if (action instanceof CatanEndTurnAction) {
+
+        }
+
+        if (action instanceof CatanBuildRoadAction) {
+
+        }
+
+        if (action instanceof CatanBuildSettlementAcation) {
+
+        }
+
+        if (action instanceof CatanBuildCityAction) {
+
+        }
+
+
+        if (action instanceof CatanBuyDevCardAction) {
+
+        }
+
+        if (action instanceof CatanUseDevCardAcation) {
+
+        }
+
+
+
         return false;
     }
 
