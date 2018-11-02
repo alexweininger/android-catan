@@ -72,7 +72,7 @@ public class CatanGameState extends GameState {
      *
      * @param catanGameState - CatanGameState object to make a copy of
      */
-    CatanGameState(CatanGameState catanGameState) {
+    public CatanGameState(CatanGameState catanGameState) {
         this.dice = catanGameState.dice;
         this.currentPlayerId = catanGameState.currentPlayerId;
         this.currentDiceSum = catanGameState.currentDiceSum;
