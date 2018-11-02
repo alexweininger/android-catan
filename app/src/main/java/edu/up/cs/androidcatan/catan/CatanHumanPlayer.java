@@ -28,8 +28,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private final String TAG = "CatanHumanPlayer";
 
     // These variables will reference widgets that will be modified during play
-    
+    private Button buildCity = null;
+    private Button buildRoad = null;
+    private Button buildSettlement = null;
+    private Button buyDevCard = null;
+    private Button endTurn = null;
+    private Button robberDiscard = null;
+    private Button robberMove = null;
+    private Button robberSteal = null;
     private Button roll = null;
+    private Button tradeBank= null;
+    private Button tradeCustomPort = null;
+    private Button tradePort = null;
+    private Button useDevCard = null;
 
 
     // the android activity that we are running
@@ -98,18 +109,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.roll = (Button) activity.findViewById(R.id.sidebar_button_roll);
         Log.d(TAG, "setAsGui: ");
 
+        buildCity.setOnClickListener(this);
+        buildRoad.setOnClickListener(this);
+        buildSettlement.setOnClickListener(this);
+        buyDevCard.setOnClickListener(this);
+        endTurn.setOnClickListener(this);
+        robberDiscard.setOnClickListener(this);
+        robberMove.setOnClickListener(this);
+        robberSteal.setOnClickListener(this);
         roll.setOnClickListener(this);
-        //Initialize the widget reference member variables
-//        this.playerScoreTextView = (TextView)activity.findViewById(R.id.yourScoreValue);
-//        this.oppScoreTextView    = (TextView)activity.findViewById(R.id.oppScoreValue);
-//        this.turnTotalTextView   = (TextView)activity.findViewById(R.id.turnTotalValue);
-//        this.messageTextView     = (TextView)activity.findViewById(R.id.messageTextView);
-//        this.dieImageButton      = (ImageButton)activity.findViewById(R.id.dieButton);
-//        this.holdButton          = (Button)activity.findViewById(R.id.holdButton);
-
-        //Listen for button presses
-//        dieImageButton.setOnClickListener(this);
-//        holdButton.setOnClickListener(this);
+        tradeBank.setOnClickListener(this);
+        tradeCustomPort.setOnClickListener(this);
+        tradePort.setOnClickListener(this);
+        useDevCard.setOnClickListener(this);
 
     }//setAsGui
 
