@@ -316,7 +316,6 @@ public class CatanGameState extends GameState {
             produceResources(rollNum);
         }
 
-
         this.isActionPhase = true;
 
         return true;
