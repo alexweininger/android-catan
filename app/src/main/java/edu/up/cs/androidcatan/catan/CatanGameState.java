@@ -178,7 +178,8 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /** TOOD
+    /** todo
+     *
      * updateLongestRoadPlayer - after each turn check if any player has longest road, with a min of 5 road segments
      */
     private void updateLongestRoadPlayer() {
