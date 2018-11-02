@@ -399,7 +399,6 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-
     /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
      *
