@@ -40,7 +40,7 @@ public class CatanLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
 
         if (action instanceof CatanRollDiceAction) {
-
+            return gameState.rollDice();
         }
 
         if (action instanceof CatanEndTurnAction) {

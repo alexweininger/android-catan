@@ -22,7 +22,7 @@
 
     <!--scoreboard group-->
 
-    <edu.up.weininge.testgui.boardSurfaceView
+    <edu.up.cs.androidcatan.catan.graphics.boardSurfaceView
         android:id="@+id/board"
         android:layout_width="0dp"
         android:layout_height="0dp"

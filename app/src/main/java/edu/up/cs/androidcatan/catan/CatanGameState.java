@@ -290,11 +290,11 @@ public class CatanGameState extends GameState {
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
-     * @param playerId - player that attempts to roll the dice
      * @return - action success
      */
-    public boolean rollDice(int playerId) {
-        if (!valPlId(playerId)) {
+    public boolean rollDice(){
+        //TODO checkAndHandleAction() from LocalGame takes cares of playerId checks
+        /*if (!valPlId(playerId)) {
             Log.e(TAG, "rollDice: Invalid player id: " + playerId);
             return false;
         }
@@ -302,15 +302,15 @@ public class CatanGameState extends GameState {
         if (playerId != this.currentPlayerId) {
             Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is player " + this.currentPlayerId + "'s turn.");
             return false;
-        }
+        }*/
 
         if (this.isActionPhase) {
-            Log.i(TAG, "rollDice: Player " + playerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
+            Log.i(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn.");
             return false;
         }
 
         int rollNum = dice.roll();
-        Log.i(TAG, "rollDice: Player " + playerId + " rolled a " + rollNum);
+        Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
 
         // if the robber is rolled
         if (rollNum == 7) {

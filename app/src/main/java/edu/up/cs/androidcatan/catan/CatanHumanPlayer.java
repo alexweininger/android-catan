@@ -98,8 +98,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //        this.holdButton          = (Button)activity.findViewById(R.id.holdButton);
 
         //Listen for button presses
-        dieImageButton.setOnClickListener(this);
-        holdButton.setOnClickListener(this);
+//        dieImageButton.setOnClickListener(this);
+//        holdButton.setOnClickListener(this);
 
     }//setAsGui
 
