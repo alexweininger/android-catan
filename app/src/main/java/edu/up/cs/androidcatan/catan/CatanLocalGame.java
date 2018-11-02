@@ -72,15 +72,15 @@ public class CatanLocalGame extends LocalGame {
 
         }
 
-        if(action instanceof CatanRobberMoveAction) {
+        if (action instanceof CatanRobberMoveAction) {
 
         }
 
-        if (action instanceof CatanRobberStealAction){
+        if (action instanceof CatanRobberStealAction) {
 
         }
 
-        if(action instanceof CatanRobberDiscardAction) {
+        if (action instanceof CatanRobberDiscardAction) {
 
         }
 
@@ -88,8 +88,6 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanBuildAction) {
 
         }
-
-
 
         return false;
     }
