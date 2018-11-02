@@ -8,7 +8,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 31, 2018
+ * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanBuildAction extends GameAction {
