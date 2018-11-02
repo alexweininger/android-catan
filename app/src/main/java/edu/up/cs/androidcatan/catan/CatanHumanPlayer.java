@@ -162,7 +162,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
 
-        this.roll = (Button) activity.findViewById(R.id.sidebar_button_roll);
+        buildCity = (Button)activity.findViewById(R.id.sidebar_button_city);
+        buildRoad = (Button)activity.findViewById(R.id.sidebar_button_road);
+        buildSettlement = (Button)activity.findViewById(R.id.sidebar_button_settlement);
+        buyDevCard = (Button)activity.findViewById(R.id.sidebar_button_devcards);
+        endTurn = (Button)activity.findViewById(R.id.sidebar_button_endturn);
+//        robberDiscard = (Button)activity.findViewById(R.id.)
+//        robberMove = (Button)activity.findViewById(R.id.)
+//        robberSteal = (Button)activity.findViewById(R.id.)
+        roll = (Button)activity.findViewById(R.id.sidebar_button_roll);
+        tradeBank = (Button)activity.findViewById(R.id.sidebar_button_trade);
+        tradeCustomPort = (Button)activity.findViewById(R.id.sidebar_button_trade) ;
+        tradePort = (Button)activity.findViewById(R.id.sidebar_button_trade);
+        useDevCard = (Button)activity.findViewById(R.id.use_Card);
+
         Log.d(TAG, "setAsGui: ");
 
         buildCity.setOnClickListener(this);
