@@ -164,14 +164,17 @@ public class Board {
 
         // check if 3 roads at either intersection
         if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
             return false;
         }
 
         // check if road is already built
         if (this.roadGraph[a][b].getOwnerId() != -1) {
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
             return false;
         }
 
+        Log.i(TAG, "validRoadPlacement: Valid road placement.");
         return true;
     }
 
