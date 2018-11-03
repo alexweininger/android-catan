@@ -323,6 +323,7 @@ public class Board {
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
      */
     private void generateHexagonTiles() {
+        Log.d(TAG, "generateHexagonTiles() called");
         int[] resourceTypeCount = {4, 3, 3, 3, 4};
         int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
         int[] resources = {0, 1, 2, 3, 4};
