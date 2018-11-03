@@ -390,6 +390,7 @@ public class Board {
         } else {
             result.add(this.buildings[intersectionId].getOwnerId());
         }
+        Log.d(TAG, "getIntersectionOwners() returned: " + result);
         return result;
     }
 
@@ -406,6 +407,7 @@ public class Board {
                 result.add(r);
             }
         }
+        Log.d(TAG, "getRoadsAtIntersection() returned: " + result);
         return result;
     }
 
@@ -442,6 +444,7 @@ public class Board {
         if (hexagonIdList.size() > 2) { // error checking
             Log.e(TAG, "getHexagonsFromChitValue: returning a list with more than 2 hexagons with chit values of: " + chitValue);
         }
+        Log.d(TAG, "getHexagonsFromChitValue() returned: " + hexagonIdList);
         return hexagonIdList;
     }
 
@@ -450,6 +453,7 @@ public class Board {
      * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
      */
     public boolean moveRobber(int hexagonId) {
+        Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
         if (hexagonId == this.robber.getHexagonId()) return false;
 
@@ -466,6 +470,7 @@ public class Board {
      * @param building - building object
      */
     public boolean addBuilding(int intersectionId, Building building) {
+        Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
         if (this.buildings[intersectionId] != null) {
             Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
             return false;
@@ -496,7 +501,7 @@ public class Board {
         if (adjacentIntersections.size() > 3) {
             Log.e(TAG, "getAdjacentIntersectionsToIntersection: Received more than 3 adjacent intersections. That makes no sense.");
         }
-        Log.i(TAG, "getAdjacentIntersectionsToIntersection: Found " + adjacentIntersections.toString() + " as adjacent to " + intersectionId);
+        Log.d(TAG, "getAdjacentIntersectionsToIntersection() returned: " + adjacentIntersections);
         return adjacentIntersections;
     }
 
