@@ -48,12 +48,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1" />
+        app:layout_constraintGuide_percent="0.94" />
 
     <EditText
         android:id="@+id/intersection_id_entered"
         android:layout_width="70dp"
-        android:layout_height="39dp"
+        android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:hint="0"
