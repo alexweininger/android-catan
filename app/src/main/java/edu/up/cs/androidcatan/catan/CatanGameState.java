@@ -761,8 +761,6 @@ public class CatanGameState extends GameState {
     @Override
     public String toString() {
         return "CatanGameState{" +
-                "dice=" + dice +
-                ", board=" + board +
                 ", playerList=" + playerList +
                 ", developmentCards=" + developmentCards +
                 ", playerVictoryPoints=" + Arrays.toString(playerVictoryPoints) +
