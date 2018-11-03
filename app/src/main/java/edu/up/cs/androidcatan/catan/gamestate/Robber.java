@@ -22,8 +22,8 @@ public class Robber {
     }
 
     //deep copy constructor
-    public Robber(Robber robber) {
-        this.hexagonId = robber.hexagonId;
+    public Robber(Robber r) {
+        this.setHexagonId(r.getHexagonId());
     }
 
     //sets the new position of the Robber to be moved
@@ -39,10 +39,6 @@ public class Robber {
     // toString
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
-        sb.append("The robber is currently at: ");
-        sb.append(hexagonId);
-
-        return sb.toString();
+        return " The robber is at " + this.hexagonId;
     } // end robber toString
 }

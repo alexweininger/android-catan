@@ -23,6 +23,11 @@ public class Hexagon {
         this.chitValue = chitValue;
     }
 
+    public Hexagon(Hexagon h) {
+        this.setChitValue(h.getChitValue());
+        this.setResourceId(h.getResourceId());
+    }
+
     /**
      * @return - hexagon resource id, [0-4]
      */
@@ -35,6 +40,14 @@ public class Hexagon {
      */
     public int getChitValue() {
         return chitValue;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public void setChitValue(int chitValue) {
+        this.chitValue = chitValue;
     }
 
     /**

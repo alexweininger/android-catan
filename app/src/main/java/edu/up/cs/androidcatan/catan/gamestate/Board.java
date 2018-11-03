@@ -84,10 +84,10 @@ public class Board {
         generateRoadMatrix();
 
         // print graphs
-        Log.i(TAG, "Board: Printing hGraph...");
-        printGraph(hGraph);
-        Log.i(TAG, "Board: Printing iGraph...");
-        printGraph(iGraph);
+//        Log.i(TAG, "Board: Printing hGraph...");
+//        printGraph(hGraph);
+//        Log.i(TAG, "Board: Printing iGraph...");
+//        printGraph(iGraph);
 
         // generate maps
         generateIntToHexMap();
@@ -97,10 +97,10 @@ public class Board {
         generateHexagonTiles();
 
         // logging
-        Log.i(TAG, "int to hex map: " + this.intToHexIdMap.toString());
-        Log.i(TAG, "hex to int map" + this.hexToIntIdMap.toString());
+//        Log.i(TAG, "int to hex map: " + this.intToHexIdMap.toString());
+//        Log.i(TAG, "hex to int map" + this.hexToIntIdMap.toString());
 
-        int desertTileId = 0; // TODO
+        int desertTileId = 0; // TODO put robber on desert tile
         robber = new Robber(desertTileId);
 
         designatePorts();
@@ -119,10 +119,11 @@ public class Board {
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
         this.setHexagons(b.getHexagons());
-        this.setRobber(b.getRobber()); // class
+        this.setRobber(new Robber(b.getRobber())); // class
         this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
+        this.setPortList(b.getPortList());
     } // end Board deep copy constructor
 
     /* ----- helper / checking methods ----- */
@@ -132,7 +133,7 @@ public class Board {
      * @param intersectionId - intersection to test
      * @return - is the intersection connected to the players buildings or roads?
      */
-    public boolean isConnected(int playerId, int intersectionId) {
+    private boolean isConnected(int playerId, int intersectionId) {
         // check if intersection has no building and no road
         if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
             return false;

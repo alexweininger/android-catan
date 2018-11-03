@@ -349,10 +349,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     }//setAsGui
 
+    /**
+     *
+     */
     protected void initAfterReady() {
         Log.d(TAG, "initAfterReady() called");
     }
 
+    /*
+     *
+     */
     private void updateTextViews() {
 
         this.brickValue.setText(this.resourceCards[0]);
@@ -360,6 +366,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.lumberValue.setText(this.resourceCards[2]);
         this.oreValue.setText(this.resourceCards[3]);
         this.woolValue.setText(this.resourceCards[4]);
+    }
+
+    /**
+     *
+     * @param message
+     */
+    protected void gameIsOver(String message) {
+        for (int i = 0; i < this.state.getPlayerVictoryPoints().length; i++) {
+            if (this.state.getPlayerVictoryPoints()[i] > 9) {
+                super.gameIsOver("Player " + i + " wins!");
+            }
+        }
     }
 
 }// class CatanHumanPlayer
