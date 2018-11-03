@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="wood_give_amount,sidebar_button_city,ore_want_minus,wood_give_add,grain_give_icon,sheep_give_minus,menu_header,grain_give_add,brick_want_add,wood_give_minus,wood_want_amount,brick_give_minus,wood_want_add,sidebar_button_trade,ore_want_add,brick_want_amount,you_want_text,sheep_give_icon,brick_give_add,ore_want_amount,sidebar_heading_playername,sheep_give_add,wood_give_icon,wood_want_icon,grain_want_minus,sidebar_button_road,grain_give_minus,sheep_want_amount,sidebar_button_endturn,sheep_want_minus,sheep_want_icon,sidebar_heading_resources,ore_give_icon,grain_give_amount,grain_want_add,brick_give_icon,ore_want_icon,sheep_want_add,sidebar_button_menu,sheep_give_amount,you_give_text,brick_want_minus,brick_want_icon,ore_give_amount,ore_give_add,sidebar_button_devcards,sidebar_button_roll,grain_want_icon,wood_want_minus,ore_give_minus,sidebar_heading_build,grain_want_amount,sidebar_button_settlement,brick_give_amount,sidebar_button_score,sidebar_heading_vp,sidebar_value_brick,sidebar_value_ore,sidebar_value_wool,sidebar_value_grain,sidebar_value_lumber" />
+        app:constraint_referenced_ids="wood_give_amount,sidebar_button_city,ore_want_minus,wood_give_add,grain_give_icon,sheep_give_minus,menu_header,grain_give_add,brick_want_add,wood_give_minus,wood_want_amount,brick_give_minus,wood_want_add,sidebar_button_trade,ore_want_add,brick_want_amount,you_want_text,sheep_give_icon,brick_give_add,ore_want_amount,sidebar_heading_playername,sheep_give_add,wood_give_icon,wood_want_icon,grain_want_minus,sidebar_button_road,grain_give_minus,sheep_want_amount,sidebar_button_endturn,sheep_want_minus,sheep_want_icon,ore_give_icon,grain_give_amount,grain_want_add,brick_give_icon,ore_want_icon,sheep_want_add,sidebar_button_menu,sheep_give_amount,you_give_text,brick_want_minus,brick_want_icon,ore_give_amount,ore_give_add,sidebar_button_devcards,sidebar_button_roll,grain_want_icon,wood_want_minus,ore_give_minus,sidebar_heading_build,grain_want_amount,sidebar_button_settlement,brick_give_amount,sidebar_button_score,sidebar_heading_vp,sidebar_value_brick,sidebar_value_ore,sidebar_value_wool,sidebar_value_grain,sidebar_value_lumber" />
 
     <android.support.constraint.Group
         android:id="@+id/group_trade_menu"
@@ -906,7 +906,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_playername" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_devcards" />
 
     <Button
         android:id="@+id/sidebar_button_menu"
@@ -1000,7 +1000,7 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_devcards" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_endturn" />
 
     <TextView
 
@@ -1015,6 +1015,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/sidebar_heading_playername"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/sidebar_heading_playername"
         app:layout_constraintTop_toTopOf="@+id/sidebar_heading_playername"
         app:layout_constraintVertical_bias="0.0" />
@@ -1042,22 +1043,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_button_roll" />
-
-    <TextView
-        android:id="@+id/sidebar_heading_resources"
-        android:layout_width="0dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/heading_resources"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_endturn"
-        tools:text="@string/heading_resources" />
 
     <TextView
         android:id="@+id/sidebar_value_grain"
@@ -1136,11 +1121,12 @@
         android:id="@+id/brick_icon"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/brick_icon_25x25"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/sidebar_heading_resources"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_resources" />
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_playername" />
 
     <ImageView
         android:id="@+id/grain_icon"
