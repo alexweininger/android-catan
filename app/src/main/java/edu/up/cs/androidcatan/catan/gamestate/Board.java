@@ -205,6 +205,7 @@ public class Board {
 
     //returns the playerid with the longest road for now (may need to change so that it returns the value instead)
     public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
+        Log.d(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
             //for each player there is an adjacency map as well as a list
@@ -239,6 +240,7 @@ public class Board {
                 playerIdLongestRoad = n;
             }
         }
+        Log.d(TAG, "getPlayerWithLongestRoad() returned: " + currLongestRoad);
         return playerIdLongestRoad;
     }
 
@@ -283,10 +285,11 @@ public class Board {
      * @return - is the building location valid
      */
     public boolean validBuildingLocation(int playerId, int intersectionId) {
+        Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         /* checks:
          * 1. if connected
          * 2. if occupied by building
-         * 3. distance rule
+         * 3. distance rule TODO
          */
 
         // check if the intersection is connected to players' roads/buildings
@@ -308,7 +311,7 @@ public class Board {
                 return false;
             }
         }
-
+        Log.d(TAG, "validBuildingLocation() returned: " + true);
         return true;
     }
 
@@ -329,7 +332,6 @@ public class Board {
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
      */
     private void generateHexagonTiles() {
-
         Log.i(TAG, "generateHexagonTiles() called");
 
         int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
@@ -367,15 +369,6 @@ public class Board {
         for (Hexagon hexagon : this.hexagons) {
             Log.i(TAG, "| " + hexagon);
         }
-
-    }
-
-    public int sumArray(int[] arr) {
-        int sum = 0;
-        for (int i : arr) {
-            sum += arr[i];
-        }
-        return sum;
     }
 
     /**
