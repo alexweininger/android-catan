@@ -324,7 +324,7 @@ public class Board {
      */
     private void generateHexagonTiles() {
 
-        Log.d(TAG, "generateHexagonTiles() called");
+        Log.i(TAG, "generateHexagonTiles() called");
 
         int[] resourceTypeCount = {4, 3, 3, 3, 4};
         int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
