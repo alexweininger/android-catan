@@ -44,6 +44,38 @@ public class CatanLocalGame extends LocalGame {
         return playerIdx == gameState.getCurrentPlayerId();
     }
 
+
+
+    /**
+     * Notify the given player that its state has changed. This should involve sending
+     * a GameInfo object to the player. If the game is not a perfect-information game
+     * this method should remove any information from the game that the player is not
+     * allowed to know.
+     *
+     * @param p the player to notify
+     */
+    @Override
+    protected void sendUpdatedStateTo(GamePlayer p) {
+        p.sendInfo(new CatanGameState(this.gameState)); // TODO verify that this copies everything (guess what it def. does not)
+    }
+
+    /**
+     * Check if the game is over. It is over, return a string that tells
+     * who the winner(s), if any, are. If the game is not over, return null;
+     *
+     * @return a message that tells who has won the game, or null if the
+     * game is not over
+     */
+    @Override
+    protected String checkIfGameOver() {
+        for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
+            if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
+                return playerNames[i] + " wins!";
+            }
+        }
+        return null; // return null if no winner, but the game is not over
+    }
+
     /**
      * Makes a move on behalf of a player.
      *
@@ -136,35 +168,5 @@ public class CatanLocalGame extends LocalGame {
         }
 
         return false;
-    }
-
-    /**
-     * Notify the given player that its state has changed. This should involve sending
-     * a GameInfo object to the player. If the game is not a perfect-information game
-     * this method should remove any information from the game that the player is not
-     * allowed to know.
-     *
-     * @param p the player to notify
-     */
-    @Override
-    protected void sendUpdatedStateTo(GamePlayer p) {
-        p.sendInfo(new CatanGameState(this.gameState)); // TODO verify that this copies everything (guess what it def. does not)
-    }
-
-    /**
-     * Check if the game is over. It is over, return a string that tells
-     * who the winner(s), if any, are. If the game is not over, return null;
-     *
-     * @return a message that tells who has won the game, or null if the
-     * game is not over
-     */
-    @Override
-    protected String checkIfGameOver() {
-        for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
-            if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
-                return playerNames[i] + " wins!";
-            }
-        }
-        return null; // return null if no winner, but the game is not over
     }
 }
