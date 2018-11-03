@@ -163,7 +163,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     }
 
     public boolean removeResourceBundle(int[] resourceCost) {
-        if (checkResourceBundle(resourceCost)) {
+        if (!checkResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
             return false;
         }
