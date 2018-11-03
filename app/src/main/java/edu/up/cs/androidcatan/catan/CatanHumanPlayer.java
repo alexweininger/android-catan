@@ -367,6 +367,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private void updateTextViews() {
 
+        if (this.state.isSetupPhase()) {
+            myActivity.findViewById(R.id.sidebar_button_city).setClickable(false);
+        }
+
+
         this.brickValue.setText(this.resourceCards[0]);
         this.grainValue.setText(this.resourceCards[1]);
         this.lumberValue.setText(this.resourceCards[2]);
