@@ -121,7 +121,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
 
-
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
         }
@@ -246,12 +245,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // resource value text
         this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
-        this.grainValue = (TextView)  activity.findViewById(R.id.grainAmount);
+        this.grainValue = (TextView) activity.findViewById(R.id.grainAmount);
         this.lumberValue = (TextView) activity.findViewById(R.id.lumberAmount);
         this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
         this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
 
-                boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+        boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
         Canvas canvas = new Canvas(); // create Canvas object
 
@@ -305,7 +304,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // if we have state update the GUI based on the state
 
-        if(this.state != null) {
+        if (this.state != null) {
             receiveInfo(state);
         }
 
