@@ -11,6 +11,12 @@ public class Port {
         this.resourceId = resourceId;
     }
 
+    public Port(Port p) {
+        this.setIntersection(p.getIntersection());
+        this.setTradeRatio(p.getTradeRatio());
+        this.setResourceId(p.getResourceId());
+    }
+
     public int getIntersection() {
         return intersection;
     }
