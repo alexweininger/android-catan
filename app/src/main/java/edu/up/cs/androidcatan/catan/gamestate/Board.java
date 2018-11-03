@@ -990,7 +990,7 @@ public class Board {
     /**
      * @return Intersection adjacency graph.
      */
-    private boolean[][] getIGraph() {
+    public boolean[][] getIGraph() {
         return iGraph;
     }
 
@@ -1011,21 +1011,21 @@ public class Board {
     /**
      * @return Array List of Road objects.
      */
-    private ArrayList<Road> getRoads() {
+    public ArrayList<Road> getRoads() {
         return this.roads;
     }
 
     /**
      * @return Array List of hexagons.
      */
-    private ArrayList<Hexagon> getHexagons() {
+    public ArrayList<Hexagon> getHexagons() {
         return this.hexagons;
     }
 
     /**
      * @return Robber object.
      */
-    private Robber getRobber() {
+    public Robber getRobber() {
         return this.robber;
     }
 
