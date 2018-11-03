@@ -40,7 +40,7 @@ public class Robber {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
-        sb.append("The robber is currently at: ");
+        sb.append(" The robber is currently at: ");
         sb.append(hexagonId);
 
         return sb.toString();
