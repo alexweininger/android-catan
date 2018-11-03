@@ -154,6 +154,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         }
         if (state.isSetupPhase()) {
+            Log.i(TAG, "onClick: setup phase ");
             // if it is the setup phase, player can only make these actions
 
             if (button.getId() == R.id.sidebar_button_road) {

@@ -95,19 +95,19 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buildRoad();
+            return gameState.buildRoad();
             return true;
         }
 
         if (action instanceof CatanBuildSettlementAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buildSettlement();
+            return gameState.buildSettlement();
             return true;
         }
 
         if (action instanceof CatanBuildCityAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buildCity();
+            return gameState.buildCity();
             return true;
         }
 
