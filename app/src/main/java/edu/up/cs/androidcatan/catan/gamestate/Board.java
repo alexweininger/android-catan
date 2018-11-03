@@ -332,7 +332,7 @@ public class Board {
 
         Random random = new Random();
 
-        while (this.hexagons.size() < 18) {
+        while (sumArray(resourceTypeCount) > 0 && sumArray(chitValuesCount) > 0) {
 
             int randomResourceType;
             do {
@@ -354,6 +354,8 @@ public class Board {
 
             Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
         }
+
+        Log.i(TAG, "generateHexagonTiles: exited loop");
 
         Log.i(TAG, "generateHexagonTiles: hexagon list:");
         for (Hexagon hexagon : this.hexagons) {
