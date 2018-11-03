@@ -79,6 +79,7 @@ public class CatanGameState extends GameState {
         this.currentPlayerId = cgs.currentPlayerId;
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
+        this.isSetupPhase = cgs.isSetupPhase;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
@@ -495,7 +496,7 @@ public class CatanGameState extends GameState {
         }
 
         // check if the selected building location is valid
-        if (!this.board.validBuildingLocation(playerId, intersectionId)) {
+        if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
             return false;
         }
 
@@ -760,11 +761,11 @@ public class CatanGameState extends GameState {
     }
 
     public boolean isSetupPhase() {
-        return isSetupPhase;
+        return this.isSetupPhase;
     }
 
     public void setSetupPhase(boolean setupPhase) {
-        isSetupPhase = setupPhase;
+        this.isSetupPhase = setupPhase;
     }
 
     /**
