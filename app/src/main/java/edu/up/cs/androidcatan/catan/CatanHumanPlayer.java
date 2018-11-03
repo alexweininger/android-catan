@@ -1,6 +1,8 @@
 package edu.up.cs.androidcatan.catan;
 
 
+import android.graphics.Canvas;
+import android.support.constraint.Group;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +18,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
@@ -242,6 +245,58 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.lumberValue = (TextView) activity.findViewById(R.id.lumberAmount);
         this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
         this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
+
+                boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+
+        Canvas canvas = new Canvas(); // create Canvas object
+
+        board.createHexagons();        // draw the board of hexagons and ports on the canvas
+
+        board.draw(canvas); // draw
+
+        // button listeners TODO move to separate class?
+        Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
+        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
+        scoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (scoreBoardGroup.getVisibility() == View.GONE) {
+                    scoreBoardGroup.setVisibility(View.VISIBLE);
+                } else {
+                    scoreBoardGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
+        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
+        developmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (developmentGroup.getVisibility() == View.GONE) {
+                    developmentGroup.setVisibility(View.VISIBLE);
+                } else {
+                    developmentGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // build menu layout group
+        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
+
+        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
+
+        roadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (buildMenuGroup.getVisibility() == View.GONE) {
+                    buildMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    buildMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
 
 
     }//setAsGui
