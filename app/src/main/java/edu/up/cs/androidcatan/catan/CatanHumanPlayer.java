@@ -183,7 +183,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                         Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
-                        if(copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                        if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
                             return;
@@ -225,7 +225,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                         Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
-                        if(copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                        if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
                             return;
@@ -423,7 +423,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     /**
-     *
      * @param message
      */
     protected void gameIsOver(String message) {
