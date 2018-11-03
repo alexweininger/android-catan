@@ -126,7 +126,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
             this.state = (CatanGameState) info;
-            return;
+            this.brickValue.setText(String.valueOf(this.resourceCards[0]));
+            this.grainValue.setText(String.valueOf(this.resourceCards[1]));
+            this.lumberValue.setText(String.valueOf(this.resourceCards[2]));
+            this.oreValue.setText(String.valueOf(this.resourceCards[3]));
+            this.woolValue.setText(String.valueOf(this.resourceCards[4]));
 
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -188,6 +192,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
                             myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
+                            myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
                             return;
                         } else {
                             Log.i(TAG, "onClick: invalid intersection input");
@@ -332,11 +337,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard.setOnClickListener(this);
 
         // resource value text
-        this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
-        this.grainValue = (TextView) activity.findViewById(R.id.grainAmount);
-        this.lumberValue = (TextView) activity.findViewById(R.id.lumberAmount);
-        this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
-        this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
+        this.oreValue = (TextView) activity.findViewById(R.id.sidebar_value_ore);
+        this.grainValue = (TextView) activity.findViewById(R.id.sidebar_value_grain);
+        this.lumberValue = (TextView) activity.findViewById(R.id.sidebar_value_lumber);
+        this.woolValue = (TextView) activity.findViewById(R.id.sidebar_value_wool);
+        this.brickValue = (TextView) activity.findViewById(R.id.sidebar_value_brick);
 
         boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
