@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
@@ -759,27 +760,49 @@ public class CatanGameState extends GameState {
      */
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
+        return "CatanGameState{" +
+                "dice=" + dice +
+                ", board=" + board +
+                ", playerList=" + playerList +
+                ", developmentCards=" + developmentCards +
+                ", playerVictoryPoints=" + Arrays.toString(playerVictoryPoints) +
+                ", playerPrivateVictoryPoints=" + Arrays.toString(playerPrivateVictoryPoints) +
+                ", currentDiceSum=" + currentDiceSum +
+                ", currentPlayerId=" + currentPlayerId +
+                ", isActionPhase=" + isActionPhase +
+                ", currentLargestArmyPlayerId=" + currentLargestArmyPlayerId +
+                ", currentLongestRoadPlayerId=" + currentLongestRoadPlayerId +
+                '}';
+    }
 
-        result.append("CatanGameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append(this.currentPlayerId);
-        result.append("\n");
-        result.append("Current Dice Sum: ");
-        result.append(this.currentDiceSum);
-        result.append("\n");
-        result.append("isActionPhase: ");
-        result.append(this.isActionPhase);
-        result.append("\n");
-
-        for (int i = 0; i < this.playerList.size(); i++) {
-            result.append(this.playerList.get(i).toString()).append(" \n");
-        }
-        result.append(this.board.toString());
-
-        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append("\n\n");
-        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n\n");
-
-        return result.toString();
-    } // end CatanGameState toString()
+    /**
+     * TODO update???
+     *
+     * @return String
+     */
+//    @Override
+//    public String toString() {
+//        StringBuilder result = new StringBuilder();
+//
+//        result.append("CatanGameState:\n");
+//        result.append("Current Player: ").append(this.currentPlayerId).append("\n");
+//        result.append(this.currentPlayerId);
+//        result.append("\n");
+//        result.append("Current Dice Sum: ");
+//        result.append(this.currentDiceSum);
+//        result.append("\n");
+//        result.append("isActionPhase: ");
+//        result.append(this.isActionPhase);
+//        result.append("\n");
+//
+//        for (int i = 0; i < this.playerList.size(); i++) {
+//            result.append(this.playerList.get(i).toString()).append(" \n");
+//        }
+//        result.append(this.board.toString());
+//
+//        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append("\n\n");
+//        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n\n");
+//
+//        return result.toString();
+//    } // end CatanGameState toString()
 }
