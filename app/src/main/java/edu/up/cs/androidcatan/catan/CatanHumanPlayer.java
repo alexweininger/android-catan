@@ -90,7 +90,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView player3Score = (TextView) null;
 
     //Groups
-    private Group scoreGroup = null;
+    private Group scoreMenu = null;
     private Group devMenu = null;
     private Group tradeMenu = null;
 
@@ -210,13 +210,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.sidebar_button_score){
             Log.d(TAG, "onClick() called with: button = [" + button + "]");
-            if(scoreGroup.getVisibility() == View.VISIBLE){
+            if(scoreMenu.getVisibility() == View.VISIBLE){
                 Log.d(TAG, "onClick: Now to gone");
-                scoreGroup.setVisibility(View.GONE);
+                scoreMenu.setVisibility(View.GONE);
             }
-            else if(scoreGroup.getVisibility() == View.GONE){;
-                scoreGroup.setVisibility(View.VISIBLE);
-                Log.d(TAG, "onClick: Now to visible" + scoreGroup.getVisibility() + "");
+            else if(scoreMenu.getVisibility() == View.GONE){;
+                scoreMenu.setVisibility(View.VISIBLE);
+                devMenu.setVisibility(View.GONE);
+                tradeMenu.setVisibility(View.GONE);
+                Log.d(TAG, "onClick: Now to visible" + scoreMenu.getVisibility() + "");
             }
             else{
                 Log.d(TAG, "onClick: NULL");
@@ -232,6 +234,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             else if(devMenu.getVisibility() == View.GONE){
                 devMenu.setVisibility(View.VISIBLE);
+                scoreMenu.setVisibility(View.GONE);
+                tradeMenu.setVisibility(View.GONE);
                 Log.d(TAG, "onClick: Now to visible" + devMenu.getVisibility() + "");
             }
             else{
@@ -249,6 +253,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             else if(tradeMenu.getVisibility() == View.GONE){;
                 tradeMenu.setVisibility(View.VISIBLE);
+                scoreMenu.setVisibility(View.GONE);
+                devMenu.setVisibility(View.GONE);
                 Log.d(TAG, "onClick: Now to visible" + tradeMenu.getVisibility() + "");
             }
             else{
@@ -307,7 +313,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         showScore.setOnClickListener(this);
 
         //Group GUI Items
-        scoreGroup = activity.findViewById(R.id.group_scoreboard);
+        scoreMenu = activity.findViewById(R.id.group_scoreboard);
         devMenu = activity.findViewById(R.id.group_development_card_menu);
         tradeMenu = activity.findViewById(R.id.group_trade_menu);
 
