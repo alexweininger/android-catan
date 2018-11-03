@@ -1,9 +1,7 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
 public class Port {
-    int intersection;
-    int tradeRatio;
-    int resourceId;
+    private int intersection, tradeRatio, resourceId;
 
     public Port(int intersection, int tradeRatio, int resourceId){
         this.intersection = intersection;
