@@ -106,11 +106,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-            this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
-            this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
-            this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
-            this.oreValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
-            this.woolValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
+            this.brickValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
+            this.grainValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
+            this.lumberValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
+            this.oreValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
+            this.woolValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
 
 
         }
@@ -234,14 +234,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard.setOnClickListener(this);
 
         // resource value text
-        oreValue = activity.findViewById(R.id.oreAmount);
-        grainValue = activity.findViewById(R.id.grainAmount);
-        lumberValue = activity.findViewById(R.id.lumberAmount);
-        woolValue = activity.findViewById(R.id.woolAmount);
-        brickValue = activity.findViewById(R.id.brickAmount);
+        oreValue = (TextView)activity.findViewById(R.id.oreAmount);
+        grainValue = (TextView) activity.findViewById(R.id.grainAmount);
+        lumberValue = (TextView)activity.findViewById(R.id.lumberAmount);
+        woolValue = (TextView)activity.findViewById(R.id.woolAmount);
+        brickValue = (TextView)activity.findViewById(R.id.brickAmount);
 
 
     }//setAsGui
+
+    protected void initAfterReady() {
+        Log.d(TAG, "initAfterReady() called");
+    }
 
 }// class CatanHumanPlayer
 
