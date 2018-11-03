@@ -1,9 +1,19 @@
 package edu.up.cs.androidcatan.catan;
 
+import android.graphics.Canvas;
+import android.os.Bundle;
+import android.support.constraint.Group;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
+import edu.up.cs.androidcatan.R;
+import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
@@ -55,7 +65,7 @@ public class MainActivity extends GameMainActivity {
         return new CatanLocalGame();
     }
 
-    /*protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
         /*
          * External Citation
@@ -65,7 +75,7 @@ public class MainActivity extends GameMainActivity {
          * Resource:
          * https://stackoverflow.com/questions/2591036/how-to-hide-the-title-bar-for-an-activity-in-xml-with-existing-custom-theme
          * Solution: I used the code from the stack overflow post.
-         *//*
+         */
 
         // remove title bar and notification bar
         //TODO: Speak to Dr. Tribelhorn about moving to GameMainActivity
@@ -73,8 +83,8 @@ public class MainActivity extends GameMainActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         boardSurfaceView board = findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
@@ -134,7 +144,7 @@ public class MainActivity extends GameMainActivity {
         ArrayAdapter<CharSequence> developmentChoices = ArrayAdapter.createFromResource(this, R.array.resource_Card, android.R.layout.simple_spinner_item);
         developmentChoices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         developmentSpinner.setAdapter(developmentChoices);
-    }*/
+    }
 
     // TODO cite this https://stackoverflow.com/questions/46065897/android-studio-how-to-remove-navigation-bar-in-android-app-to-get-a-full-screen
     @Override

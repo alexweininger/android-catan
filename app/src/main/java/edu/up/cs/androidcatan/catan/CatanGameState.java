@@ -167,6 +167,7 @@ public class CatanGameState extends GameState {
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize() {
+        Log.d(TAG, "checkArmySize() called");
         int max = -1;
         if (this.currentLargestArmyPlayerId != -1) {
             max = this.playerList.get(this.currentLargestArmyPlayerId).getArmySize();
@@ -242,6 +243,7 @@ public class CatanGameState extends GameState {
 
     //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL; I TOUCHED THIS BECAUSE IT HAD A BUG - AW
     private void updateVictoryPoints() {
+        Log.d(TAG, "updateVictoryPoints() called");
         //calculates the longest road for the players and checks if it is the current player
         if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
             currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
@@ -263,6 +265,7 @@ public class CatanGameState extends GameState {
      * @param diceSum - dice sum
      */
     private void produceResources(int diceSum) {
+        Log.d(TAG, "produceResources() called with: diceSum = [" + diceSum + "]");
         if (isActionPhase) {
             Log.e(TAG, "produceResources: It is the action phase. Returned false.");
             return;
@@ -299,6 +302,8 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean setupBuilding() {
+
+
 
         return false;
     } // end setupBuilding action method
