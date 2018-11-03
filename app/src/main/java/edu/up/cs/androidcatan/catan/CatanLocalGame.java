@@ -25,6 +25,7 @@ public class CatanLocalGame extends LocalGame {
     private final static String TAG = "CatanLocalGame";
 
     public CatanLocalGame() {
+        super();
         gameState = new CatanGameState();
     }
 
