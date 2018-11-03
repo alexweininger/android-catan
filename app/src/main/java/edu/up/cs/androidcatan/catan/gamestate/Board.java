@@ -335,8 +335,8 @@ public class Board {
     private void generateHexagonTiles() {
         Log.i(TAG, "generateHexagonTiles() called");
 
-        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
-        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
+        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1}; // should add to 19
+        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1}; // should add to 19
         int[] resources = {0, 1, 2, 3, 4, 5};
 
         Random random = new Random();
@@ -345,19 +345,18 @@ public class Board {
 
             int randomResourceType;
             do {
-                randomResourceType = random.nextInt(resourceTypeCount.length - 1);
+                randomResourceType = random.nextInt(resourceTypeCount.length);
             } while (resourceTypeCount[randomResourceType] < 1);
 
 
             int randomChitValue;
             do {
-                randomChitValue = random.nextInt(chitValuesCount.length - 1);
+                randomChitValue = random.nextInt(chitValuesCount.length);
             } while (chitValuesCount[randomChitValue] < 1);
 
             if (randomResourceType == 5) {
                 randomChitValue = 0;
             }
-
 
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
