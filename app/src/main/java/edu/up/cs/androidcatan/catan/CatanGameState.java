@@ -275,11 +275,13 @@ public class CatanGameState extends GameState {
 
             ArrayList<Integer> receivingIntersections = this.board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
             Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
+
+            // iterate through each intersection surrounding the producing hexagon
             for (Integer intersectionId : receivingIntersections) {
 
                 Building b = this.board.getBuildingAtIntersection(intersectionId);
+                // check if this intersection has a building
                 if (null != b) {
-
                     this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
                     Log.i(TAG, "produceResources: Giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
                 } else {
