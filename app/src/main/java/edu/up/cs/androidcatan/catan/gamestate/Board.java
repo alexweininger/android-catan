@@ -286,19 +286,23 @@ public class Board {
      * @param intersectionId - intersection of building
      * @return - is the building location valid
      */
-    public boolean validBuildingLocation(int playerId, int intersectionId) {
-        Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
+    public boolean validBuildingLocation(int playerId, boolean isSetupPhase, int intersectionId) {
+        Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
+
+        if (!isSetupPhase) {
+            // it is not the setup phase of the game
+            // check if the intersection is connected to players' roads/buildings
+            if (!isConnected(playerId, intersectionId)) {
+                Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " is not connected.");
+                return false;
+            }
+        }
+
         /* checks:
          * 1. if connected
          * 2. if occupied by building
          * 3. distance rule TODO
          */
-
-        // check if the intersection is connected to players' roads/buildings
-        if (!isConnected(playerId, intersectionId)) {
-            Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " is not connected.");
-            return false;
-        }
 
         // check if intersection already has a building on it
         if (this.buildings[intersectionId] != null) {
@@ -312,6 +316,7 @@ public class Board {
                 Log.i(TAG, "validBuildingLocation: invalid - building at intersection " + intersectionId + " violates the distance rule (" + intersection + " is adj. and has a building).");
                 return false;
             }
+
         }
         Log.d(TAG, "validBuildingLocation() returned: " + true);
         return true;
