@@ -293,9 +293,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
 
+        //GUI Buttons
         showScore = (Button) activity.findViewById(R.id.sidebar_button_score);
 
 
+        //Set Listeners
         buildCity.setOnClickListener(this);
         buildRoad.setOnClickListener(this);
         buildSettlement.setOnClickListener(this);
@@ -310,6 +312,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
 
+        //GUI change listeners
         showScore.setOnClickListener(this);
 
         //Group GUI Items
@@ -324,10 +327,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
         this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
 
+        //Board stuff
         boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
         Canvas canvas = new Canvas(); // create Canvas object
-
 
         board.createHexagons();        // draw the board of hexagons and ports on the canvas
 
