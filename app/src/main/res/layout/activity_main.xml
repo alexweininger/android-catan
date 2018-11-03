@@ -13,66 +13,7 @@
     All groups but the static bottom menu group are set to GONE.
     -->
 
-    <!--intersection input menu START-->
 
-    <android.support.constraint.Group
-        android:id="@+id/group_singleIntersectionInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
-
-    <TextView
-        android:id="@+id/selectIntersectionText"
-        android:layout_width="298dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
-        tools:text="@string/select_intersection_id" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".17" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.94" />
-
-    <EditText
-        android:id="@+id/intersection_id_entered"
-        android:layout_width="70dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="number"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/confirm"
-        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
-        app:layout_constraintTop_toTopOf="@+id/confirm" />
-
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/confirm"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered" />
-
-    <!--intersection input menu END-->
 
     <!-- new sidebar static menu START-->
 
@@ -86,7 +27,7 @@
         android:id="@+id/board"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -1245,5 +1186,66 @@
 
 
     <!-- trade menu END -->
+
+    <!--intersection input menu START-->
+
+    <android.support.constraint.Group
+        android:id="@+id/group_singleIntersectionInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
+
+    <TextView
+        android:id="@+id/selectIntersectionText"
+        android:layout_width="298dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="8dp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
+        tools:text="@string/select_intersection_id" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".17" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.94" />
+
+    <EditText
+        android:id="@+id/intersection_id_entered"
+        android:layout_width="70dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="number"
+        android:text="0"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/confirm"
+        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
+        app:layout_constraintTop_toTopOf="@+id/confirm" />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/confirm"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered" />
+
+    <!--intersection input menu END-->
 
 </android.support.constraint.ConstraintLayout>
