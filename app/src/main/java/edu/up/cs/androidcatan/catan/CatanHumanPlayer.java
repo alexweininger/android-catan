@@ -193,7 +193,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             if (button.getId() == R.id.sidebar_button_settlement) {
 
-                myActivity.findViewById(R.id.brickAmount).setVisibility(View.VISIBLE); // todo
+                myActivity.findViewById(R.id.).setVisibility(View.VISIBLE); // todo
                 EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
                 final CatanGameState copyState = new CatanGameState(state);
                 Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
