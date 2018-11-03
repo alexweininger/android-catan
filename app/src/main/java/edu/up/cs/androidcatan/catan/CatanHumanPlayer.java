@@ -39,7 +39,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* instance variables */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
+    private int[] resourceCards = {3, 0, 3, 0, 0}; // array for number of each resource card a player has
 
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
@@ -110,13 +110,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-            if (this.brickValue != null) {
-                this.brickValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
-                this.grainValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
-                this.lumberValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
-                this.oreValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
-                this.woolValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
-            }
+
+                this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
+                this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
+                this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
+                this.oreValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
+                this.woolValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
+
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
         }
