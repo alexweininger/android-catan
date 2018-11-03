@@ -11,12 +11,12 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  * @version October 31th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanComputerPlayer extends GameComputerPlayer {
+public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
     /**
      * ctor does nothing extra
      */
-    public CatanComputerPlayer(String name) {
+    public CatanDumbComputerPlayer(String name) {
         super(name);
     }
 

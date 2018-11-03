@@ -36,7 +36,7 @@ public class MainActivity extends GameMainActivity {
             }});
         playerTypes.add(new GamePlayerType("Computer") {
             public GamePlayer createPlayer(String name) {
-                return new CatanComputerPlayer("k");
+                return new CatanDumbComputerPlayer("k");
             }});
 
         // Create a game configuration class for Pig:
