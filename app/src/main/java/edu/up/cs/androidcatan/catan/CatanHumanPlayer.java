@@ -161,21 +161,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
         if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 1);
-            Log.d(TAG, "onClick: City");
-            game.sendAction(action);
+            Log.d(TAG, "onClick: Road");
+            buildMenu.setVisibility(View.VISIBLE);
+            buildingId = 0;
             return;
         }
         if (button.getId() == R.id.sidebar_button_road) {
-            CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
-            Log.d(TAG, "onClick: Road");
-            game.sendAction(action);
+            Log.d(TAG, "onClick: Settlement");
+            buildMenu.setVisibility(View.VISIBLE);
+            buildingId = 1;
             return;
         }
         if (button.getId() == R.id.sidebar_button_settlement) {
-            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
-            Log.d(TAG, "onClick: Settlement");
-            game.sendAction(action);
+            Log.d(TAG, "onClick: City");
+            buildMenu.setVisibility(View.VISIBLE);
+            buildingId = 2;
             return;
         }
         if (button.getId() == R.id.sidebar_button_endturn) {
@@ -247,6 +247,34 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "onClick: NULL");
             }
             return;
+        }
+
+        //ok and cancel
+        if(button.getId() == R.id.okButton) {
+            switch (buildingId) {
+                case 0:
+                    CatanBuildRoadAction action0 = new CatanBuildRoadAction(this, this.playerId , 1, 1);
+                    Log.d(TAG, "(ok)onClick: City");
+                    game.sendAction(action0);
+                    break;
+                case 1:
+                    CatanBuildSettlementAction action1 = new CatanBuildSettlementAction(this, this.playerId , 1);
+                    Log.d(TAG, "(ok)onClick: City");
+                    game.sendAction(action1);
+                    break;
+                case 2:
+                    CatanBuildCityAction action2 = new CatanBuildCityAction(this, this.playerId , 1);
+                    Log.d(TAG, "(ok)onClick: City");
+                    game.sendAction(action2);
+                    break;
+                default:
+                    Log.d(TAG, "(ok)onClick: Error, out of bounds");
+            }
+            buildMenu.setVisibility(View.GONE);
+        }
+
+        if(button.getId() == R.id.cancelButton){
+            buildMenu.setVisibility(View.GONE);
         }
 
         //TODO Need functionality for both Port, Custom Port and Bank
@@ -340,26 +368,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
 
         // Listeners for ok and cancel button
-        okButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                switch(buildingId){
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    default:
-
-                }
-                buildMenu.setVisibility(View.GONE);
-            }
-        });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                buildMenu.setVisibility(View.GONE);
-            }
-        });
+        okButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
 
         //Board stuff
         boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
