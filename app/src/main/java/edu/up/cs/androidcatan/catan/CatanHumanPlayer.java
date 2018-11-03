@@ -61,15 +61,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int playerId;
 
     // These variables will reference widgets that will be modified during play
-    private Button buildCity = null;
+    private Button buildCityButton = null;
     private Button buildRoad = null;
     private Button buildSettlement = null;
     private Button buyDevCard = null;
-    private Button endTurn = null;
+    private Button endTurnButton = null;
     private Button robberDiscard = null;
     private Button robberMove = null;
     private Button robberSteal = null;
-    private Button roll = null;
+    private Button rollButton = null;
     private Button tradeBank = null;
     private Button tradeCustomPort = null;
     private Button tradePort = null;
@@ -124,25 +124,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-
             this.state = (CatanGameState) info;
-            this.brickValue.setText(String.valueOf(this.resourceCards[0]));
-            this.grainValue.setText(String.valueOf(this.resourceCards[1]));
-            this.lumberValue.setText(String.valueOf(this.resourceCards[2]));
-            this.oreValue.setText(String.valueOf(this.resourceCards[3]));
-            this.woolValue.setText(String.valueOf(this.resourceCards[4]));
+
+            updateTextViews();
 
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
         } else if (info instanceof IllegalMoveInfo) {
             Log.i(TAG, "receiveInfo: Illegal move info received.");
-        } else if (!(info instanceof CatanGameState)) {
-            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
-            return;
         } else {
-            state = (CatanGameState) info;
-            updateTextViews();
+            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
         }
     }//receiveInfo
 
@@ -307,30 +299,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
 
-        buildCity = (Button) activity.findViewById(R.id.sidebar_button_city);
+        buildCityButton = (Button) activity.findViewById(R.id.sidebar_button_city);
         buildRoad = (Button) activity.findViewById(R.id.sidebar_button_road);
         buildSettlement = (Button) activity.findViewById(R.id.sidebar_button_settlement);
         buyDevCard = (Button) activity.findViewById(R.id.sidebar_button_devcards);
-        endTurn = (Button) activity.findViewById(R.id.sidebar_button_endturn);
+        endTurnButton = (Button) activity.findViewById(R.id.sidebar_button_endturn);
 //        robberDiscard = (Button)activity.findViewById(R.id.)
 //        robberMove = (Button)activity.findViewById(R.id.)
 //        robberSteal = (Button)activity.findViewById(R.id.)
-        roll = (Button) activity.findViewById(R.id.sidebar_button_roll);
+        rollButton = (Button) activity.findViewById(R.id.sidebar_button_roll);
         tradeBank = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradeCustomPort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
 
 
-        buildCity.setOnClickListener(this);
+        buildCityButton.setOnClickListener(this);
         buildRoad.setOnClickListener(this);
         buildSettlement.setOnClickListener(this);
         buyDevCard.setOnClickListener(this);
-        endTurn.setOnClickListener(this);
+        endTurnButton.setOnClickListener(this);
 //        robberDiscard.setOnClickListener(this);
 //        robberMove.setOnClickListener(this);
 //        robberSteal.setOnClickListener(this);
-        roll.setOnClickListener(this);
+        rollButton.setOnClickListener(this);
         tradeBank.setOnClickListener(this);
         tradeCustomPort.setOnClickListener(this);
         tradePort.setOnClickListener(this);
@@ -417,15 +409,28 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void updateTextViews() {
 
         if (this.state.isSetupPhase()) {
-            myActivity.findViewById(R.id.sidebar_button_city).setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.rollButton.setAlpha(0.5f);
+            this.endTurnButton.setAlpha(0.5f);
+            this.buyDevCard.setAlpha(0.5f);
+            this.tradeBank.setAlpha(0.5f);
+
+        } else {
+            this.buildCityButton.setAlpha(1f);
+            this.rollButton.setAlpha(1f);
+            this.endTurnButton.setAlpha(1f);
+            this.buyDevCard.setAlpha(1f);
+            this.tradeBank.setAlpha(1f);
         }
 
 
-        this.brickValue.setText(this.resourceCards[0]);
-        this.grainValue.setText(this.resourceCards[1]);
-        this.lumberValue.setText(this.resourceCards[2]);
-        this.oreValue.setText(this.resourceCards[3]);
-        this.woolValue.setText(this.resourceCards[4]);
+        /* ----- update resource value TextViews ----- */
+        this.brickValue.setText(String.valueOf(this.resourceCards[0]));
+        this.grainValue.setText(String.valueOf(this.resourceCards[1]));
+        this.lumberValue.setText(String.valueOf(this.resourceCards[2]));
+        this.oreValue.setText(String.valueOf(this.resourceCards[3]));
+        this.woolValue.setText(String.valueOf(this.resourceCards[4]));
     }
 
     /**

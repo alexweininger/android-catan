@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#89aaaaaa"
-    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+    tools:actionBarNavMode="f">
 
     <!--
     Updated with groups.  A group is just a way to hide / show a group of views.  So I (Alex) added groups for each menu.
@@ -243,7 +244,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.03" />
+        app:layout_constraintGuide_percent="0.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_bottom_border_dc_layout"
@@ -878,7 +879,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.17" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <Button
         android:id="@+id/sidebar_button_score"
@@ -889,9 +890,10 @@
         android:layout_marginEnd="8dp"
         android:text="Score"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/sidebar_button_menu"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintStart_toEndOf="@+id/sidebar_button_menu"
-        app:layout_constraintTop_toTopOf="@+id/sidebar_button_menu" />
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/sidebar_button_trade"
@@ -909,20 +911,22 @@
     <Button
         android:id="@+id/sidebar_button_menu"
         style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="75dp"
+        android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/menu"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/bottom_buildmenu"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0" />
 
     <TextView
         android:id="@+id/sidebar_heading_build"
         android:layout_width="0dp"
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/heading_build"
         android:textAlignment="center"
@@ -931,7 +935,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_menu" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_top_border_dc_layout" />
 
     <Button
         android:id="@+id/sidebar_button_road"
@@ -1003,32 +1007,39 @@
         android:id="@+id/sidebar_heading_vp"
         android:layout_width="66dp"
         android:layout_height="29dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
         android:text="VP: 00"
         android:textAlignment="viewStart"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/sidebar_heading_playername"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toEndOf="@+id/sidebar_heading_playername"
-        app:layout_constraintTop_toTopOf="@+id/sidebar_heading_playername" />
+        app:layout_constraintTop_toTopOf="@+id/sidebar_heading_playername"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/sidebar_button_roll"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/roll"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_button_trade" />
 
     <Button
         android:id="@+id/sidebar_button_endturn"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/endTurn"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_button_roll" />
 
@@ -1196,7 +1207,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".17" />
+        app:layout_constraintGuide_percent="0.19" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
