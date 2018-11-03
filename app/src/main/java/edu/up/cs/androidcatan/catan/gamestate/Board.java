@@ -247,7 +247,7 @@ public class Board {
     }
 
     public boolean checkDeadEnd(int intersectionId, Road[][] road) {
-        for (Integer intersection : getAdjacentIntersections(intersectionId)) {
+        for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
             if (road[intersectionId][intersection] != null) {
                 return true;
             }
@@ -263,7 +263,7 @@ public class Board {
         if (checkDeadEnd(intersectionId, road)) {
             return 0;
         }
-        for (Integer intersection : getAdjacentIntersections(intersectionId)) {
+        for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
             return 1 + traverseRoads(intersection, playerId, road);
         }
         return 0;
@@ -296,7 +296,7 @@ public class Board {
         }
 
         // check if adjacent intersections do not have buildings
-        for (int intersection : getAdjacentIntersections(intersectionId)) { // for each adj. intersection
+        for (int intersection : getAdjacentIntersectionsToIntersection(intersectionId)) { // for each adj. intersection
             if (this.buildings[intersectionId] != null) { // check if building exists there
                 Log.i(TAG, "validBuildingLocation: invalid - building at intersection " + intersectionId + " violates the distance rule (" + intersection + " is adj. and has a building).");
                 return false;
@@ -449,13 +449,13 @@ public class Board {
 
     /**
      * TODO TEST
-     * getAdjacentIntersections
+     * getAdjacentIntersectionsToIntersection
      *
      * @param intersectionId - given intersection i (0-53)
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
-    public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
-        Log.d(TAG, "getAdjacentIntersections() called with: intersectionId = [" + intersectionId + "]");
+    public ArrayList<Integer> getAdjacentIntersectionsToIntersection(int intersectionId) {
+        Log.d(TAG, "getAdjacentIntersectionsToIntersection() called with: intersectionId = [" + intersectionId + "]");
 
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
         for (int i = 0; i < 54; i++) {
@@ -465,9 +465,9 @@ public class Board {
         }
 
         if (adjacentIntersections.size() > 3) {
-            Log.e(TAG, "getAdjacentIntersections: Received more than 3 adjacent intersections. That makes no sense.");
+            Log.e(TAG, "getAdjacentIntersectionsToIntersection: Received more than 3 adjacent intersections. That makes no sense.");
         }
-        Log.i(TAG, "getAdjacentIntersections: Found " + adjacentIntersections.toString() + " as adjacent to " + intersectionId);
+        Log.i(TAG, "getAdjacentIntersectionsToIntersection: Found " + adjacentIntersections.toString() + " as adjacent to " + intersectionId);
         return adjacentIntersections;
     }
 
@@ -981,14 +981,14 @@ public class Board {
     /**
      * @return Map of hexagons to intersections.
      */
-    private ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
+    public ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
     }
 
     /**
      * @return Map of intersections to hexagons.
      */
-    private ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
+    public ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
         return intToHexIdMap;
     }
 

@@ -273,8 +273,8 @@ public class CatanGameState extends GameState {
             Hexagon hex = board.getHexagonFromId(i);
             Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
-            ArrayList<Integer> receivingIntersections = this.board.getAdjacentIntersections(i); // intersections adjacent to producing hexagon tile
-
+            ArrayList<Integer> receivingIntersections = this.board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
             for (Integer intersectionId : receivingIntersections) {
 
                 Building b = this.board.getBuildingAtIntersection(intersectionId);
