@@ -345,11 +345,11 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        if (this.currentPlayerId == 3) {
-            this.currentPlayerId = 0;
-        } else {
-            this.currentPlayerId++;
-        }
+//        if (this.currentPlayerId == 3) {
+//            this.currentPlayerId = 0;
+//        } else {
+//            this.currentPlayerId++;
+//        }
 
         Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + "'s turn.");
 
@@ -358,6 +358,7 @@ public class CatanGameState extends GameState {
         for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
         }
+        this.isActionPhase = false;
 
         return true;
     } // end endTurn method

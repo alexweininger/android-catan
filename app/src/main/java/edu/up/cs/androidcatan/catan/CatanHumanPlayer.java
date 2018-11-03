@@ -156,6 +156,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_endturn) {
             CatanEndTurnAction action = new CatanEndTurnAction(this);
             Log.d(TAG, "onClick: End Turn");
+
             game.sendAction(action);
             return;
         }
