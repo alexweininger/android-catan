@@ -21,8 +21,11 @@ import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanLocalGame extends LocalGame {
-    CatanGameState gameState;
+
     private final static String TAG = "CatanLocalGame";
+
+    protected CatanGameState gameState;
+
 
     public CatanLocalGame() {
         super();
