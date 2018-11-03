@@ -71,11 +71,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradePort = null;
     private Button useDevCard = null;
 
+    // resource count text views
     private TextView oreValue = (TextView) null;
     private TextView grainValue = (TextView) null;
     private TextView lumberValue = (TextView) null;
     private TextView woolValue = (TextView) null;
     private TextView brickValue = (TextView) null;
+
+    // scoreboard text views
+    private TextView player0Score = (TextView) null;
+    private TextView player1Score = (TextView) null;
+    private TextView player2Score = (TextView) null;
+    private TextView player3Score = (TextView) null;
 
 
     // the android activity that we are running
@@ -307,7 +314,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     protected void initAfterReady() {
         Log.d(TAG, "initAfterReady() called");
-
+        updateTextViews();
     }
 
     private void updateTextViews() {
