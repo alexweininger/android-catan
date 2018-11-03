@@ -335,11 +335,14 @@ public class Board {
                 randomResourceType = random.nextInt(resourceTypeCount.length - 1);
             } while (resourceTypeCount[randomResourceType] < 1);
 
+            Log.i(TAG, "generateHexagonTiles: 1");
+
             int randomChitValue;
             do {
                 randomChitValue = random.nextInt(chitValuesCount.length - 1);
             } while (chitValuesCount[randomChitValue] < 1);
 
+            Log.i(TAG, "generateHexagonTiles: 2");
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
             chitValuesCount[randomChitValue]--;
