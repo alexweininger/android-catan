@@ -523,34 +523,6 @@ public class Board {
     }
 
     /**
-     * @param intId1 - intersection id
-     * @param intId2 - intersection id
-     * @return - boolean adjacency
-     */
-    public boolean intersectionAdjCheck(int intId1, int intId2) {
-        return (iGraph[intId1][intId2] || iGraph[intId2][intId1]);
-    }
-
-    /**
-     * @param hexId1 -
-     * @param hexId2 -
-     * @return - boolean
-     */
-    public boolean checkHexagonAdjacency(int hexId1, int hexId2) {
-        return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
-    }
-
-    /**
-     * TODO ports
-     *
-     * @param intersectionId - intersection to check for port adjacency
-     * @return - if the given intersection is adjacent to a port AW
-     */
-    public boolean checkPortAdjacency(int intersectionId) {
-        return portIntersectionLocations.contains(intersectionId);
-    }
-
-    /**
      * @param ring - ring of intersection
      * @param col - column within ring of intersection
      * @return - int intersection id
