@@ -133,7 +133,7 @@ public class Board {
      * @param intersectionId - intersection to test
      * @return - is the intersection connected to the players buildings or roads?
      */
-    public boolean isConnected(int playerId, int intersectionId) {
+    private boolean isConnected(int playerId, int intersectionId) {
         // check if intersection has no building and no road
         if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
             return false;
