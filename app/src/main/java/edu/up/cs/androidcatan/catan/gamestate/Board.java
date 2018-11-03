@@ -332,7 +332,7 @@ public class Board {
 
         Random random = new Random();
 
-        while (sumArray(resourceTypeCount) > 0 || sumArray(chitValuesCount) > 0) {
+        while (this.hexagons.size() < 18) {
 
             int randomResourceType;
             do {
