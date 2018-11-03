@@ -56,7 +56,7 @@ public class Board {
     private ArrayList<ArrayList<Integer>> intToHexIdMap = new ArrayList<>(); // rows: int id - col: hex id
 
     // Array of buildings on the board - indexed by intersection.
-    private Building[] buildings = new Building[53];
+    private Building[] buildings = new Building[54];
 
     // List of all roads on board, in no particular order.
     private ArrayList<Road> roads = new ArrayList<>();
