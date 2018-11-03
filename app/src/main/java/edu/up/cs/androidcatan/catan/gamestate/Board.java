@@ -326,9 +326,9 @@ public class Board {
 
         Log.i(TAG, "generateHexagonTiles() called");
 
-        int[] resourceTypeCount = {4, 3, 3, 3, 4};
+        int[] resourceTypeCount = {4, 3, 3, 3, 4, 1};
         int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-        int[] resources = {0, 1, 2, 3, 4};
+        int[] resources = {0, 1, 2, 3, 4, 5};
 
         Random random = new Random();
 
