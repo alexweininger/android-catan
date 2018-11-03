@@ -763,7 +763,6 @@ public class CatanGameState extends GameState {
 
         result.append("CatanGameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append(this.currentPlayerId);
         result.append("\n");
         result.append("Current Dice Sum: ");
         result.append(this.currentDiceSum);
