@@ -1053,7 +1053,7 @@
         android:id="@+id/sidebar_heading_vp"
         android:layout_width="66dp"
         android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:text="VP: 00"
         android:textAlignment="viewStart"
         android:textColor="@android:color/black"
