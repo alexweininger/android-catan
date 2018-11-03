@@ -39,7 +39,7 @@
         android:contentDescription="@string/brick"
         app:layout_constraintStart_toEndOf="@+id/leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/robberMenuHeaderText"
-        app:srcCompat="@drawable/placerholder_image" />
+        app:srcCompat="@drawable/brick_icon_25x25" />
 
     <ImageView
         android:id="@+id/lumberImg"
@@ -49,7 +49,7 @@
         android:contentDescription="@string/lumber"
         app:layout_constraintStart_toEndOf="@+id/brickImg"
         app:layout_constraintTop_toTopOf="@+id/brickImg"
-        app:srcCompat="@drawable/placerholder_image" />
+        app:srcCompat="@drawable/lumber_icon_25x25" />
 
     <ImageView
         android:id="@+id/grainImg"
@@ -59,7 +59,7 @@
         android:contentDescription="@string/grain"
         app:layout_constraintStart_toEndOf="@+id/lumberImg"
         app:layout_constraintTop_toTopOf="@+id/lumberImg"
-        app:srcCompat="@drawable/placerholder_image" />
+        app:srcCompat="@drawable/grain_icon_25x25" />
 
     <ImageView
         android:id="@+id/oreImg"
@@ -69,7 +69,7 @@
         android:contentDescription="@string/ore"
         app:layout_constraintStart_toEndOf="@+id/grainImg"
         app:layout_constraintTop_toTopOf="@+id/grainImg"
-        app:srcCompat="@drawable/placerholder_image" />
+        app:srcCompat="@drawable/ore_icon_25x25" />
 
     <ImageView
         android:id="@+id/woolImg"
@@ -79,7 +79,7 @@
         android:contentDescription="@string/wool"
         app:layout_constraintStart_toEndOf="@+id/oreImg"
         app:layout_constraintTop_toTopOf="@+id/oreImg"
-        app:srcCompat="@drawable/placerholder_image" />
+        app:srcCompat="@drawable/wool_icon_25x25" />
 
     <Button
         android:id="@+id/confirm"
