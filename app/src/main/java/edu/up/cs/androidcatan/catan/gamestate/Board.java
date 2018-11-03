@@ -152,11 +152,13 @@ public class Board {
     public boolean validRoadPlacement(int playerId, int a, int b) {
         // check if intersections are adjacent
         if (!iGraph[a][b]) {
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
             return false;
         }
 
         // check if road is connected to players roads / buildings at either intersection
         if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
+            Log.i(TAG, "validRoadPlacement: ");
             return false;
         }
 
