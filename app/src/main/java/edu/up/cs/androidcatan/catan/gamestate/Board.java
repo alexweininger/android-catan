@@ -97,8 +97,8 @@ public class Board {
         generateHexagonTiles();
 
         // logging
-        Log.i(TAG, "int to hex map: " + this.intToHexIdMap.toString());
-        Log.i(TAG, "hex to int map" + this.hexToIntIdMap.toString());
+//        Log.i(TAG, "int to hex map: " + this.intToHexIdMap.toString());
+//        Log.i(TAG, "hex to int map" + this.hexToIntIdMap.toString());
 
         int desertTileId = 0; // TODO
         robber = new Robber(desertTileId);
