@@ -119,7 +119,7 @@ public class Board {
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
         this.setHexagons(b.getHexagons());
-        this.setRobber(b.getRobber()); // class
+        this.setRobber(new Robber(b.getRobber())); // class
         this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
