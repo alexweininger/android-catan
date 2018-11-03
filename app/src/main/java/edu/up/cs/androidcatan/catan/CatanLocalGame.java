@@ -158,6 +158,11 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        return null;
+        for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
+            if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
+                return playerNames[i] + " wins!";
+            }
+        }
+        return null; // return null if no winner, but the game is not over
     }
 }
