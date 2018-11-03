@@ -1214,15 +1214,8 @@ public class Board {
     public String toString() {
         return "Board{" +
                 "robber=" + robber +
-                ", hexagonIdRings=" + hexagonIdRings +
-                ", intersectionIdRings=" + intersectionIdRings +
-                ", hGraph=" + Arrays.toString(hGraph) +
-                ", iGraph=" + Arrays.toString(iGraph) +
-                ", hexToIntIdMap=" + hexToIntIdMap +
-                ", intToHexIdMap=" + intToHexIdMap +
                 ", buildings=" + Arrays.toString(buildings) +
                 ", roads=" + roads +
-                ", roadGraph=" + Arrays.toString(roadGraph) +
                 ", hexagons=" + hexagons +
                 ", portIntersectionLocations=" + portIntersectionLocations +
                 ", portList=" + portList +
