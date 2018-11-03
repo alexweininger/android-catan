@@ -1050,59 +1050,65 @@
 
     <TextView
         android:id="@+id/sidebar_value_grain"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/grain_icon"
         app:layout_constraintStart_toEndOf="@+id/grain_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_brick" />
+        app:layout_constraintTop_toTopOf="@+id/grain_icon"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/sidebar_value_lumber"
-        android:layout_width="0dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/lumber_icon"
         app:layout_constraintStart_toEndOf="@+id/lumber_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_grain" />
+        app:layout_constraintTop_toTopOf="@+id/lumber_icon" />
 
     <TextView
         android:id="@+id/sidebar_value_ore"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ore_icon"
         app:layout_constraintStart_toEndOf="@+id/ore_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_lumber" />
+        app:layout_constraintTop_toTopOf="@+id/ore_icon" />
 
     <TextView
         android:id="@+id/sidebar_value_wool"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/wool_icon"
         app:layout_constraintStart_toEndOf="@+id/wool_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_ore" />
+        app:layout_constraintTop_toTopOf="@+id/wool_icon" />
 
     <TextView
         android:id="@+id/sidebar_value_brick"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/brick_icon"
         app:layout_constraintStart_toEndOf="@+id/brick_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_resources" />
+        app:layout_constraintTop_toTopOf="@+id/brick_icon"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button"
@@ -1117,19 +1123,19 @@
 
     <ImageView
         android:id="@+id/brick_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/brick_icon_25x25"
         android:visibility="visible"
-        app:layout_constraintStart_toEndOf="@+id/guideline_left_0"
+        app:layout_constraintStart_toStartOf="@+id/sidebar_heading_resources"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_resources" />
 
     <ImageView
         android:id="@+id/grain_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/grain_icon_25x25"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/brick_icon"
@@ -1137,24 +1143,27 @@
 
     <ImageView
         android:id="@+id/lumber_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/lumber_icon_25x25"
-        app:layout_constraintStart_toStartOf="@+id/brick_icon"
+        app:layout_constraintStart_toStartOf="@+id/grain_icon"
         app:layout_constraintTop_toBottomOf="@+id/grain_icon" />
 
     <ImageView
         android:id="@+id/ore_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/ore_icon_25x25"
         app:layout_constraintStart_toStartOf="@+id/brick_icon"
         app:layout_constraintTop_toBottomOf="@+id/lumber_icon" />
 
     <ImageView
         android:id="@+id/wool_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/wool_icon_25x25"
         app:layout_constraintStart_toStartOf="@+id/brick_icon"
         app:layout_constraintTop_toBottomOf="@+id/ore_icon" />
