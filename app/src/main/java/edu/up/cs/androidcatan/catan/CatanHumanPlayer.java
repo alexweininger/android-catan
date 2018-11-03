@@ -136,7 +136,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
         if (button.getId() == R.id.sidebar_button_road) {
-            CatanBuildRoadAction action = new CatanBuildRoadAction(this);
+            CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
             Log.d(TAG, "onClick: Road");
             game.sendAction(action);
             return;
