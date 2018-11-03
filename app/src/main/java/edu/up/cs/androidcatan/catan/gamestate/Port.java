@@ -38,4 +38,13 @@ public class Port {
     public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
     }
+
+    @Override
+    public String toString() {
+        return "Port{" +
+                "intersection=" + intersection +
+                ", tradeRatio=" + tradeRatio +
+                ", resourceId=" + resourceId +
+                '}';
+    }
 }
