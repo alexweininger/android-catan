@@ -334,17 +334,10 @@ public class Board {
                 randomResourceType = random.nextInt(resourceTypeCount.length - 1);
             } while (resourceTypeCount[randomResourceType] < 1);
 
-            int randomResourceType;
+            int randomChitValue;
             do {
-                randomResourceType = random.nextInt(resourceTypeCount.length - 1);
-            } while (resourceTypeCount[randomResourceType] < 1);
-
-            max = chitValuesCount.length - 1;
-            int randomChitValue = random.nextInt((max) + 1);
-            while (chitValuesCount[randomChitValue] < 0) {
-                randomChitValue = random.nextInt((max) + 1);
-            }
-
+                randomChitValue = random.nextInt(chitValuesCount.length - 1);
+            } while (chitValuesCount[randomChitValue] < 1);
 
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
