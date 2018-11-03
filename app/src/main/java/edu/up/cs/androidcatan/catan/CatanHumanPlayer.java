@@ -170,6 +170,27 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+
+                Log.i(TAG, "onClick: clicked build settlement button"); // here
+                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
+
+                final CatanGameState copyState = new CatanGameState(state);
+                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                confirmIntersectionButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+
+                        if(copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            return;
+                        }
+                    }
+                });
+
                 CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
@@ -192,7 +213,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
             if (button.getId() == R.id.sidebar_button_settlement) {
-                Log.i(TAG, "onClick: clicked build settlement button");
+                Log.i(TAG, "onClick: clicked build settlement button"); // here
                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
 
                 final CatanGameState copyState = new CatanGameState(state);

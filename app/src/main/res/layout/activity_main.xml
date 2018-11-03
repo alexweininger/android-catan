@@ -19,18 +19,21 @@
         android:id="@+id/group_singleIntersectionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
-        android:layout_width="449dp"
-        android:layout_height="72dp"
+        android:layout_width="298dp"
+        android:layout_height="54dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:textSize="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
         app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
         tools:text="@string/select_intersection_id" />
 
     <android.support.constraint.Guideline
@@ -49,27 +52,28 @@
 
     <EditText
         android:id="@+id/intersection_id_entered"
-        android:layout_width="103dp"
-        android:layout_height="77dp"
+        android:layout_width="70dp"
+        android:layout_height="39dp"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:hint="0"
         android:inputType="number"
+        android:text="0"
         android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="@+id/selectIntersectionText"
+        app:layout_constraintBottom_toBottomOf="@+id/confirm"
         app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
-        app:layout_constraintTop_toTopOf="@+id/selectIntersectionText" />
+        app:layout_constraintTop_toTopOf="@+id/confirm" />
 
     <Button
         android:id="@+id/confirm"
-        android:layout_width="187dp"
-        android:layout_height="79dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/confirm"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
-        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered"
-        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered" />
 
     <!--intersection input menu END-->
 
@@ -127,7 +131,7 @@
         android:id="@+id/group_build_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="cancelButton,okButton,label_confirm_trade" />
 
 
