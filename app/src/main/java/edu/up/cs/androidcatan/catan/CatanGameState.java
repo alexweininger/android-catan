@@ -768,7 +768,7 @@ public class CatanGameState extends GameState {
         result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
         result.append(playerList.toString());
-        result.append(this.board.toString());
+        result.append(this.board.toString()).append("\n");
 
         return result.toString();
     } // end CatanGameState toString()
