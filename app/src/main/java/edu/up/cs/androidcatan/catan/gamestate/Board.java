@@ -329,13 +329,15 @@ public class Board {
         for (int i = 0; i < 18; i++) {
             int max = resourceTypeCount.length - 1;
             Random random = new Random();
+
+
             int randomResourceType = random.nextInt((max) + 1);
-            while (resourceTypeCount[randomResourceType] < 0) {
+            while (resourceTypeCount[randomResourceType] < 1) {
                 randomResourceType = random.nextInt((max) + 1);
             }
             max = chitValuesCount.length - 1;
             int randomChitValue = random.nextInt((max) + 1);
-            while (chitValuesCount[randomChitValue] < 0) {
+            while (chitValuesCount[randomChitValue] < 1) {
                 randomChitValue = random.nextInt((max) + 1);
             }
 
@@ -348,6 +350,14 @@ public class Board {
             Log.i(TAG, "| " + hexagon);
         }
 
+    }
+
+    public int sumArray(int[] arr) {
+        int sum = 0;
+        for (int i : arr) {
+            sum += arr[i];
+        }
+        return sum;
     }
 
     /**
