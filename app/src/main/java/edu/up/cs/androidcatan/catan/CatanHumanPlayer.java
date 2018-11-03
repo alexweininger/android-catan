@@ -192,9 +192,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
             if (button.getId() == R.id.sidebar_button_settlement) {
+                Log.i(TAG, "onClick: clicked build settlement button");
+                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
 
-                myActivity.findViewById(R.id.).setVisibility(View.VISIBLE); // todo
-                EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
                 final CatanGameState copyState = new CatanGameState(state);
                 Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
@@ -209,7 +209,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
                             return;
                         }
-
                     }
                 });
 

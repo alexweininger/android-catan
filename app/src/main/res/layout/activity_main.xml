@@ -13,6 +13,65 @@
     All groups but the static bottom menu group are set to GONE.
     -->
 
+    <!--intersection input menu START-->
+
+    <android.support.constraint.Group
+        android:id="@+id/group_singleIntersectionInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
+
+    <TextView
+        android:id="@+id/selectIntersectionText"
+        android:layout_width="449dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        tools:text="@string/select_intersection_id" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".17" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+
+    <EditText
+        android:id="@+id/intersection_id_entered"
+        android:layout_width="103dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="number"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectIntersectionText"
+        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
+        app:layout_constraintTop_toTopOf="@+id/selectIntersectionText" />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="187dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/confirm"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
+        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered"
+        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered" />
+
+    <!--intersection input menu END-->
 
     <!-- new sidebar static menu START-->
 
@@ -220,9 +279,9 @@
         android:id="@+id/label_confirm_trade"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:gravity="end|center"
         android:text="@string/confirmString"
@@ -239,9 +298,9 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="97dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="24dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toTopOf="@+id/bottom_buildmenu"
         app:layout_constraintEnd_toStartOf="@+id/right_buildmenu"
@@ -253,9 +312,9 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="97dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="124dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="8dp"
         android:text="@android:string/ok"
         app:layout_constraintBottom_toTopOf="@+id/bottom_buildmenu"
         app:layout_constraintEnd_toStartOf="@+id/right_buildmenu"
@@ -325,8 +384,8 @@
         android:id="@+id/development_Card_Name"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/white"
         android:padding="8dp"
         android:text="@string/development_Card_Name"
@@ -493,8 +552,8 @@
         android:id="@+id/menu_header"
         android:layout_width="200dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/Trading_Menu"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/seperator_guideline_trading"
@@ -934,8 +993,8 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Score"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
@@ -971,9 +1030,9 @@
         android:id="@+id/sidebar_heading_build"
         android:layout_width="0dp"
         android:layout_height="22dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/heading_build"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
@@ -988,8 +1047,8 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/road"
         android:theme="@android:style/Widget.Material.Button.Borderless"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
@@ -1001,9 +1060,9 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/settlement"
         android:theme="@android:style/Widget.Material.Button.Borderless"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
@@ -1015,9 +1074,9 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/city"
         android:theme="@android:style/Widget.Material.Button.Borderless"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
@@ -1057,8 +1116,8 @@
         android:id="@+id/sidebar_heading_vp"
         android:layout_width="0dp"
         android:layout_height="29dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="VP: 00"
         android:textAlignment="viewStart"
         android:textColor="@android:color/black"
@@ -1093,9 +1152,9 @@
         android:id="@+id/sidebar_heading_resources"
         android:layout_width="0dp"
         android:layout_height="22dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/heading_resources"
         android:textAlignment="center"
         android:textColor="@android:color/black"
