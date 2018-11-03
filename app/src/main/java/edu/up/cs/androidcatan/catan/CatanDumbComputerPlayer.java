@@ -1,5 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
+import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
@@ -28,7 +29,15 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        // TODO  You will implement this method
+        if (!(info instanceof CatanGameState)) return;
+
+        CatanGameState gs = (CatanGameState) info;
+
+        if(gs.getCurrentPlayerId() != this.playerNum) return;
+
+        sleep(200);
+
+        game.sendAction(new CatanEndTurnAction(this));
     }//receiveInfo
 
 }
