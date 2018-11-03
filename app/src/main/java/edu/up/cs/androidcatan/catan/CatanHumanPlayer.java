@@ -30,12 +30,9 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  **/
 public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
 
-
     private final String TAG = "CatanHumanPlayer";
 
-
     /* instance variables */
-
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
     private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
