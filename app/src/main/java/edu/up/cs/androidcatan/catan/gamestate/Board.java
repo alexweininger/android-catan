@@ -73,6 +73,7 @@ public class Board {
     private ArrayList<Port> portList = new ArrayList<>();
 
     public Board() {
+        Log.d(TAG, "Board() called");
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();

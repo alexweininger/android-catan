@@ -123,8 +123,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
 
-            state = (CatanGameState) info;
-            updateTextViews();
+            this.state = (CatanGameState) info;
             return;
 
 

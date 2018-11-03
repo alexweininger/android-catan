@@ -28,7 +28,7 @@ public class CatanGameState extends GameState {
     private static final String TAG = "CatanGameState";
 
     private Dice dice; // dice object
-    private Board board = new Board(); // board object
+    private Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
 
@@ -48,6 +48,7 @@ public class CatanGameState extends GameState {
 
     CatanGameState() { // CatanGameState constructor
         this.dice = new Dice();
+        this.board = new Board();
         generateDevCardDeck();
 
         this.currentPlayerId = 0;
