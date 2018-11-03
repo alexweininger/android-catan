@@ -84,10 +84,10 @@ public class Board {
         generateRoadMatrix();
 
         // print graphs
-        Log.i(TAG, "Board: Printing hGraph...");
-        printGraph(hGraph);
-        Log.i(TAG, "Board: Printing iGraph...");
-        printGraph(iGraph);
+//        Log.i(TAG, "Board: Printing hGraph...");
+//        printGraph(hGraph);
+//        Log.i(TAG, "Board: Printing iGraph...");
+//        printGraph(iGraph);
 
         // generate maps
         generateIntToHexMap();
