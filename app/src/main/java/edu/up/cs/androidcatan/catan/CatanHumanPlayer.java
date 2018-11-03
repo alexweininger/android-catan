@@ -76,9 +76,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     //Buttons that only affect the GUI
     private Button showScore = null;
 
-    //Groups
-    private Group scoreGroup = null;
-
     // resource count text views
     private TextView oreValue = (TextView) null;
     private TextView grainValue = (TextView) null;
@@ -92,12 +89,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView player2Score = (TextView) null;
     private TextView player3Score = (TextView) null;
 
+    //Groups
+    private Group scoreGroup;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
 
     // game state
     CatanGameState state = null;
+
 
     /**
      * constructor does nothing extra
@@ -153,7 +153,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
         if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction action = new CatanBuildCityAction(this);
+            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 1);
             Log.d(TAG, "onClick: City");
             game.sendAction(action);
             return;
@@ -165,7 +165,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
         if (button.getId() == R.id.sidebar_button_settlement) {
-            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this);
+            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
             Log.d(TAG, "onClick: Settlement");
             game.sendAction(action);
             return;
@@ -219,15 +219,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //GUI Buttons
 
-        if(button.getId() == R.id.group_scoreboard){
+        if(button.getId() == R.id.sidebar_button_score){
             Log.d(TAG, "onClick() called with: button = [" + button + "]");
             if(scoreGroup.getVisibility() == View.VISIBLE){
                 Log.d(TAG, "onClick: Now to gone");
                 scoreGroup.setVisibility(View.GONE);
             }
-            if(scoreGroup.getVisibility() == View.GONE){
+            else if(scoreGroup.getVisibility() == View.GONE){
                 Log.d(TAG, "onClick: Now to visible");
                 scoreGroup.setVisibility(View.VISIBLE);
+            }
+            else{
+                Log.d(TAG, "onClick: NULL");
             }
             return;
         }
@@ -280,6 +283,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard.setOnClickListener(this);
 
         showScore.setOnClickListener(this);
+        scoreGroup = activity.findViewById(R.id.group_scoreboard);
 
         // resource value text
         this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
@@ -292,59 +296,61 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Canvas canvas = new Canvas(); // create Canvas object
 
+
         board.createHexagons();        // draw the board of hexagons and ports on the canvas
 
         board.draw(canvas); // draw
 
-        // button listeners TODO move to separate class?
-        Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
-        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
-        scoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (scoreBoardGroup.getVisibility() == View.GONE) {
-                    scoreBoardGroup.setVisibility(View.VISIBLE);
-                } else {
-                    scoreBoardGroup.setVisibility(View.GONE);
-                }
-            }
-        });
 
-        Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
-        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
-        developmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (developmentGroup.getVisibility() == View.GONE) {
-                    developmentGroup.setVisibility(View.VISIBLE);
-                } else {
-                    developmentGroup.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        // build menu layout group
-        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
-
-        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
-
-        roadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (buildMenuGroup.getVisibility() == View.GONE) {
-                    buildMenuGroup.setVisibility(View.VISIBLE);
-                } else {
-                    buildMenuGroup.setVisibility(View.GONE);
-                }
-            }
-        });
-
-
-        // if we have state update the GUI based on the state
-
-        if (this.state != null) {
-            receiveInfo(state);
-        }
+//        // button listeners TODO move to separate class?
+//        Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
+//        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
+//        scoreButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (scoreBoardGroup.getVisibility() == View.GONE) {
+//                    scoreBoardGroup.setVisibility(View.VISIBLE);
+//                } else {
+//                    scoreBoardGroup.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//        Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
+//        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
+//        developmentButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (developmentGroup.getVisibility() == View.GONE) {
+//                    developmentGroup.setVisibility(View.VISIBLE);
+//                } else {
+//                    developmentGroup.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//        // build menu layout group
+//        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
+//
+//        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
+//
+//        roadButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (buildMenuGroup.getVisibility() == View.GONE) {
+//                    buildMenuGroup.setVisibility(View.VISIBLE);
+//                } else {
+//                    buildMenuGroup.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//
+//        // if we have state update the GUI based on the state
+//
+//        if (this.state != null) {
+//            receiveInfo(state);
+//        }
 
 
     }//setAsGui
