@@ -290,6 +290,12 @@ public class Board {
     public boolean validBuildingLocation(int playerId, boolean isSetupPhase, int intersectionId) {
         Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
 
+        if (intersectionId < 0 || intersectionId > buildings.length - 1) {
+            Log.e(TAG, "validBuildingLocation() returned: " + false + " because intersection does not exist.");
+            return false;
+        }
+
+
         if (!isSetupPhase) {
             // it is not the setup phase of the game
             // check if the intersection is connected to players' roads/buildings

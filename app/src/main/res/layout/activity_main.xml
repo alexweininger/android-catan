@@ -19,7 +19,7 @@
         android:id="@+id/group_singleIntersectionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
 
     <TextView
@@ -27,10 +27,7 @@
         android:layout_width="298dp"
         android:layout_height="54dp"
         android:layout_marginStart="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/colorAccent"
-        android:textSize="24sp"
-        android:visibility="visible"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
@@ -48,18 +45,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1" />
+        app:layout_constraintGuide_percent="0.94" />
 
     <EditText
         android:id="@+id/intersection_id_entered"
         android:layout_width="70dp"
-        android:layout_height="39dp"
+        android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:hint="0"
         android:inputType="number"
         android:text="0"
-        android:textSize="48sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/confirm"
         app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
         app:layout_constraintTop_toTopOf="@+id/confirm" />
@@ -89,7 +86,7 @@
         android:id="@+id/board"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -123,7 +120,7 @@
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
