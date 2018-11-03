@@ -73,6 +73,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradePort = null;
     private Button useDevCard = null;
 
+    //Buttons that only affect the GUI
+    private Button showScore = null;
+
+    //Groups
+    private Group scoreGroup = null;
+
     // resource count text views
     private TextView oreValue = (TextView) null;
     private TextView grainValue = (TextView) null;
@@ -211,6 +217,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        //GUI Buttons
+
+        if(button.getId() == R.id.group_scoreboard){
+            Log.d(TAG, "onClick() called with: button = [" + button + "]");
+            if(scoreGroup.getVisibility() == View.VISIBLE){
+                Log.d(TAG, "onClick: Now to gone");
+                scoreGroup.setVisibility(View.GONE);
+            }
+            if(scoreGroup.getVisibility() == View.GONE){
+                Log.d(TAG, "onClick: Now to visible");
+                scoreGroup.setVisibility(View.VISIBLE);
+            }
+            return;
+        }
+
     }// onClick
 
     /**
@@ -241,6 +262,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
 
+        showScore = (Button) activity.findViewById(R.id.sidebar_button_score);
+
 
         buildCity.setOnClickListener(this);
         buildRoad.setOnClickListener(this);
@@ -255,6 +278,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeCustomPort.setOnClickListener(this);
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
+
+        showScore.setOnClickListener(this);
 
         // resource value text
         this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
