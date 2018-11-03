@@ -32,10 +32,6 @@ public class CatanLocalGame extends LocalGame {
         gameState = new CatanGameState();
     }
 
-
-
-
-
     /**
      * Notify the given player that its state has changed. This should involve sending
      * a GameInfo object to the player. If the game is not a perfect-information game
