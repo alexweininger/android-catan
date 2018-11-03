@@ -32,17 +32,7 @@ public class CatanLocalGame extends LocalGame {
         gameState = new CatanGameState();
     }
 
-    /**
-     * Tell whether the given player is allowed to make a move at the
-     * present point in the game.
-     *
-     * @param playerIdx the player's player-number (ID)
-     * @return true iff the player is allowed to move
-     */
-    @Override
-    protected boolean canMove(int playerIdx) {
-        return playerIdx == gameState.getCurrentPlayerId();
-    }
+
 
 
 
@@ -74,6 +64,18 @@ public class CatanLocalGame extends LocalGame {
             }
         }
         return null; // return null if no winner, but the game is not over
+    }
+
+    /**
+     * Tell whether the given player is allowed to make a move at the
+     * present point in the game.
+     *
+     * @param playerIdx the player's player-number (ID)
+     * @return true iff the player is allowed to move
+     */
+    @Override
+    protected boolean canMove(int playerIdx) {
+        return playerIdx == gameState.getCurrentPlayerId();
     }
 
     /**
