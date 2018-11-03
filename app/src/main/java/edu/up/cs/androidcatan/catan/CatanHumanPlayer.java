@@ -18,6 +18,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
@@ -252,7 +253,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.use_Card){
+            CatanUseDevCardAction action = new CatanUseDevCardAction(this);
+            Log.d(TAG, "onClick: Use Dev Card");
+            game.sendAction(action);
+        }
 
+        if(button.getId() == R.id.devBuildbutton){
+            Log.d(TAG, "onClick: Dev Card");
+            buildMenu.setVisibility(View.VISIBLE);
+            buildingId = 3;
+            return;
         }
 
         //ok and cancel
