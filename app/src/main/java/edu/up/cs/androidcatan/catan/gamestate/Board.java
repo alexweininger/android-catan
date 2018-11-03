@@ -329,16 +329,19 @@ public class Board {
         for (int i = 0; i < 18; i++) {
             int max = resourceTypeCount.length - 1;
             Random random = new Random();
+            int randomResourceType;
+            do {
+                randomResourceType = random.nextInt(resourceTypeCount.length - 1);
+            } while (resourceTypeCount[randomResourceType] < 1);
 
-
-            int randomResourceType = random.nextInt((max) + 1);
-            while (resourceTypeCount[randomResourceType] < 1) {
-                randomResourceType = random.nextInt((max) + 1);
-            }
+            int randomResourceType;
+            do {
+                randomResourceType = random.nextInt(resourceTypeCount.length - 1);
+            } while (resourceTypeCount[randomResourceType] < 1);
 
             max = chitValuesCount.length - 1;
             int randomChitValue = random.nextInt((max) + 1);
-            while (chitValuesCount[randomChitValue] < 1) {
+            while (chitValuesCount[randomChitValue] < 0) {
                 randomChitValue = random.nextInt((max) + 1);
             }
 
