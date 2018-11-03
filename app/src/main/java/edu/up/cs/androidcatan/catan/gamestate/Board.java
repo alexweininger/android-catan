@@ -1176,21 +1176,6 @@ public class Board {
         Log.d(TAG, "" + str.toString());
     } // end printGraph
 
-//    /**
-//     * @return String
-//     */
-//    @Override
-//    public String toString() {
-//        StringBuilder str = new StringBuilder();
-//
-////        str.append("Hexagon IDs:\n");
-////        str.append(listToString(this.hexagonIdRings));
-////        str.append("Intersection IDs:\n");
-////        str.append(listToString(this.intersectionIdRings));
-//        Log.d(TAG, "" + str.toString());
-//        return str.toString();
-//    } // end toString()
-
     /**
      * @param list - list to convert
      * @return - String
