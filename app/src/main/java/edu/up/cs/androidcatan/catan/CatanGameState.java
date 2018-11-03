@@ -760,7 +760,6 @@ public class CatanGameState extends GameState {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        String str = "";
 
         result.append("CatanGameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
@@ -781,7 +780,6 @@ public class CatanGameState extends GameState {
         result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append("\n\n");
         result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n\n");
 
-        str = result.toString();
-        return str;
+        return result.toString();
     } // end CatanGameState toString()
 }
