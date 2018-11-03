@@ -117,7 +117,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         }
-        return this.resourceCards[resourceCardId] > numToCheckFor;
+        return this.resourceCards[resourceCardId] >= numToCheckFor;
     }
 
     /**
