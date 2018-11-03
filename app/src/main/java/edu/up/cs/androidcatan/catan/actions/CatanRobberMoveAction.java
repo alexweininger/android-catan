@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan.actions;
 
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -11,8 +12,10 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanRobberMoveAction extends GameAction {
-    public CatanRobberMoveAction(GamePlayer player)
-    {
+    private int hexagonId;
+
+    public CatanRobberMoveAction(GamePlayer player, int hexagonId) {
         super(player);
+        this.hexagonId = hexagonId;
     }
 }
