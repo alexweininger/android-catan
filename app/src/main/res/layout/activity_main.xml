@@ -19,7 +19,7 @@
         android:id="@+id/group_singleIntersectionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
 
     <TextView
@@ -59,7 +59,7 @@
         android:hint="0"
         android:inputType="number"
         android:text="0"
-        android:textSize="48sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/confirm"
         app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
         app:layout_constraintTop_toTopOf="@+id/confirm" />
