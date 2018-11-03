@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* instance variables */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {4, 2, 4, 0, 2}; // array for number of each resource card a player has
+    private int[] resourceCards = {2, 1, 2, 0, 1}; // array for number of each resource card a player has
 
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
@@ -123,6 +124,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
 
+            this.state = (CatanGameState) info;
+            return;
+
+
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
         } else if (info instanceof IllegalMoveInfo) {
@@ -146,38 +151,107 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public void onClick(View button) {
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
-        if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction action = new CatanBuildCityAction(this);
-            Log.d(TAG, "onClick: City");
-            game.sendAction(action);
-            return;
+        if (state == null) {
+            Log.e(TAG, "onClick: state is null.");
         }
-        if (button.getId() == R.id.sidebar_button_road) {
-            CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
-            Log.d(TAG, "onClick: Road");
-            game.sendAction(action);
-            return;
-        }
-        if (button.getId() == R.id.sidebar_button_settlement) {
-            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this);
-            Log.d(TAG, "onClick: Settlement");
-            game.sendAction(action);
-            return;
-        }
-        if (button.getId() == R.id.sidebar_button_devcards) {
-            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
-            Log.d(TAG, "onClick: Buy Dev Card");
-            game.sendAction(action);
-            return;
-        }
-        if (button.getId() == R.id.sidebar_button_endturn) {
-            CatanEndTurnAction action = new CatanEndTurnAction(this);
-            Log.d(TAG, "onClick: End Turn");
+        if (state.isSetupPhase()) {
+            Log.i(TAG, "onClick: setup phase ");
+            // if it is the setup phase, player can only make these actions
 
-            game.sendAction(action);
-            return;
-        }
-        //TODO Placeholder for Robber actions until they're implemented
+            if (button.getId() == R.id.sidebar_button_road) {
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
+                Log.d(TAG, "onClick: Road");
+                game.sendAction(action);
+                return;
+            } else if (button.getId() == R.id.sidebar_button_settlement) {
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+
+                Log.i(TAG, "onClick: clicked build settlement button"); // here
+                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
+
+                final CatanGameState copyState = new CatanGameState(state);
+                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                confirmIntersectionButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+
+                        if(copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            return;
+                        }
+                    }
+                });
+
+                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
+                Log.d(TAG, "onClick: Settlement");
+                game.sendAction(action);
+                return;
+            } else {
+                // todo
+            }
+        } else {
+            // if it is not the setup phase
+            if (button.getId() == R.id.sidebar_button_city) {
+                CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
+                Log.d(TAG, "onClick: City");
+                game.sendAction(action);
+                return;
+            }
+            if (button.getId() == R.id.sidebar_button_road) {
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
+                Log.d(TAG, "onClick: Road");
+                game.sendAction(action);
+                return;
+            }
+            if (button.getId() == R.id.sidebar_button_settlement) {
+                Log.i(TAG, "onClick: clicked build settlement button"); // here
+                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
+
+                final CatanGameState copyState = new CatanGameState(state);
+                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                confirmIntersectionButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+
+                        if(copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            return;
+                        }
+                    }
+                });
+
+                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
+                Log.d(TAG, "onClick: Settlement");
+                game.sendAction(action);
+                return;
+            }
+            if (button.getId() == R.id.sidebar_button_devcards) {
+                CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
+                Log.d(TAG, "onClick: Buy Dev Card");
+                game.sendAction(action);
+                return;
+            }
+            if (button.getId() == R.id.sidebar_button_endturn) {
+                CatanEndTurnAction action = new CatanEndTurnAction(this);
+                Log.d(TAG, "onClick: End Turn");
+
+                game.sendAction(action);
+                return;
+            }
+            //TODO Placeholder for Robber actions until they're implemented
 //        if(button.getId() == R.id.) {
 //            CatanRollDiceAction a = new CatanRollDiceAction(this);
 //            Log.d(TAG, "onClick: Roll");
@@ -196,21 +270,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //            game.sendAction(a);
 //            return;
 //        }
-        if(button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
-            return;
-        }
+            if (button.getId() == R.id.sidebar_button_roll) {
+                CatanRollDiceAction a = new CatanRollDiceAction(this);
+                Log.d(TAG, "onClick: Roll");
+                game.sendAction(a);
+                return;
+            }
 
-        //TODO Need functionality for both Port, Custom Port and Bank
-        if(button.getId() == R.id.sidebar_button_trade) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
-            return;
+            //TODO Need functionality for both Port, Custom Port and Bank
+            if (button.getId() == R.id.sidebar_button_trade) {
+                CatanRollDiceAction a = new CatanRollDiceAction(this);
+                Log.d(TAG, "onClick: Roll");
+                game.sendAction(a);
+                return;
+            }
         }
-
     }// onClick
 
     /**
@@ -328,13 +402,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      *
      */
     protected void initAfterReady() {
-        Log.d(TAG, "initAfterReady() called");
+        Log.e(TAG, "initAfterReady() called");
     }
 
     /*
      *
      */
     private void updateTextViews() {
+
+        if (this.state.isSetupPhase()) {
+            myActivity.findViewById(R.id.sidebar_button_city).setClickable(false);
+        }
+
 
         this.brickValue.setText(this.resourceCards[0]);
         this.grainValue.setText(this.resourceCards[1]);

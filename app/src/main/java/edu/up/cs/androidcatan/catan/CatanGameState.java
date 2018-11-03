@@ -28,7 +28,7 @@ public class CatanGameState extends GameState {
     private static final String TAG = "CatanGameState";
 
     private Dice dice; // dice object
-    private Board board = new Board(); // board object
+    private Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
 
@@ -41,12 +41,14 @@ public class CatanGameState extends GameState {
     private int currentDiceSum;
     private int currentPlayerId; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
+    private boolean isSetupPhase = true;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
 
     CatanGameState() { // CatanGameState constructor
         this.dice = new Dice();
+        this.board = new Board();
         generateDevCardDeck();
 
         this.currentPlayerId = 0;
@@ -78,6 +80,7 @@ public class CatanGameState extends GameState {
         this.currentPlayerId = cgs.currentPlayerId;
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
+        this.isSetupPhase = cgs.isSetupPhase;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
@@ -241,12 +244,14 @@ public class CatanGameState extends GameState {
         }
     }*/
 
-    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL; I TOUCHED THIS BECAUSE IT HAD A BUG - AW
+    //TODO: Finish
     private void updateVictoryPoints() {
         Log.d(TAG, "updateVictoryPoints() called");
         //calculates the longest road for the players and checks if it is the current player
         if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
             currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
+            //assigns the player with the longest road an extra 2 victory points
+            playerVictoryPoints[currentLongestRoadPlayerId] += 2;
         }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
@@ -482,19 +487,28 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildSettlement(int playerId, int intersectionId) {
-        // validates the player id, checks if its their turn, and checks if it is the action phase
-        if (!valAction(playerId)) {
-            return false;
+
+        if (!this.isSetupPhase) {
+            // validates the player id, checks if its their turn, and checks if it is the action phase
+            if (!valAction(playerId)) {
+                return false;
+            }
+        } else {
+
+            this.playerList.get(playerId).addResourceCard(0, 1);
+            this.playerList.get(playerId).addResourceCard(1, 1);
+            this.playerList.get(playerId).addResourceCard(2, 1);
+            this.playerList.get(playerId).addResourceCard(4, 1);
         }
 
         // check if player has the required resources to build a Settlement
         if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
-            Log.i(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
+            Log.e(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
             return false;
         }
 
         // check if the selected building location is valid
-        if (!this.board.validBuildingLocation(playerId, intersectionId)) {
+        if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
             return false;
         }
 
@@ -670,6 +684,37 @@ public class CatanGameState extends GameState {
         return true;
     }
 
+
+
+    /**
+     * goes through each building and road to check how many are owned by the player
+     * when they have 2 roads and 2 buildings, setupPhase is false.
+     * @return if the game is still in the setup phase
+     */
+    public boolean setupPhase(){
+        int roadCount = 0;
+        int buildingCount = 0;
+        for (int n = 0; n < playerList.size(); n++){
+            for (Building building : board.getBuildings()) {
+                if (building.getOwnerId() == n){
+                    buildingCount++;
+                }
+            }
+            for (Road road : board.getRoads()){
+                if (road.getOwnerId() == n){
+                    roadCount++;
+                }
+            }
+
+            if (buildingCount < 2 || roadCount < 2){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     public Dice getDice() {
         return dice;
     }
@@ -756,6 +801,14 @@ public class CatanGameState extends GameState {
 
     public void setCurrentLongestRoadPlayerId(int currentLongestRoadPlayerId) {
         this.currentLongestRoadPlayerId = currentLongestRoadPlayerId;
+    }
+
+    public boolean isSetupPhase() {
+        return this.isSetupPhase;
+    }
+
+    public void setSetupPhase(boolean setupPhase) {
+        this.isSetupPhase = setupPhase;
     }
 
     /**

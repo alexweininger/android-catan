@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/selectIntersectionText"
         android:layout_width="449dp"
-        android:layout_height="69dp"
+        android:layout_height="72dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
         android:textSize="48dp"
@@ -35,22 +35,22 @@
         android:layout_width="103dp"
         android:layout_height="77dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="0"
         android:inputType="number"
         android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText" />
+        app:layout_constraintBottom_toBottomOf="@+id/selectIntersectionText"
+        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
+        app:layout_constraintTop_toTopOf="@+id/selectIntersectionText" />
 
     <Button
         android:id="@+id/confirm"
         android:layout_width="187dp"
         android:layout_height="79dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/confirm"
         android:textSize="32sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
+        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered"
+        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered" />
 </android.support.constraint.ConstraintLayout>

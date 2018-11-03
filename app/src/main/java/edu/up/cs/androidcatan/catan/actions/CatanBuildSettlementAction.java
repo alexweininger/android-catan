@@ -15,9 +15,9 @@ public class CatanBuildSettlementAction extends GameAction {
     // instance variables
     private int intersectionId, ownerId;
 
-    public CatanBuildSettlementAction(GamePlayer player, int ownderId, int intersectionId) {
+    public CatanBuildSettlementAction(GamePlayer player, int ownerId, int intersectionId) {
         super(player);
-        this.ownerId = ownderId;
+        this.ownerId = ownerId;
         this.intersectionId = intersectionId;
     }
 

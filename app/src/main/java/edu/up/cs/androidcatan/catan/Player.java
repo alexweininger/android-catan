@@ -112,11 +112,12 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @return - whether they have at least that many resources of the given type
      */
     public boolean checkResourceCard(int resourceCardId, int numToCheckFor) {
+        Log.i(TAG, "checkResourceCard() called with: resourceCardId = [" + resourceCardId + "], numToCheckFor = [" + numToCheckFor + "]");
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         }
-        return this.resourceCards[resourceCardId] < numToCheckFor;
+        return this.resourceCards[resourceCardId] >= numToCheckFor;
     }
 
     /**
@@ -124,11 +125,15 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @return - true of false, does the player have all of these resources?
      */
     public boolean checkResourceBundle(int[] resourceCost) {
+        Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + resourceCost.toString() + "]");
+        Log.i(TAG, "checkResourceBundle: " + this.printResourceCards());
         for (Integer id : resourceCost) {
             if (!checkResourceCard(id, resourceCost[id])) {
+                Log.d(TAG, "checkResourceBundle() returned: " + false);
                 return false;
             }
         }
+        Log.d(TAG, "checkResourceBundle() returned: " + true);
         return true;
     }
 
@@ -158,7 +163,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     }
 
     public boolean removeResourceBundle(int[] resourceCost) {
-        if (checkResourceBundle(resourceCost)) {
+        if (!checkResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
             return false;
         }

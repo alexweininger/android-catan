@@ -21,12 +21,45 @@ import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanLocalGame extends LocalGame {
-    CatanGameState gameState;
+
     private final static String TAG = "CatanLocalGame";
+
+    protected CatanGameState gameState;
+
 
     public CatanLocalGame() {
         super();
         gameState = new CatanGameState();
+    }
+
+    /**
+     * Notify the given player that its state has changed. This should involve sending
+     * a GameInfo object to the player. If the game is not a perfect-information game
+     * this method should remove any information from the game that the player is not
+     * allowed to know.
+     *
+     * @param p the player to notify
+     */
+    @Override
+    protected void sendUpdatedStateTo(GamePlayer p) {
+        p.sendInfo(new CatanGameState(this.gameState)); // TODO verify that this copies everything (guess what it def. does not)
+    }
+
+    /**
+     * Check if the game is over. It is over, return a string that tells
+     * who the winner(s), if any, are. If the game is not over, return null;
+     *
+     * @return a message that tells who has won the game, or null if the
+     * game is not over
+     */
+    @Override
+    protected String checkIfGameOver() {
+        for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
+            if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
+                return playerNames[i] + " wins!";
+            }
+        }
+        return null; // return null if no winner, but the game is not over
     }
 
     /**
@@ -62,20 +95,17 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buildRoad();
-            return true;
+            return gameState.buildRoad(gameState.getCurrentPlayerId(), 0, 1);
         }
 
         if (action instanceof CatanBuildSettlementAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buildSettlement();
-            return true;
+            return gameState.buildSettlement(gameState.getCurrentPlayerId(), 1);
         }
 
         if (action instanceof CatanBuildCityAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buildCity();
-            return true;
+            return gameState.buildCity(gameState.getCurrentPlayerId(), 2);
         }
 
 
@@ -133,31 +163,5 @@ public class CatanLocalGame extends LocalGame {
         }
 
         return false;
-    }
-
-    /**
-     * Notify the given player that its state has changed. This should involve sending
-     * a GameInfo object to the player. If the game is not a perfect-information game
-     * this method should remove any information from the game that the player is not
-     * allowed to know.
-     *
-     * @param p the player to notify
-     */
-    @Override
-    protected void sendUpdatedStateTo(GamePlayer p) {
-        CatanGameState gameStateCopy = new CatanGameState(gameState); // TODO verify that this copies everything (guess what it def. does not)
-        p.sendInfo(gameStateCopy);
-    }
-
-    /**
-     * Check if the game is over. It is over, return a string that tells
-     * who the winner(s), if any, are. If the game is not over, return null;
-     *
-     * @return a message that tells who has won the game, or null if the
-     * game is not over
-     */
-    @Override
-    protected String checkIfGameOver() {
-        return null;
     }
 }
