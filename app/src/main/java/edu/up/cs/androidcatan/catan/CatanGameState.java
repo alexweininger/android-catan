@@ -282,6 +282,8 @@ public class CatanGameState extends GameState {
 
                     this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
                     Log.i(TAG, "produceResources: Giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                } else {
+                    Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
                 }
             }
         }
