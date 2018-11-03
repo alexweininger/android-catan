@@ -93,7 +93,7 @@
 
     <TextView
         android:id="@+id/selectMoreResources"
-        android:layout_width="443dp"
+        android:layout_width="359dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
