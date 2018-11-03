@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -193,7 +194,25 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (button.getId() == R.id.sidebar_button_settlement) {
 
                 myActivity.findViewById(R.id.brickAmount).setVisibility(View.VISIBLE); // todo
-                int intersectionIdInput = myActivity.findViewById(R.id.intersection)
+                EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                final CatanGameState copyState = new CatanGameState(state);
+                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                confirmIntersectionButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+
+                        if(copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            return;
+                        }
+
+                    }
+                });
+
 
                 while (this.state.getBoard().validBuildingLocation(playerId, true, )myActivity.findViewById())
 
