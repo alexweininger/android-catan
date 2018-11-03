@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan;
 
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.support.constraint.Group;
 import android.util.Log;
 import android.view.View;
@@ -187,16 +188,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
                             return;
+                        } else {
+                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
                         }
                     }
                 });
-
-                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
-                Log.d(TAG, "onClick: Settlement");
-                game.sendAction(action);
-                return;
             } else {
                 // todo
+
             }
         } else {
             // if it is not the setup phase
