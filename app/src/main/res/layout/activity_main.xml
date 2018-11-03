@@ -13,8 +13,6 @@
     All groups but the static bottom menu group are set to GONE.
     -->
 
-
-
     <!-- new sidebar static menu START-->
 
 
@@ -958,7 +956,7 @@
 
     <Button
         android:id="@+id/sidebar_button_menu"
-        style="@style/Widget.AppCompat.Button"
+        style="@android:style/Widget.Material.Light.Button"
         android:layout_width="75dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
@@ -973,7 +971,6 @@
         android:layout_width="0dp"
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/heading_build"
         android:textAlignment="center"
@@ -1003,7 +1000,6 @@
         android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/settlement"
         android:theme="@android:style/Widget.Material.Button.Borderless"
@@ -1017,7 +1013,6 @@
         android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/city"
         android:theme="@android:style/Widget.Material.Button.Borderless"

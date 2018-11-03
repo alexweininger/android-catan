@@ -90,7 +90,7 @@
 
     <!--resources-->
 
-    <string name="developmentCards">Development Cards</string>
+    <string name="developmentCards">Development</string>
 
     <string-array name="resource_Card">
         <item>Knights</item>
