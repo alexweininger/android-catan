@@ -323,6 +323,7 @@ public class Board {
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
      */
     private void generateHexagonTiles() {
+
         Log.d(TAG, "generateHexagonTiles() called");
 
         int[] resourceTypeCount = {4, 3, 3, 3, 4};
@@ -336,20 +337,22 @@ public class Board {
             int randomResourceType;
             do {
                 randomResourceType = random.nextInt(resourceTypeCount.length - 1);
-            } while (sumArray(resourceTypeCount) > 0);
+            } while (resourceTypeCount[randomResourceType] < 1);
 
             Log.i(TAG, "generateHexagonTiles: 1");
 
             int randomChitValue;
             do {
                 randomChitValue = random.nextInt(chitValuesCount.length - 1);
-            } while (sumArray(chitValuesCount) > 0);
+            } while (chitValuesCount[randomChitValue] < 1);
 
             Log.i(TAG, "generateHexagonTiles: 2");
+
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
             chitValuesCount[randomChitValue]--;
         }
+
         Log.i(TAG, "generateHexagonTiles: hexagon list:");
         for (Hexagon hexagon : this.hexagons) {
             Log.i(TAG, "| " + hexagon);
