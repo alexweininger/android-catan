@@ -127,33 +127,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
         if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction a = new CatanBuildCityAction(this);
+            CatanBuildCityAction action = new CatanBuildCityAction(this);
             Log.d(TAG, "onClick: City");
-            game.sendAction(a);
+            game.sendAction(action);
             return;
         }
         if (button.getId() == R.id.sidebar_button_road) {
-            CatanBuildRoadAction a = new CatanBuildRoadAction(this);
+            CatanBuildRoadAction action = new CatanBuildRoadAction(this);
             Log.d(TAG, "onClick: Road");
-            game.sendAction(a);
+            game.sendAction(action);
             return;
         }
         if (button.getId() == R.id.sidebar_button_settlement) {
-            CatanBuildSettlementAction a = new CatanBuildSettlementAction(this);
+            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this);
             Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
+            game.sendAction(action);
             return;
         }
         if (button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            CatanRollDiceAction action = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
+            game.sendAction(action);
             return;
         }
         if (button.getId() == R.id.sidebar_button_endturn) {
-            CatanEndTurnAction a = new CatanEndTurnAction(this);
+            CatanEndTurnAction action = new CatanEndTurnAction(this);
             Log.d(TAG, "onClick: End Turn");
-            game.sendAction(a);
+            game.sendAction(action);
             return;
         }
 //        if(button.getId() == R.id.sidebar_button_roll) {
