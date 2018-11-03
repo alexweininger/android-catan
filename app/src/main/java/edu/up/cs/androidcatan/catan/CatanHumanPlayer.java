@@ -65,7 +65,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button buildCity = null;
     private Button buildRoad = null;
     private Button buildSettlement = null;
-    private Button buyDevCard = null;
+    private Button devCard = null;
     private Button endTurn = null;
     private Button robberDiscard = null;
     private Button robberMove = null;
@@ -75,6 +75,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradeCustomPort = null;
     private Button tradePort = null;
     private Button useDevCard = null;
+    private Button buyDevCard = null;
     private Button okButton = null;
     private Button cancelButton = null;
 
@@ -315,7 +316,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         buildCity = (Button) activity.findViewById(R.id.sidebar_button_city);
         buildRoad = (Button) activity.findViewById(R.id.sidebar_button_road);
         buildSettlement = (Button) activity.findViewById(R.id.sidebar_button_settlement);
-        buyDevCard = (Button) activity.findViewById(R.id.sidebar_button_devcards);
+        devCard = (Button) activity.findViewById(R.id.sidebar_button_devcards);
         endTurn = (Button) activity.findViewById(R.id.sidebar_button_endturn);
 //        robberDiscard = (Button)activity.findViewById(R.id.)
 //        robberMove = (Button)activity.findViewById(R.id.)
@@ -336,7 +337,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         buildCity.setOnClickListener(this);
         buildRoad.setOnClickListener(this);
         buildSettlement.setOnClickListener(this);
-        buyDevCard.setOnClickListener(this);
+        devCard.setOnClickListener(this);
         endTurn.setOnClickListener(this);
 //        robberDiscard.setOnClickListener(this);
 //        robberMove.setOnClickListener(this);
