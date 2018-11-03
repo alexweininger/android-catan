@@ -123,7 +123,8 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
+        CatanGameState gameStateCopy = new CatanGameState(gameState);
+        p.sendInfo(gameStateCopy);
     }
 
     /**
