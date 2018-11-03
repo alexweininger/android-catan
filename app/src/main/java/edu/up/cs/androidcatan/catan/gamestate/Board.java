@@ -328,7 +328,6 @@ public class Board {
         int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
         int[] resources = {0, 1, 2, 3, 4};
         for (int i = 0; i < 18; i++) {
-            int max = resourceTypeCount.length - 1;
             Random random = new Random();
             int randomResourceType;
             do {
