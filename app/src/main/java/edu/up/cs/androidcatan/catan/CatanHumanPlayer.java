@@ -106,13 +106,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-            this.brickValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
-            this.grainValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
-            this.lumberValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
-            this.oreValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
-            this.woolValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
-
-
+            if (this.brickValue != null) {
+                this.brickValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
+                this.grainValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
+                this.lumberValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
+                this.oreValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
+                this.woolValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
+            }
         }
     }//receiveInfo
 
@@ -196,7 +196,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param activity the activity under which we are running
      */
     public void setAsGui(GameMainActivity activity) {
-        // TODO this is where we draw things...
+        Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
         // remember the activity
         myActivity = activity;
 
@@ -217,7 +217,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
 
-        Log.d(TAG, "setAsGui: ");
 
         buildCity.setOnClickListener(this);
         buildRoad.setOnClickListener(this);
@@ -234,11 +233,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard.setOnClickListener(this);
 
         // resource value text
-        oreValue = (TextView)activity.findViewById(R.id.oreAmount);
-        grainValue = (TextView) activity.findViewById(R.id.grainAmount);
-        lumberValue = (TextView)activity.findViewById(R.id.lumberAmount);
-        woolValue = (TextView)activity.findViewById(R.id.woolAmount);
-        brickValue = (TextView)activity.findViewById(R.id.brickAmount);
+        this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
+        this.grainValue = (TextView)  activity.findViewById(R.id.grainAmount);
+        this.lumberValue = (TextView) activity.findViewById(R.id.lumberAmount);
+        this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
+        this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
 
 
     }//setAsGui
