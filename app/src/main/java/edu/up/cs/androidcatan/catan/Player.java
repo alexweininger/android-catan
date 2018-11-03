@@ -52,7 +52,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * Player constructor
      */
     public Player(int id) {
-        super("" + id + "");
+        super("" + id + ""); // todo lol wtf is this
         this.playerId = id;
         this.armySize = 0;
     }

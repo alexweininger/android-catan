@@ -25,6 +25,7 @@ public class CatanLocalGame extends LocalGame {
     private final static String TAG = "CatanLocalGame";
 
     public CatanLocalGame() {
+        super();
         gameState = new CatanGameState();
     }
 
@@ -60,6 +61,7 @@ public class CatanLocalGame extends LocalGame {
         }
 
         if (action instanceof CatanBuildRoadAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
         }
 
@@ -122,7 +124,8 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
+        CatanGameState gameStateCopy = new CatanGameState(gameState); // TODO verify that this copies everything (guess what it def. does not)
+        p.sendInfo(gameStateCopy);
     }
 
     /**
