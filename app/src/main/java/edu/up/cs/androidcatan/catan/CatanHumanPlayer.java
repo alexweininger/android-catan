@@ -52,7 +52,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // number of buildings the player has to build {roads, settlements, cities}
     private int[] buildingInventory = {15, 5, 4};
 
-    //current chosen building to for confirm button; 0 = Road, 1 = Settlement, 2 = City
+    //current chosen building to for confirm button; 0 = Road, 1 = Settlement, 2 = City, 3 = Dev Card
     private int buildingId = 0;
 
     // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
@@ -220,7 +220,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "onClick: Now to gone");
                 scoreMenu.setVisibility(View.GONE);
             }
-            else if(scoreMenu.getVisibility() == View.GONE){;
+            else if(scoreMenu.getVisibility() == View.GONE){
                 scoreMenu.setVisibility(View.VISIBLE);
                 devMenu.setVisibility(View.GONE);
                 tradeMenu.setVisibility(View.GONE);
@@ -232,6 +232,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        //Dev Card buttons
         if(button.getId() == R.id.sidebar_button_devcards){
             Log.d(TAG, "onClick() called with: button = [" + button + "]");
             if(devMenu.getVisibility() == View.VISIBLE){
@@ -248,6 +249,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "onClick: NULL");
             }
             return;
+        }
+
+        if(button.getId() == R.id.use_Card){
+
         }
 
         //ok and cancel
@@ -267,6 +272,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     CatanBuildCityAction action2 = new CatanBuildCityAction(this, this.playerId , 1);
                     Log.d(TAG, "(ok)onClick: City");
                     game.sendAction(action2);
+                    break;
+                case 3:
+                    CatanBuyDevCardAction action3 = new CatanBuyDevCardAction(this);
+                    Log.d(TAG, "(ok)onClick: Dev Card");
+                    game.sendAction(action3);
                     break;
                 default:
                     Log.d(TAG, "(ok)onClick: Error, out of bounds");
@@ -326,6 +336,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeCustomPort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
+        buyDevCard = (Button) activity.findViewById(R.id.devBuildbutton);
         okButton = (Button) activity.findViewById(R.id.okButton);
         cancelButton = (Button) activity.findViewById(R.id.cancelButton);
 
