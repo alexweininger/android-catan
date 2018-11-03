@@ -147,7 +147,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
         if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction action = new CatanBuildCityAction(this);
+            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
             Log.d(TAG, "onClick: City");
             game.sendAction(action);
             return;
@@ -159,7 +159,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
         if (button.getId() == R.id.sidebar_button_settlement) {
-            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this);
+            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
             Log.d(TAG, "onClick: Settlement");
             game.sendAction(action);
             return;

@@ -348,14 +348,16 @@ public class Board {
                 randomResourceType = random.nextInt(resourceTypeCount.length - 1);
             } while (resourceTypeCount[randomResourceType] < 1);
 
-            Log.i(TAG, "generateHexagonTiles: 1");
 
             int randomChitValue;
             do {
                 randomChitValue = random.nextInt(chitValuesCount.length - 1);
             } while (chitValuesCount[randomChitValue] < 1);
 
-            Log.i(TAG, "generateHexagonTiles: 2");
+            if (randomResourceType == 5) {
+                randomChitValue = 0;
+            }
+
 
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
@@ -698,9 +700,9 @@ public class Board {
                 int nextIntersection = (col + 1) % size;
                 iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
 
-                Log.d(TAG, "skip: " + skipCount);
+                //Log.d(TAG, "skip: " + skipCount);
                 if (hasNextLink) {
-                    Log.d(TAG, "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
+                    //hLog.d(TAG, "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
                     if (col + ringIndexDiff == -1) {
                         iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
                     } else {
