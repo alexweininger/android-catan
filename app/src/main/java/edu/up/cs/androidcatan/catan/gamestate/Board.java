@@ -5,9 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
-import edu.up.cs.androidcatan.catan.Player;
 
 /**
  * @author Alex Weininger
@@ -343,7 +343,11 @@ public class Board {
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
         }
-        Log.i(TAG, "generateHexagonTiles: " + this.hexagons);
+        Log.i(TAG, "generateHexagonTiles: hexagon list:");
+        for (Hexagon hexagon : this.hexagons) {
+            Log.i(TAG, "| " + hexagon);
+        }
+
     }
 
     /**
