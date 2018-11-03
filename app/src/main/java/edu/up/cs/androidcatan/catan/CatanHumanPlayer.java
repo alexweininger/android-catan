@@ -106,7 +106,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private GameMainActivity myActivity;
 
     // game state
-    CatanGameState state = null;
+    private CatanGameState state = null;
 
     /**
      * constructor does nothing extra
@@ -223,6 +223,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 game.sendAction(action);
                 return;
             }
+        }
             //TODO Placeholder for Robber actions until they're implemented
 //        if(button.getId() == R.id.) {
 //            CatanRollDiceAction a = new CatanRollDiceAction(this);
@@ -341,7 +342,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "onClick: Now to gone");
                 tradeMenu.setVisibility(View.GONE);
             }
-            else if(tradeMenu.getVisibility() == View.GONE){;
+            else if(tradeMenu.getVisibility() == View.GONE){
                 tradeMenu.setVisibility(View.VISIBLE);
                 scoreMenu.setVisibility(View.GONE);
                 devMenu.setVisibility(View.GONE);
@@ -361,7 +362,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      *
      * @param activity the activity under which we are running
      */
-    public void setAsGui(GameMainActivity activity) {
+    public void setAsGui(GameMainActivity activity){
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
         // remember the activity
         myActivity = activity;
