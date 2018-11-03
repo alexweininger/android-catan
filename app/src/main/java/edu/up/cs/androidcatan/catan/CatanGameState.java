@@ -487,14 +487,23 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildSettlement(int playerId, int intersectionId) {
-        // validates the player id, checks if its their turn, and checks if it is the action phase
-        if (!valAction(playerId)) {
-            return false;
+
+        if (!this.isSetupPhase) {
+            // validates the player id, checks if its their turn, and checks if it is the action phase
+            if (!valAction(playerId)) {
+                return false;
+            }
+        } else {
+
+            this.playerList.get(playerId).addResourceCard(0, 1);
+            this.playerList.get(playerId).addResourceCard(1, 1);
+            this.playerList.get(playerId).addResourceCard(2, 1);
+            this.playerList.get(playerId).addResourceCard(4, 1);
         }
 
         // check if player has the required resources to build a Settlement
         if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
-            Log.i(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
+            Log.e(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
             return false;
         }
 
