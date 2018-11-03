@@ -947,6 +947,7 @@
         android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/trade"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
@@ -1026,7 +1027,6 @@
         android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/developmentCards"
         android:theme="@android:style/Widget.Material.Button.Borderless"
@@ -1051,15 +1051,14 @@
     <TextView
 
         android:id="@+id/sidebar_heading_vp"
-        android:layout_width="0dp"
+        android:layout_width="66dp"
         android:layout_height="29dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text="VP: 00"
         android:textAlignment="viewStart"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintBottom_toBottomOf="@+id/sidebar_heading_playername"
         app:layout_constraintStart_toEndOf="@+id/sidebar_heading_playername"
         app:layout_constraintTop_toTopOf="@+id/sidebar_heading_playername" />
 
