@@ -976,6 +976,14 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_button_settlement" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toTopOf="@+id/sidebar_button_devcards" />
+
     <Button
         android:id="@+id/sidebar_button_devcards"
         style="@style/Widget.AppCompat.Button"
