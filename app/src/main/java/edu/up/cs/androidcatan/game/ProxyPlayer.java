@@ -18,7 +18,8 @@ import edu.up.cs.androidcatan.game.util.NetworkObjectPasser;
  * @version July 2013
  */
 public class ProxyPlayer implements GamePlayer {
-    
+
+
     // the game object
     private Game game;
     
