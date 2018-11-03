@@ -90,7 +90,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView player3Score = (TextView) null;
 
     //Groups
-    private Group scoreGroup;
+    private Group scoreGroup = null;
+    private Group devMenu = null;
+    private Group tradeMenu = null;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -217,7 +219,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        //GUI Buttons
+        //GUI Buttons (Opens another menu)
 
         if(button.getId() == R.id.sidebar_button_score){
             Log.d(TAG, "onClick() called with: button = [" + button + "]");
@@ -225,9 +227,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "onClick: Now to gone");
                 scoreGroup.setVisibility(View.GONE);
             }
-            else if(scoreGroup.getVisibility() == View.GONE){
-                Log.d(TAG, "onClick: Now to visible");
+            else if(scoreGroup.getVisibility() == View.GONE){;
                 scoreGroup.setVisibility(View.VISIBLE);
+                Log.d(TAG, "onClick: Now to visible" + scoreGroup.getVisibility() + "");
             }
             else{
                 Log.d(TAG, "onClick: NULL");
@@ -283,7 +285,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard.setOnClickListener(this);
 
         showScore.setOnClickListener(this);
+
+        //Group GUI Items
         scoreGroup = activity.findViewById(R.id.group_scoreboard);
+        devMenu = activity.findViewById(R.id.group_development_card_menu);
+        tradeMenu = activity.findViewById(R.id.group_trade_menu);
 
         // resource value text
         this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
@@ -301,56 +307,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         board.draw(canvas); // draw
 
+        // if we have state update the GUI based on the state
 
-//        // button listeners TODO move to separate class?
-//        Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
-//        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
-//        scoreButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (scoreBoardGroup.getVisibility() == View.GONE) {
-//                    scoreBoardGroup.setVisibility(View.VISIBLE);
-//                } else {
-//                    scoreBoardGroup.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//
-//        Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
-//        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
-//        developmentButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (developmentGroup.getVisibility() == View.GONE) {
-//                    developmentGroup.setVisibility(View.VISIBLE);
-//                } else {
-//                    developmentGroup.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//
-//        // build menu layout group
-//        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
-//
-//        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
-//
-//        roadButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (buildMenuGroup.getVisibility() == View.GONE) {
-//                    buildMenuGroup.setVisibility(View.VISIBLE);
-//                } else {
-//                    buildMenuGroup.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//
-//
-//        // if we have state update the GUI based on the state
-//
-//        if (this.state != null) {
-//            receiveInfo(state);
-//        }
+        if (this.state != null) {
+            receiveInfo(state);
+        }
 
 
     }//setAsGui
