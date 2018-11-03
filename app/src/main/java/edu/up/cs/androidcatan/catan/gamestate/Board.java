@@ -158,7 +158,7 @@ public class Board {
 
         // check if road is connected to players roads / buildings at either intersection
         if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
-            Log.i(TAG, "validRoadPlacement: ");
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersection(s) are not connected to players buildings or roads.");
             return false;
         }
 
