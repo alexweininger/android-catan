@@ -52,6 +52,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // number of buildings the player has to build {roads, settlements, cities}
     private int[] buildingInventory = {15, 5, 4};
 
+    //current chosen building to for confirm button; 0 = Road, 1 = Settlement, 2 = City
+    private int buildingId = 0;
+
     // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
     private int armySize = 0;
 
@@ -95,6 +98,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group scoreMenu = null;
     private Group devMenu = null;
     private Group tradeMenu = null;
+    private Group buildMenu = null;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -206,7 +210,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(a);
             return;
         }
-
 
         //GUI Buttons (Opens another menu)
 
@@ -327,6 +330,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         scoreMenu = activity.findViewById(R.id.group_scoreboard);
         devMenu = activity.findViewById(R.id.group_development_card_menu);
         tradeMenu = activity.findViewById(R.id.group_trade_menu);
+        buildMenu = activity.findViewById(R.id.group_build_menu);
 
         // resource value text
         this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
@@ -334,6 +338,28 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.lumberValue = (TextView) activity.findViewById(R.id.lumberAmount);
         this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
         this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
+
+        // Listeners for ok and cancel button
+        okButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                switch(buildingId){
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    default:
+
+                }
+                buildMenu.setVisibility(View.GONE);
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                buildMenu.setVisibility(View.GONE);
+            }
+        });
 
         //Board stuff
         boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
