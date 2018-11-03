@@ -341,6 +341,7 @@ public class Board {
 
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
+            chitValuesCount[randomChitValue]--;
         }
         Log.i(TAG, "generateHexagonTiles: hexagon list:");
         for (Hexagon hexagon : this.hexagons) {
