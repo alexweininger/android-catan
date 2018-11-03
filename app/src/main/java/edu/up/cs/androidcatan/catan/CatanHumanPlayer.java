@@ -72,6 +72,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradeCustomPort = null;
     private Button tradePort = null;
     private Button useDevCard = null;
+    private Button okButton = null;
+    private Button cancelButton = null;
 
     //Buttons that only affect the GUI
     private Button showScore = null;
@@ -292,6 +294,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeCustomPort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
+        okButton = (Button) activity.findViewById(R.id.okButton);
+        cancelButton = (Button) activity.findViewById(R.id.cancelButton);
 
         //GUI Buttons
         showScore = (Button) activity.findViewById(R.id.sidebar_button_score);
