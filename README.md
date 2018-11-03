@@ -19,6 +19,8 @@ Famous Settlers of Catan board game made on Android
 
 ## Linked repositories
 
+Repositories that hold smaller parts of this proejct, that were later combined into this reposity.
+
 - <https://github.com/alexweininger/game-state>
 - <https://github.com/alexweininger/android-catan-old>
 - <https://github.com/alexweininger/android-catan-layout>
