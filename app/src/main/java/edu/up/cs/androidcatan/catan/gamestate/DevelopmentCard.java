@@ -27,6 +27,11 @@ public class DevelopmentCard {
         this.isPlayable = false;
     }
 
+    public DevelopmentCard(DevelopmentCard dc) {
+        this.setDevCardId(dc.getDevCardId());
+        this.setPlayable(dc.isPlayable());
+    }
+
     //default use method
     public void useCard(int devCardId) {
         // todo
@@ -83,7 +88,27 @@ public class DevelopmentCard {
      * @param playable allows the player to play the card or not
      */
     public void setPlayable(boolean playable) {
-        isPlayable = playable;
+        this.isPlayable = playable;
+    }
+
+    public static int[] getResourceCost() {
+        return resourceCost;
+    }
+
+    public static void setResourceCost(int[] resourceCost) {
+        DevelopmentCard.resourceCost = resourceCost;
+    }
+
+    public int getDevCardId() {
+        return devCardId;
+    }
+
+    public void setDevCardId(int devCardId) {
+        this.devCardId = devCardId;
+    }
+
+    public boolean isPlayable() {
+        return isPlayable;
     }
 
     @Override

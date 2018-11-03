@@ -31,7 +31,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /* ----- Player instance variables ----- */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
+    private int[] resourceCards = {4, 2, 4, 0, 2}; // array for number of each resource card a player has TODO change o all 0s
 
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
@@ -52,7 +52,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * Player constructor
      */
     public Player(int id) {
-        super("" + id + "");
+        super("" + id + ""); // todo lol wtf is this
         this.playerId = id;
         this.armySize = 0;
     }
@@ -319,19 +319,16 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         return randomResourceId;
     }
 
-
     /**
      * @return string representation of a Player
      */
     @Override
     public String toString() {
-        return "Player{" +
-                "resourceCards=" + this.printResourceCards() +
-                ", developmentCards=" + this.developmentCards +
-                ", buildingInventory=" + Arrays.toString(this.buildingInventory) +
-                ", armySize=" + this.armySize +
-                ", playerId=" + this.playerId +
-                '}';
+        return "\nPlayer " + this.playerId + ": " +
+                "\nresourceCards=" + this.printResourceCards() +
+                "\ndevelopmentCards=" + this.developmentCards +
+                "\nbuildingInventory=" + Arrays.toString(this.buildingInventory) +
+                ", armySize=" + this.armySize;
     }
 }
 

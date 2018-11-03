@@ -83,6 +83,7 @@ public class CatanGameState extends GameState {
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
         this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
+
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
@@ -119,6 +120,10 @@ public class CatanGameState extends GameState {
 
     }
 
+    /**
+     * @param playerId -
+     * @return If id is valid.
+     */
     private boolean valPlId(int playerId) {
         return playerId > -1 && playerId < 4;
     }
@@ -135,7 +140,8 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-    /** todo maybe this is deprecated?
+    /**
+     * todo maybe this is deprecated?
      * validates the player id, checks if its their turn, and checks if it is the action phase
      *
      * @param playerId - player id to validate an action for
@@ -161,6 +167,7 @@ public class CatanGameState extends GameState {
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize() {
+        Log.d(TAG, "checkArmySize() called");
         int max = -1;
         if (this.currentLargestArmyPlayerId != -1) {
             max = this.playerList.get(this.currentLargestArmyPlayerId).getArmySize();
@@ -177,8 +184,9 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /** todo
-     *
+    /**
+     * todo
+     * <p>
      * updateLongestRoadPlayer - after each turn check if any player has longest road, with a min of 5 road segments
      */
     private void updateLongestRoadPlayer() {
@@ -235,6 +243,7 @@ public class CatanGameState extends GameState {
 
     //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL; I TOUCHED THIS BECAUSE IT HAD A BUG - AW
     private void updateVictoryPoints() {
+        Log.d(TAG, "updateVictoryPoints() called");
         //calculates the longest road for the players and checks if it is the current player
         if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
             currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
@@ -258,6 +267,7 @@ public class CatanGameState extends GameState {
      * @param diceSum - dice sum
      */
     private void produceResources(int diceSum) {
+        Log.d(TAG, "produceResources() called with: diceSum = [" + diceSum + "]");
         if (isActionPhase) {
             Log.e(TAG, "produceResources: It is the action phase. Returned false.");
             return;
@@ -268,15 +278,19 @@ public class CatanGameState extends GameState {
             Hexagon hex = board.getHexagonFromId(i);
             Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
-            ArrayList<Integer> receivingIntersections = this.board.getAdjacentIntersections(i); // intersections adjacent to producing hexagon tile
+            ArrayList<Integer> receivingIntersections = this.board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
 
+            // iterate through each intersection surrounding the producing hexagon
             for (Integer intersectionId : receivingIntersections) {
 
                 Building b = this.board.getBuildingAtIntersection(intersectionId);
+                // check if this intersection has a building
                 if (null != b) {
-
                     this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
                     Log.i(TAG, "produceResources: Giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                } else {
+                    Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
                 }
             }
         }
@@ -290,6 +304,8 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean setupBuilding() {
+
+
 
         return false;
     } // end setupBuilding action method
@@ -336,11 +352,11 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        if (this.currentPlayerId == 3) {
-            this.currentPlayerId = 0;
-        } else {
-            this.currentPlayerId++;
-        }
+//        if (this.currentPlayerId == 3) {
+//            this.currentPlayerId = 0;
+//        } else {
+//            this.currentPlayerId++;
+//        }
 
         Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + "'s turn.");
 
@@ -349,6 +365,7 @@ public class CatanGameState extends GameState {
         for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
         }
+        this.isActionPhase = false;
 
         return true;
     } // end endTurn method
@@ -751,29 +768,16 @@ public class CatanGameState extends GameState {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        String str = "";
 
         result.append("CatanGameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append(this.currentPlayerId);
-        result.append("\n");
-        result.append("Current Dice Sum: ");
-        result.append(this.currentDiceSum);
-        result.append("\n");
-        result.append("isActionPhase: ");
-        result.append(this.isActionPhase);
-        result.append("\n");
+        result.append("Current Player: ").append(this.currentPlayerId).append(" ");
+        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(" ");
+        result.append("isActionPhase: ").append(this.isActionPhase).append(" ");
+        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
+        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
+        result.append(playerList.toString());
+        result.append(this.board.toString()).append("\n");
 
-        for (int i = 0; i < this.playerList.size(); i++) {
-            result.append(this.playerList.get(i).toString()).append(" "); // TODO
-            result.append("\n\n");
-        }
-        result.append(this.board.toString());
-
-        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append("\n\n");
-        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n\n");
-
-        str = result.toString();
-        return str;
+        return result.toString();
     } // end CatanGameState toString()
 }
