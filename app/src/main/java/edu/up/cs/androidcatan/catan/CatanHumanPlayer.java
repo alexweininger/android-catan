@@ -22,6 +22,7 @@ import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
+import edu.up.cs.androidcatan.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
 
 /**
@@ -123,6 +124,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
+        } else if (info instanceof IllegalMoveInfo) {
+            Log.i(TAG, "receiveInfo: Illegal move info received.");
+        } else if (!(info instanceof CatanGameState)) {
+            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
+            return;
+        } else {
+            state = (CatanGameState) info;
+            updateTextViews();
         }
     }//receiveInfo
 
@@ -313,7 +322,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     protected void initAfterReady() {
         Log.d(TAG, "initAfterReady() called");
-        updateTextViews();
     }
 
     private void updateTextViews() {
