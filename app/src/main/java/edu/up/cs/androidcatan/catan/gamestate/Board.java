@@ -96,8 +96,8 @@ public class Board {
         generateHexagonTiles();
 
         // logging
-        Log.d("devInfo", "INFO: int to hex map: " + this.intToHexIdMap.toString());
-        Log.d("devInfo", "INFO: hex to int map" + this.hexToIntIdMap.toString());
+        Log.d(TAG, "INFO: int to hex map: " + this.intToHexIdMap.toString());
+        Log.d(TAG, "INFO: hex to int map" + this.hexToIntIdMap.toString());
 
         int desertTileId = 0; // TODO
         robber = new Robber(desertTileId);
@@ -693,9 +693,9 @@ public class Board {
                 int nextIntersection = (col + 1) % size;
                 iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
 
-                Log.d("dev", "skip: " + skipCount);
+                Log.d(TAG, "skip: " + skipCount);
                 if (hasNextLink) {
-                    Log.d("dev", "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
+                    Log.d(TAG, "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
                     if (col + ringIndexDiff == -1) {
                         iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
                     } else {
@@ -1146,7 +1146,7 @@ public class Board {
             }
             str.append("\n");
         }
-        Log.d("dev", "" + str.toString());
+        Log.d(TAG, "" + str.toString());
     } // end printGraph
 
     /**
@@ -1156,11 +1156,11 @@ public class Board {
     public String toString() {
         StringBuilder str = new StringBuilder();
 
-        str.append("Hexagon IDs:\n");
-        str.append(listToString(this.hexagonIdRings));
-        str.append("Intersection IDs:\n");
-        str.append(listToString(this.intersectionIdRings));
-        Log.d("dev", "" + str.toString());
+//        str.append("Hexagon IDs:\n");
+//        str.append(listToString(this.hexagonIdRings));
+//        str.append("Intersection IDs:\n");
+//        str.append(listToString(this.intersectionIdRings));
+        Log.d(TAG, "" + str.toString());
         return str.toString();
     } // end toString()
 
