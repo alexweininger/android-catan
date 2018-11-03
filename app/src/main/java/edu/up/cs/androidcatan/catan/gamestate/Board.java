@@ -348,7 +348,6 @@ public class Board {
                 randomResourceType = random.nextInt(resourceTypeCount.length);
             } while (resourceTypeCount[randomResourceType] < 1);
 
-
             int randomChitValue;
             do {
                 randomChitValue = random.nextInt(chitValuesCount.length);
