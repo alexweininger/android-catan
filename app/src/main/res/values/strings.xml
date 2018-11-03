@@ -34,6 +34,7 @@
     <string name="roll">Roll</string>
     <string name="endTurn">End Turn</string>
 
+    <string name="heading_actions">Actions</string>
     <string name="heading_trade">Trade</string>
     <string name="trade">Trade</string>
 
