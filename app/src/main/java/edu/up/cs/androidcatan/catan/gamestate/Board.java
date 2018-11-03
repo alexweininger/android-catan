@@ -324,23 +324,26 @@ public class Board {
      */
     private void generateHexagonTiles() {
         Log.d(TAG, "generateHexagonTiles() called");
+
         int[] resourceTypeCount = {4, 3, 3, 3, 4};
         int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
         int[] resources = {0, 1, 2, 3, 4};
+
         Random random = new Random();
+
         for (int i = 0; i < 18; i++) {
 
             int randomResourceType;
             do {
                 randomResourceType = random.nextInt(resourceTypeCount.length - 1);
-            } while (resourceTypeCount[randomResourceType] < 1);
+            } while (sumArray(resourceTypeCount) > 0);
 
             Log.i(TAG, "generateHexagonTiles: 1");
 
             int randomChitValue;
             do {
                 randomChitValue = random.nextInt(chitValuesCount.length - 1);
-            } while (chitValuesCount[randomChitValue] < 1);
+            } while (sumArray(chitValuesCount) > 0);
 
             Log.i(TAG, "generateHexagonTiles: 2");
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
