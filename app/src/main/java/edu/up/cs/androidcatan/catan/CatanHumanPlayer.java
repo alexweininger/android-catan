@@ -311,12 +311,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     private void updateTextViews() {
-        this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
-        this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
-        this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
-        this.oreValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
-        this.woolValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
 
+        this.brickValue.setText(((CatanGameState) state).getPlayerList().get(this.playerNum).getResourceCards()[0]);
+        this.grainValue.setText(((CatanGameState) state).getPlayerList().get(this.playerNum).getResourceCards()[1]);
+        this.lumberValue.setText(((CatanGameState) state).getPlayerList().get(this.playerNum).getResourceCards()[2]);
+        this.oreValue.setText(((CatanGameState) state).getPlayerList().get(this.playerNum).getResourceCards()[3]);
+        this.woolValue.setText(((CatanGameState) state).getPlayerList().get(this.playerNum).getResourceCards()[4]);
     }
 
 }// class CatanHumanPlayer
