@@ -125,10 +125,11 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @return - true of false, does the player have all of these resources?
      */
     public boolean checkResourceBundle(int[] resourceCost) {
-        Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + resourceCost + "]");
+        Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + resourceCost.toString() + "]");
+        Log.d(TAG, "checkResourceBundle: players resources: " + this.resourceCards.toString());
         for (Integer id : resourceCost) {
             if (!checkResourceCard(id, resourceCost[id])) {
-                Log.d(TAG, "checkResourceBundle() returned: " + true);
+                Log.d(TAG, "checkResourceBundle() returned: " + false);
                 return false;
             }
         }
