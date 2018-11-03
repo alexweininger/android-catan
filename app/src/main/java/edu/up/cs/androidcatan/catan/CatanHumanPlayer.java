@@ -187,8 +187,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
                             return;
                         } else {
+                            Log.i(TAG, "onClick: invalid intersection input");
                             myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
                         }
                     }
