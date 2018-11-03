@@ -735,9 +735,9 @@ public class Board {
         intToHexIdMap.get(2).add(3);
         intToHexIdMap.get(2).add(4);
 
+        intToHexIdMap.get(3).add(0);
         intToHexIdMap.get(3).add(4);
         intToHexIdMap.get(3).add(5);
-        intToHexIdMap.get(3).add(0);
 
         intToHexIdMap.get(4).add(0);
         intToHexIdMap.get(4).add(5);
