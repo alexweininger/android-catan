@@ -41,7 +41,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* instance variables */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {4, 2, 4, 0, 2}; // array for number of each resource card a player has
+    private int[] resourceCards = {2, 1, 2, 0, 1}; // array for number of each resource card a player has
 
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
@@ -146,6 +146,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public void onClick(View button) {
         //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
+
+        if (state.isSetupPhase()) {
+
+            if (button.getId() == R.id.sidebar_button_road) {
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
+                Log.d(TAG, "onClick: Road");
+                game.sendAction(action);
+                return;
+            }
+            if (button.getId() == R.id.sidebar_button_settlement) {
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
+                Log.d(TAG, "onClick: Settlement");
+                game.sendAction(action);
+                return;
+            }
+        }
+
         if (button.getId() == R.id.sidebar_button_city) {
             CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
             Log.d(TAG, "onClick: City");

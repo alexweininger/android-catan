@@ -41,6 +41,7 @@ public class CatanGameState extends GameState {
     private int currentDiceSum;
     private int currentPlayerId; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
+    private boolean isSetupPhase = true;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
@@ -756,6 +757,14 @@ public class CatanGameState extends GameState {
 
     public void setCurrentLongestRoadPlayerId(int currentLongestRoadPlayerId) {
         this.currentLongestRoadPlayerId = currentLongestRoadPlayerId;
+    }
+
+    public boolean isSetupPhase() {
+        return isSetupPhase;
+    }
+
+    public void setSetupPhase(boolean setupPhase) {
+        isSetupPhase = setupPhase;
     }
 
     /**

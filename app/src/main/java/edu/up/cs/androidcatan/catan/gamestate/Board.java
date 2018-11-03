@@ -173,6 +173,7 @@ public class Board {
         if (this.roadGraph[a][b].getOwnerId() != -1) {
             Log.i(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
             return false;
+
         }
 
         Log.i(TAG, "validRoadPlacement: Valid road placement.");
@@ -219,7 +220,7 @@ public class Board {
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
-            for (int n = 0; n < playerRoads.size(); n++){
+            for (int n = 0; n < playerRoads.size(); n++) {
                 currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList));
             }
             int max = 0;
@@ -235,8 +236,8 @@ public class Board {
         int currLongestRoad = 0;
         //currently gives the longest road trophy to the most recent player checked within the array if
         //it shares the longest road with a prior player
-        for (int n = 0; n < longestRoadPerPlayer.size(); n++){
-            if (longestRoadPerPlayer.get(n) > currLongestRoad){
+        for (int n = 0; n < longestRoadPerPlayer.size(); n++) {
+            if (longestRoadPerPlayer.get(n) > currLongestRoad) {
                 currLongestRoad = longestRoadPerPlayer.get(n);
                 playerIdLongestRoad = n;
             }
@@ -928,27 +929,27 @@ public class Board {
         }
     }
 
-    private void designatePorts(){
+    private void designatePorts() {
         portList.add(new Port(25, 3, 3)); //Ore
         portList.add(new Port(26, 3, 3));
 
         portList.add(new Port(29, 2, 1)); //Grain
-        portList.add(new Port(30, 2,1));
+        portList.add(new Port(30, 2, 1));
 
         portList.add(new Port(32, 3, -1)); //Anything
         portList.add(new Port(33, 3, -1));
 
-        portList.add(new Port(35,2,2)); //Lumber
-        portList.add(new Port(36,2,2));
+        portList.add(new Port(35, 2, 2)); //Lumber
+        portList.add(new Port(36, 2, 2));
 
-        portList.add(new Port(39,2,0)); //Brick
-        portList.add(new Port(40,2,0));
+        portList.add(new Port(39, 2, 0)); //Brick
+        portList.add(new Port(40, 2, 0));
 
         portList.add(new Port(42, 3, -1)); //anything
-        portList.add(new Port(43,3,-1));
+        portList.add(new Port(43, 3, -1));
 
-        portList.add(new Port(45,3,-1)); //anything
-        portList.add(new Port(46,3,-1));
+        portList.add(new Port(45, 3, -1)); //anything
+        portList.add(new Port(46, 3, -1));
 
         portList.add(new Port(52, 3, -1)); //anything
         portList.add(new Port(53, 3, -1));
