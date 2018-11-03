@@ -213,9 +213,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     }
                 });
 
-
-                while (this.state.getBoard().validBuildingLocation(playerId, true, )myActivity.findViewById())
-
                 CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
