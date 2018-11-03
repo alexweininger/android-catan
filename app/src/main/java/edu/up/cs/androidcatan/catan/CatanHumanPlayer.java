@@ -172,12 +172,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(action);
             return;
         }
-        if (button.getId() == R.id.sidebar_button_devcards) {
-            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
-            Log.d(TAG, "onClick: Buy Dev Card");
-            game.sendAction(action);
-            return;
-        }
         if (button.getId() == R.id.sidebar_button_endturn) {
             CatanEndTurnAction action = new CatanEndTurnAction(this);
             Log.d(TAG, "onClick: End Turn");
@@ -211,13 +205,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        //TODO Need functionality for both Port, Custom Port and Bank
-        if(button.getId() == R.id.sidebar_button_trade) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
-            return;
-        }
 
         //GUI Buttons (Opens another menu)
 
@@ -230,6 +217,39 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             else if(scoreGroup.getVisibility() == View.GONE){;
                 scoreGroup.setVisibility(View.VISIBLE);
                 Log.d(TAG, "onClick: Now to visible" + scoreGroup.getVisibility() + "");
+            }
+            else{
+                Log.d(TAG, "onClick: NULL");
+            }
+            return;
+        }
+
+        if(button.getId() == R.id.sidebar_button_devcards){
+            Log.d(TAG, "onClick() called with: button = [" + button + "]");
+            if(devMenu.getVisibility() == View.VISIBLE){
+                Log.d(TAG, "onClick: Now to gone");
+                devMenu.setVisibility(View.GONE);
+            }
+            else if(devMenu.getVisibility() == View.GONE){
+                devMenu.setVisibility(View.VISIBLE);
+                Log.d(TAG, "onClick: Now to visible" + devMenu.getVisibility() + "");
+            }
+            else{
+                Log.d(TAG, "onClick: NULL");
+            }
+            return;
+        }
+
+        //TODO Need functionality for both Port, Custom Port and Bank
+        if(button.getId() == R.id.sidebar_button_trade){
+            Log.d(TAG, "onClick() called with: button = [" + button + "]");
+            if(tradeMenu.getVisibility() == View.VISIBLE){
+                Log.d(TAG, "onClick: Now to gone");
+                tradeMenu.setVisibility(View.GONE);
+            }
+            else if(tradeMenu.getVisibility() == View.GONE){;
+                tradeMenu.setVisibility(View.VISIBLE);
+                Log.d(TAG, "onClick: Now to visible" + tradeMenu.getVisibility() + "");
             }
             else{
                 Log.d(TAG, "onClick: NULL");
