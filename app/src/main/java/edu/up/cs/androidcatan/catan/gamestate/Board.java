@@ -335,6 +335,7 @@ public class Board {
             while (resourceTypeCount[randomResourceType] < 1) {
                 randomResourceType = random.nextInt((max) + 1);
             }
+
             max = chitValuesCount.length - 1;
             int randomChitValue = random.nextInt((max) + 1);
             while (chitValuesCount[randomChitValue] < 1) {
