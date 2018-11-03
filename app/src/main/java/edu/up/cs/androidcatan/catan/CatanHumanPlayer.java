@@ -47,7 +47,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int[] buildingInventory = {15, 5, 4};
 
     // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
-    private int armySize;
+    private int armySize = 0;
 
     // playerId
     private int playerId;
@@ -104,6 +104,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //TODO You will implement this method to receive state objects from the game
         if (info instanceof CatanGameState) {
             // set resource count TextViews to the players resource inventory amounts
+            Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
+
             this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
             this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
             this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
