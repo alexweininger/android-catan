@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.Player;
@@ -1175,20 +1176,20 @@ public class Board {
         Log.d(TAG, "" + str.toString());
     } // end printGraph
 
-    /**
-     * @return String
-     */
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-
-//        str.append("Hexagon IDs:\n");
-//        str.append(listToString(this.hexagonIdRings));
-//        str.append("Intersection IDs:\n");
-//        str.append(listToString(this.intersectionIdRings));
-        Log.d(TAG, "" + str.toString());
-        return str.toString();
-    } // end toString()
+//    /**
+//     * @return String
+//     */
+//    @Override
+//    public String toString() {
+//        StringBuilder str = new StringBuilder();
+//
+////        str.append("Hexagon IDs:\n");
+////        str.append(listToString(this.hexagonIdRings));
+////        str.append("Intersection IDs:\n");
+////        str.append(listToString(this.intersectionIdRings));
+//        Log.d(TAG, "" + str.toString());
+//        return str.toString();
+//    } // end toString()
 
     /**
      * @param list - list to convert
@@ -1205,4 +1206,26 @@ public class Board {
         }
         return str.toString();
     } // end listToString method
+
+    /**
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return "Board{" +
+                "robber=" + robber +
+                ", hexagonIdRings=" + hexagonIdRings +
+                ", intersectionIdRings=" + intersectionIdRings +
+                ", hGraph=" + Arrays.toString(hGraph) +
+                ", iGraph=" + Arrays.toString(iGraph) +
+                ", hexToIntIdMap=" + hexToIntIdMap +
+                ", intToHexIdMap=" + intToHexIdMap +
+                ", buildings=" + Arrays.toString(buildings) +
+                ", roads=" + roads +
+                ", roadGraph=" + Arrays.toString(roadGraph) +
+                ", hexagons=" + hexagons +
+                ", portIntersectionLocations=" + portIntersectionLocations +
+                ", portList=" + portList +
+                '}';
+    }
 } // end Class
