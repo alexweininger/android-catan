@@ -39,10 +39,6 @@ public class Robber {
     // toString
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
-        sb.append(" The robber is currently at: ");
-        sb.append(hexagonId);
-
-        return sb.toString();
+        return " The robber is at " + this.hexagonId;
     } // end robber toString
 }
