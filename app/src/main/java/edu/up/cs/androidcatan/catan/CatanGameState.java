@@ -774,8 +774,7 @@ public class CatanGameState extends GameState {
         result.append("\n");
 
         for (int i = 0; i < this.playerList.size(); i++) {
-            result.append(this.playerList.get(i).toString()).append(" "); // TODO
-            result.append("\n\n");
+            result.append(this.playerList.get(i).toString()).append(" \n");
         }
         result.append(this.board.toString());
 
