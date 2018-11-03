@@ -19,6 +19,7 @@ import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
+import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
 
 /**
  * @author Alex Weininger
@@ -113,6 +114,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.oreValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
                 this.woolValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
             }
+        } else if (info instanceof NotYourTurnInfo) {
+            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
         }
     }//receiveInfo
 
