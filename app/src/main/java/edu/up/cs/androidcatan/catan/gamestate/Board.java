@@ -123,6 +123,7 @@ public class Board {
         this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
+        this.setPortList(b.getPortList());
     } // end Board deep copy constructor
 
     /* ----- helper / checking methods ----- */
