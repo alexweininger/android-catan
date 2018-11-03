@@ -13,6 +13,7 @@ import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
@@ -143,13 +144,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
         if (button.getId() == R.id.sidebar_button_settlement) {
             CatanBuildSettlementAction action = new CatanBuildSettlementAction(this);
-            Log.d(TAG, "onClick: Roll");
+            Log.d(TAG, "onClick: Settlement");
             game.sendAction(action);
             return;
         }
-        if (button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction action = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
+        if (button.getId() == R.id.sidebar_button_devcards) {
+            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
+            Log.d(TAG, "onClick: Buy Dev Card");
             game.sendAction(action);
             return;
         }
@@ -159,7 +160,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(action);
             return;
         }
-//        if(button.getId() == R.id.sidebar_button_roll) {
+        //TODO Placeholder for Robber actions until they're implemented
+//        if(button.getId() == R.id.) {
 //            CatanRollDiceAction a = new CatanRollDiceAction(this);
 //            Log.d(TAG, "onClick: Roll");
 //            game.sendAction(a);
@@ -177,18 +179,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //            game.sendAction(a);
 //            return;
 //        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
+        if(button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
+
+        //TODO Need functionality for both Port, Custom Port and Bank
+        if(button.getId() == R.id.sidebar_button_trade) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
 
     }// onClick
 

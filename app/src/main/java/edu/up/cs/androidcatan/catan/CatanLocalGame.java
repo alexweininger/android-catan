@@ -62,36 +62,51 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+            //return gameState.buildRoad();
+            return true;
         }
 
         if (action instanceof CatanBuildSettlementAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.buildSettlement();
+            return true;
         }
 
         if (action instanceof CatanBuildCityAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.buildCity();
+            return true;
         }
 
 
         if (action instanceof CatanBuyDevCardAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.buyDevCard();
+            return true;
         }
 
         if (action instanceof CatanUseDevCardAcation) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.useDevCard();
+            return true;
         }
 
         if (action instanceof CatanRobberMoveAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.robberMove();
+            return true;
         }
 
         if (action instanceof CatanRobberStealAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.robberSteal();
+            return true;
         }
 
         if (action instanceof CatanRobberDiscardAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.robberDiscard();
+            return true;
         }
 
         // TODO what is this?
@@ -100,15 +115,21 @@ public class CatanLocalGame extends LocalGame {
         }
 
         if (action instanceof CatanTradeAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.trade();
+            return true;
         }
 
         if (action instanceof CatanTradeWithBankAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.tradeBank();
+            return true;
         }
 
         if (action instanceof CatanTradeWithPortAction) {
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.tradePort();
+            return true;
         }
 
         return false;
