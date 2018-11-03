@@ -1,6 +1,8 @@
 package edu.up.cs.androidcatan.catan;
 
 
+import android.graphics.Canvas;
+import android.support.constraint.Group;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,9 +18,11 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
+import edu.up.cs.androidcatan.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
 
 /**
@@ -36,7 +40,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* instance variables */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
+    private int[] resourceCards = {4, 2, 4, 0, 2}; // array for number of each resource card a player has
 
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
@@ -68,15 +72,25 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradePort = null;
     private Button useDevCard = null;
 
-    private TextView oreValue = null;
-    private TextView grainValue = null;
-    private TextView lumberValue = null;
-    private TextView woolValue = null;
-    private TextView brickValue = null;
+    // resource count text views
+    private TextView oreValue = (TextView) null;
+    private TextView grainValue = (TextView) null;
+    private TextView lumberValue = (TextView) null;
+    private TextView woolValue = (TextView) null;
+    private TextView brickValue = (TextView) null;
+
+    // scoreboard text views
+    private TextView player0Score = (TextView) null;
+    private TextView player1Score = (TextView) null;
+    private TextView player2Score = (TextView) null;
+    private TextView player3Score = (TextView) null;
 
 
     // the android activity that we are running
     private GameMainActivity myActivity;
+
+    // game state
+    CatanGameState state = null;
 
     /**
      * constructor does nothing extra
@@ -107,15 +121,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-            if (this.brickValue != null) {
-                this.brickValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
-                this.grainValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
-                this.lumberValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
-                this.oreValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
-                this.woolValue.setText("" + ((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
-            }
+
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
+        } else if (info instanceof IllegalMoveInfo) {
+            Log.i(TAG, "receiveInfo: Illegal move info received.");
+        } else if (!(info instanceof CatanGameState)) {
+            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
+            return;
+        } else {
+            state = (CatanGameState) info;
+            updateTextViews();
         }
     }//receiveInfo
 
@@ -136,7 +152,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
         if (button.getId() == R.id.sidebar_button_road) {
-            CatanBuildRoadAction action = new CatanBuildRoadAction(this);
+            CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
             Log.d(TAG, "onClick: Road");
             game.sendAction(action);
             return;
@@ -156,39 +172,40 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_endturn) {
             CatanEndTurnAction action = new CatanEndTurnAction(this);
             Log.d(TAG, "onClick: End Turn");
+
             game.sendAction(action);
             return;
         }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
 
     }// onClick
 
@@ -237,16 +254,83 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // resource value text
         this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
-        this.grainValue = (TextView)  activity.findViewById(R.id.grainAmount);
+        this.grainValue = (TextView) activity.findViewById(R.id.grainAmount);
         this.lumberValue = (TextView) activity.findViewById(R.id.lumberAmount);
         this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
         this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
+
+        boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+
+        Canvas canvas = new Canvas(); // create Canvas object
+
+        board.createHexagons();        // draw the board of hexagons and ports on the canvas
+
+        board.draw(canvas); // draw
+
+        // button listeners TODO move to separate class?
+        Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
+        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
+        scoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (scoreBoardGroup.getVisibility() == View.GONE) {
+                    scoreBoardGroup.setVisibility(View.VISIBLE);
+                } else {
+                    scoreBoardGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
+        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
+        developmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (developmentGroup.getVisibility() == View.GONE) {
+                    developmentGroup.setVisibility(View.VISIBLE);
+                } else {
+                    developmentGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // build menu layout group
+        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
+
+        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
+
+        roadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (buildMenuGroup.getVisibility() == View.GONE) {
+                    buildMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    buildMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        // if we have state update the GUI based on the state
+
+        if (this.state != null) {
+            receiveInfo(state);
+        }
 
 
     }//setAsGui
 
     protected void initAfterReady() {
         Log.d(TAG, "initAfterReady() called");
+    }
+
+    private void updateTextViews() {
+
+        this.brickValue.setText(this.resourceCards[0]);
+        this.grainValue.setText(this.resourceCards[1]);
+        this.lumberValue.setText(this.resourceCards[2]);
+        this.oreValue.setText(this.resourceCards[3]);
+        this.woolValue.setText(this.resourceCards[4]);
     }
 
 }// class CatanHumanPlayer

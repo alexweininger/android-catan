@@ -97,8 +97,8 @@ public class Board {
         generateHexagonTiles();
 
         // logging
-        Log.d(TAG, "INFO: int to hex map: " + this.intToHexIdMap.toString());
-        Log.d(TAG, "INFO: hex to int map" + this.hexToIntIdMap.toString());
+        Log.i(TAG, "int to hex map: " + this.intToHexIdMap.toString());
+        Log.i(TAG, "hex to int map" + this.hexToIntIdMap.toString());
 
         int desertTileId = 0; // TODO
         robber = new Robber(desertTileId);
@@ -152,24 +152,29 @@ public class Board {
     public boolean validRoadPlacement(int playerId, int a, int b) {
         // check if intersections are adjacent
         if (!iGraph[a][b]) {
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
             return false;
         }
 
         // check if road is connected to players roads / buildings at either intersection
         if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersection(s) are not connected to players buildings or roads.");
             return false;
         }
 
         // check if 3 roads at either intersection
         if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
             return false;
         }
 
         // check if road is already built
         if (this.roadGraph[a][b].getOwnerId() != -1) {
+            Log.i(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
             return false;
         }
 
+        Log.i(TAG, "validRoadPlacement: Valid road placement.");
         return true;
     }
 
@@ -200,6 +205,7 @@ public class Board {
 
     //returns the playerid with the longest road for now (may need to change so that it returns the value instead)
     public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
+        Log.d(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
             //for each player there is an adjacency map as well as a list
@@ -234,6 +240,7 @@ public class Board {
                 playerIdLongestRoad = n;
             }
         }
+        Log.d(TAG, "getPlayerWithLongestRoad() returned: " + currLongestRoad);
         return playerIdLongestRoad;
     }
 
@@ -278,10 +285,11 @@ public class Board {
      * @return - is the building location valid
      */
     public boolean validBuildingLocation(int playerId, int intersectionId) {
+        Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         /* checks:
          * 1. if connected
          * 2. if occupied by building
-         * 3. distance rule
+         * 3. distance rule TODO
          */
 
         // check if the intersection is connected to players' roads/buildings
@@ -303,7 +311,7 @@ public class Board {
                 return false;
             }
         }
-
+        Log.d(TAG, "validBuildingLocation() returned: " + true);
         return true;
     }
 
@@ -324,7 +332,6 @@ public class Board {
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
      */
     private void generateHexagonTiles() {
-
         Log.i(TAG, "generateHexagonTiles() called");
 
         int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
@@ -362,15 +369,6 @@ public class Board {
         for (Hexagon hexagon : this.hexagons) {
             Log.i(TAG, "| " + hexagon);
         }
-
-    }
-
-    public int sumArray(int[] arr) {
-        int sum = 0;
-        for (int i : arr) {
-            sum += arr[i];
-        }
-        return sum;
     }
 
     /**
@@ -392,6 +390,7 @@ public class Board {
         } else {
             result.add(this.buildings[intersectionId].getOwnerId());
         }
+        Log.d(TAG, "getIntersectionOwners() returned: " + result);
         return result;
     }
 
@@ -408,6 +407,7 @@ public class Board {
                 result.add(r);
             }
         }
+        Log.d(TAG, "getRoadsAtIntersection() returned: " + result);
         return result;
     }
 
@@ -444,6 +444,7 @@ public class Board {
         if (hexagonIdList.size() > 2) { // error checking
             Log.e(TAG, "getHexagonsFromChitValue: returning a list with more than 2 hexagons with chit values of: " + chitValue);
         }
+        Log.d(TAG, "getHexagonsFromChitValue() returned: " + hexagonIdList);
         return hexagonIdList;
     }
 
@@ -452,6 +453,7 @@ public class Board {
      * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
      */
     public boolean moveRobber(int hexagonId) {
+        Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
         if (hexagonId == this.robber.getHexagonId()) return false;
 
@@ -468,6 +470,7 @@ public class Board {
      * @param building - building object
      */
     public boolean addBuilding(int intersectionId, Building building) {
+        Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
         if (this.buildings[intersectionId] != null) {
             Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
             return false;
@@ -498,7 +501,7 @@ public class Board {
         if (adjacentIntersections.size() > 3) {
             Log.e(TAG, "getAdjacentIntersectionsToIntersection: Received more than 3 adjacent intersections. That makes no sense.");
         }
-        Log.i(TAG, "getAdjacentIntersectionsToIntersection: Found " + adjacentIntersections.toString() + " as adjacent to " + intersectionId);
+        Log.d(TAG, "getAdjacentIntersectionsToIntersection() returned: " + adjacentIntersections);
         return adjacentIntersections;
     }
 
@@ -509,6 +512,7 @@ public class Board {
      * @return ArrayList<Integer> - list of adj. hex id's
      */
     public ArrayList<Integer> getAdjacentHexagons(int hexagonId) {
+        Log.d(TAG, "getAdjacentHexagons() called with: hexagonId = [" + hexagonId + "]");
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
         for (int i = 0; i < 19; i++) {
             if (adjacentHexagons.size() > 6) {
@@ -519,35 +523,8 @@ public class Board {
                 adjacentHexagons.add(i);
             }
         }
+        Log.d(TAG, "getAdjacentHexagons() returned: " + adjacentHexagons);
         return adjacentHexagons;
-    }
-
-    /**
-     * @param intId1 - intersection id
-     * @param intId2 - intersection id
-     * @return - boolean adjacency
-     */
-    public boolean intersectionAdjCheck(int intId1, int intId2) {
-        return (iGraph[intId1][intId2] || iGraph[intId2][intId1]);
-    }
-
-    /**
-     * @param hexId1 -
-     * @param hexId2 -
-     * @return - boolean
-     */
-    public boolean checkHexagonAdjacency(int hexId1, int hexId2) {
-        return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
-    }
-
-    /**
-     * TODO ports
-     *
-     * @param intersectionId - intersection to check for port adjacency
-     * @return - if the given intersection is adjacent to a port AW
-     */
-    public boolean checkPortAdjacency(int intersectionId) {
-        return portIntersectionLocations.contains(intersectionId);
     }
 
     /**
@@ -1176,21 +1153,6 @@ public class Board {
         Log.d(TAG, "" + str.toString());
     } // end printGraph
 
-//    /**
-//     * @return String
-//     */
-//    @Override
-//    public String toString() {
-//        StringBuilder str = new StringBuilder();
-//
-////        str.append("Hexagon IDs:\n");
-////        str.append(listToString(this.hexagonIdRings));
-////        str.append("Intersection IDs:\n");
-////        str.append(listToString(this.intersectionIdRings));
-//        Log.d(TAG, "" + str.toString());
-//        return str.toString();
-//    } // end toString()
-
     /**
      * @param list - list to convert
      * @return - String
@@ -1212,20 +1174,12 @@ public class Board {
      */
     @Override
     public String toString() {
-        return "Board{" +
+        return "Board Class toString() " +
                 "robber=" + robber +
-                ", hexagonIdRings=" + hexagonIdRings +
-                ", intersectionIdRings=" + intersectionIdRings +
-                ", hGraph=" + Arrays.toString(hGraph) +
-                ", iGraph=" + Arrays.toString(iGraph) +
-                ", hexToIntIdMap=" + hexToIntIdMap +
-                ", intToHexIdMap=" + intToHexIdMap +
-                ", buildings=" + Arrays.toString(buildings) +
-                ", roads=" + roads +
-                ", roadGraph=" + Arrays.toString(roadGraph) +
-                ", hexagons=" + hexagons +
-                ", portIntersectionLocations=" + portIntersectionLocations +
-                ", portList=" + portList +
-                '}';
+                "\nbuildings=" + Arrays.toString(buildings) +
+                "\nroads=" + roads +
+                "\nhexagons=" + hexagons +
+                "\nportIntersectionLocations=" + portIntersectionLocations +
+                "\nportList=" + portList;
     }
 } // end Class
