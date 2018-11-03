@@ -5,9 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
-import edu.up.cs.androidcatan.catan.Player;
 
 /**
  * @author Alex Weininger
@@ -323,27 +323,53 @@ public class Board {
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
      */
     private void generateHexagonTiles() {
-        int[] resourceTypeCount = {4, 3, 3, 3, 4};
-        int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-        int[] resources = {0, 1, 2, 3, 4};
-        for (int i = 0; i < 18; i++) {
-            int max = resourceTypeCount.length - 1;
-            Random random = new Random();
-            int randomResourceType = random.nextInt((max) + 1);
-            while (resourceTypeCount[randomResourceType] < 0) {
-                randomResourceType = random.nextInt((max) + 1);
-            }
-            max = chitValuesCount.length - 1;
-            int randomChitValue = random.nextInt((max) + 1);
-            while (chitValuesCount[randomChitValue] < 0) {
-                randomChitValue = random.nextInt((max) + 1);
-            }
 
+        Log.i(TAG, "generateHexagonTiles() called");
+
+        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
+        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
+        int[] resources = {0, 1, 2, 3, 4, 5};
+
+        Random random = new Random();
+
+        while (this.hexagons.size() < 18) {
+
+            int randomResourceType;
+            do {
+                randomResourceType = random.nextInt(resourceTypeCount.length - 1);
+            } while (resourceTypeCount[randomResourceType] < 1);
+
+            Log.i(TAG, "generateHexagonTiles: 1");
+
+            int randomChitValue;
+            do {
+                randomChitValue = random.nextInt(chitValuesCount.length - 1);
+            } while (chitValuesCount[randomChitValue] < 1);
+
+            Log.i(TAG, "generateHexagonTiles: 2");
 
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
+            chitValuesCount[randomChitValue]--;
+
+            Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
         }
-        Log.i(TAG, "generateHexagonTiles: " + this.hexagons);
+
+        Log.i(TAG, "generateHexagonTiles: exited loop");
+
+        Log.i(TAG, "generateHexagonTiles: hexagon list:");
+        for (Hexagon hexagon : this.hexagons) {
+            Log.i(TAG, "| " + hexagon);
+        }
+
+    }
+
+    public int sumArray(int[] arr) {
+        int sum = 0;
+        for (int i : arr) {
+            sum += arr[i];
+        }
+        return sum;
     }
 
     /**
