@@ -241,12 +241,14 @@ public class CatanGameState extends GameState {
         }
     }*/
 
-    //TODO: ANDREW'S DONT FUCKING TOUCH @DANIEL; I TOUCHED THIS BECAUSE IT HAD A BUG - AW
+    //TODO: Finish
     private void updateVictoryPoints() {
         Log.d(TAG, "updateVictoryPoints() called");
         //calculates the longest road for the players and checks if it is the current player
         if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
             currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
+            //assigns the player with the longest road an extra 2 victory points
+            playerVictoryPoints[currentLongestRoadPlayerId] += 2;
         }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
@@ -669,6 +671,37 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
     }
+
+
+
+    /**
+     * goes through each building and road to check how many are owned by the player
+     * when they have 2 roads and 2 buildings, setupPhase is false.
+     * @return if the game is still in the setup phase
+     */
+    public boolean setupPhase(){
+        int roadCount = 0;
+        int buildingCount = 0;
+        for (int n = 0; n < playerList.size(); n++){
+            for (Building building : board.getBuildings()) {
+                if (building.getOwnerId() == n){
+                    buildingCount++;
+                }
+            }
+            for (Road road : board.getRoads()){
+                if (road.getOwnerId() == n){
+                    roadCount++;
+                }
+            }
+
+            if (buildingCount < 2 || roadCount < 2){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public Dice getDice() {
         return dice;
