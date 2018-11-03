@@ -71,15 +71,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradePort = null;
     private Button useDevCard = null;
 
-    private TextView oreValue = null;
-    private TextView grainValue = null;
-    private TextView lumberValue = null;
-    private TextView woolValue = null;
-    private TextView brickValue = null;
+    private TextView oreValue = (TextView) null;
+    private TextView grainValue = (TextView) null;
+    private TextView lumberValue = (TextView) null;
+    private TextView woolValue = (TextView) null;
+    private TextView brickValue = (TextView) null;
 
 
     // the android activity that we are running
     private GameMainActivity myActivity;
+
+    // game state
+    CatanGameState state = null;
 
     /**
      * constructor does nothing extra
@@ -111,11 +114,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
 
-                this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
-                this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
-                this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
-                this.oreValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
-                this.woolValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
@@ -298,11 +296,27 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         });
 
 
+        // if we have state update the GUI based on the state
+
+        if(this.state != null) {
+            receiveInfo(state);
+        }
+
 
     }//setAsGui
 
     protected void initAfterReady() {
         Log.d(TAG, "initAfterReady() called");
+
+    }
+
+    private void updateTextViews() {
+        this.brickValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[0]);
+        this.grainValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[1]);
+        this.lumberValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[2]);
+        this.oreValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[3]);
+        this.woolValue.setText(((CatanGameState) info).getPlayerList().get(this.playerNum).getResourceCards()[4]);
+
     }
 
 }// class CatanHumanPlayer
