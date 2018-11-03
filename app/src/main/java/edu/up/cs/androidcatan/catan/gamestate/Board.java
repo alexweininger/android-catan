@@ -343,6 +343,7 @@ public class Board {
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
         }
+        Log.i(TAG, "generateHexagonTiles: " + this.hexagons);
     }
 
     /**
@@ -350,6 +351,7 @@ public class Board {
      * @return - ArrayList of playerIds who either own a road that is connected to intersection, or have a building that is on this intersection
      */
     public ArrayList<Integer> getIntersectionOwners(int intersectionId) {
+        Log.d(TAG, "getIntersectionOwners() called with: intersectionId = [" + intersectionId + "]");
         ArrayList<Integer> result = new ArrayList<Integer>();
 
         if (!this.hasBuilding(intersectionId)) {
@@ -371,6 +373,7 @@ public class Board {
      * @return ArrayList of roads connected to that intersection
      */
     public ArrayList<Road> getRoadsAtIntersection(int i) {
+        Log.d(TAG, "getRoadsAtIntersection() called with: i = [" + i + "]");
         ArrayList<Road> result = new ArrayList<>();
 
         for (Road r : this.roads) {
@@ -398,6 +401,7 @@ public class Board {
      * @return list of hexagons with chitValue AND DO NOT HAVE ROBBER - AW
      */
     public ArrayList<Integer> getHexagonsFromChitValue(int chitValue) {
+        Log.d(TAG, "getHexagonsFromChitValue() called with: chitValue = [" + chitValue + "]");
         ArrayList<Integer> hexagonIdList = new ArrayList<>();
         for (int i = 0; i < this.hexagons.size(); i++) {
             // check for chit value
