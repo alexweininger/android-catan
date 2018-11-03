@@ -319,19 +319,16 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         return randomResourceId;
     }
 
-
     /**
      * @return string representation of a Player
      */
     @Override
     public String toString() {
-        return "Player{" +
-                "resourceCards=" + this.printResourceCards() +
-                ", developmentCards=" + this.developmentCards +
-                ", buildingInventory=" + Arrays.toString(this.buildingInventory) +
-                ", armySize=" + this.armySize +
-                ", playerId=" + this.playerId +
-                '}';
+        return "\nPlayer " + this.playerId + ": " +
+                "\nresourceCards=" + this.printResourceCards() +
+                "\ndevelopmentCards=" + this.developmentCards +
+                "\nbuildingInventory=" + Arrays.toString(this.buildingInventory) +
+                ", armySize=" + this.armySize;
     }
 }
 

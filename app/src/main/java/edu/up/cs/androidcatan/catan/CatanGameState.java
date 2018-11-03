@@ -760,29 +760,16 @@ public class CatanGameState extends GameState {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        String str = "";
 
         result.append("CatanGameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append(this.currentPlayerId);
-        result.append("\n");
-        result.append("Current Dice Sum: ");
-        result.append(this.currentDiceSum);
-        result.append("\n");
-        result.append("isActionPhase: ");
-        result.append(this.isActionPhase);
-        result.append("\n");
-
-        for (int i = 0; i < this.playerList.size(); i++) {
-            result.append(this.playerList.get(i).toString()).append(" "); // TODO
-            result.append("\n\n");
-        }
+        result.append("Current Player: ").append(this.currentPlayerId).append(" ");
+        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(" ");
+        result.append("isActionPhase: ").append(this.isActionPhase).append(" ");
+        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
+        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
+        result.append(playerList.toString());
         result.append(this.board.toString());
 
-        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append("\n\n");
-        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n\n");
-
-        str = result.toString();
-        return str;
+        return result.toString();
     } // end CatanGameState toString()
 }
