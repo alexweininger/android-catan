@@ -100,7 +100,7 @@ public class Board {
 //        Log.i(TAG, "int to hex map: " + this.intToHexIdMap.toString());
 //        Log.i(TAG, "hex to int map" + this.hexToIntIdMap.toString());
 
-        int desertTileId = 0; // TODO
+        int desertTileId = 0; // TODO put robber on desert tile
         robber = new Robber(desertTileId);
 
         designatePorts();
