@@ -174,7 +174,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 game.sendAction(action);
                 return;
             } else {
-
+                // todo
             }
         } else {
             // if it is not the setup phase
@@ -191,6 +191,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
             if (button.getId() == R.id.sidebar_button_settlement) {
+
+                myActivity.findViewById(R.id.brickAmount).setVisibility(View.VISIBLE); // todo
+                int intersectionIdInput = myActivity.findViewById(R.id.intersection)
+
+                while (this.state.getBoard().validBuildingLocation(playerId, true, )myActivity.findViewById())
+
                 CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
