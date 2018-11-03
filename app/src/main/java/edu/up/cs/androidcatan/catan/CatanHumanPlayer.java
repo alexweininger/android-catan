@@ -316,6 +316,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
 
+        //Ok and cancel listeners
+        okButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
+
         //GUI change listeners
         showScore.setOnClickListener(this);
 
