@@ -28,7 +28,7 @@ public class CatanGameState extends GameState {
     private static final String TAG = "CatanGameState";
 
     private Dice dice; // dice object
-    private Board board = new Board(); // board object
+    private Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
 
@@ -41,12 +41,14 @@ public class CatanGameState extends GameState {
     private int currentDiceSum;
     private int currentPlayerId; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
+    private boolean isSetupPhase = true;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
 
     CatanGameState() { // CatanGameState constructor
         this.dice = new Dice();
+        this.board = new Board();
         generateDevCardDeck();
 
         this.currentPlayerId = 0;
@@ -78,6 +80,7 @@ public class CatanGameState extends GameState {
         this.currentPlayerId = cgs.currentPlayerId;
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
+        this.isSetupPhase = cgs.isSetupPhase;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
@@ -496,7 +499,7 @@ public class CatanGameState extends GameState {
         }
 
         // check if the selected building location is valid
-        if (!this.board.validBuildingLocation(playerId, intersectionId)) {
+        if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
             return false;
         }
 
@@ -789,6 +792,14 @@ public class CatanGameState extends GameState {
 
     public void setCurrentLongestRoadPlayerId(int currentLongestRoadPlayerId) {
         this.currentLongestRoadPlayerId = currentLongestRoadPlayerId;
+    }
+
+    public boolean isSetupPhase() {
+        return this.isSetupPhase;
+    }
+
+    public void setSetupPhase(boolean setupPhase) {
+        this.isSetupPhase = setupPhase;
     }
 
     /**

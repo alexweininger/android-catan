@@ -73,6 +73,7 @@ public class Board {
     private ArrayList<Port> portList = new ArrayList<>();
 
     public Board() {
+        Log.d(TAG, "Board() called");
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();
@@ -173,6 +174,7 @@ public class Board {
         if (this.roadGraph[a][b].getOwnerId() != -1) {
             Log.i(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
             return false;
+
         }
 
         Log.i(TAG, "validRoadPlacement: Valid road placement.");
@@ -219,7 +221,7 @@ public class Board {
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
-            for (int n = 0; n < playerRoads.size(); n++){
+            for (int n = 0; n < playerRoads.size(); n++) {
                 currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList));
             }
             int max = 0;
@@ -235,8 +237,8 @@ public class Board {
         int currLongestRoad = 0;
         //currently gives the longest road trophy to the most recent player checked within the array if
         //it shares the longest road with a prior player
-        for (int n = 0; n < longestRoadPerPlayer.size(); n++){
-            if (longestRoadPerPlayer.get(n) > currLongestRoad){
+        for (int n = 0; n < longestRoadPerPlayer.size(); n++) {
+            if (longestRoadPerPlayer.get(n) > currLongestRoad) {
                 currLongestRoad = longestRoadPerPlayer.get(n);
                 playerIdLongestRoad = n;
             }
@@ -285,19 +287,23 @@ public class Board {
      * @param intersectionId - intersection of building
      * @return - is the building location valid
      */
-    public boolean validBuildingLocation(int playerId, int intersectionId) {
-        Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
+    public boolean validBuildingLocation(int playerId, boolean isSetupPhase, int intersectionId) {
+        Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
+
+        if (!isSetupPhase) {
+            // it is not the setup phase of the game
+            // check if the intersection is connected to players' roads/buildings
+            if (!isConnected(playerId, intersectionId)) {
+                Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " is not connected.");
+                return false;
+            }
+        }
+
         /* checks:
          * 1. if connected
          * 2. if occupied by building
          * 3. distance rule TODO
          */
-
-        // check if the intersection is connected to players' roads/buildings
-        if (!isConnected(playerId, intersectionId)) {
-            Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " is not connected.");
-            return false;
-        }
 
         // check if intersection already has a building on it
         if (this.buildings[intersectionId] != null) {
@@ -311,6 +317,7 @@ public class Board {
                 Log.i(TAG, "validBuildingLocation: invalid - building at intersection " + intersectionId + " violates the distance rule (" + intersection + " is adj. and has a building).");
                 return false;
             }
+
         }
         Log.d(TAG, "validBuildingLocation() returned: " + true);
         return true;
@@ -335,8 +342,8 @@ public class Board {
     private void generateHexagonTiles() {
         Log.i(TAG, "generateHexagonTiles() called");
 
-        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
-        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
+        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1}; // should add to 19
+        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1}; // should add to 19
         int[] resources = {0, 1, 2, 3, 4, 5};
 
         Random random = new Random();
@@ -345,17 +352,17 @@ public class Board {
 
             int randomResourceType;
             do {
-                randomResourceType = random.nextInt(resourceTypeCount.length - 1);
+                randomResourceType = random.nextInt(resourceTypeCount.length);
             } while (resourceTypeCount[randomResourceType] < 1);
-
-            Log.i(TAG, "generateHexagonTiles: 1");
 
             int randomChitValue;
             do {
-                randomChitValue = random.nextInt(chitValuesCount.length - 1);
+                randomChitValue = random.nextInt(chitValuesCount.length);
             } while (chitValuesCount[randomChitValue] < 1);
 
-            Log.i(TAG, "generateHexagonTiles: 2");
+            if (randomResourceType == 5) {
+                randomChitValue = 0;
+            }
 
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
             resourceTypeCount[randomResourceType]--;
@@ -698,9 +705,9 @@ public class Board {
                 int nextIntersection = (col + 1) % size;
                 iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
 
-                Log.d(TAG, "skip: " + skipCount);
+                //Log.d(TAG, "skip: " + skipCount);
                 if (hasNextLink) {
-                    Log.d(TAG, "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
+                    //hLog.d(TAG, "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
                     if (col + ringIndexDiff == -1) {
                         iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
                     } else {
@@ -928,27 +935,27 @@ public class Board {
         }
     }
 
-    private void designatePorts(){
+    private void designatePorts() {
         portList.add(new Port(25, 3, 3)); //Ore
         portList.add(new Port(26, 3, 3));
 
         portList.add(new Port(29, 2, 1)); //Grain
-        portList.add(new Port(30, 2,1));
+        portList.add(new Port(30, 2, 1));
 
         portList.add(new Port(32, 3, -1)); //Anything
         portList.add(new Port(33, 3, -1));
 
-        portList.add(new Port(35,2,2)); //Lumber
-        portList.add(new Port(36,2,2));
+        portList.add(new Port(35, 2, 2)); //Lumber
+        portList.add(new Port(36, 2, 2));
 
-        portList.add(new Port(39,2,0)); //Brick
-        portList.add(new Port(40,2,0));
+        portList.add(new Port(39, 2, 0)); //Brick
+        portList.add(new Port(40, 2, 0));
 
         portList.add(new Port(42, 3, -1)); //anything
-        portList.add(new Port(43,3,-1));
+        portList.add(new Port(43, 3, -1));
 
-        portList.add(new Port(45,3,-1)); //anything
-        portList.add(new Port(46,3,-1));
+        portList.add(new Port(45, 3, -1)); //anything
+        portList.add(new Port(46, 3, -1));
 
         portList.add(new Port(52, 3, -1)); //anything
         portList.add(new Port(53, 3, -1));
@@ -983,7 +990,7 @@ public class Board {
     /**
      * @return Intersection adjacency graph.
      */
-    private boolean[][] getIGraph() {
+    public boolean[][] getIGraph() {
         return iGraph;
     }
 
@@ -1004,21 +1011,21 @@ public class Board {
     /**
      * @return Array List of Road objects.
      */
-    private ArrayList<Road> getRoads() {
+    public ArrayList<Road> getRoads() {
         return this.roads;
     }
 
     /**
      * @return Array List of hexagons.
      */
-    private ArrayList<Hexagon> getHexagons() {
+    public ArrayList<Hexagon> getHexagons() {
         return this.hexagons;
     }
 
     /**
      * @return Robber object.
      */
-    private Robber getRobber() {
+    public Robber getRobber() {
         return this.robber;
     }
 
