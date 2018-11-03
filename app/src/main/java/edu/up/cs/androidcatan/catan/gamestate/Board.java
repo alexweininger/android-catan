@@ -512,6 +512,7 @@ public class Board {
      * @return ArrayList<Integer> - list of adj. hex id's
      */
     public ArrayList<Integer> getAdjacentHexagons(int hexagonId) {
+        Log.d(TAG, "getAdjacentHexagons() called with: hexagonId = [" + hexagonId + "]");
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
         for (int i = 0; i < 19; i++) {
             if (adjacentHexagons.size() > 6) {
@@ -522,6 +523,7 @@ public class Board {
                 adjacentHexagons.add(i);
             }
         }
+        Log.d(TAG, "getAdjacentHexagons() returned: " + adjacentHexagons);
         return adjacentHexagons;
     }
 
