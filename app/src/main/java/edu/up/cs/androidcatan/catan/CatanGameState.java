@@ -763,18 +763,13 @@ public class CatanGameState extends GameState {
 
         result.append("CatanGameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append("\n");
-        result.append("Current Dice Sum: ");
-        result.append(this.currentDiceSum);
-        result.append("\n");
-        result.append("isActionPhase: ");
-        result.append(this.isActionPhase);
-        result.append("\n");
+        result.append("Current Dice Sum: ").append(this.currentDiceSum).append("\n");
+        result.append("isActionPhase: ").append(this.isActionPhase).append("\n");
+        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
+        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
         result.append(playerList.toString());
         result.append(this.board.toString());
 
-        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append("\n\n");
-        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n\n");
 
         return result.toString();
     } // end CatanGameState toString()
