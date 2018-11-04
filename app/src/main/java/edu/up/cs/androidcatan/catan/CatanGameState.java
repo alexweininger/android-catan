@@ -705,18 +705,20 @@ public class CatanGameState extends GameState {
         int buildingCount = 0;
         for (int n = 0; n < playerList.size(); n++){
             for (Building building : board.getBuildings()) {
-                if (building.getOwnerId() == n){
-                    buildingCount++;
+                if (building != null) {
+                    if (building.getOwnerId() == n) {
+                        buildingCount++;
+                    }
                 }
-            }
-            for (Road road : board.getRoads()){
-                if (road.getOwnerId() == n){
-                    roadCount++;
+                for (Road road : board.getRoads()) {
+                    if (road.getOwnerId() == n) {
+                        roadCount++;
+                    }
                 }
-            }
 
-            if (buildingCount < 2 || roadCount < 2){
-                return true;
+                if (buildingCount < 2 || roadCount < 2) {
+                    return true;
+                }
             }
         }
 

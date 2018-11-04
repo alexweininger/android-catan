@@ -226,7 +226,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                             if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
                                 Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                                game.sendAction(new CatanBuildSettlementAction(p, state.getCurrentPlayerId(), intersectionIdInput));
+                                game.sendAction(new CatanBuildSettlementAction(p, true, state.getCurrentPlayerId(), intersectionIdInput));
                                 myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
                                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
 
@@ -275,13 +275,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                         if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), false,  copyState.getCurrentPlayerId(), intersectionIdInput));
                             return;
                         }
                     }
                 });
 
-                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
+                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, false, this.playerId, 1);
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
                 game.sendAction(new CatanEndTurnAction(this));

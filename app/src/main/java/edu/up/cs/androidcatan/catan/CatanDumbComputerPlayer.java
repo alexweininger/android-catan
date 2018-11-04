@@ -72,7 +72,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             while (!gs.getBoard().validBuildingLocation(this.playerNum, true, randomIntersectionId)) {
                 randomIntersectionId = random.nextInt(53);
             }
-            game.sendAction(new CatanBuildSettlementAction(this, this.playerNum, randomIntersectionId));
+            game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randomIntersectionId));
 
             // get adjacent intersections to what we just built
             ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getAdjacentIntersectionsToIntersection(randomIntersectionId);
@@ -90,5 +90,4 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         game.sendAction(new CatanEndTurnAction(this));
     }//receiveInfo
-
 }
