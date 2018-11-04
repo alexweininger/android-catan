@@ -878,7 +878,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.11" />
+        app:layout_constraintGuide_percent="0.14" />
 
     <Button
         android:id="@+id/sidebar_button_score"
@@ -1023,33 +1023,34 @@
     <TextView
 
         android:id="@+id/sidebar_heading_playername"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="29dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/Player1"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_button_endturn" />
 
     <TextView
 
         android:id="@+id/sidebar_heading_vp"
-        android:layout_width="66dp"
+        android:layout_width="0dp"
         android:layout_height="29dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:text="VP: 00"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/sidebar_heading_playername"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/sidebar_heading_playername"
-        app:layout_constraintTop_toTopOf="@+id/sidebar_heading_playername"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_playername" />
 
     <Button
         android:id="@+id/sidebar_button_roll"
@@ -1153,12 +1154,12 @@
         android:id="@+id/brick_icon"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/brick_icon_25x25"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_playername" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_vp" />
 
     <ImageView
         android:id="@+id/grain_icon"
