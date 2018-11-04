@@ -15,7 +15,7 @@ public class CatanBuildRoadAction extends GameAction {
     private int intersectionAId, intersectionBid, ownerId;
     private boolean isSetupPhase;
 
-    public CatanBuildRoadAction(GamePlayer player, boolean isSetupPhase, int intersectionAId, int intersectionBid, int ownerId) {
+    public CatanBuildRoadAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionAId, int intersectionBid) {
         super(player);
         this.intersectionAId = intersectionAId;
         this.intersectionBid = intersectionBid;

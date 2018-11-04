@@ -513,7 +513,7 @@ public class CatanGameState extends GameState {
                 return false;
             }
         } else {
-            Log.i(TAG, "buildSettlement: adding resources for a settlement to player " + playerId);
+            Log.d(TAG, "buildSettlement: adding resources for a settlement to player " + playerId);
             this.playerList.get(playerId).addResourceCard(0, 1);
             this.playerList.get(playerId).addResourceCard(1, 1);
             this.playerList.get(playerId).addResourceCard(2, 1);
@@ -531,7 +531,7 @@ public class CatanGameState extends GameState {
 
         // check if the selected building location is valid
         if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
-            Log.i(TAG, "buildSettlement: validBuildingLocation returned false.");
+            Log.e(TAG, "buildSettlement: validBuildingLocation returned false.");
             return false;
         }
 
