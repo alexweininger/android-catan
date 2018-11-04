@@ -70,28 +70,27 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         if (gs.isSetupPhase()) {
             Log.i(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road.");
 
-            int randomIntersectionId = random.nextInt(53);
+            int randSettlementIntersection = random.nextInt(53);
 
             // generate random intersection until we find a valid location to build our settlement
-            while (!gs.getBoard().validBuildingLocation(this.playerNum, true, randomIntersectionId)) {
-                randomIntersectionId = random.nextInt(53);
+            while (!gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection)) {
+                randSettlementIntersection = random.nextInt(53);
             }
 
             // get adjacent intersections to what we just built
-            ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getAdjacentIntersectionsToIntersection(randomIntersectionId);
+            ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getAdjacentIntersectionsToIntersection(randSettlementIntersection);
 
             Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
             sleep(5000);
             // choose a random intersection from those intersections
             int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
             // generate random intersection until we find a valid location to build our settlement
-            while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection))) {
+            while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection))) {
                 randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-                sleep(1000);
             }
-            if (settlementCount <= roadCount) {
-                Log.d(TAG, "receiveInfo: need to build settlement");
-                // need to build a settlement
+
+            if (settlementCount <= roadCount) { // need to build a settlement
+                Log.w(TAG, "receiveInfo: Attempting to build a settlement at intersection " + randSettlementIntersection);
 
                 // add just enough resources for a settlement
                 gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
@@ -101,12 +100,14 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 // send the build settlement action to the game
                 Log.i(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game.");
-                game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randomIntersectionId));
+
+                game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection));
+
                 Log.d(TAG, "receiveInfo() returned: void");
                 return;
-            } else {
-                Log.d(TAG, "receiveInfo: need to build road.");
-                // need to build road
+
+            } else { // need to build road
+                Log.w(TAG, "receiveInfo: Attempting to build a road between " + randomRoadIntersection + " and " + randSettlementIntersection);
 
                 // add just enough resources for a road
                 gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
@@ -114,7 +115,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 // send the game a build road action
                 Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game.");
-                game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection)));
+
                 Log.d(TAG, "receiveInfo() returned: void");
                 return;
             }

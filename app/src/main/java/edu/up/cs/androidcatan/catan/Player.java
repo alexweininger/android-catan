@@ -163,6 +163,11 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         }
     }
 
+    /**
+     *
+     * @param resourceCost
+     * @return
+     */
     public boolean removeResourceBundle(int[] resourceCost) {
         Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + resourceCost + "]");
         if (!checkResourceBundle(resourceCost)) {
