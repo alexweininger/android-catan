@@ -321,20 +321,18 @@
     <TextView
         android:id="@+id/victory_Points"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/scoreboard"
         android:textColor="@android:color/black"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline_trading"
+        app:layout_constraintStart_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Player1_Name"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Player1"
         android:textColor="@android:color/black"
@@ -438,7 +436,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="174dp" />
+        app:layout_constraintGuide_begin="167dp" />
 
     <TextView
         android:id="@+id/menu_header"

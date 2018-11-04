@@ -436,12 +436,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.e(TAG, "initAfterReady() called");
     }
 
-    /*
+    /**
      *
      */
     private void updateTextViews () {
         if (state == null) {
-            Log.e(TAG, "updateTextViews: state is null.");
+            Log.e(TAG, "updateTextViews: state is null. Returning void.");
+            return;
         }
 
         if (this.state.isSetupPhase()) {
@@ -489,9 +490,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
-    }
+    } // end updateTextViews
 
-    public void drawGraphics () {
+    /**
+     *
+     */
+    private void drawGraphics () {
         Log.d(TAG, "drawGraphics() called");
 
         this.canvas = new Canvas(); // create Canvas object
@@ -507,7 +511,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.boardSurfaceView.draw(canvas);
 
         boardSurfaceView.invalidate();
-    }
+    } // end drawGraphics
 
     /**
      * @param message
@@ -518,7 +522,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 super.gameIsOver("Player " + i + " wins!");
             }
         }
-    }
+    } // end gameIsOver
 
 }// class CatanHumanPlayer
 
