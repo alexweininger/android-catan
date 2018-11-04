@@ -137,7 +137,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (boardSurfaceView == null) {
             return;
         }
-        Log.d(TAG, "receiveInfo() called with: info = [" + info.toString() + "]");
+        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "\n----------------------------");
         //TODO You will implement this method to receive state objects from the game
         if (info instanceof CatanGameState) {
             // set resource count TextViews to the players resource inventory amounts
@@ -201,7 +201,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, true,0, 1, this.playerId);
                 Log.d(TAG, "onClick: Road");
                 game.sendAction(action);
                 return;
@@ -226,9 +226,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                             if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
                                 Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                                game.sendAction(new CatanBuildSettlementAction(p, state.getCurrentPlayerId(), intersectionIdInput));
+                                game.sendAction(new CatanBuildSettlementAction(p, true, state.getCurrentPlayerId(), intersectionIdInput));
                                 myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
                                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
+
+                                // todo shotty
+                                game.sendAction(new CatanEndTurnAction(p));
+
                             } else {
                                 Log.i(TAG, "onClick: invalid intersection input. ");
                                 myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
@@ -251,7 +255,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
             if (button.getId() == R.id.sidebar_button_road) {
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, false, 0, 1, this.playerId);
                 Log.d(TAG, "onClick: Road");
                 game.sendAction(action);
                 return;
@@ -271,15 +275,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                         if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), false,  copyState.getCurrentPlayerId(), intersectionIdInput));
                             return;
                         }
                     }
                 });
 
-                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
+                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, false, this.playerId, 1);
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
+                game.sendAction(new CatanEndTurnAction(this));
                 return;
             }
             if (button.getId() == R.id.sidebar_button_devcards) {
@@ -446,16 +451,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
             this.buyDevCardButton.setAlpha(0.5f);
+            this.buyDevCardButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
-
+            this.tradeButton.setClickable(false);
         } else {
-            this.buildCityButton.setAlpha(1f);
-            this.rollButton.setAlpha(1f);
-            this.endTurnButton.setAlpha(1f);
-            this.buyDevCardButton.setAlpha(1f);
-            this.tradeButton.setAlpha(1f);
+            this.buildCityButton.setAlpha(0f);
+            this.buildCityButton.setClickable(true);
+            this.rollButton.setAlpha(0f);
+            this.rollButton.setClickable(true);
+            this.endTurnButton.setAlpha(0f);
+            this.endTurnButton.setClickable(true);
+            this.buyDevCardButton.setAlpha(0f);
+            this.buyDevCardButton.setClickable(true);
+            this.tradeButton.setAlpha(0f);
+            this.tradeButton.setClickable(true);
         }
 
         /* ----- update resource value TextViews ----- */

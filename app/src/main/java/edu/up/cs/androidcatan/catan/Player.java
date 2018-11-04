@@ -31,7 +31,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /* ----- Player instance variables ----- */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {4, 2, 4, 0, 2}; // array for number of each resource card a player has TODO change o all 0s
+    private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has TODO change o all 0s
 
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
@@ -125,7 +125,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @return - true of false, does the player have all of these resources?
      */
     public boolean checkResourceBundle(int[] resourceCost) {
-        Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + resourceCost.toString() + "]");
+        Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.i(TAG, "checkResourceBundle: " + this.printResourceCards());
         for (Integer id : resourceCost) {
             if (!checkResourceCard(id, resourceCost[id])) {
@@ -147,6 +147,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @return - if numToRemove resource card(s) have been removed from the players inventory
      */
     public boolean removeResourceCard(int resourceCardId, int numToRemove) {
+        Log.d(TAG, "removeResourceCard() called with: resourceCardId = [" + resourceCardId + "], numToRemove = [" + numToRemove + "]");
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
             Log.i(TAG, "removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
@@ -162,12 +163,19 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         }
     }
 
+    /**
+     *
+     * @param resourceCost
+     * @return
+     */
     public boolean removeResourceBundle(int[] resourceCost) {
+        Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + resourceCost + "]");
         if (!checkResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
             return false;
         }
-        for (int i : resourceCost) {
+        for (int i = 0; i < resourceCost.length; i++) {
+            Log.w(TAG, "removeResourceBundle: attempting to remove " + resourceCost[i] + " of resource type " + i + " from player.");
             if (!this.removeResourceCard(i, resourceCost[i])) {
                 Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Player.removeResourceCard method returned false.");
                 return false;
@@ -329,11 +337,10 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      */
     @Override
     public String toString() {
-        return "\nPlayer " + this.playerId + ": " +
+        return "\nPlayer " + this.playerId + ": \n" +
+                "buildingInventory=" + Arrays.toString(this.buildingInventory) + ", armySize=" + this.armySize +
                 "\nresourceCards=" + this.printResourceCards() +
-                "\ndevelopmentCards=" + this.developmentCards +
-                "\nbuildingInventory=" + Arrays.toString(this.buildingInventory) +
-                ", armySize=" + this.armySize;
+                "\ndevelopmentCards=" + this.developmentCards;
     }
 }
 
