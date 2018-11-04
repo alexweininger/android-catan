@@ -692,8 +692,6 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-
-
     /**
      * goes through each building and road to check how many are owned by the player
      * when they have 2 roads and 2 buildings, setupPhase is false.
