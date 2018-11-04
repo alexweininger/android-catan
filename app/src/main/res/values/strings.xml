@@ -17,6 +17,9 @@
     <string name="confirm">Confirm</string>
     <string name="select_more_resources">You need to select more resources</string>
     <string name="select_intersection_id">Select an interection:</string>
+    <string name="hint_00">00</string>
+    <string name="minus">minus</string>
+    <string name="add">add</string>
 
     <string name="dialog_continue_label">Continue Playing Game</string>
     <string name="dialog_quit_label">Quit</string>

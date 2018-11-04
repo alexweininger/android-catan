@@ -1208,7 +1208,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
+        app:constraint_referenced_ids="start_road_id_entered,selectIntersectionText,confirm" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
@@ -1216,9 +1216,9 @@
         android:layout_height="54dp"
         android:layout_marginStart="8dp"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
+        app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
+        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered"
         tools:text="@string/select_intersection_id" />
 
     <android.support.constraint.Guideline
@@ -1236,7 +1236,7 @@
         app:layout_constraintGuide_percent="0.94" />
 
     <EditText
-        android:id="@+id/intersection_id_entered"
+        android:id="@+id/start_road_id_entered"
         android:layout_width="70dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
@@ -1258,7 +1258,7 @@
         android:text="@string/confirm"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered" />
+        app:layout_constraintStart_toEndOf="@+id/start_road_id_entered" />
 
     <!--intersection input menu END-->
 
