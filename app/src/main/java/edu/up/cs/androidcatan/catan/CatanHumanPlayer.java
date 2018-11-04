@@ -104,7 +104,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView currentTurnIdTextView = (TextView) null;
 
     // intersection menu
+    Group roadIntersectionSelectionMenuGroup = (Group) null;
+
     EditText intersectionEditText = (EditText) null;
+
+    // road intersection selection menu
+    EditText roadIntersectionAEditText = (EditText) null;
+    EditText roadIntersectionBEditText = (EditText) null;
+
+    TextView roadIntersectionPromptLabel = (EditText) null;
+    Button roadIntersectionOkButton = (Button) null;
+    Button roadIntersectionCancelButton = (Button) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -335,6 +345,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
 
+        /* ---------- action buttons ---------- */
+
         buildCityButton = activity.findViewById(R.id.sidebar_button_city);
         buildRoadButton = activity.findViewById(R.id.sidebar_button_road);
         buildSettlementButton = activity.findViewById(R.id.sidebar_button_settlement);
@@ -363,19 +375,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
 
-        // resource value text
+        /* ---------- resource value text ---------- */
+
         this.oreValue = activity.findViewById(R.id.sidebar_value_ore);
         this.grainValue = activity.findViewById(R.id.sidebar_value_grain);
         this.lumberValue = activity.findViewById(R.id.sidebar_value_lumber);
         this.woolValue = activity.findViewById(R.id.sidebar_value_wool);
         this.brickValue = activity.findViewById(R.id.sidebar_value_brick);
 
-        // scoreboard TextViews
+        /* ---------- scoreboard scores TextViews ---------- */
 
         this.player0Score = activity.findViewById(R.id.Player1_Score);
         this.player1Score = activity.findViewById(R.id.Player2_Score);
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
+
+        /* ---------- scoreboard names ---------- */
 
         this.player0Name = activity.findViewById(R.id.Player1_Name);
         this.player1Name = activity.findViewById(R.id.Player2_Name);
@@ -385,6 +400,27 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
 
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
+
+        /* ---------- road intersection menu ---------- */
+        roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu);
+
+        roadIntersectionAEditText = activity.findViewById(R.id.start_road_id_entered);
+        roadIntersectionBEditText = activity.findViewById(R.id.end_road_id_entered);
+
+        roadIntersectionPromptLabel = activity.findViewById(R.id.selectRoadIntersectionText);
+        roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
+        roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
+
+        roadIntersectionOkButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                    roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         this.intersectionEditText = myActivity.findViewById(R.id.intersection_id_entered);
@@ -430,6 +466,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
         });
+
+
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
