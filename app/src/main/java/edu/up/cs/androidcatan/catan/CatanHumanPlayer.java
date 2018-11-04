@@ -489,7 +489,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
         /* ----- update misc. TextViews ----- */
-        this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
+        //this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
         this.currentTurnIdTextView.setText(this.state.getCurrentPlayerId());
     }
 
