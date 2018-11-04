@@ -299,6 +299,7 @@ public class Board {
      */
     public int traverseRoads(int intersectionId, int playerId, Road[][] road, int stackCount) {
         if (stackCount > 200) {
+            Log.e(TAG, "traverseRoads: reached a stackCount of 200. Returning 0.");
             return 0;
         }
         Log.d(TAG, "traverseRoads() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "], road = [" + road + "]");

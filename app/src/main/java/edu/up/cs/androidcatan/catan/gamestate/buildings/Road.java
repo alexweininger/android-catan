@@ -58,6 +58,6 @@ public class Road extends Building {
                 "intersectionAId=" + intersectionAId +
                 ", intersectionBId=" + intersectionBId +
                 ", resourceCost=" + Arrays.toString(resourceCost) +
-                '}';
+                "}\n";
     }
 }

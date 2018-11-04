@@ -137,16 +137,10 @@ public class Hexagon {
     }
 
     /**
-     * @return
+     * @return String representing the Hexagon object.
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Hexagon {id: ").append(this.hexagonId);
-        sb.append("resourceType: ").append(resourceId);
-        sb.append(", chitValue: ").append(chitValue);
-        sb.append("}");
-
-        return sb.toString();
+        return "H: " + this.hexagonId + " resourceId: " + this.resourceId + " chitValue: " + this.chitValue + "\n";
     }
 }
