@@ -16,6 +16,11 @@
     <string name="robber_discard_menu_header">Select Half Your Cards to Discard</string>
     <string name="confirm">Confirm</string>
     <string name="select_more_resources">You need to select more resources</string>
+    <string name="score">Score</string>
+    <string name="vp00">VP: 00</string>
+    <string name="playerTurn">Players Turn</string>
+    <string name="value_00">00</string>
+    <string name="buildDevelopment">Build Development</string>
 
     <string name="select_intersection_id">Select an intersection:</string>
     <string name="hint_00">00</string>
