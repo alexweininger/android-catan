@@ -411,7 +411,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
         roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
-        roadIntersectionOkButton.setOnClickListener(new OnClickListener() {
+        buildRoadButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick (View view) {
                 if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
@@ -450,24 +450,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
         });
-
-        // build menu layout group
-        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
-
-        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
-
-        roadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (buildMenuGroup.getVisibility() == View.GONE) {
-                    buildMenuGroup.setVisibility(View.VISIBLE);
-                } else {
-                    buildMenuGroup.setVisibility(View.GONE);
-                }
-            }
-        });
-
-
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
