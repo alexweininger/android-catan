@@ -2,11 +2,13 @@ package edu.up.cs.androidcatan.catan;
 
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.support.constraint.Group;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -139,7 +141,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
             this.state = (CatanGameState) info;
-            return;
+            this.brickValue.setText(String.valueOf(this.resourceCards[0]));
+            this.grainValue.setText(String.valueOf(this.resourceCards[1]));
+            this.lumberValue.setText(String.valueOf(this.resourceCards[2]));
+            this.oreValue.setText(String.valueOf(this.resourceCards[3]));
+            this.woolValue.setText(String.valueOf(this.resourceCards[4]));
 
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -169,6 +175,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         }
         if (state.isSetupPhase()) {
+            Log.i(TAG, "onClick: setup phase ");
             // if it is the setup phase, player can only make these actions
 
             if (button.getId() == R.id.sidebar_button_road) {
@@ -183,11 +190,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
-                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
-                Log.d(TAG, "onClick: Settlement");
-                game.sendAction(action);
-                return;
+
+                Log.i(TAG, "onClick: clicked build settlement button"); // here
+                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
+
+                final CatanGameState copyState = new CatanGameState(state);
+                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                confirmIntersectionButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+
+                        if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
+                            myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
+                            return;
+                        } else {
+                            Log.i(TAG, "onClick: invalid intersection input");
+                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
+                        }
+                    }
+                });
             } else {
+                // todo
 
             }
         } else {
@@ -205,6 +234,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
             if (button.getId() == R.id.sidebar_button_settlement) {
+                Log.i(TAG, "onClick: clicked build settlement button"); // here
+                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
+
+                final CatanGameState copyState = new CatanGameState(state);
+                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                confirmIntersectionButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+
+                        if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
+                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
+                            return;
+                        }
+                    }
+                });
+
                 CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
@@ -420,11 +469,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         buildMenu = activity.findViewById(R.id.group_build_menu);
 
         // resource value text
-        this.oreValue = (TextView) activity.findViewById(R.id.oreAmount);
-        this.grainValue = (TextView) activity.findViewById(R.id.grainAmount);
-        this.lumberValue = (TextView) activity.findViewById(R.id.lumberAmount);
-        this.woolValue = (TextView) activity.findViewById(R.id.woolAmount);
-        this.brickValue = (TextView) activity.findViewById(R.id.brickAmount);
+        this.oreValue = (TextView) activity.findViewById(R.id.sidebar_value_ore);
+        this.grainValue = (TextView) activity.findViewById(R.id.sidebar_value_grain);
+        this.lumberValue = (TextView) activity.findViewById(R.id.sidebar_value_lumber);
+        this.woolValue = (TextView) activity.findViewById(R.id.sidebar_value_wool);
+        this.brickValue = (TextView) activity.findViewById(R.id.sidebar_value_brick);
 
         // Listeners for ok and cancel button
         okButton.setOnClickListener(this);
@@ -473,7 +522,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     /**
-     *
      * @param message
      */
     protected void gameIsOver(String message) {
