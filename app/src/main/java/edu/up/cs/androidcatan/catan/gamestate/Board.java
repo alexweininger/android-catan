@@ -124,7 +124,31 @@ public class Board {
     } // end Board deep copy constructor
 
     //    alex's ultimate intersection adjacency method
+    public ArrayList<Integer> getAdjacentIntersections (int intersection) {
+        Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
 
+        ArrayList<Integer> result = new ArrayList<>();
+        ArrayList<Integer> allIntersections = new ArrayList<>();
+
+        for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
+            ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
+            allIntersections.addAll(allAdjInters);
+        }
+
+        for (int i = 0; i < allIntersections.size(); i++) {
+            int count = 0;
+            for (int j = 0; j < allIntersections.size(); j++) {
+                if (i == allIntersections.get(j)) {
+                    count++;
+                }
+            }
+            if (count == 3 && i != intersection) {
+                result.add(i);
+            }
+        }
+        Log.d(TAG, "getAdjacentIntersections() returned: " + result);
+        return result;
+    }
 
 
     /* ----- helper / checking methods ----- */

@@ -66,12 +66,15 @@ public class HexagonDrawable extends BoardSurfaceView {
             }
         }
 
+        int radius = 25;
+        int cx = points[5][0];
+        int cy = points[5][1] + this.size;
+
         if(this.isRobber) {
-            int radius = 25;
-            int cx = points[5][0];
-            int cy = points[5][1] + this.size;
             canvas.drawCircle(cx, cy, radius, robberPaint);
         }
+
+        canvas.drawCircle(points[5][0], points[5][0], radius, robberPaint);
 
 //        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
 //        road.drawRoad(canvas);
