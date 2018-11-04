@@ -54,10 +54,6 @@ public class Road extends Building {
 
     @Override
     public String toString() {
-        return "Road{" +
-                "intersectionAId=" + intersectionAId +
-                ", intersectionBId=" + intersectionBId +
-                ", resourceCost=" + Arrays.toString(resourceCost) +
-                "}\n";
+        return "intersectionAId: " + intersectionAId + ", intersectionBId: " + intersectionBId + ", resourceCost: " + Arrays.toString(resourceCost) + "}\n";
     }
 }

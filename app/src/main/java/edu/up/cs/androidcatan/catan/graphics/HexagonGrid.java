@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,6 +13,8 @@ import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 
 public class HexagonGrid extends BoardSurfaceView {
+
+    private static final String TAG = "HexagonGrid";
 
     // instance variables
     protected int x, y;
@@ -84,6 +87,10 @@ public class HexagonGrid extends BoardSurfaceView {
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
+
+                if (isDesertHexagon) {
+                    Log.w(TAG, "getHexagons: desert tile found to be at hexagon id: " + dataHexagonsIndex);
+                }
 
                 offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
 

@@ -141,6 +141,6 @@ public class Hexagon {
      */
     @Override
     public String toString() {
-        return "H: " + this.hexagonId + " resourceId: " + this.resourceId + " chitValue: " + this.chitValue + "\n";
+        return "\nid: " + this.hexagonId + "\tresId: " + this.resourceId + "\tchit: " + this.chitValue;
     }
 }

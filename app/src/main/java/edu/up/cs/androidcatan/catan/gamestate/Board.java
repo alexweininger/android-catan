@@ -402,6 +402,7 @@ public class Board {
             } while (chitValuesCount[randomChitValue] < 1);
 
             if (randomResourceType == 5) {
+                Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
                 randomChitValue = 0;
             }
 
@@ -1318,7 +1319,7 @@ public class Board {
                 "robber=" + robber +
                 "\nbuildings=" + Arrays.toString(buildings) +
                 "\nroads=" + roads +
-                "\nhexagons=" + hexagons +
+                "\nhexagons:\n" + hexagons +
                 "\nportIntersectionLocations=" + portIntersectionLocations +
                 "\nportList=" + portList;
     }
