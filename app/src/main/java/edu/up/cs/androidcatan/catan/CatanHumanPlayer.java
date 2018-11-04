@@ -549,9 +549,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
     } // end updateTextViews
 
-    /**
-     *
-     */
     private void drawGraphics () {
         Log.d(TAG, "drawGraphics() called");
 
@@ -571,7 +568,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     } // end drawGraphics
 
     /**
-     * @param message
+     * @param message Game over message.
      */
     protected void gameIsOver (String message) {
         for (int i = 0; i < this.state.getPlayerVictoryPoints().length; i++) {
