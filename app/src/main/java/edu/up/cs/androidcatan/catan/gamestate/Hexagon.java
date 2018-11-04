@@ -1,7 +1,13 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+
+import java.util.Random;
+
+import edu.up.cs.androidcatan.catan.graphics.RoadDrawable;
 
 /**
  * @author Alex Weininger
@@ -56,9 +62,54 @@ public class Hexagon {
         this.chitValue = chitValue;
     }
 
-    public void drawHexagon(Canvas canvas) {
+    public void drawHexagon(Canvas canvas, int color, int xPos, int yPos, int size, boolean isRobber) {
         Paint paint = new Paint();
+        paint.setColor(color);
+        paint.setStyle(Paint.Style.FILL);
 
+        Random random = new Random();
+
+        int[][] points = calculateHexagonPoints(xPos, yPos, size);
+
+        Path hexagonPath = createHexagonPath(points);
+        canvas.drawPath(hexagonPath, paint);
+
+        // TODO random from selection numbers on each hexagon DANIEL
+        Paint blackFont = new Paint();
+        blackFont.setColor(Color.BLACK);
+        blackFont.setStyle(Paint.Style.FILL);
+
+        blackFont.setTextSize(50);
+
+
+        Paint robberPaint = new Paint();
+        robberPaint.setColor(Color.MAGENTA);
+        robberPaint.setStyle(Paint.Style.FILL);
+
+        if(isRobber) {
+            canvas.drawCircle(points[3][0] + size, points[3][1] - this.size/2, 25, robberPaint);
+        } else {
+            canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
+        }
+
+        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
+        road.drawRoad(canvas);
+    }
+
+    /** createHexagonPath() creates a Path object from given hexagon corner x and y values
+     * @param corners - 2d array of x and y cords for the corners
+     * @return Path
+     */
+    public Path createHexagonPath(int[][] corners) {
+        Path hexagonPath = new Path();
+        hexagonPath.moveTo(corners[0][0], corners[0][1]);
+
+        for(int i = 1; i < corners.length; i++) {
+            hexagonPath.lineTo(corners[i][0], corners[i][1]);
+        }
+        hexagonPath.close();
+
+        return hexagonPath;
     }
 
     /**
@@ -83,7 +134,6 @@ public class Hexagon {
 
             // Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
         }
-        this.points = points;
         return points;
     }
 
