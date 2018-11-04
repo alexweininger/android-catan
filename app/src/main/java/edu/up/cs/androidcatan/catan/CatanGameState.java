@@ -504,23 +504,27 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildSettlement(int playerId, int intersectionId) {
-
+        Log.d(TAG, "buildSettlement() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         if (!this.isSetupPhase) {
             // validates the player id, checks if its their turn, and checks if it is the action phase
             if (!valAction(playerId)) {
+                Log.d(TAG, "buildSettlement() Not setup phase, and not action phase. Returning false." + false);
                 return false;
             }
         } else {
-
+            Log.i(TAG, "buildSettlement: adding resources for a settlement to player " + playerId);
             this.playerList.get(playerId).addResourceCard(0, 1);
             this.playerList.get(playerId).addResourceCard(1, 1);
             this.playerList.get(playerId).addResourceCard(2, 1);
             this.playerList.get(playerId).addResourceCard(4, 1);
+
+            Log.i(TAG, "buildSettlement: Player " + playerId + " now has resources: " + this.getPlayerList().get(playerId).printResourceCards());
         }
 
         // check if player has the required resources to build a Settlement
         if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
             Log.e(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
+            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
         }
 
@@ -533,6 +537,7 @@ public class CatanGameState extends GameState {
         // remove resources from players inventory (also does checks)
         if (!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
             Log.e(TAG, "buildSettlement: Player.removeResourceBundle returned false.");
+            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
         }
 
