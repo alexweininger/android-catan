@@ -24,7 +24,7 @@ public class HexagonGrid extends BoardSurfaceView {
     // TODO roads
     ArrayList<RoadDrawable> roads = new ArrayList<RoadDrawable>();
 
-    ArrayList<HexagonDrawable> hexagons = new ArrayList<HexagonDrawable>();
+    ArrayList<HexagonDrawable> hexagons = new ArrayList<>();
 
     public HexagonGrid (Context context, int x, int y, int size, int margin){
         super(context);
