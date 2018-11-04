@@ -84,7 +84,7 @@ public class Board {
         generateIntersectionGraph();
         generateRoadMatrix();
 
-        // print graphs
+//         print graphs
 //        Log.i(TAG, "Board: Printing hGraph...");
 //        printGraph(hGraph);
 //        Log.i(TAG, "Board: Printing iGraph...");
@@ -135,11 +135,14 @@ public class Board {
      * @return - is the intersection connected to the players buildings or roads?
      */
     private boolean isConnected(int playerId, int intersectionId) {
+        Log.d(TAG, "isConnected() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         // check if intersection has no building and no road
         if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
+            Log.d(TAG, "isConnected() returned: " + false);
             return false;
         }
         // check if player is an owner of intersection
+        Log.d(TAG, "isConnected() returned: " + getIntersectionOwners(intersectionId).contains(playerId));
         return getIntersectionOwners(intersectionId).contains(playerId);
     }
 
@@ -151,17 +154,22 @@ public class Board {
      * @param b - intersection
      * @return - if road can be placed
      */
-    public boolean validRoadPlacement(int playerId, int a, int b) {
+    public boolean validRoadPlacement(int playerId, boolean isSetupPhase, int a, int b) {
+        Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
         // check if intersections are adjacent
-        if (!iGraph[a][b]) {
+        if (!iGraph[a][b] && !iGraph[b][a]) {
             Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
+            printGraph(iGraph);
             return false;
         }
 
-        // check if road is connected to players roads / buildings at either intersection
-        if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
-            Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersection(s) are not connected to players buildings or roads.");
-            return false;
+        // check if it is not the setup phase
+        if (!isSetupPhase) {
+            // check if road is connected to players roads / buildings at either intersection
+            if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
+                Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersection(s) are not connected to players buildings or roads.");
+                return false;
+            }
         }
 
         // check if 3 roads at either intersection
@@ -187,6 +195,7 @@ public class Board {
      * @param intersectionB
      */
     public void addRoad(int playerId, int intersectionA, int intersectionB) {
+        Log.d(TAG, "addRoad() called with: playerId = [" + playerId + "], intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         Road road = new Road(playerId, intersectionA, intersectionB);
         this.roads.add(road);
         this.roadGraph[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
@@ -198,6 +207,7 @@ public class Board {
      * @return returns if road is connected to given intersection
      */
     public boolean hasRoad(int i) {
+        Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
         for (Road road : roadGraph[i]) {
             if (road.getOwnerId() != -1) {
                 return true;
@@ -711,6 +721,47 @@ public class Board {
         }
     } // end generateHexagonGraph
 
+    public void generateIntersectionGraphTwo() {
+        // set all values in the 2d array to false
+        for (int i = 0; i < 2; i++) { // rings
+            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) { // ids
+                this.iGraph[i][intersectionIdRings.get(i).get(j)] = false;
+            }
+        }
+        for (int i = 0; i < 3; i++) { //rings 0-2
+            boolean hasNextLink = true; // is it looking to the next ring or prev ring
+            int skipCount = 2; // # of intersections to skip to switch hasNext
+            for (int j = 0; j < intersectionIdRings.get(i).size(); j++) { //columns starts at 1 and ends at 0 (wrapped by 1)
+                int size = intersectionIdRings.get(i).size();
+                int col = j % size; // wrap if needs to be 0
+                int ringIndexDiff = -1;
+                if (i == 1) {
+                    if (skipCount == 0) {
+                        hasNextLink = false;
+                        skipCount = 2;
+                    } else {
+                        hasNextLink = true;
+                        skipCount--;
+                    }
+                    col = (j + 1) % size;
+                }
+                if (i == 2) hasNextLink = false;
+                int nextIntersection = (col + 1) % size;
+                iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
+                Log.d("dev", "skip: " + skipCount);
+                if (hasNextLink) {
+                    Log.d("dev", "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
+                    if (col + ringIndexDiff == -1) {
+                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
+                    } else {
+                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, col + ringIndexDiff)] = true;
+                    }
+                }
+            }
+        }
+    } // end generateIntersectionGraph method
+
+
     /**
      * generates the intersection adjacency graph
      */
@@ -757,6 +808,19 @@ public class Board {
                 }
             }
         }
+        StringBuilder str = new StringBuilder();
+        str.append("\n\n----------------\n");
+        for (int i = 0; i < iGraph.length; i++) {
+            StringBuilder strRow = new StringBuilder();
+            for (int j = 0; j < iGraph[i].length; j++) {
+                strRow.append(i).append("-").append(j).append("=");
+                if (iGraph[i][j]) strRow.append("t ");
+                else strRow.append("f ");
+            }
+            //str.append("\n");
+            Log.d("dev", "" + strRow.toString());
+        }
+        Log.d("dev", "" + str.toString());
     } // end generateIntersectionGraph method
 
     /**
@@ -1189,17 +1253,14 @@ public class Board {
      * @param arr - graph array 2d boolean array
      */
     private void printGraph(boolean arr[][]) {
+        Log.d(TAG, "printGraph() called with: arr = [" + arr + "]");
         StringBuilder str = new StringBuilder();
         str.append("\n\n----------------\n");
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
-                str.append(i).append("-").append(j).append("=");
-                if (arr[i][j]) str.append("t\t");
-                else str.append("f\t");
+                Log.i(TAG, "" + i + "-" + j + "=" + arr[i][j]);
             }
-            str.append("\n");
         }
-        Log.d(TAG, "" + str.toString());
     } // end printGraph
 
     /**

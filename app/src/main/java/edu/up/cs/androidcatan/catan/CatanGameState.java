@@ -471,10 +471,10 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        if (!board.validRoadPlacement(playerId, startIntersectionID, endIntersectionID)) {
-            Log.i(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
-            return false;
-        }
+//        if (!board.validRoadPlacement(playerId, false, startIntersectionID, endIntersectionID)) {
+//            Log.i(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+//            return false;
+//        }
 
         // remove resources from players inventory (also does checks)
         if (!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {

@@ -61,11 +61,14 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             // get adjacent intersections to what we just built
             ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getAdjacentIntersectionsToIntersection(randomIntersectionId);
 
+            Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
+            sleep(5000);
             // choose a random intersection from those intersections
             int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
             // generate random intersection until we find a valid location to build our settlement
-            while (!gs.getBoard().validRoadPlacement(this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection))) {
+            while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection))) {
                 randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                sleep(1000);
             }
             game.sendAction(new CatanBuildRoadAction(this, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomIntersectionId)));
         } else {
