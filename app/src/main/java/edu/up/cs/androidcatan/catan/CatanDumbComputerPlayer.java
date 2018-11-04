@@ -88,6 +88,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 sleep(1000);
             }
             if (settlementCount <= roadCount) {
+                Log.d(TAG, "receiveInfo: need to build settlement");
                 // need to build a settlement
 
                 // add just enough resources for a settlement
@@ -97,24 +98,30 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 gs.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
                 // send the build settlement action to the game
+                Log.i(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game.");
                 game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randomIntersectionId));
                 Log.d(TAG, "receiveInfo() returned: void");
                 return;
             } else {
+                Log.d(TAG, "receiveInfo: need to build road.");
                 // need to build road
-
 
                 // add just enough resources for a road
                 gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
                 gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
 
                 // send the game a build road action
+                Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game.");
                 game.sendAction(new CatanBuildRoadAction(this, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection)));
+
+                Log.d(TAG, "receiveInfo() returned: void");
+                return;
             }
         } else {
             Log.i(TAG, "receiveInfo: Not setup phase.");
         }
 
+        Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
         game.sendAction(new CatanEndTurnAction(this));
     }//receiveInfo
 }
