@@ -73,7 +73,10 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), offsetX + x + (int) ((this.width + this.margin) * (j + rows[i])), y + (((this.height) * 3) / 4 + this.margin) * i, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue());
+                int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
+                int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
+
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue());
 
                 //int[][] points = hexagon.getHexagonPoints();
 
@@ -85,6 +88,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
+    /* ----- getters and setters ------ */
 
     public int getXVal () {
         return x;
@@ -94,7 +98,6 @@ public class HexagonGrid extends BoardSurfaceView {
         this.x = x;
     }
 
-
     public int getYVal () {
         return y;
     }
@@ -103,7 +106,6 @@ public class HexagonGrid extends BoardSurfaceView {
         this.y = y;
     }
 
-
     public int getGridHeight () {
         return height;
     }
@@ -111,7 +113,6 @@ public class HexagonGrid extends BoardSurfaceView {
     public void setGridHeight (int height) {
         this.height = height;
     }
-
 
     public double getGridWidth () {
         return width;
