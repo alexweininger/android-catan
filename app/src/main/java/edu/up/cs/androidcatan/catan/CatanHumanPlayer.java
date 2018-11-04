@@ -182,19 +182,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
                         int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                         Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
                         if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
-                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
+                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.WHITE);
                             myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
                             return;
                         } else {
                             Log.i(TAG, "onClick: invalid intersection input");
-                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
+                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.RED);
                         }
                     }
                 });
@@ -224,7 +224,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
                         int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                         Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
