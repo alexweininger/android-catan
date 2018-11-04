@@ -35,8 +35,8 @@
         android:layout_height="36dp"
         android:layout_marginStart="75dp"
         android:layout_marginBottom="13dp"
-        android:text="Button"
+        android:text="@string/confirm"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
-        tools:text="@string/confirm" />
+        app:layout_constraintStart_toEndOf="@+id/spinner" />
+
 </android.support.constraint.ConstraintLayout>
