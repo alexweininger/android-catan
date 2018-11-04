@@ -3,7 +3,6 @@ package edu.up.cs.androidcatan.catan.graphics;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class boardSurfaceView extends SurfaceView {
+public class BoardSurfaceView extends SurfaceView {
 
     ArrayList<Ports> ports = new ArrayList<>();
     ArrayList<House> houses = new ArrayList<>();
@@ -25,12 +24,12 @@ public class boardSurfaceView extends SurfaceView {
     HexagonGrid grid;
 
     // constructors
-    public boardSurfaceView(Context context) {
+    public BoardSurfaceView(Context context) {
         super(context);
         setWillNotDraw(false);
     }
 
-    public boardSurfaceView(Context context, AttributeSet attrs) {
+    public BoardSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
     }
@@ -42,7 +41,7 @@ public class boardSurfaceView extends SurfaceView {
     }
 
     public void onDraw(Canvas canvas) {
-//        canvas.drawARGB(255, 237, 237, 171);
+        canvas.drawARGB(255, 237, 237, 171);
 //        //grid.drawGrid(canvas);
 //        for (int i = 0; i < 9; i++) {
 //            Log.d("user1", "" + i);

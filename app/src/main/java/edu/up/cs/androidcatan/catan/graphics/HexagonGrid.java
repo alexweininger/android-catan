@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class HexagonGrid extends boardSurfaceView {
+public class HexagonGrid extends BoardSurfaceView {
 
     // instance variables
     protected int x, y;

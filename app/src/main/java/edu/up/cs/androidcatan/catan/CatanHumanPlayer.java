@@ -21,7 +21,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
-import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
+import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
@@ -101,6 +101,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     CatanGameState state = null; // game state
 
+    BoardSurfaceView board = (BoardSurfaceView) null; // board SurfaceView
+
+    Canvas canvas = (Canvas) null;
+
     /**
      * constructor does nothing extra
      */
@@ -132,7 +136,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.state = (CatanGameState) info;
 
+            Log.i(TAG, "receiveInfo: drawing canvas");
             updateTextViews();
+            this.canvas.drawARGB(0, 0, 0, 0);
+            this.board.draw(this.canvas);
 
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -152,27 +159,32 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick(View button) {
-        //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
-        if (state == null) {
-            Log.e(TAG, "onClick: state is null.");
-        }
+
+
+        if (state == null) { Log.e(TAG, "onClick: state is null."); } // check if state is null
+
+        // check if it is the setup phase of the game
         if (state.isSetupPhase()) {
-            Log.i(TAG, "onClick: setup phase ");
+            Log.i(TAG, "onClick: It is the setup phase.");
+
             // if it is the setup phase, player can only make these actions
 
-            if (button.getId() == R.id.sidebar_button_road) {
+            if (button.getId() == R.id.sidebar_button_road) { // setup phase build road button listener
+
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
                 CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
                 Log.d(TAG, "onClick: Road");
                 game.sendAction(action);
                 return;
-            } else if (button.getId() == R.id.sidebar_button_settlement) {
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+
+            } else if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
+
+//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
+//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
 
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
@@ -335,9 +347,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
 
-        boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+        this.board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
-        Canvas canvas = new Canvas(); // create Canvas object
+        this.canvas = new Canvas(); // create Canvas object
 
         board.createHexagons();        // draw the board of hexagons and ports on the canvas
 

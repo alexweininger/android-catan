@@ -9,7 +9,7 @@ import android.util.Log;
 
 import java.util.Random;
 
-public class HexagonDrawable extends boardSurfaceView {
+public class HexagonDrawable extends BoardSurfaceView {
 
     protected int x;
     protected int y;

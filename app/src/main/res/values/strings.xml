@@ -16,7 +16,8 @@
     <string name="robber_discard_menu_header">Select Half Your Cards to Discard</string>
     <string name="confirm">Confirm</string>
     <string name="select_more_resources">You need to select more resources</string>
-    <string name="select_intersection_id">Select an interection:</string>
+
+    <string name="select_intersection_id">Select an intersection:</string>
 
     <string name="dialog_continue_label">Continue Playing Game</string>
     <string name="dialog_quit_label">Quit</string>

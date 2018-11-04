@@ -21,7 +21,7 @@
 
     <!--scoreboard group-->
 
-    <edu.up.cs.androidcatan.catan.graphics.boardSurfaceView
+    <edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView
         android:id="@+id/board"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -1212,14 +1212,17 @@
 
     <TextView
         android:id="@+id/selectIntersectionText"
-        android:layout_width="298dp"
+        android:layout_width="wrap_content"
         android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:textSize="30sp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/select_intersection_id"
+        android:textColor="@color/colorPrimary"
+        android:textSize="36sp"
+        android:theme="@android:style/Widget.Material.Light.TextView"
         app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/intersection_id_entered"
         app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
-        tools:text="@string/select_intersection_id" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -1239,26 +1242,30 @@
         android:id="@+id/intersection_id_entered"
         android:layout_width="70dp"
         android:layout_height="52dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="0"
-        android:inputType="number"
+        android:inputType="textNoSuggestions|number|numberSigned|phone"
         android:text="0"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
+        android:theme="@android:style/Widget.Material.Light.EditText"
         app:layout_constraintBottom_toBottomOf="@+id/confirm"
-        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
+        app:layout_constraintEnd_toStartOf="@+id/confirm"
         app:layout_constraintTop_toTopOf="@+id/confirm" />
 
     <Button
         android:id="@+id/confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/confirm"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered" />
+        app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
+
+
 
     <!--intersection input menu END-->
 
