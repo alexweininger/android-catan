@@ -446,9 +446,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
             this.buyDevCardButton.setAlpha(0.5f);
+            this.buyDevCardButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
 
         } else {
             this.buildCityButton.setAlpha(1f);
