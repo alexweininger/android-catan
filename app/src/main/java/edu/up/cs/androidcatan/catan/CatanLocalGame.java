@@ -42,6 +42,7 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
+        Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
         p.sendInfo(new CatanGameState(this.gameState)); // TODO verify that this copies everything (guess what it def. does not)
     }
 
@@ -54,6 +55,7 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        Log.d(TAG, "checkIfGameOver() called");
         for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
             if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
                 return playerNames[i] + " wins!";
@@ -71,6 +73,7 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove(int playerIdx) {
+        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
         return playerIdx == gameState.getCurrentPlayerId();
     }
 

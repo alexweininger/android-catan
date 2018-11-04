@@ -9,6 +9,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.up.cs.androidcatan.catan.gamestate.Board;
+
 public class HexagonGrid extends BoardSurfaceView {
 
     // instance variables
@@ -25,7 +27,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
     ArrayList<HexagonDrawable> hexagons = new ArrayList<>();
 
-    public HexagonGrid(Context context, int x, int y, int size, int margin) {
+    public HexagonGrid(Context context, Board board, int x, int y, int size, int margin) {
         super(context);
         setWillNotDraw(false);
 
@@ -36,7 +38,7 @@ public class HexagonGrid extends BoardSurfaceView {
         this.width = size * Math.sqrt(3);
         this.margin = margin;
 
-        getHexagons(x, y, size);
+        // getHexagons(x, y, size);
     }
 
     // TODO do we need this constructor?
@@ -50,7 +52,7 @@ public class HexagonGrid extends BoardSurfaceView {
         this.width = size * (int) Math.sqrt(3);
         this.margin = margin;
 
-        getHexagons(x, y, size);
+        // getHexagons(x, y, size);
     }
 
     public void drawGrid(Canvas canvas) {

@@ -101,9 +101,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
-    CatanGameState state = null; // game state
+    public CatanGameState state = null; // game state
 
-    BoardSurfaceView board = (BoardSurfaceView) null; // board SurfaceView
+    public BoardSurfaceView boardSurfaceView = (BoardSurfaceView) null; // board SurfaceView
 
     Canvas canvas = (Canvas) null;
 
@@ -140,8 +140,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             Log.i(TAG, "receiveInfo: drawing canvas");
             updateTextViews();
-            this.canvas.drawARGB(0, 0, 0, 0);
-            this.board.draw(this.canvas);
+
+            if (this.boardSurfaceView == null) {
+                Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
+            }
+
+//            this.canvas = new Canvas(); // create Canvas object
+//            board.createHexagons(this.state.getBoard());
+//            board.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
+//
+//            board.draw(canvas); // draw
 
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -361,14 +369,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
-
-        this.board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
-
-        this.canvas = new Canvas(); // create Canvas object
-
-        board.createHexagons();        // draw the board of hexagons and ports on the canvas
-
-        board.draw(canvas); // draw
+        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
         // button listeners TODO move to separate class?
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
