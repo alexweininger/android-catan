@@ -2,7 +2,6 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
-import edu.up.cs.androidcatan.catan.actions.CatanBuildAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
@@ -142,11 +141,6 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             //return gameState.robberDiscard();
             return true;
-        }
-
-        // TODO what is this?
-        if (action instanceof CatanBuildAction) {
-
         }
 
         if (action instanceof CatanTradeAction) {

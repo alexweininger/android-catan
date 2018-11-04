@@ -1108,6 +1108,9 @@ public class Board {
         }
     }
 
+    /**
+     * Creates ports along the given intersection, and assigns them proper trade values
+     */
     private void designatePorts () {
         portList.add(new Port(25, 3, 3)); //Ore
         portList.add(new Port(26, 3, 3));
