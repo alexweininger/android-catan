@@ -83,8 +83,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 ArrayList<Road> dataRoads = this.board.getRoads();
 
-                for (Road dataRoad : dataRoads) {
-                    // draw a road
+                for (int k = 0; k < dataRoads.size(); k++) {
 
 
 

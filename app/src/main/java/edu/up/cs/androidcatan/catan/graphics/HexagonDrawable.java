@@ -59,6 +59,9 @@ public class HexagonDrawable extends BoardSurfaceView {
         robberPaint.setStyle(Paint.Style.FILL);
 
         if (!this.isDesert) {
+            if (this.chitValue == 6 || this.chitValue == 8) {
+                blackFont.setColor(Color.argb(255, 163, 40, 40));
+            }
             if (this.chitValue < 10) {
                 canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2, blackFont);
             } else {
