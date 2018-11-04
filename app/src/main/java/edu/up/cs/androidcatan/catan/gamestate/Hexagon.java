@@ -142,11 +142,9 @@ public class Hexagon {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Hexagon{ ");
-        sb.append("resourceType: ");
-        sb.append(resourceId);
-        sb.append(", chitValue: ");
-        sb.append(chitValue);
+        sb.append("Hexagon {id: ").append(this.hexagonId);
+        sb.append("resourceType: ").append(resourceId);
+        sb.append(", chitValue: ").append(chitValue);
         sb.append("}");
 
         return sb.toString();

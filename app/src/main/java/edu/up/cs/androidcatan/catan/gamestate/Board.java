@@ -76,7 +76,7 @@ public class Board {
         Log.d(TAG, "Board() called");
 
         this.roadGraph = new Road[54][54];
-
+        robber = new Robber(0);
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();
@@ -99,13 +99,6 @@ public class Board {
 
         // generate hex tiles
         generateHexagonTiles();
-
-        // logging
-//        Log.i(TAG, "int to hex map: " + this.intToHexIdMap.toString());
-//        Log.i(TAG, "hex to int map" + this.hexToIntIdMap.toString());
-
-        int desertTileId = 0; // TODO put robber on desert tile
-        robber = new Robber(desertTileId);
 
         designatePorts();
     } // end Board constructor
@@ -411,6 +404,10 @@ public class Board {
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             resourceTypeCount[randomResourceType]--;
             chitValuesCount[randomChitValue]--;
+
+            if (resources[randomResourceType] == 5) {
+                robber.setHexagonId(this.hexagons.size());
+            }
 
             Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
         }

@@ -499,7 +499,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.canvas = new Canvas(); // create Canvas object
         boardSurfaceView.createHexagons(this.state.getBoard());
         boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
-        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 100, 100, 155, 50));
+        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 100, 150, 140, 50));
 
         this.boardSurfaceView.draw(canvas);
     }
