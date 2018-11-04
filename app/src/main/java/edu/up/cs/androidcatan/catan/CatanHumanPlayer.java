@@ -12,9 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.logging.LogManager;
-
-import javax.security.auth.login.LoginException;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -442,7 +439,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
         /* ----- update human player score ----- */
-        this.player
+
     }
 
     /**
