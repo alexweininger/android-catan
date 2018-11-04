@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.logging.LogManager;
+
+import javax.security.auth.login.LoginException;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -87,6 +90,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView player1Score = (TextView) null;
     private TextView player2Score = (TextView) null;
     private TextView player3Score = (TextView) null;
+
+    // scoreboard player name TextViews
+    private TextView player0Name = (TextView) null;
+    private TextView player1Name = (TextView) null;
+    private TextView player2Name = (TextView) null;
+    private TextView player3Name = (TextView) null;
 
     // misc sidebar TextViews
     private TextView myScore = (TextView) null;
@@ -193,11 +202,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     }
                 });
             } else {
-                // todo
-
+                Log.i(TAG, "onClick: It is the setup phase and received a unchecked for button click.");
             }
         } else {
-            // if it is not the setup phase
+            /* ----- if it is not the setup phase ----- */
             if (button.getId() == R.id.sidebar_button_city) {
                 CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
                 Log.d(TAG, "onClick: City");
@@ -249,20 +257,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 game.sendAction(action);
                 return;
             }
-            //TODO Placeholder for Robber actions until they're implemented
 //        if(button.getId() == R.id.) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
 //            CatanRollDiceAction a = new CatanRollDiceAction(this);
 //            Log.d(TAG, "onClick: Roll");
 //            game.sendAction(a);
@@ -447,6 +442,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
         /* ----- update human player score ----- */
+        this.player
     }
 
     /**

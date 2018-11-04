@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#89aaaaaa"
-    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-    tools:actionBarNavMode="f">
+    android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen">
 
     <!--
     Updated with groups.  A group is just a way to hide / show a group of views.  So I (Alex) added groups for each menu.
@@ -958,7 +957,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/heading_turn"
+        android:text="@string/heading_actions"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@android:color/black"
