@@ -99,6 +99,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // misc sidebar TextViews
     private TextView myScore = (TextView) null;
+    private TextView currentTurnIdTextView = (TextView) null;
 
     // intersection menu
     EditText intersectionEditText = (EditText) null;
@@ -265,7 +266,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
 
                 final CatanGameState copyState = new CatanGameState(state);
-                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                Button confirmIntersectionButton = myActivity.findViewById(R.id.confirm);
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -337,19 +338,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
 
-        buildCityButton = (Button) activity.findViewById(R.id.sidebar_button_city);
-        buildRoadButton = (Button) activity.findViewById(R.id.sidebar_button_road);
-        buildSettlementButton = (Button) activity.findViewById(R.id.sidebar_button_settlement);
-        buyDevCardButton = (Button) activity.findViewById(R.id.sidebar_button_devcards);
-        endTurnButton = (Button) activity.findViewById(R.id.sidebar_button_endturn);
+        buildCityButton = activity.findViewById(R.id.sidebar_button_city);
+        buildRoadButton = activity.findViewById(R.id.sidebar_button_road);
+        buildSettlementButton = activity.findViewById(R.id.sidebar_button_settlement);
+        buyDevCardButton = activity.findViewById(R.id.sidebar_button_devcards);
+        endTurnButton = activity.findViewById(R.id.sidebar_button_endturn);
 //        robberDiscard = (Button)activity.findViewById(R.id.)
 //        robberMove = (Button)activity.findViewById(R.id.)
 //        robberSteal = (Button)activity.findViewById(R.id.)
-        rollButton = (Button) activity.findViewById(R.id.sidebar_button_roll);
-        tradeButton = (Button) activity.findViewById(R.id.sidebar_button_trade);
-        tradeCustomPort = (Button) activity.findViewById(R.id.sidebar_button_trade);
-        tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
-        useDevCard = (Button) activity.findViewById(R.id.use_Card);
+        rollButton = activity.findViewById(R.id.sidebar_button_roll);
+        tradeButton = activity.findViewById(R.id.sidebar_button_trade);
+        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
+        tradePort = activity.findViewById(R.id.sidebar_button_trade);
+        useDevCard = activity.findViewById(R.id.use_Card);
 
 
         buildCityButton.setOnClickListener(this);
@@ -367,11 +368,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard.setOnClickListener(this);
 
         // resource value text
-        this.oreValue = (TextView) activity.findViewById(R.id.sidebar_value_ore);
-        this.grainValue = (TextView) activity.findViewById(R.id.sidebar_value_grain);
-        this.lumberValue = (TextView) activity.findViewById(R.id.sidebar_value_lumber);
-        this.woolValue = (TextView) activity.findViewById(R.id.sidebar_value_wool);
-        this.brickValue = (TextView) activity.findViewById(R.id.sidebar_value_brick);
+        this.oreValue = activity.findViewById(R.id.sidebar_value_ore);
+        this.grainValue = activity.findViewById(R.id.sidebar_value_grain);
+        this.lumberValue = activity.findViewById(R.id.sidebar_value_lumber);
+        this.woolValue = activity.findViewById(R.id.sidebar_value_wool);
+        this.brickValue = activity.findViewById(R.id.sidebar_value_brick);
 
         // scoreboard TextViews
 
@@ -380,8 +381,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
+        this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
+
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
-        this.intersectionEditText = (EditText) myActivity.findViewById(R.id.intersection_id_entered);
+        this.intersectionEditText = myActivity.findViewById(R.id.intersection_id_entered);
         // button listeners TODO move to separate class?
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
         final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
@@ -485,8 +488,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
-        /* ----- update human player score ----- */
-
+        /* ----- update misc. TextViews ----- */
+        this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
+        this.currentTurnIdTextView.setText(this.state.getCurrentPlayerId());
     }
 
     /**

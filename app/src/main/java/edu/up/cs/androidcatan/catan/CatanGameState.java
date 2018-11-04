@@ -369,7 +369,7 @@ public class CatanGameState extends GameState {
 
         this.isActionPhase = false;
 
-        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + 1 + "'s turn.");
+        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
 
         if (this.currentPlayerId == 3) {
             this.currentPlayerId = 0;
