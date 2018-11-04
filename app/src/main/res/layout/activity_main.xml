@@ -1286,14 +1286,14 @@
         android:layout_width="405dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:alpha="255"
         android:text="Select two intersections:"
         android:textAlignment="textEnd"
         android:textColor="@color/colorAccent"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
-        app:layout_constraintEnd_toStartOf="@+id/start_road_id_entered"
-        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered" />
+        app:layout_constraintEnd_toStartOf="@+id/start_road_id_entered" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline67"
@@ -1333,8 +1333,11 @@
         android:ems="10"
         android:hint="@string/hint_00"
         android:importantForAutofill="no"
-        android:inputType="number"
+        android:inputType="number|numberSigned"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/cancel"
         app:layout_constraintEnd_toStartOf="@+id/cancel"
