@@ -1,5 +1,8 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -9,8 +12,17 @@ package edu.up.cs.androidcatan.catan.gamestate;
  * https://github.com/alexweininger/android-catan
  **/
 public class Hexagon {
+
+    // instance variables
+    // game variables
     private int resourceId;
     private int chitValue;
+
+    // drawing variables
+    protected int color;
+    protected int size;
+    protected int xPos;
+    protected int yPos;
 
     /**
      * Hexagon constructor AW
@@ -48,6 +60,11 @@ public class Hexagon {
 
     public void setChitValue(int chitValue) {
         this.chitValue = chitValue;
+    }
+
+    public void drawHexagon(Canvas canvas) {
+        Paint paint = new Paint();
+
     }
 
     /**
