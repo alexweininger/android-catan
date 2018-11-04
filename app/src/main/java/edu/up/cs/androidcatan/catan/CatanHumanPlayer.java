@@ -116,7 +116,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     Button roadIntersectionCancelButton = (Button) null;
 
     Group singleIntersectionInputMenuGroup = (Group) null;
-    Button singleIntersectionOkButton = (Group) null;
+    Button singleIntersectionOkButton = (Button) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -406,6 +406,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------- single intersection menu (buildings) ---------- */
 
         singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
+        singleIntersectionOkButton = myActivity.findViewById(R.id.okButton)
 
         /* ---------- road intersection menu ---------- */
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu);
