@@ -220,7 +220,6 @@ public class Board {
     }
 
     /**
-     *
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
@@ -267,7 +266,6 @@ public class Board {
     //TODO: helper method to return a playerId's longest road (possibly for later)
 
     /**
-     *
      * @param intersectionId intersection to check for a break
      * @param playerId player we're checking for
      * @return if there is a break
@@ -278,6 +276,7 @@ public class Board {
         // if null (means no building) return false
         if (this.buildings[intersectionId] == null)
             return false;
+
         // (if not null) check if the player owns the building
         return this.buildings[intersectionId].getOwnerId() != playerId;
     }
