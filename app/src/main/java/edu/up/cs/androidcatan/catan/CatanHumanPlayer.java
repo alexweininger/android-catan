@@ -428,14 +428,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         });
 
-
         // if we have state update the GUI based on the state
-
         if (this.state != null) {
             receiveInfo(state);
         }
-
-
     }//setAsGui
 
     /**
