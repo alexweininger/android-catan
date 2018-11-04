@@ -863,7 +863,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:alpha="255"
-        android:text="Select two intersections:"
+        android:text= "@string/selectIntersections"
         android:textAlignment="textEnd"
         android:textColor="@color/colorAccent"
         android:textSize="36sp"
@@ -946,7 +946,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="end_road_id_entered,confirm2,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
+        app:constraint_referenced_ids="end_road_id_entered,confirm,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
 
     <!--intersection input menu END-->
 
