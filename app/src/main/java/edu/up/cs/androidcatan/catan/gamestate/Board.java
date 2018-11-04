@@ -392,7 +392,7 @@ public class Board {
 
         Random random = new Random();
 
-        while (this.hexagons.size() < 18) {
+        while (this.hexagons.size() < 19) {
 
             int randomResourceType;
             do {

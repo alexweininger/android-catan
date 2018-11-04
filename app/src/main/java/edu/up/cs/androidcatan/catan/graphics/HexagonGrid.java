@@ -19,7 +19,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected double width;
     protected int margin;
     protected int[] numTiles = {4, 3, 3, 3, 4};
-    protected int[] colors = {Color.RED, Color.GREEN, Color.argb(255, 204, 153, 0), Color.argb(255, 194, 194, 214), Color.argb(255, 102, 102, 204)};
+    protected int[] colors = {Color.RED, Color.GREEN, Color.argb(255, 204, 153, 0), Color.argb(255, 194, 194, 214), Color.argb(255, 102, 102, 204), Color.BLACK};
 
     private Board board;
 
@@ -38,7 +38,7 @@ public class HexagonGrid extends BoardSurfaceView {
         this.width = size * Math.sqrt(3);
         this.margin = margin;
         this.board = new Board(board); // todo is this copy 100% perfect?
-        // getDrawingHexagons(x, y, size);
+        getHexagons(x, y, size);
     }
 
     // TODO do we need this constructor?

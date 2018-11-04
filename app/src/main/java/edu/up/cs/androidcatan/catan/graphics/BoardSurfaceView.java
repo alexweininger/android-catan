@@ -85,6 +85,7 @@ public class BoardSurfaceView extends SurfaceView {
         if (grid == null) {
             Log.e(TAG, "onDraw: grid is null");
         } else {
+            Log.i(TAG, "onDraw: drawing grid");
             grid.drawGrid(canvas);
         }
     }
