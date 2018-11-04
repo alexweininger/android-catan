@@ -42,6 +42,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         CatanGameState gs = (CatanGameState) info;
 
+        Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
         if (gs.getCurrentPlayerId() != this.playerNum) return;
 
         sleep(200);

@@ -369,6 +369,11 @@ public class CatanGameState extends GameState {
         }
         this.isActionPhase = false;
 
+        if (this.currentPlayerId == 3)
+            this.currentPlayerId = 0;
+        else
+            this.currentPlayerId++;
+
         return true;
     } // end endTurn method
 
