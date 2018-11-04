@@ -658,21 +658,23 @@
     <TextView
         android:id="@+id/sidebar_value_grain"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/value_00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/grain_icon"
         app:layout_constraintStart_toEndOf="@+id/grain_icon"
         app:layout_constraintTop_toTopOf="@+id/grain_icon"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/sidebar_value_lumber"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
         android:text="@string/value_00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -683,8 +685,9 @@
     <TextView
         android:id="@+id/sidebar_value_ore"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
         android:text="@string/value_00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -695,8 +698,9 @@
     <TextView
         android:id="@+id/sidebar_value_wool"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
         android:text="@string/value_00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -707,15 +711,16 @@
     <TextView
         android:id="@+id/sidebar_value_brick"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/value_00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/brick_icon"
         app:layout_constraintStart_toEndOf="@+id/brick_icon"
         app:layout_constraintTop_toTopOf="@+id/brick_icon"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button"
@@ -884,7 +889,7 @@
         android:layout_width="48dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:autofillHints=""
+        android:maxLength="2"
         android:ems="10"
         android:hint="@string/hint_00"
         android:inputType="number"
@@ -900,6 +905,7 @@
         android:layout_width="48dp"
         android:layout_height="65dp"
         android:layout_marginEnd="8dp"
+        android:maxLength="2"
         android:ems="10"
         android:hint="@string/hint_00"
         android:importantForAutofill="no"
