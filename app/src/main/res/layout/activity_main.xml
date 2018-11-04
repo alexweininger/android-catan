@@ -105,7 +105,7 @@
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="you_want_text, ore_want_minus,brick_give_add,grain_give_icon,wood_give_add,sheep_want_minus,ore_give_minus,brick_give_icon,sheep_give_add,wood_want_icon,brick_give_amount,ore_want_icon,wood_give_icon,grain_want_amount,grain_want_minus,sheep_want_add,ore_give_add,wood_give_minus,wood_want_add,ore_want_add,brick_want_minus,grain_give_amount,sheep_want_icon,ore_give_icon,sheep_give_icon,sheep_give_minus,wood_want_minus,grain_give_minus,you_give_text,sheep_want_amount,ore_give_amount,brick_want_amount,sheep_give_amount,brick_give_minus,brick_want_add,grain_give_add,grain_want_add,wood_want_amount,grain_want_icon,wood_give_amount,ore_want_amount,brick_want_icon,menu_header,you_want_text" />
 
     <android.support.constraint.Group

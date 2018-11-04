@@ -3,12 +3,14 @@ package edu.up.cs.androidcatan.catan;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.constraint.Group;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -109,6 +111,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // game state
     private CatanGameState state = null;
+
+    //Trading instance variable
+    private int[] tradeResWant = new int[]{0, 0, 0, 0, 0};
+    private int[] tradeResGet = new int[]{0, 0, 0, 0, 0};
 
     /**
      * constructor does nothing extra
@@ -438,6 +444,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //GUI Buttons
         showScore = (Button) activity.findViewById(R.id.sidebar_button_score);
+
+        //GUI: Trading Menu Buttons
+//        ImageButton brickGive = (ImageButton) activity.findViewById(R.id.brick_give_icon);
+//        ImageButton brickGet = (ImageButton) activity.findViewById(R.id.brick_want_icon);
+//        ImageButton grainGive = (ImageButton) activity.findViewById(R.id.grain_give_icon);
+//        ImageButton grainGet = (ImageButton) activity.findViewById(R.id.grain_want_icon);
+//        ImageButton woodGive = (ImageButton) activity.findViewById(R.id.wood_give_icon);
+//        ImageButton woodGet = (ImageButton) activity.findViewById(R.id.wood_want_icon);
+//        ImageButton oreGive = (ImageButton) activity.findViewById(R.id.ore_give_icon);
+//        ImageButton oreGet = (ImageButton) activity.findViewById(R.id.ore_want_icon);
+//        ImageButton sheepGive = (ImageButton) activity.findViewById(R.id.sheep_give_icon);
+//        ImageButton sheepGet = (ImageButton) activity.findViewById(R.id.sheep_want_icon);
 
 
         //Set Listeners

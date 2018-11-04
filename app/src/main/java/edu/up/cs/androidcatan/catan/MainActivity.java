@@ -150,4 +150,5 @@ public class MainActivity extends GameMainActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+
 }
