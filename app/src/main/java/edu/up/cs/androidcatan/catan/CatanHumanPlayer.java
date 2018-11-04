@@ -382,8 +382,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        //ok and cancel
-//        if(button.getId() == R.id.okButton) {
+        // ok and cancel
+        if(button.getId() == R.id.okButton) {
 //            switch (buildingId) {
 //                case 0:
 //                    CatanBuildRoadAction action0 = new CatanBuildRoadAction(this, this.playerId , 1, 1);
@@ -408,8 +408,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //                default:
 //                    Log.d(TAG, "(ok)onClick: Error, out of bounds");
 //            }
-//            buildMenu.setVisibility(View.GONE);
-//        }
+            buildMenu.setVisibility(View.GONE);
+        }
 
         if(button.getId() == R.id.cancelButton){
             buildMenu.setVisibility(View.GONE);
