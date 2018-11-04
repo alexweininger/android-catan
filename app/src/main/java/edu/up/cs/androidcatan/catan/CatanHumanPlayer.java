@@ -486,28 +486,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.oreValue.setText(String.valueOf(resourceCards[3]));
         this.woolValue.setText(String.valueOf(resourceCards[4]));
 
-        /* ----- update scoreboard ----- */
+        /* ----- update scoreboard scores ----- */
         this.player0Score.setText(String.valueOf(state.getPlayerVictoryPoints()[0]));
         this.player1Score.setText(String.valueOf(state.getPlayerVictoryPoints()[1]));
         this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
+        /* ----- update scoreboard names ----- */
+        player0Name.setBackgroundColor(Color.TRANSPARENT);
+        player1Name.setBackgroundColor(Color.TRANSPARENT);
+        player2Name.setBackgroundColor(Color.TRANSPARENT);
+        player3Name.setBackgroundColor(Color.TRANSPARENT);
+
         switch(state.getCurrentPlayerId()) {
             case 0:
-                player0Name.setHighlightColor(Color.YELLOW);
-                player0Name.setTextColor(Color.YELLOW);
+                player0Name.setBackgroundColor(Color.WHITE);
                 break;
             case 1:
-                player1Name.setHighlightColor(Color.YELLOW);
-                player1Name.setTextColor(Color.YELLOW);
+                player1Name.setBackgroundColor(Color.WHITE);
                 break;
             case 2:
-                player2Name.setHighlightColor(Color.YELLOW);
-                player2Name.setTextColor(Color.YELLOW);
+                player2Name.setBackgroundColor(Color.WHITE);
                 break;
             case 3:
-                player3Name.setHighlightColor(Color.YELLOW);
-                player3Name.setTextColor(Color.YELLOW);
+                player3Name.setBackgroundColor(Color.WHITE);
                 break;
         }
 
