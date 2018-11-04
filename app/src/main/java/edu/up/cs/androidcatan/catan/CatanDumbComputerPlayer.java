@@ -50,8 +50,10 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         int roadCount = 0;
 
         for (Building building : gs.getBoard().getBuildings()) {
-            if (building.getOwnerId() == this.playerNum) {
-                settlementCount++;
+            if (building != null) {
+                if (building.getOwnerId() == this.playerNum) {
+                    settlementCount++;
+                }
             }
         }
 
