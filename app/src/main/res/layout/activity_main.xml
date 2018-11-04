@@ -1286,12 +1286,14 @@
         android:layout_width="405dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:alpha="255"
+        android:text="Select two intersections:"
         android:textAlignment="textEnd"
+        android:textColor="@color/colorAccent"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
         app:layout_constraintEnd_toStartOf="@+id/start_road_id_entered"
-        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered"
-        tools:text="Select two intersections:" />
+        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline67"
@@ -1326,7 +1328,7 @@
     <EditText
         android:id="@+id/end_road_id_entered"
         android:layout_width="48dp"
-        android:layout_height="0dp"
+        android:layout_height="65dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/hint_00"
