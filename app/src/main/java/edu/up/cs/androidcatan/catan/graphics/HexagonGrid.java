@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
 public class HexagonGrid extends BoardSurfaceView {
 
@@ -78,7 +79,16 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue());
 
-                //int[][] points = hexagon.getHexagonPoints();
+                int[][] points = hexagon.getHexagonPoints();
+
+                ArrayList<Road> dataRoads = this.board.getRoads();
+
+                for (Road dataRoad : dataRoads) {
+                    // draw a road
+
+
+
+                }
 
                 //roads.add(new RoadDrawable(points, 0));
 
