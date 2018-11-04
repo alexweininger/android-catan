@@ -549,10 +549,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----- update misc. TextViews ----- */
 
+        // human player score (sidebar menu)
         this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.playerId]));
 
-        Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
+        // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
+
     } // end updateTextViews
 
     private void drawGraphics () {
