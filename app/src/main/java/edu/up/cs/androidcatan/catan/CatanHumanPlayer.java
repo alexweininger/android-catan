@@ -155,9 +155,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             updateTextViews();
             drawGraphics();
 
-
-
-
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
         } else if (info instanceof IllegalMoveInfo) {
@@ -506,8 +503,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.i(TAG, "drawGraphics: boardSurfaceView height: " + height + " width: " + width);
 
         this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20));
-
         this.boardSurfaceView.draw(canvas);
+
+        boardSurfaceView.invalidate();
     }
 
     /**
