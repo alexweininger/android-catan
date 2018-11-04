@@ -700,6 +700,7 @@ public class CatanGameState extends GameState {
      * @return if the game is still in the setup phase
      */
     public boolean setupPhase(){
+        Log.d(TAG, "setupPhase() called");
         int roadCount = 0;
         int buildingCount = 0;
         for (int n = 0; n < playerList.size(); n++){
@@ -716,11 +717,12 @@ public class CatanGameState extends GameState {
                 }
 
                 if (buildingCount < 2 || roadCount < 2) {
+                    Log.d(TAG, "setupPhase() returned: " + true);
                     return true;
                 }
             }
         }
-
+        Log.d(TAG, "setupPhase() returned: " + false);
         return false;
     }
 
