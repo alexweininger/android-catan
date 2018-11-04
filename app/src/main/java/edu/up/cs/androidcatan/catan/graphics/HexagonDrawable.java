@@ -5,11 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 
 import java.util.Random;
 
-public class HexagonDrawable extends boardSurfaceView {
+public class HexagonDrawable extends BoardSurfaceView {
 
     protected int x;
     protected int y;
@@ -27,7 +26,7 @@ public class HexagonDrawable extends boardSurfaceView {
 
         this.x = x;
         this.y = y;
-        this.size = size;
+        this.size = size; // size can also be thought of as the radius
         this.color = color;
 
         this.isRobber = isRobber; // TODO BAD CODE
@@ -60,7 +59,6 @@ public class HexagonDrawable extends boardSurfaceView {
 
         if(this.isRobber) {
             canvas.drawCircle(points[3][0] + this.size, points[3][1] - this.size/2, 25, robberPaint);
-            Log.d("user", "hexagon robber");
         } else {
             canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
         }
@@ -79,8 +77,6 @@ public class HexagonDrawable extends boardSurfaceView {
         int[][] points = new int[6][2];
         double angle_deg, angle_rad;
 
-        Log.d("user", "\nhexagon");
-
         for (int i = 0; i < 6; i++) {
 
             angle_deg = 60 * i - 30;
@@ -89,7 +85,7 @@ public class HexagonDrawable extends boardSurfaceView {
             points[i][0] = (int) (x + size * Math.cos(angle_rad));
             points[i][1] = (int) (y + size * Math.sin(angle_rad));
 
-            Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
+            // Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
         }
         this.points = points;
         return points;

@@ -120,7 +120,6 @@ public class CatanGameState extends GameState {
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
         return new DevelopmentCard(drawnDevCard);
-
     }
 
     /**
@@ -509,6 +508,7 @@ public class CatanGameState extends GameState {
 
         // check if the selected building location is valid
         if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
+            Log.i(TAG, "buildSettlement: validBuildingLocation returned false.");
             return false;
         }
 

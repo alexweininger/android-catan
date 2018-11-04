@@ -21,9 +21,10 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
-import edu.up.cs.androidcatan.catan.graphics.boardSurfaceView;
+import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 import edu.up.cs.androidcatan.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
@@ -59,6 +60,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // playerId
     private int playerId;
+
+    private String currentBuildingSelection = null;
 
     // These variables will reference widgets that will be modified during play
     private Button buildCityButton = null;
@@ -97,9 +100,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // misc sidebar TextViews
     private TextView myScore = (TextView) null;
 
+    // intersection menu
+    EditText intersectionEditText = (EditText) null;
+
     private GameMainActivity myActivity;  // the android activity that we are running
 
-    CatanGameState state = null; // game state
+    public CatanGameState state = null; // game state
+
+    private BoardSurfaceView boardSurfaceView;
+
+    Canvas canvas = (Canvas) null;
 
     /**
      * constructor does nothing extra
@@ -124,6 +134,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        if (boardSurfaceView == null) {
+            return;
+        }
         Log.d(TAG, "receiveInfo() called with: info = [" + info.toString() + "]");
         //TODO You will implement this method to receive state objects from the game
         if (info instanceof CatanGameState) {
@@ -132,7 +145,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.state = (CatanGameState) info;
 
+            Log.i(TAG, "receiveInfo: drawing canvas");
             updateTextViews();
+
+            if (this.boardSurfaceView == null) {
+                Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
+            }
+
+            this.canvas = new Canvas(); // create Canvas object
+            boardSurfaceView.createHexagons(this.state.getBoard());
+            boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
+            boardSurfaceView.draw(canvas); // draw
 
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -152,49 +175,67 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick(View button) {
-        //TODO  You will implement this method to send appropriate action objects to the game
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
+        Group intersectionMenu = myActivity.findViewById(R.id.group_singleIntersectionInput);
+        if (button.getId() == R.id.sidebar_button_settlement) {
+            intersectionMenu.setVisibility(View.VISIBLE);
+            this.currentBuildingSelection = "Settlement";
+        }
+
+        if (button.getId() == R.id.sidebar_button_city) {
+            intersectionMenu.setVisibility(View.VISIBLE);
+            this.currentBuildingSelection = "City";
+        }
+
         if (state == null) {
             Log.e(TAG, "onClick: state is null.");
-        }
+        } // check if state is null
+
+        // check if it is the setup phase of the game
         if (state.isSetupPhase()) {
-            Log.i(TAG, "onClick: setup phase ");
+            Log.i(TAG, "onClick: It is the setup phase.");
+
             // if it is the setup phase, player can only make these actions
 
-            if (button.getId() == R.id.sidebar_button_road) {
+            if (button.getId() == R.id.sidebar_button_road) { // setup phase build road button listener
+
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
                 CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
                 Log.d(TAG, "onClick: Road");
                 game.sendAction(action);
                 return;
-            } else if (button.getId() == R.id.sidebar_button_settlement) {
+
+            } else if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
+
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
 
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
-                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
 
-                final CatanGameState copyState = new CatanGameState(state);
-                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                Button confirmIntersectionButton = myActivity.findViewById(R.id.confirm);
+                final GamePlayer p = this;
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
-                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
-                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+                        if (!intersectionEditText.getText().toString().equals("")) {
+                            int intersectionIdInput = Integer.parseInt(intersectionEditText.getText().toString());
+                            Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
-                        if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
-                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
-                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.WHITE);
-                            myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
-                            return;
+                            if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
+                                Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                                game.sendAction(new CatanBuildSettlementAction(p, state.getCurrentPlayerId(), intersectionIdInput));
+                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
+                                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
+                            } else {
+                                Log.i(TAG, "onClick: invalid intersection input. ");
+                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
+                            }
                         } else {
-                            Log.i(TAG, "onClick: invalid intersection input");
-                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.RED);
+                            Log.i(TAG, "onClick: invalid intersection input. Input is empty.");
+                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
                         }
                     }
                 });
@@ -334,15 +375,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
-
-        boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
-
-        Canvas canvas = new Canvas(); // create Canvas object
-
-        board.createHexagons();        // draw the board of hexagons and ports on the canvas
-
-        board.draw(canvas); // draw
-
+        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+        this.intersectionEditText = (EditText) myActivity.findViewById(R.id.intersection_id_entered);
         // button listeners TODO move to separate class?
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
         final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
