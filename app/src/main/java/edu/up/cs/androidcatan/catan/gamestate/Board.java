@@ -184,7 +184,7 @@ public class Board {
         // check if road is already built
         Log.i(TAG, "validRoadPlacement: this.roadGraph.getOwnerId: " + this.roadGraph[a][b].getOwnerId());
         if (this.roadGraph[a][b].getOwnerId() != -1) {
-            Log.e(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
+            Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
             return false;
         }
 
@@ -262,12 +262,8 @@ public class Board {
 
     //TODO: helper method to return a playerId's longest road (possibly for later)
 
-
     public boolean checkIntersectionBreak(int intersectionId, int playerId) {
-        if (this.buildings[intersectionId].getOwnerId() != playerId) {
-            return true;
-        }
-        return false;
+        return this.buildings[intersectionId].getOwnerId() != playerId;
     }
 
     public boolean checkDeadEnd(int intersectionId, Road[][] road) {

@@ -100,7 +100,7 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.buildRoad(gameState.getCurrentPlayerId(), 0, 1);
+            return gameState.buildRoad(gameState.getCurrentPlayerId(), ((CatanBuildRoadAction) action).getIntersectionAId(), ((CatanBuildRoadAction) action).getIntersectionBid());
         }
 
         if (action instanceof CatanBuildSettlementAction) {

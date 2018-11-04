@@ -66,8 +66,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         sleep(200);
 
         Random random = new Random();
-
-        if (gs.isSetupPhase()) {
+        Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
+        if (gs.isSetupPhase() && (roadCount != 2 || settlementCount != 2)) {
             Log.i(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road.");
 
             int randSettlementIntersection = random.nextInt(53);
@@ -81,7 +81,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getAdjacentIntersectionsToIntersection(randSettlementIntersection);
 
             Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
-            sleep(5000);
+            sleep(2000);
             // choose a random intersection from those intersections
             int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
             // generate random intersection until we find a valid location to build our settlement
