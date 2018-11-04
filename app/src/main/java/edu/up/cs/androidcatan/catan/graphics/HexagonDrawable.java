@@ -20,8 +20,9 @@ public class HexagonDrawable extends BoardSurfaceView {
 
     protected boolean isRobber;
     protected boolean isDesert;
+    protected int chitValue;
 
-    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert) {
+    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue) {
         super(context);
         setWillNotDraw(false);
 
@@ -30,10 +31,10 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.size = size; // size can also be thought of as the radius
         this.color = color;
         this.isDesert = isDesert;
-        this.isRobber = isRobber; // TODO BAD CODE
+        this.isRobber = isRobber;
+        this.chitValue = chitValue;
     }
 
-    // TODO look over and determine if needs to be redone
     public  void drawHexagon(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(this.color);
@@ -46,7 +47,6 @@ public class HexagonDrawable extends BoardSurfaceView {
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, paint);
 
-        // TODO random from selection numbers on each hexagon DANIEL
         Paint blackFont = new Paint();
         blackFont.setColor(Color.BLACK);
         blackFont.setStyle(Paint.Style.FILL);
@@ -58,12 +58,12 @@ public class HexagonDrawable extends BoardSurfaceView {
         robberPaint.setColor(Color.MAGENTA);
         robberPaint.setStyle(Paint.Style.FILL);
 
-        if ()
+        if (!this.isDesert) {
+            canvas.drawText("" + , points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
+        }
 
         if(this.isRobber) {
             canvas.drawCircle(points[3][0] + this.size, points[3][1] - this.size/2, 25, robberPaint);
-        } else {
-            canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
         }
 
         RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
