@@ -3,9 +3,12 @@ package edu.up.cs.androidcatan.catan.graphics;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
@@ -23,7 +26,10 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int[] numTiles = {4, 3, 3, 3, 4};
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
 
+
     private Board board;
+    public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
+
 
     ArrayList<RoadDrawable> roads = new ArrayList<>();
 
@@ -46,6 +52,49 @@ public class HexagonGrid extends BoardSurfaceView {
     public void drawGrid (Canvas canvas) {
         for (HexagonDrawable h : drawingHexagons) {
             h.drawHexagon(canvas);
+            drawRoads(canvas);
+        }
+    }
+
+    public void drawRoads(Canvas canvas) {
+        ArrayList<Road> dataRoads = this.board.getRoads();
+
+        Collection<Integer> overlap = new ArrayList<>();
+        for (int k = 0; k < dataRoads.size(); k++) {
+            Log.i(TAG, "drawRoads: k:" + k);
+            Road r = dataRoads.get(k);
+
+            overlap.addAll(board.getIntToHexIdMap().get(r.getIntersectionAId()));
+            overlap.retainAll(board.getIntToHexIdMap().get(r.getIntersectionBId()));
+
+            Log.w(TAG, "getHexagons: overlap: " + overlap.toString());
+
+            if (overlap.size() == 2) {
+                // draw a road
+
+                int[][] points = new int[6][2];
+                int[][] points2 = new int[6][2]
+                points = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(0)]).getHexagonPoints();
+                points2 = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(1)]).getHexagonPoints();
+
+                if (points == null || points.length == 0) {
+                    Paint roadPaint = new Paint();
+                    roadPaint.setColor(Color.DKGRAY);
+                    roadPaint.setStyle(Paint.Style.FILL);
+
+                    int radius = 25;
+                    int cx = points[5][0];
+                    int cy = points[5][1];
+
+                    canvas.drawCircle(cx, cy, radius, roadPaint);
+
+                    int cx2 = points2[5][0];
+                    int cy2 = points2[5][1];
+
+                    canvas.drawCircle(cx2, cy2, radius, roadPaint);
+                }
+            }
+
         }
     }
 
@@ -81,13 +130,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 int[][] points = hexagon.getHexagonPoints();
 
-                ArrayList<Road> dataRoads = this.board.getRoads();
 
-                for (int k = 0; k < dataRoads.size(); k++) {
-
-
-
-                }
 
                 //roads.add(new RoadDrawable(points, 0));
 
@@ -95,6 +138,22 @@ public class HexagonGrid extends BoardSurfaceView {
                 dataHexagonsIndex++;
             }
         }
+    }
+
+    public <T> List<T> intersection (List<T> list1, List<T> list2) {
+        List<T> list = new ArrayList<T>();
+
+        for (T t : list1) {
+            if (list2.contains(t)) {
+                list.add(t);
+            }
+        }
+
+        return list;
+    }
+
+    public void generateDataHexToDrawHexMap () {
+
     }
 
     /* ----- getters and setters ------ */
