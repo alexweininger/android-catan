@@ -137,7 +137,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (boardSurfaceView == null) {
             return;
         }
-        Log.d(TAG, "receiveInfo() called with: info = [" + info.toString() + "]");
+        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "\n----------------------------");
         //TODO You will implement this method to receive state objects from the game
         if (info instanceof CatanGameState) {
             // set resource count TextViews to the players resource inventory amounts

@@ -329,11 +329,10 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      */
     @Override
     public String toString() {
-        return "\nPlayer " + this.playerId + ": " +
+        return "\nPlayer " + this.playerId + ": \n" +
+                "buildingInventory=" + Arrays.toString(this.buildingInventory) + ", armySize=" + this.armySize +
                 "\nresourceCards=" + this.printResourceCards() +
-                "\ndevelopmentCards=" + this.developmentCards +
-                "\nbuildingInventory=" + Arrays.toString(this.buildingInventory) +
-                ", armySize=" + this.armySize;
+                "\ndevelopmentCards=" + this.developmentCards;
     }
 }
 

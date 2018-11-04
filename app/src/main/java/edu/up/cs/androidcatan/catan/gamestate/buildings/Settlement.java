@@ -1,7 +1,5 @@
 package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
-import java.util.Arrays;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -28,8 +26,6 @@ public class Settlement extends Building {
 
     @Override
     public String toString() {
-        return "Settlement{" +
-                "resourceCost=" + Arrays.toString(resourceCost) +
-                '}';
+        return "Settlement {owner: " + this.getOwnerId() + "}";
     }
 } // end Class

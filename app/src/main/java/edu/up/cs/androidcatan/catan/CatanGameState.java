@@ -530,8 +530,7 @@ public class CatanGameState extends GameState {
         // create Settlement object and add to Board object
         Settlement settlement = new Settlement(playerId);
         this.board.addBuilding(intersectionId, settlement);
-        Log.i(TAG, "buildSettlement: Player " + playerId + " built a Settlement.");
-
+        Log.i(TAG, "buildSettlement: Player " + playerId + " built a settlement. Returning true.");
         return true;
     }
 
@@ -832,10 +831,10 @@ public class CatanGameState extends GameState {
         StringBuilder result = new StringBuilder();
 
         result.append("CatanGameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append(" ");
-        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(" ");
-        result.append("isActionPhase: ").append(this.isActionPhase).append(" ");
-        result.append("isSetupPhase: ").append(this.isSetupPhase).append(" ");
+        result.append("Current Player: ").append(this.currentPlayerId).append(", ");
+        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(", ");
+        result.append("isActionPhase: ").append(this.isActionPhase).append(", ");
+        result.append("isSetupPhase: ").append(this.isSetupPhase).append(", ");
         result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
         result.append(playerList.toString());
