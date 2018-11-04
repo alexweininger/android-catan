@@ -21,7 +21,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
     protected int[] robberLocation = {2, 2};
 
-    // TODO roads
     ArrayList<RoadDrawable> roads = new ArrayList<>();
 
     ArrayList<HexagonDrawable> hexagons = new ArrayList<>();
@@ -38,7 +37,6 @@ public class HexagonGrid extends BoardSurfaceView {
         this.margin = margin;
 
         getHexagons(x, y, size);
-
     }
 
     // TODO do we need this constructor?
@@ -100,7 +98,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    
+
     public int getXVal() {
         return x;
     }

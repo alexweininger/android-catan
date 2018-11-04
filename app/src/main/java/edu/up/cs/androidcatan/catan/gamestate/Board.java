@@ -385,6 +385,41 @@ public class Board {
         }
     }
 
+    public ArrayList<Hexagon> getHexagonListForDrawing() {
+        ArrayList<Hexagon> result = new ArrayList<>();
+
+        // row 1
+        result.add(hexagons.get(11));
+        result.add(hexagons.get(10));
+        result.add(hexagons.get(9));
+
+        // row 2
+        result.add(hexagons.get(12));
+        result.add(hexagons.get(3));
+        result.add(hexagons.get(2));
+        result.add(hexagons.get(8));
+
+        // row 2
+        result.add(hexagons.get(13));
+        result.add(hexagons.get(4));
+        result.add(hexagons.get(0));
+        result.add(hexagons.get(1));
+        result.add(hexagons.get(17));
+
+        // row 2
+        result.add(hexagons.get(14));
+        result.add(hexagons.get(5));
+        result.add(hexagons.get(6));
+        result.add(hexagons.get(18));
+
+        // row 2
+        result.add(hexagons.get(15));
+        result.add(hexagons.get(16));
+        result.add(hexagons.get(17));
+
+        return result;
+    }
+
     /**
      * @param intersectionId - to check for owners
      * @return - ArrayList of playerIds who either own a road that is connected to intersection, or have a building that is on this intersection
