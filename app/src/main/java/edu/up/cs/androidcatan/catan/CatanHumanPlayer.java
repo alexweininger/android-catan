@@ -125,7 +125,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int[] tradeResWant = new int[]{0, 0, 0, 0, 0};
     private int[] tradeResGet = new int[]{0, 0, 0, 0, 0};
 
-    CatanGameState state = null; // game state
+    //Game state
     public CatanGameState state = null; // game state
 
     private BoardSurfaceView boardSurfaceView;
