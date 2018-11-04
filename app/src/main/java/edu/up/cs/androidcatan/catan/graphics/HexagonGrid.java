@@ -3,7 +3,6 @@ package edu.up.cs.androidcatan.catan.graphics;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.util.AttributeSet;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
     ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>();
 
-    public HexagonGrid(Context context, Board board, int x, int y, int size, int margin) {
+    public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
         super(context);
         setWillNotDraw(false);
 
@@ -44,33 +43,19 @@ public class HexagonGrid extends BoardSurfaceView {
         getHexagons(x, y, size);
     }
 
-    // TODO do we need this constructor?
-    public HexagonGrid(Context context, AttributeSet attrs, int x, int y, int size, int margin) {
-        super(context, attrs);
-        setWillNotDraw(false);
-
-        this.x = x;
-        this.y = y;
-        this.height = size * 2;
-        this.width = size * (int) Math.sqrt(3);
-        this.margin = margin;
-
-        // getDrawingHexagons(x, y, size);
-    }
-
-    public void drawGrid(Canvas canvas) {
+    public void drawGrid (Canvas canvas) {
         for (HexagonDrawable h : drawingHexagons) {
             h.drawHexagon(canvas);
         }
 
         // TODO roads
-//        for (RoadDrawable r : roads) {
-//            r.drawRoad(canvas);
-//        }
+        //        for (RoadDrawable r : roads) {
+        //            r.drawRoad(canvas);
+        //        }
     }
 
     // method that generates the individual hexagon objects from the Hexagon class
-    public void getHexagons(int x, int y, int size) {
+    public void getHexagons (int x, int y, int size) {
 
         ArrayList<Hexagon> dataHexagons = board.getHexagonListForDrawing();
 
@@ -107,84 +92,84 @@ public class HexagonGrid extends BoardSurfaceView {
     }
 
 
-    public int getXVal() {
+    public int getXVal () {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX (int x) {
         this.x = x;
     }
 
 
-    public int getYVal() {
+    public int getYVal () {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY (int y) {
         this.y = y;
     }
 
 
-    public int getGridHeight() {
+    public int getGridHeight () {
         return height;
     }
 
-    public void setGridHeight(int height) {
+    public void setGridHeight (int height) {
         this.height = height;
     }
 
 
-    public double getGridWidth() {
+    public double getGridWidth () {
         return width;
     }
 
-    public void setWidth(double width) {
+    public void setWidth (double width) {
         this.width = width;
     }
 
-    public int getMargin() {
+    public int getMargin () {
         return margin;
     }
 
-    public void setMargin(int margin) {
+    public void setMargin (int margin) {
         this.margin = margin;
     }
 
-    public int[] getNumTiles() {
+    public int[] getNumTiles () {
         return numTiles;
     }
 
-    public void setNumTiles(int[] numTiles) {
+    public void setNumTiles (int[] numTiles) {
         this.numTiles = numTiles;
     }
 
-    public int[] getColors() {
+    public int[] getColors () {
         return colors;
     }
 
-    public void setColors(int[] colors) {
+    public void setColors (int[] colors) {
         this.colors = colors;
     }
 
-    public ArrayList<RoadDrawable> getRoads() {
+    public ArrayList<RoadDrawable> getRoads () {
         return roads;
     }
 
-    public void setRoads(ArrayList<RoadDrawable> roads) {
+    public void setRoads (ArrayList<RoadDrawable> roads) {
         this.roads = roads;
     }
 
-    public ArrayList<HexagonDrawable> getDrawingHexagons() {
+    public ArrayList<HexagonDrawable> getDrawingHexagons () {
         return drawingHexagons;
     }
 
-    public void setDrawingHexagons(ArrayList<HexagonDrawable> drawingHexagons) {
+    public void setDrawingHexagons (ArrayList<HexagonDrawable> drawingHexagons) {
         this.drawingHexagons = drawingHexagons;
     }
 
     // getTile method generated random tiles to fill the grid
     // TODO needs to be redone
-    public int getTile(int i, int j) {
+    public int getTile (int i, int j) {
 
         if (i == 2 && j == 2) {
             return Color.GRAY;
