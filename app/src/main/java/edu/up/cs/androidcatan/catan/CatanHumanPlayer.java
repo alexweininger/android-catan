@@ -106,6 +106,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // intersection menu
     EditText intersectionEditText = (EditText) null;
 
+    // road intersection selection menu
+    EditText roadIntersectionAEditText = (EditText) null;
+    EditText roadIntersectionBEditText = (EditText) null;
+
+    TextView roadIntersectionPromptLabel = (EditText) null;
+    Button roadIntersectionOk = (Button) null;
+    Button roadIntersectionCancel = (Button) null;
+
     private GameMainActivity myActivity;  // the android activity that we are running
 
     public CatanGameState state = null; // game state
