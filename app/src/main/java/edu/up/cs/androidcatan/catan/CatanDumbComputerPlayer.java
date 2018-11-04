@@ -79,7 +79,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             // add just enough resources for a road
             gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
             gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-            game.sendAction(new CatanBuildRoadAction(this, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomIntersectionId)));
+            game.sendAction(new CatanBuildRoadAction(this, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection)));
         } else {
             Log.i(TAG, "receiveInfo: Not setup phase.");
         }

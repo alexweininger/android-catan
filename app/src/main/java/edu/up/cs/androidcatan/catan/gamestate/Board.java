@@ -74,6 +74,9 @@ public class Board {
 
     public Board() {
         Log.d(TAG, "Board() called");
+
+        this.roadGraph = new Road[54][54];
+
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();
