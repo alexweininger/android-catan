@@ -205,7 +205,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
                         if (!intersectionText.getText().toString().equals("")) {
                             int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                             Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
@@ -213,7 +213,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
                                 Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                                 game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), state.getCurrentPlayerId(), intersectionIdInput));
-                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
+                                myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.WHITE);
                                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
                             } else {
                                 Log.i(TAG, "onClick: invalid intersection input. ");
@@ -221,7 +221,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             }
                         } else {
                             Log.i(TAG, "onClick: invalid intersection input. Input is empty.");
-                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
+                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.RED);
                         }
                     }
                 });
@@ -251,7 +251,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
                         int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                         Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 

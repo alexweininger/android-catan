@@ -10,7 +10,7 @@
         android:layout_width="449dp"
         android:layout_height="72dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="16dp"
         android:textSize="48sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -32,7 +32,7 @@
 
     <EditText
         android:id="@+id/start_road_id_entered"
-        android:layout_width="103dp"
+        android:layout_width="66dp"
         android:layout_height="77dp"
         android:layout_marginStart="8dp"
         android:ems="10"
@@ -41,16 +41,34 @@
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="@+id/selectIntersectionText"
         app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
-        app:layout_constraintTop_toTopOf="@+id/selectIntersectionText" />
+        app:layout_constraintTop_toTopOf="@+id/selectIntersectionText"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <EditText
+        android:id="@+id/end_road_id_entered"
+        android:layout_width="66dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="84dp"
+        android:ems="10"
+        android:hint="@string/hint_00"
+        android:inputType="number"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectIntersectionText"
+        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
+        app:layout_constraintTop_toTopOf="@+id/selectIntersectionText"
+        app:layout_constraintVertical_bias="0.0"/>
 
     <Button
         android:id="@+id/confirm"
         android:layout_width="187dp"
         android:layout_height="79dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginEnd="4dp"
         android:text="@string/confirm"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/start_road_id_entered"
-        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered" />
+        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>
