@@ -141,7 +141,7 @@ public class Board {
         Log.d(TAG, "isConnected() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         // check if intersection has no building and no road
         if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
-            Log.d(TAG, "isConnected() returned: " + false);
+            Log.e(TAG, "isConnected: Not connected. Returned: " + false);
             return false;
         }
         // check if player is an owner of intersection
@@ -161,7 +161,7 @@ public class Board {
         Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
         // check if intersections are adjacent
         if (!iGraph[a][b] && !iGraph[b][a]) {
-            Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
+            Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
             printGraph(iGraph);
             return false;
         }
@@ -170,25 +170,25 @@ public class Board {
         if (!isSetupPhase) {
             // check if road is connected to players roads / buildings at either intersection
             if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
-                Log.i(TAG, "validRoadPlacement: Invalid road placement. Intersection(s) are not connected to players buildings or roads.");
+                Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersection(s) are not connected to players buildings or roads.");
                 return false;
             }
         }
 
         // check if 3 roads at either intersection
         if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
-            Log.i(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
+            Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
             return false;
         }
 
         // check if road is already built
         Log.i(TAG, "validRoadPlacement: this.roadGraph.getOwnerId: " + this.roadGraph[a][b].getOwnerId());
         if (this.roadGraph[a][b].getOwnerId() != -1) {
-            Log.i(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
+            Log.e(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
             return false;
         }
 
-        Log.i(TAG, "validRoadPlacement: Valid road placement.");
+        Log.d(TAG, "validRoadPlacement: Valid road placement.");
         return true;
     }
 

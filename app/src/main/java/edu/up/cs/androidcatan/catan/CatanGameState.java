@@ -462,6 +462,7 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
+        Log.d(TAG, "buildRoad() called with: playerId = [" + playerId + "], startIntersectionID = [" + startIntersectionID + "], endIntersectionID = [" + endIntersectionID + "]");
 
         // if it is not the setup phase, check if it is the action phase
         if (!this.isSetupPhase) {

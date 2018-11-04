@@ -107,7 +107,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 return;
 
             } else { // need to build road
-                Log.w(TAG, "receiveInfo: Attempting to build a road between " + randomRoadIntersection + " and " + randSettlementIntersection);
+                Log.w(TAG, "receiveInfo: Attempting to build a road between " + intersectionsToChooseFrom.get(randomRoadIntersection) + " and " + randSettlementIntersection);
 
                 // add just enough resources for a road
                 gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
