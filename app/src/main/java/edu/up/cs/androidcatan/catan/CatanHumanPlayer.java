@@ -217,10 +217,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             } else if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
 
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+
 
             } else {
                 Log.i(TAG, "onClick: It is the setup phase and received a unchecked for button click.");
@@ -404,6 +401,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
         singleIntersectionTextView = myActivity.findViewById(R.id.selectIntersectionText);
         singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
+
         singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick (View view) {
@@ -414,10 +412,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, singleIntersectionIdInput)) {
                     Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+
+                    // add just enough resources so player can build settlement
+                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
+                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+
+                    // send build settlement action to the game
                     game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), false, state.getCurrentPlayerId(), singleIntersectionIdInput));
                     return;
                 }
-
                 // toggle menu vis.
                 toggleGroupVisibility(singleIntersectionInputMenuGroup);
             }
@@ -543,7 +548,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         /* ----- update misc. TextViews ----- */
-        //this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
+        this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
 
         Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
