@@ -946,7 +946,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="end_road_id_entered,confirm2,selectRoadIntersectionText,start_road_id_entered,button_roadOk" />
+        app:constraint_referenced_ids="end_road_id_entered,confirm2,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
 
     <!--intersection input menu END-->
 
