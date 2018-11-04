@@ -34,10 +34,46 @@ public class BoardSurfaceView extends SurfaceView {
         setWillNotDraw(false);
     }
 
+    public void BoardSurfaceView(BoardSurfaceView b) {
+        this.setGrid(b.getGrid());
+    }
+
     // TODO Alex
     public void createHexagons() {
 
-        grid = new HexagonGrid(this.getContext(), 100, 200, 145, 40);
+        grid = new HexagonGrid(this.getContext(), 100, 200, 155, 50);
+    }
+
+    public ArrayList<Ports> getPorts() {
+        return ports;
+    }
+
+    public void setPorts(ArrayList<Ports> ports) {
+        this.ports = ports;
+    }
+
+    public ArrayList<House> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(ArrayList<House> houses) {
+        this.houses = houses;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public HexagonGrid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(HexagonGrid grid) {
+        this.grid = grid;
     }
 
     public void onDraw(Canvas canvas) {

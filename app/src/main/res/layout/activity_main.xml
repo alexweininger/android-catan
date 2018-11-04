@@ -1207,7 +1207,7 @@
         android:id="@+id/group_singleIntersectionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
 
     <TextView
