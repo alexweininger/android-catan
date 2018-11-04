@@ -485,6 +485,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
+        switch(state.getCurrentPlayerId()) {
+            case 0:
+                player0Score.setHighlightColor(Color.YELLOW);
+            case 1:
+                player1Score.setHighlightColor(Color.YELLOW);
+            case 2:
+                player2Score.setHighlightColor(Color.YELLOW);
+            case 3:
+                player3Score.setHighlightColor(Color.YELLOW);
+        }
+
         /* ----- update misc. TextViews ----- */
         //this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
 
