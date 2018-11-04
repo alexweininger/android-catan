@@ -113,8 +113,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     EditText roadIntersectionBEditText = (EditText) null;
 
     TextView roadIntersectionPromptLabel = (EditText) null;
-    Button roadIntersectionOk = (Button) null;
-    Button roadIntersectionCancel = (Button) null;
+    Button roadIntersectionOkButton = (Button) null;
+    Button roadIntersectionCancelButton = (Button) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -402,15 +402,25 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
 
         /* ---------- road intersection menu ---------- */
-        roadIntersectionSelectionMenuGroup = null;
+        roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu);
 
         roadIntersectionAEditText = activity.findViewById(R.id.start_road_id_entered);
         roadIntersectionBEditText = activity.findViewById(R.id.end_road_id_entered);
 
         roadIntersectionPromptLabel = activity.findViewById(R.id.selectRoadIntersectionText);
-        roadIntersectionOk = activity.findViewById(R.id.confirm);
-        roadIntersectionCancel = null;
+        roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
+        roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
+        roadIntersectionOkButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                    roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         this.intersectionEditText = myActivity.findViewById(R.id.intersection_id_entered);
