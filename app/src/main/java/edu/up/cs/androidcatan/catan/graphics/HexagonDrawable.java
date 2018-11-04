@@ -18,9 +18,10 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected Path hexagonPath;
     protected int[][] points;
 
-    protected boolean isRobber; // TODO redo
+    protected boolean isRobber;
+    protected boolean isDesert;
 
-    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber) {
+    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert) {
         super(context);
         setWillNotDraw(false);
 
@@ -28,7 +29,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.y = y;
         this.size = size; // size can also be thought of as the radius
         this.color = color;
-
+        this.isDesert = isDesert;
         this.isRobber = isRobber; // TODO BAD CODE
     }
 
@@ -56,6 +57,8 @@ public class HexagonDrawable extends BoardSurfaceView {
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.MAGENTA);
         robberPaint.setStyle(Paint.Style.FILL);
+
+        if ()
 
         if(this.isRobber) {
             canvas.drawCircle(points[3][0] + this.size, points[3][1] - this.size/2, 25, robberPaint);

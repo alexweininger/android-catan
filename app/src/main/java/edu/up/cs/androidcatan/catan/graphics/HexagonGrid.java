@@ -83,12 +83,11 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
+                boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
 
                 offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
 
-
-
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), offsetX + x + (int) ((this.width + this.margin) * (j + rows[i])), y + (((this.height) * 3) / 4 + this.margin) * i, size, hexagonColor, isRobberHexagon);
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), offsetX + x + (int) ((this.width + this.margin) * (j + rows[i])), y + (((this.height) * 3) / 4 + this.margin) * i, size, hexagonColor, isRobberHexagon, isDesertHexagon);
 
                 //int[][] points = hexagon.getHexagonPoints();
 
