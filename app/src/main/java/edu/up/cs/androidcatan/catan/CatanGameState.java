@@ -306,7 +306,7 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean setupBuilding() {
-
+        Log.d(TAG, "setupBuilding() called");
 
 
         return false;
@@ -349,30 +349,33 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean endTurn() {
-        if (!isActionPhase) {
-            Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
-            return false;
+        Log.d(TAG, "endTurn() called");
+
+        // if it is not the setup phase
+        if (!this.setupPhase()) {
+
+            // check if it is the action phase
+            if (!isActionPhase) {
+                Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
+                return false;
+            }
         }
-
-//        if (this.currentPlayerId == 3) {
-//            this.currentPlayerId = 0;
-//        } else {
-//            this.currentPlayerId++;
-//        }
-
-        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + "'s turn.");
 
         updateVictoryPoints();
 
         for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
         }
+
         this.isActionPhase = false;
 
-        if (this.currentPlayerId == 3)
+        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + 1 + "'s turn.");
+
+        if (this.currentPlayerId == 3) {
             this.currentPlayerId = 0;
-        else
+        } else {
             this.currentPlayerId++;
+        }
 
         return true;
     } // end endTurn method
@@ -391,6 +394,7 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean tradeWithPort(int playerId, int intersectionId, int givenResourceId, int receivedResourceId) {
+        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + givenResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
         // check if current player's turn and then if player has rolled dice
         if (!valAction(playerId)) {
             return false;

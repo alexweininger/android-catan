@@ -18,8 +18,9 @@ public class CatanBuildSettlementAction extends GameAction {
 
     // instance variables
     private int intersectionId, ownerId;
+    private boolean isSetupPhase;
 
-    public CatanBuildSettlementAction(GamePlayer player, int ownerId, int intersectionId) {
+    public CatanBuildSettlementAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionId) {
         super(player);
         Log.d(TAG, "CatanBuildSettlementAction() called with: player = [" + player + "], ownerId = [" + ownerId + "], intersectionId = [" + intersectionId + "]");
 

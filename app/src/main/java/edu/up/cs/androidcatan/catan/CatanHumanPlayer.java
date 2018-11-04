@@ -229,6 +229,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                                 game.sendAction(new CatanBuildSettlementAction(p, state.getCurrentPlayerId(), intersectionIdInput));
                                 myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
                                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
+
+                                // todo shotty
+                                game.sendAction(new CatanEndTurnAction(p));
+
                             } else {
                                 Log.i(TAG, "onClick: invalid intersection input. ");
                                 myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
