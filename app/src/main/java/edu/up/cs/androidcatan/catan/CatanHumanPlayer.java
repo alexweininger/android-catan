@@ -25,7 +25,6 @@ import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
-import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 import edu.up.cs.androidcatan.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
@@ -104,8 +103,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // intersection menu
     Group roadIntersectionSelectionMenuGroup = (Group) null;
-
-    EditText intersectionEditText = (EditText) null;
+    TextView singleIntersectionTextView = (TextView) null;
+    EditText singleIntersectionInputEditText = (EditText) null;
 
     // road intersection selection menu
     EditText roadIntersectionAEditText = (EditText) null;
@@ -223,36 +222,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
 
-                Log.i(TAG, "onClick: clicked build settlement button"); // here
-
-                Button confirmIntersectionButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
-                final GamePlayer p = this;
-                confirmIntersectionButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick (View view) {
-                        if (!intersectionEditText.getText().toString().equals("")) {
-                            int intersectionIdInput = Integer.parseInt(intersectionEditText.getText().toString());
-                            Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
-
-                            if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
-                                Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                                game.sendAction(new CatanBuildSettlementAction(p, true, state.getCurrentPlayerId(), intersectionIdInput));
-                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
-                                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
-
-                                // todo shotty
-                                game.sendAction(new CatanEndTurnAction(p));
-
-                            } else {
-                                Log.i(TAG, "onClick: invalid intersection input. ");
-                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
-                            }
-                        } else {
-                            Log.i(TAG, "onClick: invalid intersection input. Input is empty.");
-                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
-                        }
-                    }
-                });
             } else {
                 Log.i(TAG, "onClick: It is the setup phase and received a unchecked for button click.");
             }
@@ -402,12 +371,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
 
-        /* ---------- single intersection menu (buildings) ---------- */
+        /* ---------- action button listeners ---------- */
 
-        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
-        singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
-
-        singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
+        // Build settlement action button on sidebar listener. Shows and hides a single intersection input menu group.
+        buildSettlementButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick (View view) {
                 if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
@@ -415,6 +382,44 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else {
                     singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        // Build road action button on sidebar listener. Shows/hides roadIntersectionSelectionMenuGroup.
+        buildRoadButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                    roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        /* ---------- single intersection menu (buildings) ---------- */
+
+        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
+
+        singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
+        singleIntersectionTextView = myActivity.findViewById(R.id.selectIntersectionText);
+        singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
+        singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+
+                int singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
+
+                Log.i(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput);
+
+                if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, singleIntersectionIdInput)) {
+                    Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                    game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), false, state.getCurrentPlayerId(), singleIntersectionIdInput));
+                    return;
+                }
+
+                // toggle menu vis.
+                toggleGroupVisibility(singleIntersectionInputMenuGroup);
             }
         });
 
@@ -428,41 +433,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
         roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
-        buildRoadButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
-                    roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
-                } else {
-                    roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        buildSettlementButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                    singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                } else {
-                    singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                }
-            }
-        });
-
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
-        this.intersectionEditText = myActivity.findViewById(R.id.intersection_id_entered);
         // button listeners TODO move to separate class?
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
         final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
         scoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
-                if (scoreBoardGroup.getVisibility() == View.GONE) {
-                    scoreBoardGroup.setVisibility(View.VISIBLE);
-                } else {
-                    scoreBoardGroup.setVisibility(View.GONE);
-                }
+                // toggle menu vis.
+                toggleGroupVisibility(scoreBoardGroup);
             }
         });
 
@@ -471,11 +450,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         developmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
-                if (developmentGroup.getVisibility() == View.GONE) {
-                    developmentGroup.setVisibility(View.VISIBLE);
-                } else {
-                    developmentGroup.setVisibility(View.GONE);
-                }
+                // toggle menu vis.
+                toggleGroupVisibility(developmentGroup);
             }
         });
 
@@ -604,6 +580,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
     } // end gameIsOver
+
+    /**
+     * Toggles the visibility of a group.
+     *
+     * @param group Group to toggle visibility.
+     */
+    private void toggleGroupVisibility (Group group) {
+        if (group.getVisibility() == View.GONE) group.setVisibility(View.VISIBLE);
+        else group.setVisibility(View.GONE);
+    }
 
 }// class CatanHumanPlayer
 

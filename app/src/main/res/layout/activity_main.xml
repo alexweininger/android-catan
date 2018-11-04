@@ -797,7 +797,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,button_singleIntersectionMenuOk" />
+        app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
@@ -810,8 +810,8 @@
         android:textColor="@color/colorAccent"
         android:textSize="30sp"
         android:theme="@android:style/Widget.Material.Light.TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
-        app:layout_constraintEnd_toStartOf="@+id/intersection_id_entered" />
+        app:layout_constraintBottom_toBottomOf="@+id/editText_singleIntersectionInput"
+        app:layout_constraintEnd_toStartOf="@+id/editText_singleIntersectionInput" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline45"
@@ -828,7 +828,7 @@
         app:layout_constraintGuide_percent="0.94" />
 
     <EditText
-        android:id="@+id/intersection_id_entered"
+        android:id="@+id/editText_singleIntersectionInput"
         android:layout_width="48dp"
         android:layout_height="65dp"
         android:layout_marginEnd="8dp"
