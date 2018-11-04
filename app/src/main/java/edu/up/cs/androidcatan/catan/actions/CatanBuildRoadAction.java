@@ -13,13 +13,17 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanBuildRoadAction extends GameAction {
     private int intersectionAId, intersectionBid, ownerId;
+    private boolean isSetupPhase;
 
-    public CatanBuildRoadAction(GamePlayer player, int intersectionAId, int intersectionBid, int ownerId) {
+    public CatanBuildRoadAction(GamePlayer player, boolean isSetupPhase, int intersectionAId, int intersectionBid, int ownerId) {
         super(player);
         this.intersectionAId = intersectionAId;
         this.intersectionBid = intersectionBid;
         this.ownerId = ownerId;
+        this.isSetupPhase = isSetupPhase;
     }
+
+    // getters and setters
 
     public int getIntersectionAId() {
         return intersectionAId;
@@ -43,5 +47,13 @@ public class CatanBuildRoadAction extends GameAction {
 
     public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public boolean isSetupPhase() {
+        return isSetupPhase;
+    }
+
+    public void setSetupPhase(boolean setupPhase) {
+        isSetupPhase = setupPhase;
     }
 }
