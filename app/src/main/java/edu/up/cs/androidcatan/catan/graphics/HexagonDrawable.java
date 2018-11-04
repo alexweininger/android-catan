@@ -59,15 +59,15 @@ public class HexagonDrawable extends BoardSurfaceView {
         robberPaint.setStyle(Paint.Style.FILL);
 
         if (!this.isDesert) {
-            canvas.drawText("" + , points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
+            canvas.drawText("" + this.chitValue, points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
         }
 
         if(this.isRobber) {
             canvas.drawCircle(points[3][0] + this.size, points[3][1] - this.size/2, 25, robberPaint);
         }
 
-        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
-        road.drawRoad(canvas);
+//        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
+//        road.drawRoad(canvas);
     }
 
     /** calculateHexagonPoints() generates an array of points (x, y) for the corners of a hexagon

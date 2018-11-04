@@ -87,7 +87,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), offsetX + x + (int) ((this.width + this.margin) * (j + rows[i])), y + (((this.height) * 3) / 4 + this.margin) * i, size, hexagonColor, isRobberHexagon, isDesertHexagon);
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), offsetX + x + (int) ((this.width + this.margin) * (j + rows[i])), y + (((this.height) * 3) / 4 + this.margin) * i, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue());
 
                 //int[][] points = hexagon.getHexagonPoints();
 

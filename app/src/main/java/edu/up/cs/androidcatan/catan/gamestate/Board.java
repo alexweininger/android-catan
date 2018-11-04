@@ -231,7 +231,7 @@ public class Board {
                 }
             }
             for (int n = 0; n < playerRoads.size(); n++) {
-                currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList));
+                currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList, 0));
             }
             int max = 0;
             for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
@@ -297,7 +297,10 @@ public class Board {
      * @param road Adjacency matrix for roads ONLY the given player owns.
      * @return Number of roads in a given section of continuous roads.
      */
-    public int traverseRoads(int intersectionId, int playerId, Road[][] road) {
+    public int traverseRoads(int intersectionId, int playerId, Road[][] road, int stackCount) {
+        if (stackCount > 200) {
+            return 0;
+        }
         Log.d(TAG, "traverseRoads() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "], road = [" + road + "]");
         if (isBreakAtIntersection(intersectionId, playerId)) {
             return 0;
@@ -306,7 +309,7 @@ public class Board {
             return 0;
         }
         for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
-            return 1 + traverseRoads(intersection, playerId, road);
+            return 1 + traverseRoads(intersection, playerId, road, stackCount + 1);
         }
         return 0;
     }
