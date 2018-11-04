@@ -451,7 +451,7 @@ public class CatanGameState extends GameState {
 
         Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
-    }
+    } // end tradeWithBank
 
     /**
      * Player requests to build road ands Game State processes requests and returns true if build was successful
@@ -462,6 +462,8 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
+
+        // if it is not the setup phase, check if it is the action phase
         if (!this.isSetupPhase) {
             if (!this.isActionPhase) {
                 Log.e(TAG, "buildRoad: Not setup phase, and not action phase. Returning false.");
@@ -469,12 +471,14 @@ public class CatanGameState extends GameState {
             }
         }
 
+        // check if they have enough resources to build a road
         if (!this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
             Log.e(TAG, "buildRoad: Player " + playerId + " does not have enough resources.\n");
             Log.e(TAG, "buildRoad: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
         }
 
+        // check if it is a valid road placement
         if (!board.validRoadPlacement(playerId, this.isSetupPhase, startIntersectionID, endIntersectionID)) {
             Log.e(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
             return false;
@@ -486,10 +490,11 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
-        Log.w(TAG, "buildRoad: Player " + playerId + " built a road.");
+        // add road to the board
+        this.board.addRoad(playerId, startIntersectionID, endIntersectionID);
+        Log.w(TAG, "buildRoad: Player " + playerId + " built a road. Returning true.");
         return true;
-    }
+    } // end buildRoad
 
     /**
      * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
