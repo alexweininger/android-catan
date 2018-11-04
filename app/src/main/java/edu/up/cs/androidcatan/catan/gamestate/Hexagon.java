@@ -87,9 +87,9 @@ public class Hexagon {
         robberPaint.setStyle(Paint.Style.FILL);
 
         if(isRobber) {
-            canvas.drawCircle(points[3][0] + size, points[3][1] - this.size/2, 25, robberPaint);
+            canvas.drawCircle(points[3][0] + size, points[3][1] - size/2, 25, robberPaint);
         } else {
-            canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
+            canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + size/2, points[3][1] - size/2, blackFont);
         }
 
         RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
