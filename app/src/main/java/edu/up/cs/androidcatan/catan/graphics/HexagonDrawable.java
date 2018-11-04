@@ -74,10 +74,13 @@ public class HexagonDrawable extends BoardSurfaceView {
             canvas.drawCircle(cx, cy, radius, robberPaint);
         }
 
-        canvas.drawCircle(points[5][0], points[5][0], radius, robberPaint);
+        Paint intersectionPaint = new Paint();
+        intersectionPaint.setColor(Color.DKGRAY);
+        intersectionPaint.setStyle(Paint.Style.STROKE);
 
-//        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
-//        road.drawRoad(canvas);
+        for (int i = 0; i < 6; i++) {
+            canvas.drawCircle(points[i][0], points[i][1], radius, intersectionPaint);
+        }
     }
 
     /** calculateHexagonPoints() generates an array of points (x, y) for the corners of a hexagon
