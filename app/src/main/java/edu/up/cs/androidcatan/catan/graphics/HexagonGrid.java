@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 
 public class HexagonGrid extends BoardSurfaceView {
 
@@ -21,11 +22,11 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int[] numTiles = {4, 3, 3, 3, 4};
     protected int[] colors = {Color.GREEN, Color.argb(255, 204, 153, 0), Color.RED, Color.argb(255, 194, 194, 214), Color.argb(255, 102, 102, 204)};
 
-    protected int[] robberLocation = {2, 2};
+    private Board board;
 
     ArrayList<RoadDrawable> roads = new ArrayList<>();
 
-    ArrayList<HexagonDrawable> hexagons = new ArrayList<>();
+    ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>();
 
     public HexagonGrid(Context context, Board board, int x, int y, int size, int margin) {
         super(context);
@@ -37,8 +38,8 @@ public class HexagonGrid extends BoardSurfaceView {
         this.height = size * 2;
         this.width = size * Math.sqrt(3);
         this.margin = margin;
-
-        // getHexagons(x, y, size);
+        this.board = new Board(board); // todo is this copy 100% perfect?
+        // getDrawingHexagons(x, y, size);
     }
 
     // TODO do we need this constructor?
@@ -52,11 +53,11 @@ public class HexagonGrid extends BoardSurfaceView {
         this.width = size * (int) Math.sqrt(3);
         this.margin = margin;
 
-        // getHexagons(x, y, size);
+        // getDrawingHexagons(x, y, size);
     }
 
     public void drawGrid(Canvas canvas) {
-        for (HexagonDrawable h : hexagons) {
+        for (HexagonDrawable h : drawingHexagons) {
             h.drawHexagon(canvas);
         }
 
@@ -69,7 +70,9 @@ public class HexagonGrid extends BoardSurfaceView {
     // method that generates the individual hexagon objects from the Hexagon class
     public void getHexagons(int x, int y, int size) {
 
-        hexagons = new ArrayList<HexagonDrawable>();
+        ArrayList<Hexagon> dataHexagons = board.getHexagonListForDrawing();
+
+        drawingHexagons = new ArrayList<>();
 
         int[] rows = {1, 1, 0, 1, 1};
         int[] hexagonsInEachRow = {3, 4, 5, 4, 3};
@@ -95,7 +98,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 //roads.add(new RoadDrawable(points, 0));
 
-                hexagons.add(hexagon);
+                drawingHexagons.add(hexagon);
             }
         }
     }
@@ -160,14 +163,6 @@ public class HexagonGrid extends BoardSurfaceView {
         this.colors = colors;
     }
 
-    public int[] getRobberLocation() {
-        return robberLocation;
-    }
-
-    public void setRobberLocation(int[] robberLocation) {
-        this.robberLocation = robberLocation;
-    }
-
     public ArrayList<RoadDrawable> getRoads() {
         return roads;
     }
@@ -176,12 +171,12 @@ public class HexagonGrid extends BoardSurfaceView {
         this.roads = roads;
     }
 
-    public ArrayList<HexagonDrawable> getHexagons() {
-        return hexagons;
+    public ArrayList<HexagonDrawable> getDrawingHexagons() {
+        return drawingHexagons;
     }
 
-    public void setHexagons(ArrayList<HexagonDrawable> hexagons) {
-        this.hexagons = hexagons;
+    public void setDrawingHexagons(ArrayList<HexagonDrawable> drawingHexagons) {
+        this.drawingHexagons = drawingHexagons;
     }
 
     // getTile method generated random tiles to fill the grid

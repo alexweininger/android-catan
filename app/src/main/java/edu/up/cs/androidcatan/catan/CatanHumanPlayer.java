@@ -22,6 +22,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
+import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.GamePlayer;
@@ -135,6 +136,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        if (info == null) {
+            Log.e(TAG, "receiveInfo: info is null");
+        }
         if (boardSurfaceView == null) {
             return;
         }
@@ -146,13 +150,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.state = (CatanGameState) info;
 
-            Log.i(TAG, "receiveInfo: drawing canvas");
+
             updateTextViews();
 
             if (this.boardSurfaceView == null) {
                 Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
             }
-
+            Log.i(TAG, "receiveInfo: drawing canvas");
             this.canvas = new Canvas(); // create Canvas object
             boardSurfaceView.createHexagons(this.state.getBoard());
             boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
@@ -445,7 +449,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      *
      */
     private void updateTextViews() {
-
+        if (state == null) {
+            Log.e(TAG, "updateTextViews: state is null.");
+        }
         if (this.state.isSetupPhase()) {
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
@@ -486,7 +492,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----- update misc. TextViews ----- */
         //this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
-        this.currentTurnIdTextView.setText(this.state.getCurrentPlayerId());
+
+        Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
+        this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
+
+        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 100, 100, 155, 50));
+
     }
 
     /**
