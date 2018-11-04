@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -52,11 +53,12 @@ public class HexagonGrid extends BoardSurfaceView {
     public void drawGrid (Canvas canvas) {
         for (HexagonDrawable h : drawingHexagons) {
             h.drawHexagon(canvas);
-            drawRoads(canvas);
         }
+        drawRoads(canvas);
     }
 
     public void drawRoads(Canvas canvas) {
+        Log.d(TAG, "drawRoads() called with: canvas = [" + canvas + "]");
         ArrayList<Road> dataRoads = this.board.getRoads();
 
         Collection<Integer> overlap = new ArrayList<>();
@@ -71,11 +73,14 @@ public class HexagonGrid extends BoardSurfaceView {
 
             if (overlap.size() == 2) {
                 // draw a road
+                Log.i(TAG, "drawRoads: drawing a road");
+                int[][] points;
+                int[][] points2;
 
-                int[][] points = new int[6][2];
-                int[][] points2 = new int[6][2]
                 points = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(0)]).getHexagonPoints();
                 points2 = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(1)]).getHexagonPoints();
+
+                Log.i(TAG, "drawRoads: points: " + Arrays.toString(points));
 
                 if (points == null || points.length == 0) {
                     Paint roadPaint = new Paint();
@@ -93,6 +98,15 @@ public class HexagonGrid extends BoardSurfaceView {
 
                     canvas.drawCircle(cx2, cy2, radius, roadPaint);
                 }
+            } else if (overlap.size() == 1) {
+                ArrayList<Integer> hexes = board.getIntToHexIdMap().get(k);
+                Hexagon h = board.getHexagonFromId(hexes.get(0));
+
+                for (int i = 0; i < this.dataToDrawMap.length; i++) {
+                    //if (dataToDrawMap[i] == )
+                }
+
+                //canvas.drawCircle(cx, cy, radius, roadPaint);
             }
 
         }
