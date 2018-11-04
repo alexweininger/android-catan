@@ -7,8 +7,6 @@ import android.graphics.Path;
 
 import java.util.Random;
 
-import edu.up.cs.androidcatan.catan.graphics.RoadDrawable;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -74,7 +72,6 @@ public class Hexagon {
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, paint);
 
-        // TODO random from selection numbers on each hexagon DANIEL
         Paint blackFont = new Paint();
         blackFont.setColor(Color.BLACK);
         blackFont.setStyle(Paint.Style.FILL);
@@ -92,8 +89,8 @@ public class Hexagon {
             canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + size/2, points[3][1] - size/2, blackFont);
         }
 
-        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
-        road.drawRoad(canvas);
+//        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
+//        road.drawRoad(canvas);
     }
 
     /** createHexagonPath() creates a Path object from given hexagon corner x and y values
