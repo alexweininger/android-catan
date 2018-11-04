@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +19,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected double width;
     protected int margin;
     protected int[] numTiles = {4, 3, 3, 3, 4};
-    protected int[] colors = {Color.GREEN, Color.argb(255, 204, 153, 0), Color.RED, Color.argb(255, 194, 194, 214), Color.argb(255, 102, 102, 204)};
+    protected int[] colors = {Color.RED, Color.GREEN, Color.argb(255, 204, 153, 0), Color.argb(255, 194, 194, 214), Color.argb(255, 102, 102, 204)};
 
     private Board board;
 
@@ -78,27 +77,25 @@ public class HexagonGrid extends BoardSurfaceView {
         int[] hexagonsInEachRow = {3, 4, 5, 4, 3};
         int offsetX;
 
+        int dataHexagonsIndex = 0;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < hexagonsInEachRow[i]; j++) {
 
-                // TODO robber should be redone
-                boolean isRobber = false;
-                if (robberLocation[0] == i && robberLocation[1] == j) {
-                    isRobber = true;
-                    Log.d("user", "grid robber");
-                }
-
-                int color = getTile(i, j);
+                int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
+                boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
 
                 offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), offsetX + x + (int) ((this.width + this.margin) * (j + rows[i])), y + (((this.height) * 3) / 4 + this.margin) * i, size, color, isRobber);
+
+
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), offsetX + x + (int) ((this.width + this.margin) * (j + rows[i])), y + (((this.height) * 3) / 4 + this.margin) * i, size, hexagonColor, isRobberHexagon);
 
                 //int[][] points = hexagon.getHexagonPoints();
 
                 //roads.add(new RoadDrawable(points, 0));
 
                 drawingHexagons.add(hexagon);
+                dataHexagonsIndex++;
             }
         }
     }

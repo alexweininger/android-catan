@@ -408,7 +408,7 @@ public class Board {
                 randomChitValue = 0;
             }
 
-            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
+            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             resourceTypeCount[randomResourceType]--;
             chitValuesCount[randomChitValue]--;
 
