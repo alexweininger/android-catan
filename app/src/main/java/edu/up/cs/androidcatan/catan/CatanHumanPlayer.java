@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -376,6 +377,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
+        this.player0Name = activity.findViewById(R.id.Player1_Name);
+        this.player1Name = activity.findViewById(R.id.Player2_Name);
+        this.player2Name = activity.findViewById(R.id.Player3_Name);
+        this.player3Name = activity.findViewById(R.id.Player4_Name);
+
+        this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
+
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
@@ -483,16 +491,38 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.oreValue.setText(String.valueOf(resourceCards[3]));
         this.woolValue.setText(String.valueOf(resourceCards[4]));
 
-        /* ----- update scoreboard ----- */
+        /* ----- update scoreboard scores ----- */
         this.player0Score.setText(String.valueOf(state.getPlayerVictoryPoints()[0]));
         this.player1Score.setText(String.valueOf(state.getPlayerVictoryPoints()[1]));
         this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
-        /* ----- update misc. TextViews ----- */
-        //this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
+        /* ----- update scoreboard names ----- */
+        player0Name.setBackgroundColor(Color.TRANSPARENT);
+        player1Name.setBackgroundColor(Color.TRANSPARENT);
+        player2Name.setBackgroundColor(Color.TRANSPARENT);
+        player3Name.setBackgroundColor(Color.TRANSPARENT);
 
-        Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
+        switch(state.getCurrentPlayerId()) {
+            case 0:
+                player0Name.setBackgroundColor(Color.WHITE);
+                break;
+            case 1:
+                player1Name.setBackgroundColor(Color.WHITE);
+                break;
+            case 2:
+                player2Name.setBackgroundColor(Color.WHITE);
+                break;
+            case 3:
+                player3Name.setBackgroundColor(Color.WHITE);
+                break;
+        }
+
+        /* ----- update misc. TextViews ----- */
+
+        this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.playerId]));
+
+        Log.w(TAG, "updateTextViews: allPlayerNames: " + Arrays.toString(allPlayerNames));
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
     } // end updateTextViews
 
