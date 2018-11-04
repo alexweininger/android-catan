@@ -99,6 +99,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // misc sidebar TextViews
     private TextView myScore = (TextView) null;
 
+    // intersection menu
+    EditText intersectionEditText = (EditText) null;
+
     private GameMainActivity myActivity;  // the android activity that we are running
 
     public CatanGameState state = null; // game state
@@ -213,9 +216,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
-                        if (!intersectionText.getText().toString().equals("")) {
-                            int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                        if (!intersectionEditText.getText().toString().equals("")) {
+                            int intersectionIdInput = Integer.parseInt(intersectionEditText.getText().toString());
                             Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
                             if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
@@ -451,6 +453,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buyDevCardButton.setAlpha(1f);
             this.tradeButton.setAlpha(1f);
         }
+
+        this.intersectionEditText = (EditText) myActivity.findViewById(R.id.start_road_id_entered);
 
         /* ----- update resource value TextViews ----- */
         int[] resourceCards = this.state.getPlayerList().get(this.playerId).getResourceCards();
