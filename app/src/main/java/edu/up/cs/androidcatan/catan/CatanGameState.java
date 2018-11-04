@@ -352,7 +352,7 @@ public class CatanGameState extends GameState {
         Log.d(TAG, "endTurn() called");
 
         // if it is not the setup phase
-        if (!this.setupPhase()) {
+        if (!this.isSetupPhase()) {
 
             // check if it is the action phase
             if (!isActionPhase) {

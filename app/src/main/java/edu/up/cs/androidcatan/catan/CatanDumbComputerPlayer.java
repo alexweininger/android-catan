@@ -8,8 +8,6 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
@@ -51,20 +49,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         if (gs.isSetupPhase()) {
             Log.i(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road.");
-            int settlementCount = 0;
-            int roadCount = 0;
-
-            for (Building building : gs.getBoard().getBuildings()) {
-                if (building.getOwnerId() == this.playerNum) {
-                    settlementCount++;
-                }
-            }
-
-            for (Road road : gs.getBoard().getRoads()) {
-                if (road.getOwnerId() == this.playerNum) {
-                    roadCount++;
-                }
-            }
 
             int randomIntersectionId = random.nextInt(53);
 
