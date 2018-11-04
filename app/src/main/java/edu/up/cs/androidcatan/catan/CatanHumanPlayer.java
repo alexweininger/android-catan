@@ -24,6 +24,7 @@ import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 import edu.up.cs.androidcatan.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
@@ -106,7 +107,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     public CatanGameState state = null; // game state
 
-    public BoardSurfaceView boardSurfaceView = (BoardSurfaceView) null; // board SurfaceView
+    private BoardSurfaceView boardSurfaceView;
 
     Canvas canvas = (Canvas) null;
 
@@ -133,6 +134,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        if (boardSurfaceView == null) {
+            return;
+        }
         Log.d(TAG, "receiveInfo() called with: info = [" + info.toString() + "]");
         //TODO You will implement this method to receive state objects from the game
         if (info instanceof CatanGameState) {
@@ -148,11 +152,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
             }
 
-//            this.canvas = new Canvas(); // create Canvas object
-//            board.createHexagons(this.state.getBoard());
-//            board.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
-//
-//            board.draw(canvas); // draw
+            this.canvas = new Canvas(); // create Canvas object
+            boardSurfaceView.createHexagons(this.state.getBoard());
+            boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
+            boardSurfaceView.draw(canvas); // draw
 
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -213,6 +216,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
 
                 Button confirmIntersectionButton = myActivity.findViewById(R.id.confirm);
+                final GamePlayer p = this;
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -222,8 +226,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                             if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
                                 Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                                game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), state.getCurrentPlayerId(), intersectionIdInput));
-                                myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.WHITE);
+                                game.sendAction(new CatanBuildSettlementAction(p, state.getCurrentPlayerId(), intersectionIdInput));
+                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
                                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
                             } else {
                                 Log.i(TAG, "onClick: invalid intersection input. ");
@@ -231,7 +235,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             }
                         } else {
                             Log.i(TAG, "onClick: invalid intersection input. Input is empty.");
-                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.RED);
+                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
                         }
                     }
                 });
@@ -372,7 +376,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
-
+        this.intersectionEditText = (EditText) myActivity.findViewById(R.id.intersection_id_entered);
         // button listeners TODO move to separate class?
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
         final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
@@ -453,8 +457,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buyDevCardButton.setAlpha(1f);
             this.tradeButton.setAlpha(1f);
         }
-
-        this.intersectionEditText = (EditText) myActivity.findViewById(R.id.start_road_id_entered);
 
         /* ----- update resource value TextViews ----- */
         int[] resourceCards = this.state.getPlayerList().get(this.playerId).getResourceCards();

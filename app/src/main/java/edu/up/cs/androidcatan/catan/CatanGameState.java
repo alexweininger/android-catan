@@ -120,7 +120,6 @@ public class CatanGameState extends GameState {
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
         return new DevelopmentCard(drawnDevCard);
-
     }
 
     /**

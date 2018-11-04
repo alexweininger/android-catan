@@ -147,6 +147,7 @@ public abstract class LocalGame implements Game, Tickable {
 	 * 			the player's ID, or -1 if the player is not a player in this game
 	 */
 	protected final int getPlayerIdx(GamePlayer p) {
+		Log.i("LocalGame", "getPlayerIdx() called with: p = [" + p + "]");
 		for (int i = 0; i < players.length; i++) {
 			if (p == players[i]) {
 				return i;
@@ -266,7 +267,7 @@ public abstract class LocalGame implements Game, Tickable {
 		
 		// if the player is NOT a player who is presently allowed to
 		// move, send the player a message
-		if (!canMove(playerId)) {;
+		if (!canMove(playerId)) {
 			player.sendInfo(new NotYourTurnInfo());
 			return;
 		}

@@ -12,7 +12,6 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanBuildRoadAction extends GameAction {
-
     private int intersectionAId, intersectionBid, ownerId;
 
     public CatanBuildRoadAction(GamePlayer player, int intersectionAId, int intersectionBid, int ownerId) {
