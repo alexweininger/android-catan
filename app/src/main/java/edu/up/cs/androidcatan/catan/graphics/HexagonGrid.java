@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
@@ -161,27 +160,4 @@ public class HexagonGrid extends BoardSurfaceView {
     public void setDrawingHexagons (ArrayList<HexagonDrawable> drawingHexagons) {
         this.drawingHexagons = drawingHexagons;
     }
-
-    // getTile method generated random tiles to fill the grid
-    // TODO needs to be redone
-    public int getTile (int i, int j) {
-
-        if (i == 2 && j == 2) {
-            return Color.GRAY;
-        }
-
-        int max = numTiles.length - 1;
-        int min = 0;
-        int tile = 0;
-        Random random = new Random();
-        int randomNumber = random.nextInt((max - min) + 1) + min;
-        while (numTiles[randomNumber] < 0) {
-            randomNumber = random.nextInt((max - min) + 1) + min;
-        }
-        tile = randomNumber;
-        numTiles[randomNumber]--;
-        return colors[tile];
-    }
-
-
 }
