@@ -695,13 +695,14 @@ public class CatanGameState extends GameState {
     /**
      * goes through each building and road to check how many are owned by the player
      * when they have 2 roads and 2 buildings, setupPhase is false.
+     *
      * @return if the game is still in the setup phase
      */
-    public boolean setupPhase(){
+    public boolean setupPhase() {
         Log.d(TAG, "setupPhase() called");
         int roadCount = 0;
         int buildingCount = 0;
-        for (int n = 0; n < playerList.size(); n++){
+        for (int n = 0; n < playerList.size(); n++) {
             for (Building building : board.getBuildings()) {
                 if (building != null) {
                     if (building.getOwnerId() == n) {
