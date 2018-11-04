@@ -463,6 +463,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
         buyDevCard = (Button) activity.findViewById(R.id.dev_build_button);
+        okButton = (Button) activity.findViewById(R.id.okButton);
+        cancelButton = (Button) activity.findViewById(R.id.cancelButton);
 
         //GUI Buttons
         showScore = (Button) activity.findViewById(R.id.sidebar_button_score);
