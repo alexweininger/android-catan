@@ -1339,23 +1339,23 @@
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/cancel"
-        app:layout_constraintEnd_toStartOf="@+id/cancel"
-        app:layout_constraintTop_toTopOf="@+id/cancel" />
+        app:layout_constraintBottom_toBottomOf="@+id/button_roadOk"
+        app:layout_constraintEnd_toStartOf="@+id/button_roadOk"
+        app:layout_constraintTop_toTopOf="@+id/button_roadOk" />
 
     <Button
-        android:id="@+id/cancel"
+        android:id="@+id/button_roadOk"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:text="@android:string/yes"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/confirm2"
-        app:layout_constraintEnd_toStartOf="@+id/confirm2"
-        app:layout_constraintTop_toTopOf="@+id/confirm2" />
+        app:layout_constraintBottom_toBottomOf="@+id/button_roadCancel"
+        app:layout_constraintEnd_toStartOf="@+id/button_roadCancel"
+        app:layout_constraintTop_toTopOf="@+id/button_roadCancel" />
 
     <Button
-        android:id="@+id/confirm2"
+        android:id="@+id/button_roadCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -1369,8 +1369,8 @@
         android:id="@+id/group_road_intersection_selection_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="end_road_id_entered,confirm2,selectRoadIntersectionText,start_road_id_entered,cancel" />
+        android:visibility="visible"
+        app:constraint_referenced_ids="end_road_id_entered,confirm2,selectRoadIntersectionText,start_road_id_entered,button_roadOk" />
 
     <!--intersection input menu END-->
 
