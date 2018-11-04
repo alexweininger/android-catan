@@ -156,11 +156,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (this.boardSurfaceView == null) {
                 Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
             }
-            Log.i(TAG, "receiveInfo: drawing canvas");
-            this.canvas = new Canvas(); // create Canvas object
-            boardSurfaceView.createHexagons(this.state.getBoard());
-            boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
-            boardSurfaceView.draw(canvas); // draw
+
 
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -496,8 +492,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
 
+
+
+
+    }
+
+    public void drawGraphics() {
+        Log.d(TAG, "drawGraphics() called");
+
+        this.canvas = new Canvas(); // create Canvas object
+        boardSurfaceView.createHexagons(this.state.getBoard());
+        boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
+        boardSurfaceView.draw(canvas); // draw
         this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 100, 100, 155, 50));
 
+        this.boardSurfaceView.draw(canvas);
     }
 
     /**

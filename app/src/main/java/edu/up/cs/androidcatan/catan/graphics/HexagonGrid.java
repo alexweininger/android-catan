@@ -61,9 +61,9 @@ public class HexagonGrid extends BoardSurfaceView {
         }
 
         // TODO roads
-        for (RoadDrawable r : roads) {
-            r.drawRoad(canvas);
-        }
+//        for (RoadDrawable r : roads) {
+//            r.drawRoad(canvas);
+//        }
     }
 
     // method that generates the individual hexagon objects from the Hexagon class
