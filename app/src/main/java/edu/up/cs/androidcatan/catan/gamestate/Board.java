@@ -266,8 +266,20 @@ public class Board {
 
     //TODO: helper method to return a playerId's longest road (possibly for later)
 
-    public boolean checkIntersectionBreak(int intersectionId, int playerId) {
-        Log.d(TAG, "checkIntersectionBreak() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "]");
+    /**
+     *
+     * @param intersectionId intersection to check for a break
+     * @param playerId player we're checking for
+     * @return if there is a break
+     */
+    public boolean isBreakAtIntersection(int intersectionId, int playerId) {
+        Log.d(TAG, "isBreakAtIntersection() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "]");
+
+        // if null (means no building) return false
+        if (this.buildings[intersectionId] == null) {
+            return false;
+        }
+        // (if not null) check if the player owns the building
         return this.buildings[intersectionId].getOwnerId() != playerId;
     }
 
@@ -284,7 +296,7 @@ public class Board {
     //Recursive method that will call other helper methods within board
     public int traverseRoads(int intersectionId, int playerId, Road[][] road) {
         Log.d(TAG, "traverseRoads() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "], road = [" + road + "]");
-        if (checkIntersectionBreak(intersectionId, playerId)) {
+        if (isBreakAtIntersection(intersectionId, playerId)) {
             return 0;
         }
         if (checkDeadEnd(intersectionId, road)) {
