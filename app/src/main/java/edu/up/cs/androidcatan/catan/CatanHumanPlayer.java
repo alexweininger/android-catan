@@ -443,7 +443,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state == null) {
             Log.e(TAG, "updateTextViews: state is null.");
         }
+
         if (this.state.isSetupPhase()) {
+            // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
@@ -455,6 +457,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
         } else {
+            // if it is NOT the setup phase, no greyed out buttons and all are clickable
             this.buildCityButton.setAlpha(0f);
             this.buildCityButton.setClickable(true);
             this.rollButton.setAlpha(0f);
@@ -486,8 +489,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
-
-
     }
 
     public void drawGraphics () {
