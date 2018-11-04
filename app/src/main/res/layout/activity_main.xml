@@ -796,8 +796,8 @@
         android:id="@+id/group_singleIntersectionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
+        android:visibility="visible"
+        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,button_singleIntersectionMenuOk" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
@@ -841,12 +841,12 @@
         android:textColorLink="@color/colorAccent"
         android:textSize="30sp"
         android:theme="@android:style/Widget.Material.Light.EditText"
-        app:layout_constraintBottom_toBottomOf="@+id/confirm"
-        app:layout_constraintEnd_toStartOf="@+id/confirm"
-        app:layout_constraintTop_toTopOf="@+id/confirm" />
+        app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuOk"
+        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuOk"
+        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuOk" />
 
     <Button
-        android:id="@+id/confirm"
+        android:id="@+id/button_singleIntersectionMenuOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

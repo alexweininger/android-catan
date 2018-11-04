@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="@+id/selectIntersectionText" />
 
     <Button
-        android:id="@+id/confirm"
+        android:id="@+id/button_singleIntersectionMenuOk"
         android:layout_width="187dp"
         android:layout_height="79dp"
         android:layout_marginStart="8dp"

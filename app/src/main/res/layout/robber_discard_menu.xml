@@ -82,7 +82,7 @@
         app:srcCompat="@drawable/wool_icon_25x25" />
 
     <Button
-        android:id="@+id/confirm"
+        android:id="@+id/button_singleIntersectionMenuOk"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:text="@string/confirm"
@@ -99,7 +99,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/select_more_resources"
         android:textSize="32sp"
-        app:layout_constraintEnd_toStartOf="@+id/confirm"
+        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuOk"
         app:layout_constraintTop_toBottomOf="@+id/brickAmount" />
 
     <TextView
@@ -257,6 +257,6 @@
         android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="grainMinusImg,lumberImg,robberMenuHeaderText,lumberMinusImg,birckMinusImg,grainImg,woolImg,woolAddImg,oreAddImg,oreAmount,brickImg,oreMinusImg,grainAddImg,woolMinusImg,oreImg,grainAmount,birckAddImg,confirm,brickAmount,lumberAmount,woolAmount,selectMoreResources,lumberAddImg" />
+        app:constraint_referenced_ids="grainMinusImg,lumberImg,robberMenuHeaderText,lumberMinusImg,birckMinusImg,grainImg,woolImg,woolAddImg,oreAddImg,oreAmount,brickImg,oreMinusImg,grainAddImg,woolMinusImg,oreImg,grainAmount,birckAddImg,button_singleIntersectionMenuOk,brickAmount,lumberAmount,woolAmount,selectMoreResources,lumberAddImg" />
 
 </android.support.constraint.ConstraintLayout>

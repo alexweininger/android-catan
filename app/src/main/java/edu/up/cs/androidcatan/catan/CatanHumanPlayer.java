@@ -225,7 +225,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
 
-                Button confirmIntersectionButton = myActivity.findViewById(R.id.confirm);
+                Button confirmIntersectionButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
                 final GamePlayer p = this;
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
@@ -273,9 +273,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (button.getId() == R.id.sidebar_button_settlement) {
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
 
-
                 final CatanGameState copyState = new CatanGameState(state);
-                Button confirmIntersectionButton = myActivity.findViewById(R.id.confirm);
+                Button confirmIntersectionButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick (View view) {
@@ -406,7 +405,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------- single intersection menu (buildings) ---------- */
 
         singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
-        singleIntersectionOkButton = myActivity.findViewById(R.id.okButton)
+        singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
+
+        singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                    singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    singleIntersectionInputMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
 
         /* ---------- road intersection menu ---------- */
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu);
@@ -439,9 +449,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
         });
-
-
-
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         this.intersectionEditText = myActivity.findViewById(R.id.intersection_id_entered);
@@ -544,7 +551,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         player2Name.setBackgroundColor(Color.TRANSPARENT);
         player3Name.setBackgroundColor(Color.TRANSPARENT);
 
-        switch(state.getCurrentPlayerId()) {
+        switch (state.getCurrentPlayerId()) {
             case 0:
                 player0Name.setBackgroundColor(Color.WHITE);
                 break;
