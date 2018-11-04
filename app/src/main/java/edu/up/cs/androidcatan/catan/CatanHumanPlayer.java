@@ -280,6 +280,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, this.playerId, 1);
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
+                game.sendAction(new CatanEndTurnAction(this));
                 return;
             }
             if (button.getId() == R.id.sidebar_button_devcards) {
@@ -453,13 +454,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buyDevCardButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
-
         } else {
-            this.buildCityButton.setAlpha(1f);
-            this.rollButton.setAlpha(1f);
-            this.endTurnButton.setAlpha(1f);
-            this.buyDevCardButton.setAlpha(1f);
-            this.tradeButton.setAlpha(1f);
+            this.buildCityButton.setAlpha(0f);
+            this.buildCityButton.setClickable(true);
+            this.rollButton.setAlpha(0f);
+            this.rollButton.setClickable(true);
+            this.endTurnButton.setAlpha(0f);
+            this.endTurnButton.setClickable(true);
+            this.buyDevCardButton.setAlpha(0f);
+            this.buyDevCardButton.setClickable(true);
+            this.tradeButton.setAlpha(0f);
+            this.tradeButton.setClickable(true);
         }
 
         /* ----- update resource value TextViews ----- */
