@@ -60,7 +60,6 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         if(this.isRobber) {
             canvas.drawCircle(points[3][0] + this.size, points[3][1] - this.size/2, 25, robberPaint);
-            Log.d("user", "hexagon robber");
         } else {
             canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
         }
@@ -78,8 +77,6 @@ public class HexagonDrawable extends BoardSurfaceView {
     public int[][] calculateHexagonPoints(int x, int y, int size) {
         int[][] points = new int[6][2];
         double angle_deg, angle_rad;
-
-        Log.d("user", "\nhexagon");
 
         for (int i = 0; i < 6; i++) {
 

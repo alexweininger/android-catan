@@ -1207,22 +1207,22 @@
         android:id="@+id/group_singleIntersectionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
         android:layout_width="wrap_content"
-        android:layout_height="54dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:text="@string/select_intersection_id"
-        android:textColor="@color/colorPrimary"
-        android:textSize="36sp"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
         android:theme="@android:style/Widget.Material.Light.TextView"
         app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
-        app:layout_constraintEnd_toStartOf="@+id/intersection_id_entered"
-        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/intersection_id_entered" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -1240,15 +1240,16 @@
 
     <EditText
         android:id="@+id/intersection_id_entered"
-        android:layout_width="70dp"
-        android:layout_height="52dp"
+        android:layout_width="48dp"
+        android:layout_height="65dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="0"
         android:inputType="textNoSuggestions|number|numberSigned|phone"
         android:text="0"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
+        android:textColorLink="@color/colorAccent"
+        android:textSize="30sp"
         android:theme="@android:style/Widget.Material.Light.EditText"
         app:layout_constraintBottom_toBottomOf="@+id/confirm"
         app:layout_constraintEnd_toStartOf="@+id/confirm"

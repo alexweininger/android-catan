@@ -60,6 +60,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // playerId
     private int playerId;
 
+    private String currentBuildingSelection = null;
+
     // These variables will reference widgets that will be modified during play
     private Button buildCityButton = null;
     private Button buildRoadButton = null;
@@ -160,9 +162,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     public void onClick(View button) {
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
+        Group intersectionMenu = myActivity.findViewById(R.id.group_singleIntersectionInput);
+        if (button.getId() == R.id.sidebar_button_settlement) {
+            intersectionMenu.setVisibility(View.VISIBLE);
+            this.currentBuildingSelection = "Settlement";
+        }
 
+        if (button.getId() == R.id.sidebar_button_city) {
+            intersectionMenu.setVisibility(View.VISIBLE);
+            this.currentBuildingSelection = "City";
+        }
 
-        if (state == null) { Log.e(TAG, "onClick: state is null."); } // check if state is null
+        if (state == null) {
+            Log.e(TAG, "onClick: state is null.");
+        } // check if state is null
 
         // check if it is the setup phase of the game
         if (state.isSetupPhase()) {
@@ -181,31 +194,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             } else if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
 
-//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
-//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-//                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
 
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
-                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
 
-                final CatanGameState copyState = new CatanGameState(state);
-                Button confirmIntersectionButton = (Button) myActivity.findViewById(R.id.confirm);
+                Button confirmIntersectionButton = myActivity.findViewById(R.id.confirm);
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
-                        int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
-                        Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
+                        if (!intersectionText.getText().toString().equals("")) {
+                            int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
+                            Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
-                        if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
-                            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-                            game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
-                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
-                            myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
-                            return;
+                            if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersectionIdInput)) {
+                                Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                                game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), state.getCurrentPlayerId(), intersectionIdInput));
+                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
+                                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
+                            } else {
+                                Log.i(TAG, "onClick: invalid intersection input. ");
+                                myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
+                            }
                         } else {
-                            Log.i(TAG, "onClick: invalid intersection input");
+                            Log.i(TAG, "onClick: invalid intersection input. Input is empty.");
                             myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
                         }
                     }

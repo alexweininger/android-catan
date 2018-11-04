@@ -82,7 +82,9 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.rollDice();
@@ -99,8 +101,8 @@ public class CatanLocalGame extends LocalGame {
         }
 
         if (action instanceof CatanBuildSettlementAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.buildSettlement(gameState.getCurrentPlayerId(), 1);
+            Log.i(TAG, "makeMove: received an CatanBuildSettlementAction. Returning a CatanGameState.buildSettlement action.");
+            return gameState.buildSettlement(gameState.getCurrentPlayerId(), ((CatanBuildSettlementAction) action).getIntersectionId());
         }
 
         if (action instanceof CatanBuildCityAction) {

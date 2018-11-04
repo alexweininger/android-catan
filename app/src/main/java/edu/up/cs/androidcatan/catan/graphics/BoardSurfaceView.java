@@ -42,15 +42,6 @@ public class BoardSurfaceView extends SurfaceView {
 
     public void onDraw(Canvas canvas) {
         canvas.drawARGB(255, 237, 237, 171);
-//        //grid.drawGrid(canvas);
-//        for (int i = 0; i < 9; i++) {
-//            Log.d("user1", "" + i);
-//            ports.get(i).drawPort(canvas);
-//        }
-//        Log.d("house", "yeet");
-//        for (int j = 0; j < 4; j++) {
-//            Log.d("house", "h" + j);
-//            houses.get(j).drawHouse(canvas);
-//        }
+        grid.drawGrid(canvas);
     }
 }
