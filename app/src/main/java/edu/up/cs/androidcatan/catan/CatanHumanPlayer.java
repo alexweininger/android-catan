@@ -116,6 +116,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     Button roadIntersectionOkButton = (Button) null;
     Button roadIntersectionCancelButton = (Button) null;
 
+    Group singleIntersectionInputMenuGroup = (Group) null;
+
     private GameMainActivity myActivity;  // the android activity that we are running
 
     public CatanGameState state = null; // game state
@@ -270,7 +272,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             if (button.getId() == R.id.sidebar_button_settlement) {
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
-                myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.VISIBLE); // todo
+
 
                 final CatanGameState copyState = new CatanGameState(state);
                 Button confirmIntersectionButton = myActivity.findViewById(R.id.confirm);
@@ -411,13 +413,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
         roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
-        roadIntersectionOkButton.setOnClickListener(new OnClickListener() {
+        buildRoadButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick (View view) {
                 if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
                     roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
                 } else {
                     roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput); // todo
+        buildSettlementButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                    singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 }
             }
         });
@@ -450,24 +463,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
         });
-
-        // build menu layout group
-        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
-
-        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
-
-        roadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (buildMenuGroup.getVisibility() == View.GONE) {
-                    buildMenuGroup.setVisibility(View.VISIBLE);
-                } else {
-                    buildMenuGroup.setVisibility(View.GONE);
-                }
-            }
-        });
-
-
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
