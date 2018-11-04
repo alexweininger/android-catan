@@ -481,6 +481,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //        ImageButton sheepGive = (ImageButton) activity.findViewById(R.id.sheep_give_icon);
 //        ImageButton sheepGet = (ImageButton) activity.findViewById(R.id.sheep_want_icon);
 
+        buildCityButton.setOnClickListener(this);
+        buildRoadButton.setOnClickListener(this);
+        buildSettlementButton.setOnClickListener(this);
+        buyDevCardButton.setOnClickListener(this);
+        endTurnButton.setOnClickListener(this);
+        //        robberDiscard.setOnClickListener(this);
+        //        robberMove.setOnClickListener(this);
+        //        robberSteal.setOnClickListener(this);
+        rollButton.setOnClickListener(this);
+        tradeButton.setOnClickListener(this);
+        tradeCustomPort.setOnClickListener(this);
+        tradePort.setOnClickListener(this);
+        useDevCard.setOnClickListener(this);
+
         //Ok and cancel listeners
         okButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
