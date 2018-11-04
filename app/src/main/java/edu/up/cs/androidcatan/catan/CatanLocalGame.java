@@ -42,6 +42,7 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
+        Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
         p.sendInfo(new CatanGameState(this.gameState)); // TODO verify that this copies everything (guess what it def. does not)
     }
 
@@ -54,6 +55,7 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        Log.d(TAG, "checkIfGameOver() called");
         for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
             if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
                 return playerNames[i] + " wins!";
@@ -71,6 +73,7 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove(int playerIdx) {
+        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
         return playerIdx == gameState.getCurrentPlayerId();
     }
 
@@ -82,7 +85,9 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.rollDice();
@@ -95,12 +100,12 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.buildRoad(gameState.getCurrentPlayerId(), 0, 1);
+            return gameState.buildRoad(gameState.getCurrentPlayerId(), ((CatanBuildRoadAction) action).getIntersectionAId(), ((CatanBuildRoadAction) action).getIntersectionBid());
         }
 
         if (action instanceof CatanBuildSettlementAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.buildSettlement(gameState.getCurrentPlayerId(), 1);
+            Log.i(TAG, "makeMove: received an CatanBuildSettlementAction. Returning a CatanGameState.buildSettlement action.");
+            return gameState.buildSettlement(gameState.getCurrentPlayerId(), ((CatanBuildSettlementAction) action).getIntersectionId());
         }
 
         if (action instanceof CatanBuildCityAction) {

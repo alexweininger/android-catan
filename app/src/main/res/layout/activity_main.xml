@@ -21,7 +21,7 @@
 
     <!--scoreboard group-->
 
-    <edu.up.cs.androidcatan.catan.graphics.boardSurfaceView
+    <edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView
         android:id="@+id/board"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -321,20 +321,18 @@
     <TextView
         android:id="@+id/victory_Points"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/scoreboard"
         android:textColor="@android:color/black"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline_trading"
+        app:layout_constraintStart_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Player1_Name"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Player1"
         android:textColor="@android:color/black"
@@ -438,7 +436,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="174dp" />
+        app:layout_constraintGuide_begin="167dp" />
 
     <TextView
         android:id="@+id/menu_header"
@@ -1052,6 +1050,23 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_playername" />
 
+    <TextView
+
+        android:id="@+id/sidebar_heading_current_turn"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="VP: 00"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/wool_icon" />
+
     <Button
         android:id="@+id/sidebar_button_roll"
         style="@style/Widget.AppCompat.Button"
@@ -1208,18 +1223,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="start_road_id_entered,selectIntersectionText,confirm" />
+        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
-        android:layout_width="298dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/select_intersection_id"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorAccent"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered"
-        tools:text="@string/select_intersection_id" />
+        android:theme="@android:style/Widget.Material.Light.TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
+        app:layout_constraintEnd_toStartOf="@+id/intersection_id_entered" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -1236,29 +1254,34 @@
         app:layout_constraintGuide_percent="0.94" />
 
     <EditText
-        android:id="@+id/start_road_id_entered"
-        android:layout_width="70dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
+        android:id="@+id/intersection_id_entered"
+        android:layout_width="48dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="0"
-        android:inputType="number"
+        android:inputType="textNoSuggestions|number|numberSigned|phone"
         android:text="0"
-        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:textColorLink="@color/colorAccent"
+        android:textSize="30sp"
+        android:theme="@android:style/Widget.Material.Light.EditText"
         app:layout_constraintBottom_toBottomOf="@+id/confirm"
-        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
+        app:layout_constraintEnd_toStartOf="@+id/confirm"
         app:layout_constraintTop_toTopOf="@+id/confirm" />
 
     <Button
         android:id="@+id/confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/confirm"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/start_road_id_entered" />
+        app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
+
+
 
     <!--intersection input menu END-->
 

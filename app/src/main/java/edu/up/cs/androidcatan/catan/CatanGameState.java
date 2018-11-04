@@ -120,7 +120,6 @@ public class CatanGameState extends GameState {
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
         return new DevelopmentCard(drawnDevCard);
-
     }
 
     /**
@@ -307,7 +306,7 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean setupBuilding() {
-
+        Log.d(TAG, "setupBuilding() called");
 
 
         return false;
@@ -350,25 +349,33 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean endTurn() {
-        if (!isActionPhase) {
-            Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
-            return false;
+        Log.d(TAG, "endTurn() called");
+
+        // if it is not the setup phase
+        if (!this.isSetupPhase()) {
+
+            // check if it is the action phase
+            if (!isActionPhase) {
+                Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
+                return false;
+            }
         }
-
-//        if (this.currentPlayerId == 3) {
-//            this.currentPlayerId = 0;
-//        } else {
-//            this.currentPlayerId++;
-//        }
-
-        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + this.currentPlayerId + "'s turn.");
 
         updateVictoryPoints();
 
         for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
         }
+
         this.isActionPhase = false;
+
+        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
+
+        if (this.currentPlayerId == 3) {
+            this.currentPlayerId = 0;
+        } else {
+            this.currentPlayerId++;
+        }
 
         return true;
     } // end endTurn method
@@ -387,6 +394,7 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean tradeWithPort(int playerId, int intersectionId, int givenResourceId, int receivedResourceId) {
+        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + givenResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
         // check if current player's turn and then if player has rolled dice
         if (!valAction(playerId)) {
             return false;
@@ -435,15 +443,15 @@ public class CatanGameState extends GameState {
 
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
         if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
-            Log.d(TAG, "ERROR: tradeWithBank - not enough resources player id: " + playerId);
+            Log.e(TAG, "tradeWithBank - not enough resources player id: " + playerId);
             return false;
         }
 
         this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
 
-        Log.d("devInfo", "INFO: tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
+        Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
-    }
+    } // end tradeWithBank
 
     /**
      * Player requests to build road ands Game State processes requests and returns true if build was successful
@@ -454,17 +462,26 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
-        if (!valAction(playerId)) {
+        Log.d(TAG, "buildRoad() called with: playerId = [" + playerId + "], startIntersectionID = [" + startIntersectionID + "], endIntersectionID = [" + endIntersectionID + "]");
+
+        // if it is not the setup phase, check if it is the action phase
+        if (!this.isSetupPhase) {
+            if (!this.isActionPhase) {
+                Log.e(TAG, "buildRoad: Not setup phase, and not action phase. Returning false.");
+                return false;
+            }
+        }
+
+        // check if they have enough resources to build a road
+        if (!this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
+            Log.e(TAG, "buildRoad: Player " + playerId + " does not have enough resources.\n");
+            Log.e(TAG, "buildRoad: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
         }
 
-        if (this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
-            Log.i(TAG, "buildRoad: BuildRoad - player " + playerId + " does not have enough resources.\n");
-            return false;
-        }
-
-        if (!board.validRoadPlacement(playerId, startIntersectionID, endIntersectionID)) {
-            Log.i(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+        // check if it is a valid road placement
+        if (!board.validRoadPlacement(playerId, this.isSetupPhase, startIntersectionID, endIntersectionID)) {
+            Log.e(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
             return false;
         }
 
@@ -474,10 +491,11 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
-        Log.i(TAG, "buildRoad: Player " + playerId + " built a road.");
+        // add road to the board
+        this.board.addRoad(playerId, startIntersectionID, endIntersectionID);
+        Log.w(TAG, "buildRoad: Player " + playerId + " built a road. Returning true.");
         return true;
-    }
+    } // end buildRoad
 
     /**
      * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
@@ -487,42 +505,47 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildSettlement(int playerId, int intersectionId) {
-
+        Log.d(TAG, "buildSettlement() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         if (!this.isSetupPhase) {
             // validates the player id, checks if its their turn, and checks if it is the action phase
             if (!valAction(playerId)) {
+                Log.d(TAG, "buildSettlement() Not setup phase, and not action phase. Returning false." + false);
                 return false;
             }
         } else {
-
+            Log.d(TAG, "buildSettlement: adding resources for a settlement to player " + playerId);
             this.playerList.get(playerId).addResourceCard(0, 1);
             this.playerList.get(playerId).addResourceCard(1, 1);
             this.playerList.get(playerId).addResourceCard(2, 1);
             this.playerList.get(playerId).addResourceCard(4, 1);
+
+            Log.i(TAG, "buildSettlement: Player " + playerId + " now has resources: " + this.getPlayerList().get(playerId).printResourceCards());
         }
 
         // check if player has the required resources to build a Settlement
         if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
             Log.e(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
+            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
         }
 
         // check if the selected building location is valid
         if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
+            Log.e(TAG, "buildSettlement: validBuildingLocation returned false.");
             return false;
         }
 
         // remove resources from players inventory (also does checks)
         if (!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
             Log.e(TAG, "buildSettlement: Player.removeResourceBundle returned false.");
+            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
         }
 
         // create Settlement object and add to Board object
         Settlement settlement = new Settlement(playerId);
         this.board.addBuilding(intersectionId, settlement);
-        Log.i(TAG, "buildSettlement: Player " + playerId + " built a Settlement.");
-
+        Log.w(TAG, "buildSettlement: Player " + playerId + " built a settlement. Returning true.");
         return true;
     }
 
@@ -684,33 +707,36 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-
-
     /**
      * goes through each building and road to check how many are owned by the player
      * when they have 2 roads and 2 buildings, setupPhase is false.
+     *
      * @return if the game is still in the setup phase
      */
-    public boolean setupPhase(){
+    public boolean setupPhase() {
+        Log.d(TAG, "setupPhase() called");
         int roadCount = 0;
         int buildingCount = 0;
-        for (int n = 0; n < playerList.size(); n++){
+        for (int n = 0; n < playerList.size(); n++) {
             for (Building building : board.getBuildings()) {
-                if (building.getOwnerId() == n){
-                    buildingCount++;
+                if (building != null) {
+                    if (building.getOwnerId() == n) {
+                        buildingCount++;
+                    }
                 }
-            }
-            for (Road road : board.getRoads()){
-                if (road.getOwnerId() == n){
-                    roadCount++;
+                for (Road road : board.getRoads()) {
+                    if (road.getOwnerId() == n) {
+                        roadCount++;
+                    }
                 }
-            }
 
-            if (buildingCount < 2 || roadCount < 2){
-                return true;
+                if (buildingCount < 2 || roadCount < 2) {
+                    Log.d(TAG, "setupPhase() returned: " + true);
+                    return true;
+                }
             }
         }
-
+        Log.d(TAG, "setupPhase() returned: " + false);
         return false;
     }
 
@@ -821,9 +847,10 @@ public class CatanGameState extends GameState {
         StringBuilder result = new StringBuilder();
 
         result.append("CatanGameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append(" ");
-        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(" ");
-        result.append("isActionPhase: ").append(this.isActionPhase).append(" ");
+        result.append("Current Player: ").append(this.currentPlayerId).append(", ");
+        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(", ");
+        result.append("isActionPhase: ").append(this.isActionPhase).append(", ");
+        result.append("isSetupPhase: ").append(this.isSetupPhase).append(", ");
         result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
         result.append(playerList.toString());

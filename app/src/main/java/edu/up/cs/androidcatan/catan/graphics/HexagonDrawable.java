@@ -5,11 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 
 import java.util.Random;
 
-public class HexagonDrawable extends boardSurfaceView {
+public class HexagonDrawable extends BoardSurfaceView {
 
     protected int x;
     protected int y;
@@ -19,21 +18,23 @@ public class HexagonDrawable extends boardSurfaceView {
     protected Path hexagonPath;
     protected int[][] points;
 
-    protected boolean isRobber; // TODO redo
+    protected boolean isRobber;
+    protected boolean isDesert;
+    protected int chitValue;
 
-    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber) {
+    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue) {
         super(context);
         setWillNotDraw(false);
 
         this.x = x;
         this.y = y;
-        this.size = size;
+        this.size = size; // size can also be thought of as the radius
         this.color = color;
-
-        this.isRobber = isRobber; // TODO BAD CODE
+        this.isDesert = isDesert;
+        this.isRobber = isRobber;
+        this.chitValue = chitValue;
     }
 
-    // TODO look over and determine if needs to be redone
     public  void drawHexagon(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(this.color);
@@ -46,7 +47,6 @@ public class HexagonDrawable extends boardSurfaceView {
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, paint);
 
-        // TODO random from selection numbers on each hexagon DANIEL
         Paint blackFont = new Paint();
         blackFont.setColor(Color.BLACK);
         blackFont.setStyle(Paint.Style.FILL);
@@ -55,18 +55,35 @@ public class HexagonDrawable extends boardSurfaceView {
 
 
         Paint robberPaint = new Paint();
-        robberPaint.setColor(Color.MAGENTA);
+        robberPaint.setColor(Color.DKGRAY);
         robberPaint.setStyle(Paint.Style.FILL);
 
-        if(this.isRobber) {
-            canvas.drawCircle(points[3][0] + this.size, points[3][1] - this.size/2, 25, robberPaint);
-            Log.d("user", "hexagon robber");
-        } else {
-            canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
+        if (!this.isDesert) {
+            if (this.chitValue == 6 || this.chitValue == 8) {
+                blackFont.setColor(Color.argb(255, 163, 40, 40));
+            }
+            if (this.chitValue < 10) {
+                canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2, blackFont);
+            } else {
+                canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2, blackFont);
+            }
         }
 
-        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
-        road.drawRoad(canvas);
+        int radius = 25;
+        int cx = points[5][0];
+        int cy = points[5][1] + this.size;
+
+        if(this.isRobber) {
+            canvas.drawCircle(cx, cy, radius, robberPaint);
+        }
+
+        Paint intersectionPaint = new Paint();
+        intersectionPaint.setColor(Color.DKGRAY);
+        intersectionPaint.setStyle(Paint.Style.STROKE);
+
+        for (int i = 0; i < 6; i++) {
+            canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
+        }
     }
 
     /** calculateHexagonPoints() generates an array of points (x, y) for the corners of a hexagon
@@ -79,8 +96,6 @@ public class HexagonDrawable extends boardSurfaceView {
         int[][] points = new int[6][2];
         double angle_deg, angle_rad;
 
-        Log.d("user", "\nhexagon");
-
         for (int i = 0; i < 6; i++) {
 
             angle_deg = 60 * i - 30;
@@ -89,7 +104,7 @@ public class HexagonDrawable extends boardSurfaceView {
             points[i][0] = (int) (x + size * Math.cos(angle_rad));
             points[i][1] = (int) (y + size * Math.sin(angle_rad));
 
-            Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
+            // Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
         }
         this.points = points;
         return points;
