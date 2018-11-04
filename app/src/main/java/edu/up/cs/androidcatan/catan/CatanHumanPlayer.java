@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -517,7 +518,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.playerId]));
 
-        Log.w(TAG, "updateTextViews: allPlayerNames: " + allPlayerNames);
+        Log.w(TAG, "updateTextViews: allPlayerNames: " + Arrays.toString(allPlayerNames));
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
     } // end updateTextViews
 

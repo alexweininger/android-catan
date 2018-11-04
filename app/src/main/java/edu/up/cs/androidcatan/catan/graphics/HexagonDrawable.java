@@ -53,7 +53,6 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         blackFont.setTextSize(50);
 
-
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.DKGRAY);
         robberPaint.setStyle(Paint.Style.FILL);
@@ -69,7 +68,7 @@ public class HexagonDrawable extends BoardSurfaceView {
             }
         }
 
-        int radius = 25;
+        int radius = 40;
         int cx = points[5][0];
         int cy = points[5][1] + this.size;
 

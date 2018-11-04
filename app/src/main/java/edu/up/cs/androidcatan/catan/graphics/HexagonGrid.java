@@ -57,7 +57,7 @@ public class HexagonGrid extends BoardSurfaceView {
         drawRoads(canvas);
     }
 
-    public void drawRoads(Canvas canvas) {
+    public void drawRoads (Canvas canvas) {
         Log.d(TAG, "drawRoads() called with: canvas = [" + canvas + "]");
         ArrayList<Road> dataRoads = this.board.getRoads();
 
@@ -112,6 +112,15 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
+    /**
+     * @param pt1 First ordered x y pair.
+     * @param pt2 Second ordered x y pair.
+     * @return Distance between the given points.
+     */
+    public int getDistBtwPts (int[] pt1, int[] pt2) {
+        return (int) Math.hypot(pt1[0] - pt2[1], pt1[0] - pt2[1]);
+    }
+
     // method that generates the individual hexagon objects from the Hexagon class
     public void getHexagons (int x, int y, int size) {
 
@@ -143,8 +152,6 @@ public class HexagonGrid extends BoardSurfaceView {
                 HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue());
 
                 int[][] points = hexagon.getHexagonPoints();
-
-
 
                 //roads.add(new RoadDrawable(points, 0));
 
