@@ -22,7 +22,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int[] robberLocation = {2, 2};
 
     // TODO roads
-    ArrayList<RoadDrawable> roads = new ArrayList<RoadDrawable>();
+    ArrayList<RoadDrawable> roads = new ArrayList<>();
 
     ArrayList<HexagonDrawable> hexagons = new ArrayList<>();
 
