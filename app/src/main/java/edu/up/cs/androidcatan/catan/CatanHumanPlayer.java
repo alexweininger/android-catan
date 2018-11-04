@@ -136,14 +136,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo (GameInfo info) {
+        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
         if (info == null) {
             Log.e(TAG, "receiveInfo: info is null");
-        }
-        if (boardSurfaceView == null) {
             return;
         }
-        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "\n----------------------------");
-        //TODO You will implement this method to receive state objects from the game
+        if (this.boardSurfaceView == null) {
+            Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
+            return;
+        }
+
         if (info instanceof CatanGameState) {
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
@@ -153,9 +155,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             updateTextViews();
             drawGraphics();
 
-            if (this.boardSurfaceView == null) {
-                Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
-            }
+
 
 
         } else if (info instanceof NotYourTurnInfo) {

@@ -55,17 +55,21 @@ public class HexagonDrawable extends BoardSurfaceView {
 
 
         Paint robberPaint = new Paint();
-        robberPaint.setColor(Color.MAGENTA);
+        robberPaint.setColor(Color.DKGRAY);
         robberPaint.setStyle(Paint.Style.FILL);
 
         if (!this.isDesert) {
-            canvas.drawText("" + this.chitValue, points[3][0] + this.size/2, points[3][1] - this.size/2, blackFont);
+            if (this.chitValue < 10) {
+                canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2, blackFont);
+            } else {
+                canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2, blackFont);
+            }
         }
 
         if(this.isRobber) {
-            int radius = 10;
+            int radius = 25;
             int cx = points[5][0];
-            int cy = points[5][1] - this.size/2;
+            int cy = points[5][1] + this.size;
             canvas.drawCircle(cx, cy, radius, robberPaint);
         }
 
