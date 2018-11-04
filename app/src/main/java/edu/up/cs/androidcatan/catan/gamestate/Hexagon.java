@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import java.util.Random;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -65,8 +63,6 @@ public class Hexagon {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
 
-        Random random = new Random();
-
         int[][] points = calculateHexagonPoints(xPos, yPos, size);
 
         Path hexagonPath = createHexagonPath(points);
@@ -86,7 +82,7 @@ public class Hexagon {
         if(isRobber) {
             canvas.drawCircle(points[3][0] + size, points[3][1] - size/2, 25, robberPaint);
         } else {
-            canvas.drawText("" + (random.nextInt(11) + 1), points[3][0] + size/2, points[3][1] - size/2, blackFont);
+            canvas.drawText("" + this.chitValue, points[3][0] + size/2, points[3][1] - size/2, blackFont);
         }
 
 //        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
