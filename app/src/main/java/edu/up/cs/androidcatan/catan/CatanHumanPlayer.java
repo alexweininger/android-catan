@@ -62,15 +62,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // These variables will reference widgets that will be modified during play
     private Button buildCityButton = null;
-    private Button buildRoad = null;
-    private Button buildSettlement = null;
-    private Button buyDevCard = null;
+    private Button buildRoadButton = null;
+    private Button buildSettlementButton = null;
+    private Button buyDevCardButton = null;
     private Button endTurnButton = null;
     private Button robberDiscard = null;
     private Button robberMove = null;
     private Button robberSteal = null;
     private Button rollButton = null;
-    private Button tradeBank = null;
+    private Button tradeButton = null;
     private Button tradeCustomPort = null;
     private Button tradePort = null;
     private Button useDevCard = null;
@@ -88,12 +88,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView player2Score = (TextView) null;
     private TextView player3Score = (TextView) null;
 
+    // misc sidebar TextViews
+    private TextView myScore = (TextView) null;
 
-    // the android activity that we are running
-    private GameMainActivity myActivity;
+    private GameMainActivity myActivity;  // the android activity that we are running
 
-    // game state
-    CatanGameState state = null;
+    CatanGameState state = null; // game state
 
     /**
      * constructor does nothing extra
@@ -300,30 +300,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         activity.setContentView(R.layout.activity_main);
 
         buildCityButton = (Button) activity.findViewById(R.id.sidebar_button_city);
-        buildRoad = (Button) activity.findViewById(R.id.sidebar_button_road);
-        buildSettlement = (Button) activity.findViewById(R.id.sidebar_button_settlement);
-        buyDevCard = (Button) activity.findViewById(R.id.sidebar_button_devcards);
+        buildRoadButton = (Button) activity.findViewById(R.id.sidebar_button_road);
+        buildSettlementButton = (Button) activity.findViewById(R.id.sidebar_button_settlement);
+        buyDevCardButton = (Button) activity.findViewById(R.id.sidebar_button_devcards);
         endTurnButton = (Button) activity.findViewById(R.id.sidebar_button_endturn);
 //        robberDiscard = (Button)activity.findViewById(R.id.)
 //        robberMove = (Button)activity.findViewById(R.id.)
 //        robberSteal = (Button)activity.findViewById(R.id.)
         rollButton = (Button) activity.findViewById(R.id.sidebar_button_roll);
-        tradeBank = (Button) activity.findViewById(R.id.sidebar_button_trade);
+        tradeButton = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradeCustomPort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
 
 
         buildCityButton.setOnClickListener(this);
-        buildRoad.setOnClickListener(this);
-        buildSettlement.setOnClickListener(this);
-        buyDevCard.setOnClickListener(this);
+        buildRoadButton.setOnClickListener(this);
+        buildSettlementButton.setOnClickListener(this);
+        buyDevCardButton.setOnClickListener(this);
         endTurnButton.setOnClickListener(this);
 //        robberDiscard.setOnClickListener(this);
 //        robberMove.setOnClickListener(this);
 //        robberSteal.setOnClickListener(this);
         rollButton.setOnClickListener(this);
-        tradeBank.setOnClickListener(this);
+        tradeButton.setOnClickListener(this);
         tradeCustomPort.setOnClickListener(this);
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
@@ -334,6 +334,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.lumberValue = (TextView) activity.findViewById(R.id.sidebar_value_lumber);
         this.woolValue = (TextView) activity.findViewById(R.id.sidebar_value_wool);
         this.brickValue = (TextView) activity.findViewById(R.id.sidebar_value_brick);
+
+        // scoreboard TextViews
+
+        this.player0Score = activity.findViewById(R.id.Player1_Score);
+        this.player1Score = activity.findViewById(R.id.Player2_Score);
+        this.player2Score = activity.findViewById(R.id.Player3_Score);
+        this.player3Score = activity.findViewById(R.id.Player4_Score);
+
 
         boardSurfaceView board = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
@@ -413,24 +421,32 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
             this.endTurnButton.setAlpha(0.5f);
-            this.buyDevCard.setAlpha(0.5f);
-            this.tradeBank.setAlpha(0.5f);
+            this.buyDevCardButton.setAlpha(0.5f);
+            this.tradeButton.setAlpha(0.5f);
 
         } else {
             this.buildCityButton.setAlpha(1f);
             this.rollButton.setAlpha(1f);
             this.endTurnButton.setAlpha(1f);
-            this.buyDevCard.setAlpha(1f);
-            this.tradeBank.setAlpha(1f);
+            this.buyDevCardButton.setAlpha(1f);
+            this.tradeButton.setAlpha(1f);
         }
 
-
         /* ----- update resource value TextViews ----- */
-        this.brickValue.setText(String.valueOf(this.resourceCards[0]));
-        this.grainValue.setText(String.valueOf(this.resourceCards[1]));
-        this.lumberValue.setText(String.valueOf(this.resourceCards[2]));
-        this.oreValue.setText(String.valueOf(this.resourceCards[3]));
-        this.woolValue.setText(String.valueOf(this.resourceCards[4]));
+        int[] resourceCards = this.state.getPlayerList().get(this.playerId).getResourceCards();
+        this.brickValue.setText(String.valueOf(resourceCards[0]));
+        this.grainValue.setText(String.valueOf(resourceCards[1]));
+        this.lumberValue.setText(String.valueOf(resourceCards[2]));
+        this.oreValue.setText(String.valueOf(resourceCards[3]));
+        this.woolValue.setText(String.valueOf(resourceCards[4]));
+
+        /* ----- update scoreboard ----- */
+        this.player0Score.setText(String.valueOf(state.getPlayerVictoryPoints()[0]));
+        this.player1Score.setText(String.valueOf(state.getPlayerVictoryPoints()[1]));
+        this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
+        this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
+
+        /* ----- update human player score ----- */
     }
 
     /**
