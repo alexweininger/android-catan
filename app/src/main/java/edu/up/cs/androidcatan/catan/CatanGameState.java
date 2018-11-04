@@ -243,7 +243,11 @@ public class CatanGameState extends GameState {
         }
     }*/
 
-    //TODO: Finish
+
+    //TODO: Finish updateVictoryPoints method
+    /**
+     * Method updates the victory points count of the current player based off the actions taken within the turn
+     */
     private void updateVictoryPoints() {
         Log.d(TAG, "updateVictoryPoints() called");
         //calculates the longest road for the players and checks if it is the current player
@@ -301,18 +305,6 @@ public class CatanGameState extends GameState {
     /* ----- action methods ----- */
 
     /**
-     * TODO Method for the very first turn for each player; player will select coordinates for two roads and two settlements at the beginning of the game
-     *
-     * @return - action success
-     */
-    public boolean setupBuilding() {
-        Log.d(TAG, "setupBuilding() called");
-
-
-        return false;
-    } // end setupBuilding action method
-
-    /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
      * @return - action success
@@ -360,7 +352,7 @@ public class CatanGameState extends GameState {
                 return false;
             }
         }
-
+        //method is called at the end of every turn to give an accurate victory point count
         updateVictoryPoints();
 
         for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
@@ -432,6 +424,7 @@ public class CatanGameState extends GameState {
      * @param resReceive - what the player is receiving in the trade
      * @return - action success
      */
+    //TODO implement
     public boolean tradeWithBank(int playerId, int resGiven, int resReceive) {
         if (valAction(playerId)) {
             return false;
@@ -585,7 +578,7 @@ public class CatanGameState extends GameState {
     }
 
     /**
-     * TODO needs to take a dev card id as parameter and buy that specific card
+     * TODO needs to take a dev card id as parameter and buy that specific card IMPLEMENT
      * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory
      *
      * @param playerId - player who is requesting to buy dev card
@@ -615,6 +608,7 @@ public class CatanGameState extends GameState {
     }
 
     /**
+     * Method determines whether it is a valid move to use one of their dev cards or not
      * @param playerId - player playing development card
      * @param devCardId - id of the development card
      * @return - action success
@@ -630,7 +624,7 @@ public class CatanGameState extends GameState {
     }
 
     /**
-     * TODO
+     * TODO implement
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
      * @return - action success
