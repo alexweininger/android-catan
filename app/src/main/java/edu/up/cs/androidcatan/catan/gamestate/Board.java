@@ -219,9 +219,13 @@ public class Board {
         return false;
     }
 
-    //returns the playerid with the longest road for now (may need to change so that it returns the value instead)
+    /**
+     *
+     * @param playerList list of player objects
+     * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
+     */
     public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
-        Log.d(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
+        Log.i(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
             //for each player there is an adjacency map as well as a list
@@ -256,17 +260,19 @@ public class Board {
                 playerIdLongestRoad = n;
             }
         }
-        Log.d(TAG, "getPlayerWithLongestRoad() returned: " + currLongestRoad);
+        Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
         return playerIdLongestRoad;
     }
 
     //TODO: helper method to return a playerId's longest road (possibly for later)
 
     public boolean checkIntersectionBreak(int intersectionId, int playerId) {
+        Log.d(TAG, "checkIntersectionBreak() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "]");
         return this.buildings[intersectionId].getOwnerId() != playerId;
     }
 
     public boolean checkDeadEnd(int intersectionId, Road[][] road) {
+        Log.d(TAG, "checkDeadEnd() called with: intersectionId = [" + intersectionId + "], road = [" + road + "]");
         for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
             if (road[intersectionId][intersection] != null) {
                 return true;
@@ -277,6 +283,7 @@ public class Board {
 
     //Recursive method that will call other helper methods within board
     public int traverseRoads(int intersectionId, int playerId, Road[][] road) {
+        Log.d(TAG, "traverseRoads() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "], road = [" + road + "]");
         if (checkIntersectionBreak(intersectionId, playerId)) {
             return 0;
         }
