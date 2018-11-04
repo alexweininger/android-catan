@@ -376,6 +376,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
+        this.player0Name = activity.findViewById(R.id.Player1_Name);
+        this.player1Name = activity.findViewById(R.id.Player2_Name);
+        this.player2Name = activity.findViewById(R.id.Player3_Name);
+        this.player3Name = activity.findViewById(R.id.Player4_Name);
+
+        this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
+
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
@@ -487,17 +494,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         switch(state.getCurrentPlayerId()) {
             case 0:
-                player0Score.setHighlightColor(Color.YELLOW);
+                player0Name.setHighlightColor(Color.YELLOW);
+                player0Name.setTextColor(Color.YELLOW);
+                break;
             case 1:
-                player1Score.setHighlightColor(Color.YELLOW);
+                player1Name.setHighlightColor(Color.YELLOW);
+                player1Name.setTextColor(Color.YELLOW);
+                break;
             case 2:
-                player2Score.setHighlightColor(Color.YELLOW);
+                player2Name.setHighlightColor(Color.YELLOW);
+                player2Name.setTextColor(Color.YELLOW);
+                break;
             case 3:
-                player3Score.setHighlightColor(Color.YELLOW);
+                player3Name.setHighlightColor(Color.YELLOW);
+                player3Name.setTextColor(Color.YELLOW);
+                break;
         }
 
         /* ----- update misc. TextViews ----- */
-        //this.myScore.setText(this.state.getPlayerVictoryPoints()[this.playerId]);
+
+        this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.playerId]));
 
         Log.i(TAG, "updateTextViews: current player id: " + state.getCurrentPlayerId());
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
