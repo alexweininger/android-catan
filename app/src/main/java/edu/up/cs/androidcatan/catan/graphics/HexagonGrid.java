@@ -13,6 +13,7 @@ import java.util.List;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
 public class HexagonGrid extends BoardSurfaceView {
@@ -55,6 +56,7 @@ public class HexagonGrid extends BoardSurfaceView {
             h.drawHexagon(canvas);
         }
         drawRoads(canvas);
+        drawBuildings();
     }
 
     public void drawRoads (Canvas canvas) {
@@ -108,7 +110,28 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 //canvas.drawCircle(cx, cy, radius, roadPaint);
             }
+        }
+    }
 
+    public void drawBuildings() {
+        Building[] buildings = this.board.getBuildings();
+
+        // go through each building
+        for (int i = buildings.length - 1; i >= 0; i--) {
+            if (buildings[i] != null) {
+
+                // get hexes adjacent to building
+                ArrayList<Integer> hexes = board.getIntToHexIdMap().get(i);
+
+                ArrayList<Integer> intersections = new ArrayList<>();
+
+                // for each adjacent hex, add its adjacent intersections to the array list
+                for (int j = hexes.size() - 1; j >= 0; j--) {
+                    intersections.addAll(this.board.getHexToIntIdMap().get(j));
+                }
+
+                Log.e(TAG, "drawBuildings: all intersections adjacent to adjacent hexes" + intersections);
+            }
         }
     }
 

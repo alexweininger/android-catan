@@ -1281,7 +1281,84 @@
         app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
 
+    <TextView
+        android:id="@+id/selectRoadIntersectionText"
+        android:layout_width="405dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="textEnd"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
+        app:layout_constraintEnd_toStartOf="@+id/start_road_id_entered"
+        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered"
+        tools:text="Select two intersections:" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".17" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+
+    <EditText
+        android:id="@+id/start_road_id_entered"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/hint_00"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/end_road_id_entered"
+        app:layout_constraintEnd_toStartOf="@+id/end_road_id_entered"
+        app:layout_constraintTop_toTopOf="@+id/end_road_id_entered"
+        app:layout_constraintVertical_bias="0.605" />
+
+    <EditText
+        android:id="@+id/end_road_id_entered"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/hint_00"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel"
+        app:layout_constraintEnd_toStartOf="@+id/cancel"
+        app:layout_constraintTop_toTopOf="@+id/cancel" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@android:string/yes"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/confirm2"
+        app:layout_constraintEnd_toStartOf="@+id/confirm2"
+        app:layout_constraintTop_toTopOf="@+id/confirm2" />
+
+    <Button
+        android:id="@+id/confirm2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@android:string/cancel"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
 
     <!--intersection input menu END-->
 
