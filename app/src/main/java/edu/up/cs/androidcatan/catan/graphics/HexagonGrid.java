@@ -20,7 +20,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected double width;
     protected int margin;
     protected int[] numTiles = {4, 3, 3, 3, 4};
-    protected int[] colors = {Color.RED, Color.GREEN, Color.argb(255, 204, 153, 0), Color.argb(255, 194, 194, 214), Color.argb(255, 102, 102, 204), Color.BLACK};
+    protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 204, 153, 0), Color.argb(255, 194, 194, 214), Color.argb(255, 102, 102, 204), Color.argb(255, 192, 193, 141)};
 
     private Board board;
 

@@ -411,7 +411,7 @@ public class Board {
             chitValuesCount[randomChitValue]--;
 
             if (resources[randomResourceType] == 5) {
-                robber.setHexagonId(this.hexagons.size());
+                robber.setHexagonId(this.hexagons.size() - 1);
             }
 
             Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
