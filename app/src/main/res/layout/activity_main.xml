@@ -59,7 +59,7 @@
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
@@ -1155,7 +1155,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/dev_build_button"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"

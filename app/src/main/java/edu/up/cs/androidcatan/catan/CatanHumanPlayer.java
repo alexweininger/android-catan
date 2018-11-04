@@ -462,9 +462,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeCustomPort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
-        buyDevCard = (Button) activity.findViewById(R.id.devBuildbutton);
-        okButton = (Button) activity.findViewById(R.id.okButton);
-        cancelButton = (Button) activity.findViewById(R.id.cancelButton);
+        buyDevCard = (Button) activity.findViewById(R.id.dev_build_button);
 
         //GUI Buttons
         showScore = (Button) activity.findViewById(R.id.sidebar_button_score);
@@ -480,20 +478,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //        ImageButton oreGet = (ImageButton) activity.findViewById(R.id.ore_want_icon);
 //        ImageButton sheepGive = (ImageButton) activity.findViewById(R.id.sheep_give_icon);
 //        ImageButton sheepGet = (ImageButton) activity.findViewById(R.id.sheep_want_icon);
-
-        buildCityButton.setOnClickListener(this);
-        buildRoadButton.setOnClickListener(this);
-        buildSettlementButton.setOnClickListener(this);
-        buyDevCardButton.setOnClickListener(this);
-        endTurnButton.setOnClickListener(this);
-//        robberDiscard.setOnClickListener(this);
-//        robberMove.setOnClickListener(this);
-//        robberSteal.setOnClickListener(this);
-        rollButton.setOnClickListener(this);
-        tradeButton.setOnClickListener(this);
-        tradeCustomPort.setOnClickListener(this);
-        tradePort.setOnClickListener(this);
-        useDevCard.setOnClickListener(this);
 
         //Ok and cancel listeners
         okButton.setOnClickListener(this);
