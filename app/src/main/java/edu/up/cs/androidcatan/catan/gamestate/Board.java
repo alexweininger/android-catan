@@ -276,9 +276,8 @@ public class Board {
         Log.d(TAG, "isBreakAtIntersection() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "]");
 
         // if null (means no building) return false
-        if (this.buildings[intersectionId] == null) {
+        if (this.buildings[intersectionId] == null)
             return false;
-        }
         // (if not null) check if the player owns the building
         return this.buildings[intersectionId].getOwnerId() != playerId;
     }
