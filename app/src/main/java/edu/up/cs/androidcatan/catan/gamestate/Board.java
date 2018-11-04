@@ -281,6 +281,11 @@ public class Board {
         return this.buildings[intersectionId].getOwnerId() != playerId;
     }
 
+    /**
+     * @param intersectionId IntersectionId to check (0-53).
+     * @param road Road adjacency matrix.
+     * @return If intersection is a dead end for the given road object.
+     */
     public boolean checkDeadEnd(int intersectionId, Road[][] road) {
         Log.d(TAG, "checkDeadEnd() called with: intersectionId = [" + intersectionId + "], road = [" + road + "]");
         for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
@@ -291,7 +296,14 @@ public class Board {
         return false;
     }
 
-    //Recursive method that will call other helper methods within board
+    /**
+     * Recursive method that will call other helper methods within board
+     *
+     * @param intersectionId IntersectionId to start traversing.
+     * @param playerId Which players roads to traverse.
+     * @param road Adjacency matrix for roads ONLY the given player owns.
+     * @return Number of roads in a given section of continuous roads.
+     */
     public int traverseRoads(int intersectionId, int playerId, Road[][] road) {
         Log.d(TAG, "traverseRoads() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "], road = [" + road + "]");
         if (isBreakAtIntersection(intersectionId, playerId)) {
