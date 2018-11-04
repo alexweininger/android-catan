@@ -56,6 +56,12 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             while (!gs.getBoard().validBuildingLocation(this.playerNum, true, randomIntersectionId)) {
                 randomIntersectionId = random.nextInt(53);
             }
+            // add just enough resources for a settlement
+            gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+            gs.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+            gs.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
+            Log.d(TAG, "receiveInfo: inventory: " + gs.getPlayerList().get(this.playerNum).printResourceCards());
             game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randomIntersectionId));
 
             // get adjacent intersections to what we just built
@@ -70,6 +76,9 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 sleep(1000);
             }
+            // add just enough resources for a road
+            gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
             game.sendAction(new CatanBuildRoadAction(this, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomIntersectionId)));
         } else {
             Log.i(TAG, "receiveInfo: Not setup phase.");

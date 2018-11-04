@@ -62,7 +62,7 @@ public class Board {
     private ArrayList<Road> roads = new ArrayList<>();
 
     // Adjacency graph identical to iGraph, however only contains Road objects and null.
-    private Road[][] roadGraph = new Road[54][54];
+    private Road[][] roadGraph;
 
     // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
@@ -179,10 +179,10 @@ public class Board {
         }
 
         // check if road is already built
+        Log.i(TAG, "validRoadPlacement: this.roadGraph.getOwnerId: " + this.roadGraph[a][b].getOwnerId());
         if (this.roadGraph[a][b].getOwnerId() != -1) {
             Log.i(TAG, "validRoadPlacement: Invalid road placement. A road already is built here.");
             return false;
-
         }
 
         Log.i(TAG, "validRoadPlacement: Valid road placement.");
@@ -534,6 +534,7 @@ public class Board {
             Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
             return false;
         }
+        building.setOwnerId(building.getOwnerId());
         this.buildings[intersectionId] = building;
         return true;
     }
@@ -1019,7 +1020,7 @@ public class Board {
     private void generateRoadMatrix() {
         for (int i = 0; i < iGraph.length; i++) {
             for (int j = 0; j < iGraph[i].length; j++) {
-                roadGraph[i][j] = new Road(i, j, -1);
+                roadGraph[i][j] = new Road(-1, j, j);
             }
         }
         for (int i = 0; i < roadGraph.length; i++) {
