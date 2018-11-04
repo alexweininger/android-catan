@@ -443,13 +443,13 @@ public class CatanGameState extends GameState {
 
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
         if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
-            Log.d(TAG, "ERROR: tradeWithBank - not enough resources player id: " + playerId);
+            Log.e(TAG, "tradeWithBank - not enough resources player id: " + playerId);
             return false;
         }
 
         this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
 
-        Log.d("devInfo", "INFO: tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
+        Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
     }
 
@@ -464,17 +464,19 @@ public class CatanGameState extends GameState {
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
         if (!this.isSetupPhase) {
             if (!this.isActionPhase) {
+                Log.e(TAG, "buildRoad: Not setup phase, and not action phase. Returning false.");
                 return false;
             }
         }
 
-        if (this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
-            Log.i(TAG, "buildRoad: BuildRoad - player " + playerId + " does not have enough resources.\n");
+        if (!this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
+            Log.e(TAG, "buildRoad: Player " + playerId + " does not have enough resources.\n");
+            Log.e(TAG, "buildRoad: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
         }
 
         if (!board.validRoadPlacement(playerId, this.isSetupPhase, startIntersectionID, endIntersectionID)) {
-            Log.i(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+            Log.e(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
             return false;
         }
 
