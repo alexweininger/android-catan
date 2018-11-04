@@ -924,9 +924,8 @@
     <TextView
         android:id="@+id/sidebar_heading_build"
         android:layout_width="0dp"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/heading_build"
         android:textAlignment="center"
@@ -940,9 +939,8 @@
     <TextView
         android:id="@+id/sidebar_heading_build2"
         android:layout_width="0dp"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/heading_actions"
         android:textAlignment="center"
@@ -953,6 +951,22 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_button_city" />
+
+    <TextView
+        android:id="@+id/sidebar_heading_build3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/heading_turn"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_trade" />
 
     <Button
         android:id="@+id/sidebar_button_road"
@@ -992,28 +1006,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
         app:layout_constraintTop_toBottomOf="@+id/sidebar_button_settlement" />
-
-    <View
-        android:id="@+id/hr_1"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_city" />
-
-    <View
-        android:id="@+id/hr_"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:background="@color/colorAccent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toTopOf="@+id/sidebar_button_roll" />
 
     <Button
         android:id="@+id/sidebar_button_devcards"
@@ -1069,8 +1061,9 @@
         android:layout_marginEnd="8dp"
         android:text="@string/roll"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_trade" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_build3" />
 
     <Button
         android:id="@+id/sidebar_button_endturn"
