@@ -82,7 +82,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         intersectionPaint.setStyle(Paint.Style.STROKE);
 
         for (int i = 0; i < 6; i++) {
-            canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
+           // canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
         }
     }
 
