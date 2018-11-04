@@ -18,17 +18,11 @@ public class Hexagon {
     private int resourceId;
     private int chitValue;
 
-    // drawing variables
-    protected int color;
-    protected int size;
-    protected int xPos;
-    protected int yPos;
-
     /**
      * Hexagon constructor AW
      *
      * @param resourceType - resourceType type of hexagon
-     * @param chitValue    - dice value of hexagon
+     * @param chitValue - dice value of hexagon
      */
     public Hexagon(int resourceType, int chitValue) {
         this.resourceId = resourceType;
@@ -65,6 +59,32 @@ public class Hexagon {
     public void drawHexagon(Canvas canvas) {
         Paint paint = new Paint();
 
+    }
+
+    /**
+     * calculateHexagonPoints() generates an array of points (x, y) for the corners of a hexagon
+     *
+     * @param x - x position
+     * @param y - y position
+     * @param size - size, measured from center to a corner
+     * @return int[][]
+     */
+    public int[][] calculateHexagonPoints(int x, int y, int size) {
+        int[][] points = new int[6][2];
+        double angle_deg, angle_rad;
+
+        for (int i = 0; i < 6; i++) {
+
+            angle_deg = 60 * i - 30;
+            angle_rad = Math.PI / 180 * angle_deg;
+
+            points[i][0] = (int) (x + size * Math.cos(angle_rad));
+            points[i][1] = (int) (y + size * Math.sin(angle_rad));
+
+            // Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
+        }
+        this.points = points;
+        return points;
     }
 
     /**
