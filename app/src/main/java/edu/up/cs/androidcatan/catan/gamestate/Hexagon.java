@@ -19,6 +19,7 @@ public class Hexagon {
     // game variables
     private int resourceId;
     private int chitValue;
+    private int hexagonId;
 
     /**
      * Hexagon constructor AW
@@ -26,9 +27,10 @@ public class Hexagon {
      * @param resourceType - resourceType type of hexagon
      * @param chitValue - dice value of hexagon
      */
-    public Hexagon(int resourceType, int chitValue) {
+    public Hexagon(int resourceType, int chitValue, int hexagonId) {
         this.resourceId = resourceType;
         this.chitValue = chitValue;
+        this.hexagonId = hexagonId;
     }
 
     public Hexagon(Hexagon h) {
@@ -56,6 +58,10 @@ public class Hexagon {
 
     public void setChitValue(int chitValue) {
         this.chitValue = chitValue;
+    }
+
+    public int getHexagonId() {
+        return this.hexagonId;
     }
 
     public void drawHexagon(Canvas canvas, int color, int xPos, int yPos, int size, boolean isRobber) {
@@ -131,18 +137,10 @@ public class Hexagon {
     }
 
     /**
-     * @return
+     * @return String representing the Hexagon object.
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
-        sb.append("Hexagon{ ");
-        sb.append("resourceType: ");
-        sb.append(resourceId);
-        sb.append(", chitValue: ");
-        sb.append(chitValue);
-        sb.append("}");
-
-        return sb.toString();
+        return "\nid: " + this.hexagonId + "\tresId: " + this.resourceId + "\tchit: " + this.chitValue;
     }
 }
