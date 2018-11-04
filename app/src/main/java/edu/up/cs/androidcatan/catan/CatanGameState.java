@@ -462,8 +462,10 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID) {
-        if (!valAction(playerId)) {
-            return false;
+        if (!this.isSetupPhase) {
+            if (!this.isActionPhase) {
+                return false;
+            }
         }
 
         if (this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
@@ -471,10 +473,10 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-//        if (!board.validRoadPlacement(playerId, false, startIntersectionID, endIntersectionID)) {
-//            Log.i(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
-//            return false;
-//        }
+        if (!board.validRoadPlacement(playerId, this.isSetupPhase, startIntersectionID, endIntersectionID)) {
+            Log.i(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
+            return false;
+        }
 
         // remove resources from players inventory (also does checks)
         if (!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
@@ -483,7 +485,7 @@ public class CatanGameState extends GameState {
         }
 
         this.board.addRoad(playerId, startIntersectionID, endIntersectionID); // add road to the board
-        Log.i(TAG, "buildRoad: Player " + playerId + " built a road.");
+        Log.w(TAG, "buildRoad: Player " + playerId + " built a road.");
         return true;
     }
 
@@ -530,7 +532,7 @@ public class CatanGameState extends GameState {
         // create Settlement object and add to Board object
         Settlement settlement = new Settlement(playerId);
         this.board.addBuilding(intersectionId, settlement);
-        Log.i(TAG, "buildSettlement: Player " + playerId + " built a settlement. Returning true.");
+        Log.w(TAG, "buildSettlement: Player " + playerId + " built a settlement. Returning true.");
         return true;
     }
 

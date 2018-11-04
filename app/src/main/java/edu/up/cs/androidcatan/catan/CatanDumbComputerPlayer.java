@@ -114,7 +114,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 // send the game a build road action
                 Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game.");
-                game.sendAction(new CatanBuildRoadAction(this, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randomIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection)));
                 Log.d(TAG, "receiveInfo() returned: void");
                 return;
             }

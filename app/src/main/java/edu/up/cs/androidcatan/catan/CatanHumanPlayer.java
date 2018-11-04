@@ -201,7 +201,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, true,0, 1, this.playerId);
                 Log.d(TAG, "onClick: Road");
                 game.sendAction(action);
                 return;
@@ -255,7 +255,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
             if (button.getId() == R.id.sidebar_button_road) {
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, 0, 1, this.playerId);
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, false, 0, 1, this.playerId);
                 Log.d(TAG, "onClick: Road");
                 game.sendAction(action);
                 return;
