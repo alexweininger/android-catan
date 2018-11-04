@@ -204,7 +204,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.isSetupPhase()) {
             Log.i(TAG, "onClick: It is the setup phase.");
 
-            // if it is the setup phase, player can only make these actions
+            // if it is the setup phase, player can only make the actions of building one settlement and one road per turn
 
             if (button.getId() == R.id.sidebar_button_road) { // setup phase build road button listener
 
@@ -240,7 +240,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                                 myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
 
                                 // todo shotty
-                                game.sendAction(new CatanEndTurnAction(p));
+                                //game.sendAction(new CatanEndTurnAction(p));
 
                             } else {
                                 Log.i(TAG, "onClick: invalid intersection input. ");
@@ -263,12 +263,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 game.sendAction(action);
                 return;
             }
+
+            //Action that takes place when the road button is pressed
             if (button.getId() == R.id.sidebar_button_road) {
                 CatanBuildRoadAction action = new CatanBuildRoadAction(this, false, 0, 1, this.playerId);
                 Log.d(TAG, "onClick: Road");
                 game.sendAction(action);
                 return;
             }
+
+            //Action that takes place when the settlement button is pressed
             if (button.getId() == R.id.sidebar_button_settlement) {
                 Log.i(TAG, "onClick: clicked build settlement button"); // here
 
