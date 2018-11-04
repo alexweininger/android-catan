@@ -116,6 +116,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     Button roadIntersectionCancelButton = (Button) null;
 
     Group singleIntersectionInputMenuGroup = (Group) null;
+    Button singleIntersectionOkButton = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -402,6 +403,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
 
+        /* ---------- single intersection menu (buildings) ---------- */
+
+        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
+
         /* ---------- road intersection menu ---------- */
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu);
 
@@ -422,7 +427,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
         });
-        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput); // todo
+
         buildSettlementButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick (View view) {
@@ -433,6 +438,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
         });
+
+
+
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         this.intersectionEditText = myActivity.findViewById(R.id.intersection_id_entered);
