@@ -67,16 +67,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int playerId;
 
     // These variables will reference widgets that will be modified during play
-    private Button buildCity = null;
-    private Button buildRoad = null;
-    private Button buildSettlement = null;
-    private Button devCard = null;
-    private Button endTurn = null;
+    private Button buildCityButton = null;
+    private Button buildRoadButton = null;
+    private Button buildSettlementButton = null;
+    private Button buyDevCardButton = null;
+    private Button endTurnButton = null;
     private Button robberDiscard = null;
     private Button robberMove = null;
     private Button robberSteal = null;
-    private Button roll = null;
-    private Button tradeBank = null;
+    private Button rollButton = null;
+    private Button tradeButton = null;
     private Button tradeCustomPort = null;
     private Button tradePort = null;
     private Button useDevCard = null;
@@ -100,21 +100,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView player2Score = (TextView) null;
     private TextView player3Score = (TextView) null;
 
+    // scoreboard player name TextViews
+    private TextView player0Name = (TextView) null;
+    private TextView player1Name = (TextView) null;
+    private TextView player2Name = (TextView) null;
+    private TextView player3Name = (TextView) null;
     //Groups
     private Group scoreMenu = null;
     private Group devMenu = null;
     private Group tradeMenu = null;
     private Group buildMenu = null;
 
-    // the android activity that we are running
-    private GameMainActivity myActivity;
+    // misc sidebar TextViews
+    private TextView myScore = (TextView) null;
 
     // game state
     private CatanGameState state = null;
 
+    private GameMainActivity myActivity;  // the android activity that we are running
+
     //Trading instance variable
     private int[] tradeResWant = new int[]{0, 0, 0, 0, 0};
     private int[] tradeResGet = new int[]{0, 0, 0, 0, 0};
+
+    CatanGameState state = null; // game state
 
     /**
      * constructor does nothing extra
@@ -145,25 +154,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-
             this.state = (CatanGameState) info;
-            this.brickValue.setText(String.valueOf(this.resourceCards[0]));
-            this.grainValue.setText(String.valueOf(this.resourceCards[1]));
-            this.lumberValue.setText(String.valueOf(this.resourceCards[2]));
-            this.oreValue.setText(String.valueOf(this.resourceCards[3]));
-            this.woolValue.setText(String.valueOf(this.resourceCards[4]));
+
+            updateTextViews();
 
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
         } else if (info instanceof IllegalMoveInfo) {
             Log.i(TAG, "receiveInfo: Illegal move info received.");
-        } else if (!(info instanceof CatanGameState)) {
-            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
-            return;
         } else {
-            state = (CatanGameState) info;
-            updateTextViews();
+            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
         }
     }//receiveInfo
 
@@ -205,28 +206,27 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
                         int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                         Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
                         if (copyState.getBoard().validBuildingLocation(copyState.getCurrentPlayerId(), true, intersectionIdInput)) {
                             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
                             game.sendAction(new CatanBuildSettlementAction(copyState.getPlayerList().get(copyState.getCurrentPlayerId()), copyState.getCurrentPlayerId(), intersectionIdInput));
-                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.WHITE);
+                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.WHITE);
                             myActivity.findViewById(R.id.group_singleIntersectionInput).setVisibility(View.GONE);
                             return;
                         } else {
                             Log.i(TAG, "onClick: invalid intersection input");
-                            myActivity.findViewById(R.id.intersection_id_entered).setBackgroundColor(Color.RED);
+                            myActivity.findViewById(R.id.start_road_id_entered).setBackgroundColor(Color.RED);
                         }
                     }
                 });
             } else {
-                // todo
-
+                Log.i(TAG, "onClick: It is the setup phase and received a unchecked for button click.");
             }
         } else {
-            // if it is not the setup phase
+            /* ----- if it is not the setup phase ----- */
             if (button.getId() == R.id.sidebar_button_city) {
                 CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
                 Log.d(TAG, "onClick: City");
@@ -248,7 +248,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 confirmIntersectionButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText intersectionText = myActivity.findViewById(R.id.intersection_id_entered);
+                        EditText intersectionText = myActivity.findViewById(R.id.start_road_id_entered);
                         int intersectionIdInput = Integer.parseInt(intersectionText.getText().toString());
                         Log.i(TAG, "onClick: inputted intersectionId: " + intersectionIdInput);
 
@@ -281,18 +281,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
             //TODO Placeholder for Robber actions until they're implemented
 //        if(button.getId() == R.id.) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
-//            CatanRollDiceAction a = new CatanRollDiceAction(this);
-//            Log.d(TAG, "onClick: Roll");
-//            game.sendAction(a);
-//            return;
-//        }
-//        if(button.getId() == R.id.sidebar_button_roll) {
 //            CatanRollDiceAction a = new CatanRollDiceAction(this);
 //            Log.d(TAG, "onClick: Roll");
 //            game.sendAction(a);
@@ -425,16 +413,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
 
-        buildCity = (Button) activity.findViewById(R.id.sidebar_button_city);
-        buildRoad = (Button) activity.findViewById(R.id.sidebar_button_road);
-        buildSettlement = (Button) activity.findViewById(R.id.sidebar_button_settlement);
-        devCard = (Button) activity.findViewById(R.id.sidebar_button_devcards);
-        endTurn = (Button) activity.findViewById(R.id.sidebar_button_endturn);
+        buildCityButton = (Button) activity.findViewById(R.id.sidebar_button_city);
+        buildRoadButton = (Button) activity.findViewById(R.id.sidebar_button_road);
+        buildSettlementButton = (Button) activity.findViewById(R.id.sidebar_button_settlement);
+        buyDevCardButton = (Button) activity.findViewById(R.id.sidebar_button_devcards);
+        endTurnButton = (Button) activity.findViewById(R.id.sidebar_button_endturn);
 //        robberDiscard = (Button)activity.findViewById(R.id.)
 //        robberMove = (Button)activity.findViewById(R.id.)
 //        robberSteal = (Button)activity.findViewById(R.id.)
-        roll = (Button) activity.findViewById(R.id.sidebar_button_roll);
-        tradeBank = (Button) activity.findViewById(R.id.sidebar_button_trade);
+        rollButton = (Button) activity.findViewById(R.id.sidebar_button_roll);
+        tradeButton = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradeCustomPort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         tradePort = (Button) activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = (Button) activity.findViewById(R.id.use_Card);
@@ -457,18 +445,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //        ImageButton sheepGive = (ImageButton) activity.findViewById(R.id.sheep_give_icon);
 //        ImageButton sheepGet = (ImageButton) activity.findViewById(R.id.sheep_want_icon);
 
-
-        //Set Listeners
-        buildCity.setOnClickListener(this);
-        buildRoad.setOnClickListener(this);
-        buildSettlement.setOnClickListener(this);
-        devCard.setOnClickListener(this);
-        endTurn.setOnClickListener(this);
+        buildCityButton.setOnClickListener(this);
+        buildRoadButton.setOnClickListener(this);
+        buildSettlementButton.setOnClickListener(this);
+        buyDevCardButton.setOnClickListener(this);
+        endTurnButton.setOnClickListener(this);
 //        robberDiscard.setOnClickListener(this);
 //        robberMove.setOnClickListener(this);
 //        robberSteal.setOnClickListener(this);
-        roll.setOnClickListener(this);
-        tradeBank.setOnClickListener(this);
+        rollButton.setOnClickListener(this);
+        tradeButton.setOnClickListener(this);
         tradeCustomPort.setOnClickListener(this);
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
@@ -493,6 +479,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.woolValue = (TextView) activity.findViewById(R.id.sidebar_value_wool);
         this.brickValue = (TextView) activity.findViewById(R.id.sidebar_value_brick);
 
+        // scoreboard TextViews
+
+        this.player0Score = activity.findViewById(R.id.Player1_Score);
+        this.player1Score = activity.findViewById(R.id.Player2_Score);
+        this.player2Score = activity.findViewById(R.id.Player3_Score);
+        this.player3Score = activity.findViewById(R.id.Player4_Score);
+
+
         // Listeners for ok and cancel button
         okButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -505,6 +499,50 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         board.createHexagons();        // draw the board of hexagons and ports on the canvas
 
         board.draw(canvas); // draw
+
+        // button listeners TODO move to separate class?
+        Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
+        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
+        scoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (scoreBoardGroup.getVisibility() == View.GONE) {
+                    scoreBoardGroup.setVisibility(View.VISIBLE);
+                } else {
+                    scoreBoardGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
+        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
+        developmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (developmentGroup.getVisibility() == View.GONE) {
+                    developmentGroup.setVisibility(View.VISIBLE);
+                } else {
+                    developmentGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // build menu layout group
+        final Group buildMenuGroup = activity.findViewById(R.id.group_build_menu);
+
+        Button roadButton = activity.findViewById(R.id.sidebar_button_road);
+
+        roadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (buildMenuGroup.getVisibility() == View.GONE) {
+                    buildMenuGroup.setVisibility(View.VISIBLE);
+                } else {
+                    buildMenuGroup.setVisibility(View.GONE);
+                }
+            }
+        });
+
 
         // if we have state update the GUI based on the state
 
@@ -528,15 +566,37 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void updateTextViews() {
 
         if (this.state.isSetupPhase()) {
-            myActivity.findViewById(R.id.sidebar_button_city).setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.rollButton.setAlpha(0.5f);
+            this.endTurnButton.setAlpha(0.5f);
+            this.buyDevCardButton.setAlpha(0.5f);
+            this.tradeButton.setAlpha(0.5f);
+
+        } else {
+            this.buildCityButton.setAlpha(1f);
+            this.rollButton.setAlpha(1f);
+            this.endTurnButton.setAlpha(1f);
+            this.buyDevCardButton.setAlpha(1f);
+            this.tradeButton.setAlpha(1f);
         }
 
+        /* ----- update resource value TextViews ----- */
+        int[] resourceCards = this.state.getPlayerList().get(this.playerId).getResourceCards();
+        this.brickValue.setText(String.valueOf(resourceCards[0]));
+        this.grainValue.setText(String.valueOf(resourceCards[1]));
+        this.lumberValue.setText(String.valueOf(resourceCards[2]));
+        this.oreValue.setText(String.valueOf(resourceCards[3]));
+        this.woolValue.setText(String.valueOf(resourceCards[4]));
 
-        this.brickValue.setText(this.resourceCards[0]);
-        this.grainValue.setText(this.resourceCards[1]);
-        this.lumberValue.setText(this.resourceCards[2]);
-        this.oreValue.setText(this.resourceCards[3]);
-        this.woolValue.setText(this.resourceCards[4]);
+        /* ----- update scoreboard ----- */
+        this.player0Score.setText(String.valueOf(state.getPlayerVictoryPoints()[0]));
+        this.player1Score.setText(String.valueOf(state.getPlayerVictoryPoints()[1]));
+        this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
+        this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
+
+        /* ----- update human player score ----- */
+
     }
 
     /**

@@ -6,73 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#89aaaaaa"
-    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+    android:theme="@android:style/Theme.Material.Light.NoActionBar.Fullscreen">
 
     <!--
     Updated with groups.  A group is just a way to hide / show a group of views.  So I (Alex) added groups for each menu.
     All groups but the static bottom menu group are set to GONE.
     -->
-
-    <!--intersection input menu START-->
-
-    <android.support.constraint.Group
-        android:id="@+id/group_singleIntersectionInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
-
-    <TextView
-        android:id="@+id/selectIntersectionText"
-        android:layout_width="298dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/intersection_id_entered"
-        tools:text="@string/select_intersection_id" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".17" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.94" />
-
-    <EditText
-        android:id="@+id/intersection_id_entered"
-        android:layout_width="70dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="number"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/confirm"
-        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
-        app:layout_constraintTop_toTopOf="@+id/confirm" />
-
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/confirm"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/intersection_id_entered" />
-
-    <!--intersection input menu END-->
 
     <!-- new sidebar static menu START-->
 
@@ -86,7 +25,7 @@
         android:id="@+id/board"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -99,13 +38,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="wood_give_amount,sidebar_button_city,ore_want_minus,wood_give_add,grain_give_icon,sheep_give_minus,menu_header,grain_give_add,brick_want_add,wood_give_minus,wood_want_amount,brick_give_minus,wood_want_add,sidebar_button_trade,ore_want_add,brick_want_amount,you_want_text,sheep_give_icon,brick_give_add,ore_want_amount,sidebar_heading_playername,sheep_give_add,wood_give_icon,wood_want_icon,grain_want_minus,sidebar_button_road,grain_give_minus,sheep_want_amount,sidebar_button_endturn,sheep_want_minus,sheep_want_icon,sidebar_heading_resources,ore_give_icon,grain_give_amount,grain_want_add,brick_give_icon,ore_want_icon,sheep_want_add,sidebar_button_menu,sheep_give_amount,you_give_text,brick_want_minus,brick_want_icon,ore_give_amount,ore_give_add,sidebar_button_devcards,sidebar_button_roll,grain_want_icon,wood_want_minus,ore_give_minus,sidebar_heading_build,grain_want_amount,sidebar_button_settlement,brick_give_amount,sidebar_button_score,sidebar_heading_vp,sidebar_value_brick,sidebar_value_ore,sidebar_value_wool,sidebar_value_grain,sidebar_value_lumber" />
+        app:constraint_referenced_ids="wood_give_amount,sidebar_button_city,ore_want_minus,wood_give_add,grain_give_icon,sheep_give_minus,menu_header,grain_give_add,brick_want_add,wood_give_minus,wood_want_amount,brick_give_minus,wood_want_add,sidebar_button_trade,ore_want_add,brick_want_amount,you_want_text,sheep_give_icon,brick_give_add,ore_want_amount,sidebar_heading_playername,sheep_give_add,wood_give_icon,wood_want_icon,grain_want_minus,sidebar_button_road,grain_give_minus,sheep_want_amount,sidebar_button_endturn,sheep_want_minus,sheep_want_icon,ore_give_icon,grain_give_amount,grain_want_add,brick_give_icon,ore_want_icon,sheep_want_add,sidebar_button_menu,sheep_give_amount,you_give_text,brick_want_minus,brick_want_icon,ore_give_amount,ore_give_add,sidebar_button_devcards,sidebar_button_roll,grain_want_icon,wood_want_minus,ore_give_minus,sidebar_heading_build,grain_want_amount,sidebar_button_settlement,brick_give_amount,sidebar_button_score,sidebar_heading_vp,sidebar_value_brick,sidebar_value_ore,sidebar_value_wool,sidebar_value_grain,sidebar_value_lumber" />
 
     <android.support.constraint.Group
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="you_want_text, ore_want_minus,brick_give_add,grain_give_icon,wood_give_add,sheep_want_minus,ore_give_minus,brick_give_icon,sheep_give_add,wood_want_icon,brick_give_amount,ore_want_icon,wood_give_icon,grain_want_amount,grain_want_minus,sheep_want_add,ore_give_add,wood_give_minus,wood_want_add,ore_want_add,brick_want_minus,grain_give_amount,sheep_want_icon,ore_give_icon,sheep_give_icon,sheep_give_minus,wood_want_minus,grain_give_minus,you_give_text,sheep_want_amount,ore_give_amount,brick_want_amount,sheep_give_amount,brick_give_minus,brick_want_add,grain_give_add,grain_want_add,wood_want_amount,grain_want_icon,wood_give_amount,ore_want_amount,brick_want_icon,menu_header,you_want_text" />
 
     <android.support.constraint.Group
@@ -304,7 +243,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.03" />
+        app:layout_constraintGuide_percent="0.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_bottom_border_dc_layout"
@@ -939,7 +878,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.17" />
+        app:layout_constraintGuide_percent="0.14" />
 
     <Button
         android:id="@+id/sidebar_button_score"
@@ -950,9 +889,10 @@
         android:layout_marginEnd="8dp"
         android:text="Score"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/sidebar_button_menu"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintStart_toEndOf="@+id/sidebar_button_menu"
-        app:layout_constraintTop_toTopOf="@+id/sidebar_button_menu" />
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/sidebar_button_trade"
@@ -965,27 +905,27 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_playername" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_devcards" />
 
     <Button
         android:id="@+id/sidebar_button_menu"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="75dp"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/menu"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/bottom_buildmenu"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0" />
 
     <TextView
         android:id="@+id/sidebar_heading_build"
         android:layout_width="0dp"
-        android:layout_height="22dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/heading_build"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
@@ -993,7 +933,39 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_menu" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_top_border_dc_layout" />
+
+    <TextView
+        android:id="@+id/sidebar_heading_build2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/heading_actions"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_city" />
+
+    <TextView
+        android:id="@+id/sidebar_heading_build3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/heading_actions"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_trade" />
 
     <Button
         android:id="@+id/sidebar_button_road"
@@ -1014,7 +986,6 @@
         android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/settlement"
         android:theme="@android:style/Widget.Material.Button.Borderless"
@@ -1028,7 +999,6 @@
         android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/city"
         android:theme="@android:style/Widget.Material.Button.Borderless"
@@ -1042,27 +1012,29 @@
         android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/developmentCards"
         android:theme="@android:style/Widget.Material.Button.Borderless"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_city" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_build2" />
 
     <TextView
 
         android:id="@+id/sidebar_heading_playername"
-        android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/Player1"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_devcards" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_endturn" />
 
     <TextView
 
@@ -1070,112 +1042,105 @@
         android:layout_width="0dp"
         android:layout_height="29dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:text="VP: 00"
-        android:textAlignment="viewStart"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintStart_toEndOf="@+id/sidebar_heading_playername"
-        app:layout_constraintTop_toTopOf="@+id/sidebar_heading_playername" />
-
-    <Button
-        android:id="@+id/sidebar_button_roll"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/roll"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_trade" />
-
-    <Button
-        android:id="@+id/sidebar_button_endturn"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/endTurn"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_roll" />
-
-    <TextView
-        android:id="@+id/sidebar_heading_resources"
-        android:layout_width="0dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/heading_resources"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_endturn"
-        tools:text="@string/heading_resources" />
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_playername" />
+
+    <Button
+        android:id="@+id/sidebar_button_roll"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/roll"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_build3" />
+
+    <Button
+        android:id="@+id/sidebar_button_endturn"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/endTurn"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_button_roll" />
 
     <TextView
         android:id="@+id/sidebar_value_grain"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/grain_icon"
         app:layout_constraintStart_toEndOf="@+id/grain_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_brick" />
+        app:layout_constraintTop_toTopOf="@+id/grain_icon"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/sidebar_value_lumber"
-        android:layout_width="0dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/lumber_icon"
         app:layout_constraintStart_toEndOf="@+id/lumber_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_grain" />
+        app:layout_constraintTop_toTopOf="@+id/lumber_icon" />
 
     <TextView
         android:id="@+id/sidebar_value_ore"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ore_icon"
         app:layout_constraintStart_toEndOf="@+id/ore_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_lumber" />
+        app:layout_constraintTop_toTopOf="@+id/ore_icon" />
 
     <TextView
         android:id="@+id/sidebar_value_wool"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/wool_icon"
         app:layout_constraintStart_toEndOf="@+id/wool_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_value_ore" />
+        app:layout_constraintTop_toTopOf="@+id/wool_icon" />
 
     <TextView
         android:id="@+id/sidebar_value_brick"
-        android:layout_width="20dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:text="00"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/brick_icon"
         app:layout_constraintStart_toEndOf="@+id/brick_icon"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_resources" />
+        app:layout_constraintTop_toTopOf="@+id/brick_icon"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/devBuildbutton"
+        android:id="@+id/button"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
@@ -1187,19 +1152,20 @@
 
     <ImageView
         android:id="@+id/brick_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/brick_icon_25x25"
         android:visibility="visible"
-        app:layout_constraintStart_toEndOf="@+id/guideline_left_0"
-        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_resources" />
+        app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
+        app:layout_constraintTop_toBottomOf="@+id/sidebar_heading_vp" />
 
     <ImageView
         android:id="@+id/grain_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/grain_icon_25x25"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/brick_icon"
@@ -1207,29 +1173,93 @@
 
     <ImageView
         android:id="@+id/lumber_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/lumber_icon_25x25"
-        app:layout_constraintStart_toStartOf="@+id/brick_icon"
+        app:layout_constraintStart_toStartOf="@+id/grain_icon"
         app:layout_constraintTop_toBottomOf="@+id/grain_icon" />
 
     <ImageView
         android:id="@+id/ore_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/ore_icon_25x25"
         app:layout_constraintStart_toStartOf="@+id/brick_icon"
         app:layout_constraintTop_toBottomOf="@+id/lumber_icon" />
 
     <ImageView
         android:id="@+id/wool_icon"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/wool_icon_25x25"
         app:layout_constraintStart_toStartOf="@+id/brick_icon"
         app:layout_constraintTop_toBottomOf="@+id/ore_icon" />
 
 
     <!-- trade menu END -->
+
+    <!--intersection input menu START-->
+
+    <android.support.constraint.Group
+        android:id="@+id/group_singleIntersectionInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="start_road_id_entered,selectIntersectionText,confirm" />
+
+    <TextView
+        android:id="@+id/selectIntersectionText"
+        android:layout_width="298dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="8dp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/start_road_id_entered"
+        tools:text="@string/select_intersection_id" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.19" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.94" />
+
+    <EditText
+        android:id="@+id/start_road_id_entered"
+        android:layout_width="70dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="number"
+        android:text="0"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/confirm"
+        app:layout_constraintStart_toEndOf="@+id/selectIntersectionText"
+        app:layout_constraintTop_toTopOf="@+id/confirm" />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/confirm"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toEndOf="@+id/start_road_id_entered" />
+
+    <!--intersection input menu END-->
 
 </android.support.constraint.ConstraintLayout>

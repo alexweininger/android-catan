@@ -17,6 +17,9 @@
     <string name="confirm">Confirm</string>
     <string name="select_more_resources">You need to select more resources</string>
     <string name="select_intersection_id">Select an interection:</string>
+    <string name="hint_00">00</string>
+    <string name="minus">minus</string>
+    <string name="add">add</string>
 
     <string name="dialog_continue_label">Continue Playing Game</string>
     <string name="dialog_quit_label">Quit</string>
@@ -34,6 +37,7 @@
     <string name="roll">Roll</string>
     <string name="endTurn">End Turn</string>
 
+    <string name="heading_actions">Actions</string>
     <string name="heading_trade">Trade</string>
     <string name="trade">Trade</string>
 
@@ -47,7 +51,7 @@
     <string name="heading_game">Game</string>
     <string name="scoreboard">Scoreboard</string>
     <string name="menu">Menu</string>
-
+    <string name="heading_turn">Turn</string>
     <string name="Player1">Player 1</string>
     <string name="Player2">Player 2</string>
     <string name="Player3">Player 3</string>
@@ -90,7 +94,7 @@
 
     <!--resources-->
 
-    <string name="developmentCards">Development Cards</string>
+    <string name="developmentCards">Development</string>
 
     <string-array name="resource_Card">
         <item>Knights</item>

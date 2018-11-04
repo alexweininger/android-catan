@@ -25,6 +25,7 @@
         android:layout_height="75dp"
         android:layout_marginStart="25dp"
         android:layout_marginBottom="15dp"
+        android:contentDescription="@string/brick"
         app:layout_constraintBottom_toTopOf="@+id/monopolyText"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:srcCompat="@drawable/brick_icon_25x25" />
@@ -34,6 +35,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="40dp"
+        android:contentDescription="@string/grain"
         app:layout_constraintBottom_toBottomOf="@+id/brickIcon"
         app:layout_constraintStart_toEndOf="@+id/brickIcon"
         app:srcCompat="@drawable/grain_icon_25x25" />
@@ -43,6 +45,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="40dp"
+        android:contentDescription="@string/lumber"
         app:layout_constraintBottom_toBottomOf="@+id/grainIcon"
         app:layout_constraintStart_toEndOf="@+id/grainIcon"
         app:srcCompat="@drawable/lumber_icon_25x25" />
@@ -52,6 +55,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="40dp"
+        android:contentDescription="@string/ore"
         app:layout_constraintBottom_toBottomOf="@+id/lumberIcon"
         app:layout_constraintStart_toEndOf="@+id/lumberIcon"
         app:srcCompat="@drawable/ore_icon_25x25" />
@@ -61,6 +65,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="40dp"
+        android:contentDescription="@string/wool"
         app:layout_constraintBottom_toBottomOf="@+id/oreIcon"
         app:layout_constraintStart_toEndOf="@+id/oreIcon"
         app:srcCompat="@drawable/wool_icon_25x25" />
@@ -71,7 +76,6 @@
         android:layout_height="53dp"
         android:layout_marginStart="98dp"
         android:layout_marginBottom="16dp"
-        android:text="TextView"
         android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -83,7 +87,7 @@
         android:layout_height="53dp"
         android:layout_marginStart="75dp"
         android:layout_marginBottom="16dp"
-        android:text="Button"
+        android:text="@string/confirm"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toEndOf="@+id/monopolyText"
         tools:text="@string/confirm" />
