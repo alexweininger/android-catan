@@ -1355,11 +1355,17 @@ public class Board {
      */
     @Override
     public String toString () {
-        return "Board Class toString() " + "robber=" + robber +
-                "\nbuildings=" +
-                Arrays.toString(buildings) +
-                "\nroads=" + roads +
-                "\nhexagons:\n" + hexagons + "\nportIntersectionLocations=" +
+        String str = "Board Class toString() " + "robber=" + robber +
+                "\nbuildings=";
+        for (int i = 0; i < buildings.length; i++) {
+
+            str+= buildings[i].toString();
+
+            if ((i + 1) % 9 == 0) {
+                str += "\n";
+            }
+        }
+        str += "\nroads=" + roads + "\nhexagons:\n" + hexagons + "\nportIntersectionLocations=" +
                 portIntersectionLocations + "\nportList=" + portList;
     }
 } // end Class
