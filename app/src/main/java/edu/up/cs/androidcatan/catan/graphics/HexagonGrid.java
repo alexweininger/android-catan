@@ -123,14 +123,15 @@ public class HexagonGrid extends BoardSurfaceView {
                 // get hexes adjacent to building
                 ArrayList<Integer> hexes = board.getIntToHexIdMap().get(i);
 
-                ArrayList<Integer> intersections = new ArrayList<>();
+                ArrayList<Integer> intersections = this.board.getHexToIntIdMap().get(0);
 
                 // for each adjacent hex, add its adjacent intersections to the array list
-                for (int j = hexes.size() - 1; j >= 0; j--) {
-                    intersections.addAll(this.board.getHexToIntIdMap().get(j));
+                for (int j = 1; j < hexes.size(); j++) {
+                    intersections.retainAll(this.board.getHexToIntIdMap().get(j));
                 }
 
                 Log.e(TAG, "drawBuildings: all intersections adjacent to adjacent hexes" + intersections);
+
             }
         }
     }

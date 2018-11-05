@@ -5,6 +5,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import java.util.Arrays;
+
+import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 import edu.up.cs.androidcatan.game.actionMsg.GameOverAckAction;
 import edu.up.cs.androidcatan.game.actionMsg.MyNameIsAction;
@@ -80,7 +83,7 @@ public abstract class LocalGame implements Game, Tickable {
 		if (this.players != null) return;
 		
 		// create/store a copy of the player array
-		this.players = (GamePlayer[])players.clone();
+		this.players = players.clone();
 		
 		// create an array for the players' names; these names will be
 		// filled during the initial message-protocol between the game
@@ -147,8 +150,13 @@ public abstract class LocalGame implements Game, Tickable {
 	 * 			the player's ID, or -1 if the player is not a player in this game
 	 */
 	protected final int getPlayerIdx(GamePlayer p) {
+		if (p instanceof Player) {
+			Log.e("LocalGame", "getPlayerIdx: Got player. Need GamePlayer. " + p.toString() + " p: " + p);
+		}
+
 		Log.i("LocalGame", "getPlayerIdx() called with: p = [" + p + "]");
 		for (int i = 0; i < players.length; i++) {
+			Log.d("LocalGame", "getPlayerIdx: players[i]: " + Arrays.toString(players));
 			if (p == players[i]) {
 				return i;
 			}
@@ -193,7 +201,7 @@ public abstract class LocalGame implements Game, Tickable {
 					playersReady = new boolean[players.length]; // array to keep track of players responding
 					for (GamePlayer p : players) {
 						p.sendInfo(
-								new StartGameInfo((String[])playerNames.clone()));
+								new StartGameInfo(playerNames.clone()));
 					}
 				}
 			}
@@ -375,7 +383,7 @@ public abstract class LocalGame implements Game, Tickable {
 	}
 	
 	// an enum-class that itemizes the game stages
-	private static enum GameStage {
+	private enum GameStage {
 		BEFORE_GAME, WAITING_FOR_NAMES, WAITING_FOR_READY, DURING_GAME, GAME_OVER
 	}
 	

@@ -23,7 +23,7 @@ public class CatanLocalGame extends LocalGame {
 
     private final static String TAG = "CatanLocalGame";
 
-    protected CatanGameState gameState;
+    CatanGameState gameState;
 
 
     public CatanLocalGame() {
@@ -42,7 +42,7 @@ public class CatanLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
-        p.sendInfo(new CatanGameState(this.gameState)); // TODO verify that this copies everything (guess what it def. does not)
+        p.sendInfo(new CatanGameState(this.gameState));
     }
 
     /**

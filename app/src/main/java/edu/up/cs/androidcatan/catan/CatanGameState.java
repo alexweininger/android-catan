@@ -192,18 +192,26 @@ public class CatanGameState extends GameState {
      */
     private void updateVictoryPoints() {
         Log.d(TAG, "updateVictoryPoints() called");
-        //calculates the longest road for the players and checks if it is the current player
-        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
-            currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
-            //assigns the player with the longest road an extra 2 victory points
-            playerVictoryPoints[currentLongestRoadPlayerId] += 2;
+
+        Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
+
+        for (int i = 0; i < this.playerVictoryPoints.length; i++) {
+            this.playerVictoryPoints[i] = 0;
         }
+
+        //calculates the longest road for the players and checks if it is the current player
+//        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
+//            currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
+//            //assigns the player with the longest road an extra 2 victory points
+//            playerVictoryPoints[currentLongestRoadPlayerId] += 2;
+//        }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
         Building[] buildings = this.board.getBuildings();
 
         for (Building building : buildings) {
             if (building != null) {
+                Log.w(TAG, "updateVictoryPoints: building.getOwnerId: " + building.getOwnerId() + " building.getVictoryPoints: " + building.getVictoryPoints());
                 playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
             }
         }

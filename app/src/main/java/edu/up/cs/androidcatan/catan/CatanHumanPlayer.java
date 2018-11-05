@@ -478,8 +478,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             // send build settlement action to the game
             Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
-            game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
+            game.sendAction(new CatanBuildSettlementAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
             Log.d(TAG, "tryBuildSettlement() returned: " + true);
+
             return true;
         } else {
             Log.e(TAG, "tryBuildSettlement: Returning false.");
