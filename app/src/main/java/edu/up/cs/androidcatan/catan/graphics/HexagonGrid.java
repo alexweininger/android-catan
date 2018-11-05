@@ -28,6 +28,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
     protected int[] playerColors = {Color.RED, Color.WHITE, Color.BLUE, Color.CYAN};
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
+   // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
     private Building[] buildlings;
 
@@ -91,16 +92,27 @@ public class HexagonGrid extends BoardSurfaceView {
                 roadPaint.setStyle(Paint.Style.FILL);
 
                 // draw a circle in the center of each hexagon
+                int dataA = 0;
+                int dataB = 0;
+                for (int i = 0; i < dataToDrawMap.length; i++) {
+                    if (dataToDrawMap[i] == ((ArrayList<Integer>) overlap).get(0)) {
+                        dataA = i;
+                    } else if (dataToDrawMap[i] == ((ArrayList<Integer>) overlap).get(1)) {
+                        dataB = i;
+                    }
+                }
 
-                int[][] hexagonAPoints = drawingHexagons.get(((ArrayList<Integer>) overlap).get(0)).getHexagonPoints();
-                int[][] hexagonBPoints = drawingHexagons.get(((ArrayList<Integer>) overlap).get(1)).getHexagonPoints();
+                int[][] hexagonAPoints = drawingHexagons.get(dataA).getHexagonPoints();
+                int[][] hexagonBPoints = drawingHexagons.get(dataB).getHexagonPoints();
 
+                int cxA = hexagonAPoints[5][0];
+                int cyA = hexagonAPoints[5][1];
 
-                Log.e(TAG, "drawRoads: drawing at" + (hexagonAPoints[3][0] + size) + ", " + (hexagonAPoints[3][1] - size/2));
-                canvas.drawCircle(hexagonAPoints[5][0] + size, hexagonAPoints[5][1] - size/2, 25, roadPaint);
+                int cxB = hexagonBPoints[5][0];
+                int cyB = hexagonBPoints[5][1];
 
-                Log.e(TAG, "drawRoads: drawing at" + (hexagonBPoints[3][0] + size) + ", " + (hexagonBPoints[3][1] - size/2));
-                canvas.drawCircle(hexagonBPoints[3][0] + size, hexagonBPoints[3][1] - size/2, 25, roadPaint);
+                canvas.drawCircle(cxA, cxA, 25, roadPaint);
+                canvas.drawCircle(cxB, cxB, 25, roadPaint);
 
                 Log.i(TAG, "drawRoads: drawing a road");
                 int[][] points;
