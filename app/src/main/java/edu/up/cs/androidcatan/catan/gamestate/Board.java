@@ -1356,10 +1356,11 @@ public class Board {
      */
     @Override
     public String toString () {
-        String str = "\n ---------- Board toString ---------- \n" + "robber=" + robber + "\nbuildings=" + "\nroads=" + roads + "\nportList=" + portList;
+        String str = "\n ---------- Board toString ---------- \n" + "robber=" + robber + "\nroads=" + roads + "\nbuildings: \n";
         for (int i = 0; i < buildings.length; i++) {
+            str += "\t";
             if (buildings[i] == null) {
-                str += " null ";
+                str += "null";
             } else {
                 str += buildings[i].toString();
             }
@@ -1367,7 +1368,18 @@ public class Board {
                 str += "\n";
             }
         }
-        str += "\nhexagons:\n" + hexagons + "\nportIntersectionLocations=" + portIntersectionLocations;
+
+        str += "\nhexagons:\n";
+
+        for (int i = 0; i < hexagons.size(); i++) {
+            str += "\t  ";
+            str += hexagons.get(i).toString();
+            if ((i + 1) % 2 == 0) {
+                str += "\n";
+            }
+        }
+
+        str += "\nportIntersectionLocations=" + portIntersectionLocations;
 
         return str;
     }
