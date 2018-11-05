@@ -6,34 +6,87 @@
     android:layout_height="match_parent">
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/monopolyHorizontalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="1" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline6"
+        android:id="@+id/monopolyVeritcalGuideLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".15" />
 
     <ImageView
-        android:id="@+id/brickIcon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="15dp"
+        android:id="@+id/brickSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="30dp"
         android:contentDescription="@string/brick"
-        app:layout_constraintBottom_toTopOf="@+id/monopolyText"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintBottom_toBottomOf="@+id/grainSelectiomBox"
+        app:layout_constraintEnd_toStartOf="@+id/grainSelectiomBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/grainSelectiomBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="30dp"
+        android:contentDescription="@string/grain"
+        app:layout_constraintBottom_toBottomOf="@+id/lumberSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/lumberSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/lumberSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="35dp"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintBottom_toBottomOf="@+id/oreSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/oreIcon"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/oreSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:contentDescription="@string/ore"
+        app:layout_constraintBottom_toBottomOf="@+id/woolSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/woolSelectionBox"
+        app:layout_constraintStart_toEndOf="@+id/lumberSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/woolSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginBottom="45dp"
+        android:contentDescription="@string/wool"
+        app:layout_constraintBottom_toTopOf="@+id/monopoltConfirm"
+        app:layout_constraintStart_toEndOf="@+id/oreSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/brickIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="@string/brick"
+        app:layout_constraintBottom_toBottomOf="@+id/brickSelectionBox"
+        app:layout_constraintStart_toStartOf="@+id/monopolyVeritcalGuideLine"
         app:srcCompat="@drawable/brick_icon_25x25" />
 
     <ImageView
         android:id="@+id/grainIcon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginStart="40dp"
         android:contentDescription="@string/grain"
         app:layout_constraintBottom_toBottomOf="@+id/brickIcon"
@@ -42,8 +95,8 @@
 
     <ImageView
         android:id="@+id/lumberIcon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginStart="40dp"
         android:contentDescription="@string/lumber"
         app:layout_constraintBottom_toBottomOf="@+id/grainIcon"
@@ -52,8 +105,8 @@
 
     <ImageView
         android:id="@+id/oreIcon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginStart="40dp"
         android:contentDescription="@string/ore"
         app:layout_constraintBottom_toBottomOf="@+id/lumberIcon"
@@ -62,33 +115,23 @@
 
     <ImageView
         android:id="@+id/woolcon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginStart="40dp"
         android:contentDescription="@string/wool"
         app:layout_constraintBottom_toBottomOf="@+id/oreIcon"
         app:layout_constraintStart_toEndOf="@+id/oreIcon"
         app:srcCompat="@drawable/wool_icon_25x25" />
 
-    <TextView
-        android:id="@+id/monopolyText"
-        android:layout_width="390dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginBottom="16dp"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline6" />
-
     <Button
         android:id="@+id/monopoltConfirm"
         android:layout_width="124dp"
         android:layout_height="53dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="667dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/confirm"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintStart_toEndOf="@+id/monopolyText"
+        app:layout_constraintBottom_toTopOf="@+id/monopolyHorizontalGuideline"
+        app:layout_constraintStart_toEndOf="@+id/monopolyVeritcalGuideLine"
         tools:text="@string/confirm" />
+
 </android.support.constraint.ConstraintLayout>

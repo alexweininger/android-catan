@@ -429,11 +429,6 @@
 
     <!-- scoreboard END -->
 
-    <!-- trade menu START -->
-
-
-    <!--trade menu group-->
-
     <android.support.constraint.Guideline
         android:id="@+id/guideline_right_sidebar"
         android:layout_width="wrap_content"
@@ -949,5 +944,280 @@
         app:constraint_referenced_ids="end_road_id_entered,confirm,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
 
     <!--intersection input menu END-->
+
+    <!--trade menu start-->
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".14" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <ImageView
+        android:id="@+id/brickSelectionBoxReceive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="11dp"
+        android:contentDescription="@string/brick"
+        app:layout_constraintStart_toEndOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/resourceReceiveText"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/grainSelectionBoxReceive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="11dp"
+        android:contentDescription="@string/grain"
+        app:layout_constraintStart_toEndOf="@+id/brickSelectionBoxReceive"
+        app:layout_constraintTop_toBottomOf="@+id/resourceReceiveText"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/lumberSelectionBoxReceive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="27dp"
+        android:contentDescription="@string/lumber"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/resourceGiveText"
+        app:layout_constraintStart_toEndOf="@+id/grainSelectionBoxReceive"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/oreSelectionBoxReceive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="92dp"
+        android:contentDescription="@string/ore"
+        app:layout_constraintBottom_toTopOf="@+id/oreImgGive"
+        app:layout_constraintStart_toEndOf="@+id/lumberSelectionBoxReceive"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/woolSelectionBoxReceive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="92dp"
+        android:contentDescription="@string/wool"
+        app:layout_constraintBottom_toTopOf="@+id/woolImgGive"
+        app:layout_constraintStart_toEndOf="@+id/oreSelectionBoxReceive"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/birckSelectionBoxGive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="19dp"
+        android:contentDescription="@string/brick"
+        app:layout_constraintEnd_toStartOf="@+id/grainImgGive"
+        app:layout_constraintTop_toBottomOf="@+id/resourceGiveText"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/grainSelectiomBoxGive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="11dp"
+        android:contentDescription="@string/grain"
+        app:layout_constraintStart_toEndOf="@+id/birckSelectionBoxGive"
+        app:layout_constraintTop_toBottomOf="@+id/resourceGiveText"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/lumberSelectionBoxGive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="11dp"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintStart_toEndOf="@+id/grainSelectiomBoxGive"
+        app:layout_constraintTop_toBottomOf="@+id/resourceGiveText"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/oreSelectiomBoxGive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="87dp"
+        android:contentDescription="@string/ore"
+        app:layout_constraintStart_toEndOf="@+id/lumberSelectionBoxGive"
+        app:layout_constraintTop_toBottomOf="@+id/oreSelectionBoxReceive"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/woolSelectionBoxGive"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="87dp"
+        android:contentDescription="@string/wool"
+        app:layout_constraintStart_toEndOf="@+id/oreSelectiomBoxGive"
+        app:layout_constraintTop_toBottomOf="@+id/woolSelectionBoxReceive"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/birckImgReceive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/brick"
+        app:layout_constraintBottom_toTopOf="@+id/resourceGiveText"
+        app:layout_constraintStart_toStartOf="@+id/bringImgGive"
+        app:srcCompat="@drawable/brick_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/grainImgReceive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/grain"
+        app:layout_constraintStart_toEndOf="@+id/birckImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/birckImgReceive"
+        app:srcCompat="@drawable/grain_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/lumberImgReceive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintStart_toEndOf="@+id/grainSelectionBoxReceive"
+        app:layout_constraintTop_toTopOf="@+id/lumberSelectionBoxReceive"
+        app:srcCompat="@drawable/lumber_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/oreImgReceive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/ore"
+        app:layout_constraintStart_toEndOf="@+id/lumberImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/lumberImgReceive"
+        app:srcCompat="@drawable/ore_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/woolImgReceive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/wool"
+        app:layout_constraintStart_toEndOf="@+id/oreImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/oreImgReceive"
+        app:srcCompat="@drawable/wool_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/bringImgGive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/brick"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:srcCompat="@drawable/brick_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/grainImgGive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/grain"
+        app:layout_constraintStart_toEndOf="@+id/bringImgGive"
+        app:layout_constraintTop_toTopOf="@+id/bringImgGive"
+        app:srcCompat="@drawable/grain_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/lumberImgGive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintStart_toEndOf="@+id/grainImgGive"
+        app:layout_constraintTop_toTopOf="@+id/grainImgGive"
+        app:srcCompat="@drawable/lumber_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/oreImgGive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/ore"
+        app:layout_constraintStart_toEndOf="@+id/lumberImgGive"
+        app:layout_constraintTop_toTopOf="@+id/lumberImgGive"
+        app:srcCompat="@drawable/ore_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/woolImgGive"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/wool"
+        app:layout_constraintStart_toEndOf="@+id/oreImgGive"
+        app:layout_constraintTop_toTopOf="@+id/oreImgGive"
+        app:srcCompat="@drawable/wool_icon_25x25" />
+
+    <TextView
+        android:id="@+id/resourceReceiveText"
+        android:layout_width="424dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/resourceReceive"
+        android:textAlignment="viewStart"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/birckImgReceive"
+        app:layout_constraintStart_toStartOf="@+id/birckImgReceive" />
+
+    <TextView
+        android:id="@+id/resourceGiveText"
+        android:layout_width="424dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/resourceGive"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/bringImgGive"
+        app:layout_constraintStart_toStartOf="@+id/bringImgGive" />
+
+    <Button
+        android:id="@+id/tradeConfirm"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="544dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintStart_toEndOf="@+id/guideline7" />
+
+    <Button
+        android:id="@+id/tradeCancel"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/button2" />
+
+    <android.support.constraint.Group
+        android:id="@+id/tradeMenuGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="bringImgGive,tradeCancel,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,tradeConfirm,grainSelectiomBoxGive" />
+    <!--end of trade menu-->
 
 </android.support.constraint.ConstraintLayout>
