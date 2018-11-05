@@ -74,6 +74,11 @@ public class CatanLocalGame extends LocalGame {
     @Override
     protected boolean canMove(int playerIdx) {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
+
+        if (playerIdx < 0 || playerIdx > 3) {
+            Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
+        }
+        Log.d(TAG, "canMove() returned: " + (playerIdx == gameState.getCurrentPlayerId()));
         return playerIdx == gameState.getCurrentPlayerId();
     }
 
