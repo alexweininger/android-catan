@@ -370,7 +370,7 @@ public class CatanGameState extends GameState {
      */
     //TODO implement
     public boolean tradeWithBank(int playerId, int resGiven, int resReceive) {
-        if (!valAction(playerId)) {
+        if (this.isActionPhase) {
             return false;
         }
 
