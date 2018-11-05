@@ -1358,7 +1358,7 @@ public class Board {
     public String toString () {
         String str = "\n ---------- Board toString ---------- \n" + "robber=" + robber + "\nroads=" + roads + "\nbuildings: \n";
         for (int i = 0; i < buildings.length; i++) {
-            str += "\t";
+            str += "\t" + i + "=";
             if (buildings[i] == null) {
                 str += "null";
             } else {

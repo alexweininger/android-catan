@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int margin;
     protected int[] numTiles = {4, 3, 3, 3, 4};
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
-    protected int[] playerColors = {Color.RED, Color.WHITE, Color.BLUE, Color.CYAN };
+    protected int[] playerColors = {Color.RED, Color.WHITE, Color.BLUE, Color.CYAN};
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
     private Building[] buildlings;
@@ -58,22 +59,49 @@ public class HexagonGrid extends BoardSurfaceView {
         drawBuildings();
     }
 
+    public static int[][] append (int[][] a, int[][] b) {
+        int[][] result = new int[a.length + b.length][];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
+    }
+
     public void drawRoads (Canvas canvas) {
         Log.d(TAG, "drawRoads() called with: canvas = [" + canvas + "]");
+
+        // get list of all roads on the board
         ArrayList<Road> dataRoads = this.board.getRoads();
 
         Collection<Integer> overlap = new ArrayList<>();
+
+        // for each road stored on the board
         for (int k = 0; k < dataRoads.size(); k++) {
-            Log.i(TAG, "drawRoads: k:" + k);
             Road r = dataRoads.get(k);
 
+            // add each intersections adjacent hexagons to the "overlap" list
             overlap.addAll(board.getIntToHexIdMap().get(r.getIntersectionAId()));
             overlap.retainAll(board.getIntToHexIdMap().get(r.getIntersectionBId()));
 
-            Log.w(TAG, "getHexagons: overlap: " + overlap.toString());
+            // print "overlap" list
+            Log.w(TAG, "drawRoads: overlap: " + overlap.toString());
 
+            // if there are exactly 2 overlapping hexagons (right now we need this)
             if (overlap.size() == 2) {
-                // draw a road
+
+                // make an array list of all of the POINTS of each hexagon
+
+                ArrayList<Integer> hexagonIntersections = new ArrayList<>(board.getHexToIntIdMap().get(((ArrayList<Integer>) overlap).get(0)));
+                hexagonIntersections.addAll(board.getHexToIntIdMap().get(((ArrayList<Integer>) overlap).get(1)));
+
+                int[][] hexagonPoints = new int[0][2];
+
+                for (int i = 0; i < overlap.size(); i++) {
+                    int[][] points = this.drawingHexagons.get(((ArrayList<Integer>) overlap).get(i)).points;
+                    hexagonPoints = append(hexagonPoints, points);
+                }
+
+                Log.e(TAG, "drawRoads: Arrays.toString(hexagonPoints)" + Arrays.deepToString(hexagonPoints));
+
                 Log.i(TAG, "drawRoads: drawing a road");
                 int[][] points;
                 int[][] points2;
@@ -81,13 +109,17 @@ public class HexagonGrid extends BoardSurfaceView {
                 points = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(0)]).getHexagonPoints();
                 points2 = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(1)]).getHexagonPoints();
 
+                // print points
+                StringBuilder str = new StringBuilder();
                 for (int[] point : points) {
-                    StringBuilder str = new StringBuilder();
-                    for (int i : point) {
-                        str.append(i).append(" ");
-                    }
-                    Log.i(TAG, "drawRoads: points " + str.toString());
+                    str.append("(").append(point[0]).append(", ").append(point[1]).append(")");
                 }
+                Log.i(TAG, "drawRoads: points " + str.toString());
+
+                for (int[] point : points2) {
+                    str.append("(").append(point[0]).append(", ").append(point[1]).append(")");
+                }
+                Log.i(TAG, "drawRoads: points2 " + str.toString());
 
                 if (points != null && points.length != 0) {
                     Paint roadPaint = new Paint();
@@ -119,11 +151,11 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    public void drawBuildings() {
+    public void drawBuildings () {
         Building[] buildings = this.board.getBuildings();
 
         // go through each building
-        for (int i = buildings.length - 1; i >= 0; i--) {
+        for (int i = 0; i < buildings.length; i++) {
             if (buildings[i] != null) {
 
                 // get hexes adjacent to building
