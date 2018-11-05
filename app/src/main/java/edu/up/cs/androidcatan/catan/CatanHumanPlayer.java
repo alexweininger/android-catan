@@ -433,6 +433,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
         roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
+        roadIntersectionOkButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+
+            }
+        });
+
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         // button listeners
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
