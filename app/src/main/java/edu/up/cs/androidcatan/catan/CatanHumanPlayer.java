@@ -84,6 +84,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradePort = null;
     private Button useDevCard = null;
 
+    // other buttons on the sidebar
+
+    private Button menuButton = (Button) null;
+
     // resource count text views
     private TextView oreValue = (TextView) null;
     private TextView grainValue = (TextView) null;
@@ -342,6 +346,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
 
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
+
+        /* ---------- menu button listener ---------- */
+
+        this.menuButton = activity.findViewById(R.id.sidebar_button_menu);
+
+        this.menuButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                Log.d(TAG, state.toString());
+            }
+        });
 
         /* ---------- action button listeners ---------- */
 

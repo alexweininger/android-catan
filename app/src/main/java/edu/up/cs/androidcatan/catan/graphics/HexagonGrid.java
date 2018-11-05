@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,6 +26,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int margin;
     protected int[] numTiles = {4, 3, 3, 3, 4};
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
+    protected int[] playerColors = {Color.RED, Color.WHITE, Color.BLUE, Color.CYAN };
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
     private Building[] buildlings;
@@ -81,11 +81,17 @@ public class HexagonGrid extends BoardSurfaceView {
                 points = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(0)]).getHexagonPoints();
                 points2 = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(1)]).getHexagonPoints();
 
-                Log.i(TAG, "drawRoads: points: " + Arrays.toString(points));
+                for (int[] point : points) {
+                    StringBuilder str = new StringBuilder();
+                    for (int i : point) {
+                        str.append(i).append(" ");
+                    }
+                    Log.i(TAG, "drawRoads: points " + str.toString());
+                }
 
                 if (points != null && points.length != 0) {
                     Paint roadPaint = new Paint();
-                    roadPaint.setColor(Color.DKGRAY);
+                    roadPaint.setColor(playerColors[r.getOwnerId()]);
                     roadPaint.setStyle(Paint.Style.FILL);
 
                     int radius = 25;
