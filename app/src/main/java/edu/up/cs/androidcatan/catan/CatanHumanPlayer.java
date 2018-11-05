@@ -65,6 +65,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private String currentBuildingSelection = null;
 
+    private ArrayList<Integer> buildingsBuiltOnThisTurn;
+
     private int currentBuildingSelectionId = -1;
 
     // These variables will reference widgets that will be modified during play
@@ -245,6 +247,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "onClick: Settlement");
                 game.sendAction(action);
                 game.sendAction(new CatanEndTurnAction(this));
+                this.buildingsBuiltOnThisTurn = new ArrayList<>();
                 return;
             }
             if (button.getId() == R.id.sidebar_button_devcards) {
@@ -254,10 +257,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
             if (button.getId() == R.id.sidebar_button_endturn) {
-                CatanEndTurnAction action = new CatanEndTurnAction(this);
+                if (state.isSetupPhase()) {
+
+                }
                 Log.d(TAG, "onClick: End Turn");
 
-                game.sendAction(action);
+                game.sendAction(new CatanEndTurnAction(this));
+                this.buildingsBuiltOnThisTurn = new ArrayList<>();
                 return;
             }
             //        if(button.getId() == R.id.) {
@@ -512,8 +518,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
             this.rollButton.setClickable(false);
-            this.endTurnButton.setAlpha(0.5f);
-            this.endTurnButton.setClickable(false);
             this.buyDevCardButton.setAlpha(0.5f);
             this.buyDevCardButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);

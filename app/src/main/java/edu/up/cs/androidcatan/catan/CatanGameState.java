@@ -319,6 +319,9 @@ public class CatanGameState extends GameState {
             this.currentPlayerId++;
         }
 
+        // update the setup phase boolean variable using the method that does setup phase completion check
+        this.setSetupPhase(updateSetupPhase());
+
         return true;
     } // end endTurn method
 
@@ -656,12 +659,12 @@ public class CatanGameState extends GameState {
 
     /**
      * goes through each building and road to check how many are owned by the player
-     * when they have 2 roads and 2 buildings, setupPhase is false.
+     * when they have 2 roads and 2 buildings, updateSetupPhase is false.
      *
      * @return if the game is still in the setup phase
      */
-    public boolean setupPhase() {
-        Log.d(TAG, "setupPhase() called");
+    public boolean updateSetupPhase () {
+        Log.d(TAG, "updateSetupPhase() called");
         int roadCount = 0;
         int buildingCount = 0;
         for (int n = 0; n < playerList.size(); n++) {
@@ -678,12 +681,12 @@ public class CatanGameState extends GameState {
                 }
 
                 if (buildingCount < 2 || roadCount < 2) {
-                    Log.d(TAG, "setupPhase() returned: " + true);
+                    Log.d(TAG, "updateSetupPhase() returned: " + true);
                     return true;
                 }
             }
         }
-        Log.d(TAG, "setupPhase() returned: " + false);
+        Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }
 

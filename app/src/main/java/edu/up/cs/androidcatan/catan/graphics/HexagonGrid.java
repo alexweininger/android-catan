@@ -83,7 +83,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 Log.i(TAG, "drawRoads: points: " + Arrays.toString(points));
 
-                if (points == null || points.length == 0) {
+                if (points != null && points.length != 0) {
                     Paint roadPaint = new Paint();
                     roadPaint.setColor(Color.DKGRAY);
                     roadPaint.setStyle(Paint.Style.FILL);
