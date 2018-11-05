@@ -370,21 +370,22 @@ public class CatanGameState extends GameState {
      */
     //TODO implement
     public boolean tradeWithBank(int playerId, int resGiven, int resReceive) {
-        if (valAction(playerId)) {
+        if (!valAction(playerId)) {
             return false;
         }
 
-        //Setting ration then checking resources; if enough, we commence with trade
+        //Setting ratio then checking resources; if enough, we commence with trade
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
         if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
-            Log.e(TAG, "tradeWithBank - not enough resources player id: " + playerId);
+            Log.e(TAG, "tradeWithBank - not enough resources, player id: " + playerId);
             return false;
         }
 
         this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
+        this.playerList.get(playerId).removeResourceCard(resGiven, ratio); //removes resource cards from players inventory
 
         Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
