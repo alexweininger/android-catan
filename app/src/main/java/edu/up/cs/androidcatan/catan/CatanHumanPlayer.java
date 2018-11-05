@@ -206,13 +206,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
-        if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
-            Log.d(TAG, "onClick: City");
-            game.sendAction(action);
-            return;
-        }
-
         if (button.getId() == R.id.sidebar_button_devcards) {
             CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
             Log.d(TAG, "onClick: Buy Dev Card");
@@ -241,6 +234,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
+            return;
+        }
+
+        /* ---------- Building action buttons ---------- */
+
+        if (button.getId() == R.id.sidebar_button_city) {
+            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
+            Log.d(TAG, "onClick: City");
+            game.sendAction(action);
             return;
         }
 
@@ -311,6 +313,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             currentBuildingSelectionId = -1;
         }
 
+        /* ---------- menu, score, dev card menu buttons ---------- */
         if(button.getId() == R.id.menu_settings){
             Log.d(TAG, state.toString());
         }
