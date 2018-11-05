@@ -67,7 +67,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private ArrayList<Integer> buildingsBuiltOnThisTurn;
 
-    private int currentBuildingSelectionId = -1;
+    private int currentBuildingSelectionId = 1;
 
     // These variables will reference widgets that will be modified during play
     private Button buildCityButton = null;
@@ -206,6 +206,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
+
+        /* ---------- actions other than building ---------- */
         if (button.getId() == R.id.sidebar_button_devcards) {
             CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
             Log.d(TAG, "onClick: Buy Dev Card");
@@ -254,6 +256,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 currentBuildingSelectionId = -1;
             }
+            return;
         }
 
         if(button.getId() == R.id.button_roadOk){
@@ -269,10 +272,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 currentBuildingSelectionId = -1;
                 if(state.isSetupPhase()){
                     toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
+                    currentBuildingSelectionId = 1;
                 }
             } else {
                 Log.d(TAG, "onClick: invalid location");
             }
+            return;
         }
 
         if(button.getId() == R.id.button_roadCancel){
@@ -288,6 +293,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 currentBuildingSelectionId = -1;
             }
+            return;
         }
 
         if(button.getId() == R.id.button_singleIntersectionMenuOk){
@@ -302,29 +308,35 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 currentBuildingSelectionId = -1;
                 if(state.isSetupPhase()){
                     toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
+                    currentBuildingSelectionId = 0;
                 }
             } else {
                 Log.d(TAG, "onClick: invalid location at " + singleIntersectionIdInput);
             }
+            return;
         }
 
         if(button.getId() == R.id.button_singleIntersectionMenuCancel){
             toggleGroupVisibility(singleIntersectionInputMenuGroup);
             currentBuildingSelectionId = -1;
+            return;
         }
 
         /* ---------- menu, score, dev card menu buttons ---------- */
         if(button.getId() == R.id.menu_settings){
             Log.d(TAG, state.toString());
+            return;
         }
 
         if(button.getId() == R.id.sidebar_button_score){
             toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
+            return;
         }
 
         if(button.getId() == R.id.group_development_card_menu){
             // toggle menu vis.
             toggleGroupVisibility(developmentGroup);
+            return;
         }
 
     }// onClick
