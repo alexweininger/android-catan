@@ -1355,6 +1355,11 @@ public class Board {
      */
     @Override
     public String toString () {
-        return "Board Class toString() " + "robber=" + robber + "\nbuildings=" + Arrays.toString(buildings) + "\nroads=" + roads + "\nhexagons:\n" + hexagons + "\nportIntersectionLocations=" + portIntersectionLocations + "\nportList=" + portList;
+        return "Board Class toString() " + "robber=" + robber +
+                "\nbuildings=" +
+                Arrays.toString(buildings) +
+                "\nroads=" + roads +
+                "\nhexagons:\n" + hexagons + "\nportIntersectionLocations=" +
+                portIntersectionLocations + "\nportList=" + portList;
     }
 } // end Class
