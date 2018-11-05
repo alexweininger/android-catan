@@ -664,27 +664,39 @@ public class CatanGameState extends GameState {
      */
     public boolean updateSetupPhase () {
         Log.d(TAG, "updateSetupPhase() called");
-        int roadCount = 0;
+        Log.e(TAG, "updateSetupPhase: " + this.toString());
+//        int roadCount = 0;
         int buildingCount = 0;
-        for (int n = 0; n < playerList.size(); n++) {
-            for (Building building : board.getBuildings()) {
-                if (building != null) {
-                    if (building.getOwnerId() == n) {
-                        buildingCount++;
-                    }
-                }
-                for (Road road : board.getRoads()) {
-                    if (road.getOwnerId() == n) {
-                        roadCount++;
-                    }
-                }
-
-                if (buildingCount < 2 || roadCount < 2) {
-                    Log.d(TAG, "updateSetupPhase() returned: " + true);
-                    return true;
-                }
+        for (Building building : board.getBuildings()) {
+            if(building != null){
+                buildingCount++;
             }
         }
+        if(board.getRoads().size() < 8 || buildingCount < 8){
+            return true;
+        }
+
+//        for (int n = 0; n < playerList.size(); n++) {
+//            for (Building building : board.getBuildings()) {
+//                if (building != null) {
+//                    if (building.getOwnerId() == n) {
+//                        Log.d(TAG, "updateSetupPhase: OwnerId " + building.getOwnerId());
+//                        buildingCount++;
+//                    }
+//                }
+//                for (Road road : board.getRoads()) {
+//                    if (road.getOwnerId() == n) {
+//                        Log.d(TAG, "updateSetupPhase: OwnerId " + road.getOwnerId());
+//                        roadCount++;
+//                    }
+//                }
+//
+//                if (buildingCount < 2 || roadCount < 2) {
+//                    Log.d(TAG, "updateSetupPhase() returned: " + true);
+//                    return true;
+//                }
+//            }
+//        }
         Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }

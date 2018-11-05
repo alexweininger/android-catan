@@ -285,6 +285,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         game.sendAction(new CatanEndTurnAction(this));
                         this.buildingsBuiltOnThisTurn = new ArrayList<>();
                         state.updateSetupPhase();
+
                         return;
                     }
                     toggleGroupVisibility(singleIntersectionInputMenuGroup);
@@ -670,26 +671,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     public void setAllButtonsToVisible () {
-        this.buildRoadButton.setAlpha(0.5f);
-        this.buildRoadButton.setClickable(false);
-        this.buildSettlementButton.setAlpha(0.5f);
-        this.buildSettlementButton.setClickable(false);
-        this.buildCityButton.setAlpha(0f);
-        this.buildCityButton.setClickable(true);
-        this.rollButton.setAlpha(0f);
-        this.rollButton.setClickable(true);
-        this.endTurnButton.setAlpha(0f);
-        this.endTurnButton.setClickable(true);
-        this.buyDevCardButton.setAlpha(0f);
-        this.buyDevCardButton.setClickable(true);
-        this.tradeButton.setAlpha(0f);
-        this.tradeButton.setClickable(true);
-        this.buildSettlementButton.setAlpha(0f);
-        this.buildSettlementButton.setClickable(true);
-        this.buildRoadButton.setAlpha(0f);
+        this.buildRoadButton.setAlpha(1f);
         this.buildRoadButton.setClickable(true);
-        this.endTurnButton.setAlpha(0.5f);
-        this.endTurnButton.setClickable(false);
+        this.buildSettlementButton.setAlpha(1f);
+        this.buildSettlementButton.setClickable(true);
+        this.buildCityButton.setAlpha(1f);
+        this.buildCityButton.setClickable(true);
+        this.rollButton.setAlpha(1f);
+        this.rollButton.setClickable(true);
+        this.endTurnButton.setAlpha(1f);
+        this.endTurnButton.setClickable(true);
+        this.buyDevCardButton.setAlpha(1f);
+        this.buyDevCardButton.setClickable(true);
+        this.tradeButton.setAlpha(1f);
+        this.tradeButton.setClickable(true);
+        this.buildSettlementButton.setAlpha(1f);
+        this.buildSettlementButton.setClickable(true);
+        this.buildRoadButton.setAlpha(1f);
+        this.buildRoadButton.setClickable(true);
+        this.endTurnButton.setAlpha(1f);
+        this.endTurnButton.setClickable(true);
 
         this.singleIntersectionCancelButton.setAlpha(0f);
         this.singleIntersectionCancelButton.setClickable(true);

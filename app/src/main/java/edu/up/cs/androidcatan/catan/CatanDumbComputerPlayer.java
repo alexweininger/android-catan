@@ -64,7 +64,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         }
 
         // delay to make cpu feel more real
-        sleep(1000);
+        sleep(300);
 
         Random random = new Random();
         Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
