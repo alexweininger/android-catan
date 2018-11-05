@@ -122,6 +122,36 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 Log.e(TAG, "drawRoads: diff: " + diff);
 
+                int[] roadPointsA = {cxA, cyA - size};
+                int[] roadPointsB = {cxB, cyB + size};
+
+                canvas.drawCircle(roadPointsA[0], roadPointsA[1], 25, roadPaint);
+                canvas.drawCircle(roadPointsB[0], roadPointsB[1], 25, roadPaint);
+
+                int[] midpoint = {(roadPointsA[0] + roadPointsB[0]) / 2,(roadPointsA[1] + roadPointsB[1]) / 2};
+
+                canvas.drawCircle(midpoint[0], midpoint[1], 25, roadPaint);
+
+//                canvas.drawLine(roadPointsA[0], roadPointsA[1], roadPointsB[0],  roadPointsB[1], roadPaint);
+//                Path roadPath = new Path();
+//
+//                // starting point
+//                roadPath.moveTo(roadPointsA[0], roadPointsA[1]);
+//
+//                // upper right
+//                roadPath.lineTo(roadPointsA[0] + margin, roadPointsA[1] - margin);
+//
+//                // lower right
+//                roadPath.lineTo(roadPointsB[0] + margin, roadPointsB[1] - margin);
+//
+//                // lower left
+//                roadPath.lineTo(roadPointsB[0], roadPointsB[1]);
+//
+//                // upper left
+//                roadPath.lineTo(roadPointsA[0], roadPointsA[1]);
+//
+//                canvas.drawPath(roadPath, roadPaint);
+
             } else if (overlap.size() == 1) {
                 Log.e(TAG, "drawRoads: overlap size is 1.");
                 ArrayList<Integer> hexes = board.getIntToHexIdMap().get(k);
