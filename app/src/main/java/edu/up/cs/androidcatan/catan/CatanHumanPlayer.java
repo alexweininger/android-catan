@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import javax.security.auth.login.LoginException;
+
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
@@ -62,6 +64,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int playerId;
 
     private String currentBuildingSelection = null;
+
+    private int currentBuildingSelectionId = -1;
 
     // These variables will reference widgets that will be modified during play
     private Button buildCityButton = null;
@@ -184,17 +188,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick (View button) {
-        Log.d(TAG, "onClick() called with: button = [" + button + "]");
-        Group intersectionMenu = myActivity.findViewById(R.id.group_singleIntersectionInput);
-        if (button.getId() == R.id.sidebar_button_settlement) {
-            intersectionMenu.setVisibility(View.VISIBLE);
-            this.currentBuildingSelection = "Settlement";
-        }
 
-        if (button.getId() == R.id.sidebar_button_city) {
-            intersectionMenu.setVisibility(View.VISIBLE);
-            this.currentBuildingSelection = "City";
-        }
+        Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
         if (state == null) {
             Log.e(TAG, "onClick: state is null.");
@@ -216,7 +211,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
 
             } else if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
-
+                Log.e(TAG, "onClick: here");
 
 
             } else {
@@ -361,8 +356,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             public void onClick (View view) {
                 if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
                     singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+                    currentBuildingSelectionId = 1;
                 } else {
                     singleIntersectionInputMenuGroup.setVisibility(View.GONE);
+                    currentBuildingSelectionId = -1;
                 }
             }
         });
@@ -373,8 +370,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             public void onClick (View view) {
                 if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
                     roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+                    currentBuildingSelectionId = 0;
                 } else {
                     roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                    currentBuildingSelectionId = -1;
                 }
             }
         });
@@ -393,21 +392,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 int singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
 
-                Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput);
+                Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
 
-                if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, singleIntersectionIdInput)) {
-                    Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+                if (tryBuildSettlement()) {
 
-                    // add just enough resources so player can build settlement
-                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
-                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-                    state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+                } else {
 
-                    // send build settlement action to the game
-                    game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), false, state.getCurrentPlayerId(), singleIntersectionIdInput));
-                    return;
                 }
+
                 // toggle menu vis.
                 toggleGroupVisibility(singleIntersectionInputMenuGroup);
             }
@@ -450,6 +442,35 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             receiveInfo(state);
         }
     }//setAsGui
+
+    private boolean tryBuildSettlement (int intersection1) {
+
+        Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
+
+        if (this.currentBuildingSelectionId != 1) {
+            Log.e(TAG, "tryBuildSettlement: Error the currently selected building id is not a settlement.");
+            return false;
+        }
+        if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersection1)) {
+            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+
+            // add just enough resources so player can build settlement
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+
+            // send build settlement action to the game
+            Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
+            game.sendAction(new CatanBuildSettlementAction(state.getPlayerList().get(state.getCurrentPlayerId()), state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
+            Log.d(TAG, "tryBuildSettlement() returned: " + true);
+            return true;
+        } else {
+            Log.e(TAG, "tryBuildSettlement: Returning false.");
+            this.singleIntersectionInputEditText.
+            return false;
+        }
+    }
 
     /**
      *
