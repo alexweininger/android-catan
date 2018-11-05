@@ -55,8 +55,6 @@
         app:constraint_referenced_ids="Player1_Name,Player1_Score,Player2_Score,victory_Points,Player4_Name,Player3_Name,Player2_Name,Player3_Score,Player4_Score" />
 
     <!--dev card group-->
-
-    <!-- build menu group -->
     <android.support.constraint.Group
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"
@@ -64,6 +62,7 @@
         android:visibility="gone"
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
+    <!-- build menu group -->
     <android.support.constraint.Group
         android:id="@+id/group_build_menu"
         android:layout_width="wrap_content"
@@ -875,7 +874,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:alpha="255"
-        android:text="Select two intersections:"
+        android:text= "@string/selectIntersections"
         android:textAlignment="textEnd"
         android:textColor="@color/colorAccent"
         android:textSize="36sp"

@@ -21,6 +21,9 @@
     <string name="playerTurn">Players Turn</string>
     <string name="value_00">00</string>
     <string name="buildDevelopment">Build Development</string>
+    <string name="selectIntersections">Select two intersections:</string>
+    <string name="resourceReceive">Select a resource to receive:</string>
+    <string name="resourceGive">Select a resource to give:</string>
 
     <string name="select_intersection_id">Select an intersection:</string>
     <string name="hint_00">00</string>

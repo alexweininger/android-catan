@@ -42,7 +42,7 @@
         app:srcCompat="@drawable/brick_icon_25x25" />
 
     <ImageView
-        android:id="@+id/lumberImg"
+        android:id="@+id/lumberImgReceive"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
@@ -57,12 +57,12 @@
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/grain"
-        app:layout_constraintStart_toEndOf="@+id/lumberImg"
-        app:layout_constraintTop_toTopOf="@+id/lumberImg"
+        app:layout_constraintStart_toEndOf="@+id/lumberImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/lumberImgReceive"
         app:srcCompat="@drawable/grain_icon_25x25" />
 
     <ImageView
-        android:id="@+id/oreImg"
+        android:id="@+id/oreImgReceive"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
@@ -72,22 +72,22 @@
         app:srcCompat="@drawable/ore_icon_25x25" />
 
     <ImageView
-        android:id="@+id/woolImg"
+        android:id="@+id/woolImgReceive"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/wool"
-        app:layout_constraintStart_toEndOf="@+id/oreImg"
-        app:layout_constraintTop_toTopOf="@+id/oreImg"
+        app:layout_constraintStart_toEndOf="@+id/oreImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/oreImgReceive"
         app:srcCompat="@drawable/wool_icon_25x25" />
 
     <Button
-        android:id="@+id/button_singleIntersectionMenuOk"
+        android:id="@+id/confirm"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="@+id/selectMoreResources"
-        app:layout_constraintEnd_toEndOf="@+id/woolImg"
+        app:layout_constraintEnd_toEndOf="@+id/woolImgReceive"
         app:layout_constraintTop_toTopOf="@+id/selectMoreResources"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -99,7 +99,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/select_more_resources"
         android:textSize="32sp"
-        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuOk"
+        app:layout_constraintEnd_toStartOf="@+id/confirm"
         app:layout_constraintTop_toBottomOf="@+id/brickAmount" />
 
     <TextView
@@ -124,7 +124,7 @@
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/lumberAddImg"
         app:layout_constraintStart_toEndOf="@+id/lumberMinusImg"
-        app:layout_constraintTop_toBottomOf="@+id/lumberImg" />
+        app:layout_constraintTop_toBottomOf="@+id/lumberImgReceive" />
 
     <TextView
         android:id="@+id/grainAmount"
@@ -148,7 +148,7 @@
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/oreAddImg"
         app:layout_constraintStart_toEndOf="@+id/oreMinusImg"
-        app:layout_constraintTop_toBottomOf="@+id/oreImg" />
+        app:layout_constraintTop_toBottomOf="@+id/oreImgReceive" />
 
     <TextView
         android:id="@+id/woolAmount"
@@ -161,7 +161,7 @@
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/woolAddImg"
         app:layout_constraintStart_toEndOf="@+id/woolMinusImg"
-        app:layout_constraintTop_toBottomOf="@+id/woolImg" />
+        app:layout_constraintTop_toBottomOf="@+id/woolImgReceive" />
 
     <ImageView
         android:id="@+id/birckMinusImg"
@@ -178,7 +178,7 @@
         android:layout_height="44dp"
         android:contentDescription="@string/minus"
         android:src="@drawable/minus_icon_25x25"
-        app:layout_constraintStart_toStartOf="@+id/lumberImg"
+        app:layout_constraintStart_toStartOf="@+id/lumberImgReceive"
         app:layout_constraintTop_toTopOf="@+id/lumberAmount" />
 
     <ImageView
@@ -196,7 +196,7 @@
         android:layout_height="44dp"
         android:contentDescription="@string/minus"
         android:src="@drawable/minus_icon_25x25"
-        app:layout_constraintStart_toStartOf="@+id/oreImg"
+        app:layout_constraintStart_toStartOf="@+id/oreImgReceive"
         app:layout_constraintTop_toTopOf="@+id/oreAmount" />
 
     <ImageView
@@ -205,7 +205,7 @@
         android:layout_height="44dp"
         android:contentDescription="@string/minus"
         android:src="@drawable/minus_icon_25x25"
-        app:layout_constraintStart_toStartOf="@+id/woolImg"
+        app:layout_constraintStart_toStartOf="@+id/woolImgReceive"
         app:layout_constraintTop_toTopOf="@+id/woolAmount" />
 
     <ImageView
@@ -223,7 +223,7 @@
         android:layout_height="44dp"
         android:contentDescription="@string/add"
         android:src="@drawable/plus_icon_25x25"
-        app:layout_constraintEnd_toEndOf="@+id/lumberImg"
+        app:layout_constraintEnd_toEndOf="@+id/lumberImgReceive"
         app:layout_constraintTop_toTopOf="@+id/lumberAmount" />
 
     <ImageView
@@ -241,7 +241,7 @@
         android:layout_height="44dp"
         android:contentDescription="@string/add"
         android:src="@drawable/plus_icon_25x25"
-        app:layout_constraintEnd_toEndOf="@+id/oreImg"
+        app:layout_constraintEnd_toEndOf="@+id/oreImgReceive"
         app:layout_constraintTop_toTopOf="@+id/oreAmount" />
 
     <ImageView
@@ -250,13 +250,13 @@
         android:layout_height="44dp"
         android:contentDescription="@string/add"
         android:src="@drawable/plus_icon_25x25"
-        app:layout_constraintEnd_toEndOf="@+id/woolImg"
+        app:layout_constraintEnd_toEndOf="@+id/woolImgReceive"
         app:layout_constraintTop_toTopOf="@+id/woolAmount" />
 
     <android.support.constraint.Group
         android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="grainMinusImg,lumberImg,robberMenuHeaderText,lumberMinusImg,birckMinusImg,grainImg,woolImg,woolAddImg,oreAddImg,oreAmount,brickImg,oreMinusImg,grainAddImg,woolMinusImg,oreImg,grainAmount,birckAddImg,button_singleIntersectionMenuOk,brickAmount,lumberAmount,woolAmount,selectMoreResources,lumberAddImg" />
+        app:constraint_referenced_ids="grainMinusImg,lumberImgReceive,robberMenuHeaderText,lumberMinusImg,birckMinusImg,grainImg,woolImgReceive,woolAddImg,oreAddImg,oreAmount,brickImg,oreMinusImg,grainAddImg,woolMinusImg,oreImgReceive,grainAmount,birckAddImg,confirm,brickAmount,lumberAmount,woolAmount,selectMoreResources,lumberAddImg" />
 
 </android.support.constraint.ConstraintLayout>

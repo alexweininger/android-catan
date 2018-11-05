@@ -390,6 +390,11 @@ public class Board {
         return true;
     }
 
+    /**
+     * Checks to see if there is a building already at the given intersection or not
+     * @param intersectionId - intersection id
+     * @return whether there is a building at that given intersection
+     */
     public boolean hasBuilding (int intersectionId) {
         return this.buildings[intersectionId] != null;
     }
@@ -409,12 +414,14 @@ public class Board {
     private void generateHexagonTiles () {
         Log.i(TAG, "generateHexagonTiles() called");
 
-        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1}; // should add to 19
-        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1}; // should add to 19
+        //arrays that contain information regarding what each hexagon will contain
+        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
+        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
         int[] resources = {0, 1, 2, 3, 4, 5};
 
         Random random = new Random();
 
+        //iterates through the hexagons and assigns each individual one the information required
         while (this.hexagons.size() < 19) {
 
             int randomResourceType;
@@ -451,6 +458,10 @@ public class Board {
         }
     }
 
+    /**
+     * Method puts the hexagons in a new order starting from the top left to bottom right (line by line)
+     * @return An array list of reorganized hexagons
+     */
     public ArrayList<Hexagon> getHexagonListForDrawing () {
         ArrayList<Hexagon> result = new ArrayList<>();
 
@@ -1097,6 +1108,9 @@ public class Board {
         }
     }
 
+    /**
+     * Creates ports along the given intersection, and assigns them proper trade values
+     */
     private void designatePorts () {
         portList.add(new Port(25, 3, 3)); //Ore
         portList.add(new Port(26, 3, 3));
