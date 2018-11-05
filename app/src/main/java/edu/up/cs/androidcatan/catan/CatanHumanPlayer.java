@@ -393,7 +393,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
         singleIntersectionCancelButon = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
 
-
         // OK button for single intersection input
         singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -436,7 +435,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick (View view) {
+                int intersectionA = Integer.parseInt(roadIntersectionAEditText.getText().toString());
+                int intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
 
+                Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
+
+                if (tryBuildRoad(intersectionA, intersectionB)) {
+                    Log.d(TAG, "onClick: valid location");
+                    // toggle menu vis.
+                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
+                    currentBuildingSelectionId = -1;
+                } else {
+                    Log.d(TAG, "onClick: invalid location");
+                }
             }
         });
 
@@ -466,6 +477,38 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             receiveInfo(state);
         }
     }//setAsGui
+
+    private boolean tryBuildRoad (int intersectionA, int intersectionB) {
+        Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
+
+        // check if current building selection id matches that of the method call
+        if (this.currentBuildingSelectionId != 0) {
+            Log.e(TAG, "tryBuildRoad: currentBuildingSelectionId does not equal 0 (road id). Returning false.");
+            return false;
+        }
+
+        // check if user given intersections are valid
+        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
+            Log.i(TAG, "tryBuildRoad: Valid road placement received.");
+
+            // add just enough resources so player can build a road
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+
+            // send build settlement action to the game
+            Log.e(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
+            game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
+
+            // return true
+            Log.d(TAG, "tryBuildRoad() returned: " + true);
+            return true;
+        } else {
+            Log.e(TAG, "tryBuildSettlement: Returning false.");
+            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+            roadIntersectionAEditText.startAnimation(shake);
+            return false;
+        }
+    }
 
     private boolean tryBuildSettlement (int intersection1) {
 
@@ -613,7 +656,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         else group.setVisibility(View.GONE);
     }
 
-    public void setAllButtonsToVisible() {
+    public void setAllButtonsToVisible () {
         this.buildCityButton.setAlpha(0f);
         this.buildCityButton.setClickable(true);
         this.rollButton.setAlpha(0f);
