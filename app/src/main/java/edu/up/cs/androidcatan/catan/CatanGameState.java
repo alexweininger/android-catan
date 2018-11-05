@@ -186,64 +186,6 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /**
-     * todo
-     * <p>
-     * updateLongestRoadPlayer - after each turn check if any player has longest road, with a min of 5 road segments
-     */
-    private void updateLongestRoadPlayer() {
-//        int max = -1;
-//        int playerIdWithLongestRoad = -1;
-//        if (currentLongestRoadPlayerId != -1) {
-//            max = playerVictoryPoints[currentLargestArmyPlayerId];
-//        }
-//        for (int i = 0; i < 4; i++) {
-//            if (board.getPlayerWithLongestRoad(this.playerList) > max) {
-//                max = board.getPlayerWithLongestRoad(i);
-//                playerIdWithLongestRoad = i;
-//            }
-//        }
-//        if (max > 4) {
-//            this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
-//        }
-    }
-
-    /**
-     * Gets the player who has the longest road.
-     */
-    private int checkLongestRoad() { // todo this should be called somewhere...
-        return this.board.getPlayerWithLongestRoad(this.playerList);
-    }
-
-    /**
-     * updates the victory points of each player, should be called after every turn
-     */
-    /* TODO lol pls remove when we can
-    private void updateVictoryPoints() {
-        if (this.currentLongestRoadPlayerId != -1) {
-            this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
-        }
-        //updateLongestRoadPlayer();
-        if (this.currentLongestRoadPlayerId != -1) {
-            this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
-        }
-
-        if (this.currentLargestArmyPlayerId != -1) {
-            this.playerVictoryPoints[this.currentLargestArmyPlayerId] -= 2;
-        }
-        checkArmySize();
-        if (this.currentLargestArmyPlayerId != -1) {
-            this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
-        }
-
-        // goes through all buildings and the amount of victory points to the player to who owns the building
-        for(int i = 0; i < board.getBuildings().length; i++)
-        {
-            playerVictoryPoints[board.getBuildings()[i].getOwnerId()] += board.getBuildings()[i].getVictoryPoints();
-        }
-    }*/
-
-
     //TODO: Finish updateVictoryPoints method
     /**
      * Method updates the victory points count of the current player based off the actions taken within the turn
@@ -381,17 +323,16 @@ public class CatanGameState extends GameState {
      * - checks if the player has enough resources to trade
      *
      * @param playerId - player attempting to trade with port
-     * @param givenResourceId - what player is giving in the trade
+     * @param lostResourceId - what player is giving in the trade
      * @param receivedResourceId - what the player is receiving in the trade
      * @return - action success
      */
-    public boolean tradeWithPort(int playerId, int intersectionId, int givenResourceId, int receivedResourceId) {
-        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + givenResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
+    public boolean tradeWithPort(int playerId, int intersectionId, int lostResourceId, int receivedResourceId) {
+        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + lostResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
         // check if current player's turn and then if player has rolled dice
         if (!valAction(playerId)) {
             return false;
         }
-
         // check if the intersection has a building on it
         if (!board.hasBuilding(intersectionId)) {
             return false;
@@ -404,15 +345,18 @@ public class CatanGameState extends GameState {
 
         // code to commence trade
         int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();
-        int tradeResrouceId = this.board.getPortList().get(intersectionId).getResourceId();
+        int tradeResourceId = this.board.getPortList().get(intersectionId).getResourceId();
 
         // check if player has enough resources to complete trade
-        if (this.playerList.get(playerId).removeResourceCard(givenResourceId, 0)) {
+        if (this.playerList.get(playerId).removeResourceCard(lostResourceId, 0)) {
             Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
             return false;
         }
+
+        //adds the resource they gained and removes the ones they lost to their hand
         this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
-        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + tradeRatio + " " + givenResourceId + " for a " + receivedResourceId + " with port.");
+        this.playerList.get(playerId).removeResourceCard(lostResourceId, tradeRatio);
+        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + tradeRatio + " " + lostResourceId + " for a " + receivedResourceId + " with port.");
         return true;
     }
 
@@ -426,21 +370,22 @@ public class CatanGameState extends GameState {
      */
     //TODO implement
     public boolean tradeWithBank(int playerId, int resGiven, int resReceive) {
-        if (valAction(playerId)) {
+        if (this.isActionPhase) {
             return false;
         }
 
-        //Setting ration then checking resources; if enough, we commence with trade
+        //Setting ratio then checking resources; if enough, we commence with trade
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
         if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
-            Log.e(TAG, "tradeWithBank - not enough resources player id: " + playerId);
+            Log.e(TAG, "tradeWithBank - not enough resources, player id: " + playerId);
             return false;
         }
 
         this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
+        this.playerList.get(playerId).removeResourceCard(resGiven, ratio); //removes resource cards from players inventory
 
         Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
