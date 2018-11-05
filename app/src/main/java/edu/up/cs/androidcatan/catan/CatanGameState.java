@@ -796,14 +796,17 @@ public class CatanGameState extends GameState {
     public String toString() {
         StringBuilder result = new StringBuilder();
 
-        result.append("CatanGameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append(", ");
-        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(", ");
-        result.append("isActionPhase: ").append(this.isActionPhase).append(", ");
-        result.append("isSetupPhase: ").append(this.isSetupPhase).append(", ");
-        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
-        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
-        result.append(playerList.toString());
+        result.append(" ----------- CatanGameState toString ---------- \n");
+        result.append("current Player: ").append(this.currentPlayerId).append(", ");
+        result.append("diceVal: ").append(this.currentDiceSum).append(", ");
+        result.append("actionPhase: ").append(this.isActionPhase).append(", ");
+        result.append("setupPhase: ").append(this.isSetupPhase).append(", ");
+        result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
+        result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
+
+        for (Player player : playerList) {
+            result.append(player.toString()).append("\n");
+        }
         result.append(this.board.toString()).append("\n");
 
         return result.toString();

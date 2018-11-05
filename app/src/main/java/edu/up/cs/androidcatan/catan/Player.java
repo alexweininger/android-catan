@@ -192,7 +192,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     public String printResourceCards() {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < this.resourceCards.length; i++) {
-            str.append(this.resourceCardIds[i]).append(": ").append(this.resourceCards[i]).append(", ");
+            str.append(resourceCardIds[i]).append(": ").append(this.resourceCards[i]).append(", ");
         }
         return str.toString();
     }
@@ -337,10 +337,10 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      */
     @Override
     public String toString() {
-        return "\nPlayer " + this.playerId + ": \n" +
-                "buildingInventory=" + Arrays.toString(this.buildingInventory) + ", armySize=" + this.armySize +
-                "\nresourceCards=" + this.printResourceCards() +
-                "\ndevelopmentCards=" + this.developmentCards;
+        return " Player id: " + this.playerId + ", " + "DevCards: " + this.developmentCards +
+                ", BldgInv: " + Arrays.toString(this.buildingInventory) + ", army: " + this.armySize +
+                "\nResources: " + this.printResourceCards();
+
     }
 }
 
