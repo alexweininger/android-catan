@@ -790,7 +790,7 @@
         android:id="@+id/group_singleIntersectionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk,button_singleIntersectionMenuCancel" />
 
     <TextView
