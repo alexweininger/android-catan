@@ -213,27 +213,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        //Action that takes place when the road button is pressed
-        if (button.getId() == R.id.sidebar_button_road) {
-            CatanBuildRoadAction action = new CatanBuildRoadAction(this, false, 0, 1, this.playerId);
-            Log.d(TAG, "onClick: Road");
-            game.sendAction(action);
-            return;
-        }
-
-        //Action that takes place when the settlement button is pressed
-        if (button.getId() == R.id.sidebar_button_settlement) {
-            Log.e(TAG, "onClick: clicked build settlement button");
-
-            toggleGroupVisibility(singleIntersectionInputMenuGroup);
-
-            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, false, this.playerId, 1);
-            Log.d(TAG, "onClick: Settlement");
-            game.sendAction(action);
-            game.sendAction(new CatanEndTurnAction(this));
-            this.buildingsBuiltOnThisTurn = new ArrayList<>();
-            return;
-        }
         if (button.getId() == R.id.sidebar_button_devcards) {
             CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
             Log.d(TAG, "onClick: Buy Dev Card");
