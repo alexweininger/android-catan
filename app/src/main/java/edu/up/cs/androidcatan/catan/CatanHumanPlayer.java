@@ -394,14 +394,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
 
-                if (tryBuildSettlement()) {
-
+                if (tryBuildSettlement(singleIntersectionIdInput)) {
+                    Log.d(TAG, "onClick: valid location");
+                    // toggle menu vis.
+                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
                 } else {
+                    Log.d(TAG, "onClick: invalid location");
 
                 }
 
-                // toggle menu vis.
-                toggleGroupVisibility(singleIntersectionInputMenuGroup);
+
             }
         });
 
