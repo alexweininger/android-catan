@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids=""/>
+        app:constraint_referenced_ids="" />
 
     <android.support.constraint.Group
         android:id="@+id/group_scoreboard"
@@ -857,7 +857,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@android:string/no"
+        android:text="@android:string/cancel"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
@@ -930,7 +930,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:text="@android:string/yes"
+        android:text="@android:string/ok"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/button_roadCancel"
         app:layout_constraintEnd_toStartOf="@+id/button_roadCancel"
@@ -1205,30 +1205,11 @@
         app:layout_constraintBottom_toTopOf="@+id/bringImgGive"
         app:layout_constraintStart_toStartOf="@+id/bringImgGive" />
 
-    <Button
-        android:id="@+id/tradeConfirm"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="544dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/confirm"
-        app:layout_constraintBottom_toTopOf="@+id/guideline8"
-        app:layout_constraintStart_toEndOf="@+id/guideline7" />
-
-    <Button
-        android:id="@+id/tradeCancel"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintBottom_toBottomOf="@+id/button2"
-        app:layout_constraintStart_toEndOf="@+id/button2" />
-
     <android.support.constraint.Group
         android:id="@+id/tradeMenuGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="bringImgGive,tradeCancel,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,tradeConfirm,grainSelectiomBoxGive" />
+        app:constraint_referenced_ids="bringImgGive,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,grainSelectiomBoxGive" />
     <!--end of trade menu-->
 
 </android.support.constraint.ConstraintLayout>
