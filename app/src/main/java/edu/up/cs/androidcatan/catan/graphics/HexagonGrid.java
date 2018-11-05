@@ -28,7 +28,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
     protected int[] playerColors = {Color.RED, Color.WHITE, Color.BLUE, Color.CYAN};
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
-   // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
+    // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
     private Building[] buildlings;
 
@@ -42,7 +42,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
         this.x = x;
         this.y = y;
-        //this.size = size;     TODO Size appears to be unneeded
+        this.size = size;
         this.height = size * 2;
         this.width = size * Math.sqrt(3);
         this.margin = margin;
@@ -57,6 +57,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
         drawRoads(canvas);
         drawBuildings();
+        this.invalidate();
     }
 
     public static int[][] append (int[][] a, int[][] b) {
@@ -87,6 +88,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
             // if there are exactly 2 overlapping hexagons (right now we need this)
             if (overlap.size() == 2) {
+                Log.i(TAG, "drawRoads: drawing a road");
                 Paint roadPaint = new Paint();
                 roadPaint.setColor(playerColors[r.getOwnerId()]);
                 roadPaint.setStyle(Paint.Style.FILL);
@@ -105,49 +107,23 @@ public class HexagonGrid extends BoardSurfaceView {
                 int[][] hexagonAPoints = drawingHexagons.get(dataA).getHexagonPoints();
                 int[][] hexagonBPoints = drawingHexagons.get(dataB).getHexagonPoints();
 
+                int[] pointA = {hexagonAPoints[5][0], hexagonAPoints[5][1] + size};
+                int[] pointB = {hexagonBPoints[5][0], hexagonBPoints[5][1] + size};
                 int cxA = hexagonAPoints[5][0];
-                int cyA = hexagonAPoints[5][1];
+                int cyA = hexagonAPoints[5][1] + size;
 
                 int cxB = hexagonBPoints[5][0];
-                int cyB = hexagonBPoints[5][1];
+                int cyB = hexagonBPoints[5][1] + size;
 
-                canvas.drawCircle(cxA, cxA, 25, roadPaint);
-                canvas.drawCircle(cxB, cxB, 25, roadPaint);
+                canvas.drawCircle(pointA[0], pointA[1], 25, roadPaint);
+                canvas.drawCircle(pointB[0], pointB[1], 25, roadPaint);
 
-                Log.i(TAG, "drawRoads: drawing a road");
-                int[][] points;
-                int[][] points2;
+                int diff = getDistBtwPts(pointA, pointB);
 
-                points = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(0)]).getHexagonPoints();
-                points2 = this.drawingHexagons.get(this.dataToDrawMap[((ArrayList<Integer>) overlap).get(1)]).getHexagonPoints();
+                Log.e(TAG, "drawRoads: diff: " + diff);
 
-                // print points
-                StringBuilder str = new StringBuilder();
-                for (int[] point : points) {
-                    str.append("(").append(point[0]).append(", ").append(point[1]).append(")");
-                }
-                Log.i(TAG, "drawRoads: points " + str.toString());
-
-                for (int[] point : points2) {
-                    str.append("(").append(point[0]).append(", ").append(point[1]).append(")");
-                }
-                Log.i(TAG, "drawRoads: points2 " + str.toString());
-
-                if (points != null && points.length != 0) {
-
-
-                    int radius = 25;
-                    int cx = points[5][0];
-                    int cy = points[5][1];
-
-                    //canvas.drawCircle(cx, cy, radius, roadPaint);
-
-                    int cx2 = points2[5][0];
-                    int cy2 = points2[5][1];
-
-                    //canvas.drawCircle(cx2, cy2, radius, roadPaint);
-                }
             } else if (overlap.size() == 1) {
+                Log.e(TAG, "drawRoads: overlap size is 1.");
                 ArrayList<Integer> hexes = board.getIntToHexIdMap().get(k);
                 Hexagon h = board.getHexagonFromId(hexes.get(0));
 
