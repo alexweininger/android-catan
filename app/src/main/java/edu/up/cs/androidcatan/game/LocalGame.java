@@ -5,9 +5,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import java.util.Arrays;
-
-import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 import edu.up.cs.androidcatan.game.actionMsg.GameOverAckAction;
 import edu.up.cs.androidcatan.game.actionMsg.MyNameIsAction;
@@ -150,13 +147,7 @@ public abstract class LocalGame implements Game, Tickable {
 	 * 			the player's ID, or -1 if the player is not a player in this game
 	 */
 	protected final int getPlayerIdx(GamePlayer p) {
-		if (p instanceof Player) {
-			Log.e("LocalGame", "getPlayerIdx: Got player. Need GamePlayer. " + p.toString() + " p: " + p);
-		}
-
-		Log.i("LocalGame", "getPlayerIdx() called with: p = [" + p + "]");
 		for (int i = 0; i < players.length; i++) {
-			Log.d("LocalGame", "getPlayerIdx: players[i]: " + Arrays.toString(players));
 			if (p == players[i]) {
 				return i;
 			}
