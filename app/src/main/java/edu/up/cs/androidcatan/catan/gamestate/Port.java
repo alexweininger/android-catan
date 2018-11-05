@@ -41,10 +41,10 @@ public class Port {
 
     @Override
     public String toString() {
-        return "Port{" +
+        return "{" +
                 "intersection=" + intersection +
-                ", tradeRatio=" + tradeRatio +
-                ", resourceId=" + resourceId +
+                " rate=" + tradeRatio +
+                " res=" + resourceId +
                 '}';
     }
 }

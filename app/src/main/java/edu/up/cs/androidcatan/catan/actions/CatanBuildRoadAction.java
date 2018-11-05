@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan.actions;
 
 import android.util.Log;
 
+import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
@@ -20,6 +21,9 @@ public class CatanBuildRoadAction extends GameAction {
 
     public CatanBuildRoadAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionAId, int intersectionBid) {
         super(player);
+        if (player instanceof Player) {
+            Log.e(TAG, "CatanBuildRoadAction() Runtime error. ", new Exception("Fatal Error: You're dumb. Need GamePlayer object, received Player object."));
+        }
         Log.d(TAG, "CatanBuildRoadAction() called with: player = [" + player + "], isSetupPhase = [" + isSetupPhase + "], ownerId = [" + ownerId + "], intersectionAId = [" + intersectionAId + "], intersectionBid = [" + intersectionBid + "]");
         this.intersectionAId = intersectionAId;
         this.intersectionBid = intersectionBid;

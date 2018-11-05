@@ -192,18 +192,26 @@ public class CatanGameState extends GameState {
      */
     private void updateVictoryPoints() {
         Log.d(TAG, "updateVictoryPoints() called");
-        //calculates the longest road for the players and checks if it is the current player
-        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
-            currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
-            //assigns the player with the longest road an extra 2 victory points
-            playerVictoryPoints[currentLongestRoadPlayerId] += 2;
+
+        Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
+
+        for (int i = 0; i < this.playerVictoryPoints.length; i++) {
+            this.playerVictoryPoints[i] = 0;
         }
+
+        //calculates the longest road for the players and checks if it is the current player
+//        if (board.getPlayerWithLongestRoad(playerList) != currentLongestRoadPlayerId) {
+//            currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(playerList);
+//            //assigns the player with the longest road an extra 2 victory points
+//            playerVictoryPoints[currentLongestRoadPlayerId] += 2;
+//        }
 
         // goes through all buildings and the amount of victory points to the player to who owns the building
         Building[] buildings = this.board.getBuildings();
 
         for (Building building : buildings) {
             if (building != null) {
+                Log.w(TAG, "updateVictoryPoints: building.getOwnerId: " + building.getOwnerId() + " building.getVictoryPoints: " + building.getVictoryPoints());
                 playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
             }
         }
@@ -310,6 +318,9 @@ public class CatanGameState extends GameState {
         } else {
             this.currentPlayerId++;
         }
+
+        // update the setup phase boolean variable using the method that does setup phase completion check
+        this.setSetupPhase(updateSetupPhase());
 
         return true;
     } // end endTurn method
@@ -648,12 +659,12 @@ public class CatanGameState extends GameState {
 
     /**
      * goes through each building and road to check how many are owned by the player
-     * when they have 2 roads and 2 buildings, setupPhase is false.
+     * when they have 2 roads and 2 buildings, updateSetupPhase is false.
      *
      * @return if the game is still in the setup phase
      */
-    public boolean setupPhase() {
-        Log.d(TAG, "setupPhase() called");
+    public boolean updateSetupPhase () {
+        Log.d(TAG, "updateSetupPhase() called");
         int roadCount = 0;
         int buildingCount = 0;
         for (int n = 0; n < playerList.size(); n++) {
@@ -670,12 +681,12 @@ public class CatanGameState extends GameState {
                 }
 
                 if (buildingCount < 2 || roadCount < 2) {
-                    Log.d(TAG, "setupPhase() returned: " + true);
+                    Log.d(TAG, "updateSetupPhase() returned: " + true);
                     return true;
                 }
             }
         }
-        Log.d(TAG, "setupPhase() returned: " + false);
+        Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }
 
@@ -785,14 +796,17 @@ public class CatanGameState extends GameState {
     public String toString() {
         StringBuilder result = new StringBuilder();
 
-        result.append("CatanGameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append(", ");
-        result.append("Current Dice Sum: ").append(this.currentDiceSum).append(", ");
-        result.append("isActionPhase: ").append(this.isActionPhase).append(", ");
-        result.append("isSetupPhase: ").append(this.isSetupPhase).append(", ");
-        result.append("currentLargestArmyPlayerId: ").append(this.currentLargestArmyPlayerId).append(", ");
-        result.append("currentLongestRoadPlayerId: ").append(this.currentLongestRoadPlayerId).append("\n");
-        result.append(playerList.toString());
+        result.append(" ----------- CatanGameState toString ---------- \n");
+        result.append("current Player: ").append(this.currentPlayerId).append(", ");
+        result.append("diceVal: ").append(this.currentDiceSum).append(", ");
+        result.append("actionPhase: ").append(this.isActionPhase).append(", ");
+        result.append("setupPhase: ").append(this.isSetupPhase).append(", ");
+        result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
+        result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
+
+        for (Player player : playerList) {
+            result.append(player.toString()).append("\n");
+        }
         result.append(this.board.toString()).append("\n");
 
         return result.toString();

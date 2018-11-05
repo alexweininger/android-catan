@@ -3,7 +3,6 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.Player;
@@ -392,6 +391,7 @@ public class Board {
 
     /**
      * Checks to see if there is a building already at the given intersection or not
+     *
      * @param intersectionId - intersection id
      * @return whether there is a building at that given intersection
      */
@@ -460,6 +460,7 @@ public class Board {
 
     /**
      * Method puts the hexagons in a new order starting from the top left to bottom right (line by line)
+     *
      * @return An array list of reorganized hexagons
      */
     public ArrayList<Hexagon> getHexagonListForDrawing () {
@@ -1355,6 +1356,31 @@ public class Board {
      */
     @Override
     public String toString () {
-        return "Board Class toString() " + "robber=" + robber + "\nbuildings=" + Arrays.toString(buildings) + "\nroads=" + roads + "\nhexagons:\n" + hexagons + "\nportIntersectionLocations=" + portIntersectionLocations + "\nportList=" + portList;
+        String str = "\n ---------- Board toString ---------- \n" + "robber=" + robber + "\nroads=" + roads + "\nbuildings: \n";
+        for (int i = 0; i < buildings.length; i++) {
+            str += "\t" + i + "=";
+            if (buildings[i] == null) {
+                str += "null";
+            } else {
+                str += buildings[i].toString();
+            }
+            if ((i + 1) % 9 == 0) {
+                str += "\n";
+            }
+        }
+
+        str += "\nhexagons:\n";
+
+        for (int i = 0; i < hexagons.size(); i++) {
+            str += "\t  ";
+            str += hexagons.get(i).toString();
+            if ((i + 1) % 2 == 0) {
+                str += "\n";
+            }
+        }
+
+        str += "\nportIntersectionLocations=" + portIntersectionLocations;
+
+        return str;
     }
 } // end Class

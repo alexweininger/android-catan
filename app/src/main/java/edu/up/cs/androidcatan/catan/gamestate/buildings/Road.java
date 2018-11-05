@@ -1,7 +1,5 @@
 package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
-import java.util.Arrays;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -54,6 +52,6 @@ public class Road extends Building {
 
     @Override
     public String toString() {
-        return "intersectionAId: " + intersectionAId + ", intersectionBId: " + intersectionBId + ", resourceCost: " + Arrays.toString(resourceCost) + "}\n";
+        return "{ p=" + this.getOwnerId() + " from=" + intersectionAId + " to=" + intersectionBId + " }";
     }
 }

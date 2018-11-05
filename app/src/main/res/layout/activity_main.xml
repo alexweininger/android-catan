@@ -791,7 +791,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="intersection_id_entered,selectIntersectionText,confirm" />
+        app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk,button_singleIntersectionMenuCancel" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
@@ -804,8 +804,8 @@
         android:textColor="@color/colorAccent"
         android:textSize="30sp"
         android:theme="@android:style/Widget.Material.Light.TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/intersection_id_entered"
-        app:layout_constraintEnd_toStartOf="@+id/intersection_id_entered" />
+        app:layout_constraintBottom_toBottomOf="@+id/editText_singleIntersectionInput"
+        app:layout_constraintEnd_toStartOf="@+id/editText_singleIntersectionInput" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline45"
@@ -822,7 +822,7 @@
         app:layout_constraintGuide_percent="0.94" />
 
     <EditText
-        android:id="@+id/intersection_id_entered"
+        android:id="@+id/editText_singleIntersectionInput"
         android:layout_width="48dp"
         android:layout_height="65dp"
         android:layout_marginEnd="8dp"
@@ -835,23 +835,34 @@
         android:textColorLink="@color/colorAccent"
         android:textSize="30sp"
         android:theme="@android:style/Widget.Material.Light.EditText"
-        app:layout_constraintBottom_toBottomOf="@+id/confirm"
-        app:layout_constraintEnd_toStartOf="@+id/confirm"
-        app:layout_constraintTop_toTopOf="@+id/confirm" />
+        app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuOk"
+        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuOk"
+        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuOk" />
 
     <Button
-        android:id="@+id/confirm"
+        android:id="@+id/button_singleIntersectionMenuOk"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/confirm"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuCancel"
+        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuCancel"
+        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuCancel" />
+
+
+    <Button
+        android:id="@+id/button_singleIntersectionMenuCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/confirm"
+        android:text="@android:string/no"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
 
-
-<TextView
+    <TextView
         android:id="@+id/selectRoadIntersectionText"
         android:layout_width="405dp"
         android:layout_height="0dp"
@@ -940,8 +951,8 @@
         android:id="@+id/group_road_intersection_selection_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="end_road_id_entered,confirm,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
+        android:visibility="gone"
+        app:constraint_referenced_ids="end_road_id_entered,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
 
     <!--intersection input menu END-->
 
