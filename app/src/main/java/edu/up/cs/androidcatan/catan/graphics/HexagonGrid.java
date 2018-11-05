@@ -191,8 +191,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 Log.e(TAG, "drawBuildings: all intersections adjacent to adjacent hexes" + intersections);
 
-
-
             }
         }
     }
