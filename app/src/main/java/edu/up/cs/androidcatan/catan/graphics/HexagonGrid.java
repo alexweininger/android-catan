@@ -115,8 +115,9 @@ public class HexagonGrid extends BoardSurfaceView {
                 int cxB = hexagonBPoints[5][0];
                 int cyB = hexagonBPoints[5][1] + size;
 
-                canvas.drawCircle(pointA[0], pointA[1], 25, roadPaint);
-                canvas.drawCircle(pointB[0], pointB[1], 25, roadPaint);
+                // draw a circle in the center of each hexagon
+//                canvas.drawCircle(pointA[0], pointA[1], 25, roadPaint);
+//                canvas.drawCircle(pointB[0], pointB[1], 25, roadPaint);
 
                 int diff = getDistBtwPts(pointA, pointB);
 
@@ -125,8 +126,9 @@ public class HexagonGrid extends BoardSurfaceView {
                 int[] roadPointsA = {cxA, cyA - size};
                 int[] roadPointsB = {cxB, cyB + size};
 
-                canvas.drawCircle(roadPointsA[0], roadPointsA[1], 25, roadPaint);
-                canvas.drawCircle(roadPointsB[0], roadPointsB[1], 25, roadPaint);
+                // ???
+//                canvas.drawCircle(roadPointsA[0], roadPointsA[1], 25, roadPaint);
+//                canvas.drawCircle(roadPointsB[0], roadPointsB[1], 25, roadPaint);
 
                 int[] midpoint = {(roadPointsA[0] + roadPointsB[0]) / 2,(roadPointsA[1] + roadPointsB[1]) / 2};
 
@@ -178,13 +180,18 @@ public class HexagonGrid extends BoardSurfaceView {
                 ArrayList<Integer> hexes = board.getIntToHexIdMap().get(i);
 
                 ArrayList<Integer> intersections = this.board.getHexToIntIdMap().get(0);
-
+                Log.d(TAG, "drawBuildings: before retainAll: " + intersections);
                 // for each adjacent hex, add its adjacent intersections to the array list
                 for (int j = 1; j < hexes.size(); j++) {
+
+                    Log.d(TAG, "drawBuildings: comparing/retaining with: " + this.board.getHexToIntIdMap().get(j));
+
                     intersections.retainAll(this.board.getHexToIntIdMap().get(j));
                 }
 
                 Log.e(TAG, "drawBuildings: all intersections adjacent to adjacent hexes" + intersections);
+
+
 
             }
         }
@@ -239,7 +246,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue());
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 int[][] points = hexagon.getHexagonPoints();
 

@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class HexagonDrawable extends BoardSurfaceView {
 
+    protected int hexagonId;
+
     protected int x;
     protected int y;
     protected int size;
@@ -22,7 +24,7 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected boolean isDesert;
     protected int chitValue;
 
-    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue) {
+    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId) {
         super(context);
         setWillNotDraw(false);
 
@@ -33,6 +35,8 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.isDesert = isDesert;
         this.isRobber = isRobber;
         this.chitValue = chitValue;
+
+        this.hexagonId = hexagonId;
     }
 
     public  void drawHexagon(Canvas canvas) {
@@ -75,7 +79,13 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         if(this.isRobber) {
             canvas.drawCircle(cx, cy, radius, robberPaint);
+            for (int i = 0; i < points.length; i++) {
+                //Log.e("Hexagon", "drawHexagon: hello");
+                //canvas.drawText("" + (i), points[i][0], points[i][1], blackFont);
+            }
         }
+
+
 
         Paint intersectionPaint = new Paint();
         intersectionPaint.setColor(Color.DKGRAY);

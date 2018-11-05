@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 
 /**
  * @author Alex Weininger
@@ -27,13 +28,13 @@ public class Hexagon {
      * @param resourceType - resourceType type of hexagon
      * @param chitValue - dice value of hexagon
      */
-    public Hexagon(int resourceType, int chitValue, int hexagonId) {
+    public Hexagon (int resourceType, int chitValue, int hexagonId) {
         this.resourceId = resourceType;
         this.chitValue = chitValue;
         this.hexagonId = hexagonId;
     }
 
-    public Hexagon(Hexagon h) {
+    public Hexagon (Hexagon h) {
         this.setChitValue(h.getChitValue());
         this.setResourceId(h.getResourceId());
     }
@@ -41,30 +42,30 @@ public class Hexagon {
     /**
      * @return - hexagon resource id, [0-4]
      */
-    public int getResourceId() {
+    public int getResourceId () {
         return resourceId;
     }
 
     /**
      * @return
      */
-    public int getChitValue() {
+    public int getChitValue () {
         return chitValue;
     }
 
-    public void setResourceId(int resourceId) {
+    public void setResourceId (int resourceId) {
         this.resourceId = resourceId;
     }
 
-    public void setChitValue(int chitValue) {
+    public void setChitValue (int chitValue) {
         this.chitValue = chitValue;
     }
 
-    public int getHexagonId() {
+    public int getHexagonId () {
         return this.hexagonId;
     }
 
-    public void drawHexagon(Canvas canvas, int color, int xPos, int yPos, int size, boolean isRobber) {
+    public void drawHexagon (Canvas canvas, int color, int xPos, int yPos, int size, boolean isRobber) {
         Paint paint = new Paint();
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
@@ -80,30 +81,37 @@ public class Hexagon {
 
         blackFont.setTextSize(50);
 
-
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.MAGENTA);
         robberPaint.setStyle(Paint.Style.FILL);
 
-        if(isRobber) {
-            canvas.drawCircle(points[3][0] + size, points[3][1] - size/2, 25, robberPaint);
-        } else {
-            canvas.drawText("" + this.chitValue, points[3][0] + size/2, points[3][1] - size/2, blackFont);
+        for (int i = 0; i < points.length; i++) {
+            Log.e("Hexagon", "drawHexagon: hello");
+            canvas.drawCircle(points[i][0], points[i][1], 25, robberPaint);
         }
 
-//        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
-//        road.drawRoad(canvas);
+        if (isRobber) {
+
+            canvas.drawCircle(points[3][0] + size, points[3][1] - size / 2, 25, robberPaint);
+        } else {
+            canvas.drawText("" + this.chitValue, points[3][0] + size / 2, points[3][1] - size / 2, blackFont);
+        }
+
+        //        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
+        //        road.drawRoad(canvas);
     }
 
-    /** createHexagonPath() creates a Path object from given hexagon corner x and y values
+    /**
+     * createHexagonPath() creates a Path object from given hexagon corner x and y values
+     *
      * @param corners - 2d array of x and y cords for the corners
      * @return Path
      */
-    public Path createHexagonPath(int[][] corners) {
+    public Path createHexagonPath (int[][] corners) {
         Path hexagonPath = new Path();
         hexagonPath.moveTo(corners[0][0], corners[0][1]);
 
-        for(int i = 1; i < corners.length; i++) {
+        for (int i = 1; i < corners.length; i++) {
             hexagonPath.lineTo(corners[i][0], corners[i][1]);
         }
         hexagonPath.close();
@@ -119,7 +127,7 @@ public class Hexagon {
      * @param size - size, measured from center to a corner
      * @return int[][]
      */
-    public int[][] calculateHexagonPoints(int x, int y, int size) {
+    public int[][] calculateHexagonPoints (int x, int y, int size) {
         int[][] points = new int[6][2];
         double angle_deg, angle_rad;
 
@@ -140,7 +148,7 @@ public class Hexagon {
      * @return String representing the Hexagon object.
      */
     @Override
-    public String toString() {
+    public String toString () {
         return "id=" + this.hexagonId + "\tresId=" + this.resourceId + "\tchit=" + this.chitValue;
     }
 }
