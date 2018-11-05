@@ -388,6 +388,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
         singleIntersectionCancelButon = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
 
+
+        // OK button for single intersection input
         singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick (View view) {
@@ -401,13 +403,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     // toggle menu vis.
                     toggleGroupVisibility(singleIntersectionInputMenuGroup);
                     currentBuildingSelectionId = -1;
-
                 } else {
                     Log.d(TAG, "onClick: invalid location");
-
                 }
-
-
             }
         });
 
