@@ -128,6 +128,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     Group singleIntersectionInputMenuGroup = (Group) null;
     Button singleIntersectionOkButton = (Button) null;
 
+    //Other Groups
+    Group scoreBoardGroup = (Group) null;
+    Group developmentGroup = (Group) null;
+
     private GameMainActivity myActivity;  // the android activity that we are running
 
     public CatanGameState state = null; // game state
@@ -277,6 +281,59 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
 
+        if(button.getId() == R.id.sidebar_button_settlement){
+            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+                currentBuildingSelectionId = 1;
+            } else {
+                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
+                currentBuildingSelectionId = -1;
+            }
+        }
+
+        if(button.getId() == R.id.sidebar_button_road){
+            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+                currentBuildingSelectionId = 0;
+            } else {
+                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                currentBuildingSelectionId = -1;
+            }
+        }
+
+        if(button.getId() == R.id.button_singleIntersectionMenuOk){
+            int singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
+
+            Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
+
+            if (tryBuildSettlement(singleIntersectionIdInput)) {
+                Log.d(TAG, "onClick: valid location");
+                // toggle menu vis.
+                toggleGroupVisibility(singleIntersectionInputMenuGroup);
+                currentBuildingSelectionId = -1;
+            } else {
+                Log.d(TAG, "onClick: invalid location");
+            }
+        }
+
+        if(button.getId() == R.id.button_singleIntersectionMenuCancel){
+            toggleGroupVisibility(singleIntersectionInputMenuGroup);
+            currentBuildingSelectionId = -1;
+        }
+
+        if(button.getId() == R.id.menu_settings){
+            Log.d(TAG, state.toString());
+        }
+
+        if(button.getId() == R.id.sidebar_button_score){
+            toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
+        }
+
+        if(button.getId() == R.id.group_development_card_menu){
+            // toggle menu vis.
+            toggleGroupVisibility(developmentGroup);
+        }
+
     }// onClick
 
     /**
@@ -309,6 +366,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort = activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = activity.findViewById(R.id.use_Card);
 
+        /* ---------- action button listeners ---------- */
         buildCityButton.setOnClickListener(this);
         buildRoadButton.setOnClickListener(this);
         buildSettlementButton.setOnClickListener(this);
@@ -355,36 +413,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.menuButton.setOnClickListener(this);
 
-        /* ---------- action button listeners ---------- */
-
-        // Build settlement action button on sidebar listener. Shows and hides a single intersection input menu group.
-        buildSettlementButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                    singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                    currentBuildingSelectionId = 1;
-                } else {
-                    singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                    currentBuildingSelectionId = -1;
-                }
-            }
-        });
-
-        // Build road action button on sidebar listener. Shows/hides roadIntersectionSelectionMenuGroup.
-        buildRoadButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
-                    roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
-                    currentBuildingSelectionId = 0;
-                } else {
-                    roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                    currentBuildingSelectionId = -1;
-                }
-            }
-        });
-
         /* ---------- single intersection menu (buildings) ---------- */
 
         singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
@@ -395,32 +423,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionCancelButon = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
 
         // OK button for single intersection input
-        singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
+        singleIntersectionOkButton.setOnClickListener(this);
 
-                int singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
-
-                Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
-
-                if (tryBuildSettlement(singleIntersectionIdInput)) {
-                    Log.d(TAG, "onClick: valid location");
-                    // toggle menu vis.
-                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
-                    currentBuildingSelectionId = -1;
-                } else {
-                    Log.d(TAG, "onClick: invalid location");
-                }
-            }
-        });
-
-        singleIntersectionCancelButon.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                toggleGroupVisibility(singleIntersectionInputMenuGroup);
-                currentBuildingSelectionId = -1;
-            }
-        });
+        singleIntersectionCancelButon.setOnClickListener(this);
 
         /* ---------- road intersection menu ---------- */
 
@@ -438,23 +443,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         // button listeners
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
-        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
-        scoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
-            }
-        });
+        scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
+        scoreButton.setOnClickListener(this);
 
         Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
-        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
-        developmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                // toggle menu vis.
-                toggleGroupVisibility(developmentGroup);
-            }
-        });
+        developmentGroup = activity.findViewById(R.id.group_development_card_menu);
+        developmentButton.setOnClickListener(this);
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
