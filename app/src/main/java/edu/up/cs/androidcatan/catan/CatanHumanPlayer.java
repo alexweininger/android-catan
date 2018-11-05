@@ -401,6 +401,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     // toggle menu vis.
                     toggleGroupVisibility(singleIntersectionInputMenuGroup);
                     currentBuildingSelectionId = -1;
+
                 } else {
                     Log.d(TAG, "onClick: invalid location");
 
