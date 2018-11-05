@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -87,20 +86,21 @@ public class HexagonGrid extends BoardSurfaceView {
 
             // if there are exactly 2 overlapping hexagons (right now we need this)
             if (overlap.size() == 2) {
+                Paint roadPaint = new Paint();
+                roadPaint.setColor(playerColors[r.getOwnerId()]);
+                roadPaint.setStyle(Paint.Style.FILL);
 
-                // make an array list of all of the POINTS of each hexagon
+                // draw a circle in the center of each hexagon
 
-                ArrayList<Integer> hexagonIntersections = new ArrayList<>(board.getHexToIntIdMap().get(((ArrayList<Integer>) overlap).get(0)));
-                hexagonIntersections.addAll(board.getHexToIntIdMap().get(((ArrayList<Integer>) overlap).get(1)));
+                int[][] hexagonAPoints = drawingHexagons.get(((ArrayList<Integer>) overlap).get(0)).getHexagonPoints();
+                int[][] hexagonBPoints = drawingHexagons.get(((ArrayList<Integer>) overlap).get(1)).getHexagonPoints();
 
-                int[][] hexagonPoints = new int[0][2];
 
-                for (int i = 0; i < overlap.size(); i++) {
-                    int[][] points = this.drawingHexagons.get(((ArrayList<Integer>) overlap).get(i)).points;
-                    hexagonPoints = append(hexagonPoints, points);
-                }
+                Log.e(TAG, "drawRoads: drawing at" + (hexagonAPoints[3][0] + size) + ", " + (hexagonAPoints[3][1] - size/2));
+                canvas.drawCircle(hexagonAPoints[5][0] + size, hexagonAPoints[5][1] - size/2, 25, roadPaint);
 
-                Log.e(TAG, "drawRoads: Arrays.toString(hexagonPoints)" + Arrays.deepToString(hexagonPoints));
+                Log.e(TAG, "drawRoads: drawing at" + (hexagonBPoints[3][0] + size) + ", " + (hexagonBPoints[3][1] - size/2));
+                canvas.drawCircle(hexagonBPoints[3][0] + size, hexagonBPoints[3][1] - size/2, 25, roadPaint);
 
                 Log.i(TAG, "drawRoads: drawing a road");
                 int[][] points;
@@ -122,20 +122,18 @@ public class HexagonGrid extends BoardSurfaceView {
                 Log.i(TAG, "drawRoads: points2 " + str.toString());
 
                 if (points != null && points.length != 0) {
-                    Paint roadPaint = new Paint();
-                    roadPaint.setColor(playerColors[r.getOwnerId()]);
-                    roadPaint.setStyle(Paint.Style.FILL);
+
 
                     int radius = 25;
                     int cx = points[5][0];
                     int cy = points[5][1];
 
-                    canvas.drawCircle(cx, cy, radius, roadPaint);
+                    //canvas.drawCircle(cx, cy, radius, roadPaint);
 
                     int cx2 = points2[5][0];
                     int cy2 = points2[5][1];
 
-                    canvas.drawCircle(cx2, cy2, radius, roadPaint);
+                    //canvas.drawCircle(cx2, cy2, radius, roadPaint);
                 }
             } else if (overlap.size() == 1) {
                 ArrayList<Integer> hexes = board.getIntToHexIdMap().get(k);
