@@ -295,7 +295,6 @@ public class CatanGameState extends GameState {
 
         // if it is not the setup phase
         if (!this.isSetupPhase()) {
-
             // check if it is the action phase
             if (!isActionPhase) {
                 Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");

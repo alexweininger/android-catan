@@ -140,6 +140,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     Canvas canvas = (Canvas) null;
 
+    //Counter Variables
+    int roadCount = 0;
+    int settlementCount = 0;
+
     /**
      * constructor does nothing extra
      */
@@ -266,13 +270,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildRoad(intersectionA, intersectionB)) {
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.playerId);
+                game.sendAction(action);
+
                 Log.d(TAG, "onClick: valid location");
                 // toggle menu vis.
-                toggleGroupVisibility(singleIntersectionInputMenuGroup);
+                toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
                 currentBuildingSelectionId = -1;
                 if(state.isSetupPhase()){
-                    toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
                     currentBuildingSelectionId = 1;
+                    roadCount++;
+                    if(roadCount == 2 && settlementCount == 2){
+                        Log.d(TAG, "onClick: End setup phase for player");
+                        game.sendAction(new CatanEndTurnAction(this));
+                        this.buildingsBuiltOnThisTurn = new ArrayList<>();
+                        state.updateSetupPhase();
+                        return;
+                    }
+                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
                 }
             } else {
                 Log.d(TAG, "onClick: invalid location");
@@ -302,6 +317,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildSettlement(singleIntersectionIdInput)) {
+                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.playerId);
+                game.sendAction(action);
                 Log.d(TAG, "onClick: valid location");
                 // toggle menu vis.
                 toggleGroupVisibility(singleIntersectionInputMenuGroup);
@@ -309,6 +326,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if(state.isSetupPhase()){
                     toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
                     currentBuildingSelectionId = 0;
+                    settlementCount++;
                 }
             } else {
                 Log.d(TAG, "onClick: invalid location at " + singleIntersectionIdInput);
