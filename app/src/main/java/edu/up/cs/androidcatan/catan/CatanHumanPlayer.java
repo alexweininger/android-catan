@@ -7,13 +7,13 @@ import android.support.constraint.Group;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import javax.security.auth.login.LoginException;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -467,7 +467,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return true;
         } else {
             Log.e(TAG, "tryBuildSettlement: Returning false.");
-            this.singleIntersectionInputEditText.
+            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+            singleIntersectionInputEditText.startAnimation(shake);
             return false;
         }
     }
