@@ -46,7 +46,7 @@ public class CatanGameState extends GameState {
     private int currentLongestRoadPlayerId = -1;
 
 
-    CatanGameState() { // CatanGameState constructor
+    public CatanGameState() { // CatanGameState constructor
         this.dice = new Dice();
         this.board = new Board();
         generateDevCardDeck();
