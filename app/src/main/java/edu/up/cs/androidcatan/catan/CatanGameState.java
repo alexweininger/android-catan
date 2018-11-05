@@ -323,12 +323,12 @@ public class CatanGameState extends GameState {
      * - checks if the player has enough resources to trade
      *
      * @param playerId - player attempting to trade with port
-     * @param givenResourceId - what player is giving in the trade
+     * @param lostResourceId - what player is giving in the trade
      * @param receivedResourceId - what the player is receiving in the trade
      * @return - action success
      */
-    public boolean tradeWithPort(int playerId, int intersectionId, int givenResourceId, int receivedResourceId) {
-        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + givenResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
+    public boolean tradeWithPort(int playerId, int intersectionId, int lostResourceId, int receivedResourceId) {
+        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + lostResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
         // check if current player's turn and then if player has rolled dice
         if (!valAction(playerId)) {
             return false;
@@ -348,12 +348,15 @@ public class CatanGameState extends GameState {
         int tradeResourceId = this.board.getPortList().get(intersectionId).getResourceId();
 
         // check if player has enough resources to complete trade
-        if (this.playerList.get(playerId).removeResourceCard(givenResourceId, 0)) {
+        if (this.playerList.get(playerId).removeResourceCard(lostResourceId, 0)) {
             Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
             return false;
         }
+
+        //adds the resource they gained and removes the ones they lost to their hand
         this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
-        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + tradeRatio + " " + givenResourceId + " for a " + receivedResourceId + " with port.");
+        this.playerList.get(playerId).removeResourceCard(lostResourceId, tradeRatio);
+        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + tradeRatio + " " + lostResourceId + " for a " + receivedResourceId + " with port.");
         return true;
     }
 
