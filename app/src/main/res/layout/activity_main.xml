@@ -797,7 +797,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk" />
+        app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk,button_singleIntersectionMenuCancel" />
 
     <TextView
         android:id="@+id/selectIntersectionText"
@@ -848,16 +848,27 @@
     <Button
         android:id="@+id/button_singleIntersectionMenuOk"
         android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/confirm"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuCancel"
+        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuCancel"
+        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuCancel" />
+
+
+    <Button
+        android:id="@+id/button_singleIntersectionMenuCancel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/confirm"
+        android:text="@android:string/no"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
 
-
-<TextView
+    <TextView
         android:id="@+id/selectRoadIntersectionText"
         android:layout_width="405dp"
         android:layout_height="0dp"

@@ -109,6 +109,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     Group roadIntersectionSelectionMenuGroup = (Group) null;
     TextView singleIntersectionTextView = (TextView) null;
     EditText singleIntersectionInputEditText = (EditText) null;
+    Button singleIntersectionCancelButon = (Button) null;
 
     // road intersection selection menu
     EditText roadIntersectionAEditText = (EditText) null;
@@ -385,6 +386,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
         singleIntersectionTextView = myActivity.findViewById(R.id.selectIntersectionText);
         singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
+        singleIntersectionCancelButon = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
 
         singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -398,12 +400,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     Log.d(TAG, "onClick: valid location");
                     // toggle menu vis.
                     toggleGroupVisibility(singleIntersectionInputMenuGroup);
+                    currentBuildingSelectionId = -1;
                 } else {
                     Log.d(TAG, "onClick: invalid location");
 
                 }
 
 
+            }
+        });
+
+        singleIntersectionCancelButon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                toggleGroupVisibility(singleIntersectionInputMenuGroup);
+                currentBuildingSelectionId = -1;
             }
         });
 
