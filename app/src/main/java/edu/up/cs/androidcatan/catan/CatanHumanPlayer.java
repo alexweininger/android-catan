@@ -266,12 +266,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.buildingsBuiltOnThisTurn = new ArrayList<>();
                 return;
             }
-            //        if(button.getId() == R.id.) {
-            //            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            //            Log.d(TAG, "onClick: Roll");
-            //            game.sendAction(a);
-            //            return;
-            //        }
+
             if (button.getId() == R.id.sidebar_button_roll) {
                 CatanRollDiceAction a = new CatanRollDiceAction(this);
                 Log.d(TAG, "onClick: Roll");
@@ -524,20 +519,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setClickable(false);
         } else {
             // if it is NOT the setup phase, no greyed out buttons and all are clickable
-            this.buildCityButton.setAlpha(0f);
-            this.buildCityButton.setClickable(true);
-            this.rollButton.setAlpha(0f);
-            this.rollButton.setClickable(true);
-            this.endTurnButton.setAlpha(0f);
-            this.endTurnButton.setClickable(true);
-            this.buyDevCardButton.setAlpha(0f);
-            this.buyDevCardButton.setClickable(true);
-            this.tradeButton.setAlpha(0f);
-            this.tradeButton.setClickable(true);
-            this.buildSettlementButton.setAlpha(0f);
-            this.buildSettlementButton.setClickable(true);
-            this.buildRoadButton.setAlpha(0f);
-            this.buildRoadButton.setClickable(true);
+            setAllButtonsToVisible();
         }
 
         /* ----- update resource value TextViews ----- */
@@ -622,6 +604,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void toggleGroupVisibility (Group group) {
         if (group.getVisibility() == View.GONE) group.setVisibility(View.VISIBLE);
         else group.setVisibility(View.GONE);
+    }
+
+    public void setAllButtonsToVisible() {
+        this.buildCityButton.setAlpha(0f);
+        this.buildCityButton.setClickable(true);
+        this.rollButton.setAlpha(0f);
+        this.rollButton.setClickable(true);
+        this.endTurnButton.setAlpha(0f);
+        this.endTurnButton.setClickable(true);
+        this.buyDevCardButton.setAlpha(0f);
+        this.buyDevCardButton.setClickable(true);
+        this.tradeButton.setAlpha(0f);
+        this.tradeButton.setClickable(true);
+        this.buildSettlementButton.setAlpha(0f);
+        this.buildSettlementButton.setClickable(true);
+        this.buildRoadButton.setAlpha(0f);
+        this.buildRoadButton.setClickable(true);
     }
 
 }// class CatanHumanPlayer
