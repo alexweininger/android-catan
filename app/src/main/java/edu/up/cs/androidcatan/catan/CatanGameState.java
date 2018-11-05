@@ -673,6 +673,7 @@ public class CatanGameState extends GameState {
 //            for (Building building : board.getBuildings()) {
 //                if (building != null) {
 //                    if (building.getOwnerId() == n) {
+
 //                        Log.d(TAG, "updateSetupPhase: OwnerId " + building.getOwnerId());
 //                        buildingCount++;
 //                    }
