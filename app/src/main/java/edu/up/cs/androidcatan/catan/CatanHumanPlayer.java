@@ -199,89 +199,78 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } // check if state is null
 
         // check if it is the setup phase of the game
-        if (state.isSetupPhase()) {
-            Log.i(TAG, "onClick: It is the setup phase.");
+        Log.i(TAG, "onClick: It is the setup phase.");
 
-            // if it is the setup phase, player can only make the actions of building one settlement and one road per turn
+        // if it is the setup phase, player can only make the actions of building one settlement and one road per turn
 
-            if (button.getId() == R.id.sidebar_button_road) { // setup phase build road button listener
-
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, true, 0, 1, this.playerId);
-                Log.d(TAG, "onClick: Road");
-                game.sendAction(action);
-                return;
-
-            } else if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
-                Log.e(TAG, "onClick: here");
-
-
-            } else {
-                Log.i(TAG, "onClick: It is the setup phase and received a unchecked for button click.");
-            }
-        } else {
-            /* ----- if it is not the setup phase ----- */
-            if (button.getId() == R.id.sidebar_button_city) {
-                CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
-                Log.d(TAG, "onClick: City");
-                game.sendAction(action);
-                return;
-            }
-
-            //Action that takes place when the road button is pressed
-            if (button.getId() == R.id.sidebar_button_road) {
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, false, 0, 1, this.playerId);
-                Log.d(TAG, "onClick: Road");
-                game.sendAction(action);
-                return;
-            }
-
-            //Action that takes place when the settlement button is pressed
-            if (button.getId() == R.id.sidebar_button_settlement) {
-                Log.e(TAG, "onClick: clicked build settlement button");
-
-                toggleGroupVisibility(singleIntersectionInputMenuGroup);
-
-                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, false, this.playerId, 1);
-                Log.d(TAG, "onClick: Settlement");
-                game.sendAction(action);
-                game.sendAction(new CatanEndTurnAction(this));
-                this.buildingsBuiltOnThisTurn = new ArrayList<>();
-                return;
-            }
-            if (button.getId() == R.id.sidebar_button_devcards) {
-                CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
-                Log.d(TAG, "onClick: Buy Dev Card");
-                game.sendAction(action);
-                return;
-            }
-            if (button.getId() == R.id.sidebar_button_endturn) {
-                if (state.isSetupPhase()) {
-
-                }
-                Log.d(TAG, "onClick: End Turn");
-
-                game.sendAction(new CatanEndTurnAction(this));
-                this.buildingsBuiltOnThisTurn = new ArrayList<>();
-                return;
-            }
-
-            if (button.getId() == R.id.sidebar_button_roll) {
-                CatanRollDiceAction a = new CatanRollDiceAction(this);
-                Log.d(TAG, "onClick: Roll");
-                game.sendAction(a);
-                return;
-            }
-
-            //TODO Need functionality for both Port, Custom Port and Bank
-            if (button.getId() == R.id.sidebar_button_trade) {
-                CatanRollDiceAction a = new CatanRollDiceAction(this);
-                Log.d(TAG, "onClick: Roll");
-                game.sendAction(a);
-                return;
-            }
+        if (button.getId() == R.id.sidebar_button_road) { // setup phase build road button listener
+            Log.d(TAG, "onClick: Road");
         }
+
+        if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
+            Log.e(TAG, "onClick: here");
+        }
+
+        if (button.getId() == R.id.sidebar_button_city) {
+            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
+            Log.d(TAG, "onClick: City");
+            game.sendAction(action);
+            return;
+        }
+
+        //Action that takes place when the road button is pressed
+        if (button.getId() == R.id.sidebar_button_road) {
+            CatanBuildRoadAction action = new CatanBuildRoadAction(this, false, 0, 1, this.playerId);
+            Log.d(TAG, "onClick: Road");
+            game.sendAction(action);
+            return;
+        }
+
+        //Action that takes place when the settlement button is pressed
+        if (button.getId() == R.id.sidebar_button_settlement) {
+            Log.e(TAG, "onClick: clicked build settlement button");
+
+            toggleGroupVisibility(singleIntersectionInputMenuGroup);
+
+            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, false, this.playerId, 1);
+            Log.d(TAG, "onClick: Settlement");
+            game.sendAction(action);
+            game.sendAction(new CatanEndTurnAction(this));
+            this.buildingsBuiltOnThisTurn = new ArrayList<>();
+            return;
+        }
+        if (button.getId() == R.id.sidebar_button_devcards) {
+            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
+            Log.d(TAG, "onClick: Buy Dev Card");
+            game.sendAction(action);
+            return;
+        }
+        if (button.getId() == R.id.sidebar_button_endturn) {
+            if (state.isSetupPhase()) {
+
+            }
+            Log.d(TAG, "onClick: End Turn");
+
+            game.sendAction(new CatanEndTurnAction(this));
+            this.buildingsBuiltOnThisTurn = new ArrayList<>();
+            return;
+        }
+
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
+
+        //TODO Need functionality for both Port, Custom Port and Bank
+        if (button.getId() == R.id.sidebar_button_trade) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
+
     }// onClick
 
     /**
