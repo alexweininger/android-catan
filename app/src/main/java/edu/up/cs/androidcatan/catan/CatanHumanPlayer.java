@@ -67,7 +67,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private ArrayList<Integer> buildingsBuiltOnThisTurn;
 
-    private int currentBuildingSelectionId = -1;
+    private int currentBuildingSelectionId = 1;
 
     // These variables will reference widgets that will be modified during play
     private Button buildCityButton = null;
@@ -115,7 +115,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     Group roadIntersectionSelectionMenuGroup = (Group) null;
     TextView singleIntersectionTextView = (TextView) null;
     EditText singleIntersectionInputEditText = (EditText) null;
-    Button singleIntersectionCancelButon = (Button) null;
+    Button singleIntersectionCancelButton = (Button) null;
 
     // road intersection selection menu
     EditText roadIntersectionAEditText = (EditText) null;
@@ -128,6 +128,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     Group singleIntersectionInputMenuGroup = (Group) null;
     Button singleIntersectionOkButton = (Button) null;
 
+    //Other Groups
+    Group scoreBoardGroup = (Group) null;
+    Group developmentGroup = (Group) null;
+
     private GameMainActivity myActivity;  // the android activity that we are running
 
     public CatanGameState state = null; // game state
@@ -135,6 +139,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private BoardSurfaceView boardSurfaceView;
 
     Canvas canvas = (Canvas) null;
+
+    //Counter Variables
+    int roadCount = 0;
+    int settlementCount = 0;
 
     /**
      * constructor does nothing extra
@@ -202,47 +210,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
-        // check if it is the setup phase of the game
-        Log.i(TAG, "onClick: It is the setup phase.");
 
-        // if it is the setup phase, player can only make the actions of building one settlement and one road per turn
-
-        if (button.getId() == R.id.sidebar_button_road) { // setup phase build road button listener
-            Log.d(TAG, "onClick: Road");
-        }
-
-        if (button.getId() == R.id.sidebar_button_settlement) { // setup phase build settlement button listener
-            Log.e(TAG, "onClick: here");
-        }
-
-        if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
-            Log.d(TAG, "onClick: City");
-            game.sendAction(action);
-            return;
-        }
-
-        //Action that takes place when the road button is pressed
-        if (button.getId() == R.id.sidebar_button_road) {
-            CatanBuildRoadAction action = new CatanBuildRoadAction(this, false, 0, 1, this.playerId);
-            Log.d(TAG, "onClick: Road");
-            game.sendAction(action);
-            return;
-        }
-
-        //Action that takes place when the settlement button is pressed
-        if (button.getId() == R.id.sidebar_button_settlement) {
-            Log.e(TAG, "onClick: clicked build settlement button");
-
-            toggleGroupVisibility(singleIntersectionInputMenuGroup);
-
-            CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, false, this.playerId, 1);
-            Log.d(TAG, "onClick: Settlement");
-            game.sendAction(action);
-            game.sendAction(new CatanEndTurnAction(this));
-            this.buildingsBuiltOnThisTurn = new ArrayList<>();
-            return;
-        }
+        /* ---------- actions other than building ---------- */
         if (button.getId() == R.id.sidebar_button_devcards) {
             CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
             Log.d(TAG, "onClick: Buy Dev Card");
@@ -259,7 +228,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildingsBuiltOnThisTurn = new ArrayList<>();
             return;
         }
-
         if (button.getId() == R.id.sidebar_button_roll) {
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
@@ -272,6 +240,121 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
+            return;
+        }
+
+        /* ---------- Building action buttons ---------- */
+
+        if (button.getId() == R.id.sidebar_button_city) {
+            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
+            Log.d(TAG, "onClick: City");
+            game.sendAction(action);
+            return;
+        }
+
+        if(button.getId() == R.id.sidebar_button_road){
+            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+                currentBuildingSelectionId = 0;
+            } else {
+                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                currentBuildingSelectionId = -1;
+            }
+            return;
+        }
+
+        if(button.getId() == R.id.button_roadOk){
+            int intersectionA = Integer.parseInt(roadIntersectionAEditText.getText().toString());
+            int intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
+
+            Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
+
+            if (tryBuildRoad(intersectionA, intersectionB)) {
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.playerId);
+                game.sendAction(action);
+
+                Log.d(TAG, "onClick: valid location");
+                // toggle menu vis.
+                toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
+                currentBuildingSelectionId = -1;
+                if(state.isSetupPhase()){
+                    currentBuildingSelectionId = 1;
+                    roadCount++;
+                    if(roadCount == 2 && settlementCount == 2){
+                        Log.d(TAG, "onClick: End setup phase for player");
+                        game.sendAction(new CatanEndTurnAction(this));
+                        this.buildingsBuiltOnThisTurn = new ArrayList<>();
+                        state.updateSetupPhase();
+
+                        return;
+                    }
+                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
+                }
+            } else {
+                Log.d(TAG, "onClick: invalid location");
+            }
+            return;
+        }
+
+        if(button.getId() == R.id.button_roadCancel){
+            toggleGroupVisibility(singleIntersectionInputMenuGroup);
+            currentBuildingSelectionId = -1;
+        }
+
+        if(button.getId() == R.id.sidebar_button_settlement){
+            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+                currentBuildingSelectionId = 1;
+            } else {
+                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
+                currentBuildingSelectionId = -1;
+            }
+            return;
+        }
+
+        if(button.getId() == R.id.button_singleIntersectionMenuOk){
+            int singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
+
+            Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
+
+            if (tryBuildSettlement(singleIntersectionIdInput)) {
+                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.playerId);
+                game.sendAction(action);
+                Log.d(TAG, "onClick: valid location");
+                // toggle menu vis.
+                toggleGroupVisibility(singleIntersectionInputMenuGroup);
+                currentBuildingSelectionId = -1;
+                if(state.isSetupPhase()){
+                    toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
+                    currentBuildingSelectionId = 0;
+                    settlementCount++;
+                }
+            } else {
+                Log.d(TAG, "onClick: invalid location at " + singleIntersectionIdInput);
+            }
+            return;
+        }
+
+        if(button.getId() == R.id.button_singleIntersectionMenuCancel){
+            toggleGroupVisibility(singleIntersectionInputMenuGroup);
+            currentBuildingSelectionId = -1;
+            return;
+        }
+
+        /* ---------- menu, score, dev card menu buttons ---------- */
+        if(button.getId() == R.id.menu_settings){
+            Log.d(TAG, state.toString());
+            return;
+        }
+
+        if(button.getId() == R.id.sidebar_button_score){
+            toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
+            return;
+        }
+
+        if(button.getId() == R.id.group_development_card_menu){
+            // toggle menu vis.
+            toggleGroupVisibility(developmentGroup);
             return;
         }
 
@@ -307,6 +390,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort = activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = activity.findViewById(R.id.use_Card);
 
+        /* ---------- action button listeners ---------- */
         buildCityButton.setOnClickListener(this);
         buildRoadButton.setOnClickListener(this);
         buildSettlementButton.setOnClickListener(this);
@@ -351,42 +435,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.menuButton = activity.findViewById(R.id.sidebar_button_menu);
 
-        this.menuButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                Log.d(TAG, state.toString());
-            }
-        });
-
-        /* ---------- action button listeners ---------- */
-
-        // Build settlement action button on sidebar listener. Shows and hides a single intersection input menu group.
-        buildSettlementButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                    singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                    currentBuildingSelectionId = 1;
-                } else {
-                    singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                    currentBuildingSelectionId = -1;
-                }
-            }
-        });
-
-        // Build road action button on sidebar listener. Shows/hides roadIntersectionSelectionMenuGroup.
-        buildRoadButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
-                    roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
-                    currentBuildingSelectionId = 0;
-                } else {
-                    roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                    currentBuildingSelectionId = -1;
-                }
-            }
-        });
+        this.menuButton.setOnClickListener(this);
 
         /* ---------- single intersection menu (buildings) ---------- */
 
@@ -395,35 +444,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
         singleIntersectionTextView = myActivity.findViewById(R.id.selectIntersectionText);
         singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
-        singleIntersectionCancelButon = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
+        singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
 
         // OK button for single intersection input
-        singleIntersectionOkButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
+        singleIntersectionOkButton.setOnClickListener(this);
 
-                int singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
-
-                Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
-
-                if (tryBuildSettlement(singleIntersectionIdInput)) {
-                    Log.d(TAG, "onClick: valid location");
-                    // toggle menu vis.
-                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
-                    currentBuildingSelectionId = -1;
-                } else {
-                    Log.d(TAG, "onClick: invalid location");
-                }
-            }
-        });
-
-        singleIntersectionCancelButon.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                toggleGroupVisibility(singleIntersectionInputMenuGroup);
-                currentBuildingSelectionId = -1;
-            }
-        });
+        singleIntersectionCancelButton.setOnClickListener(this);
 
         /* ---------- road intersection menu ---------- */
 
@@ -436,50 +462,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
         roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
-        roadIntersectionOkButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                int intersectionA = Integer.parseInt(roadIntersectionAEditText.getText().toString());
-                int intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
-
-                Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
-
-                if (tryBuildRoad(intersectionA, intersectionB)) {
-                    Log.d(TAG, "onClick: valid location");
-                    // toggle menu vis.
-                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
-                    currentBuildingSelectionId = -1;
-                } else {
-                    Log.d(TAG, "onClick: invalid location");
-                }
-            }
-        });
+        roadIntersectionOkButton.setOnClickListener(this);
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         // button listeners
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
-        final Group scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
-        scoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
-            }
-        });
+        scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
+        scoreButton.setOnClickListener(this);
 
         Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
-        final Group developmentGroup = activity.findViewById(R.id.group_development_card_menu);
-        developmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                // toggle menu vis.
-                toggleGroupVisibility(developmentGroup);
-            }
-        });
+        developmentGroup = activity.findViewById(R.id.group_development_card_menu);
+        developmentButton.setOnClickListener(this);
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
             receiveInfo(state);
         }
+        
     }//setAsGui
 
     private boolean tryBuildRoad (int intersectionA, int intersectionB) {
@@ -563,6 +562,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (this.state.isSetupPhase()) {
             // if it is the setup phase, grey out some buttons and make them un clickable
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
@@ -571,6 +574,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buyDevCardButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+            
+            this.singleIntersectionCancelButton.setAlpha(0.5f);
+            this.singleIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionCancelButton.setAlpha(0.5f);
+            this.roadIntersectionCancelButton.setClickable(false);
         } else {
             // if it is NOT the setup phase, no greyed out buttons and all are clickable
             setAllButtonsToVisible();
@@ -661,21 +671,32 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     public void setAllButtonsToVisible () {
-        this.buildCityButton.setAlpha(0f);
-        this.buildCityButton.setClickable(true);
-        this.rollButton.setAlpha(0f);
-        this.rollButton.setClickable(true);
-        this.endTurnButton.setAlpha(0f);
-        this.endTurnButton.setClickable(true);
-        this.buyDevCardButton.setAlpha(0f);
-        this.buyDevCardButton.setClickable(true);
-        this.tradeButton.setAlpha(0f);
-        this.tradeButton.setClickable(true);
-        this.buildSettlementButton.setAlpha(0f);
-        this.buildSettlementButton.setClickable(true);
-        this.buildRoadButton.setAlpha(0f);
+        this.buildRoadButton.setAlpha(1f);
         this.buildRoadButton.setClickable(true);
-    }
+        this.buildSettlementButton.setAlpha(1f);
+        this.buildSettlementButton.setClickable(true);
+        this.buildCityButton.setAlpha(1f);
+        this.buildCityButton.setClickable(true);
+        this.rollButton.setAlpha(1f);
+        this.rollButton.setClickable(true);
+        this.endTurnButton.setAlpha(1f);
+        this.endTurnButton.setClickable(true);
+        this.buyDevCardButton.setAlpha(1f);
+        this.buyDevCardButton.setClickable(true);
+        this.tradeButton.setAlpha(1f);
+        this.tradeButton.setClickable(true);
+        this.buildSettlementButton.setAlpha(1f);
+        this.buildSettlementButton.setClickable(true);
+        this.buildRoadButton.setAlpha(1f);
+        this.buildRoadButton.setClickable(true);
+        this.endTurnButton.setAlpha(1f);
+        this.endTurnButton.setClickable(true);
 
+        this.singleIntersectionCancelButton.setAlpha(0f);
+        this.singleIntersectionCancelButton.setClickable(true);
+        this.roadIntersectionCancelButton.setAlpha(0f);
+        this.roadIntersectionCancelButton.setClickable(true);
+    }
+    
 }// class CatanHumanPlayer
 

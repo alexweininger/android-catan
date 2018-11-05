@@ -8,6 +8,7 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
@@ -64,7 +65,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         }
 
         // delay to make cpu feel more real
-        sleep(1000);
+        sleep(300);
 
         Random random = new Random();
         Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
@@ -123,7 +124,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         } else {
             Log.i(TAG, "receiveInfo: Not setup phase.");
         }
-
+        game.sendAction(new CatanRollDiceAction(this));
         Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
         game.sendAction(new CatanEndTurnAction(this));
     }//receiveInfo
