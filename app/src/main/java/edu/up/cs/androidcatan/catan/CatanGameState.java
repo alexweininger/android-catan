@@ -46,7 +46,7 @@ public class CatanGameState extends GameState {
     private int currentLongestRoadPlayerId = -1;
 
 
-    CatanGameState() { // CatanGameState constructor
+    public CatanGameState() { // CatanGameState constructor
         this.dice = new Dice();
         this.board = new Board();
         generateDevCardDeck();
@@ -190,7 +190,7 @@ public class CatanGameState extends GameState {
     /**
      * Method updates the victory points count of the current player based off the actions taken within the turn
      */
-    private void updateVictoryPoints() {
+    public void updateVictoryPoints() {
         Log.d(TAG, "updateVictoryPoints() called");
 
         Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
