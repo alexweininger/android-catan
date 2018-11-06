@@ -25,6 +25,9 @@ public abstract class Building {
         return this.ownerId;
     }
     public void setOwnerId(int ownerId) {
+        if (ownerId < 0 || ownerId > 3) {
+            return;
+        }
         this.ownerId = ownerId;
     }
 
