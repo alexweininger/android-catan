@@ -313,8 +313,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.button_singleIntersectionMenuOk){
-            int singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
-
+            int singleIntersectionIdInput = 0;
+            if(singleIntersectionInputEditText.getText().equals("")){
+                Log.d(TAG, "onClick: Intersection is null (" + singleIntersectionInputEditText.getText() + ")");
+                return;
+            }
+            try {
+                singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
+            }catch(NumberFormatException nfe){
+                Log.e(TAG, "onClick: Error, not integer");
+                return;
+            }
             Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildSettlement(singleIntersectionIdInput)) {
