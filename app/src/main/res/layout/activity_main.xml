@@ -44,7 +44,7 @@
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:constraint_referenced_ids="" />
 
     <android.support.constraint.Group
@@ -1209,6 +1209,7 @@
         android:id="@+id/tradeMenuGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="bringImgGive,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,grainSelectiomBoxGive" />
     <!--end of trade menu-->
 

@@ -131,6 +131,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     //Other Groups
     Group scoreBoardGroup = (Group) null;
     Group developmentGroup = (Group) null;
+    Group tradeGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -212,12 +213,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
         /* ---------- actions other than building ---------- */
-        if (button.getId() == R.id.sidebar_button_devcards) {
-            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
-            Log.d(TAG, "onClick: Buy Dev Card");
-            game.sendAction(action);
-            return;
-        }
         if (button.getId() == R.id.sidebar_button_endturn) {
             if (state.isSetupPhase()) {
 
@@ -237,9 +232,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //TODO Need functionality for both Port, Custom Port and Bank
         if (button.getId() == R.id.sidebar_button_trade) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
+            // toggle menu vis.
+            toggleGroupVisibility(tradeGroup);
             return;
         }
 
@@ -498,6 +492,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
         developmentGroup = activity.findViewById(R.id.group_development_card_menu);
         developmentButton.setOnClickListener(this);
+
+        //Trade group
+        tradeGroup = activity.findViewById(R.id.group_trade_menu);
+        tradeGroup.setOnClickListener(this);
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
