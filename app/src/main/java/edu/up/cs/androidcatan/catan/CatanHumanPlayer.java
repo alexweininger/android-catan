@@ -277,7 +277,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
                 roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 1;
+                currentBuildingSelectionId = 2;
             } else {
                 singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 currentBuildingSelectionId = -1;
@@ -350,8 +350,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildSettlement(singleIntersectionIdInput)) {
-                CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.playerId);
-                game.sendAction(action);
+                if(currentBuildingSelectionId == 1) {
+                    CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.playerId);
+                    game.sendAction(action);
+                }
+                else{
+                    CatanBuildCityAction action = new CatanBuildCityAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.playerId);
+                    game.sendAction(action);
+                }
                 Log.d(TAG, "onClick: valid location");
                 // toggle menu vis.
                 toggleGroupVisibility(singleIntersectionInputMenuGroup);
