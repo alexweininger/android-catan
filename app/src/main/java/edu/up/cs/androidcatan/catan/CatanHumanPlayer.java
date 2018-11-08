@@ -271,6 +271,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
             }catch(NumberFormatException nfe){
                 Log.e(TAG, "onClick: Error, not integer");
+                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+                roadIntersectionAEditText.startAnimation(shake);
                 return;
             }
 
@@ -329,6 +331,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
             }catch(NumberFormatException nfe){
                 Log.e(TAG, "onClick: Error, not integer");
+                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+                singleIntersectionInputEditText.startAnimation(shake);
                 return;
             }
             Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
