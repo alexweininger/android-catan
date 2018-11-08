@@ -83,6 +83,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradeCustomPort = null;
     private Button tradePort = null;
     private Button useDevCard = null;
+    private Button buildDevCard = null;
 
     // other buttons on the sidebar
 
@@ -213,6 +214,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
         /* ---------- actions other than building ---------- */
+        if(button.getId() == R.id.menu_settings){
+            Log.d(TAG, state.toString());
+            return;
+        }
+
+        if(button.getId() == R.id.sidebar_button_score){
+            toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
+            return;
+        }
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            return;
+        }
         if (button.getId() == R.id.sidebar_button_endturn) {
             if (state.isSetupPhase()) {
 
@@ -223,13 +239,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildingsBuiltOnThisTurn = new ArrayList<>();
             return;
         }
-        if (button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
-            return;
-        }
 
+        /* ---------- Trade action buttons ---------- */
         //TODO Need functionality for both Port, Custom Port and Bank
         if (button.getId() == R.id.sidebar_button_trade) {
             // toggle menu vis.
@@ -237,7 +248,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------- Building action buttons ---------- */
+        /* ---------- Building sidebar buttons ---------- */
+
+        if(button.getId() == R.id.sidebar_button_road){
+            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
+                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+                currentBuildingSelectionId = 0;
+            } else {
+                currentBuildingSelectionId = -1;
+            }
+            return;
+        }
+
+        if(button.getId() == R.id.sidebar_button_settlement){
+            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+                currentBuildingSelectionId = 1;
+            } else {
+                currentBuildingSelectionId = -1;
+            }
+            return;
+        }
 
         if (button.getId() == R.id.sidebar_button_city) {
             if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
@@ -251,17 +284,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        if(button.getId() == R.id.sidebar_button_road){
-            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
-                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 0;
-            } else {
-                currentBuildingSelectionId = -1;
-            }
-            return;
-        }
-
+        /* ---------- Building confirmation buttons ---------- */
         if(button.getId() == R.id.button_roadOk){
             int intersectionA;
             int intersectionB;
@@ -309,17 +332,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             currentBuildingSelectionId = -1;
         }
 
-        if(button.getId() == R.id.sidebar_button_settlement){
-            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 1;
-            } else {
-                currentBuildingSelectionId = -1;
-            }
-            return;
-        }
-
         if(button.getId() == R.id.button_singleIntersectionMenuOk){
             int singleIntersectionIdInput;
             if(singleIntersectionInputEditText.getText().equals("")){
@@ -359,23 +371,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             currentBuildingSelectionId = -1;
             return;
         }
-
-        /* ---------- menu, score, dev card menu buttons ---------- */
-        if(button.getId() == R.id.menu_settings){
-            Log.d(TAG, state.toString());
-            return;
-        }
-
-        if(button.getId() == R.id.sidebar_button_score){
-            toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
-            return;
-        }
-
+        /* ---------- Development card buttons ---------- */
         if(button.getId() == R.id.sidebar_button_devcards){
             // toggle menu vis.
             toggleGroupVisibility(developmentGroup);
             return;
         }
+
+        if(button.getId() == R.id.use_Card){
+            return;
+        }
+
+        if(button.getId() == R.id.build_devCard){
+            return;
+        }
+
+
 
     }// onClick
 
@@ -408,6 +419,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
         tradePort = activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = activity.findViewById(R.id.use_Card);
+        buildDevCard = activity.findViewById(R.id.build_devCard);
 
         /* ---------- action button listeners ---------- */
         buildCityButton.setOnClickListener(this);
@@ -423,6 +435,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeCustomPort.setOnClickListener(this);
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
+        buildDevCard.setOnClickListener(this);
 
         /* ---------- resource value text ---------- */
 
