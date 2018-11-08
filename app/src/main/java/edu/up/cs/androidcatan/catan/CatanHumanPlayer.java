@@ -264,8 +264,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.button_roadOk){
-            int intersectionA = Integer.parseInt(roadIntersectionAEditText.getText().toString());
-            int intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
+            int intersectionA;
+            int intersectionB;
+            try {
+                intersectionA = Integer.parseInt(roadIntersectionAEditText.getText().toString());
+                intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
+            }catch(NumberFormatException nfe){
+                Log.e(TAG, "onClick: Error, not integer");
+                return;
+            }
 
             Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
 
@@ -313,7 +320,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.button_singleIntersectionMenuOk){
-            int singleIntersectionIdInput = 0;
+            int singleIntersectionIdInput;
             if(singleIntersectionInputEditText.getText().equals("")){
                 Log.d(TAG, "onClick: Intersection is null (" + singleIntersectionInputEditText.getText() + ")");
                 return;
