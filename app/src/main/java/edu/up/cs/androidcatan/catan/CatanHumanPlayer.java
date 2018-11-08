@@ -246,18 +246,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------- Building action buttons ---------- */
 
         if (button.getId() == R.id.sidebar_button_city) {
-            CatanBuildCityAction action = new CatanBuildCityAction(this, this.playerId, 0);
-            Log.d(TAG, "onClick: City");
-            game.sendAction(action);
+            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+                currentBuildingSelectionId = 1;
+            } else {
+                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
+                currentBuildingSelectionId = -1;
+            }
             return;
         }
 
         if(button.getId() == R.id.sidebar_button_road){
             if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 0;
             } else {
-                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 currentBuildingSelectionId = -1;
             }
             return;
@@ -312,10 +317,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.sidebar_button_settlement){
             if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 1;
             } else {
-                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 currentBuildingSelectionId = -1;
             }
             return;
@@ -372,7 +377,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        if(button.getId() == R.id.group_development_card_menu){
+        if(button.getId() == R.id.sidebar_button_devcards){
             // toggle menu vis.
             toggleGroupVisibility(developmentGroup);
             return;
