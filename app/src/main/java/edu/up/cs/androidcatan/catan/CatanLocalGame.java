@@ -31,7 +31,7 @@ public class CatanLocalGame extends LocalGame {
         super();
         gameState = new CatanGameState();
     }
-
+/*----------------------Checking the Game State and updating it------------------------------------*/
     /**
      * Notify the given player that its state has changed. This should involve sending
      * a GameInfo object to the player. If the game is not a perfect-information game
@@ -64,6 +64,7 @@ public class CatanLocalGame extends LocalGame {
         return null; // return null if no winner, but the game is not over
     }
 
+/*---------------------------------------Action Methods-------------------------------------------*/
     /**
      * Tell whether the given player is allowed to make a move at the
      * present point in the game.

@@ -42,6 +42,7 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
  **/
 public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
 
+/*---------------------------------------Instance Variables-------------------------------------------*/
     private final String TAG = "CatanHumanPlayer";
 
     /* instance variables */
@@ -147,6 +148,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     int roadCount = 0;
     int settlementCount = 0;
 
+/*---------------------------------------Constructor Methods-------------------------------------------*/
+
     /**
      * constructor does nothing extra
      */
@@ -198,6 +201,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
     }//receiveInfo
 
+/*---------------------------------------onClick Methods-------------------------------------------*/
     /**
      * this method gets called when the user clicks the die or hold button. It
      * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
@@ -401,6 +405,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     }// onClick
 
+
+/*-----------------------------------------GUI Methods-------------------------------------------*/
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
      * called from the GUI thread
@@ -528,6 +534,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         
     }//setAsGui
 
+/*---------------------------------------Validation Methods-------------------------------------------*/
     private boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
 
