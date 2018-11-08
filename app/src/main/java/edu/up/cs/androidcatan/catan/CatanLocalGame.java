@@ -14,10 +14,11 @@ import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAcation;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
 
 public class CatanLocalGame extends LocalGame {
 
@@ -124,7 +125,7 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
-        if (action instanceof CatanUseDevCardAcation) {
+        if (action instanceof CatanUseDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             //return gameState.useDevCard();
             return true;

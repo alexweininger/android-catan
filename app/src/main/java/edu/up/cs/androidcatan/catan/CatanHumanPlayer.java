@@ -22,6 +22,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
@@ -379,10 +380,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.use_Card){
+            CatanUseDevCardAction action = new CatanUseDevCardAction(this);
+            game.sendAction(action);
             return;
         }
 
         if(button.getId() == R.id.build_devCard){
+            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
+            game.sendAction(action);
             return;
         }
 
