@@ -99,6 +99,8 @@ public class CatanGameState extends GameState {
         }
     } // end deep copy constructor
 
+/*-------------------------------------Dev Card Methods------------------------------------------*/
+
     /**
      * creates a deck of int representing the exact number each type of card
      */
@@ -122,6 +124,7 @@ public class CatanGameState extends GameState {
         return new DevelopmentCard(drawnDevCard);
     }
 
+/*-------------------------------------Validation Methods------------------------------------------*/
     /**
      * @param playerId -
      * @return If id is valid.
@@ -217,6 +220,7 @@ public class CatanGameState extends GameState {
         }
     }
 
+/*-------------------------------------Resource Methods------------------------------------------*/
     /**
      * handles resource production AW
      *
@@ -252,7 +256,8 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /* ----- action methods ----- */
+
+/*-------------------------------------Action Methods------------------------------------------*/
 
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
@@ -324,6 +329,8 @@ public class CatanGameState extends GameState {
         return true;
     } // end endTurn method
 
+
+/*---------------------------------------Trading Methods------------------------------------------*/
     /**
      * TODO
      * Player trades with ports, gives resources and receives a resource;
@@ -401,6 +408,8 @@ public class CatanGameState extends GameState {
         return true;
     } // end tradeWithBank
 
+
+/*---------------------------------------Building Methods------------------------------------------*/
     /**
      * Player requests to build road ands Game State processes requests and returns true if build was successful
      *
@@ -578,6 +587,7 @@ public class CatanGameState extends GameState {
         return true;
     }
 
+/*----------------------------------------Robber Methods------------------------------------------*/
     /**
      * TODO implement
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
@@ -656,6 +666,7 @@ public class CatanGameState extends GameState {
         return true;
     }
 
+/*-------------------------------------Setup Phase Methods------------------------------------------*/
     /**
      * goes through each building and road to check how many are owned by the player
      * when they have 2 roads and 2 buildings, updateSetupPhase is false.
@@ -701,7 +712,7 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-
+/*-------------------------------------Getter/Setter Methods------------------------------------------*/
     public Dice getDice() {
         return dice;
     }
@@ -798,6 +809,7 @@ public class CatanGameState extends GameState {
         this.isSetupPhase = setupPhase;
     }
 
+/*-------------------------------------toString Methods------------------------------------------*/
     /**
      * TODO update???
      *
