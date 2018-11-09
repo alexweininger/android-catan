@@ -57,8 +57,9 @@ public class HexagonGrid extends BoardSurfaceView {
     }
 
     public void drawGrid (Canvas canvas) {
-        getHexagons(x, y, size); // get hexes
 
+        getHexagons(x, y, size); // get hexes
+//        drawBorder(canvas);
         for (HexagonDrawable h : drawingHexagons) {
             h.drawHexagon(canvas); // draw each hexagon
         }
@@ -70,8 +71,21 @@ public class HexagonGrid extends BoardSurfaceView {
         for (Intersection intersection : intersections) {
             intersection.drawIntersection(canvas);
         }
+
+
+
         //getIntersections(this.x, this.y, this.size, canvas);
         this.invalidate();
+    }
+
+    public void drawBorder(Canvas canvas) {
+        Paint bluePaint = new Paint();
+        bluePaint.setColor(Color.BLUE);
+
+        int centerX = this.drawingHexagons.get(9).getHexagonPoints()[5][0];
+        int centerY = this.drawingHexagons.get(9).getHexagonPoints()[5][1];
+
+        canvas.drawCircle(centerX,centerY - size, 600, bluePaint);
     }
 
     public void drawRoads (Canvas canvas) {

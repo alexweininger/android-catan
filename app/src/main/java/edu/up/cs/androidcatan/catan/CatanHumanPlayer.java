@@ -1,7 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,7 +27,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
-import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
@@ -47,8 +44,6 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
-
-/*---------------------------------------Instance Variables-------------------------------------------*/
     private final String TAG = "CatanHumanPlayer";
 
     /* instance variables */
@@ -59,17 +54,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
 
-    // ArrayList of the development cards the player owns
-    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>();
+    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
 
-    // number of buildings the player has to build {roads, settlements, cities}
-    private int[] buildingInventory = {15, 5, 4};
+    private int[] buildingInventory = {15, 5, 4}; // number of buildings the player has to build {roads, settlements, cities}
 
-    // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
-    private int armySize = 0;
+    private int armySize = 0; // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
 
-    // playerId
-    private int playerId;
+    private int playerId; // playerId
 
     private String currentBuildingSelection = null;
 
@@ -77,7 +68,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private int currentBuildingSelectionId = 1;
 
-    // These variables will reference widgets that will be modified during play
+    /* ---------- View variables for updating UI / Layout ---------- */
+
+    // action buttons
     private Button buildCityButton = null;
     private Button buildRoadButton = null;
     private Button buildSettlementButton = null;
@@ -97,7 +90,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Spinner devCardList = null;
 
     // other buttons on the sidebar
-
     private Button menuButton = (Button) null;
 
     // resource count text views
@@ -124,26 +116,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView currentTurnIdTextView = (TextView) null;
 
     // intersection menu
-    Group roadIntersectionSelectionMenuGroup = (Group) null;
-    TextView singleIntersectionTextView = (TextView) null;
-    EditText singleIntersectionInputEditText = (EditText) null;
-    Button singleIntersectionCancelButton = (Button) null;
+    private Group roadIntersectionSelectionMenuGroup = (Group) null;
+    private TextView singleIntersectionTextView = (TextView) null;
+    private EditText singleIntersectionInputEditText = (EditText) null;
+    private Button singleIntersectionCancelButton = (Button) null;
 
     // road intersection selection menu
-    EditText roadIntersectionAEditText = (EditText) null;
-    EditText roadIntersectionBEditText = (EditText) null;
+    private EditText roadIntersectionAEditText = (EditText) null;
+    private EditText roadIntersectionBEditText = (EditText) null;
 
-    TextView roadIntersectionPromptLabel = (EditText) null;
-    Button roadIntersectionOkButton = (Button) null;
-    Button roadIntersectionCancelButton = (Button) null;
+    private TextView roadIntersectionPromptLabel = (EditText) null;
+    private Button roadIntersectionOkButton = (Button) null;
+    private Button roadIntersectionCancelButton = (Button) null;
 
-    Group singleIntersectionInputMenuGroup = (Group) null;
-    Button singleIntersectionOkButton = (Button) null;
+    private Group singleIntersectionInputMenuGroup = (Group) null;
+    private Button singleIntersectionOkButton = (Button) null;
 
     //Other Groups
-    Group scoreBoardGroup = (Group) null;
-    Group developmentGroup = (Group) null;
-    Group tradeGroup = (Group) null;
+    private Group scoreBoardGroup = (Group) null;
+    private Group developmentGroup = (Group) null;
+    private Group tradeGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -151,17 +143,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private BoardSurfaceView boardSurfaceView;
 
-    Canvas canvas = (Canvas) null;
+    private Canvas canvas = (Canvas) null;
 
     //Counter Variables
-    int roadCount = 0;
-    int settlementCount = 0;
+    private int roadCount = 0;
+    private int settlementCount = 0;
 
-    /*---------------------------------------Constructor Methods-------------------------------------------*/
+    /*--------------------- Constructors ------------------------*/
 
-    /**
-     * constructor does nothing extra
-     */
     public CatanHumanPlayer (String name) {
         super(name);
     }
@@ -298,6 +287,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         /* ---------- Building confirmation buttons ---------- */
+
         if(button.getId() == R.id.button_roadOk){
             int intersectionA;
             int intersectionB;
