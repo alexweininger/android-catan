@@ -570,7 +570,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } else {
             Log.e(TAG, "tryBuildSettlement: Returning false.");
             Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-            roadIntersectionAEditText.startAnimation(shake);
+            roadIntersectionBEditText.startAnimation(shake);
             return false;
         }
     }
