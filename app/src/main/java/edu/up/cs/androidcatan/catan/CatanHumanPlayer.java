@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -447,6 +448,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard = activity.findViewById(R.id.use_Card);
         buildDevCard = activity.findViewById(R.id.build_devCard);
         devCardList = activity.findViewById(R.id.development_Card_Spinner);
+
+        //Adding resources to dev card spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(),
+                R.array.dev_Card, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        devCardList.setAdapter(adapter);
 
         /* ---------- action button listeners ---------- */
         buildCityButton.setOnClickListener(this);

@@ -104,8 +104,7 @@
     <!--resources-->
 
     <string name="developmentCards">Development</string>
-
-    <string-array name="resource_Card">
+    <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
         <item>Road Building</item>
