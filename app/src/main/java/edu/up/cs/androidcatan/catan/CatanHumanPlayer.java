@@ -639,7 +639,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.roadIntersectionCancelButton.setAlpha(0.5f);
             this.roadIntersectionCancelButton.setClickable(false);
             this.roadIntersectionAEditText.setAlpha(0.5f);
-            this.roadIntersectionAEditText.setClickable(false);
+            this.roadIntersectionAEditText.setEnabled(false);
         } else {
             // if it is NOT the setup phase, no greyed out buttons and all are clickable
             setAllButtonsToVisible();
@@ -756,7 +756,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.roadIntersectionCancelButton.setAlpha(1f);
         this.roadIntersectionCancelButton.setClickable(true);
         this.roadIntersectionAEditText.setAlpha(1f);
-        this.roadIntersectionAEditText.setClickable(true);
+        this.roadIntersectionAEditText.setEnabled(true);
     }
     
 }// class CatanHumanPlayer
