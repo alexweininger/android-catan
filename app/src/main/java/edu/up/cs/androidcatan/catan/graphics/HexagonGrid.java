@@ -33,12 +33,10 @@ public class HexagonGrid extends BoardSurfaceView {
     // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
     private Building[] buildlings;
-    //Intersections
-    private Intersection[] intersections = new Intersection[54];
 
-    ArrayList<RoadDrawable> roads = new ArrayList<>();
-
-    ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>();
+    private Intersection[] intersections = new Intersection[54]; // list of Intersection objects
+    ArrayList<RoadDrawable> roads = new ArrayList<>(); // list of Road objects
+    ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>(); // list of HexagonDrawable objects
 
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
         super(context);
@@ -60,7 +58,7 @@ public class HexagonGrid extends BoardSurfaceView {
             h.drawHexagon(canvas);
         }
         drawRoads(canvas);
-        drawBuildings();
+        drawBuildings(canvas);
         getIntersections(this.x, this.y, this.size, canvas);
         this.invalidate();
     }
@@ -174,27 +172,20 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    public void drawBuildings () {
+    public void drawBuildings (Canvas canvas) {
+        Paint bldgPaint = new Paint();
+        bldgPaint.setColor(Color.CYAN);
+
         Building[] buildings = this.board.getBuildings();
 
         // go through each building
         for (int i = 0; i < buildings.length; i++) {
             if (buildings[i] != null) {
 
-                // get hexes adjacent to building
-                ArrayList<Integer> hexes = board.getIntToHexIdMap().get(i);
+                int xPos = this.intersections[i].getxPos();
+                int yPos = this.intersections[i].getyPos();
 
-                ArrayList<Integer> intersections = this.board.getHexToIntIdMap().get(0);
-                Log.d(TAG, "drawBuildings: before retainAll: " + intersections);
-                // for each adjacent hex, add its adjacent intersections to the array list
-                for (int j = 1; j < hexes.size(); j++) {
-
-                    Log.d(TAG, "drawBuildings: comparing/retaining with: " + this.board.getHexToIntIdMap().get(j));
-
-                    intersections.retainAll(this.board.getHexToIntIdMap().get(j));
-                }
-
-                Log.e(TAG, "drawBuildings: all intersections adjacent to adjacent hexes" + intersections);
+                canvas.drawCircle(xPos, yPos, 25, bldgPaint);
 
             }
         }
