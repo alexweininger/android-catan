@@ -18,6 +18,7 @@ public class Intersection {
     public void drawIntersection(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(Color.RED);
+        paint.setTextSize(32);
 
         canvas.drawText("" + intersectionId, xPos, yPos, paint);
     }
