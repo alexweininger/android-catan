@@ -168,11 +168,11 @@ public class CatanGameState extends GameState {
      */
     public boolean useDevCard (int playerId, int devCardId) {
 
-        if (!valAction(playerId)) {
+        if (!valAction(playerId)) { // todo might need to remove
             return false;
         }
 
-        DevelopmentCard dc = new DevelopmentCard(devCardId);
+        DevelopmentCard developmentCard = new DevelopmentCard(devCardId);
         return true;
     }
 
@@ -221,7 +221,7 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-    /**
+    /** TODO we should be calling this somewhere right? - AW
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize () {
@@ -242,7 +242,7 @@ public class CatanGameState extends GameState {
         }
     }
 
-    //TODO: Finish updateVictoryPoints method
+    // TODO: Finish updateVictoryPoints method
 
     /**
      * Method updates the victory points count of the current player based off the actions taken within the turn
