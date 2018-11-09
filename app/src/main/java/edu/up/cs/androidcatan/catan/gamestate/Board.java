@@ -119,13 +119,11 @@ public class Board {
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
-
         this.setIntersectionGraph(b.getIntersectionGraph());
 
         for (Hexagon hexagon : b.getHexagons()) {
             this.hexagons.add(new Hexagon(hexagon));
         }
-
     } // end Board deep copy constructor
 
     /**
@@ -400,9 +398,10 @@ public class Board {
         }
 
         // TODO not working
-        // check if adjacent intersections do not have buildings
+        // check if adjacent intersections do not have buildings for the distance rule
         for (int intersection : this.intersectionGraph.get(intersectionId)) { // for each adj. intersection
-            if (this.buildings[intersectionId] != null) { // check if building exists there
+            Log.d(TAG, "validBuildingLocation: DISTANCE RULE - Checking intersection " + intersection + " for a building.");
+            if (this.buildings[intersection] != null) { // check if building exists there
                 Log.i(TAG, "validBuildingLocation: invalid - building at intersection " + intersectionId + " violates the distance rule (" + intersection + " is adj. and has a building).");
                 return false;
             }
