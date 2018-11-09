@@ -44,7 +44,7 @@
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:constraint_referenced_ids="" />
 
     <android.support.constraint.Group
@@ -59,7 +59,7 @@
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
@@ -261,13 +261,14 @@
 
     <Spinner
         android:id="@+id/development_Card_Spinner"
+        android:background="@android:color/background_light"
         style="@android:style/Widget.Material.DropDownItem.Spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:alpha="255"
         android:spinnerMode="dropdown"
-        android:theme="@android:style/Widget.DeviceDefault.Light.Spinner"
+        android:theme="@android:style/Widget.DeviceDefault.Light.DropDownItem.Spinner"
         app:layout_constraintEnd_toEndOf="@+id/use_Card"
         app:layout_constraintStart_toStartOf="@+id/use_Card"
         app:layout_constraintTop_toBottomOf="@+id/use_Card" />
@@ -718,7 +719,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/build_devCard"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
@@ -830,6 +831,8 @@
         android:hint="@string/hint_00"
         android:inputType="textNoSuggestions|number|numberSigned|phone"
         android:maxLength="2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
         android:text="@string/hint_00"
         android:textColor="@color/colorPrimary"
         android:textColorLink="@color/colorAccent"
@@ -855,8 +858,8 @@
         android:id="@+id/button_singleIntersectionMenuCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@android:string/cancel"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
@@ -866,10 +869,10 @@
         android:id="@+id/selectRoadIntersectionText"
         android:layout_width="405dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:alpha="255"
-        android:text= "@string/selectIntersections"
+        android:text="@string/selectIntersections"
         android:textAlignment="textEnd"
         android:textColor="@color/colorAccent"
         android:textSize="36sp"
@@ -1209,6 +1212,7 @@
         android:id="@+id/tradeMenuGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="bringImgGive,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,grainSelectiomBoxGive" />
     <!--end of trade menu-->
 

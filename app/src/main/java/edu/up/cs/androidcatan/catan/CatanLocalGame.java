@@ -1,5 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
+
 import android.util.Log;
 
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -14,22 +15,32 @@ import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAcation;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version November 8th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 
 public class CatanLocalGame extends LocalGame {
 
     private final static String TAG = "CatanLocalGame";
 
-    CatanGameState gameState;
+    private CatanGameState gameState;
 
-
-    public CatanLocalGame() {
+    CatanLocalGame () {
         super();
         gameState = new CatanGameState();
     }
+
+    /*---------------------- Methods for checking the Game State and updating it ------------------------------------*/
 
     /**
      * Notify the given player that its state has changed. This should involve sending
@@ -40,7 +51,7 @@ public class CatanLocalGame extends LocalGame {
      * @param p the player to notify
      */
     @Override
-    protected void sendUpdatedStateTo(GamePlayer p) {
+    protected void sendUpdatedStateTo (GamePlayer p) {
         Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
         p.sendInfo(new CatanGameState(this.gameState));
     }
@@ -53,7 +64,7 @@ public class CatanLocalGame extends LocalGame {
      * game is not over
      */
     @Override
-    protected String checkIfGameOver() {
+    protected String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
         for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
             if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
@@ -63,6 +74,8 @@ public class CatanLocalGame extends LocalGame {
         return null; // return null if no winner, but the game is not over
     }
 
+    /*--------------------------------------- Action Methods -------------------------------------------*/
+
     /**
      * Tell whether the given player is allowed to make a move at the
      * present point in the game.
@@ -71,7 +84,7 @@ public class CatanLocalGame extends LocalGame {
      * @return true iff the player is allowed to move
      */
     @Override
-    protected boolean canMove(int playerIdx) {
+    protected boolean canMove (int playerIdx) {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
 
         if (playerIdx < 0 || playerIdx > 3) {
@@ -82,14 +95,13 @@ public class CatanLocalGame extends LocalGame {
     }
 
     /**
-     * Makes a move on behalf of a player.
+     * Initiates action based on what kind of GameAction object received.
      *
      * @param action The move that the player has sent to the game
      * @return Tells whether the move was a legal one.
      */
     @Override
-    protected boolean makeMove(GameAction action) {
-
+    protected boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
         if (action instanceof CatanRollDiceAction) {
@@ -117,14 +129,12 @@ public class CatanLocalGame extends LocalGame {
             return gameState.buildCity(gameState.getCurrentPlayerId(), 2);
         }
 
-
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buyDevCard();
-            return true;
+            return gameState.buyDevCard(gameState.getCurrentPlayerId());
         }
 
-        if (action instanceof CatanUseDevCardAcation) {
+        if (action instanceof CatanUseDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             //return gameState.useDevCard();
             return true;
@@ -166,6 +176,8 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
+        // if we reach here, the GameAction object we received is not one that we recognize
+        Log.e(TAG, "makeMove: FATAL ERROR: GameAction action was not and instance of an action class that we recognize.");
         return false;
     }
 }

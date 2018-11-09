@@ -21,6 +21,8 @@ public class DevelopmentCard {
     //default instance variable
     private int devCardId;
     private boolean isPlayable;
+    private String name;
+    private String description;
 
     public DevelopmentCard(int devCardId) {
         this.devCardId = devCardId;
@@ -33,8 +35,25 @@ public class DevelopmentCard {
     }
 
     //default use method
-    public void useCard(int devCardId) {
+    public void useCard(Player player, int devCardId) {
         // todo
+        switch (devCardId){
+            case 0:
+                useKnightCard(null, player);
+                break;
+            case 1:
+                useVictoryPointsCard(player);
+                break;
+            case 2:
+                useYearofPlentyCard(player);
+                break;
+            case 3:
+                useMonopolyCard(player.getPlayerId(), null, 1);
+                break;
+            case 4:
+                useRoadDevCard(player);
+                break;
+        }
     }
 
     public void useKnightCard(Robber robber, Player player) {

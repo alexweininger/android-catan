@@ -5,29 +5,38 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.AttributeSet;
+import android.util.Log;
 
-import java.util.Random;
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version November 8th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 
 public class HexagonDrawable extends BoardSurfaceView {
 
-    protected int hexagonId;
+    private static final String TAG = "HexagonDrawable";
 
-    protected int x;
-    protected int y;
+    // instance variables concerning graphics
+    protected int x, y;
+    protected Path hexagonPath;
+    protected int[][] points;
     protected int size;
     protected int color;
 
-    protected Path hexagonPath;
-    protected int[][] points;
-
-    protected boolean isRobber;
-    protected boolean isDesert;
+    // instance variables concerning game logic
+    protected int hexagonId;
     protected int chitValue;
+    protected boolean isRobber, isDesert;
 
-    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId) {
+
+    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId) {
         super(context);
         setWillNotDraw(false);
-
         this.x = x;
         this.y = y;
         this.size = size; // size can also be thought of as the radius
@@ -35,28 +44,35 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.isDesert = isDesert;
         this.isRobber = isRobber;
         this.chitValue = chitValue;
-
         this.hexagonId = hexagonId;
     }
 
-    public  void drawHexagon(Canvas canvas) {
+    // constructors needed by android
+    public HexagonDrawable (Context context) {
+        super(context);
+    }
+
+    public HexagonDrawable (Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    /**
+     * @param canvas Canvas object to draw the hexagon on.
+     */
+    public void drawHexagon (Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(this.color);
         paint.setStyle(Paint.Style.FILL);
 
-        Random random = new Random();
+        Paint blackFont = new Paint();
+        blackFont.setColor(Color.BLACK);
+        blackFont.setStyle(Paint.Style.FILL);
+        blackFont.setTextSize(50);
 
         points = calculateHexagonPoints(this.x, this.y, this.size);
 
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, paint);
-
-        Paint blackFont = new Paint();
-        blackFont.setColor(Color.BLACK);
-        blackFont.setStyle(Paint.Style.FILL);
-
-        blackFont.setTextSize(50);
-
 
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.DKGRAY);
@@ -72,37 +88,36 @@ public class HexagonDrawable extends BoardSurfaceView {
                 canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2, blackFont);
             }
         }
+        blackFont.setTextSize(30);
+        canvas.drawText("id: " + this.hexagonId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
 
         int radius = 25;
         int cx = points[5][0];
         int cy = points[5][1] + this.size;
 
-        if(this.isRobber) {
+        if (this.isRobber) {
+            Log.d(TAG, "drawHexagon: Drawing the robber at hexagon: " + this.hexagonId);
             canvas.drawCircle(cx, cy, radius, robberPaint);
-            for (int i = 0; i < points.length; i++) {
-                //Log.e("Hexagon", "drawHexagon: hello");
-                //canvas.drawText("" + (i), points[i][0], points[i][1], blackFont);
-            }
         }
-
-
 
         Paint intersectionPaint = new Paint();
         intersectionPaint.setColor(Color.DKGRAY);
         intersectionPaint.setStyle(Paint.Style.STROKE);
 
-        for (int i = 0; i < 6; i++) {
-           // canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
-        }
+        //        for (int i = 0; i < 6; i++) {
+        //            canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
+        //        }
     }
 
-    /** calculateHexagonPoints() generates an array of points (x, y) for the corners of a hexagon
+    /**
+     * calculateHexagonPoints() generates an array of points (x, y) for the corners of a hexagon
+     *
      * @param x - x position
      * @param y - y position
      * @param size - size, measured from center to a corner
      * @return int[][]
      */
-    public int[][] calculateHexagonPoints(int x, int y, int size) {
+    public int[][] calculateHexagonPoints (int x, int y, int size) {
         int[][] points = new int[6][2];
         double angle_deg, angle_rad;
 
@@ -114,21 +129,22 @@ public class HexagonDrawable extends BoardSurfaceView {
             points[i][0] = (int) (x + size * Math.cos(angle_rad));
             points[i][1] = (int) (y + size * Math.sin(angle_rad));
 
-            // Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
         }
         this.points = points;
         return points;
     }
 
-	/** createHexagonPath() creates a Path object from given hexagon corner x and y values
-	 * @param corners - 2d array of x and y cords for the corners
-	 * @return Path
-	 */
-    public Path createHexagonPath(int[][] corners) {
+    /**
+     * createHexagonPath() creates a Path object from given hexagon corner x and y values
+     *
+     * @param corners - 2d array of x and y cords for the corners
+     * @return Path
+     */
+    public Path createHexagonPath (int[][] corners) {
         hexagonPath = new Path();
         hexagonPath.moveTo(corners[0][0], corners[0][1]);
 
-        for(int i = 1; i < corners.length; i++) {
+        for (int i = 1; i < corners.length; i++) {
             hexagonPath.lineTo(corners[i][0], corners[i][1]);
         }
         hexagonPath.close();
@@ -136,8 +152,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         return hexagonPath;
     }
 
-    public int[][] getHexagonPoints() {
+    public int[][] getHexagonPoints () {
         return this.points;
     }
-
 }
