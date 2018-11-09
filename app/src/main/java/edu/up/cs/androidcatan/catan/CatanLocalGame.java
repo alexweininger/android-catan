@@ -131,8 +131,7 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.buyDevCard();
-            return true;
+            return gameState.buyDevCard(gameState.getCurrentPlayerId());
         }
 
         if (action instanceof CatanUseDevCardAction) {

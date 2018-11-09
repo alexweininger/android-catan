@@ -59,7 +59,7 @@
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
@@ -830,6 +830,8 @@
         android:hint="@string/hint_00"
         android:inputType="textNoSuggestions|number|numberSigned|phone"
         android:maxLength="2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
         android:text="@string/hint_00"
         android:textColor="@color/colorPrimary"
         android:textColorLink="@color/colorAccent"
