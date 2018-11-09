@@ -1,6 +1,7 @@
 package edu.up.cs.androidcatan.catan;
 
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -148,7 +150,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     int roadCount = 0;
     int settlementCount = 0;
 
-/*---------------------------------------Constructor Methods-------------------------------------------*/
+    /*---------------------------------------Constructor Methods-------------------------------------------*/
 
     /**
      * constructor does nothing extra
@@ -257,34 +259,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.sidebar_button_road){
             if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                developmentGroup.setVisibility(View.GONE);
+                tradeGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 0;
-            } else {
-                currentBuildingSelectionId = -1;
             }
             return;
         }
 
         if(button.getId() == R.id.sidebar_button_settlement){
             if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                developmentGroup.setVisibility(View.GONE);
+                tradeGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 1;
-            } else {
-                currentBuildingSelectionId = -1;
             }
             return;
         }
 
         if (button.getId() == R.id.sidebar_button_city) {
             if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                developmentGroup.setVisibility(View.GONE);
+                tradeGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 2;
-            } else {
-                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                currentBuildingSelectionId = -1;
             }
             return;
         }
@@ -333,7 +334,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.button_roadCancel){
-            toggleGroupVisibility(singleIntersectionInputMenuGroup);
+            toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
             currentBuildingSelectionId = -1;
         }
 
@@ -368,6 +369,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 currentBuildingSelectionId = -1;
                 if(state.isSetupPhase()){
                     toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
+                    roadIntersectionAEditText.setText("" + singleIntersectionIdInput + "");
                     currentBuildingSelectionId = 0;
                     settlementCount++;
                 }
@@ -635,6 +637,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.singleIntersectionCancelButton.setClickable(false);
             this.roadIntersectionCancelButton.setAlpha(0.5f);
             this.roadIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionAEditText.setAlpha(0.5f);
+            this.roadIntersectionAEditText.setEnabled(false);
         } else {
             // if it is NOT the setup phase, no greyed out buttons and all are clickable
             setAllButtonsToVisible();
@@ -750,6 +754,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.singleIntersectionCancelButton.setClickable(true);
         this.roadIntersectionCancelButton.setAlpha(1f);
         this.roadIntersectionCancelButton.setClickable(true);
+        this.roadIntersectionAEditText.setAlpha(1f);
+        this.roadIntersectionAEditText.setEnabled(true);
     }
     
 }// class CatanHumanPlayer

@@ -71,6 +71,7 @@ public class Board {
 
     private ArrayList<Port> portList = new ArrayList<>();
 
+
     public Board () {
         Log.d(TAG, "Board() called");
 
@@ -1182,7 +1183,7 @@ public class Board {
     /**
      * @return Hexagon adjacency graph.
      */
-    private boolean[][] getHGraph () {
+    public boolean[][] getHGraph () {
         return hGraph;
     }
 
