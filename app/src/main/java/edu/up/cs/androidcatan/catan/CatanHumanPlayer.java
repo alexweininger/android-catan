@@ -476,7 +476,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         devCardList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // your code here
+                //TODO Implement the Listener
             }
 
             @Override
