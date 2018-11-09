@@ -40,7 +40,6 @@ public class HexagonGrid extends BoardSurfaceView {
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
-    private Building[] buildlings;
 
     private Intersection[] intersections = new Intersection[54]; // list of Intersection objects
     ArrayList<RoadDrawable> roads = new ArrayList<>(); // list of Road objects
@@ -57,7 +56,6 @@ public class HexagonGrid extends BoardSurfaceView {
         this.width = size * Math.sqrt(3);
         this.margin = margin;
         this.board = new Board(board); // todo is this copy 100% perfect?
-        this.buildlings = this.board.getBuildings();
         getHexagons(x, y, size);
         generateIntersections();
     }
