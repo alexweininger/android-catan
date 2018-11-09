@@ -79,7 +79,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button buildSettlementButton = null;
 
     // action buttons
-    private Button buyDevCardButton = null;
+    private Button sidebarOpenDevCardMenuButton = null;
     private Button robberDiscard = null;
     private Button robberMove = null;
     private Button robberSteal = null;
@@ -124,7 +124,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // intersection menu
     private Group roadIntersectionSelectionMenuGroup = (Group) null;
-    private TextView singleIntersectionTextView = (TextView) null;
+    private TextView singleIntersectionLabelTextView = (TextView) null;
     private EditText singleIntersectionInputEditText = (EditText) null;
     private Button singleIntersectionCancelButton = (Button) null;
 
@@ -434,16 +434,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         buildCityButton.setOnClickListener(this);
 
         // action buttons
-        buyDevCardButton = activity.findViewById(R.id.sidebar_button_devcards);
-        buyDevCardButton.setOnClickListener(this);
+        sidebarOpenDevCardMenuButton = activity.findViewById(R.id.sidebar_button_devcards); // buy dev card
+        sidebarOpenDevCardMenuButton.setOnClickListener(this);
 
-        useDevCard = activity.findViewById(R.id.use_Card);
-        useDevCard.setOnClickListener(this);
-
-        buildDevCard = activity.findViewById(R.id.build_devCard);
-        buildDevCard.setOnClickListener(this);
-
-
+        tradeButton = activity.findViewById(R.id.sidebar_button_trade); // trade
+        tradeButton.setOnClickListener(this);
 
         //        robberDiscard = (Button)activity.findViewById(R.id.);  TODO when menus are implemented
         //        robberDiscard.setOnClickListener(this);
@@ -459,10 +454,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //        tradePort = activity.findViewById(R.id.sidebar_button_trade);
         //        tradePort.setOnClickListener(this);
-
-
-
-
 
         // turn buttons
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
@@ -495,6 +486,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //TODO Implement the Listener
             }
+
             @Override
             public void onNothingSelected (AdapterView<?> parentView) {
                 // your code here
@@ -529,41 +521,49 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------- single intersection menu (buildings) ---------- */
 
-        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
-        singleIntersectionTextView = myActivity.findViewById(R.id.selectIntersectionText);
+        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput); // single intersection menu GROUP
+
+        singleIntersectionLabelTextView = myActivity.findViewById(R.id.selectIntersectionText);
         singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
 
-        singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
+        singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk); // OK button
         singleIntersectionOkButton.setOnClickListener(this);
-        singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
+
+        singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel); // Cancel button
         singleIntersectionCancelButton.setOnClickListener(this);
 
         /* ---------- road intersection menu -------------- */
 
-        roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu);
+        roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu); // road intersection menu GROUP
 
         roadIntersectionAEditText = activity.findViewById(R.id.start_road_id_entered);
         roadIntersectionBEditText = activity.findViewById(R.id.end_road_id_entered);
-
         roadIntersectionPromptLabel = activity.findViewById(R.id.selectRoadIntersectionText);
-        roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
-        roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
+        roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
         roadIntersectionOkButton.setOnClickListener(this);
+
+        roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel); // Cancel button
         roadIntersectionCancelButton.setOnClickListener(this);
 
-        /* ------------ development cards ------------- */
 
-        // button listeners
+        /* ----------------------------------- MENUS ----------------------------------- */
 
-        developmentGroup = activity.findViewById(R.id.group_development_card_menu);
-        buyDevCardButton.setOnClickListener(this);
+        /* ------------ Development Card Menu ------------- */
 
-        /* ---------- trade menu / buttons ---------- */
-        tradeButton = activity.findViewById(R.id.sidebar_button_trade);
-        tradeButton.setOnClickListener(this);
-        tradeGroup = activity.findViewById(R.id.group_trade_menu);
-        tradeGroup.setOnClickListener(this);
+        developmentGroup = activity.findViewById(R.id.group_development_card_menu); // dev card menu GROUP
+
+        useDevCard = activity.findViewById(R.id.use_Card); // use dev card
+        useDevCard.setOnClickListener(this);
+
+        buildDevCard = activity.findViewById(R.id.build_devCard); // build dev card
+        buildDevCard.setOnClickListener(this);
+
+        /* ---------------- Trade Menu -------------------- */
+
+        tradeGroup = activity.findViewById(R.id.group_trade_menu); // trade menu GROUP
+
+
 
         /* ---------- Surface View for drawing the graphics ----------- */
 
@@ -672,8 +672,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
             this.rollButton.setClickable(false);
-            this.buyDevCardButton.setAlpha(0.5f);
-            this.buyDevCardButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
@@ -696,8 +696,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(1f);
             this.rollButton.setClickable(true);
-            this.buyDevCardButton.setAlpha(0.5f);
-            this.buyDevCardButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
@@ -839,8 +839,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.rollButton.setClickable(true);
         this.endTurnButton.setAlpha(1f);
         this.endTurnButton.setClickable(true);
-        this.buyDevCardButton.setAlpha(1f);
-        this.buyDevCardButton.setClickable(true);
+        this.sidebarOpenDevCardMenuButton.setAlpha(1f);
+        this.sidebarOpenDevCardMenuButton.setClickable(true);
         this.tradeButton.setAlpha(1f);
         this.tradeButton.setClickable(true);
         this.buildSettlementButton.setAlpha(1f);
