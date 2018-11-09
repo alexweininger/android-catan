@@ -48,10 +48,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /* instance variables */
 
-    private int armySize = 0; // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
-
     private ArrayList<Integer> buildingsBuiltOnThisTurn;
-
     private int currentBuildingSelectionId = 1;
 
     /* ---------- View variables for updating UI / Layout ---------- */
