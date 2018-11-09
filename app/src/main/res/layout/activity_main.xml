@@ -21,6 +21,27 @@
 
     <!--scoreboard group-->
 
+    <android.support.constraint.Group
+        android:id="@+id/group_road_intersection_selection_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="end_road_id_entered,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group_trade_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectiomBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,birckSelectionBoxGive,woolSelectionBoxReceive,birckImgReceive,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group_singleIntersectionInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk,button_singleIntersectionMenuCancel" />
+
     <edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView
         android:id="@+id/board"
         android:layout_width="0dp"
@@ -121,13 +142,6 @@
         app:layout_constraintGuide_percent="0.57" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_left_30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <android.support.constraint.Guideline
         android:id="@+id/guideline_right_100"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -163,13 +177,6 @@
     <!-- build menu END -->
 
     <!--dev card menu START-->
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_middle_dc_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="270dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_wall_dc_info"
@@ -727,13 +734,6 @@
 
     <!--intersection input menu START-->
 
-    <android.support.constraint.Group
-        android:id="@+id/group_singleIntersectionInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk,button_singleIntersectionMenuCancel" />
-
     <TextView
         android:id="@+id/selectIntersectionText"
         android:layout_width="wrap_content"
@@ -743,7 +743,7 @@
         android:text="@string/select_intersection_id"
         android:textAlignment="textEnd"
         android:textColor="@color/colorAccent"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:theme="@android:style/Widget.Material.Light.TextView"
         app:layout_constraintBottom_toBottomOf="@+id/editText_singleIntersectionInput"
         app:layout_constraintEnd_toStartOf="@+id/editText_singleIntersectionInput" />
@@ -776,7 +776,7 @@
         android:text="@string/hint_00"
         android:textColor="@color/colorPrimary"
         android:textColorLink="@color/colorAccent"
-        android:textSize="30sp"
+        android:textSize="28sp"
         android:theme="@android:style/Widget.Material.Light.EditText"
         app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuOk"
         app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuOk"
@@ -890,13 +890,6 @@
         app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
 
-    <android.support.constraint.Group
-        android:id="@+id/group_road_intersection_selection_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="end_road_id_entered,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
-
     <!--intersection input menu END-->
 
     <!-- trade menu START -->
@@ -907,6 +900,7 @@
         android:layout_height="140dp"
         android:alpha="0.5"
         android:background="@android:color/background_light"
+        android:contentDescription="@string/add"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/button_trade_menu_confirm"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
@@ -1256,14 +1250,6 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintRight_toRightOf="@+id/woolSelectionBoxGive" />
-
-    <android.support.constraint.Group
-        android:id="@+id/group_trade_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectiomBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,birckSelectionBoxGive,woolSelectionBoxReceive,birckImgReceive,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
-
 
 
     <!-- trade menu END -->
