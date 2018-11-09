@@ -18,19 +18,18 @@ import android.util.AttributeSet;
 
 public class HexagonDrawable extends BoardSurfaceView {
 
-    protected int hexagonId;
-
-    protected int x;
-    protected int y;
+    // instance variables concerning graphics
+    protected int x, y;
+    protected Path hexagonPath;
+    protected int[][] points;
     protected int size;
     protected int color;
 
-    protected Path hexagonPath;
-    protected int[][] points;
-
-    protected boolean isRobber;
-    protected boolean isDesert;
+    // instance variables concerning game logic
+    protected int hexagonId;
     protected int chitValue;
+    protected boolean isRobber, isDesert;
+
 
     public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId) {
         super(context);
