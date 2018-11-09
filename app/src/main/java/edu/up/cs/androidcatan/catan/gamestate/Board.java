@@ -120,6 +120,8 @@ public class Board {
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
 
+        this.setIntersectionGraph(b.getIntersectionGraph());
+
         for (Hexagon hexagon : b.getHexagons()) {
             this.hexagons.add(new Hexagon(hexagon));
         }
