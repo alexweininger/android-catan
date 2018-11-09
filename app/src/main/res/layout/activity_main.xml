@@ -1117,7 +1117,7 @@
         app:srcCompat="@drawable/lumber_icon_25x25" />
 
     <ImageView
-        android:id="@+id/oreImgReceive"
+        android:id="@+id/robber_discard_oreImgReceive"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
@@ -1127,13 +1127,13 @@
         app:srcCompat="@drawable/ore_icon_25x25" />
 
     <ImageView
-        android:id="@+id/woolImgReceive"
+        android:id="@+id/robber_discard_woolImgReceive"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/wool"
-        app:layout_constraintStart_toEndOf="@+id/oreImgReceive"
-        app:layout_constraintTop_toTopOf="@+id/oreImgReceive"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_oreImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_oreImgReceive"
         app:srcCompat="@drawable/wool_icon_25x25" />
 
     <ImageView
@@ -1208,12 +1208,17 @@
         app:layout_constraintBottom_toTopOf="@+id/bringImgGive"
         app:layout_constraintStart_toStartOf="@+id/bringImgGive" />
 
+
+
     <android.support.constraint.Group
         android:id="@+id/tradeMenuGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="bringImgGive,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,grainSelectiomBoxGive" />
+        app:constraint_referenced_ids="bringImgGive,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,robber_discard_woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,robber_discard_oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,grainSelectiomBoxGive" />
     <!--end of trade menu-->
+
+    <!--Robber Layout Stuff-->
+
 
 </android.support.constraint.ConstraintLayout>
