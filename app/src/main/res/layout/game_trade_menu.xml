@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.62" />
+        app:layout_constraintGuide_percent="0.72" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
@@ -307,6 +307,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:text="@string/confirm"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/button_trade_menu_cancel"
         app:layout_constraintTop_toTopOf="@+id/button_trade_menu_cancel" />
 
@@ -316,13 +317,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@android:string/cancel"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintRight_toRightOf="@+id/woolSelectionBoxGive" />
 
     <android.support.constraint.Group
-        android:id="@+id/tradeConfirm"
+        android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="image_trade_menu_give_birck,button_trade_menu_cancel,birckImgReceive,woolSelectionBoxReceive,timage_trade_menu_give_lumber,image_trade_menu_rec_wool,grainSelectionBoxReceive,brickSelectionBoxReceive,image_trade_menu_rec_ore,oreSelectionBoxReceive,image_trade_menu_give_grain,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,image_trade_menu_rec_lumber,resourceGiveText,grainImgReceive,image_trade_menu_give_ore,image_trade_menu_give_wool,tradeConfirm,grainSelectiomBoxGive" />
+        app:constraint_referenced_ids="grainImgReceive,image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectiomBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,birckSelectionBoxGive,woolSelectionBoxReceive,birckImgReceive,image_trade_menu_give_birck,brickSelectionBoxReceive" />
 
 </android.support.constraint.ConstraintLayout>
