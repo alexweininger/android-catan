@@ -88,7 +88,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 gs.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
                 gs.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
-                sleep(1000);
+                sleep(2000);
 
                 // send the build settlement action to the game
                 Log.i(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game.");
@@ -115,7 +115,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 // add just enough resources for a road
                 gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
                 gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-                sleep(500);
+                sleep(1000);
                 // send the game a build road action
                 Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game.");
                 game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection)));
@@ -126,7 +126,9 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         } else {
             /*-----------------------------------CPUs Normal Action Phase------------------------------------*/
+            sleep(300);
             game.sendAction(new CatanRollDiceAction(this));
+            sleep(300);
             Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
             game.sendAction(new CatanEndTurnAction(this));
         }
