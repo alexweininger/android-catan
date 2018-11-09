@@ -67,6 +67,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         // delay to make cpu feel more real
         sleep(300);
 
+/*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
         Random random = new Random();
         Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
         if (gs.isSetupPhase() && (roadCount != 2 || settlementCount != 2)) {
@@ -124,6 +125,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         } else {
             Log.i(TAG, "receiveInfo: Not setup phase.");
         }
+/*-----------------------------------CPUs Normal Action Phase------------------------------------*/
         game.sendAction(new CatanRollDiceAction(this));
         Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
         game.sendAction(new CatanEndTurnAction(this));
