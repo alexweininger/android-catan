@@ -27,11 +27,12 @@ public class CatanLocalGame extends LocalGame {
     CatanGameState gameState;
 
 
-    public CatanLocalGame() {
+    public CatanLocalGame () {
         super();
         gameState = new CatanGameState();
     }
-/*----------------------Checking the Game State and updating it------------------------------------*/
+    /*----------------------Checking the Game State and updating it------------------------------------*/
+
     /**
      * Notify the given player that its state has changed. This should involve sending
      * a GameInfo object to the player. If the game is not a perfect-information game
@@ -41,7 +42,7 @@ public class CatanLocalGame extends LocalGame {
      * @param p the player to notify
      */
     @Override
-    protected void sendUpdatedStateTo(GamePlayer p) {
+    protected void sendUpdatedStateTo (GamePlayer p) {
         Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
         p.sendInfo(new CatanGameState(this.gameState));
     }
@@ -54,7 +55,7 @@ public class CatanLocalGame extends LocalGame {
      * game is not over
      */
     @Override
-    protected String checkIfGameOver() {
+    protected String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
         for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
             if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
@@ -64,7 +65,8 @@ public class CatanLocalGame extends LocalGame {
         return null; // return null if no winner, but the game is not over
     }
 
-/*---------------------------------------Action Methods-------------------------------------------*/
+    /*---------------------------------------Action Methods-------------------------------------------*/
+
     /**
      * Tell whether the given player is allowed to make a move at the
      * present point in the game.
@@ -73,7 +75,7 @@ public class CatanLocalGame extends LocalGame {
      * @return true iff the player is allowed to move
      */
     @Override
-    protected boolean canMove(int playerIdx) {
+    protected boolean canMove (int playerIdx) {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
 
         if (playerIdx < 0 || playerIdx > 3) {
@@ -90,7 +92,7 @@ public class CatanLocalGame extends LocalGame {
      * @return Tells whether the move was a legal one.
      */
     @Override
-    protected boolean makeMove(GameAction action) {
+    protected boolean makeMove (GameAction action) {
 
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
@@ -118,7 +120,6 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.buildCity(gameState.getCurrentPlayerId(), 2);
         }
-
 
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
