@@ -29,6 +29,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
@@ -720,16 +721,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         switch (state.getCurrentPlayerId()) {
             case 0:
-                player0Name.setBackgroundColor(Color.WHITE);
+                player0Name.setBackgroundColor(HexagonGrid.playerColors[0]);
                 break;
             case 1:
-                player1Name.setBackgroundColor(Color.WHITE);
+                player1Name.setBackgroundColor(HexagonGrid.playerColors[1]);
                 break;
             case 2:
-                player2Name.setBackgroundColor(Color.WHITE);
+                player2Name.setBackgroundColor(HexagonGrid.playerColors[2]);
                 break;
             case 3:
-                player3Name.setBackgroundColor(Color.WHITE);
+                player3Name.setBackgroundColor(HexagonGrid.playerColors[3]);
                 break;
         }
 
