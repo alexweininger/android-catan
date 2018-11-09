@@ -411,6 +411,7 @@ public class Board {
         return this.buildings[intersectionId];
     }
 
+
     /**
      * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.

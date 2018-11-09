@@ -1,17 +1,9 @@
 package catan.tests;
 
-import android.test.AndroidTestCase;
+import org.junit.Test;
 
-import org.junit.*;
-
-import edu.up.cs.androidcatan.catan.gamestate.Board;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.catan.CatanGameState;
 import edu.up.cs.androidcatan.catan.Player;
-import static org.junit.Assert.*;
-
-import static junit.framework.Assert.*;
 
 
 public class ExampleUnitTest{// extends AndroidTestCase {
