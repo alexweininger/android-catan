@@ -402,13 +402,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
 
-    }// onClick
+    }// onClick END
 
-
-    /*-----------------------------------------GUI Methods-------------------------------------------*/
+    /* ---------------------------------------- GUI Methods --------------------------------------*/
 
     /**
-     * callback method--our game has been chosen/rechosen to be the GUI,
+     * callback method--our game has been chosen/re-chosen to be the GUI,
      * called from the GUI thread
      *
      * @param activity the activity under which we are running
@@ -421,7 +420,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard); // todo move this somewhere meaningful
 
-        /* ---------- Sidebar button setters and listeners ---------- */
+        /* ----------------------------------- SIDEBAR ------------------------------------------ */
 
         // building buttons
         buildRoadButton = activity.findViewById(R.id.sidebar_button_road);
@@ -472,6 +471,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.woolValue = activity.findViewById(R.id.sidebar_value_wool);
         this.brickValue = activity.findViewById(R.id.sidebar_value_brick);
 
+        /* ---------- misc sidebar buttons and text views ---------- */
+
+        this.sidebarMenuButton = activity.findViewById(R.id.sidebar_button_menu);
+        this.sidebarMenuButton.setOnClickListener(this);
+
+        this.sidebarScoreboardButton = activity.findViewById(R.id.sidebar_button_score);
+        this.sidebarScoreboardButton.setOnClickListener(this);
+
+        this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
+        this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
+        this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
+
         /* ------------ DEV CARD SPINNER ----------------- */
 
         devCardList = activity.findViewById(R.id.development_Card_Spinner); // DEV CARD SPINNER
@@ -489,7 +500,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             @Override
             public void onNothingSelected (AdapterView<?> parentView) {
-                // your code here
+                // your code here todo
             }
         });
 
@@ -507,19 +518,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Name = activity.findViewById(R.id.Player3_Name);
         this.player3Name = activity.findViewById(R.id.Player4_Name);
 
-        /* ---------- misc sidebar buttons and text views ---------- */
+        /* -------------------------------------- MENUS ---------------------------------------- */
 
-        this.sidebarMenuButton = activity.findViewById(R.id.sidebar_button_menu);
-        this.sidebarMenuButton.setOnClickListener(this);
-
-        this.sidebarScoreboardButton = activity.findViewById(R.id.sidebar_button_score);
-        this.sidebarScoreboardButton.setOnClickListener(this);
-
-        this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
-        this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
-        this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
-
-        /* ---------- single intersection menu (buildings) ---------- */
+        /* ---------- Single Intersection Menu (buildings) ---------- */
 
         singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput); // single intersection menu GROUP
 
@@ -532,7 +533,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel); // Cancel button
         singleIntersectionCancelButton.setOnClickListener(this);
 
-        /* ---------- road intersection menu -------------- */
+        /* ---------- Road Intersection Menu -------------- */
 
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu); // road intersection menu GROUP
 
@@ -545,9 +546,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel); // Cancel button
         roadIntersectionCancelButton.setOnClickListener(this);
-
-
-        /* ----------------------------------- MENUS ----------------------------------- */
 
         /* ------------ Development Card Menu ------------- */
 
