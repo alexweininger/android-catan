@@ -127,12 +127,7 @@ public class Board {
     //    alex's ultimate intersection adjacency method
     public ArrayList<Integer> getAdjacentIntersections (int intersection) {
 
-
-
         Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
-
-
-
 
         ArrayList<Integer> result = new ArrayList<>();
         ArrayList<Integer> allIntersections = new ArrayList<>();
