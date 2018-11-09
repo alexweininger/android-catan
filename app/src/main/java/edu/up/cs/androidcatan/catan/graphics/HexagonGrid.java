@@ -36,7 +36,7 @@ public class HexagonGrid extends BoardSurfaceView {
     //protected int[] numTiles = {4, 3, 3, 3, 4}; ORIGINAL BEFORE CHANGE
     int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
-    protected int[] playerColors = {Color.RED, Color.WHITE, Color.argb(0, 255, 128, 17), Color.BLUE};
+    protected int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE};
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
@@ -197,18 +197,19 @@ public class HexagonGrid extends BoardSurfaceView {
      */
     public void drawBuildings (Canvas canvas) {
         Paint bldgPaint = new Paint();
-        bldgPaint.setColor(Color.CYAN);
 
         Building[] buildings = this.board.getBuildings();
 
         // go through each building
         for (int i = 0; i < buildings.length; i++) {
             if (buildings[i] != null) {
+                bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
 
+                // get center of intersection
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
 
-                canvas.drawCircle(xPos, yPos, 25, bldgPaint);
+                canvas.drawRect(xPos - 20, yPos + 20, xPos + 20, yPos - 20, bldgPaint);
 
             }
         }

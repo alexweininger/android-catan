@@ -71,12 +71,13 @@ public class Board {
 
     private ArrayList<Port> portList = new ArrayList<>();
 
+    private ArrayList<ArrayList<Integer>> intersectionGraph = new ArrayList<>();
+
 
     public Board () {
         Log.d(TAG, "Board() called");
         this.roadGraph = new Road[54][54];
         robber = new Robber(0);
-
 
         populateHexagonIds(); // populate ids
         populateIntersectionIds();
@@ -84,6 +85,7 @@ public class Board {
 
         generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
+        generateNewIntersectionGraphManually(); // new intersection graph
         generateRoadMatrix();
 
         //         print graphs
@@ -118,13 +120,20 @@ public class Board {
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
 
+        this.setIntersectionGraph(b.getIntersectionGraph());
+
         for (Hexagon hexagon : b.getHexagons()) {
             this.hexagons.add(new Hexagon(hexagon));
         }
 
     } // end Board deep copy constructor
 
-    //    alex's ultimate intersection adjacency method
+    /**
+     * alex's ultimate intersection adjacency method
+     *
+     * @param intersection Intersection
+     * @return ArrayList of adjacent intersections.
+     */
     public ArrayList<Integer> getAdjacentIntersections (int intersection) {
 
         Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
@@ -142,6 +151,7 @@ public class Board {
             result.add(intersection - 1);
             result.add(intersection + 1);
         } else {
+
             for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
                 ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
                 allIntersections.addAll(allAdjInters);
@@ -159,7 +169,7 @@ public class Board {
                 }
             }
         }
-        Log.d(TAG, "getAdjacentIntersections() returned: " + result);
+        Log.d(TAG, "ALEX getAdjacentIntersections() returned: " + result);
         return result;
     }
 
@@ -194,9 +204,10 @@ public class Board {
     public boolean validRoadPlacement (int playerId, boolean isSetupPhase, int a, int b) {
         Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
         // check if intersections are adjacent
-        if (!iGraph[a][b] && !iGraph[b][a]) {
+
+        if (!this.intersectionGraph.get(a).contains(b)) {
             Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
-            printGraph(iGraph);
+            Log.i(TAG, "validRoadPlacement: intersectionGraph: " + this.intersectionGraph.toString());
             return false;
         }
 
@@ -321,7 +332,7 @@ public class Board {
      */
     public boolean checkDeadEnd (int intersectionId, Road[][] road) {
         Log.d(TAG, "checkDeadEnd() called with: intersectionId = [" + intersectionId + "], road = [" + road + "]");
-        for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
+        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
             if (road[intersectionId][intersection] != null) {
                 return true;
             }
@@ -349,7 +360,7 @@ public class Board {
         if (checkDeadEnd(intersectionId, road)) {
             return 0;
         }
-        for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
+        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
             return 1 + traverseRoads(intersection, playerId, road, stackCount + 1);
         }
         return 0;
@@ -382,25 +393,19 @@ public class Board {
             }
         }
 
-        /* checks:
-         * 1. if connected
-         * 2. if occupied by building
-         * 3. distance rule TODO
-         */
-
         // check if intersection already has a building on it
         if (this.buildings[intersectionId] != null) {
             Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " already has a building on it.");
             return false;
         }
 
+        // TODO not working
         // check if adjacent intersections do not have buildings
-        for (int intersection : getAdjacentIntersectionsToIntersection(intersectionId)) { // for each adj. intersection
+        for (int intersection : this.intersectionGraph.get(intersectionId)) { // for each adj. intersection
             if (this.buildings[intersectionId] != null) { // check if building exists there
                 Log.i(TAG, "validBuildingLocation: invalid - building at intersection " + intersectionId + " violates the distance rule (" + intersection + " is adj. and has a building).");
                 return false;
             }
-
         }
         Log.d(TAG, "validBuildingLocation() returned: " + true);
         return true;
@@ -522,7 +527,7 @@ public class Board {
      */
     public ArrayList<Integer> getIntersectionOwners (int intersectionId) {
         Log.d(TAG, "getIntersectionOwners() called with: intersectionId = [" + intersectionId + "]");
-        ArrayList<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> result = new ArrayList<>();
 
         if (!this.hasBuilding(intersectionId)) {
             if (this.hasRoad(intersectionId)) {
@@ -634,8 +639,8 @@ public class Board {
      * @param intersectionId - given intersection i (0-53)
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
-    public ArrayList<Integer> getAdjacentIntersectionsToIntersection (int intersectionId) {
-        Log.d(TAG, "getAdjacentIntersectionsToIntersection() called with: intersectionId = [" + intersectionId + "]");
+    public ArrayList<Integer> getAdjacentIntersectionsToIntersectionOld (int intersectionId) {
+        Log.d(TAG, "getAdjacentIntersectionsToIntersectionOld() called with: intersectionId = [" + intersectionId + "]");
 
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
         for (int i = 0; i < 54; i++) {
@@ -645,9 +650,15 @@ public class Board {
         }
 
         if (adjacentIntersections.size() > 3) {
-            Log.e(TAG, "getAdjacentIntersectionsToIntersection: Received more than 3 adjacent intersections. That makes no sense.");
+            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Received more than 3 adjacent intersections. That makes no sense.");
         }
-        Log.d(TAG, "getAdjacentIntersectionsToIntersection() returned: " + adjacentIntersections);
+
+        // check if we have a bad error
+        if (adjacentIntersections.size() < 2) {
+            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Did not find 2 adjacent intersections. intersectionId = [\" + intersectionId + \"]. This is not good.", new Exception("Intersection adjacency error."));
+        }
+
+        Log.d(TAG, "getAdjacentIntersectionsToIntersectionOld() returned: " + adjacentIntersections);
         return adjacentIntersections;
     }
 
@@ -718,7 +729,7 @@ public class Board {
             return false;
         }
 
-        return iGraph[intA][intB] || iGraph[intB][intA];
+        return this.intersectionGraph.get(intA).contains(intB);
     }
 
 
@@ -866,6 +877,210 @@ public class Board {
         }
     } // end generateIntersectionGraph method
 
+    public void generateNewIntersectionGraphManually() {
+
+        for (int i = 0; i < 54; i++) {
+            this.intersectionGraph.add(new ArrayList<Integer>());
+        }
+
+        intersectionGraph.get(0).add(1); // ring 0 start
+        intersectionGraph.get(0).add(6);
+        intersectionGraph.get(0).add(5);
+
+        intersectionGraph.get(1).add(0);
+        intersectionGraph.get(1).add(9);
+        intersectionGraph.get(1).add(2);
+
+        intersectionGraph.get(2).add(1);
+        intersectionGraph.get(2).add(12);
+        intersectionGraph.get(2).add(13);
+
+        intersectionGraph.get(3).add(2);
+        intersectionGraph.get(3).add(4);
+        intersectionGraph.get(3).add(15);
+
+        intersectionGraph.get(4).add(3);
+        intersectionGraph.get(4).add(5);
+        intersectionGraph.get(4).add(18);
+
+        intersectionGraph.get(5).add(0);
+        intersectionGraph.get(5).add(4);
+        intersectionGraph.get(5).add(21);
+
+        intersectionGraph.get(6).add(7); // ring 1 start
+        intersectionGraph.get(6).add(0);
+        intersectionGraph.get(6).add(23);
+
+        intersectionGraph.get(7).add(6);
+        intersectionGraph.get(7).add(8);
+        intersectionGraph.get(7).add(26);
+
+        intersectionGraph.get(8).add(7);
+        intersectionGraph.get(8).add(9);
+        intersectionGraph.get(8).add(29);
+
+        intersectionGraph.get(9).add(8);
+        intersectionGraph.get(9).add(10);
+        intersectionGraph.get(9).add(1);
+
+        intersectionGraph.get(10).add(9);
+        intersectionGraph.get(10).add(11);
+        intersectionGraph.get(10).add(31);
+
+        intersectionGraph.get(11).add(10);
+        intersectionGraph.get(11).add(12);
+        intersectionGraph.get(11).add(34);
+
+        intersectionGraph.get(12).add(2);
+        intersectionGraph.get(12).add(11);
+        intersectionGraph.get(12).add(13);
+
+        intersectionGraph.get(13).add(12);
+        intersectionGraph.get(13).add(14);
+        intersectionGraph.get(13).add(36);
+
+        intersectionGraph.get(14).add(13);
+        intersectionGraph.get(14).add(15);
+        intersectionGraph.get(14).add(39);
+
+        intersectionGraph.get(15).add(3);
+        intersectionGraph.get(15).add(14);
+        intersectionGraph.get(15).add(16);
+
+        intersectionGraph.get(16).add(15);
+        intersectionGraph.get(16).add(17);
+        intersectionGraph.get(16).add(41);
+
+        intersectionGraph.get(17).add(16);
+        intersectionGraph.get(17).add(18);
+        intersectionGraph.get(17).add(44);
+
+        intersectionGraph.get(18).add(17);
+        intersectionGraph.get(18).add(4);
+        intersectionGraph.get(18).add(19);
+
+        intersectionGraph.get(19).add(18);
+        intersectionGraph.get(19).add(20);
+        intersectionGraph.get(19).add(46);
+
+        intersectionGraph.get(20).add(19);
+        intersectionGraph.get(20).add(21);
+        intersectionGraph.get(20).add(49);
+
+        intersectionGraph.get(21).add(5);
+        intersectionGraph.get(21).add(20);
+        intersectionGraph.get(21).add(22);
+
+        intersectionGraph.get(22).add(21);
+        intersectionGraph.get(22).add(23);
+        intersectionGraph.get(22).add(51);
+
+        intersectionGraph.get(23).add(6);
+        intersectionGraph.get(23).add(22);
+        intersectionGraph.get(23).add(24);
+
+        intersectionGraph.get(24).add(23); // ring 2 start
+        intersectionGraph.get(24).add(25);
+        intersectionGraph.get(24).add(53);
+
+        intersectionGraph.get(25).add(24);
+        intersectionGraph.get(25).add(26);
+
+        intersectionGraph.get(26).add(7);
+        intersectionGraph.get(26).add(25);
+        intersectionGraph.get(26).add(27);
+
+        intersectionGraph.get(27).add(26);
+        intersectionGraph.get(27).add(28);
+
+        intersectionGraph.get(28).add(27);
+        intersectionGraph.get(28).add(29);
+
+        intersectionGraph.get(29).add(8);
+        intersectionGraph.get(29).add(28);
+        intersectionGraph.get(29).add(30);
+
+        intersectionGraph.get(30).add(29);
+        intersectionGraph.get(30).add(31);
+
+        intersectionGraph.get(31).add(10);
+        intersectionGraph.get(31).add(30);
+        intersectionGraph.get(31).add(32);
+
+        intersectionGraph.get(32).add(31);
+        intersectionGraph.get(32).add(33);
+
+        intersectionGraph.get(33).add(32);
+        intersectionGraph.get(33).add(34);
+
+        intersectionGraph.get(34).add(11);
+        intersectionGraph.get(34).add(33);
+        intersectionGraph.get(34).add(35);
+
+        intersectionGraph.get(35).add(34);
+        intersectionGraph.get(35).add(36);
+
+        intersectionGraph.get(36).add(13);
+        intersectionGraph.get(36).add(35);
+        intersectionGraph.get(36).add(37);
+
+        intersectionGraph.get(37).add(36);
+        intersectionGraph.get(37).add(38);
+
+        intersectionGraph.get(38).add(37);
+        intersectionGraph.get(38).add(39);
+
+        intersectionGraph.get(39).add(38);
+        intersectionGraph.get(39).add(14);
+        intersectionGraph.get(39).add(40);
+
+        intersectionGraph.get(40).add(39);
+        intersectionGraph.get(40).add(41);
+
+        intersectionGraph.get(41).add(16);
+        intersectionGraph.get(41).add(40);
+        intersectionGraph.get(41).add(42);
+
+        intersectionGraph.get(42).add(41);
+        intersectionGraph.get(42).add(43);
+
+        intersectionGraph.get(43).add(42);
+        intersectionGraph.get(43).add(44);
+
+        intersectionGraph.get(44).add(17);
+        intersectionGraph.get(44).add(43);
+        intersectionGraph.get(44).add(45);
+
+        intersectionGraph.get(45).add(44);
+        intersectionGraph.get(45).add(46);
+
+        intersectionGraph.get(46).add(19);
+        intersectionGraph.get(46).add(47);
+        intersectionGraph.get(46).add(45);
+
+        intersectionGraph.get(47).add(46);
+        intersectionGraph.get(47).add(48);
+
+        intersectionGraph.get(48).add(47);
+        intersectionGraph.get(48).add(49);
+
+        intersectionGraph.get(49).add(20);
+        intersectionGraph.get(49).add(48);
+        intersectionGraph.get(49).add(50);
+
+        intersectionGraph.get(50).add(49);
+        intersectionGraph.get(50).add(51);
+
+        intersectionGraph.get(51).add(22);
+        intersectionGraph.get(51).add(50);
+        intersectionGraph.get(51).add(52);
+
+        intersectionGraph.get(52).add(51);
+        intersectionGraph.get(52).add(53);
+
+        intersectionGraph.get(53).add(52);
+        intersectionGraph.get(53).add(24);
+    }
 
     /**
      * generates the intersection adjacency graph
@@ -1179,6 +1394,10 @@ public class Board {
 
     /* ----- generic getter methods ----- */
 
+    public ArrayList<ArrayList<Integer>> getIntersectionGraph () {
+        return intersectionGraph;
+    }
+
     /**
      * @return Hexagons organized into 2D ArrayList by rings.
      */
@@ -1264,6 +1483,10 @@ public class Board {
     }
 
     /* ----- generic setter methods ----- */
+
+    public void setIntersectionGraph (ArrayList<ArrayList<Integer>> intersectionGraph) {
+        this.intersectionGraph = intersectionGraph;
+    }
 
     /**
      * @param hexagonIdRings 2d Array List of hexagons ids by rings.
