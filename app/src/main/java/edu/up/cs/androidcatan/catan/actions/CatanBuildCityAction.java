@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.actions;
 
+import android.util.Log;
+
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
@@ -14,11 +16,17 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 public class CatanBuildCityAction extends GameAction {
 
     // instance variables
-    private int intersectionId, ownerId;
+    private final String TAG = "CatanBuildCityAction";
 
-    public CatanBuildCityAction(GamePlayer player, int ownderId, int intersectionId) {
+    // instance variables
+    private int intersectionId, ownerId;
+    private boolean isSetupPhase;
+
+    public CatanBuildCityAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionId) {
         super(player);
-        this.ownerId = ownderId;
+        Log.d(TAG, "CatanBuildSettlementAction() called with: player = [" + player + "], ownerId = [" + ownerId + "], intersectionId = [" + intersectionId + "]");
+
+        this.ownerId = ownerId;
         this.intersectionId = intersectionId;
     }
 

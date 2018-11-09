@@ -25,6 +25,7 @@ public class HexagonGrid extends BoardSurfaceView {
     protected double width;
     protected int margin;
     protected int[] numTiles = {4, 3, 3, 3, 4};
+    //protected int[] numTiles = {4, 3, 3, 3, 4}; ORIGINAL BEFORE CHANGE
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
     protected int[] playerColors = {Color.RED, Color.WHITE, Color.BLUE, Color.CYAN};
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
