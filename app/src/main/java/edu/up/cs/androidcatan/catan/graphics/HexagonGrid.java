@@ -228,7 +228,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
         int[] rows = {1, 1, 0, 1, 1};
 
-
         //        int[] hexagonsInEachRow = {5, 6, 7, 6, 5}; // TODO testing
         int offsetX;
 
@@ -282,7 +281,7 @@ public class HexagonGrid extends BoardSurfaceView {
             for (int j = 0; j < hexagonsInEachRow[i]; j++) {
 
                 for (int k = 0; k < 4; k++) {
-                    
+
                 }
 
                 offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
@@ -292,11 +291,11 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 canvas.drawCircle(xPos, yPos, 25, intersectionPaint);
 
-//                int[] topCenter = drawingHexagons.get(i).getHexagonPoints()[5];
-//                int[] bottomCenter = drawingHexagons.get(i).getHexagonPoints()[2];
-//
-//                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
-//                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
+                //                int[] topCenter = drawingHexagons.get(i).getHexagonPoints()[5];
+                //                int[] bottomCenter = drawingHexagons.get(i).getHexagonPoints()[2];
+                //
+                //                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
+                //                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
             }
 
 
