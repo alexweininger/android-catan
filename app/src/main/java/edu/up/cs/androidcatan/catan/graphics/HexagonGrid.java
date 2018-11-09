@@ -198,6 +198,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
+    // todo remove if we don't use
     public <T> List<T> intersection (List<T> list1, List<T> list2) {
         List<T> list = new ArrayList<T>();
 
@@ -206,7 +207,6 @@ public class HexagonGrid extends BoardSurfaceView {
                 list.add(t);
             }
         }
-
         return list;
     }
 
@@ -223,12 +223,10 @@ public class HexagonGrid extends BoardSurfaceView {
     public void getHexagons (int x, int y, int size) {
 
         ArrayList<Hexagon> dataHexagons = board.getHexagonListForDrawing();
-
         drawingHexagons = new ArrayList<>();
 
         int[] rows = {1, 1, 0, 1, 1};
 
-        //        int[] hexagonsInEachRow = {5, 6, 7, 6, 5}; // TODO testing
         int offsetX;
 
         int dataHexagonsIndex = 0;
@@ -254,14 +252,9 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 ArrayList<Road> dataRoads = this.board.getRoads();
 
-                // for
                 for (int k = 0; k < dataRoads.size(); k++) {
 
-                    // get
-
                 }
-
-                //roads.add(new RoadDrawable(points, 0));
 
                 drawingHexagons.add(hexagon);
                 dataHexagonsIndex++;
@@ -297,8 +290,6 @@ public class HexagonGrid extends BoardSurfaceView {
                 //                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
                 //                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
             }
-
-
         }
     }
 
