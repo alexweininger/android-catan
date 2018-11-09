@@ -24,7 +24,9 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int height;
     protected double width;
     protected int margin;
-    protected int[] numTiles = {4, 3, 3, 3, 4};
+    protected int[] numTiles = {6, 5, 5, 5, 6};
+    //protected int[] numTiles = {4, 3, 3, 3, 4}; ORIGINAL BEFORE CHANGE
+    int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
     protected int[] playerColors = {Color.RED, Color.WHITE, Color.BLUE, Color.CYAN};
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
@@ -57,6 +59,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
         drawRoads(canvas);
         drawBuildings();
+        getIntersections(this.x, this.y, this.size, canvas);
         this.invalidate();
     }
 
@@ -116,8 +119,8 @@ public class HexagonGrid extends BoardSurfaceView {
                 int cyB = hexagonBPoints[5][1] + size;
 
                 // draw a circle in the center of each hexagon
-//                canvas.drawCircle(pointA[0], pointA[1], 25, roadPaint);
-//                canvas.drawCircle(pointB[0], pointB[1], 25, roadPaint);
+                //                canvas.drawCircle(pointA[0], pointA[1], 25, roadPaint);
+                //                canvas.drawCircle(pointB[0], pointB[1], 25, roadPaint);
 
                 int diff = getDistBtwPts(pointA, pointB);
 
@@ -127,32 +130,32 @@ public class HexagonGrid extends BoardSurfaceView {
                 int[] roadPointsB = {cxB, cyB + size};
 
                 // ???
-//                canvas.drawCircle(roadPointsA[0], roadPointsA[1], 25, roadPaint);
-//                canvas.drawCircle(roadPointsB[0], roadPointsB[1], 25, roadPaint);
+                //                canvas.drawCircle(roadPointsA[0], roadPointsA[1], 25, roadPaint);
+                //                canvas.drawCircle(roadPointsB[0], roadPointsB[1], 25, roadPaint);
 
-                int[] midpoint = {(roadPointsA[0] + roadPointsB[0]) / 2,(roadPointsA[1] + roadPointsB[1]) / 2};
+                int[] midpoint = {(roadPointsA[0] + roadPointsB[0]) / 2, (roadPointsA[1] + roadPointsB[1]) / 2};
 
                 canvas.drawCircle(midpoint[0], midpoint[1], 25, roadPaint);
 
-//                canvas.drawLine(roadPointsA[0], roadPointsA[1], roadPointsB[0],  roadPointsB[1], roadPaint);
-//                Path roadPath = new Path();
-//
-//                // starting point
-//                roadPath.moveTo(roadPointsA[0], roadPointsA[1]);
-//
-//                // upper right
-//                roadPath.lineTo(roadPointsA[0] + margin, roadPointsA[1] - margin);
-//
-//                // lower right
-//                roadPath.lineTo(roadPointsB[0] + margin, roadPointsB[1] - margin);
-//
-//                // lower left
-//                roadPath.lineTo(roadPointsB[0], roadPointsB[1]);
-//
-//                // upper left
-//                roadPath.lineTo(roadPointsA[0], roadPointsA[1]);
-//
-//                canvas.drawPath(roadPath, roadPaint);
+                //                canvas.drawLine(roadPointsA[0], roadPointsA[1], roadPointsB[0],  roadPointsB[1], roadPaint);
+                //                Path roadPath = new Path();
+                //
+                //                // starting point
+                //                roadPath.moveTo(roadPointsA[0], roadPointsA[1]);
+                //
+                //                // upper right
+                //                roadPath.lineTo(roadPointsA[0] + margin, roadPointsA[1] - margin);
+                //
+                //                // lower right
+                //                roadPath.lineTo(roadPointsB[0] + margin, roadPointsB[1] - margin);
+                //
+                //                // lower left
+                //                roadPath.lineTo(roadPointsB[0], roadPointsB[1]);
+                //
+                //                // upper left
+                //                roadPath.lineTo(roadPointsA[0], roadPointsA[1]);
+                //
+                //                canvas.drawPath(roadPath, roadPaint);
 
             } else if (overlap.size() == 1) {
                 Log.e(TAG, "drawRoads: overlap size is 1.");
@@ -224,7 +227,9 @@ public class HexagonGrid extends BoardSurfaceView {
         drawingHexagons = new ArrayList<>();
 
         int[] rows = {1, 1, 0, 1, 1};
-        int[] hexagonsInEachRow = {3, 4, 5, 4, 3};
+
+
+        //        int[] hexagonsInEachRow = {5, 6, 7, 6, 5}; // TODO testing
         int offsetX;
 
         int dataHexagonsIndex = 0;
@@ -262,6 +267,39 @@ public class HexagonGrid extends BoardSurfaceView {
                 drawingHexagons.add(hexagon);
                 dataHexagonsIndex++;
             }
+        }
+    }
+
+    public void getIntersections (int x, int y, int size, Canvas canvas) {
+
+        int offsetX;
+        int[] rows = {1, 1, 0, 1, 1};
+        Paint intersectionPaint = new Paint();
+        intersectionPaint.setColor(Color.RED);
+
+        for (int i = 0; i < 5; i++) {
+
+            for (int j = 0; j < hexagonsInEachRow[i]; j++) {
+
+                for (int k = 0; k < 4; k++) {
+                    
+                }
+
+                offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
+
+                int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
+                int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
+
+                canvas.drawCircle(xPos, yPos, 25, intersectionPaint);
+
+//                int[] topCenter = drawingHexagons.get(i).getHexagonPoints()[5];
+//                int[] bottomCenter = drawingHexagons.get(i).getHexagonPoints()[2];
+//
+//                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
+//                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
+            }
+
+
         }
     }
 
