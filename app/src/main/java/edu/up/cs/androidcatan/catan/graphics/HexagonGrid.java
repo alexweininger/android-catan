@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
@@ -112,8 +111,6 @@ public class HexagonGrid extends BoardSurfaceView {
         // get list of all roads on the board
         ArrayList<Road> dataRoads = this.board.getRoads();
 
-        Collection<Integer> overlap = new ArrayList<>();
-
         // for each road stored on the board
         for (int k = 0; k < dataRoads.size(); k++) {
             Road r = dataRoads.get(k);
@@ -159,14 +156,13 @@ public class HexagonGrid extends BoardSurfaceView {
         drawingHexagons = new ArrayList<>();
 
         int[] rows = {1, 1, 0, 1, 1};
-        int offsetX;
         int dataHexagonsIndex = 0;
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < hexagonsInEachRow[i]; j++) {
 
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
-//                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                //                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
 
@@ -175,19 +171,17 @@ public class HexagonGrid extends BoardSurfaceView {
                 }
 
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
-
-                if (isDesertHexagon) {
+                if (isDesertHexagon)
                     Log.w(TAG, "getHexagons: desert tile found to be at drawing hexagon id: " + dataHexagonsIndex + " and data hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
-                }
 
-                offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
-
+                int offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
                 HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 drawingHexagons.add(hexagon);
+
                 Log.w(TAG, "getHexagons: dataHexagonsIndex: " + dataHexagonsIndex + " current hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 dataHexagonsIndex++;
             }
@@ -359,47 +353,7 @@ public class HexagonGrid extends BoardSurfaceView {
     //        }
     //    }
 
-    /* ----- getters and setters ------ */
-
-    public int getXVal () {
-        return x;
-    }
-
-    public void setX (int x) {
-        this.x = x;
-    }
-
-    public int getYVal () {
-        return y;
-    }
-
-    public void setY (int y) {
-        this.y = y;
-    }
-
-    public int getGridHeight () {
-        return height;
-    }
-
-    public void setGridHeight (int height) {
-        this.height = height;
-    }
-
-    public double getGridWidth () {
-        return width;
-    }
-
-    public void setWidth (double width) {
-        this.width = width;
-    }
-
-    public int getMargin () {
-        return margin;
-    }
-
-    public void setMargin (int margin) {
-        this.margin = margin;
-    }
+    /* ---------- getters and setters ------------ */
 
     public int[] getColors () {
         return colors;
@@ -411,10 +365,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public ArrayList<RoadDrawable> getRoads () {
         return roads;
-    }
-
-    public void setRoads (ArrayList<RoadDrawable> roads) {
-        this.roads = roads;
     }
 
     public ArrayList<HexagonDrawable> getDrawingHexagons () {
