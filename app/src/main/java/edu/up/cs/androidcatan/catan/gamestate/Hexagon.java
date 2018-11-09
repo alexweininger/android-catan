@@ -127,7 +127,7 @@ public class Hexagon {
      * @param size - size, measured from center to a corner
      * @return int[][]
      */
-    public int[][] calculateHexagonPoints (int x, int y, int size) {
+    public static int[][] calculateHexagonPoints (int x, int y, int size) {
         int[][] points = new int[6][2];
         double angle_deg, angle_rad;
 
