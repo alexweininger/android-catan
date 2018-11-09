@@ -336,7 +336,7 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "rollDice: Set isActionPhase to true.");
         this.isActionPhase = true;
 
-        return this;
+        return true;
     } // end rollDice action method
 
     /**

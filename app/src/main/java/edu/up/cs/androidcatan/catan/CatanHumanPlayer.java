@@ -242,7 +242,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
             if(state.getCurrentDiceSum() == 7){
-
+                //TODO Make robber menu appear
+                Log.i(TAG, "onClick: Robber has been activated");
             }
             return;
         }
@@ -256,6 +257,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildingsBuiltOnThisTurn = new ArrayList<>();
             return;
         }
+
+        /*------------Robber Action------------------*/
+        //TODO Put Robber buttons here
 
         /* ---------- Trade action buttons ---------- */
         //TODO Need functionality for both Port, Custom Port and Bank
