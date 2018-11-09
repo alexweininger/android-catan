@@ -29,7 +29,7 @@ public class CatanLocalGame extends LocalGame {
         super();
         gameState = new CatanGameState();
     }
-    /*----------------------Checking the Game State and updating it------------------------------------*/
+    /*---------------------- Methods for checking the Game State and updating it ------------------------------------*/
 
     /**
      * Notify the given player that its state has changed. This should involve sending
@@ -63,7 +63,7 @@ public class CatanLocalGame extends LocalGame {
         return null; // return null if no winner, but the game is not over
     }
 
-    /*---------------------------------------Action Methods-------------------------------------------*/
+    /*--------------------------------------- Action Methods -------------------------------------------*/
 
     /**
      * Tell whether the given player is allowed to make a move at the
@@ -84,14 +84,13 @@ public class CatanLocalGame extends LocalGame {
     }
 
     /**
-     * Makes a move on behalf of a player.
+     * Initiates action based on what kind of GameAction object received.
      *
      * @param action The move that the player has sent to the game
      * @return Tells whether the move was a legal one.
      */
     @Override
     protected boolean makeMove (GameAction action) {
-
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
         if (action instanceof CatanRollDiceAction) {
@@ -167,6 +166,8 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
+        // if we reach here, the GameAction object we received is not one that we recognize
+        Log.e(TAG, "makeMove: FATAL ERROR: GameAction action was not and instance of an action class that we recognize.");
         return false;
     }
 }
