@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import java.util.Random;
-
 public class HexagonDrawable extends BoardSurfaceView {
 
     protected int hexagonId;
@@ -43,8 +41,6 @@ public class HexagonDrawable extends BoardSurfaceView {
         Paint paint = new Paint();
         paint.setColor(this.color);
         paint.setStyle(Paint.Style.FILL);
-
-        Random random = new Random();
 
         points = calculateHexagonPoints(this.x, this.y, this.size);
 
