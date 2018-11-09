@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -86,8 +87,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button tradeButton = null;
     private Button tradeCustomPort = null;
     private Button tradePort = null;
+
+    //Dev card buttons and other items
     private Button useDevCard = null;
     private Button buildDevCard = null;
+    private Spinner devCardList = null;
 
     // other buttons on the sidebar
 
@@ -439,6 +443,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort = activity.findViewById(R.id.sidebar_button_trade);
         useDevCard = activity.findViewById(R.id.use_Card);
         buildDevCard = activity.findViewById(R.id.build_devCard);
+        devCardList = activity.findViewById(R.id.development_Card_Spinner);
 
         /* ---------- action button listeners ---------- */
         buildCityButton.setOnClickListener(this);
@@ -455,6 +460,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
         buildDevCard.setOnClickListener(this);
+        devCardList.setOnClickListener(this);
 
         /* ---------- resource value text ---------- */
 
