@@ -80,7 +80,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             }
 
             // get adjacent intersections to what we just built
-            ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getAdjacentIntersectionsToIntersection(randSettlementIntersection);
+            ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().(randSettlementIntersection);
 
             Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
             // choose a random intersection from those intersections
