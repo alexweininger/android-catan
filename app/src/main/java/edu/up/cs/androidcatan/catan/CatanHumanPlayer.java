@@ -590,6 +590,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
     }
 
+    /**
+     *
+     * @param intersection1 Intersection at which the player is trying to build a settlement upon.
+     * @return If the building location chosen is valid, and if the action was carried out.
+     */
     private boolean tryBuildSettlement (int intersection1) {
 
         Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
@@ -687,7 +692,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
-
             this.singleIntersectionCancelButton.setAlpha(0.5f);
             this.singleIntersectionCancelButton.setClickable(false);
             this.roadIntersectionCancelButton.setAlpha(0.5f);
@@ -747,12 +751,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* -------- animations ----------- */
 
         if (this.state.getCurrentPlayerId() == 0) {
-            this.playerNameSidebar = (TextView) makeMeBlink(this.playerNameSidebar, 250, 250);
+            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 250, 250);
         }
         //        this.player0Name.clearAnimation();
         // Animate an image view
         //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        //        imageView = (ImageView)Utils.makeMeBlink(imageView,250,20);
+        //        imageView = (ImageView)Utils.blinkAnimation(imageView,250,20);
 
     } // end updateTextViews
 
@@ -825,16 +829,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.roadIntersectionAEditText.setEnabled(true);
     }
 
-
     /**
      * Make a View Blink for a desired duration
      *
-     * @param view view that will be animated
-     * @param duration for how long in ms will it blink
-     * @param offset start offset of the animation
-     * @return returns the same view with animation properties
+     * @param view View to be animated.
+     * @param duration Duration of the animation.
+     * @param offset Start offset.
+     * @return returns The View with animation properties on it.
      */
-    public static View makeMeBlink (View view, int duration, int offset) {
+    public static View blinkAnimation (View view, int duration, int offset) {
 
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(duration);
