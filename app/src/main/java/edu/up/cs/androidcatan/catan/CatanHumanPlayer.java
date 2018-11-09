@@ -11,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -447,6 +449,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         buildDevCard = activity.findViewById(R.id.build_devCard);
         devCardList = activity.findViewById(R.id.development_Card_Spinner);
 
+        //Adding resources to dev card spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(),
+                R.array.dev_Card, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        devCardList.setAdapter(adapter);
+
         /* ---------- action button listeners ---------- */
         buildCityButton.setOnClickListener(this);
         buildRoadButton.setOnClickListener(this);
@@ -462,8 +472,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
         buildDevCard.setOnClickListener(this);
-        //devCardList.setOnClickListener(this);
 
+        devCardList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                //TODO Implement the Listener
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
         /* ---------- resource value text ---------- */
 
         this.oreValue = activity.findViewById(R.id.sidebar_value_ore);
