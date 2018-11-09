@@ -198,17 +198,16 @@ public class HexagonGrid extends BoardSurfaceView {
     public void drawBuildings (Canvas canvas) {
         Paint bldgPaint = new Paint();
 
-
         Building[] buildings = this.board.getBuildings();
 
         // go through each building
         for (int i = 0; i < buildings.length; i++) {
             if (buildings[i] != null) {
                 bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
+
+                // get center of intersection
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
-
-//                canvas.drawCircle(xPos, yPos, 25, bldgPaint);
 
                 canvas.drawRect(xPos - 20, yPos + 20, xPos + 20, yPos - 20, bldgPaint);
 
