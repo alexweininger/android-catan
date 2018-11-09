@@ -33,6 +33,8 @@ public class HexagonGrid extends BoardSurfaceView {
     // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
     private Building[] buildlings;
+    //Intersections
+    private Intersection[] intersections = new Intersection[54];
 
     ArrayList<RoadDrawable> roads = new ArrayList<>();
 
@@ -268,6 +270,47 @@ public class HexagonGrid extends BoardSurfaceView {
                 dataHexagonsIndex++;
             }
         }
+    }
+
+    public void generateIntersections(){
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[2] = new Intersection(0, 1049, 642);
+        intersections[3] = new Intersection(0, 1049, 642);
+        intersections[4] = new Intersection(0, 1049, 642);
+        intersections[5] = new Intersection(0, 1049, 642);
+        intersections[6] = new Intersection(0, 1049, 642);
+        intersections[7] = new Intersection(0, 1049, 642);
+        intersections[8] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
+        intersections[1] = new Intersection(0, 1049, 642);
     }
 
     public void getIntersections (int x, int y, int size, Canvas canvas) {
