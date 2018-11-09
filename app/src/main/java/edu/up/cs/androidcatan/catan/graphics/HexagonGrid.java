@@ -27,20 +27,22 @@ public class HexagonGrid extends BoardSurfaceView {
     private static final String TAG = "HexagonGrid";
 
     // instance variables
-    protected int x, y;
-    protected int height;
-    protected double width;
-    protected int margin;
-    protected int[] numTiles = {4, 3, 3, 3, 4};
-    int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
-    protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
-    public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE};
-    public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
-    private Board board;
 
+    protected int x, y, height, margin;
+    protected double width;
+
+    int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
+
+    protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
+
+    public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE};
+
+    private Board board;
     private Intersection[] intersections = new Intersection[54]; // list of Intersection objects
     ArrayList<RoadDrawable> roads = new ArrayList<>(); // list of Road objects
     ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>(); // list of HexagonDrawable objects
+
+    // constructors
 
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
         super(context);
@@ -55,38 +57,52 @@ public class HexagonGrid extends BoardSurfaceView {
         generateIntersections();
     }
 
+    /**
+     * Draws all of the components on the board.
+     *
+     * @param canvas Canvas to draw on.
+     */
     public void drawGrid (Canvas canvas) {
-
         getHexagons(x, y, size); // get hexes
-//        drawBorder(canvas);
+
+        drawBorder(canvas);
+
         for (HexagonDrawable h : drawingHexagons) {
-            h.drawHexagon(canvas); // draw each hexagon
-        }
+            h.drawHexagon(canvas);
+        } // draw each hexagon
 
         drawRoads(canvas);
         drawBuildings(canvas);
 
-        //draw intersections
         for (Intersection intersection : intersections) {
             intersection.drawIntersection(canvas);
-        }
+        } // draw each intersection
 
-
-
-        //getIntersections(this.x, this.y, this.size, canvas);
         this.invalidate();
     }
 
-    public void drawBorder(Canvas canvas) {
-        Paint bluePaint = new Paint();
-        bluePaint.setColor(Color.BLUE);
+    /**
+     * Draws the blue ocean and the tan background for the island.
+     *
+     * @param canvas Canvas to draw upon.
+     */
+    public void drawBorder (Canvas canvas) {
+        Paint tanPaint = new Paint();
+        tanPaint.setColor(Color.argb(255, 255, 246, 183));
 
-        int centerX = this.drawingHexagons.get(9).getHexagonPoints()[5][0];
-        int centerY = this.drawingHexagons.get(9).getHexagonPoints()[5][1];
+        canvas.drawColor(Color.argb(255, 160, 206, 255));
 
-        canvas.drawCircle(centerX,centerY - size, 600, bluePaint);
+        int centerX = canvas.getWidth() / 2;
+        int centerY = canvas.getHeight() / 2;
+
+        canvas.drawCircle(centerX, centerY - 15, 665, tanPaint);
     }
 
+    /**
+     * Draws all of the roads.
+     *
+     * @param canvas Canvas to draw on.
+     */
     public void drawRoads (Canvas canvas) {
         Log.d(TAG, "drawRoads() called with: canvas = [" + canvas + "]");
         Paint paint = new Paint();
@@ -131,27 +147,31 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    // method that generates the individual hexagon objects from the Hexagon class
+    /**
+     * Generates the individual hexagon objects from the Hexagon class.
+     *
+     * @param x X position.
+     * @param y Y position.
+     * @param size Size of the hexagons.
+     */
     public void getHexagons (int x, int y, int size) {
-
         ArrayList<Hexagon> dataHexagons = board.getHexagonListForDrawing();
         drawingHexagons = new ArrayList<>();
 
         int[] rows = {1, 1, 0, 1, 1};
-
         int offsetX;
-
         int dataHexagonsIndex = 0;
+
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < hexagonsInEachRow[i]; j++) {
 
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
-                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+//                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
 
                 if (isRobberHexagon) {
-                    Log.w(TAG, "getHexagons: isRobberHexagon = " + isRobberHexagon + " at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                    Log.w(TAG, "getHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 }
 
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
@@ -379,14 +399,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void setMargin (int margin) {
         this.margin = margin;
-    }
-
-    public int[] getNumTiles () {
-        return numTiles;
-    }
-
-    public void setNumTiles (int[] numTiles) {
-        this.numTiles = numTiles;
     }
 
     public int[] getColors () {
