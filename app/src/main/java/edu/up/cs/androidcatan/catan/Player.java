@@ -51,7 +51,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /**
      * Player constructor
      */
-    public Player(int id) {
+    public Player (int id) {
         super("" + id + ""); // todo lol wtf is this
         this.playerId = id;
         this.armySize = 0;
@@ -62,7 +62,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      *
      * @param p - Player object to copy
      */
-    public Player(Player p) {
+    public Player (Player p) {
         super("" + p.getPlayerId() + "");
         this.setPlayerId(p.getPlayerId());
         this.setArmySize(p.getArmySize());
@@ -73,20 +73,20 @@ public class Player extends GameHumanPlayer implements OnClickListener {
 
     // TODO Figure out what these methods from the GameHumanPlayer and OnClickListener do and implement them TODO @DB @NJ
 
-    public void onClick(View button) {
+    public void onClick (View button) {
 
     }
 
-    public void setAsGui(GameMainActivity activity) {
+    public void setAsGui (GameMainActivity activity) {
 
     }
 
-    public View getTopView() {
+    public View getTopView () {
         //FIXME return myActivity.findViewById(R.id.top_gui_layout);
         return null;
     }
 
-    public void receiveInfo(GameInfo info) {
+    public void receiveInfo (GameInfo info) {
 
     }
 
@@ -95,9 +95,9 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * - checks for valid resourceCardId
      *
      * @param resourceCardId - index value of resource to add (0-4) defined above
-     * @param numToAdd       - number of resource cards of this type to add to the players inventory AW
+     * @param numToAdd - number of resource cards of this type to add to the players inventory AW
      */
-    public void addResourceCard(int resourceCardId, int numToAdd) {
+    public void addResourceCard (int resourceCardId, int numToAdd) {
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for a valid resourceCardId
             Log.d("devError", "ERROR addResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
         } else {
@@ -108,10 +108,10 @@ public class Player extends GameHumanPlayer implements OnClickListener {
 
     /**
      * @param resourceCardId - resource to check
-     * @param numToCheckFor  - number of resources to make sure the player has
+     * @param numToCheckFor - number of resources to make sure the player has
      * @return - whether they have at least that many resources of the given type
      */
-    public boolean checkResourceCard(int resourceCardId, int numToCheckFor) {
+    public boolean checkResourceCard (int resourceCardId, int numToCheckFor) {
         Log.i(TAG, "checkResourceCard() called with: resourceCardId = [" + resourceCardId + "], numToCheckFor = [" + numToCheckFor + "]");
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
@@ -124,7 +124,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
      * @return - true of false, does the player have all of these resources?
      */
-    public boolean checkResourceBundle(int[] resourceCost) {
+    public boolean checkResourceBundle (int[] resourceCost) {
         Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.i(TAG, "checkResourceBundle: " + this.printResourceCards());
         for (Integer id : resourceCost) {
@@ -143,10 +143,10 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * - error checks for preventing negative resource card counts
      *
      * @param resourceCardId - id of resource card to remove from players inventory
-     * @param numToRemove    - number of resource cards of this type to remove
+     * @param numToRemove - number of resource cards of this type to remove
      * @return - if numToRemove resource card(s) have been removed from the players inventory
      */
-    public boolean removeResourceCard(int resourceCardId, int numToRemove) {
+    public boolean removeResourceCard (int resourceCardId, int numToRemove) {
         Log.d(TAG, "removeResourceCard() called with: resourceCardId = [" + resourceCardId + "], numToRemove = [" + numToRemove + "]");
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
             Log.i(TAG, "removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
@@ -164,11 +164,10 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     }
 
     /**
-     *
      * @param resourceCost
      * @return
      */
-    public boolean removeResourceBundle(int[] resourceCost) {
+    public boolean removeResourceBundle (int[] resourceCost) {
         Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + resourceCost + "]");
         if (!checkResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
@@ -189,7 +188,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /**
      * @return String showing the number of each resource card the player has
      */
-    public String printResourceCards() {
+    public String printResourceCards () {
         StringBuilder str = new StringBuilder();
         str.append("[");
         for (int i = 0; i < this.resourceCards.length; i++) {
@@ -205,56 +204,56 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /**
      * @return -
      */
-    public int[] getBuildingInventory() {
+    public int[] getBuildingInventory () {
         return buildingInventory;
     }
 
     /**
      * @param buildingInventory
      */
-    public void setBuildingInventory(int[] buildingInventory) {
+    public void setBuildingInventory (int[] buildingInventory) {
         this.buildingInventory = buildingInventory;
     }
 
     /**
      * @param playerId
      */
-    public void setPlayerId(int playerId) {
+    public void setPlayerId (int playerId) {
         this.playerId = playerId;
     }
 
     /**
      * @return - resource card array
      */
-    public int[] getResourceCards() {
+    public int[] getResourceCards () {
         return this.resourceCards;
     }
 
     /**
      * @param resourceCards - resource card array
      */
-    public void setResourceCards(int[] resourceCards) {
+    public void setResourceCards (int[] resourceCards) {
         this.resourceCards = resourceCards;
     }
 
     /**
      * @return the size of the player's army
      */
-    public int getArmySize() {
+    public int getArmySize () {
         return armySize;
     }
 
     /**
      * @param armySize the size of the player's army
      */
-    public void setArmySize(int armySize) {
+    public void setArmySize (int armySize) {
         this.armySize = armySize;
     }
 
     /**
      * @param devCard dev card to add
      */
-    public void addDevelopmentCard(DevelopmentCard devCard) {
+    public void addDevelopmentCard (DevelopmentCard devCard) {
         developmentCards.add(devCard);
     }
 
@@ -262,7 +261,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @param devCard dev card to remove
      * @return if action was possible
      */
-    public boolean useDevCard(DevelopmentCard devCard) {
+    public boolean useDevCard (DevelopmentCard devCard) {
         if (developmentCards.contains(devCard)) {
             developmentCards.remove(devCard);
             return true;
@@ -270,12 +269,12 @@ public class Player extends GameHumanPlayer implements OnClickListener {
         return false;
     }
 
-    public void decrementBuildingInventory(int buildingId) {
+    public void decrementBuildingInventory (int buildingId) {
         this.buildingInventory[buildingId]--;
     }
 
     // use to allow the player to use the dev card they built the turn prior
-    public void setDevelopmentCardsAsPlayable() {
+    public void setDevelopmentCardsAsPlayable () {
         for (int i = 0; i < developmentCards.size(); i++) {
             developmentCards.get(i).setPlayable(true);
         }
@@ -284,28 +283,28 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /**
      * @return the player's id
      */
-    public int getPlayerId() {
+    public int getPlayerId () {
         return this.playerId;
     }
 
     /**
      * @return - list of players' development cards
      */
-    public ArrayList<DevelopmentCard> getDevelopmentCards() {
+    public ArrayList<DevelopmentCard> getDevelopmentCards () {
         return developmentCards;
     }
 
     /**
      * @param developmentCards List of DevelopmentCards the player currently has.
      */
-    public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
+    public void setDevelopmentCards (ArrayList<DevelopmentCard> developmentCards) {
         this.developmentCards = developmentCards;
     }
 
     /**
      * @return The total amount of resourceCards a player has.
      */
-    public int getTotalResourceCardCount() {
+    public int getTotalResourceCardCount () {
         int result = 0;
         for (int resourceCard : this.resourceCards) {
             result += resourceCard;
@@ -316,7 +315,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /**
      * @return - A random resourceCard is removed from the players inventory and returned.
      */
-    public int getRandomCard() {
+    public int getRandomCard () {
 
         if (this.getTotalResourceCardCount() < 1) {
             Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
@@ -341,10 +340,8 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @return string representation of a Player
      */
     @Override
-    public String toString() {
-        return " Player id: " + this.playerId + ", " + "DevCards: " + this.developmentCards +
-                ", BldgInv: " + Arrays.toString(this.buildingInventory) + ", army: " + this.armySize +
-                "\n\tResources: " + this.printResourceCards();
+    public String toString () {
+        return " Player id: " + this.playerId + ", " + "DevCards: " + this.developmentCards + ", BldgInv: " + Arrays.toString(this.buildingInventory) + ", army: " + this.armySize + "\n\tResources: " + this.printResourceCards();
 
     }
 }
