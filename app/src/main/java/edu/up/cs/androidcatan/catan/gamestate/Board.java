@@ -74,16 +74,15 @@ public class Board {
 
     public Board () {
         Log.d(TAG, "Board() called");
-
         this.roadGraph = new Road[54][54];
         robber = new Robber(0);
-        // populate ids
-        populateHexagonIds();
+
+
+        populateHexagonIds(); // populate ids
         populateIntersectionIds();
         populatePortIntersectionIds();
 
-        // generate adj. graphs
-        generateHexagonGraph();
+        generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
         generateRoadMatrix();
 
@@ -93,12 +92,10 @@ public class Board {
         //        Log.i(TAG, "Board: Printing iGraph...");
         //        printGraph(iGraph);
 
-        // generate maps
-        generateIntToHexMap();
+        generateIntToHexMap(); // generate maps
         generateHexToIntMap();
 
-        // generate hex tiles
-        generateHexagonTiles();
+        generateHexagonTiles(); // generate hex tiles
 
         designatePorts();
     } // end Board constructor
@@ -115,12 +112,16 @@ public class Board {
         this.setIntToHexIdMap(b.getIntToHexIdMap());
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
-        this.setHexagons(b.getHexagons());
         this.setRobber(new Robber(b.getRobber())); // class
         this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
+
+        for (Hexagon hexagon : b.getHexagons()) {
+            this.hexagons.add(new Hexagon(hexagon));
+        }
+
     } // end Board deep copy constructor
 
     //    alex's ultimate intersection adjacency method
