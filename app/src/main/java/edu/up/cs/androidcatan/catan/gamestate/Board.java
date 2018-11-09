@@ -85,6 +85,7 @@ public class Board {
 
         generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
+        generateNewIntersectionGraphManually(); // new intersection graph
         generateRoadMatrix();
 
         //         print graphs
