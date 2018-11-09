@@ -350,7 +350,10 @@ public class Board {
      */
     public boolean validBuildingLocation (int playerId, boolean isSetupPhase, int intersectionId) {
         Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
-
+        if(playerId < 0 || playerId > 3){
+            Log.e(TAG, "validBuildingLocation: returned " + false + " because playerId is not in range(" + playerId + ")" );
+            return false;
+        }
         if (intersectionId < 0 || intersectionId > buildings.length - 1) {
             Log.e(TAG, "validBuildingLocation() returned: " + false + " because intersection does not exist.");
             return false;

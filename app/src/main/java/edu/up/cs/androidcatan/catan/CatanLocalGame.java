@@ -14,10 +14,11 @@ import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAcation;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
 
 public class CatanLocalGame extends LocalGame {
 
@@ -30,7 +31,7 @@ public class CatanLocalGame extends LocalGame {
         super();
         gameState = new CatanGameState();
     }
-
+/*----------------------Checking the Game State and updating it------------------------------------*/
     /**
      * Notify the given player that its state has changed. This should involve sending
      * a GameInfo object to the player. If the game is not a perfect-information game
@@ -63,6 +64,7 @@ public class CatanLocalGame extends LocalGame {
         return null; // return null if no winner, but the game is not over
     }
 
+/*---------------------------------------Action Methods-------------------------------------------*/
     /**
      * Tell whether the given player is allowed to make a move at the
      * present point in the game.
@@ -124,7 +126,7 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
-        if (action instanceof CatanUseDevCardAcation) {
+        if (action instanceof CatanUseDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             //return gameState.useDevCard();
             return true;

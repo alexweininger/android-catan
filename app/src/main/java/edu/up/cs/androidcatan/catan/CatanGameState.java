@@ -99,6 +99,8 @@ public class CatanGameState extends GameState {
         }
     } // end deep copy constructor
 
+/*-------------------------------------Dev Card Methods------------------------------------------*/
+
     /**
      * creates a deck of int representing the exact number each type of card
      */
@@ -122,6 +124,53 @@ public class CatanGameState extends GameState {
         return new DevelopmentCard(drawnDevCard);
     }
 
+    /**
+     * TODO needs to take a dev card id as parameter and buy that specific card IMPLEMENT
+     * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory
+     *
+     * @param playerId - player who is requesting to buy dev card
+     * @return - action success
+     */
+    public boolean buyDevCard(int playerId) {
+        // check if player id is valid and if action phase of players turn
+        if (!valAction(playerId)) {
+            return false;
+        }
+
+        Player p = this.playerList.get(playerId);
+
+        // check if player can build dev card
+        if (!p.checkResourceBundle(DevelopmentCard.resourceCost)) {
+            return false;
+        }
+
+        // remove resources from players inventory (also does checks)
+        if (!p.removeResourceBundle(DevelopmentCard.resourceCost)) {
+            return false;
+        }
+
+        // add random dev card to players inventory
+        p.addDevelopmentCard(getRandomCard());
+        return true;
+    }
+
+    /**
+     * Method determines whether it is a valid move to use one of their dev cards or not
+     * @param playerId - player playing development card
+     * @param devCardId - id of the development card
+     * @return - action success
+     */
+    public boolean useDevCard(int playerId, int devCardId) {
+
+        if (!valAction(playerId)) {
+            return false;
+        }
+
+        DevelopmentCard dc = new DevelopmentCard(devCardId);
+        return true;
+    }
+
+/*-------------------------------------Validation Methods------------------------------------------*/
     /**
      * @param playerId -
      * @return If id is valid.
@@ -190,7 +239,7 @@ public class CatanGameState extends GameState {
     /**
      * Method updates the victory points count of the current player based off the actions taken within the turn
      */
-    private void updateVictoryPoints() {
+    public void updateVictoryPoints() {
         Log.d(TAG, "updateVictoryPoints() called");
 
         Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
@@ -217,6 +266,7 @@ public class CatanGameState extends GameState {
         }
     }
 
+/*-------------------------------------Resource Methods------------------------------------------*/
     /**
      * handles resource production AW
      *
@@ -252,7 +302,8 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /* ----- action methods ----- */
+
+/*-------------------------------------Action Methods------------------------------------------*/
 
     /**
      * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
@@ -324,6 +375,8 @@ public class CatanGameState extends GameState {
         return true;
     } // end endTurn method
 
+
+/*---------------------------------------Trading Methods------------------------------------------*/
     /**
      * TODO
      * Player trades with ports, gives resources and receives a resource;
@@ -401,6 +454,8 @@ public class CatanGameState extends GameState {
         return true;
     } // end tradeWithBank
 
+
+/*---------------------------------------Building Methods------------------------------------------*/
     /**
      * Player requests to build road ands Game State processes requests and returns true if build was successful
      *
@@ -532,52 +587,9 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-    /**
-     * TODO needs to take a dev card id as parameter and buy that specific card IMPLEMENT
-     * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory
-     *
-     * @param playerId - player who is requesting to buy dev card
-     * @return - action success
-     */
-    public boolean buyDevCard(int playerId) {
-        // check if player id is valid and if action phase of players turn
-        if (!valAction(playerId)) {
-            return false;
-        }
 
-        Player p = this.playerList.get(playerId);
 
-        // check if player can build dev card
-        if (!p.checkResourceBundle(DevelopmentCard.resourceCost)) {
-            return false;
-        }
-
-        // remove resources from players inventory (also does checks)
-        if (!p.removeResourceBundle(DevelopmentCard.resourceCost)) {
-            return false;
-        }
-
-        // add random dev card to players inventory
-        p.addDevelopmentCard(getRandomCard());
-        return true;
-    }
-
-    /**
-     * Method determines whether it is a valid move to use one of their dev cards or not
-     * @param playerId - player playing development card
-     * @param devCardId - id of the development card
-     * @return - action success
-     */
-    public boolean useDevCard(int playerId, int devCardId) {
-
-        if (!valAction(playerId)) {
-            return false;
-        }
-
-        DevelopmentCard dc = new DevelopmentCard(devCardId);
-        return true;
-    }
-
+/*----------------------------------------Robber Methods------------------------------------------*/
     /**
      * TODO implement
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
@@ -656,6 +668,7 @@ public class CatanGameState extends GameState {
         return true;
     }
 
+/*-------------------------------------Setup Phase Methods------------------------------------------*/
     /**
      * goes through each building and road to check how many are owned by the player
      * when they have 2 roads and 2 buildings, updateSetupPhase is false.
@@ -701,7 +714,7 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-
+/*-------------------------------------Getter/Setter Methods------------------------------------------*/
     public Dice getDice() {
         return dice;
     }
@@ -798,6 +811,7 @@ public class CatanGameState extends GameState {
         this.isSetupPhase = setupPhase;
     }
 
+/*-------------------------------------toString Methods------------------------------------------*/
     /**
      * TODO update???
      *
