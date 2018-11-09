@@ -1163,7 +1163,7 @@ public class Board {
     /**
      * @return Hexagon adjacency graph.
      */
-    private boolean[][] getHGraph () {
+    public boolean[][] getHGraph () {
         return hGraph;
     }
 
