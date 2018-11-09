@@ -441,7 +441,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Apply the adapter to the spinner
         devCardList.setAdapter(adapter);
 
-        /* ---------- action button listeners ---------- */
+        /* ---------- Sidebar action button listeners ---------- */
+
         buildCityButton.setOnClickListener(this);
         buildRoadButton.setOnClickListener(this);
         buildSettlementButton.setOnClickListener(this);
@@ -469,7 +470,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
 
         });
-        /* ---------- resource value text ---------- */
+        /* ---------- Sidebar resource values ---------- */
 
         this.oreValue = activity.findViewById(R.id.sidebar_value_ore);
         this.grainValue = activity.findViewById(R.id.sidebar_value_grain);
@@ -477,21 +478,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.woolValue = activity.findViewById(R.id.sidebar_value_wool);
         this.brickValue = activity.findViewById(R.id.sidebar_value_brick);
 
-        /* ---------- scoreboard scores TextViews ---------- */
+        /* ---------- Scoreboard scores ---------- */
 
         this.player0Score = activity.findViewById(R.id.Player1_Score);
         this.player1Score = activity.findViewById(R.id.Player2_Score);
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
-        /* ---------- scoreboard names ---------- */
+        /* ---------- Scoreboard names ---------- */
 
         this.player0Name = activity.findViewById(R.id.Player1_Name);
         this.player1Name = activity.findViewById(R.id.Player2_Name);
         this.player2Name = activity.findViewById(R.id.Player3_Name);
         this.player3Name = activity.findViewById(R.id.Player4_Name);
 
-        //Ignore this this.player0Name.setText();
+        /* ---------- misc sidebar buttons and text views ---------- */
+
+        this.menuButton = activity.findViewById(R.id.sidebar_button_menu);
+        this.menuButton.setOnClickListener(this);
 
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
 
@@ -499,27 +503,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
 
-        /* ---------- menu button listener ---------- */
-
-        this.menuButton = activity.findViewById(R.id.sidebar_button_menu);
-
-        this.menuButton.setOnClickListener(this);
-
         /* ---------- single intersection menu (buildings) ---------- */
 
         singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput);
-
         singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk);
         singleIntersectionTextView = myActivity.findViewById(R.id.selectIntersectionText);
         singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
         singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel);
 
-        // OK button for single intersection input
         singleIntersectionOkButton.setOnClickListener(this);
-
         singleIntersectionCancelButton.setOnClickListener(this);
 
-        /* ---------- road intersection menu ---------- */
+        /* ---------- road intersection menu -------------- */
 
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu);
 
@@ -533,7 +528,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton.setOnClickListener(this);
         roadIntersectionCancelButton.setOnClickListener(this);
 
-        /* development cards */
+        /* ------------ development cards ------------- */
 
         // button listeners
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
@@ -651,7 +646,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        if (this.state.isSetupPhase()) {
+        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
@@ -674,7 +670,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.roadIntersectionCancelButton.setClickable(false);
             this.roadIntersectionAEditText.setAlpha(0.5f);
             this.roadIntersectionAEditText.setEnabled(false);
-        } else if (!state.isActionPhase()) {
+
+        } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
+
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
             this.buildSettlementButton.setAlpha(0.5f);
@@ -696,10 +694,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.roadIntersectionCancelButton.setClickable(false);
             this.roadIntersectionAEditText.setAlpha(0.5f);
             this.roadIntersectionAEditText.setEnabled(false);
-        } else {
-            // if it is NOT the setup phase, no greyed out buttons and all are clickable
-            //setAllButtonsToVisible(); todo ???
+
+
+        } else { // ACTION PHASE AND NOT SETUP PHASE
+//            setAllButtonsToVisible();
         }
+        setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
         int[] resourceCards = this.state.getPlayerList().get(this.playerId).getResourceCards();
