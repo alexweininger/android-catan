@@ -140,6 +140,7 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
+/*----------------------------------Robber Actions-----------------------------------------------*/
         if (action instanceof CatanRobberMoveAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             //return gameState.robberMove();
@@ -157,6 +158,7 @@ public class CatanLocalGame extends LocalGame {
             //return gameState.robberDiscard();
             return true;
         }
+/*----------------------------------Robber Actions End-----------------------------------------------*/
 
         if (action instanceof CatanTradeAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");

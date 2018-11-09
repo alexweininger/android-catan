@@ -671,14 +671,14 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-    public boolean hasSevenPlusCards(Player player){
-        if(player.getTotalResourceCardCount() > 7){
-            Log.i(TAG, "hasSevenPlusCards: Player has more than seven cards");
-            return true;
-        }
-        Log.i(TAG, "hasSevenPlusCards: Player has 7 or less cards");
-        return false;
-    }
+//    public boolean hasSevenPlusCards(Player player){
+//        if(player.getTotalResourceCardCount() > 7){
+//            Log.i(TAG, "hasSevenPlusCards: Player has more than seven cards");
+//            return true;
+//        }
+//        Log.i(TAG, "hasSevenPlusCards: Player has 7 or less cards");
+//        return false;
+//    }
 
     /*-------------------------------------Setup Phase Methods------------------------------------------*/
 
