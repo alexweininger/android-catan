@@ -27,6 +27,11 @@ public class Hexagon {
         this.chitValue = chitValue;
     }
 
+    /**
+     * Copy constructor for a Hexagon object.
+     *
+     * @param h Hexagon object to create a copy from.
+     */
     public Hexagon (Hexagon h) {
         this.setHexagonId(h.getHexagonId());
         this.setChitValue(h.getChitValue());
