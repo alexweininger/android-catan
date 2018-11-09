@@ -689,6 +689,15 @@ public class Board {
         return this.hexagons.get(hexagonId);
     }
 
+    public boolean areIntersectionsAdjacent(int intA, int intB) {
+        if (intA < 0 || intB < 0 || intA > 53 || intB > 53) {
+            Log.e(TAG, "areIntersectionsAdjacent: Index out of bounds for checking intersection adjacency.");
+            return false;
+        }
+
+        return iGraph[intA][intB] || iGraph[intB][intA];
+    }
+
 
     /*----- board helper methods for setting up board and populating data structures -----*/
 
