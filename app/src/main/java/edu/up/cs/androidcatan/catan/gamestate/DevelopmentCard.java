@@ -39,7 +39,7 @@ public class DevelopmentCard {
         // todo
         switch (devCardId){
             case 0:
-                useKnightCard(null, );
+                useKnightCard(null, player);
                 break;
             case 1:
                 useVictoryPointsCard(player);
