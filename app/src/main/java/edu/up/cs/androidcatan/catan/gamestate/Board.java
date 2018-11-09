@@ -397,7 +397,6 @@ public class Board {
             return false;
         }
 
-        // TODO not working
         // check if adjacent intersections do not have buildings for the distance rule
         for (int intersection : this.intersectionGraph.get(intersectionId)) { // for each adj. intersection
             Log.d(TAG, "validBuildingLocation: DISTANCE RULE - Checking intersection " + intersection + " for a building.");
