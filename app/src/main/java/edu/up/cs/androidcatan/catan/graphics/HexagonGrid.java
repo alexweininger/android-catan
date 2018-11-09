@@ -208,9 +208,9 @@ public class HexagonGrid extends BoardSurfaceView {
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
 
-                canvas.drawCircle(xPos, yPos, 25, bldgPaint);
+//                canvas.drawCircle(xPos, yPos, 25, bldgPaint);
 
-                canvas.drawRect(xPos - 10, yPos + 10, xPos + 10, yPos - 10, bldgPaint);
+                canvas.drawRect(xPos - 20, yPos + 20, xPos + 20, yPos - 20, bldgPaint);
 
             }
         }
