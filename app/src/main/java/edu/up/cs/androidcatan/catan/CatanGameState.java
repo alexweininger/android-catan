@@ -159,7 +159,8 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-    /** TODO ???
+    /**
+     * TODO ???
      * Method determines whether it is a valid move to use one of their dev cards or not
      *
      * @param playerId - player playing development card
@@ -221,7 +222,8 @@ public class CatanGameState extends GameState {
         return false;
     }
 
-    /** TODO we should be calling this somewhere right? - AW
+    /**
+     * TODO we should be calling this somewhere right? - AW
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize () {
@@ -304,7 +306,6 @@ public class CatanGameState extends GameState {
         }
     }
 
-
     /*-------------------------------------Action Methods------------------------------------------*/
 
     /**
@@ -376,7 +377,6 @@ public class CatanGameState extends GameState {
 
         return true;
     } // end endTurn method
-
 
     /*---------------------------------------Trading Methods------------------------------------------*/
 
@@ -456,7 +456,6 @@ public class CatanGameState extends GameState {
         Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
     } // end tradeWithBank
-
 
     /*---------------------------------------Building Methods------------------------------------------*/
 
@@ -591,8 +590,6 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-
-
     /*----------------------------------------Robber Methods------------------------------------------*/
 
     /**
@@ -722,6 +719,7 @@ public class CatanGameState extends GameState {
     }
 
     /*-------------------------------------Getter/Setter Methods------------------------------------------*/
+
     public Dice getDice () {
         return dice;
     }
@@ -818,7 +816,7 @@ public class CatanGameState extends GameState {
         this.isSetupPhase = setupPhase;
     }
 
-    /*-------------------------------------toString Methods------------------------------------------*/
+    /*-------------------------------------toString------------------------------------------*/
 
     /**
      * TODO update???
