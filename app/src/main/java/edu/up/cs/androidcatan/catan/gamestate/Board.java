@@ -74,16 +74,15 @@ public class Board {
 
     public Board () {
         Log.d(TAG, "Board() called");
-
         this.roadGraph = new Road[54][54];
         robber = new Robber(0);
-        // populate ids
-        populateHexagonIds();
+
+
+        populateHexagonIds(); // populate ids
         populateIntersectionIds();
         populatePortIntersectionIds();
 
-        // generate adj. graphs
-        generateHexagonGraph();
+        generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
         generateRoadMatrix();
 
@@ -93,12 +92,10 @@ public class Board {
         //        Log.i(TAG, "Board: Printing iGraph...");
         //        printGraph(iGraph);
 
-        // generate maps
-        generateIntToHexMap();
+        generateIntToHexMap(); // generate maps
         generateHexToIntMap();
 
-        // generate hex tiles
-        generateHexagonTiles();
+        generateHexagonTiles(); // generate hex tiles
 
         designatePorts();
     } // end Board constructor
@@ -115,35 +112,51 @@ public class Board {
         this.setIntToHexIdMap(b.getIntToHexIdMap());
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
-        this.setHexagons(b.getHexagons());
         this.setRobber(new Robber(b.getRobber())); // class
         this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
+
+        for (Hexagon hexagon : b.getHexagons()) {
+            this.hexagons.add(new Hexagon(hexagon));
+        }
+
     } // end Board deep copy constructor
 
     //    alex's ultimate intersection adjacency method
     public ArrayList<Integer> getAdjacentIntersections (int intersection) {
+
         Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
 
         ArrayList<Integer> result = new ArrayList<>();
         ArrayList<Integer> allIntersections = new ArrayList<>();
 
-        for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
-            ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
-            allIntersections.addAll(allAdjInters);
-        }
-
-        for (int i = 0; i < allIntersections.size(); i++) {
-            int count = 0;
-            for (int j = 0; j < allIntersections.size(); j++) {
-                if (i == allIntersections.get(j)) {
-                    count++;
-                }
+        if (intersection == 24) {
+            result.add(25);
+            result.add(53);
+        } else if (intersection == 53) {
+            result.add(24);
+            result.add(52);
+        } else if (intersection > 24 && intersection < 53) {
+            result.add(intersection - 1);
+            result.add(intersection + 1);
+        } else {
+            for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
+                ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
+                allIntersections.addAll(allAdjInters);
             }
-            if (count == 3 && i != intersection) {
-                result.add(i);
+
+            for (int i = 0; i < allIntersections.size(); i++) {
+                int count = 0;
+                for (int j = 0; j < allIntersections.size(); j++) {
+                    if (i == allIntersections.get(j)) {
+                        count++;
+                    }
+                }
+                if (count == 3 && i != intersection) {
+                    result.add(i);
+                }
             }
         }
         Log.d(TAG, "getAdjacentIntersections() returned: " + result);
