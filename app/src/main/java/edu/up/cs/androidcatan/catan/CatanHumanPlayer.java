@@ -426,9 +426,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //        robberMove = (Button)activity.findViewById(R.id.)
         //        robberSteal = (Button)activity.findViewById(R.id.)
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
-        tradeButton = activity.findViewById(R.id.sidebar_button_trade);
-        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
-        tradePort = activity.findViewById(R.id.sidebar_button_trade);
+
+//        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade); TODO when trade menu is implemented
+//        tradePort = activity.findViewById(R.id.sidebar_button_trade); TODO when trade menu is implemented
         useDevCard = activity.findViewById(R.id.use_Card);
         buildDevCard = activity.findViewById(R.id.build_devCard);
         devCardList = activity.findViewById(R.id.development_Card_Spinner);
@@ -451,7 +451,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //        robberMove.setOnClickListener(this);
         //        robberSteal.setOnClickListener(this);
         rollButton.setOnClickListener(this);
-        tradeButton.setOnClickListener(this);
+
         tradeCustomPort.setOnClickListener(this);
         tradePort.setOnClickListener(this);
         useDevCard.setOnClickListener(this);
@@ -531,19 +531,28 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionOkButton.setOnClickListener(this);
         roadIntersectionCancelButton.setOnClickListener(this);
 
-        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+        /* development cards */
+
+
         // button listeners
         Button scoreButton = activity.findViewById(R.id.sidebar_button_score);
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
         scoreButton.setOnClickListener(this);
 
-        Button developmentButton = activity.findViewById(R.id.sidebar_button_devcards);
         developmentGroup = activity.findViewById(R.id.group_development_card_menu);
-        developmentButton.setOnClickListener(this);
+        buyDevCardButton.setOnClickListener(this);
 
-        //Trade group
+        /* ---------- trade menu / buttons ---------- */
+        tradeButton = activity.findViewById(R.id.sidebar_button_trade);
+        tradeButton.setOnClickListener(this);
         tradeGroup = activity.findViewById(R.id.group_trade_menu);
         tradeGroup.setOnClickListener(this);
+
+        /* ---------- Surface View for drawing the graphics ----------- */
+
+        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+
+        /* ----------   ---------- */
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
