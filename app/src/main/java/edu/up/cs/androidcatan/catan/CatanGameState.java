@@ -321,6 +321,7 @@ public class CatanGameState extends GameState {
         }
 
         int rollNum = dice.roll();
+        this.currentDiceSum = rollNum;
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
 
         // if the robber is rolled
@@ -335,7 +336,7 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "rollDice: Set isActionPhase to true.");
         this.isActionPhase = true;
 
-        return true;
+        return this;
     } // end rollDice action method
 
     /**
