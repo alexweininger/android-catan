@@ -8,7 +8,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
@@ -132,27 +131,6 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    // todo remove if we don't use
-    public <T> List<T> intersection (List<T> list1, List<T> list2) {
-        List<T> list = new ArrayList<T>();
-
-        for (T t : list1) {
-            if (list2.contains(t)) {
-                list.add(t);
-            }
-        }
-        return list;
-    }
-
-    /**
-     * @param pt1 First ordered x y pair.
-     * @param pt2 Second ordered x y pair.
-     * @return Distance between the given points.
-     */
-    public int getDistBtwPts (int[] pt1, int[] pt2) {
-        return (int) Math.hypot(pt1[0] - pt2[1], pt1[0] - pt2[1]);
-    }
-
     // method that generates the individual hexagon objects from the Hexagon class
     public void getHexagons (int x, int y, int size) {
 
@@ -225,11 +203,11 @@ public class HexagonGrid extends BoardSurfaceView {
         intersections[25] = new Intersection(25, 1523, 379);
         intersections[26] = new Intersection(26, 1372, 292);
         intersections[27] = new Intersection(27, 1361, 97);
-        intersections[28] = new Intersection(28, 1210, 10);
+        intersections[28] = new Intersection(28, 1210, 20);
         intersections[29] = new Intersection(29, 1038, 97);
-        intersections[30] = new Intersection(30, 887, 10);
+        intersections[30] = new Intersection(30, 887, 20);
         intersections[31] = new Intersection(31, 715, 97);
-        intersections[32] = new Intersection(32, 564, 10);
+        intersections[32] = new Intersection(32, 564, 20);
         intersections[33] = new Intersection(33, 403, 97);
         intersections[34] = new Intersection(34, 403, 292);
         intersections[35] = new Intersection(35, 241, 379);

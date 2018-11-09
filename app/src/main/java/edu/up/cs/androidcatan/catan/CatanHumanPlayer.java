@@ -46,8 +46,6 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
 public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
     private final String TAG = "CatanHumanPlayer";
 
-    /* instance variables */
-
     private ArrayList<Integer> buildingsBuiltOnThisTurn;
     private int currentBuildingSelectionId = 1;
 
@@ -132,10 +130,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private BoardSurfaceView boardSurfaceView;
 
-    private Canvas canvas = (Canvas) null;
-
-    //Counter Variables
-    private int roadCount = 0;
+    private int roadCount = 0; // counter variables
     private int settlementCount = 0;
 
     /*--------------------- Constructors ------------------------*/
@@ -756,7 +751,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void drawGraphics () {
         Log.d(TAG, "drawGraphics() called");
 
-        this.canvas = new Canvas(); // create Canvas object
+        Canvas canvas = new Canvas();
         boardSurfaceView.createHexagons(this.state.getBoard());
         boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
 
