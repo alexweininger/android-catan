@@ -338,8 +338,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.button_roadCancel){
+            Log.i(TAG, "onClick: Road Cancel Button");
             toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
             currentBuildingSelectionId = -1;
+            return;
         }
 
         if(button.getId() == R.id.button_singleIntersectionMenuOk){
@@ -520,6 +522,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel);
 
         roadIntersectionOkButton.setOnClickListener(this);
+        roadIntersectionCancelButton.setOnClickListener(this);
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         // button listeners
