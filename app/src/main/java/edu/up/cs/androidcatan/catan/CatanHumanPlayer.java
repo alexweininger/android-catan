@@ -508,6 +508,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Name = activity.findViewById(R.id.Player3_Name);
         this.player3Name = activity.findViewById(R.id.Player4_Name);
 
+        //Ignore this this.player0Name.setText();
+
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
 
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
