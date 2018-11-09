@@ -34,11 +34,10 @@ public class CatanGameState extends GameState {
 
     private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
-    // victory points of each player
-    private int[] playerVictoryPoints = new int[4];
+    private int[] playerVictoryPoints = new int[4]; // victory points of each player
     private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
 
-    private int currentDiceSum;
+    private int currentDiceSum; // the sum of the dice at this very moment
     private int currentPlayerId; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isSetupPhase = true;
