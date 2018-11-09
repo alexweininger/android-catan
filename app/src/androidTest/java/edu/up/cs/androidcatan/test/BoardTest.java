@@ -9,7 +9,6 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 public class BoardTest {
 
