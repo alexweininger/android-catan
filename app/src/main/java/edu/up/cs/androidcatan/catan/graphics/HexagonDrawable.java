@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.AttributeSet;
 
 /**
  * @author Alex Weininger
@@ -44,6 +45,14 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.hexagonId = hexagonId;
     }
 
+    public HexagonDrawable (Context context) {
+        super(context);
+    }
+
+    public HexagonDrawable (Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
     public void drawHexagon (Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(this.color);
@@ -80,19 +89,19 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         if (this.isRobber) {
             canvas.drawCircle(cx, cy, radius, robberPaint);
-            for (int i = 0; i < points.length; i++) {
-                //Log.e("Hexagon", "drawHexagon: hello");
-                //canvas.drawText("" + (i), points[i][0], points[i][1], blackFont);
-            }
+//            for (int i = 0; i < points.length; i++) {
+//                Log.e("Hexagon", "drawHexagon: hello");
+//                canvas.drawText("" + (i), points[i][0], points[i][1], blackFont);
+//            }
         }
 
         Paint intersectionPaint = new Paint();
         intersectionPaint.setColor(Color.DKGRAY);
         intersectionPaint.setStyle(Paint.Style.STROKE);
 
-        for (int i = 0; i < 6; i++) {
-            // canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
-        }
+//        for (int i = 0; i < 6; i++) {
+//            canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
+//        }
     }
 
     /**
