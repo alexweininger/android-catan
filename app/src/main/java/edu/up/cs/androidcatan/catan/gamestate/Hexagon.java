@@ -16,7 +16,6 @@ import android.graphics.Path;
 public class Hexagon {
 
     // instance variables
-    // game variables
     private int resourceId;
     private int chitValue;
     private int hexagonId;
@@ -46,7 +45,7 @@ public class Hexagon {
     }
 
     /**
-     * @return
+     * @return chit value of the hexagon
      */
     public int getChitValue () {
         return chitValue;
@@ -83,8 +82,8 @@ public class Hexagon {
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, paint);
 
-        for (int i = 0; i < points.length; i++) {
-            canvas.drawCircle(points[i][0], points[i][1], 25, robberPaint);
+        for (int[] point : points) {
+            canvas.drawCircle(point[0], point[1], 25, robberPaint);
         }
 
         if (isRobber) {
