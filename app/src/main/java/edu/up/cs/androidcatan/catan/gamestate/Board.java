@@ -266,6 +266,7 @@ public class Board {
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
+    //TODO properly implement this method and fix logic
     public int getPlayerWithLongestRoad (ArrayList<Player> playerList) {
         Log.i(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
@@ -277,6 +278,7 @@ public class Board {
             for (Road road : roads) {
                 if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoads.add(road);
+                    //check line below
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
@@ -300,6 +302,9 @@ public class Board {
             if (longestRoadPerPlayer.get(n) > currLongestRoad) {
                 currLongestRoad = longestRoadPerPlayer.get(n);
                 playerIdLongestRoad = n;
+            }
+            if (longestRoadPerPlayer.get(n) == currLongestRoad){
+                playerIdLongestRoad = -1;
             }
         }
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
