@@ -155,14 +155,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         super(name);
     }
 
-    /**
-     * Returns the GUI's top view object
-     *
-     * @return the top object in the GUI's view heirarchy
-     */
-    public View getTopView () {
-        return myActivity.findViewById(R.id.top_gui_layout);
-    }
+
 
     /**
      * callback method when we get a message (e.g., from the game)
@@ -628,6 +621,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     protected void initAfterReady () {
         Log.e(TAG, "initAfterReady() called");
+    }
+
+    /**
+     * Returns the GUI's top view object
+     *
+     * @return the top object in the GUI's view hierarchy
+     */
+    public View getTopView () {
+        return myActivity.findViewById(R.id.top_gui_layout);
     }
 
     /**
