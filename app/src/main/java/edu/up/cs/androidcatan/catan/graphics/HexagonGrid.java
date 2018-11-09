@@ -15,6 +15,14 @@ import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version November 8th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 public class HexagonGrid extends BoardSurfaceView {
 
     private static final String TAG = "HexagonGrid";

@@ -1,5 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
+
 import android.util.Log;
 
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -18,6 +19,15 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version November 8th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
 
 public class CatanLocalGame extends LocalGame {
 
