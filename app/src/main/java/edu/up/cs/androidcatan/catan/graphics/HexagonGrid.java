@@ -101,94 +101,92 @@ public class HexagonGrid extends BoardSurfaceView {
             Road r = dataRoads.get(k);
 
             canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), paint);
-
-//            // add each intersections adjacent hexagons to the "overlap" list
-//            overlap.addAll(board.getIntToHexIdMap().get(r.getIntersectionAId()));
-//            overlap.retainAll(board.getIntToHexIdMap().get(r.getIntersectionBId()));
-//
-//            // print "overlap" list
-//            Log.w(TAG, "drawRoads: overlap: " + overlap.toString());
-//
-//            // if there are exactly 2 overlapping hexagons (right now we need this)
-//            if (overlap.size() == 2) {
-//                Log.i(TAG, "drawRoads: drawing a road");
-//                Paint roadPaint = new Paint();
-//                roadPaint.setColor(playerColors[r.getOwnerId()]);
-//                roadPaint.setStyle(Paint.Style.FILL);
-//
-//                // draw a circle in the center of each hexagon
-//                int dataA = 0;
-//                int dataB = 0;
-//                for (int i = 0; i < dataToDrawMap.length; i++) {
-//                    if (dataToDrawMap[i] == ((ArrayList<Integer>) overlap).get(0)) {
-//                        dataA = i;
-//                    } else if (dataToDrawMap[i] == ((ArrayList<Integer>) overlap).get(1)) {
-//                        dataB = i;
-//                    }
-//                }
-//
-//                int[][] hexagonAPoints = drawingHexagons.get(dataA).getHexagonPoints();
-//                int[][] hexagonBPoints = drawingHexagons.get(dataB).getHexagonPoints();
-//
-//                int[] pointA = {hexagonAPoints[5][0], hexagonAPoints[5][1] + size};
-//                int[] pointB = {hexagonBPoints[5][0], hexagonBPoints[5][1] + size};
-//                int cxA = hexagonAPoints[5][0];
-//                int cyA = hexagonAPoints[5][1] + size;
-//
-//                int cxB = hexagonBPoints[5][0];
-//                int cyB = hexagonBPoints[5][1] + size;
-//
-//                // draw a circle in the center of each hexagon
-//                //                canvas.drawCircle(pointA[0], pointA[1], 25, roadPaint);
-//                //                canvas.drawCircle(pointB[0], pointB[1], 25, roadPaint);
-//
-//                int diff = getDistBtwPts(pointA, pointB);
-//
-//                Log.e(TAG, "drawRoads: diff: " + diff);
-//
-//                int[] roadPointsA = {cxA, cyA - size};
-//                int[] roadPointsB = {cxB, cyB + size};
-//
-//                // ???
-//                //                canvas.drawCircle(roadPointsA[0], roadPointsA[1], 25, roadPaint);
-//                //                canvas.drawCircle(roadPointsB[0], roadPointsB[1], 25, roadPaint);
-//
-//                int[] midpoint = {(roadPointsA[0] + roadPointsB[0]) / 2, (roadPointsA[1] + roadPointsB[1]) / 2};
-//
-//                canvas.drawCircle(midpoint[0], midpoint[1], 25, roadPaint);
-//
-//                //                canvas.drawLine(roadPointsA[0], roadPointsA[1], roadPointsB[0],  roadPointsB[1], roadPaint);
-//                //                Path roadPath = new Path();
-//                //
-//                //                // starting point
-//                //                roadPath.moveTo(roadPointsA[0], roadPointsA[1]);
-//                //
-//                //                // upper right
-//                //                roadPath.lineTo(roadPointsA[0] + margin, roadPointsA[1] - margin);
-//                //
-//                //                // lower right
-//                //                roadPath.lineTo(roadPointsB[0] + margin, roadPointsB[1] - margin);
-//                //
-//                //                // lower left
-//                //                roadPath.lineTo(roadPointsB[0], roadPointsB[1]);
-//                //
-//                //                // upper left
-//                //                roadPath.lineTo(roadPointsA[0], roadPointsA[1]);
-//                //
-//                //                canvas.drawPath(roadPath, roadPaint);
-//
-//            } else if (overlap.size() == 1) {
-//                Log.e(TAG, "drawRoads: overlap size is 1.");
-//                ArrayList<Integer> hexes = board.getIntToHexIdMap().get(k);
-//                Hexagon h = board.getHexagonFromId(hexes.get(0));
-//
-//                for (int i = 0; i < this.dataToDrawMap.length; i++) {
-//                    //if (dataToDrawMap[i] == )
-//                }
-//
-//                //canvas.drawCircle(cx, cy, radius, roadPaint);
-//            }
-
+            //            // add each intersections adjacent hexagons to the "overlap" list
+            //            overlap.addAll(board.getIntToHexIdMap().get(r.getIntersectionAId()));
+            //            overlap.retainAll(board.getIntToHexIdMap().get(r.getIntersectionBId()));
+            //
+            //            // print "overlap" list
+            //            Log.w(TAG, "drawRoads: overlap: " + overlap.toString());
+            //
+            //            // if there are exactly 2 overlapping hexagons (right now we need this)
+            //            if (overlap.size() == 2) {
+            //                Log.i(TAG, "drawRoads: drawing a road");
+            //                Paint roadPaint = new Paint();
+            //                roadPaint.setColor(playerColors[r.getOwnerId()]);
+            //                roadPaint.setStyle(Paint.Style.FILL);
+            //
+            //                // draw a circle in the center of each hexagon
+            //                int dataA = 0;
+            //                int dataB = 0;
+            //                for (int i = 0; i < dataToDrawMap.length; i++) {
+            //                    if (dataToDrawMap[i] == ((ArrayList<Integer>) overlap).get(0)) {
+            //                        dataA = i;
+            //                    } else if (dataToDrawMap[i] == ((ArrayList<Integer>) overlap).get(1)) {
+            //                        dataB = i;
+            //                    }
+            //                }
+            //
+            //                int[][] hexagonAPoints = drawingHexagons.get(dataA).getHexagonPoints();
+            //                int[][] hexagonBPoints = drawingHexagons.get(dataB).getHexagonPoints();
+            //
+            //                int[] pointA = {hexagonAPoints[5][0], hexagonAPoints[5][1] + size};
+            //                int[] pointB = {hexagonBPoints[5][0], hexagonBPoints[5][1] + size};
+            //                int cxA = hexagonAPoints[5][0];
+            //                int cyA = hexagonAPoints[5][1] + size;
+            //
+            //                int cxB = hexagonBPoints[5][0];
+            //                int cyB = hexagonBPoints[5][1] + size;
+            //
+            //                // draw a circle in the center of each hexagon
+            //                //                canvas.drawCircle(pointA[0], pointA[1], 25, roadPaint);
+            //                //                canvas.drawCircle(pointB[0], pointB[1], 25, roadPaint);
+            //
+            //                int diff = getDistBtwPts(pointA, pointB);
+            //
+            //                Log.e(TAG, "drawRoads: diff: " + diff);
+            //
+            //                int[] roadPointsA = {cxA, cyA - size};
+            //                int[] roadPointsB = {cxB, cyB + size};
+            //
+            //                // ???
+            //                //                canvas.drawCircle(roadPointsA[0], roadPointsA[1], 25, roadPaint);
+            //                //                canvas.drawCircle(roadPointsB[0], roadPointsB[1], 25, roadPaint);
+            //
+            //                int[] midpoint = {(roadPointsA[0] + roadPointsB[0]) / 2, (roadPointsA[1] + roadPointsB[1]) / 2};
+            //
+            //                canvas.drawCircle(midpoint[0], midpoint[1], 25, roadPaint);
+            //
+            //                //                canvas.drawLine(roadPointsA[0], roadPointsA[1], roadPointsB[0],  roadPointsB[1], roadPaint);
+            //                //                Path roadPath = new Path();
+            //                //
+            //                //                // starting point
+            //                //                roadPath.moveTo(roadPointsA[0], roadPointsA[1]);
+            //                //
+            //                //                // upper right
+            //                //                roadPath.lineTo(roadPointsA[0] + margin, roadPointsA[1] - margin);
+            //                //
+            //                //                // lower right
+            //                //                roadPath.lineTo(roadPointsB[0] + margin, roadPointsB[1] - margin);
+            //                //
+            //                //                // lower left
+            //                //                roadPath.lineTo(roadPointsB[0], roadPointsB[1]);
+            //                //
+            //                //                // upper left
+            //                //                roadPath.lineTo(roadPointsA[0], roadPointsA[1]);
+            //                //
+            //                //                canvas.drawPath(roadPath, roadPaint);
+            //
+            //            } else if (overlap.size() == 1) {
+            //                Log.e(TAG, "drawRoads: overlap size is 1.");
+            //                ArrayList<Integer> hexes = board.getIntToHexIdMap().get(k);
+            //                Hexagon h = board.getHexagonFromId(hexes.get(0));
+            //
+            //                for (int i = 0; i < this.dataToDrawMap.length; i++) {
+            //                    //if (dataToDrawMap[i] == )
+            //                }
+            //
+            //                //canvas.drawCircle(cx, cy, radius, roadPaint);
+            //            }
         }
     }
 
@@ -279,7 +277,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    public void generateIntersections(){
+    public void generateIntersections () {
         intersections[0] = new Intersection(0, 1049, 642);
         intersections[1] = new Intersection(1, 887, 574);
         intersections[2] = new Intersection(2, 726, 642);
@@ -336,113 +334,113 @@ public class HexagonGrid extends BoardSurfaceView {
         intersections[53] = new Intersection(53, 1684, 642);
     }
 
-//    public void getIntersections (int x, int y, int size, Canvas canvas) {
-//
-//        int offsetX;
-//        int[] rows = {1, 1, 0, 1, 1};
-//        Paint intersectionPaint = new Paint();
-//        intersectionPaint.setTextSize(24);
-//        intersectionPaint.setColor(Color.RED);
-//
-//        int count = 0;
-//        for (int i = 0; i < 5; i++) {
-//
-//            for (int j = 0; j < hexagonsInEachRow[i]; j++) {
-//
-//                for (int k = 0; k < 4; k++) {
-//
-//                }
-//
-//                offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
-//
-//                int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
-//                int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
-//
-////                canvas.drawCircle(xPos, yPos + size, 25, intersectionPaint);
-////                canvas.drawCircle(xPos, yPos - size, 25, intersectionPaint);
-//                int top = yPos + size;
-//                int bottom = yPos - size;
-//                canvas.drawText(xPos + ", " + top, xPos, yPos + size, intersectionPaint);
-//                canvas.drawText(xPos + ", " + bottom, xPos, yPos - size, intersectionPaint);
-//
-//                if(count == 0){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[4][0];
-//                    int cornerY = points[4][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                    cornerX = points[0][0];
-//                    cornerY = points[0][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 1 || count == 2|| count == 6){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[0][0];
-//                    int cornerY = points[0][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 3){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[4][0];
-//                    int cornerY = points[4][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 7){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[4][0];
-//                    int cornerY = points[4][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                    cornerX = points[3][0];
-//                    cornerY = points[3][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 11){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[0][0];
-//                    int cornerY = points[0][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                    cornerX = points[1][0];
-//                    cornerY = points[1][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 12){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[3][0];
-//                    int cornerY = points[3][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 15){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[1][0];
-//                    int cornerY = points[1][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 16){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[3][0];
-//                    int cornerY = points[3][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                    cornerX = points[1][0];
-//                    cornerY = points[1][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-//                if(count == 17 || count == 18){
-//                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
-//                    int cornerX = points[1][0];
-//                    int cornerY = points[1][1];
-//                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
-//                }
-////                int[] topCenter = drawingHexagons.get(i).getHexagonPoints()[5];
-////                int[] bottomCenter = drawingHexagons.get(i).getHexagonPoints()[2];
-////
-////                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
-////                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
-//                count++;
-//
-//            }
-//
-//
-//        }
-//    }
+    //    public void getIntersections (int x, int y, int size, Canvas canvas) {
+    //
+    //        int offsetX;
+    //        int[] rows = {1, 1, 0, 1, 1};
+    //        Paint intersectionPaint = new Paint();
+    //        intersectionPaint.setTextSize(24);
+    //        intersectionPaint.setColor(Color.RED);
+    //
+    //        int count = 0;
+    //        for (int i = 0; i < 5; i++) {
+    //
+    //            for (int j = 0; j < hexagonsInEachRow[i]; j++) {
+    //
+    //                for (int k = 0; k < 4; k++) {
+    //
+    //                }
+    //
+    //                offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
+    //
+    //                int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
+    //                int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
+    //
+    ////                canvas.drawCircle(xPos, yPos + size, 25, intersectionPaint);
+    ////                canvas.drawCircle(xPos, yPos - size, 25, intersectionPaint);
+    //                int top = yPos + size;
+    //                int bottom = yPos - size;
+    //                canvas.drawText(xPos + ", " + top, xPos, yPos + size, intersectionPaint);
+    //                canvas.drawText(xPos + ", " + bottom, xPos, yPos - size, intersectionPaint);
+    //
+    //                if(count == 0){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[4][0];
+    //                    int cornerY = points[4][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                    cornerX = points[0][0];
+    //                    cornerY = points[0][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 1 || count == 2|| count == 6){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[0][0];
+    //                    int cornerY = points[0][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 3){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[4][0];
+    //                    int cornerY = points[4][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 7){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[4][0];
+    //                    int cornerY = points[4][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                    cornerX = points[3][0];
+    //                    cornerY = points[3][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 11){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[0][0];
+    //                    int cornerY = points[0][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                    cornerX = points[1][0];
+    //                    cornerY = points[1][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 12){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[3][0];
+    //                    int cornerY = points[3][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 15){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[1][0];
+    //                    int cornerY = points[1][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 16){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[3][0];
+    //                    int cornerY = points[3][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                    cornerX = points[1][0];
+    //                    cornerY = points[1][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    //                if(count == 17 || count == 18){
+    //                    int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
+    //                    int cornerX = points[1][0];
+    //                    int cornerY = points[1][1];
+    //                    canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
+    //                }
+    ////                int[] topCenter = drawingHexagons.get(i).getHexagonPoints()[5];
+    ////                int[] bottomCenter = drawingHexagons.get(i).getHexagonPoints()[2];
+    ////
+    ////                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
+    ////                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
+    //                count++;
+    //
+    //            }
+    //
+    //
+    //        }
+    //    }
 
     /* ----- getters and setters ------ */
 
