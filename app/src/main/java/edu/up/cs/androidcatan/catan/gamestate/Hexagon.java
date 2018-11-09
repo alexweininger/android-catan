@@ -22,12 +22,13 @@ public class Hexagon {
      * @param chitValue - dice value of hexagon
      */
     public Hexagon (int resourceType, int chitValue, int hexagonId) {
+        this.hexagonId = hexagonId;
         this.resourceId = resourceType;
         this.chitValue = chitValue;
-        this.hexagonId = hexagonId;
     }
 
     public Hexagon (Hexagon h) {
+        this.setHexagonId(h.getHexagonId());
         this.setChitValue(h.getChitValue());
         this.setResourceId(h.getResourceId());
     }
@@ -37,6 +38,10 @@ public class Hexagon {
      */
     public int getResourceId () {
         return resourceId;
+    }
+
+    public void setHexagonId (int hexagonId) {
+        this.hexagonId = hexagonId;
     }
 
     /**

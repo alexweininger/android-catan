@@ -254,10 +254,15 @@ public class HexagonGrid extends BoardSurfaceView {
                 Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
+
+                if (isRobberHexagon) {
+                    Log.w(TAG, "getHexagons: isRobberHexagon = " + isRobberHexagon + " at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                }
+
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
 
                 if (isDesertHexagon) {
-                    Log.w(TAG, "getHexagons: desert tile found to be at hexagon id: " + dataHexagonsIndex);
+                    Log.w(TAG, "getHexagons: desert tile found to be at drawing hexagon id: " + dataHexagonsIndex + " and data hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 }
 
                 offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
@@ -268,6 +273,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 drawingHexagons.add(hexagon);
+                Log.w(TAG, "getHexagons: dataHexagonsIndex: " + dataHexagonsIndex + " current hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 dataHexagonsIndex++;
             }
         }

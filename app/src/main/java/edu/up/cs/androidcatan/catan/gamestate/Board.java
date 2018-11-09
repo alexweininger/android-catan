@@ -460,6 +460,7 @@ public class Board {
                 randomChitValue = 0;
             }
 
+            Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             resourceTypeCount[randomResourceType]--;
             chitValuesCount[randomChitValue]--;
