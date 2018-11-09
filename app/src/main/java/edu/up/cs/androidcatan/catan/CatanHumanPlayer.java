@@ -259,34 +259,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.sidebar_button_road){
             if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+                developmentGroup.setVisibility(View.GONE);
+                tradeGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 0;
-            } else {
-                currentBuildingSelectionId = -1;
             }
             return;
         }
 
         if(button.getId() == R.id.sidebar_button_settlement){
             if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                developmentGroup.setVisibility(View.GONE);
+                tradeGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 1;
-            } else {
-                currentBuildingSelectionId = -1;
             }
             return;
         }
 
         if (button.getId() == R.id.sidebar_button_city) {
             if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+                developmentGroup.setVisibility(View.GONE);
+                tradeGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
                 singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 2;
-            } else {
-                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                currentBuildingSelectionId = -1;
             }
             return;
         }
