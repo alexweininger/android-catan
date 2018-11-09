@@ -180,4 +180,8 @@ public class CatanLocalGame extends LocalGame {
         Log.e(TAG, "makeMove: FATAL ERROR: GameAction action was not and instance of an action class that we recognize.");
         return false;
     }
+
+    public String getPlayerName(int playerId){
+        return this.playerNames[playerId];
+    }
 }

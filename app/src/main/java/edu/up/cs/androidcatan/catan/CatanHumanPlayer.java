@@ -29,6 +29,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
@@ -507,6 +508,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Name = activity.findViewById(R.id.Player3_Name);
         this.player3Name = activity.findViewById(R.id.Player4_Name);
 
+        //Ignore this this.player0Name.setText();
+
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
 
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
@@ -669,7 +672,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.roadIntersectionCancelButton.setClickable(false);
             this.roadIntersectionAEditText.setAlpha(0.5f);
             this.roadIntersectionAEditText.setEnabled(false);
-        } else {
+        }
+        else if(!state.isActionPhase()){
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.rollButton.setAlpha(1f);
+            this.rollButton.setClickable(true);
+            this.buyDevCardButton.setAlpha(0.5f);
+            this.buyDevCardButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+
+            this.singleIntersectionCancelButton.setAlpha(0.5f);
+            this.singleIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionCancelButton.setAlpha(0.5f);
+            this.roadIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionAEditText.setAlpha(0.5f);
+            this.roadIntersectionAEditText.setEnabled(false);
+        }
+        else {
             // if it is NOT the setup phase, no greyed out buttons and all are clickable
             setAllButtonsToVisible();
         }
@@ -696,16 +723,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         switch (state.getCurrentPlayerId()) {
             case 0:
-                player0Name.setBackgroundColor(Color.WHITE);
+                player0Name.setBackgroundColor(HexagonGrid.playerColors[0]);
                 break;
             case 1:
-                player1Name.setBackgroundColor(Color.WHITE);
+                player1Name.setBackgroundColor(HexagonGrid.playerColors[1]);
                 break;
             case 2:
-                player2Name.setBackgroundColor(Color.WHITE);
+                player2Name.setBackgroundColor(HexagonGrid.playerColors[2]);
                 break;
             case 3:
-                player3Name.setBackgroundColor(Color.WHITE);
+                player3Name.setBackgroundColor(HexagonGrid.playerColors[3]);
                 break;
         }
 
