@@ -150,7 +150,7 @@
         app:srcCompat="@drawable/grain_icon_25x25" />
 
     <ImageView
-        android:id="@+id/lumberImgReceive"
+        android:id="@+id/robber_discard_lumberImgReceive"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="19dp"
@@ -166,8 +166,8 @@
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/ore"
-        app:layout_constraintStart_toEndOf="@+id/lumberImgReceive"
-        app:layout_constraintTop_toTopOf="@+id/lumberImgReceive"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_lumberImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_lumberImgReceive"
         app:srcCompat="@drawable/ore_icon_25x25" />
 
     <ImageView
@@ -275,6 +275,6 @@
         android:id="@+id/tradeConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="bringImgGive,tradeCancel,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,robber_discard_woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,robber_discard_oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,tradeConfirm,grainSelectiomBoxGive" />
+        app:constraint_referenced_ids="bringImgGive,tradeCancel,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,robber_discard_woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,robber_discard_oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,robber_discard_lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,tradeConfirm,grainSelectiomBoxGive" />
 
 </android.support.constraint.ConstraintLayout>
