@@ -77,7 +77,6 @@ public class Board {
         this.roadGraph = new Road[54][54];
         robber = new Robber(0);
 
-
         populateHexagonIds(); // populate ids
         populateIntersectionIds();
         populatePortIntersectionIds();
@@ -124,7 +123,12 @@ public class Board {
 
     } // end Board deep copy constructor
 
-    //    alex's ultimate intersection adjacency method
+    /**
+     * alex's ultimate intersection adjacency method
+     *
+     * @param intersection Intersection
+     * @return ArrayList of adjacent intersections.
+     */
     public ArrayList<Integer> getAdjacentIntersections (int intersection) {
 
         Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
@@ -142,6 +146,7 @@ public class Board {
             result.add(intersection - 1);
             result.add(intersection + 1);
         } else {
+
             for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
                 ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
                 allIntersections.addAll(allAdjInters);
@@ -159,7 +164,7 @@ public class Board {
                 }
             }
         }
-        Log.d(TAG, "getAdjacentIntersections() returned: " + result);
+        Log.d(TAG, "ALEX getAdjacentIntersections() returned: " + result);
         return result;
     }
 
@@ -647,6 +652,11 @@ public class Board {
         if (adjacentIntersections.size() > 3) {
             Log.e(TAG, "getAdjacentIntersectionsToIntersection: Received more than 3 adjacent intersections. That makes no sense.");
         }
+
+        if (adjacentIntersections.size() < 2) {
+            Log.e(TAG, "getAdjacentIntersectionsToIntersection: Did not find 2 adjacent intersections. This is not good.", new Exception("Intersection adjacency error."));
+        }
+
         Log.d(TAG, "getAdjacentIntersectionsToIntersection() returned: " + adjacentIntersections);
         return adjacentIntersections;
     }
