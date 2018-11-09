@@ -240,6 +240,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
+            setAllButtonsToVisible();
+            button.setClickable(false);
             return;
         }
         if (button.getId() == R.id.sidebar_button_endturn) {
