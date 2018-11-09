@@ -29,6 +29,7 @@ public class CatanLocalGame extends LocalGame {
         super();
         gameState = new CatanGameState();
     }
+
     /*---------------------- Methods for checking the Game State and updating it ------------------------------------*/
 
     /**
