@@ -350,8 +350,8 @@ public class Board {
      */
     public boolean validBuildingLocation (int playerId, boolean isSetupPhase, int intersectionId) {
         Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
-        if(playerId < 0 || playerId > 3){
-            Log.e(TAG, "validBuildingLocation: returned " + false + " because playerId is not in range(" + playerId + ")" );
+        if (playerId < 0 || playerId > 3) {
+            Log.e(TAG, "validBuildingLocation: returned " + false + " because playerId is not in range(" + playerId + ")");
             return false;
         }
         if (intersectionId < 0 || intersectionId > buildings.length - 1) {
@@ -698,7 +698,7 @@ public class Board {
         return this.hexagons.get(hexagonId);
     }
 
-    public boolean areIntersectionsAdjacent(int intA, int intB) {
+    public boolean areIntersectionsAdjacent (int intA, int intB) {
         if (intA < 0 || intB < 0 || intA > 53 || intB > 53) {
             Log.e(TAG, "areIntersectionsAdjacent: Index out of bounds for checking intersection adjacency.");
             return false;
