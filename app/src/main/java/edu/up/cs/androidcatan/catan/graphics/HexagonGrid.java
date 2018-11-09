@@ -172,6 +172,9 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
+    /**
+     * @param canvas Canvas object to draw the buildings on.
+     */
     public void drawBuildings (Canvas canvas) {
         Paint bldgPaint = new Paint();
         bldgPaint.setColor(Color.CYAN);
@@ -255,7 +258,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    public void generateIntersections(){
+    public void generateIntersections () {
         intersections[1] = new Intersection(0, 1049, 642);
         intersections[2] = new Intersection(0, 1049, 642);
         intersections[3] = new Intersection(0, 1049, 642);
@@ -318,14 +321,14 @@ public class HexagonGrid extends BoardSurfaceView {
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
-//                canvas.drawCircle(xPos, yPos + size, 25, intersectionPaint);
-//                canvas.drawCircle(xPos, yPos - size, 25, intersectionPaint);
+                //                canvas.drawCircle(xPos, yPos + size, 25, intersectionPaint);
+                //                canvas.drawCircle(xPos, yPos - size, 25, intersectionPaint);
                 int top = yPos + size;
                 int bottom = yPos - size;
                 canvas.drawText(xPos + ", " + top, xPos, yPos + size, intersectionPaint);
                 canvas.drawText(xPos + ", " + bottom, xPos, yPos - size, intersectionPaint);
 
-                if(count == 0){
+                if (count == 0) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[4][0];
                     int cornerY = points[4][1];
@@ -334,19 +337,19 @@ public class HexagonGrid extends BoardSurfaceView {
                     cornerY = points[0][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 1 || count == 2|| count == 6){
+                if (count == 1 || count == 2 || count == 6) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[0][0];
                     int cornerY = points[0][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 3){
+                if (count == 3) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[4][0];
                     int cornerY = points[4][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 7){
+                if (count == 7) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[4][0];
                     int cornerY = points[4][1];
@@ -355,7 +358,7 @@ public class HexagonGrid extends BoardSurfaceView {
                     cornerY = points[3][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 11){
+                if (count == 11) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[0][0];
                     int cornerY = points[0][1];
@@ -364,19 +367,19 @@ public class HexagonGrid extends BoardSurfaceView {
                     cornerY = points[1][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 12){
+                if (count == 12) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[3][0];
                     int cornerY = points[3][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 15){
+                if (count == 15) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[1][0];
                     int cornerY = points[1][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 16){
+                if (count == 16) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[3][0];
                     int cornerY = points[3][1];
@@ -385,17 +388,17 @@ public class HexagonGrid extends BoardSurfaceView {
                     cornerY = points[1][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-                if(count == 17 || count == 18){
+                if (count == 17 || count == 18) {
                     int[][] points = Hexagon.calculateHexagonPoints(xPos, yPos, size);
                     int cornerX = points[1][0];
                     int cornerY = points[1][1];
                     canvas.drawText(cornerX + ", " + cornerY, cornerX, cornerY, intersectionPaint);
                 }
-//                int[] topCenter = drawingHexagons.get(i).getHexagonPoints()[5];
-//                int[] bottomCenter = drawingHexagons.get(i).getHexagonPoints()[2];
-//
-//                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
-//                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
+                //                int[] topCenter = drawingHexagons.get(i).getHexagonPoints()[5];
+                //                int[] bottomCenter = drawingHexagons.get(i).getHexagonPoints()[2];
+                //
+                //                canvas.drawCircle(topCenter[0], topCenter[1], 25, intersectionPaint);
+                //                canvas.drawCircle(bottomCenter[0], bottomCenter[1], 25, intersectionPaint);
                 count++;
 
             }
