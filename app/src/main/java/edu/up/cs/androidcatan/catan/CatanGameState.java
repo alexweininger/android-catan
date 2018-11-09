@@ -305,6 +305,7 @@ public class CatanGameState extends GameState {
         }
     }
 
+
     /*-------------------------------------Action Methods------------------------------------------*/
 
     /**
@@ -668,6 +669,10 @@ public class CatanGameState extends GameState {
         this.playerList.get(playerId).addResourceCard(randomStolenResourceId, 1);
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
+    }
+
+    public boolean hasSevenPlusCards(Player player){
+        return false;
     }
 
     /*-------------------------------------Setup Phase Methods------------------------------------------*/
