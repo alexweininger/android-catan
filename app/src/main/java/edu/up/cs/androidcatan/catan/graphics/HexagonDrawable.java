@@ -6,6 +6,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version November 8th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
+
 public class HexagonDrawable extends BoardSurfaceView {
 
     protected int hexagonId;

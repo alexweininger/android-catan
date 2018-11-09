@@ -20,7 +20,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 30th, 2018
+ * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanGameState extends GameState {
