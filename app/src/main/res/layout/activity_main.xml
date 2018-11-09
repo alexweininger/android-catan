@@ -25,7 +25,6 @@
         android:id="@+id/board"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,12 +55,6 @@
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
-    <android.support.constraint.Group
-        android:id="@+id/group_build_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="cancelButton,okButton,label_confirm_trade" />
 
 
     <!-- static bottom menu START -->
@@ -159,52 +152,6 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.92" />
-
-    <TextView
-        android:id="@+id/label_confirm_trade"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:gravity="end|center"
-        android:text="@string/confirmString"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_buildmenu"
-        app:layout_constraintEnd_toStartOf="@+id/okButton"
-        app:layout_constraintStart_toStartOf="@+id/guideline_right_sidebar"
-        app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/cancelButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="97dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="12dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_buildmenu"
-        app:layout_constraintEnd_toStartOf="@+id/right_buildmenu"
-        app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex"
-        app:layout_constraintVertical_bias="0.6" />
-
-    <Button
-        android:id="@+id/okButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="97dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="124dp"
-        android:layout_marginBottom="8dp"
-        android:text="@android:string/ok"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_buildmenu"
-        app:layout_constraintEnd_toStartOf="@+id/right_buildmenu"
-        app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex"
-        app:layout_constraintVertical_bias="0.538" />
 
     <android.support.constraint.Guideline
         android:id="@+id/bottom_buildmenu"
@@ -507,7 +454,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/heading_actions"
+        android:text="@string/heading_turn"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@android:color/black"
@@ -580,7 +527,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/Player1"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/holo_red_dark"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
@@ -960,7 +907,7 @@
         android:layout_height="140dp"
         android:alpha="0.5"
         android:background="@android:color/background_light"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/button_trade_menu_confirm"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
         app:layout_constraintHorizontal_bias="0.916"
@@ -1314,6 +1261,7 @@
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectiomBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,birckSelectionBoxGive,woolSelectionBoxReceive,birckImgReceive,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
 
 
