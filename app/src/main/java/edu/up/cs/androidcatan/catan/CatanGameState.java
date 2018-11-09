@@ -45,7 +45,6 @@ public class CatanGameState extends GameState {
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
-
     public CatanGameState () { // CatanGameState constructor
         this.dice = new Dice();
         this.board = new Board();
@@ -83,9 +82,12 @@ public class CatanGameState extends GameState {
         this.isSetupPhase = cgs.isSetupPhase;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
+
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
         this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
+
+        this.setBoard(cgs.getBoard());
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
@@ -102,7 +104,7 @@ public class CatanGameState extends GameState {
     /*-------------------------------------Dev Card Methods------------------------------------------*/
 
     /**
-     * creates a deck of int representing the exact number each type of card
+     * Creates a 'deck' of int representing the exact number each type of card. This allows us to accurately select a card at random.
      */
     private void generateDevCardDeck () {
         int[] devCardCounts = {14, 5, 2, 2, 2};
@@ -114,22 +116,25 @@ public class CatanGameState extends GameState {
     }
 
     /**
-     * @return the random dev card the player drew
+     * @return The id of the development card the player drew randomly.
      */
     public DevelopmentCard getRandomCard () {
+        // generate random number from 0 to the length of the dev card deck
         Random random = new Random();
         int randomDevCard = random.nextInt(developmentCards.size() - 1);
+
+        // get the random dev card id, then remove the card from the deck
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
+
         return new DevelopmentCard(drawnDevCard);
     }
 
     /**
-     * TODO needs to take a dev card id as parameter and buy that specific card IMPLEMENT
-     * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory
+     * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory.
      *
-     * @param playerId - player who is requesting to buy dev card
-     * @return - action success
+     * @param playerId Player id of the player who's requesting to buy a development card.
+     * @return - Action success.
      */
     public boolean buyDevCard (int playerId) {
         // check if player id is valid and if action phase of players turn
@@ -137,24 +142,24 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        Player p = this.playerList.get(playerId);
+        Player player = this.playerList.get(playerId);
 
         // check if player can build dev card
-        if (!p.checkResourceBundle(DevelopmentCard.resourceCost)) {
+        if (!player.checkResourceBundle(DevelopmentCard.resourceCost)) {
             return false;
         }
 
         // remove resources from players inventory (also does checks)
-        if (!p.removeResourceBundle(DevelopmentCard.resourceCost)) {
+        if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) {
             return false;
         }
 
         // add random dev card to players inventory
-        p.addDevelopmentCard(getRandomCard());
+        player.addDevelopmentCard(getRandomCard());
         return true;
     }
 
-    /**
+    /** TODO ???
      * Method determines whether it is a valid move to use one of their dev cards or not
      *
      * @param playerId - player playing development card
