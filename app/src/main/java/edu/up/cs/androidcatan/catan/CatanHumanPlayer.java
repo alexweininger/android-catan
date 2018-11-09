@@ -27,7 +27,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
-import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
@@ -49,21 +48,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /* instance variables */
 
-    // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {2, 1, 2, 0, 1}; // array for number of each resource card a player has
-
-    // array for relating resource card names to resource card ids in the resourceCards array above
-    private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
-
-    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
-
-    private int[] buildingInventory = {15, 5, 4}; // number of buildings the player has to build {roads, settlements, cities}
-
     private int armySize = 0; // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
-
-    private int playerId; // playerId
-
-    private String currentBuildingSelection = null;
 
     private ArrayList<Integer> buildingsBuiltOnThisTurn;
 
@@ -304,7 +289,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildRoad(intersectionA, intersectionB)) {
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.playerId);
+                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
                 game.sendAction(action);
 
                 Log.d(TAG, "onClick: valid location");
@@ -355,10 +340,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (tryBuildSettlement(singleIntersectionIdInput)) {
                 if (currentBuildingSelectionId == 1) {
-                    CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.playerId);
+                    CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.state.getCurrentPlayerId());
                     game.sendAction(action);
                 } else {
-                    CatanBuildCityAction action = new CatanBuildCityAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.playerId);
+                    CatanBuildCityAction action = new CatanBuildCityAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.state.getCurrentPlayerId());
                     game.sendAction(action);
                 }
                 Log.d(TAG, "onClick: valid location");
@@ -715,7 +700,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----- update resource value TextViews ----- */
 
-        int[] resourceCards = this.state.getPlayerList().get(this.playerId).getResourceCards();
+        int[] resourceCards = this.state.getPlayerList().get(this.state.getCurrentPlayerId()).getResourceCards();
         this.brickValue.setText(String.valueOf(resourceCards[0]));
         this.grainValue.setText(String.valueOf(resourceCards[1]));
         this.lumberValue.setText(String.valueOf(resourceCards[2]));
@@ -754,7 +739,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ----- update misc. sidebar TextViews ----- */
 
         // human player score (sidebar menu)
-        this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.playerId]));
+        this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
 
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
