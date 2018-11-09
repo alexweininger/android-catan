@@ -28,7 +28,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     /**
      * ctor does nothing extra
      */
-    public CatanDumbComputerPlayer(String name) {
+    public CatanDumbComputerPlayer (String name) {
         super(name);
     }
 
@@ -38,7 +38,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
      * @param info the information (presumably containing the game's state)
      */
     @Override
-    protected void receiveInfo(GameInfo info) {
+    protected void receiveInfo (GameInfo info) {
         Log.i(TAG, "receiveInfo() called with: info = [" + info + "]");
         if (!(info instanceof CatanGameState)) return;
 
@@ -79,18 +79,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 randSettlementIntersection = random.nextInt(53);
             }
 
-            // get adjacent intersections to what we just built
-            ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getAdjacentIntersectionsToIntersection(randSettlementIntersection);
-
-            Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
-            // choose a random intersection from those intersections
-            int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-            // generate random intersection until we find a valid location to build our settlement
-            while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection))) {
-                randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-            }
-
-            if (settlementCount <= roadCount) { // need to build a settlement
+            if (gs.isSetupPhase()) { // need to build a settlement
                 Log.w(TAG, "receiveInfo: Attempting to build a settlement at intersection " + randSettlementIntersection);
 
                 // add just enough resources for a settlement
@@ -105,9 +94,20 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection));
 
                 Log.d(TAG, "receiveInfo() returned: void");
-                return;
 
-            } else { // need to build road
+                // CPU should now build a road...
+
+                // get adjacent intersections to what we just built
+                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(randSettlementIntersection);
+
+                Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
+                // choose a random intersection from those intersections
+                int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                // generate random intersection until we find a valid location to build our settlement
+                while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection))) {
+                    randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                }
+
                 Log.w(TAG, "receiveInfo: Attempting to build a road between " + intersectionsToChooseFrom.get(randomRoadIntersection) + " and " + randSettlementIntersection);
 
                 // add just enough resources for a road
@@ -121,11 +121,13 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 Log.d(TAG, "receiveInfo() returned: void");
                 return;
             }
+
         } else {
             Log.i(TAG, "receiveInfo: Not setup phase.");
+            game.sendAction(new CatanRollDiceAction(this));
+            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+            game.sendAction(new CatanEndTurnAction(this));
         }
-        game.sendAction(new CatanRollDiceAction(this));
-        Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-        game.sendAction(new CatanEndTurnAction(this));
+
     }//receiveInfo
 }

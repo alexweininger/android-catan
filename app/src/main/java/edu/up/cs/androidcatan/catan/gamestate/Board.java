@@ -85,6 +85,7 @@ public class Board {
 
         generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
+        generateNewIntersectionGraphManually(); // new intersection graph
         generateRoadMatrix();
 
         //         print graphs
@@ -118,6 +119,8 @@ public class Board {
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
+
+        this.setIntersectionGraph(b.getIntersectionGraph());
 
         for (Hexagon hexagon : b.getHexagons()) {
             this.hexagons.add(new Hexagon(hexagon));
@@ -329,7 +332,7 @@ public class Board {
      */
     public boolean checkDeadEnd (int intersectionId, Road[][] road) {
         Log.d(TAG, "checkDeadEnd() called with: intersectionId = [" + intersectionId + "], road = [" + road + "]");
-        for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
+        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
             if (road[intersectionId][intersection] != null) {
                 return true;
             }
@@ -357,7 +360,7 @@ public class Board {
         if (checkDeadEnd(intersectionId, road)) {
             return 0;
         }
-        for (Integer intersection : getAdjacentIntersectionsToIntersection(intersectionId)) {
+        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
             return 1 + traverseRoads(intersection, playerId, road, stackCount + 1);
         }
         return 0;
@@ -390,12 +393,6 @@ public class Board {
             }
         }
 
-        /* checks:
-         * 1. if connected
-         * 2. if occupied by building
-         * 3. distance rule TODO
-         */
-
         // check if intersection already has a building on it
         if (this.buildings[intersectionId] != null) {
             Log.i(TAG, "validBuildingLocation: invalid location because intersection " + intersectionId + " already has a building on it.");
@@ -404,7 +401,7 @@ public class Board {
 
         // TODO not working
         // check if adjacent intersections do not have buildings
-        for (int intersection : getAdjacentIntersectionsToIntersection(intersectionId)) { // for each adj. intersection
+        for (int intersection : this.intersectionGraph.get(intersectionId)) { // for each adj. intersection
             if (this.buildings[intersectionId] != null) { // check if building exists there
                 Log.i(TAG, "validBuildingLocation: invalid - building at intersection " + intersectionId + " violates the distance rule (" + intersection + " is adj. and has a building).");
                 return false;
@@ -530,7 +527,7 @@ public class Board {
      */
     public ArrayList<Integer> getIntersectionOwners (int intersectionId) {
         Log.d(TAG, "getIntersectionOwners() called with: intersectionId = [" + intersectionId + "]");
-        ArrayList<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> result = new ArrayList<>();
 
         if (!this.hasBuilding(intersectionId)) {
             if (this.hasRoad(intersectionId)) {
@@ -642,8 +639,8 @@ public class Board {
      * @param intersectionId - given intersection i (0-53)
      * @return - ArrayList of intersection ids that are adjacent to the given intersection id
      */
-    public ArrayList<Integer> getAdjacentIntersectionsToIntersection (int intersectionId) {
-        Log.d(TAG, "getAdjacentIntersectionsToIntersection() called with: intersectionId = [" + intersectionId + "]");
+    public ArrayList<Integer> getAdjacentIntersectionsToIntersectionOld (int intersectionId) {
+        Log.d(TAG, "getAdjacentIntersectionsToIntersectionOld() called with: intersectionId = [" + intersectionId + "]");
 
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
         for (int i = 0; i < 54; i++) {
@@ -653,15 +650,15 @@ public class Board {
         }
 
         if (adjacentIntersections.size() > 3) {
-            Log.e(TAG, "getAdjacentIntersectionsToIntersection: Received more than 3 adjacent intersections. That makes no sense.");
+            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Received more than 3 adjacent intersections. That makes no sense.");
         }
 
         // check if we have a bad error
         if (adjacentIntersections.size() < 2) {
-            Log.e(TAG, "getAdjacentIntersectionsToIntersection: Did not find 2 adjacent intersections. intersectionId = [\" + intersectionId + \"]. This is not good.", new Exception("Intersection adjacency error."));
+            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Did not find 2 adjacent intersections. intersectionId = [\" + intersectionId + \"]. This is not good.", new Exception("Intersection adjacency error."));
         }
 
-        Log.d(TAG, "getAdjacentIntersectionsToIntersection() returned: " + adjacentIntersections);
+        Log.d(TAG, "getAdjacentIntersectionsToIntersectionOld() returned: " + adjacentIntersections);
         return adjacentIntersections;
     }
 
@@ -1397,6 +1394,10 @@ public class Board {
 
     /* ----- generic getter methods ----- */
 
+    public ArrayList<ArrayList<Integer>> getIntersectionGraph () {
+        return intersectionGraph;
+    }
+
     /**
      * @return Hexagons organized into 2D ArrayList by rings.
      */
@@ -1482,6 +1483,10 @@ public class Board {
     }
 
     /* ----- generic setter methods ----- */
+
+    public void setIntersectionGraph (ArrayList<ArrayList<Integer>> intersectionGraph) {
+        this.intersectionGraph = intersectionGraph;
+    }
 
     /**
      * @param hexagonIdRings 2d Array List of hexagons ids by rings.
