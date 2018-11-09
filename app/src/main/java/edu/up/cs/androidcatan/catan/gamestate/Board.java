@@ -351,8 +351,8 @@ public class Board {
      */
     public boolean validBuildingLocation (int playerId, boolean isSetupPhase, int intersectionId) {
         Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
-        if(playerId < 0 || playerId > 3){
-            Log.e(TAG, "validBuildingLocation: returned " + false + " because playerId is not in range(" + playerId + ")" );
+        if (playerId < 0 || playerId > 3) {
+            Log.e(TAG, "validBuildingLocation: returned " + false + " because playerId is not in range(" + playerId + ")");
             return false;
         }
         if (intersectionId < 0 || intersectionId > buildings.length - 1) {
@@ -626,7 +626,7 @@ public class Board {
 
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
         for (int i = 0; i < 54; i++) {
-            if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
+            if (areIntersectionsAdjacent(i, intersectionId)) {
                 adjacentIntersections.add(i);
             }
         }
@@ -666,6 +666,15 @@ public class Board {
      * @return - int intersection id
      */
     private int getIntersectionId (int ring, int col) {
+        if (ring < 0 || ring > 2) {
+            Log.e(TAG, "getIntersectionId: Invalid ring value received: " + ring);
+            return -1;
+        }
+        if (col < 0 || col > intersectionIdRings.get(ring).size() - 1) {
+            Log.e(TAG, "getIntersectionId: Invalid col value received: " + col);
+            return -1;
+        }
+
         return intersectionIdRings.get(ring).get(col);
     }
 
@@ -688,6 +697,15 @@ public class Board {
             return null;
         }
         return this.hexagons.get(hexagonId);
+    }
+
+    public boolean areIntersectionsAdjacent (int intA, int intB) {
+        if (intA < 0 || intB < 0 || intA > 53 || intB > 53) {
+            Log.e(TAG, "areIntersectionsAdjacent: Index out of bounds for checking intersection adjacency.");
+            return false;
+        }
+
+        return iGraph[intA][intB] || iGraph[intB][intA];
     }
 
 
@@ -1165,7 +1183,7 @@ public class Board {
     /**
      * @return Hexagon adjacency graph.
      */
-    private boolean[][] getHGraph () {
+    public boolean[][] getHGraph () {
         return hGraph;
     }
 

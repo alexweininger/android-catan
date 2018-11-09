@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 
 /**
  * @author Alex Weininger
@@ -17,7 +16,6 @@ import android.util.Log;
 public class Hexagon {
 
     // instance variables
-    // game variables
     private int resourceId;
     private int chitValue;
     private int hexagonId;
@@ -47,7 +45,7 @@ public class Hexagon {
     }
 
     /**
-     * @return
+     * @return chit value of the hexagon
      */
     public int getChitValue () {
         return chitValue;
@@ -70,35 +68,29 @@ public class Hexagon {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
 
+        Paint robberPaint = new Paint();
+        robberPaint.setColor(Color.MAGENTA);
+        robberPaint.setStyle(Paint.Style.FILL);
+
+        Paint blackFont = new Paint();
+        blackFont.setColor(Color.BLACK);
+        blackFont.setStyle(Paint.Style.FILL);
+        blackFont.setTextSize(50);
+
         int[][] points = calculateHexagonPoints(xPos, yPos, size);
 
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, paint);
 
-        Paint blackFont = new Paint();
-        blackFont.setColor(Color.BLACK);
-        blackFont.setStyle(Paint.Style.FILL);
-
-        blackFont.setTextSize(50);
-
-        Paint robberPaint = new Paint();
-        robberPaint.setColor(Color.MAGENTA);
-        robberPaint.setStyle(Paint.Style.FILL);
-
-        for (int i = 0; i < points.length; i++) {
-            Log.e("Hexagon", "drawHexagon: hello");
-            canvas.drawCircle(points[i][0], points[i][1], 25, robberPaint);
+        for (int[] point : points) {
+            canvas.drawCircle(point[0], point[1], 25, robberPaint);
         }
 
         if (isRobber) {
-
             canvas.drawCircle(points[3][0] + size, points[3][1] - size / 2, 25, robberPaint);
         } else {
             canvas.drawText("" + this.chitValue, points[3][0] + size / 2, points[3][1] - size / 2, blackFont);
         }
-
-        //        RoadDrawable road = new RoadDrawable(points, random.nextInt(4));
-        //        road.drawRoad(canvas);
     }
 
     /**
@@ -132,14 +124,11 @@ public class Hexagon {
         double angle_deg, angle_rad;
 
         for (int i = 0; i < 6; i++) {
-
             angle_deg = 60 * i - 30;
             angle_rad = Math.PI / 180 * angle_deg;
 
             points[i][0] = (int) (x + size * Math.cos(angle_rad));
             points[i][1] = (int) (y + size * Math.sin(angle_rad));
-
-            // Log.d("user", "\nx: " + points[i][0] + " y: " + points[i][1]);
         }
         return points;
     }
