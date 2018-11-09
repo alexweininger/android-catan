@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 
 /**
  * @author Alex Weininger
@@ -18,6 +19,8 @@ import android.util.AttributeSet;
 
 public class HexagonDrawable extends BoardSurfaceView {
 
+    private static final String TAG = "HexagonDrawable";
+
     // instance variables concerning graphics
     protected int x, y;
     protected Path hexagonPath;
@@ -29,6 +32,7 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected int hexagonId;
     protected int chitValue;
     protected boolean isRobber, isDesert;
+
 
     public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId) {
         super(context);
@@ -90,11 +94,8 @@ public class HexagonDrawable extends BoardSurfaceView {
         int cy = points[5][1] + this.size;
 
         if (this.isRobber) {
+            Log.d(TAG, "drawHexagon: Drawing the robber at hexagon: " + this.hexagonId);
             canvas.drawCircle(cx, cy, radius, robberPaint);
-            //            for (int i = 0; i < points.length; i++) {
-            //                Log.e("Hexagon", "drawHexagon: hello");
-            //                canvas.drawText("" + (i), points[i][0], points[i][1], blackFont);
-            //            }
         }
 
         Paint intersectionPaint = new Paint();

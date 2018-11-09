@@ -251,6 +251,8 @@ public class HexagonGrid extends BoardSurfaceView {
             for (int j = 0; j < hexagonsInEachRow[i]; j++) {
 
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
+                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
 
@@ -264,14 +266,6 @@ public class HexagonGrid extends BoardSurfaceView {
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
                 HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId());
-
-                int[][] points = hexagon.getHexagonPoints();
-
-                ArrayList<Road> dataRoads = this.board.getRoads();
-
-                for (int k = 0; k < dataRoads.size(); k++) {
-
-                }
 
                 drawingHexagons.add(hexagon);
                 dataHexagonsIndex++;
