@@ -1,8 +1,5 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Path;
 
 /**
@@ -61,36 +58,6 @@ public class Hexagon {
 
     public int getHexagonId () {
         return this.hexagonId;
-    }
-
-    public void drawHexagon (Canvas canvas, int color, int xPos, int yPos, int size, boolean isRobber) {
-        Paint paint = new Paint();
-        paint.setColor(color);
-        paint.setStyle(Paint.Style.FILL);
-
-        Paint robberPaint = new Paint();
-        robberPaint.setColor(Color.MAGENTA);
-        robberPaint.setStyle(Paint.Style.FILL);
-
-        Paint blackFont = new Paint();
-        blackFont.setColor(Color.BLACK);
-        blackFont.setStyle(Paint.Style.FILL);
-        blackFont.setTextSize(50);
-
-        int[][] points = calculateHexagonPoints(xPos, yPos, size);
-
-        Path hexagonPath = createHexagonPath(points);
-        canvas.drawPath(hexagonPath, paint);
-
-        for (int[] point : points) {
-            canvas.drawCircle(point[0], point[1], 25, robberPaint);
-        }
-
-        if (isRobber) {
-            canvas.drawCircle(points[3][0] + size, points[3][1] - size / 2, 25, robberPaint);
-        } else {
-            canvas.drawText("" + this.chitValue, points[3][0] + size / 2, points[3][1] - size / 2, blackFont);
-        }
     }
 
     /**
