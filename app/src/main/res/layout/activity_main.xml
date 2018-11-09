@@ -1015,7 +1015,7 @@
         android:layout_marginStart="14dp"
         android:layout_marginBottom="92dp"
         android:contentDescription="@string/ore"
-        app:layout_constraintBottom_toTopOf="@+id/oreImgGive"
+        app:layout_constraintBottom_toTopOf="@+id/image_trade_menu_give_ore"
         app:layout_constraintStart_toEndOf="@+id/lumberSelectionBoxReceive"
         app:srcCompat="@android:color/holo_orange_light" />
 
@@ -1026,7 +1026,7 @@
         android:layout_marginStart="14dp"
         android:layout_marginBottom="92dp"
         android:contentDescription="@string/wool"
-        app:layout_constraintBottom_toTopOf="@+id/woolImgGive"
+        app:layout_constraintBottom_toTopOf="@+id/image_trade_menu_give_wool"
         app:layout_constraintStart_toEndOf="@+id/oreSelectionBoxReceive"
         app:srcCompat="@android:color/holo_orange_light" />
 
@@ -1037,7 +1037,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="19dp"
         android:contentDescription="@string/brick"
-        app:layout_constraintEnd_toStartOf="@+id/grainImgGive"
+        app:layout_constraintEnd_toStartOf="@+id/image_trade_menu_give_grain"
         app:layout_constraintTop_toBottomOf="@+id/resourceGiveText"
         app:srcCompat="@android:color/holo_orange_light" />
 
@@ -1092,7 +1092,7 @@
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/brick"
         app:layout_constraintBottom_toTopOf="@+id/resourceGiveText"
-        app:layout_constraintStart_toStartOf="@+id/bringImgGive"
+        app:layout_constraintStart_toStartOf="@+id/image_trade_menu_give_birck"
         app:srcCompat="@drawable/brick_icon_25x25" />
 
     <ImageView
@@ -1106,7 +1106,7 @@
         app:srcCompat="@drawable/grain_icon_25x25" />
 
     <ImageView
-        android:id="@+id/lumberImgReceive"
+        android:id="@+id/image_trade_menu_rec_lumber"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="19dp"
@@ -1117,74 +1117,74 @@
         app:srcCompat="@drawable/lumber_icon_25x25" />
 
     <ImageView
-        android:id="@+id/oreImgReceive"
+        android:id="@+id/image_trade_menu_rec_ore"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/ore"
-        app:layout_constraintStart_toEndOf="@+id/lumberImgReceive"
-        app:layout_constraintTop_toTopOf="@+id/lumberImgReceive"
+        app:layout_constraintStart_toEndOf="@+id/image_trade_menu_rec_lumber"
+        app:layout_constraintTop_toTopOf="@+id/image_trade_menu_rec_lumber"
         app:srcCompat="@drawable/ore_icon_25x25" />
 
     <ImageView
-        android:id="@+id/woolImgReceive"
+        android:id="@+id/image_trade_menu_rec_wool"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/wool"
-        app:layout_constraintStart_toEndOf="@+id/oreImgReceive"
-        app:layout_constraintTop_toTopOf="@+id/oreImgReceive"
+        app:layout_constraintStart_toEndOf="@+id/image_trade_menu_rec_ore"
+        app:layout_constraintTop_toTopOf="@+id/image_trade_menu_rec_ore"
         app:srcCompat="@drawable/wool_icon_25x25" />
 
     <ImageView
-        android:id="@+id/bringImgGive"
+        android:id="@+id/image_trade_menu_give_birck"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/brick"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/button_trade_menu_confirm"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:srcCompat="@drawable/brick_icon_25x25" />
 
     <ImageView
-        android:id="@+id/grainImgGive"
+        android:id="@+id/image_trade_menu_give_grain"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/grain"
-        app:layout_constraintStart_toEndOf="@+id/bringImgGive"
-        app:layout_constraintTop_toTopOf="@+id/bringImgGive"
+        app:layout_constraintStart_toEndOf="@+id/image_trade_menu_give_birck"
+        app:layout_constraintTop_toTopOf="@+id/image_trade_menu_give_birck"
         app:srcCompat="@drawable/grain_icon_25x25" />
 
     <ImageView
-        android:id="@+id/lumberImgGive"
+        android:id="@+id/timage_trade_menu_give_lumber"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/lumber"
-        app:layout_constraintStart_toEndOf="@+id/grainImgGive"
-        app:layout_constraintTop_toTopOf="@+id/grainImgGive"
+        app:layout_constraintStart_toEndOf="@+id/image_trade_menu_give_grain"
+        app:layout_constraintTop_toTopOf="@+id/image_trade_menu_give_grain"
         app:srcCompat="@drawable/lumber_icon_25x25" />
 
     <ImageView
-        android:id="@+id/oreImgGive"
+        android:id="@+id/image_trade_menu_give_ore"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/ore"
-        app:layout_constraintStart_toEndOf="@+id/lumberImgGive"
-        app:layout_constraintTop_toTopOf="@+id/lumberImgGive"
+        app:layout_constraintStart_toEndOf="@+id/timage_trade_menu_give_lumber"
+        app:layout_constraintTop_toTopOf="@+id/timage_trade_menu_give_lumber"
         app:srcCompat="@drawable/ore_icon_25x25" />
 
     <ImageView
-        android:id="@+id/woolImgGive"
+        android:id="@+id/image_trade_menu_give_wool"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:contentDescription="@string/wool"
-        app:layout_constraintStart_toEndOf="@+id/oreImgGive"
-        app:layout_constraintTop_toTopOf="@+id/oreImgGive"
+        app:layout_constraintStart_toEndOf="@+id/image_trade_menu_give_ore"
+        app:layout_constraintTop_toTopOf="@+id/image_trade_menu_give_ore"
         app:srcCompat="@drawable/wool_icon_25x25" />
 
     <TextView
@@ -1205,15 +1205,15 @@
         android:layout_marginBottom="16dp"
         android:text="@string/resourceGive"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/bringImgGive"
-        app:layout_constraintStart_toStartOf="@+id/bringImgGive" />
+        app:layout_constraintBottom_toTopOf="@+id/image_trade_menu_give_birck"
+        app:layout_constraintStart_toStartOf="@+id/image_trade_menu_give_birck" />
 
     <android.support.constraint.Group
         android:id="@+id/tradeMenuGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="bringImgGive,birckImgReceive,woolSelectionBoxReceive,lumberImgGive,woolImgReceive,grainSelectionBoxReceive,brickSelectionBoxReceive,oreImgReceive,oreSelectionBoxReceive,grainImgGive,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,lumberImgReceive,resourceGiveText,grainImgReceive,oreImgGive,woolImgGive,grainSelectiomBoxGive" />
+        app:constraint_referenced_ids="image_trade_menu_give_birck,birckImgReceive,woolSelectionBoxReceive,timage_trade_menu_give_lumber,image_trade_menu_rec_wool,grainSelectionBoxReceive,brickSelectionBoxReceive,image_trade_menu_rec_ore,oreSelectionBoxReceive,image_trade_menu_give_grain,lumberSelectionBoxGive,oreSelectiomBoxGive,birckSelectionBoxGive,woolSelectionBoxGive,lumberSelectionBoxReceive,resourceReceiveText,image_trade_menu_rec_lumber,resourceGiveText,grainImgReceive,image_trade_menu_give_ore,image_trade_menu_give_wool,grainSelectiomBoxGive" />
     <!--end of trade menu-->
 
 </android.support.constraint.ConstraintLayout>
