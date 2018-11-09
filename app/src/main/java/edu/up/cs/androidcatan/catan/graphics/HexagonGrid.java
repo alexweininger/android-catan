@@ -32,13 +32,11 @@ public class HexagonGrid extends BoardSurfaceView {
     protected int height;
     protected double width;
     protected int margin;
-    protected int[] numTiles = {6, 5, 5, 5, 6};
-    //protected int[] numTiles = {4, 3, 3, 3, 4}; ORIGINAL BEFORE CHANGE
+    protected int[] numTiles = {4, 3, 3, 3, 4};
     int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
     protected int[] colors = {Color.argb(255, 221, 135, 68), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
     protected int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE};
     public int[] dataToDrawMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
-    // public int[] drawToDataMap = {11, 10, 9, 12, 3, 2, 8, 13, 4, 0, 1, 7, 14, 5, 6, 18, 15, 16, 17};
     private Board board;
 
     private Intersection[] intersections = new Intersection[54]; // list of Intersection objects
@@ -48,22 +46,21 @@ public class HexagonGrid extends BoardSurfaceView {
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
         super(context);
         setWillNotDraw(false);
-
         this.x = x;
         this.y = y;
         this.size = size;
         this.height = size * 2;
         this.width = size * Math.sqrt(3);
         this.margin = margin;
-        this.board = new Board(board); // todo is this copy 100% perfect?
-        getHexagons(x, y, size);
+        this.board = new Board(board);
         generateIntersections();
     }
 
     public void drawGrid (Canvas canvas) {
-        // draw each hexagon
+        getHexagons(x, y, size); // get hexes
+
         for (HexagonDrawable h : drawingHexagons) {
-            h.drawHexagon(canvas);
+            h.drawHexagon(canvas); // draw each hexagon
         }
 
         drawRoads(canvas);
