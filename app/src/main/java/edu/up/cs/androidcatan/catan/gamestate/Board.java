@@ -126,25 +126,42 @@ public class Board {
 
     //    alex's ultimate intersection adjacency method
     public ArrayList<Integer> getAdjacentIntersections (int intersection) {
+
+
+
         Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
+
+
+
 
         ArrayList<Integer> result = new ArrayList<>();
         ArrayList<Integer> allIntersections = new ArrayList<>();
 
-        for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
-            ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
-            allIntersections.addAll(allAdjInters);
-        }
-
-        for (int i = 0; i < allIntersections.size(); i++) {
-            int count = 0;
-            for (int j = 0; j < allIntersections.size(); j++) {
-                if (i == allIntersections.get(j)) {
-                    count++;
-                }
+        if (intersection == 24) {
+            result.add(25);
+            result.add(53);
+        } else if (intersection == 53) {
+            result.add(24);
+            result.add(52);
+        } else if (intersection > 24 && intersection < 53) {
+            result.add(intersection - 1);
+            result.add(intersection + 1);
+        } else {
+            for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
+                ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
+                allIntersections.addAll(allAdjInters);
             }
-            if (count == 3 && i != intersection) {
-                result.add(i);
+
+            for (int i = 0; i < allIntersections.size(); i++) {
+                int count = 0;
+                for (int j = 0; j < allIntersections.size(); j++) {
+                    if (i == allIntersections.get(j)) {
+                        count++;
+                    }
+                }
+                if (count == 3 && i != intersection) {
+                    result.add(i);
+                }
             }
         }
         Log.d(TAG, "getAdjacentIntersections() returned: " + result);
