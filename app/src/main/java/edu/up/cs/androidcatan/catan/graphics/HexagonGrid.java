@@ -78,6 +78,7 @@ public class HexagonGrid extends BoardSurfaceView {
         Log.d(TAG, "drawRoads() called with: canvas = [" + canvas + "]");
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(25);
 
         // get list of all roads on the board
         ArrayList<Road> dataRoads = this.board.getRoads();
