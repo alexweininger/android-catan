@@ -625,7 +625,7 @@ public class Board {
 
         ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
         for (int i = 0; i < 54; i++) {
-            if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
+            if (areIntersectionsAdjacent(i, intersectionId)) {
                 adjacentIntersections.add(i);
             }
         }
@@ -665,6 +665,15 @@ public class Board {
      * @return - int intersection id
      */
     private int getIntersectionId (int ring, int col) {
+        if (ring < 0 || ring > 2) {
+            Log.e(TAG, "getIntersectionId: Invalid ring value received: " + ring);
+            return -1;
+        }
+        if (col < 0 || col > intersectionIdRings.get(ring).size() - 1) {
+            Log.e(TAG, "getIntersectionId: Invalid col value received: " + col);
+            return -1;
+        }
+
         return intersectionIdRings.get(ring).get(col);
     }
 
