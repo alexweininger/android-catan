@@ -61,6 +61,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int selectedHexagonId = -1;
     private int selectedIntersectionId = -1;
 
+    private ArrayList<Integer> selectedIntersections;
+
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
     /* ------------- Building Buttons -------------------- */
@@ -302,14 +304,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------- Building sidebar buttons ---------- */
 
         if (button.getId() == R.id.sidebar_button_road) {
-            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
-                developmentGroup.setVisibility(View.GONE);
-                tradeGroup.setVisibility(View.GONE);
-                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 0;
+            //            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
+            //                developmentGroup.setVisibility(View.GONE);
+            //                tradeGroup.setVisibility(View.GONE);
+            //                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
+            //                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
+            //                currentBuildingSelectionId = 0;
+            //
+            //            }
 
+            if (selectedIntersections.size() < 2) {
+                messageTextView.setText("Select two intersections to build a road.");
             }
+
             return;
         }
 
@@ -576,6 +583,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
             game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
 
+            boardSurfaceView.getGrid().clearHighLightedIntersections();
+
             // return true
             Log.d(TAG, "tryBuildRoad() returned: " + true);
             return true;
@@ -712,22 +721,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.messageTextView.setText("Action phase.");
             setAllButtonsToVisible();
-        }
-
-        if (selectedHexagonId != -1) {
-            if (selectedIntersectionId == -1) {
-                this.messageTextView.append(" Selected hexagon " + selectedHexagonId);
-            } else {
-                Log.e(TAG, "updateTextViews: selected hex id and selected intersection id are both not -1 ");
-            }
-        }
-
-        if (selectedIntersectionId != -1) {
-            if (selectedHexagonId == -1) {
-                this.messageTextView.append(" Selected intersection " + selectedIntersectionId);
-            } else {
-                Log.e(TAG, "updateTextViews: selected hex id and selected intersection id are both not -1 ");
-            }
         }
 
         setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
