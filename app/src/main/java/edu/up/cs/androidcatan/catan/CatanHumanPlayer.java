@@ -411,8 +411,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             HexagonGrid grid = boardSurfaceView.getGrid();
 
-
-
             // use the coordinates for whatever
             Log.i("TAG", "onLongClick: x = " + x + ", y = " + y);
 
