@@ -4,12 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class Intersection {
+public class IntersectionDrawable {
     int intersectionId;
     int xPos;
     int yPos;
 
-    public Intersection(int id, int x, int y) {
+    public IntersectionDrawable (int id, int x, int y) {
         this.intersectionId = id;
         this.xPos = x;
         this.yPos = y;
@@ -17,8 +17,8 @@ public class Intersection {
 
     public void drawIntersection(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(32);
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(42);
 
         canvas.drawText("" + intersectionId, xPos, yPos, paint);
     }

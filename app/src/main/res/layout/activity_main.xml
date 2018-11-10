@@ -780,7 +780,8 @@
         android:theme="@android:style/Widget.Material.Light.EditText"
         app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuOk"
         app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuOk"
-        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuOk" />
+        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuOk"
+        tools:text="13" />
 
     <Button
         android:id="@+id/button_singleIntersectionMenuOk"
