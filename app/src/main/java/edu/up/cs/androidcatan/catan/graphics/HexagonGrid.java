@@ -92,44 +92,32 @@ public class HexagonGrid extends BoardSurfaceView {
     }
 
     /**
-     * Draws the blue ocean and the tan background for the island.
-     *
-     * @param canvas Canvas to draw upon.
-     */
-    public void drawBorder (Canvas canvas) {
-        canvas.drawColor(Color.argb(255, 160, 206, 255)); // set the background to ocean color
-
-        Paint tanPaint = new Paint(); // paint for island background
-        tanPaint.setColor(Color.argb(255, 255, 246, 183));
-
-        int centerX = canvas.getWidth() / 2;
-        int centerY = canvas.getHeight() / 2;
-
-        canvas.drawCircle(centerX, centerY - 15, 665, tanPaint);
-    }
-
-    /**
      * Draws all of the roads.
      *
      * @param canvas Canvas to draw on.
      */
     public void drawRoads (Canvas canvas) {
         Log.d(TAG, "drawRoads() called with: canvas = [" + canvas + "]");
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(25);
 
-        // get list of all roads on the board
-        ArrayList<Road> dataRoads = this.board.getRoads();
+        Paint roadPaint = new Paint(); // paint for drawing the roads
+        roadPaint.setStyle(Paint.Style.STROKE);
+        roadPaint.setStrokeWidth(25);
 
-        // for each road stored on the board
-        for (int k = 0; k < dataRoads.size(); k++) {
-            Road r = dataRoads.get(k);
+        ArrayList<Road> dataRoads = this.board.getRoads(); // get list of all roads on the board
 
-            paint.setColor(playerColors[r.getOwnerId()]);
+        for (Road r : dataRoads) {
+            roadPaint.setColor(playerColors[r.getOwnerId()]);
 
-            canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), paint);
+            canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), roadPaint);
         }
+
+//        for (int k = 0; k < dataRoads.size(); k++) { // for each road stored on the board
+//            Road r = dataRoads.get(k);
+//
+//            roadPaint.setColor(playerColors[r.getOwnerId()]);
+//
+//            canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), roadPaint);
+//        }
     }
 
     /**
@@ -152,6 +140,23 @@ public class HexagonGrid extends BoardSurfaceView {
                 canvas.drawRect(xPos - 20, yPos + 20, xPos + 20, yPos - 20, bldgPaint);
             }
         }
+    }
+
+    /**
+     * Draws the blue ocean and the tan background for the island.
+     *
+     * @param canvas Canvas to draw upon.
+     */
+    public void drawBorder (Canvas canvas) {
+        canvas.drawColor(Color.argb(255, 160, 206, 255)); // set the background to ocean color
+
+        Paint tanPaint = new Paint(); // paint for island background
+        tanPaint.setColor(Color.argb(255, 255, 246, 183));
+
+        int centerX = canvas.getWidth() / 2;
+        int centerY = canvas.getHeight() / 2;
+
+        canvas.drawCircle(centerX, centerY - 15, 665, tanPaint);
     }
 
     /**

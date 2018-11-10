@@ -33,8 +33,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     @Override
     protected void receiveInfo (GameInfo info) {
         Log.i(TAG, "receiveInfo() called with: info = [" + info + "]");
-        if (!(info instanceof CatanGameState)) return;
 
+        if (!(info instanceof CatanGameState)) return;
         CatanGameState gs = (CatanGameState) info;
 
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
@@ -90,8 +90,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 Log.d(TAG, "receiveInfo() returned: void");
 
-                // CPU should now build a road...
-
                 // get adjacent intersections to what we just built
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(randSettlementIntersection);
 
@@ -121,6 +119,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 return;
             }
         } // setup phase if statement END
+
+        if (gs.isSetupPhase() && settlementCount == 2 && roadCount == 2) {
+            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+            game.sendAction(new CatanEndTurnAction(this));
+        }
 
         if (!gs.isSetupPhase()) { /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
 
