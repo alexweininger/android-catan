@@ -457,7 +457,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
 
-    }// onClick END
+    } // onClick END
+
+    /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
 
     // the purpose of the touch listener is just to store the touch X,Y coordinates
     View.OnTouchListener touchListener = new View.OnTouchListener() {
@@ -473,7 +475,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // let the touch event pass on to whoever needs it
             return false;
         }
-    };
+    }; // touchListener END
 
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -500,11 +502,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     touchedIntersection = true;
 
-                    if (i == grid.getHighlightedIntersection()) {
-                        boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                    if (grid.getHighlightedIntersections().contains(i)) {
+                        boardSurfaceView.getGrid().getHighlightedIntersections().remove((Integer) i);
                         selectedIntersectionId = -1;
                     } else {
-                        boardSurfaceView.getGrid().setHighlightedIntersection(i);
+                        boardSurfaceView.getGrid().addHighlightedIntersection(i);
                         selectedIntersectionId = i;
                     }
 
@@ -529,6 +531,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             touchedHexagon = true;
 
                             if (dataHexagon.getHexagonId() == boardSurfaceView.getGrid().getHighlightedHexagon()) {
+                                // if the hexagon touched is already selected, un-select it
                                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                                 selectedHexagonId = -1;
                             } else {
@@ -536,7 +539,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                                 selectedHexagonId = dataHexagon.getHexagonId();
                             }
 
-                            boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                            boardSurfaceView.getGrid().clearHighLightedIntersections();
                             selectedIntersectionId = -1;
                             boardSurfaceView.invalidate();
 
@@ -546,13 +549,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
 
+            // check if no hexagon or intersection was touched (aka. outside the island)
             if (!touchedHexagon && !touchedIntersection) {
                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
-                boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                boardSurfaceView.getGrid().clearHighLightedIntersections();
                 boardSurfaceView.invalidate();
             }
         }
-    };
+    }; // clickListener END
 
     /*---------------------------------------Validation Methods-------------------------------------------*/
 

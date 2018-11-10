@@ -49,7 +49,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
     private int highlightedHexagon = -1;
 
-    private ArrayList<Integer> highlightedIntersections;
+    private ArrayList<Integer> highlightedIntersections = new ArrayList<>();
 
     private boolean debugMode = false;
 
@@ -488,6 +488,8 @@ public class HexagonGrid extends BoardSurfaceView {
         return highlightedHexagon;
     }
 
+
+
     public void setHighlightedHexagon (int highlightedHexagon) {
         this.highlightedHexagon = highlightedHexagon;
     }
@@ -510,6 +512,8 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void addHighlightedIntersection(int intersection) {
         if (highlightedIntersections.size() > 1) {
+            highlightedIntersections.remove(0);
+            highlightedIntersections.add(intersection);
             Log.e(TAG, "addSelectedIntersection: Cannot add interection to highlightedIntersections because there are already more than 1 selected intersection.");
         } else {
             this.highlightedIntersections.add(intersection);
