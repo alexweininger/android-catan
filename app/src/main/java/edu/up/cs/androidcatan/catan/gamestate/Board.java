@@ -7,7 +7,9 @@ import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 /**
  * @author Alex Weininger
@@ -383,10 +385,14 @@ public class Board {
      */
     public boolean validBuildingLocation (int playerId, boolean isSetupPhase, int intersectionId) {
         Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
+
+        // check if the player id is within bounds
         if (playerId < 0 || playerId > 3) {
             Log.e(TAG, "validBuildingLocation: returned " + false + " because playerId is not in range(" + playerId + ")");
             return false;
         }
+
+        // check if intersection is within bounds
         if (intersectionId < 0 || intersectionId > buildings.length - 1) {
             Log.e(TAG, "validBuildingLocation() returned: " + false + " because intersection does not exist.");
             return false;
@@ -416,6 +422,49 @@ public class Board {
             }
         }
         Log.d(TAG, "validBuildingLocation() returned: " + true);
+        return true;
+    }
+
+    public boolean validCityLocation (int playerId, int intersectionId) {
+        Log.d(TAG, "validCityLocation() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
+
+        // check if intersection is within bounds
+        if (intersectionId < 0 || intersectionId > buildings.length - 1) {
+            Log.e(TAG, "validCityLocation() returned: " + false + " because intersection does not exist.");
+            return false;
+        }
+
+        // check if the player id is within bounds
+        if (playerId < 0 || playerId > 3) {
+            Log.e(TAG, "validCityLocation: returned " + false + " because playerId is not in range(" + playerId + ")");
+            return false;
+        }
+
+        // check for an already existing building
+        if(!hasBuilding(intersectionId)) {
+            Log.w(TAG, "validCityLocation: Cannot build a city where there is not already a building. Returning false.");
+            return false;
+        }
+
+        // check if city already exists at intersection
+        if (!(this.buildings[intersectionId] instanceof City)) {
+            Log.w(TAG, "validCityLocation: Cannot build a city if there is already a city built at the intersection. Returning false.");
+            return false;
+        }
+
+        // check if the building is a settlement or not
+        if (!(this.buildings[intersectionId] instanceof Settlement)) {
+            Log.w(TAG, "validCityLocation: Cannot build a city if there is not a settlement already at intersection. Returning false.");
+            return false;
+        }
+
+        // check if the settlement at the intersection is owned by the player trying to build the city
+        if (this.buildings[intersectionId].getOwnerId() != playerId) {
+            Log.e(TAG, "validCityLocation: Cannot built a city on top of another players settlements. Returning false.");
+            return false;
+        }
+
+        Log.d(TAG, "validCityLocation() returned: " + true);
         return true;
     }
 
@@ -488,6 +537,20 @@ public class Board {
         for (Hexagon hexagon : this.hexagons) {
             Log.i(TAG, "| " + hexagon);
         }
+
+        // the rest of the code checks the method for error
+        int resourceCountChecks[] = new int[6];
+
+        for (Hexagon hexagon : this.hexagons) {
+            resourceCountChecks[hexagon.getResourceId()]++;
+        }
+
+        for (int i = 0; i < resourceCountChecks.length; i++) {
+            if (resourceTypeCount[i] < resourceCountChecks[i]) {
+                Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
+            }
+        }
+
     }
 
     /**

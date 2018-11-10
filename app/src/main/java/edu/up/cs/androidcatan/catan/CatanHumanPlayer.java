@@ -317,23 +317,35 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.sidebar_button_settlement) {
-            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                developmentGroup.setVisibility(View.GONE);
-                tradeGroup.setVisibility(View.GONE);
-                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 1;
+            Log.d(TAG, "onClick: sidebar_button_settlement listener");
+            if (selectedIntersections.size() != 1) {
+                messageTextView.setText("Select one intersection to build a settlement.");
+            } else {
+                if (tryBuildSettlement(selectedIntersections.get(0))) {
+                    messageTextView.setText("Built a settlement.");
+                } else {
+                    messageTextView.setText("Invalid settlement location.");
+                }
             }
             return;
         }
 
         if (button.getId() == R.id.sidebar_button_city) {
-            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                developmentGroup.setVisibility(View.GONE);
-                tradeGroup.setVisibility(View.GONE);
-                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 2;
+            //            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+            //                developmentGroup.setVisibility(View.GONE);
+            //                tradeGroup.setVisibility(View.GONE);
+            //                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+            //                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+            //                currentBuildingSelectionId = 2;
+            //            }
+            if (selectedIntersections.size() != 1) {
+                messageTextView.setText("Select one intersection to build a city.");
+            } else {
+                if (tryBuildSettlement(selectedIntersections.get(0))) {
+                    messageTextView.setText("Built a city.");
+                } else {
+                    messageTextView.setText("Invalid city location.");
+                }
             }
             return;
         }
@@ -627,6 +639,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             messageTextView.startAnimation(shake);
             return false;
         }
+    }
+
+    /**
+     * @param intersection Intersection player is attempting to build a city at.
+     * @return If a city was built at the intersection.
+     */
+    private boolean tryBuildCity (int intersection) {
+        Log.d(TAG, "tryBuildCity() called with: intersection = [" + intersection + "]");
+
+        if (state.isSetupPhase()) {
+            Log.i(TAG, "tryBuildCity: Cannot built city during setup phase. Returning false.");
+            return false;
+        }
+
+        if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
+            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+        }
+        return true;
     }
 
     /* ---------------------------------------- GUI Methods --------------------------------------*/

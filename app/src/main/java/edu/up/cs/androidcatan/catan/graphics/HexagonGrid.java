@@ -158,19 +158,17 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 Drawable buildingPicture;
                 if (buildings[i] instanceof Settlement) {
+
+                    if (this.highlightedIntersections.contains(i)) { // if we need to highlight the building
+                        bldgPaint.setColor(Color.CYAN);
+                        canvas.drawRect(xPos - 65, yPos - 65, xPos + 65, yPos + 65, bldgPaint);
+                    }
+
                     buildingPicture = this.getContext().getDrawable(settlementPictures[buildings[i].getOwnerId()]);
                     buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
                     buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
 
                     buildingPicture.draw(canvas);
-
-                    if (this.highlightedIntersections.contains(i)) { // if we need to highlight the building
-                        bldgPaint.setColor(Color.CYAN);
-                        //                        canvas.drawRect(xPos - 35, yPos + 35, xPos + 35, yPos - 35, bldgPaint);
-                        //                        buildingPicture.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_OVER);
-                        buildingPicture.setTint(Color.CYAN);
-                        buildingPicture.setTintMode(PorterDuff.Mode.ADD);
-                    }
                 }
             }
         }
@@ -489,7 +487,6 @@ public class HexagonGrid extends BoardSurfaceView {
     }
 
 
-
     public void setHighlightedHexagon (int highlightedHexagon) {
         this.highlightedHexagon = highlightedHexagon;
     }
@@ -510,7 +507,7 @@ public class HexagonGrid extends BoardSurfaceView {
         return highlightedIntersections;
     }
 
-    public void addHighlightedIntersection(int intersection) {
+    public void addHighlightedIntersection (int intersection) {
         if (highlightedIntersections.size() > 1) {
             highlightedIntersections.remove(0);
             highlightedIntersections.add(intersection);
@@ -520,7 +517,7 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    public void clearHighLightedIntersections() {
+    public void clearHighLightedIntersections () {
         this.highlightedIntersections = new ArrayList<>();
     }
 
