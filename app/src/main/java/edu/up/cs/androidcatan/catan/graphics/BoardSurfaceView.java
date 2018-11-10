@@ -51,14 +51,6 @@ public class BoardSurfaceView extends SurfaceView {
         this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20, false);
     }
 
-    public ArrayList<Port> getPorts() {
-        return ports;
-    }
-
-    public void setPorts(ArrayList<Port> ports) {
-        this.ports = ports;
-    }
-
     public int getSize() {
         return size;
     }
