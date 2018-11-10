@@ -60,14 +60,14 @@
         android:visibility="visible"
         app:constraint_referenced_ids="sidebar_button_devcards,sidebar_button_roll,sidebar_heading_build,sidebar_button_settlement,sidebar_button_score,sidebar_heading_vp,sidebar_value_brick,sidebar_value_ore,sidebar_value_wool,sidebar_value_grain,sidebar_value_lumber" />
 
+    <!--dev card group-->
     <android.support.constraint.Group
         android:id="@+id/group_scoreboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="Player1_Name,Player1_Score,Player2_Score,victory_Points,Player4_Name,Player3_Name,Player2_Name,Player3_Score,Player4_Score" />
 
-    <!--dev card group-->
     <android.support.constraint.Group
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"

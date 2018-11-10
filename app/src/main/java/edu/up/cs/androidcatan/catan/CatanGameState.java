@@ -305,6 +305,7 @@ public class CatanGameState extends GameState {
         }
     }
 
+
     /*-------------------------------------Action Methods------------------------------------------*/
 
     /**
@@ -321,6 +322,7 @@ public class CatanGameState extends GameState {
         }
 
         int rollNum = dice.roll();
+        this.currentDiceSum = rollNum;
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
 
         // if the robber is rolled
@@ -668,6 +670,15 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
     }
+
+//    public boolean hasSevenPlusCards(Player player){
+//        if(player.getTotalResourceCardCount() > 7){
+//            Log.i(TAG, "hasSevenPlusCards: Player has more than seven cards");
+//            return true;
+//        }
+//        Log.i(TAG, "hasSevenPlusCards: Player has 7 or less cards");
+//        return false;
+//    }
 
     /*-------------------------------------Setup Phase Methods------------------------------------------*/
 
