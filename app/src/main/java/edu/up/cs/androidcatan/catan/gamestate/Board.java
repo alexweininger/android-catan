@@ -266,6 +266,7 @@ public class Board {
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
+    //TODO properly implement this method and fix logic
     public int getPlayerWithLongestRoad (ArrayList<Player> playerList) {
         Log.i(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
@@ -277,6 +278,7 @@ public class Board {
             for (Road road : roads) {
                 if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoads.add(road);
+                    //check line below
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
@@ -300,6 +302,9 @@ public class Board {
             if (longestRoadPerPlayer.get(n) > currLongestRoad) {
                 currLongestRoad = longestRoadPerPlayer.get(n);
                 playerIdLongestRoad = n;
+            }
+            if (longestRoadPerPlayer.get(n) == currLongestRoad){
+                playerIdLongestRoad = -1;
             }
         }
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
@@ -836,47 +841,7 @@ public class Board {
         }
     } // end generateHexagonGraph
 
-    public void generateIntersectionGraphTwo () {
-        // set all values in the 2d array to false
-        for (int i = 0; i < 2; i++) { // rings
-            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) { // ids
-                this.iGraph[i][intersectionIdRings.get(i).get(j)] = false;
-            }
-        }
-        for (int i = 0; i < 3; i++) { //rings 0-2
-            boolean hasNextLink = true; // is it looking to the next ring or prev ring
-            int skipCount = 2; // # of intersections to skip to switch hasNext
-            for (int j = 0; j < intersectionIdRings.get(i).size(); j++) { //columns starts at 1 and ends at 0 (wrapped by 1)
-                int size = intersectionIdRings.get(i).size();
-                int col = j % size; // wrap if needs to be 0
-                int ringIndexDiff = -1;
-                if (i == 1) {
-                    if (skipCount == 0) {
-                        hasNextLink = false;
-                        skipCount = 2;
-                    } else {
-                        hasNextLink = true;
-                        skipCount--;
-                    }
-                    col = (j + 1) % size;
-                }
-                if (i == 2) hasNextLink = false;
-                int nextIntersection = (col + 1) % size;
-                iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
-                Log.d("dev", "skip: " + skipCount);
-                if (hasNextLink) {
-                    Log.d("dev", "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
-                    if (col + ringIndexDiff == -1) {
-                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
-                    } else {
-                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, col + ringIndexDiff)] = true;
-                    }
-                }
-            }
-        }
-    } // end generateIntersectionGraph method
-
-    public void generateNewIntersectionGraphManually() {
+    public void generateNewIntersectionGraphManually () {
 
         for (int i = 0; i < 54; i++) {
             this.intersectionGraph.add(new ArrayList<Integer>());
@@ -1127,19 +1092,19 @@ public class Board {
                 }
             }
         }
-        StringBuilder str = new StringBuilder();
-        str.append("\n\n----------------\n");
-        for (int i = 0; i < iGraph.length; i++) {
-            StringBuilder strRow = new StringBuilder();
-            for (int j = 0; j < iGraph[i].length; j++) {
-                strRow.append(i).append("-").append(j).append("=");
-                if (iGraph[i][j]) strRow.append("t ");
-                else strRow.append("f ");
-            }
-            //str.append("\n");
-            Log.d("dev", "" + strRow.toString());
-        }
-        Log.d("dev", "" + str.toString());
+        //        StringBuilder str = new StringBuilder();
+        //        str.append("\n\n----------------\n");
+        //        for (int i = 0; i < iGraph.length; i++) {
+        //            StringBuilder strRow = new StringBuilder();
+        //            for (int j = 0; j < iGraph[i].length; j++) {
+        //                strRow.append(i).append("-").append(j).append("=");
+        //                if (iGraph[i][j]) strRow.append("t ");
+        //                else strRow.append("f ");
+        //            }
+        //            //str.append("\n");
+        //            Log.d("dev", "" + strRow.toString());
+        //        }
+        //        Log.d("dev", "" + str.toString());
     } // end generateIntersectionGraph method
 
     /**
