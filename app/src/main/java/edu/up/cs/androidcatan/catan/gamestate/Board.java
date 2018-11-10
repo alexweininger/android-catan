@@ -129,7 +129,7 @@ public class Board {
     /**
      * alex's ultimate intersection adjacency method
      *
-     * @param intersection Intersection
+     * @param intersection IntersectionDrawable
      * @return ArrayList of adjacent intersections.
      */
     public ArrayList<Integer> getAdjacentIntersections (int intersection) {
@@ -213,7 +213,7 @@ public class Board {
         if (!isSetupPhase) {
             // check if road is connected to players roads / buildings at either intersection
             if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
-                Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersection(s) are not connected to players buildings or roads.");
+                Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
                 return false;
             }
         }
@@ -659,7 +659,7 @@ public class Board {
 
         // check if we have a bad error
         if (adjacentIntersections.size() < 2) {
-            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Did not find 2 adjacent intersections. intersectionId = [\" + intersectionId + \"]. This is not good.", new Exception("Intersection adjacency error."));
+            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Did not find 2 adjacent intersections. intersectionId = [\" + intersectionId + \"]. This is not good.", new Exception("IntersectionDrawable adjacency error."));
         }
 
         Log.d(TAG, "getAdjacentIntersectionsToIntersectionOld() returned: " + adjacentIntersections);
@@ -1384,7 +1384,7 @@ public class Board {
     }
 
     /**
-     * @return Intersection adjacency graph.
+     * @return IntersectionDrawable adjacency graph.
      */
     public boolean[][] getIGraph () {
         return iGraph;

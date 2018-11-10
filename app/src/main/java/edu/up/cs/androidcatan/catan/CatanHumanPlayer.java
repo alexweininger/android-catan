@@ -317,7 +317,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.button_singleIntersectionMenuOk) {
             int singleIntersectionIdInput;
             if (singleIntersectionInputEditText.getText().equals("")) {
-                Log.d(TAG, "onClick: Intersection is null (" + singleIntersectionInputEditText.getText() + ")");
+                Log.d(TAG, "onClick: IntersectionDrawable is null (" + singleIntersectionInputEditText.getText() + ")");
                 return;
             }
             try {
@@ -497,7 +497,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* -------------------------------------- MENUS ---------------------------------------- */
 
-        /* ---------- Single Intersection Menu (buildings) ---------- */
+        /* ---------- Single IntersectionDrawable Menu (buildings) ---------- */
 
         singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput); // single intersection menu GROUP
 
@@ -510,7 +510,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel); // Cancel button
         singleIntersectionCancelButton.setOnClickListener(this);
 
-        /* ---------- Road Intersection Menu -------------- */
+        /* ---------- Road IntersectionDrawable Menu -------------- */
 
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu); // road intersection menu GROUP
 
@@ -591,7 +591,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     /**
-     * @param intersection1 Intersection at which the player is trying to build a settlement upon.
+     * @param intersection1 IntersectionDrawable at which the player is trying to build a settlement upon.
      * @return If the building location chosen is valid, and if the action was carried out.
      */
     private boolean tryBuildSettlement (int intersection1) {
