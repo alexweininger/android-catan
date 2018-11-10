@@ -226,7 +226,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
-            if(state.getCurrentDiceSum() == 7){
+            if (state.getCurrentDiceSum() == 7) {
                 //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
                 state.setRobberPhase(true);
@@ -308,8 +308,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildRoad(intersectionA, intersectionB)) {
-//                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
-//                game.sendAction(action);
+                //                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
+                //                game.sendAction(action);
 
                 Log.d(TAG, "onClick: valid location");
                 // toggle menu vis.
@@ -405,34 +405,34 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         /*----------------Robber Button Listeners---------------------*/
-        if(button.getId() == R.id.robber_discard_brickAddImg){
+        if (button.getId() == R.id.robber_discard_brickAddImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_brickMinusImg){
+        if (button.getId() == R.id.robber_discard_brickMinusImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_lumberAddImg){
+        if (button.getId() == R.id.robber_discard_lumberAddImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_lumberMinusImg){
+        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_grainAddImg){
+        if (button.getId() == R.id.robber_discard_grainAddImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_grainMinusImg){
+        if (button.getId() == R.id.robber_discard_grainMinusImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_oreAddImg){
+        if (button.getId() == R.id.robber_discard_oreAddImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_oreMinusImg){
+        if (button.getId() == R.id.robber_discard_oreMinusImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_woolAddImg){
+        if (button.getId() == R.id.robber_discard_woolAddImg) {
 
         }
-        if(button.getId() == R.id.robber_discard_woolMinusImg){
+        if (button.getId() == R.id.robber_discard_woolMinusImg) {
 
         }
 
@@ -477,8 +477,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     //                        Log.w(TAG, "onClick: intersection " + grid.getIntersections()[i].getIntersectionId() + " located at " + grid.getIntersections()[i].getxPos() + ", " + grid.getIntersections()[i].getyPos());
                     //                        Log.w(TAG, "onClick: local vars for x and y for " + grid.getIntersections()[i].getIntersectionId() + " located at " + xPos + ", " + yPos);
-
-
 
                 }
             }
@@ -545,18 +543,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton.setOnClickListener(this);
 
         /*--------------------Robber Buttons and Groups------------------------*/
-        robberBrickPlus = (ImageView) activity.findViewById(R.id.robber_discard_brickAddImg);
-        robberBrickMinus = (ImageView) activity.findViewById(R.id.robber_discard_brickMinusImg);
-        robberLumberPlus = (ImageView) activity.findViewById(R.id.robber_discard_lumberAddImg);
-        robberLumberMinus = (ImageView) activity.findViewById(R.id.robber_discard_lumberMinusImg);
-        robberGrainPlus = (ImageView) activity.findViewById(R.id.robber_discard_grainAddImg);
-        robberGrainMinus = (ImageView) activity.findViewById(R.id.robber_discard_grainMinusImg);
-        robberOrePlus = (ImageView) activity.findViewById(R.id.robber_discard_oreAddImg);
-        robberOreMinus = (ImageView) activity.findViewById(R.id.robber_discard_oreMinusImg);
-        robberWoolPlus = (ImageView) activity.findViewById(R.id.robber_discard_woolAddImg);
-        robberWoolMinus = (ImageView) activity.findViewById(R.id.robber_discard_woolMinusImg);
+        robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
+        robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
+        robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
+        robberLumberMinus = activity.findViewById(R.id.robber_discard_lumberMinusImg);
+        robberGrainPlus = activity.findViewById(R.id.robber_discard_grainAddImg);
+        robberGrainMinus = activity.findViewById(R.id.robber_discard_grainMinusImg);
+        robberOrePlus = activity.findViewById(R.id.robber_discard_oreAddImg);
+        robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
+        robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
+        robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
 
-        robberDiscardGroup = (Group) activity.findViewById(R.id.robber_discard_group);
+        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberBrickPlus.setOnClickListener(this);
         robberBrickMinus.setOnClickListener(this);
@@ -774,7 +772,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
             return;
         }
-        if(this.state.getRobberPhase()){
+        if (this.state.getRobberPhase()) {
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
