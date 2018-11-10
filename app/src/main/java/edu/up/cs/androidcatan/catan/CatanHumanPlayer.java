@@ -54,6 +54,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ArrayList<Integer> buildingsBuiltOnThisTurn; // todo ?
     private int currentBuildingSelectionId = 1;
     private float lastTouchDownXY[] = new float[2];
+    boolean debugMode = false;
 
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
@@ -238,7 +239,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------- Misc. Buttons ---------- */
 
-        if (button.getId() == R.id.menu_settings) {
+        if (button.getId() == R.id.sidebar_button_menu) {
+            this.boardSurfaceView.getGrid().toggleDebugMode();
+            this.boardSurfaceView.invalidate();
+            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -945,7 +949,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.i(TAG, "drawGraphics: boardSurfaceView height: " + height + " width: " + width);
 
-        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20));
+        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20, this.debugMode));
         this.boardSurfaceView.draw(canvas);
 
         boardSurfaceView.invalidate();

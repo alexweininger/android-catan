@@ -45,9 +45,11 @@ public class HexagonGrid extends BoardSurfaceView {
     private int highlightedHexagon = -1;
     private int highlightedIntersection = -1;
 
+    private boolean debugMode = false;
+
     /* ---------- Constructors ------------ */
 
-    public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
+    public HexagonGrid (Context context, Board board, int x, int y, int size, int margin, boolean debugMode) {
         super(context);
         setWillNotDraw(false);
         this.x = x;
@@ -57,6 +59,7 @@ public class HexagonGrid extends BoardSurfaceView {
         this.width = size * Math.sqrt(3);
         this.margin = margin;
         this.board = new Board(board);
+        this.debugMode = debugMode;
         generateIntersections();
     }
 
@@ -75,13 +78,13 @@ public class HexagonGrid extends BoardSurfaceView {
      *
      * @param canvas Canvas to draw on.
      */
-    public void drawGrid (Canvas canvas, boolean debugMode) {
+    public void drawGameBoard (Canvas canvas) {
         getHexagons(x, y, size); // get hexes
 
         drawBorder(canvas);
 
         for (HexagonDrawable h : drawingHexagons) {
-            h.drawHexagon(canvas, debugMode);
+            h.drawHexagon(canvas, this.debugMode);
         } // draw each hexagon
 
         drawRoads(canvas);
@@ -120,6 +123,10 @@ public class HexagonGrid extends BoardSurfaceView {
      */
     public void drawBuildings (Canvas canvas) {
         Paint bldgPaint = new Paint();
+        Paint highlightPaint = new Paint();
+        highlightPaint.setColor(Color.CYAN);
+        highlightPaint.setStyle(Paint.Style.STROKE);
+        highlightPaint.setStrokeWidth(5);
 
         Building[] buildings = this.board.getBuildings();
 
@@ -130,7 +137,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
-                canvas.drawCircle(xPos, yPos, 30, bldgPaint);
+                canvas.drawCircle(xPos, yPos, 30, highlightPaint);
             }
 
             if (buildings[i] != null) {
@@ -467,5 +474,18 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void setHighlightedIntersection (int highlightedIntersection) {
         this.highlightedIntersection = highlightedIntersection;
+    }
+
+
+    public void toggleDebugMode () {
+        this.debugMode = !this.debugMode;
+    }
+
+    public boolean isDebugMode () {
+        return debugMode;
+    }
+
+    public void setDebugMode (boolean debugMode) {
+        this.debugMode = debugMode;
     }
 }

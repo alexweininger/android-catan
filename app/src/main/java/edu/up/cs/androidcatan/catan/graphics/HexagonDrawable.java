@@ -62,7 +62,7 @@ public class HexagonDrawable extends BoardSurfaceView {
     /**
      * @param canvas Canvas object to draw the hexagon on.
      */
-    public void drawHexagon (Canvas canvas, boolean drawIds) {
+    public void drawHexagon (Canvas canvas, boolean debugMode) {
         Paint hexagonPaint = new Paint();
         hexagonPaint.setColor(this.color);
         hexagonPaint.setStyle(Paint.Style.FILL);
@@ -90,8 +90,9 @@ public class HexagonDrawable extends BoardSurfaceView {
         robberPaint.setColor(Color.DKGRAY);
         robberPaint.setStyle(Paint.Style.FILL);
 
-        blackFont.setTextSize(30);
-        if (drawIds) {
+
+        if (debugMode) {
+            blackFont.setTextSize(30);
             canvas.drawText("id: " + this.hexagonId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
             blackFont.setTextSize(50);
         }
