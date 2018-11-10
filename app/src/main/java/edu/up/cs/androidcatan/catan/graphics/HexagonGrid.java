@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
@@ -104,6 +106,8 @@ public class HexagonGrid extends BoardSurfaceView {
             intersection.drawIntersection(canvas, this.debugMode);
         } // draw each intersection
 
+        drawPorts(canvas);
+
         this.invalidate();
     }
 
@@ -165,12 +169,52 @@ public class HexagonGrid extends BoardSurfaceView {
                     }
 
                     buildingPicture = this.getContext().getDrawable(settlementPictures[buildings[i].getOwnerId()]);
-                    buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
+                    buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
                     buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
 
                     buildingPicture.draw(canvas);
+
+
+                } else if (buildings[i] instanceof City) {
+                    Log.e(TAG, "drawBuildings: drawing a city");
+                    if (this.highlightedIntersections.contains(i)) {
+                        Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
+                        canvas.drawCircle(xPos, yPos, 30, highlightPaint);
+                    }
+
+                    if (buildings[i] != null) { // if we need to draw a building at this intersection
+
+                        if (buildings[i] instanceof Settlement) {
+
+                            if (this.highlightedIntersections.contains(i)) { // if we need to highlight the building
+                                bldgPaint.setColor(Color.CYAN);
+                                canvas.drawRect(xPos - 65, yPos - 65, xPos + 65, yPos + 65, bldgPaint);
+                            }
+
+                            buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
+                            buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
+                            buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
+
+                            buildingPicture.draw(canvas);
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    /**
+     * @param canvas Canvas to draw ports on.
+     */
+    private void drawPorts (Canvas canvas) {
+
+        ArrayList<Port> ports = this.board.getPortList();
+
+        for (int i = 0; i < ports.size(); i++) {
+            int portIntersectionId = ports.get(i).getIntersection();
+
+            ports.get(i).drawPort(canvas, intersections[portIntersectionId].getxPos() , intersections[portIntersectionId].getyPos(), 25);
+
         }
     }
 
@@ -485,7 +529,6 @@ public class HexagonGrid extends BoardSurfaceView {
     public int getHighlightedHexagon () {
         return highlightedHexagon;
     }
-
 
     public void setHighlightedHexagon (int highlightedHexagon) {
         this.highlightedHexagon = highlightedHexagon;
