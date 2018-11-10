@@ -13,8 +13,6 @@ import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
-// todo removed unused imports please
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -31,7 +29,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     /* ----- Player instance variables ----- */
 
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
-    private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has TODO change o all 0s
+    private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
 
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
@@ -45,14 +43,13 @@ public class Player extends GameHumanPlayer implements OnClickListener {
     // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
     private int armySize;
 
-    // playerId
-    private int playerId;
+    private int playerId;  // playerId
 
     /**
      * Player constructor
      */
     public Player (int id) {
-        super("" + id + ""); // todo lol wtf is this
+        super("" + id);
         this.playerId = id;
         this.armySize = 0;
     }
