@@ -17,7 +17,6 @@ public class Port {
         this.intersection = intersection;
         this.tradeRatio = tradeRatio;
         this.resourceId = resourceId;
-
     }
 
     /**
