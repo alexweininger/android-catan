@@ -337,6 +337,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (tryBuildSettlement(singleIntersectionIdInput)) {
                 if (currentBuildingSelectionId == 1) {
+                    Log.e(TAG, "onClick: sent settlement action ");
                     CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.state.getCurrentPlayerId());
                     game.sendAction(action);
                 } else {
@@ -349,7 +350,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 currentBuildingSelectionId = -1;
                 if (state.isSetupPhase()) {
                     toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
-                    roadIntersectionAEditText.setText("" + singleIntersectionIdInput + "");
+                    roadIntersectionAEditText.setText(String.valueOf(singleIntersectionIdInput));
                     currentBuildingSelectionId = 0;
                     settlementCount++;
                 }
