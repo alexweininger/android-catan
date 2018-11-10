@@ -12,17 +12,12 @@ public class Port {
      * @param intersection
      * @param tradeRatio
      * @param resourceId
-     * @param xPos
-     * @param yPos
-     * @param size
      */
-    public Port (int intersection, int tradeRatio, int resourceId, int xPos, int yPos, int size) {
+    public Port (int intersection, int tradeRatio, int resourceId) {
         this.intersection = intersection;
         this.tradeRatio = tradeRatio;
         this.resourceId = resourceId;
-        this.size = size;
-        this.xPos = xPos;
-        this.yPos = yPos;
+
     }
 
     /**
@@ -36,7 +31,18 @@ public class Port {
         this.setResourceId(p.getResourceId());
     }
 
-    public void drawPort (Canvas canvas) {
+    /**
+     * @param canvas Canvas to draw the port on.
+     * @param xPos X position of the port.
+     * @param yPos Y position of the port.
+     * @param size Size of the port.
+     */
+    public void drawPort (Canvas canvas, int xPos, int yPos, int size) {
+
+        this.size = size;
+        this.xPos = xPos;
+        this.yPos = yPos;
+
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
