@@ -117,13 +117,13 @@ public class Board {
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
         this.setRobber(new Robber(b.getRobber())); // class
-        this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
         this.setIntersectionGraph(b.getIntersectionGraph());
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
+        this.setPortList(b.getPortList());
 
         for (Hexagon hexagon : b.getHexagons()) {
             this.hexagons.add(new Hexagon(hexagon));
@@ -1553,13 +1553,6 @@ public class Board {
     }
 
     /**
-     * @return Port intersection locations in an Array List. Index is the intersection.
-     */
-    private ArrayList<Integer> getPortIntersectionLocations () {
-        return this.portIntersectionLocations;
-    }
-
-    /**
      * @return Road adjacency graph.
      */
     public Road[][] getRoadGraph () {
@@ -1649,13 +1642,6 @@ public class Board {
         this.robber = robber;
     }
 
-    /**
-     * @param portIntersectionLocations list of intersections that have access to a port
-     */
-    public void setPortIntersectionLocations (ArrayList<Integer> portIntersectionLocations) {
-        this.portIntersectionLocations = portIntersectionLocations;
-    }
-
     public ArrayList<Port> getPortList () {
         return portList;
     }
@@ -1737,8 +1723,6 @@ public class Board {
                 str += "\n";
             }
         }
-
-        str += "\nportIntersectionLocations=" + portIntersectionLocations;
 
         return str;
     }
