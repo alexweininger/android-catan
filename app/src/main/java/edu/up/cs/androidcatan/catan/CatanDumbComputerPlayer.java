@@ -28,7 +28,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     /**
      * ctor does nothing extra
      */
-    public CatanDumbComputerPlayer (String name) {
+    CatanDumbComputerPlayer (String name) {
         super(name);
     }
 
@@ -47,29 +47,28 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
         if (gs.getCurrentPlayerId() != this.playerNum) return;
 
+        Random random = new Random();
         int settlementCount = 0;
         int roadCount = 0;
 
+        // Get the number of settlements the player has built.
         for (Building building : gs.getBoard().getBuildings()) {
-            if (building != null) {
-                if (building.getOwnerId() == this.playerNum) {
-                    settlementCount++;
-                }
+            if (building != null && building.getOwnerId() == this.playerNum) {
+                settlementCount++;
             }
         }
 
+        // Get the number of roads the player has built.
         for (Road road : gs.getBoard().getRoads()) {
             if (road.getOwnerId() == this.playerNum) {
                 roadCount++;
             }
         }
 
-        // delay to make cpu feel more real
-
-/*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
-        Random random = new Random();
         Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
-        if (gs.isSetupPhase() && (roadCount != 2 || settlementCount != 2)) {
+
+        if (gs.isSetupPhase() && (roadCount != 2 || settlementCount != 2)) {  /*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
+
             Log.i(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road.");
 
             int randSettlementIntersection = random.nextInt(53);
@@ -80,6 +79,9 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             }
 
             if (gs.isSetupPhase()) { // need to build a settlement
+
+                sleep(2000); // sleep
+
                 Log.w(TAG, "receiveInfo: Attempting to build a settlement at intersection " + randSettlementIntersection);
 
                 // add just enough resources for a settlement
@@ -88,12 +90,10 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 gs.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
                 gs.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
-                sleep(2000);
-
                 // send the build settlement action to the game
                 Log.i(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game.");
 
-                game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection));
+                game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection)); // sending build settlement action
 
                 Log.d(TAG, "receiveInfo() returned: void");
 
@@ -103,19 +103,23 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(randSettlementIntersection);
 
                 Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
+
                 // choose a random intersection from those intersections
                 int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+
                 // generate random intersection until we find a valid location to build our settlement
                 while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection))) {
                     randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 }
+
+                sleep(1000); // sleep
 
                 Log.w(TAG, "receiveInfo: Attempting to build a road between " + intersectionsToChooseFrom.get(randomRoadIntersection) + " and " + randSettlementIntersection);
 
                 // add just enough resources for a road
                 gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
                 gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-                sleep(1000);
+
                 // send the game a build road action
                 Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game.");
                 game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection)));
@@ -123,15 +127,17 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 Log.d(TAG, "receiveInfo() returned: void");
                 return;
             }
+        } // setup phase if statement END
 
-        } else {
-            /*-----------------------------------CPUs Normal Action Phase------------------------------------*/
+        if (!gs.isSetupPhase()) { /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
+
             sleep(300);
             game.sendAction(new CatanRollDiceAction(this));
             sleep(300);
+
             Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
             game.sendAction(new CatanEndTurnAction(this));
-        }
+        } // not setup phase if statement END
 
-    }//receiveInfo
-}
+    }// receiveInfo() END
+} // CatanDumbComputerPlayer class END
