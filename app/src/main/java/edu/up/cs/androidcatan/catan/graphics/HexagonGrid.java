@@ -42,6 +42,10 @@ public class HexagonGrid extends BoardSurfaceView {
     // colors for each player, the last color is for no player (highlighting)
     public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE, Color.CYAN};
 
+    public static int[] settlementPictures = {R.drawable.settlement_red, R.drawable.settlement_white, R.drawable.settlement_orange, R.drawable.settlement_blue};
+
+    public static int[] cityPictures = {R.drawable.city_red, R.drawable.city_white, R.drawable.city_orange, R.drawable.city_blue};
+
     private Board board;
     private IntersectionDrawable[] intersections = new IntersectionDrawable[54]; // list of IntersectionDrawable objects
     ArrayList<RoadDrawable> roads = new ArrayList<>(); // list of Road objects
@@ -154,24 +158,20 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 Drawable buildingPicture;
                 if (buildings[i] instanceof Settlement) {
-                    buildingPicture = this.getContext().getDrawable(R.drawable.settlement);
+                    buildingPicture = this.getContext().getDrawable(settlementPictures[buildings[i].getOwnerId()]);
                     buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
                     buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
+
+                    buildingPicture.draw(canvas);
+
                     if (this.highlightedIntersections.contains(i)) { // if we need to highlight the building
                         bldgPaint.setColor(Color.CYAN);
-//                        canvas.drawRect(xPos - 35, yPos + 35, xPos + 35, yPos - 35, bldgPaint);
-//                        buildingPicture.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_OVER);
+                        //                        canvas.drawRect(xPos - 35, yPos + 35, xPos + 35, yPos - 35, bldgPaint);
+                        //                        buildingPicture.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_OVER);
                         buildingPicture.setTint(Color.CYAN);
                         buildingPicture.setTintMode(PorterDuff.Mode.ADD);
                     }
-                    buildingPicture.draw(canvas);
-
-                } else {
-                    bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
-                    canvas.drawRect(xPos - 30, yPos + 30, xPos + 30, yPos - 30, bldgPaint);
                 }
-
-
             }
         }
     }

@@ -59,9 +59,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView messageTextView = (TextView) null;
 
     private int selectedHexagonId = -1;
-    private int selectedIntersectionId = -1;
 
-    private ArrayList<Integer> selectedIntersections;
+    private ArrayList<Integer> selectedIntersections = new ArrayList<>();
 
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
@@ -301,22 +300,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------- Building sidebar buttons ---------- */
+        /* ---------------------------- Building sidebar buttons --------------------- */
 
         if (button.getId() == R.id.sidebar_button_road) {
-            //            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
-            //                developmentGroup.setVisibility(View.GONE);
-            //                tradeGroup.setVisibility(View.GONE);
-            //                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-            //                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
-            //                currentBuildingSelectionId = 0;
-            //
-            //            }
-
-            if (selectedIntersections.size() < 2) {
+            currentBuildingSelectionId = 0;
+            if (selectedIntersections.size() != 2) {
                 messageTextView.setText("Select two intersections to build a road.");
+            } else {
+                if (tryBuildRoad(selectedIntersections.get(0), selectedIntersections.get(1))) {
+                    messageTextView.setText("Built a road.");
+                } else {
+                    messageTextView.setText("Invalid road placement.");
+                }
             }
-
             return;
         }
 
@@ -504,10 +500,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                     if (grid.getHighlightedIntersections().contains(i)) {
                         boardSurfaceView.getGrid().getHighlightedIntersections().remove((Integer) i);
-                        selectedIntersectionId = -1;
+                        selectedIntersections.remove((Integer) i);
                     } else {
                         boardSurfaceView.getGrid().addHighlightedIntersection(i);
-                        selectedIntersectionId = i;
+                        if (selectedIntersections.size() > 1) {
+                            selectedIntersections.remove(0);
+                        }
+                        selectedIntersections.add(i);
                     }
 
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
@@ -540,8 +539,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                                 selectedHexagonId = dataHexagon.getHexagonId();
                             }
 
-                            boardSurfaceView.getGrid().clearHighLightedIntersections();
-                            selectedIntersectionId = -1;
+                            boardSurfaceView.getGrid().getHighlightedIntersections().clear();
+                            selectedIntersections.clear();
                             boardSurfaceView.invalidate();
 
                         }
@@ -553,7 +552,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // check if no hexagon or intersection was touched (aka. outside the island)
             if (!touchedHexagon && !touchedIntersection) {
                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
-                boardSurfaceView.getGrid().clearHighLightedIntersections();
+                boardSurfaceView.getGrid().getHighlightedIntersections().clear();
+                selectedIntersections.clear();
                 boardSurfaceView.invalidate();
             }
         }
@@ -568,13 +568,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
-
-        // check if current building selection id matches that of the method call
-        if (this.currentBuildingSelectionId != 0) {
-            this.messageTextView.setText("Select an intersection to build a road.");
-            Log.e(TAG, "tryBuildRoad: currentBuildingSelectionId does not equal 0 (road id). Returning false.");
-            return false;
-        }
 
         // check if user given intersections are valid
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
@@ -594,9 +587,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "tryBuildRoad() returned: " + true);
             return true;
         } else {
+            messageTextView.setText("Invalid road location.");
             Log.e(TAG, "tryBuildSettlement: Returning false.");
             Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
             roadIntersectionBEditText.startAnimation(shake);
+            messageTextView.startAnimation(shake);
             return false;
         }
     }
@@ -609,11 +604,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
 
-        if (this.currentBuildingSelectionId != 1) {
-            this.messageTextView.setText("Select an intersection to build a settlement.");
-            Log.e(TAG, "tryBuildSettlement: Error the currently selected building id is not a settlement.");
-            return false;
-        }
         if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersection1)) {
             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
 
@@ -630,9 +620,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             return true;
         } else {
+            messageTextView.setText("Invalid settlement location.");
             Log.e(TAG, "tryBuildSettlement: Returning false.");
             Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
             singleIntersectionInputEditText.startAnimation(shake);
+            messageTextView.startAnimation(shake);
             return false;
         }
     }
