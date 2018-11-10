@@ -400,6 +400,38 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /*----------------Robber Button Listeners---------------------*/
+        if(button.getId() == R.id.robber_discard_brickAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_brickMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_lumberAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_lumberMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_grainAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_grainMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_oreAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_oreMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_woolAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_woolMinusImg){
+
+        }
+
 
     }// onClick END
 
@@ -452,6 +484,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         robberDiscardGroup = (Group) activity.findViewById(R.id.robber_discard_group);
 
+        robberBrickPlus.setOnClickListener(this);
+        robberBrickMinus.setOnClickListener(this);
+        robberLumberPlus.setOnClickListener(this);
+        robberLumberMinus.setOnClickListener(this);
+        robberGrainPlus.setOnClickListener(this);
+        robberGrainMinus.setOnClickListener(this);
+        robberOrePlus.setOnClickListener(this);
+        robberOreMinus.setOnClickListener(this);
+        robberWoolPlus.setOnClickListener(this);
+        robberWoolMinus.setOnClickListener(this);
+
+        /*---------------------------TODO Trade Buttons-------------------------------------------*/
         //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
         //        tradeCustomPort.setOnClickListener(this);
 
