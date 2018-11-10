@@ -39,10 +39,6 @@ public class BoardSurfaceView extends SurfaceView {
         setWillNotDraw(false);
     }
 
-    public void BoardSurfaceView(BoardSurfaceView b) {
-        this.setGrid(b.getGrid());
-    }
-
     public void createHexagons(Board board) {
         this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20);
     }
@@ -72,7 +68,6 @@ public class BoardSurfaceView extends SurfaceView {
     }
 
     public void onDraw(Canvas canvas) {
-        canvas.drawARGB(255, 237, 237, 171);
         if (grid == null) {
             Log.e(TAG, "onDraw: grid is null");
         } else {
