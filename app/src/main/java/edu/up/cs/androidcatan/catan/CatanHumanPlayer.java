@@ -331,13 +331,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.sidebar_button_city) {
-            //            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-            //                developmentGroup.setVisibility(View.GONE);
-            //                tradeGroup.setVisibility(View.GONE);
-            //                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-            //                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-            //                currentBuildingSelectionId = 2;
-            //            }
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText("Select one intersection to build a city.");
             } else {
