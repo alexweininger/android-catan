@@ -123,11 +123,16 @@ public class Board {
         this.setIntersectionGraph(b.getIntersectionGraph());
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
-        this.setPortList(b.getPortList());
 
-        for (Hexagon hexagon : b.getHexagons()) {
-            this.hexagons.add(new Hexagon(hexagon));
+        for (int i = 0; i < b.getBuildings().length; i++) {
+            if (b.getBuildings()[i] instanceof Settlement) {
+                this.buildings[i] = new Settlement(b.getBuildings()[i].getOwnerId());
+            } else if (b.getBuildings()[i] instanceof City) {
+                this.buildings[i] = new City(i, b.getBuildings()[i].getOwnerId());
+            }
         }
+        for (Port p : b.getPortList()) { this.portList.add(new Port(p)); }
+        for (Hexagon hexagon : b.getHexagons()) { this.hexagons.add(new Hexagon(hexagon)); }
     } // end Board deep copy constructor
 
     /**
