@@ -33,8 +33,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     @Override
     protected void receiveInfo (GameInfo info) {
         Log.i(TAG, "receiveInfo() called with: info = [" + info + "]");
-        if (!(info instanceof CatanGameState)) return;
 
+        if (!(info instanceof CatanGameState)) return;
         CatanGameState gs = (CatanGameState) info;
 
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
@@ -89,8 +89,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection)); // sending build settlement action
 
                 Log.d(TAG, "receiveInfo() returned: void");
-
-                // CPU should now build a road...
 
                 // get adjacent intersections to what we just built
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(randSettlementIntersection);
