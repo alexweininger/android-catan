@@ -311,7 +311,7 @@ public class Board {
                 currLongestRoad = longestRoadPerPlayer.get(n);
                 playerIdLongestRoad = n;
             }
-            if (longestRoadPerPlayer.get(n) == currLongestRoad){
+            if (longestRoadPerPlayer.get(n) == currLongestRoad) {
                 playerIdLongestRoad = -1;
             }
         }
@@ -442,7 +442,7 @@ public class Board {
         }
 
         // check for an already existing building
-        if(!hasBuilding(intersectionId)) {
+        if (!hasBuilding(intersectionId)) {
             Log.w(TAG, "validCityLocation: Cannot build a city where there is not already a building. Returning false.");
             return false;
         }
@@ -552,11 +552,15 @@ public class Board {
             }
         }
 
-        while(!checkChitRule()) {
+        // shuffle the hexes until the chit rule is followed
+        while (!checkChitRule()) {
             Collections.shuffle(hexagons);
         }
     }
 
+    /**
+     * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
+     */
     private boolean checkChitRule () {
         Log.d(TAG, "checkChitRule() called");
         // checks if any 8's or 6's are adjacent to one another
@@ -613,7 +617,6 @@ public class Board {
                 }
             }
         }
-
         return true;
     }
 
