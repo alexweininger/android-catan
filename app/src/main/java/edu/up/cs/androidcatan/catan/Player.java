@@ -82,7 +82,7 @@ public class Player {
      * @param numToCheckFor - number of resources to make sure the player has
      * @return - whether they have at least that many resources of the given type
      */
-    public boolean checkResourceCard (int resourceCardId, int numToCheckFor) {
+    boolean checkResourceCard (int resourceCardId, int numToCheckFor) {
         Log.i(TAG, "checkResourceCard() called with: resourceCardId = [" + resourceCardId + "], numToCheckFor = [" + numToCheckFor + "]");
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
@@ -95,7 +95,7 @@ public class Player {
      * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
      * @return - true of false, does the player have all of these resources?
      */
-    public boolean checkResourceBundle (int[] resourceCost) {
+    boolean checkResourceBundle (int[] resourceCost) {
         Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.i(TAG, "checkResourceBundle: " + this.printResourceCards());
         for (Integer id : resourceCost) {
@@ -135,11 +135,11 @@ public class Player {
     }
 
     /**
-     * @param resourceCost
-     * @return
+     * @param resourceCost Array of the amounts of each resource an action costs.
+     * @return If the player has ALL of the resources.
      */
-    public boolean removeResourceBundle (int[] resourceCost) {
-        Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + resourceCost + "]");
+    boolean removeResourceBundle (int[] resourceCost) {
+        Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         if (!checkResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
             return false;
@@ -151,7 +151,7 @@ public class Player {
                 return false;
             }
         }
-        Log.d(TAG, "removeResourceBundle successfully removed resourceCost = [" + resourceCost.toString() + "] from players inventory.");
+        Log.d(TAG, "removeResourceBundle successfully removed resourceCost = [" + Arrays.toString(resourceCost) + "] from players inventory.");
         return true;
     }
 
@@ -159,7 +159,7 @@ public class Player {
     /**
      * @return String showing the number of each resource card the player has
      */
-    public String printResourceCards () {
+    String printResourceCards () {
         StringBuilder str = new StringBuilder();
         str.append("[");
         for (int i = 0; i < this.resourceCards.length; i++) {
@@ -182,14 +182,14 @@ public class Player {
     /**
      * @param buildingInventory
      */
-    public void setBuildingInventory (int[] buildingInventory) {
+    private void setBuildingInventory (int[] buildingInventory) {
         this.buildingInventory = buildingInventory;
     }
 
     /**
      * @param playerId
      */
-    public void setPlayerId (int playerId) {
+    private void setPlayerId (int playerId) {
         this.playerId = playerId;
     }
 
@@ -224,7 +224,7 @@ public class Player {
     /**
      * @param devCard dev card to add
      */
-    public void addDevelopmentCard (DevelopmentCard devCard) {
+    void addDevelopmentCard (DevelopmentCard devCard) {
         developmentCards.add(devCard);
     }
 
@@ -275,7 +275,7 @@ public class Player {
     /**
      * @return The total amount of resourceCards a player has.
      */
-    public int getTotalResourceCardCount () {
+    int getTotalResourceCardCount () {
         int result = 0;
         for (int resourceCard : this.resourceCards) {
             result += resourceCard;
@@ -286,7 +286,7 @@ public class Player {
     /**
      * @return - A random resourceCard is removed from the players inventory and returned.
      */
-    public int getRandomCard () {
+    int getRandomCard () {
 
         if (this.getTotalResourceCardCount() < 1) {
             Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
