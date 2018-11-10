@@ -26,19 +26,16 @@ public class BoardSurfaceView extends SurfaceView {
 
     int size;
     HexagonGrid grid;
-    boolean debugMode;
 
     // constructors
     public BoardSurfaceView(Context context) {
         super(context);
         setWillNotDraw(false);
-        this.debugMode = false;
     }
 
     public BoardSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
-        this.debugMode = false;
     }
 
     public void onDraw(Canvas canvas) {
@@ -46,20 +43,12 @@ public class BoardSurfaceView extends SurfaceView {
             Log.e(TAG, "onDraw: grid is null");
         } else {
             Log.i(TAG, "onDraw: drawing grid");
-            grid.drawGrid(canvas, this.debugMode);
+            grid.drawGameBoard(canvas);
         }
     }
 
     public void createHexagons(Board board) {
-        this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20);
-    }
-
-    public boolean isDebugMode () {
-        return debugMode;
-    }
-
-    public void setDebugMode (boolean debugMode) {
-        this.debugMode = debugMode;
+        this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20, false);
     }
 
     public ArrayList<Ports> getPorts() {
@@ -85,5 +74,4 @@ public class BoardSurfaceView extends SurfaceView {
     public void setGrid(HexagonGrid grid) {
         this.grid = grid;
     }
-
 }

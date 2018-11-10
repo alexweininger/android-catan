@@ -50,23 +50,22 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
 public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
     private final String TAG = "CatanHumanPlayer";
 
-    private ArrayList<Integer> buildingsBuiltOnThisTurn;
+    // instance variables for logic
+    private ArrayList<Integer> buildingsBuiltOnThisTurn; // todo ?
     private int currentBuildingSelectionId = 1;
-
     private float lastTouchDownXY[] = new float[2];
+    boolean debugMode = false;
 
-    private int highlightedHexagonId = -1;
+    private TextView messageTextView = (TextView) null;
 
-    /* ---------- View variables for updating UI / Layout ---------- */
+    /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
-    /* ---------- SCOREBOARD button init ---------- */
-
-    // building buttons
+    /* ------------- Building Buttons -------------------- */
     private Button buildCityButton = null;
     private Button buildRoadButton = null;
     private Button buildSettlementButton = null;
 
-    // action buttons
+    /* ------------- Action Buttons -------------------- */
     private Button sidebarOpenDevCardMenuButton = null;
     private Button robberDiscard = null;
     private Button robberMove = null;
@@ -78,15 +77,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button buildDevCard = null;
     private Spinner devCardList = null;
 
-    // turn buttons
+    /* ------ Turn Buttons ------- */
     private Button rollButton = null;
     private Button endTurnButton = null;
 
-    // misc buttons
+    /* ------------- Misc Buttons -------------------- */
+
     private Button sidebarMenuButton = (Button) null;
     private Button sidebarScoreboardButton = (Button) null;
 
-    // resource count text views
+    /* ------------- resource count text views -------------------- */
+
     private TextView oreValue = (TextView) null;
     private TextView grainValue = (TextView) null;
     private TextView lumberValue = (TextView) null;
@@ -240,7 +241,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------- Misc. Buttons ---------- */
 
-        if (button.getId() == R.id.menu_settings) {
+        if (button.getId() == R.id.sidebar_button_menu) {
+            this.boardSurfaceView.getGrid().toggleDebugMode();
+            this.boardSurfaceView.invalidate();
+            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -442,8 +446,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
 
-
-
     }// onClick END
 
     // the purpose of the touch listener is just to store the touch X,Y coordinates
@@ -486,7 +488,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     // if x is greater than point 3 and less than point 0
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     touchedIntersection = true;
-                    boardSurfaceView.getGrid().setHighlightedIntersection(i);
+
+                    if (i == grid.getHighlightedIntersection()) {
+                        boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                    } else {
+                        boardSurfaceView.getGrid().setHighlightedIntersection(i);
+                    }
+
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                     boardSurfaceView.invalidate();
                 }
@@ -505,7 +513,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
                             Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
                             touchedHexagon = true;
-                            boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+
+                            if (dataHexagon.getHexagonId() == boardSurfaceView.getGrid().getHighlightedHexagon()) {
+                                boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                            } else {
+                                boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+                            }
+
                             boardSurfaceView.getGrid().setHighlightedIntersection(-1);
                             boardSurfaceView.invalidate();
 
@@ -539,6 +553,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         activity.setContentView(R.layout.activity_main); // Load the layout resource for our GUI
 
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard); // todo move this somewhere meaningful
+
+        messageTextView = activity.findViewById(R.id.textview_game_message);
 
         /* ---------- Surface View for drawing the graphics ----------- */
 
@@ -724,6 +740,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // check if current building selection id matches that of the method call
         if (this.currentBuildingSelectionId != 0) {
+            this.messageTextView.setText("Select an intersection to build a road.");
             Log.e(TAG, "tryBuildRoad: currentBuildingSelectionId does not equal 0 (road id). Returning false.");
             return false;
         }
@@ -760,6 +777,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
 
         if (this.currentBuildingSelectionId != 1) {
+            this.messageTextView.setText("Select an intersection to build a settlement.");
             Log.e(TAG, "tryBuildSettlement: Error the currently selected building id is not a settlement.");
             return false;
         }
@@ -797,6 +815,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
         if (this.state.getRobberPhase()) {
+
+            this.messageTextView.setText("Robber phase.");
+
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
@@ -814,6 +835,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setClickable(false);
         }
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
+
+            this.messageTextView.setText("Setup phase.");
 
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
@@ -840,6 +863,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
 
+            this.messageTextView.setText("Roll the dice.");
+
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
             this.buildSettlementButton.setAlpha(0.5f);
@@ -863,7 +888,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
         } else { // ACTION PHASE AND NOT SETUP PHASE
-            //            setAllButtonsToVisible();
+
+            this.messageTextView.setText("Action phase.");
+            setAllButtonsToVisible();
         }
         setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
@@ -937,7 +964,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.i(TAG, "drawGraphics: boardSurfaceView height: " + height + " width: " + width);
 
-        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20));
+        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20, this.debugMode));
         this.boardSurfaceView.draw(canvas);
 
         boardSurfaceView.invalidate();
@@ -980,7 +1007,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         else group.setVisibility(View.GONE);
     }
 
-    public void setAllButtonsToVisible () {
+    private void setAllButtonsToVisible () {
         this.buildRoadButton.setAlpha(1f);
         this.buildRoadButton.setClickable(true);
         this.buildSettlementButton.setAlpha(1f);
@@ -1018,7 +1045,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param offset Start offset.
      * @return returns The View with animation properties on it.
      */
-    public static View blinkAnimation (View view, int duration, int offset) {
+    private static View blinkAnimation (View view, int duration, int offset) {
 
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(duration);

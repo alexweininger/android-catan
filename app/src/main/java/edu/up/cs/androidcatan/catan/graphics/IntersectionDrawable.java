@@ -15,12 +15,14 @@ public class IntersectionDrawable {
         this.yPos = y;
     }
 
-    public void drawIntersection(Canvas canvas) {
+    public void drawIntersection(Canvas canvas, boolean debugMode) {
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(42);
 
-        canvas.drawText("" + intersectionId, xPos, yPos, paint);
+        if (debugMode) {
+            canvas.drawText("" + intersectionId, xPos, yPos, paint);
+        }
     }
 
     public int getIntersectionId() {

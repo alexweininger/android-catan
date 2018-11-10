@@ -62,7 +62,7 @@ public class HexagonDrawable extends BoardSurfaceView {
     /**
      * @param canvas Canvas object to draw the hexagon on.
      */
-    public void drawHexagon (Canvas canvas, boolean drawIds) {
+    public void drawHexagon (Canvas canvas, boolean debugMode) {
         Paint hexagonPaint = new Paint();
         hexagonPaint.setColor(this.color);
         hexagonPaint.setStyle(Paint.Style.FILL);
@@ -72,21 +72,27 @@ public class HexagonDrawable extends BoardSurfaceView {
         blackFont.setStyle(Paint.Style.FILL);
         blackFont.setTextSize(50);
 
-        if (this.highlight) {
-            hexagonPaint.setColor(Color.CYAN);
-        }
+        Paint highlightPaint = new Paint();
+        highlightPaint.setColor(Color.CYAN);
+        highlightPaint.setStyle(Paint.Style.STROKE);
+        highlightPaint.setStrokeWidth(10f);
 
         points = calculateHexagonPoints(this.x, this.y, this.size);
 
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, hexagonPaint);
 
+        if (this.highlight) {
+            canvas.drawPath(hexagonPath, highlightPaint);
+        }
+
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.DKGRAY);
         robberPaint.setStyle(Paint.Style.FILL);
 
-        blackFont.setTextSize(30);
-        if (drawIds) {
+
+        if (debugMode) {
+            blackFont.setTextSize(30);
             canvas.drawText("id: " + this.hexagonId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
             blackFont.setTextSize(50);
         }
@@ -101,7 +107,6 @@ public class HexagonDrawable extends BoardSurfaceView {
                 canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2, blackFont);
             }
         }
-
 
         int radius = 25;
         int cx = points[5][0];

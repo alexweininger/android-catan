@@ -4,15 +4,19 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 /**
  * @author Alex Weininger
@@ -45,9 +49,11 @@ public class HexagonGrid extends BoardSurfaceView {
     private int highlightedHexagon = -1;
     private int highlightedIntersection = -1;
 
+    private boolean debugMode = false;
+
     /* ---------- Constructors ------------ */
 
-    public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
+    public HexagonGrid (Context context, Board board, int x, int y, int size, int margin, boolean debugMode) {
         super(context);
         setWillNotDraw(false);
         this.x = x;
@@ -57,6 +63,7 @@ public class HexagonGrid extends BoardSurfaceView {
         this.width = size * Math.sqrt(3);
         this.margin = margin;
         this.board = new Board(board);
+        this.debugMode = debugMode;
         generateIntersections();
     }
 
@@ -75,20 +82,20 @@ public class HexagonGrid extends BoardSurfaceView {
      *
      * @param canvas Canvas to draw on.
      */
-    public void drawGrid (Canvas canvas, boolean debugMode) {
-        getHexagons(x, y, size); // get hexes
+    public void drawGameBoard (Canvas canvas) {
+        generateDrawableHexagons(x, y, size); // get hexes
 
         drawBorder(canvas);
 
         for (HexagonDrawable h : drawingHexagons) {
-            h.drawHexagon(canvas, debugMode);
+            h.drawHexagon(canvas, this.debugMode);
         } // draw each hexagon
 
         drawRoads(canvas);
         drawBuildings(canvas);
 
         for (IntersectionDrawable intersection : intersections) {
-            intersection.drawIntersection(canvas);
+            intersection.drawIntersection(canvas, this.debugMode);
         } // draw each intersection
 
         this.invalidate();
@@ -113,18 +120,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
             canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), roadPaint);
         }
-
-//        for (int k = 0; k < dataRoads.size(); k++) { // for each road stored on the board
-//            Road r = dataRoads.get(k);
-//
-//            roadPaint.setColor(playerColors[r.getOwnerId()]);
-//
-//            canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), roadPaint);
-//        }
-    }
-
-    public void drawHighlighedIntersections(Canvas canvas) {
-
     }
 
     /**
@@ -132,6 +127,10 @@ public class HexagonGrid extends BoardSurfaceView {
      */
     public void drawBuildings (Canvas canvas) {
         Paint bldgPaint = new Paint();
+        Paint highlightPaint = new Paint();
+        highlightPaint.setColor(Color.CYAN);
+        highlightPaint.setStyle(Paint.Style.STROKE);
+        highlightPaint.setStrokeWidth(5);
 
         Building[] buildings = this.board.getBuildings();
 
@@ -142,17 +141,35 @@ public class HexagonGrid extends BoardSurfaceView {
                 Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
-                canvas.drawCircle(xPos, yPos, 30, bldgPaint);
+                canvas.drawCircle(xPos, yPos, 30, highlightPaint);
             }
 
-            if (buildings[i] != null) {
-                bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
+            if (buildings[i] != null) { // if we need to draw a building at this intersection
 
                 // get center of intersection
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
 
-                canvas.drawRect(xPos - 30, yPos + 30, xPos + 30, yPos - 30, bldgPaint);
+                Drawable buildingPicture;
+                if (buildings[i] instanceof Settlement) {
+                    buildingPicture = this.getContext().getDrawable(R.drawable.settlement);
+                    buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
+                    buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
+                    if (i == this.highlightedIntersection) { // if we need to highlight the building
+                        bldgPaint.setColor(Color.CYAN);
+//                        canvas.drawRect(xPos - 35, yPos + 35, xPos + 35, yPos - 35, bldgPaint);
+//                        buildingPicture.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_OVER);
+                        buildingPicture.setTint(Color.CYAN);
+                        buildingPicture.setTintMode(PorterDuff.Mode.ADD);
+                    }
+                    buildingPicture.draw(canvas);
+
+                } else {
+                    bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
+                    canvas.drawRect(xPos - 30, yPos + 30, xPos + 30, yPos - 30, bldgPaint);
+                }
+
+
             }
         }
     }
@@ -181,7 +198,7 @@ public class HexagonGrid extends BoardSurfaceView {
      * @param y Y position.
      * @param size Size of the hexagons.
      */
-    public void getHexagons (int x, int y, int size) {
+    public void generateDrawableHexagons (int x, int y, int size) {
         ArrayList<Hexagon> dataHexagons = board.getHexagonListForDrawing();
         drawingHexagons = new ArrayList<>();
 
@@ -192,22 +209,22 @@ public class HexagonGrid extends BoardSurfaceView {
             for (int j = 0; j < hexagonsInEachRow[i]; j++) {
 
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
-                //                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                //                Log.d(TAG, "generateDrawableHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
                 boolean highlightedHexagon = this.highlightedHexagon == dataHexagons.get(dataHexagonsIndex).getHexagonId();
 
                 if (highlightedHexagon) {
-                    Log.e(TAG, "getHexagons: highlighted hexagon is: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                    Log.e(TAG, "generateDrawableHexagons: highlighted hexagon is: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 }
 
                 if (isRobberHexagon) {
-                    Log.w(TAG, "getHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                    Log.w(TAG, "generateDrawableHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 }
 
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
                 if (isDesertHexagon)
-                    Log.w(TAG, "getHexagons: desert tile found to be at drawing hexagon id: " + dataHexagonsIndex + " and data hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                    Log.w(TAG, "generateDrawableHexagons: desert tile found to be at drawing hexagon id: " + dataHexagonsIndex + " and data hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 int offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
@@ -217,7 +234,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 drawingHexagons.add(hexagon);
 
-                Log.w(TAG, "getHexagons: dataHexagonsIndex: " + dataHexagonsIndex + " current hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                Log.w(TAG, "generateDrawableHexagons: dataHexagonsIndex: " + dataHexagonsIndex + " current hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 dataHexagonsIndex++;
             }
         }
@@ -479,5 +496,18 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void setHighlightedIntersection (int highlightedIntersection) {
         this.highlightedIntersection = highlightedIntersection;
+    }
+
+
+    public void toggleDebugMode () {
+        this.debugMode = !this.debugMode;
+    }
+
+    public boolean isDebugMode () {
+        return debugMode;
+    }
+
+    public void setDebugMode (boolean debugMode) {
+        this.debugMode = debugMode;
     }
 }

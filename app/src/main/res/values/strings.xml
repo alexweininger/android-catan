@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Android Catan</string>
+
+    <string name="message_text">Alert! This is an important message.</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_game_main">Shall We Play A Game?</string>
