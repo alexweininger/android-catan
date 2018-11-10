@@ -2,14 +2,12 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
-import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
@@ -22,7 +20,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Player extends GameHumanPlayer implements OnClickListener {
+public class Player {
 
     private static final String TAG = "Player"; // TAG used for Logging
 
@@ -49,7 +47,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * Player constructor
      */
     public Player (int id) {
-        super("" + id);
+//        super("" + id);
         this.playerId = id;
         this.armySize = 0;
     }
@@ -60,7 +58,7 @@ public class Player extends GameHumanPlayer implements OnClickListener {
      * @param p - Player object to copy
      */
     public Player (Player p) {
-        super("" + p.getPlayerId() + "");
+//        super("" + p.getPlayerId() + "");
         this.setPlayerId(p.getPlayerId());
         this.setArmySize(p.getArmySize());
         this.setDevelopmentCards(p.getDevelopmentCards());
