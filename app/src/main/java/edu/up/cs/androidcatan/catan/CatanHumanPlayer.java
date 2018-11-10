@@ -58,6 +58,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private TextView messageTextView = (TextView) null;
 
+    private int selectedHexagonId = -1;
+    private int selectedIntersectionId = -1;
+
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
     /* ------------- Building Buttons -------------------- */
@@ -305,6 +308,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 singleIntersectionInputMenuGroup.setVisibility(View.GONE);
                 roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
                 currentBuildingSelectionId = 0;
+
             }
             return;
         }
@@ -491,11 +495,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                     if (i == grid.getHighlightedIntersection()) {
                         boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                        selectedIntersectionId = -1;
                     } else {
                         boardSurfaceView.getGrid().setHighlightedIntersection(i);
+                        selectedIntersectionId = i;
                     }
 
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                    selectedHexagonId = -1;
                     boardSurfaceView.invalidate();
                 }
             }
@@ -516,11 +523,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                             if (dataHexagon.getHexagonId() == boardSurfaceView.getGrid().getHighlightedHexagon()) {
                                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                                selectedHexagonId = -1;
                             } else {
                                 boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+                                selectedHexagonId = dataHexagon.getHexagonId();
                             }
 
                             boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                            selectedIntersectionId = -1;
                             boardSurfaceView.invalidate();
 
                         }
@@ -703,6 +713,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.messageTextView.setText("Action phase.");
             setAllButtonsToVisible();
         }
+
+        if (selectedHexagonId != -1) {
+            if (selectedIntersectionId == -1) {
+                this.messageTextView.append(" Selected hexagon " + selectedHexagonId);
+            } else {
+                Log.e(TAG, "updateTextViews: selected hex id and selected intersection id are both not -1 ");
+            }
+        }
+
+        if (selectedIntersectionId != -1) {
+            if (selectedHexagonId == -1) {
+                this.messageTextView.append(" Selected intersection " + selectedIntersectionId);
+            } else {
+                Log.e(TAG, "updateTextViews: selected hex id and selected intersection id are both not -1 ");
+            }
+        }
+
         setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
