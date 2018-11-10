@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
@@ -27,7 +28,9 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
+import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
@@ -48,6 +51,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private ArrayList<Integer> buildingsBuiltOnThisTurn;
     private int currentBuildingSelectionId = 1;
+
+    private float lastTouchDownXY[] = new float[2];
 
     /* ---------- View variables for updating UI / Layout ---------- */
 
@@ -288,8 +293,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildRoad(intersectionA, intersectionB)) {
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
-                game.sendAction(action);
+//                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
+//                game.sendAction(action);
 
                 Log.d(TAG, "onClick: valid location");
                 // toggle menu vis.
@@ -324,7 +329,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.button_singleIntersectionMenuOk) {
             int singleIntersectionIdInput;
             if (singleIntersectionInputEditText.getText().equals("")) {
-                Log.d(TAG, "onClick: Intersection is null (" + singleIntersectionInputEditText.getText() + ")");
+                Log.d(TAG, "onClick: IntersectionDrawable is null (" + singleIntersectionInputEditText.getText() + ")");
                 return;
             }
             try {
@@ -339,8 +344,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (tryBuildSettlement(singleIntersectionIdInput)) {
                 if (currentBuildingSelectionId == 1) {
-                    CatanBuildSettlementAction action = new CatanBuildSettlementAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.state.getCurrentPlayerId());
-                    game.sendAction(action);
+                    Log.e(TAG, "onClick: sent settlement action ");
                 } else {
                     CatanBuildCityAction action = new CatanBuildCityAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.state.getCurrentPlayerId());
                     game.sendAction(action);
@@ -351,7 +355,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 currentBuildingSelectionId = -1;
                 if (state.isSetupPhase()) {
                     toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
-                    roadIntersectionAEditText.setText("" + singleIntersectionIdInput + "");
+                    roadIntersectionAEditText.setText(String.valueOf(singleIntersectionIdInput));
                     currentBuildingSelectionId = 0;
                     settlementCount++;
                 }
@@ -388,6 +392,69 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     }// onClick END
 
+    // the purpose of the touch listener is just to store the touch X,Y coordinates
+    View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch (View v, MotionEvent event) {
+
+            // save the X,Y coordinates
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                lastTouchDownXY[0] = event.getX();
+                lastTouchDownXY[1] = event.getY();
+            }
+
+            // let the touch event pass on to whoever needs it
+            return false;
+        }
+    };
+
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick (View v) {
+            // retrieve the stored coordinates
+            float x = lastTouchDownXY[0];
+            float y = lastTouchDownXY[1];
+
+            HexagonGrid grid = boardSurfaceView.getGrid();
+
+            // use the coordinates for whatever
+            Log.i("TAG", "onLongClick: x = " + x + ", y = " + y);
+
+            for (int i = 0; i < grid.getIntersections().length; i++) {
+                int xPos = grid.getIntersections()[i].getxPos();
+                int yPos = grid.getIntersections()[i].getyPos();
+
+                // if y is greater than y - 25 and less than y + 25
+                if (y > yPos - 100 && y < yPos + 100 && x > xPos - 100 && x < xPos + 100) {
+                    // if x is greater than point 3 and less than point 0
+                    Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
+                    //                        Log.w(TAG, "onClick: intersection " + grid.getIntersections()[i].getIntersectionId() + " located at " + grid.getIntersections()[i].getxPos() + ", " + grid.getIntersections()[i].getyPos());
+                    //                        Log.w(TAG, "onClick: local vars for x and y for " + grid.getIntersections()[i].getIntersectionId() + " located at " + xPos + ", " + yPos);
+
+
+
+                }
+            }
+
+            ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
+
+            int index = 0;
+            for (HexagonDrawable hex : dHexes) {
+                int[][] points = hex.getHexagonPoints();
+
+                // if y is greater than point 0 and less than point 1
+                if (y > points[0][1] && y < points[1][1]) {
+                    // if x is greater than point 3 and less than point 0
+                    if (x > points[3][0] && x < points[0][0]) {
+                        Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
+                        Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
+                    }
+                }
+                index++;
+            }
+        }
+    };
+
     /* ---------------------------------------- GUI Methods --------------------------------------*/
 
     /**
@@ -403,6 +470,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         activity.setContentView(R.layout.activity_main); // Load the layout resource for our GUI
 
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard); // todo move this somewhere meaningful
+
+        /* ---------- Surface View for drawing the graphics ----------- */
+
+        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+
+        this.boardSurfaceView.setOnClickListener(clickListener);
+        this.boardSurfaceView.setOnTouchListener(touchListener);
 
         /* ----------------------------------- SIDEBAR ------------------------------------------ */
 
@@ -504,7 +578,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* -------------------------------------- MENUS ---------------------------------------- */
 
-        /* ---------- Single Intersection Menu (buildings) ---------- */
+        /* ---------- Single IntersectionDrawable Menu (buildings) ---------- */
 
         singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput); // single intersection menu GROUP
 
@@ -517,7 +591,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel); // Cancel button
         singleIntersectionCancelButton.setOnClickListener(this);
 
-        /* ---------- Road Intersection Menu -------------- */
+        /* ---------- Road IntersectionDrawable Menu -------------- */
 
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu); // road intersection menu GROUP
 
@@ -544,12 +618,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------------- Trade Menu -------------------- */
 
         tradeGroup = activity.findViewById(R.id.group_trade_menu); // trade menu GROUP
-
-
-
-        /* ---------- Surface View for drawing the graphics ----------- */
-
-        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
         // if we have state update the GUI based on the state
         if (this.state != null) {
@@ -598,7 +666,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     /**
-     * @param intersection1 Intersection at which the player is trying to build a settlement upon.
+     * @param intersection1 IntersectionDrawable at which the player is trying to build a settlement upon.
      * @return If the building location chosen is valid, and if the action was carried out.
      */
     private boolean tryBuildSettlement (int intersection1) {
