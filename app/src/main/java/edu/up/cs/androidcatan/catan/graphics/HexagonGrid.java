@@ -42,6 +42,9 @@ public class HexagonGrid extends BoardSurfaceView {
     ArrayList<RoadDrawable> roads = new ArrayList<>(); // list of Road objects
     ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>(); // list of HexagonDrawable objects
 
+    private int highlightedHexagon = -1;
+    private int highlightedIntersection = -1;
+
     /* ---------- Constructors ------------ */
 
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
@@ -120,6 +123,10 @@ public class HexagonGrid extends BoardSurfaceView {
 //        }
     }
 
+    public void drawHighlighedIntersections(Canvas canvas) {
+
+    }
+
     /**
      * @param canvas Canvas object to draw the buildings on.
      */
@@ -130,6 +137,14 @@ public class HexagonGrid extends BoardSurfaceView {
 
         // go through each building
         for (int i = 0; i < buildings.length; i++) {
+
+            if (i == this.highlightedIntersection) {
+
+                int xPos = this.intersections[i].getxPos();
+                int yPos = this.intersections[i].getyPos();
+                canvas.drawCircle(xPos, yPos, 30, bldgPaint);
+            }
+
             if (buildings[i] != null) {
                 bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
 
@@ -180,7 +195,11 @@ public class HexagonGrid extends BoardSurfaceView {
                 //                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
-                boolean highlightedHexagon = true;
+                boolean highlightedHexagon = this.highlightedHexagon == dataHexagons.get(dataHexagonsIndex).getHexagonId();
+
+                if (highlightedHexagon) {
+                    Log.e(TAG, "getHexagons: highlighted hexagon is: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                }
 
                 if (isRobberHexagon) {
                     Log.w(TAG, "getHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
@@ -444,5 +463,13 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void setDrawingHexagons (ArrayList<HexagonDrawable> drawingHexagons) {
         this.drawingHexagons = drawingHexagons;
+    }
+
+    public int getHighlightedHexagon () {
+        return highlightedHexagon;
+    }
+
+    public void setHighlightedHexagon (int highlightedHexagon) {
+        this.highlightedHexagon = highlightedHexagon;
     }
 }

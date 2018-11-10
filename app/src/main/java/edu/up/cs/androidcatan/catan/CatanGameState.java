@@ -45,10 +45,6 @@ public class CatanGameState extends GameState {
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
-    // new
-    private int hightlightedHexagonId;
-    private int highlightedIntersectionId;
-
     public CatanGameState () { // CatanGameState constructor
         this.dice = new Dice();
         this.board = new Board();
@@ -837,22 +833,6 @@ public class CatanGameState extends GameState {
 
     public boolean isRobberPhase () {
         return isRobberPhase;
-    }
-
-    public int getHightlightedHexagonId () {
-        return hightlightedHexagonId;
-    }
-
-    public void setHightlightedHexagonId (int hightlightedHexagonId) {
-        this.hightlightedHexagonId = hightlightedHexagonId;
-    }
-
-    public int getHighlightedIntersectionId () {
-        return highlightedIntersectionId;
-    }
-
-    public void setHighlightedIntersectionId (int highlightedIntersectionId) {
-        this.highlightedIntersectionId = highlightedIntersectionId;
     }
 
     /*-------------------------------------toString------------------------------------------*/

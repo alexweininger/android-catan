@@ -47,6 +47,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.isRobber = isRobber;
         this.chitValue = chitValue;
         this.hexagonId = hexagonId;
+        this.highlight = highlight;
     }
 
     // constructors needed by android
@@ -62,19 +63,23 @@ public class HexagonDrawable extends BoardSurfaceView {
      * @param canvas Canvas object to draw the hexagon on.
      */
     public void drawHexagon (Canvas canvas, boolean drawIds) {
-        Paint paint = new Paint();
-        paint.setColor(this.color);
-        paint.setStyle(Paint.Style.FILL);
+        Paint hexagonPaint = new Paint();
+        hexagonPaint.setColor(this.color);
+        hexagonPaint.setStyle(Paint.Style.FILL);
 
         Paint blackFont = new Paint();
         blackFont.setColor(Color.BLACK);
         blackFont.setStyle(Paint.Style.FILL);
         blackFont.setTextSize(50);
 
+        if (this.highlight) {
+            hexagonPaint.setColor(Color.CYAN);
+        }
+
         points = calculateHexagonPoints(this.x, this.y, this.size);
 
         Path hexagonPath = createHexagonPath(points);
-        canvas.drawPath(hexagonPath, paint);
+        canvas.drawPath(hexagonPath, hexagonPaint);
 
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.DKGRAY);

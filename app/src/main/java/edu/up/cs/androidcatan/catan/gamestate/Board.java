@@ -73,6 +73,9 @@ public class Board {
 
     private ArrayList<ArrayList<Integer>> intersectionGraph = new ArrayList<>();
 
+    // new
+    private int highlightedHexagonId = -1;
+    private int highlightedIntersectionId = -1;
 
     public Board () {
         Log.d(TAG, "Board() called");
@@ -120,6 +123,8 @@ public class Board {
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
         this.setIntersectionGraph(b.getIntersectionGraph());
+        this.setHighlightedHexagonId(b.getHighlightedHexagonId());
+        this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
 
         for (Hexagon hexagon : b.getHexagons()) {
             this.hexagons.add(new Hexagon(hexagon));
@@ -1542,6 +1547,22 @@ public class Board {
 
     public void setPortList (ArrayList<Port> portList) {
         this.portList = portList;
+    }
+
+    public int getHighlightedHexagonId () {
+        return highlightedHexagonId;
+    }
+
+    public void setHighlightedHexagonId (int highlightedHexagonId) {
+        this.highlightedHexagonId = highlightedHexagonId;
+    }
+
+    public int getHighlightedIntersectionId () {
+        return highlightedIntersectionId;
+    }
+
+    public void setHighlightedIntersectionId (int highlightedIntersectionId) {
+        this.highlightedIntersectionId = highlightedIntersectionId;
     }
 
     /**

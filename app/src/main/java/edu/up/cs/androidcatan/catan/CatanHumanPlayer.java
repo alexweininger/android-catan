@@ -469,6 +469,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
 
+            boolean touchedIntersection = false;
+            boolean touchedHexagon = false;
+
             HexagonGrid grid = boardSurfaceView.getGrid();
 
             // use the coordinates for whatever
@@ -482,29 +485,38 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (y > yPos - 100 && y < yPos + 100 && x > xPos - 100 && x < xPos + 100) {
                     // if x is greater than point 3 and less than point 0
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
-                    //                        Log.w(TAG, "onClick: intersection " + grid.getIntersections()[i].getIntersectionId() + " located at " + grid.getIntersections()[i].getxPos() + ", " + grid.getIntersections()[i].getyPos());
-                    //                        Log.w(TAG, "onClick: local vars for x and y for " + grid.getIntersections()[i].getIntersectionId() + " located at " + xPos + ", " + yPos);
-
+                    touchedIntersection = true;
+                    boardSurfaceView.invalidate();
                 }
             }
+            if (!touchedIntersection) {
+                ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
 
-            ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
+                int index = 0;
+                for (HexagonDrawable hex : dHexes) {
+                    int[][] points = hex.getHexagonPoints();
 
-            int index = 0;
-            for (HexagonDrawable hex : dHexes) {
-                int[][] points = hex.getHexagonPoints();
+                    // if y is greater than point 0 and less than point 1
+                    if (y > points[0][1] && y < points[1][1]) {
+                        // if x is greater than point 3 and less than point 0
+                        if (x > points[3][0] && x < points[0][0]) {
+                            Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
+                            Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
+                            touchedHexagon = true;
+                            boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+                            boardSurfaceView.invalidate();
 
-                // if y is greater than point 0 and less than point 1
-                if (y > points[0][1] && y < points[1][1]) {
-                    // if x is greater than point 3 and less than point 0
-                    if (x > points[3][0] && x < points[0][0]) {
-                        Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
-                        Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
-                        highlightedHexagonId = dataHexagon.getHexagonId();
+                        }
                     }
+                    index++;
                 }
-                index++;
             }
+
+            if (!touchedHexagon && !touchedIntersection) {
+                boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                boardSurfaceView.invalidate();
+            }
+
         }
     };
 
