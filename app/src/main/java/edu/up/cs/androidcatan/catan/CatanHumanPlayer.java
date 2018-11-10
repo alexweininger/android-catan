@@ -535,6 +535,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                                 selectedHexagonId = -1;
                             } else {
+                                // if touched hexagon is not already selected, select/highlight it
                                 boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
                                 selectedHexagonId = dataHexagon.getHexagonId();
                             }
