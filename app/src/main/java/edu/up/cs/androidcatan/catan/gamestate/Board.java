@@ -538,6 +538,22 @@ public class Board {
             Log.i(TAG, "| " + hexagon);
         }
 
+        // checks if any 8's or 6's are adjacent to one another
+
+        // go through all hexagons
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            if (hexagons.get(i).getChitValue() == 8 || hexagons.get(i).getChitValue() == 6) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 6 || hexagons.get(integer).getChitValue() == 8) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
+                            this.generateHexagonTiles();
+                        }
+                    }
+                }
+            }
+        }
+
         // the rest of the code checks the method for error
         int resourceCountChecks[] = new int[6];
 
@@ -548,9 +564,9 @@ public class Board {
         for (int i = 0; i < resourceCountChecks.length; i++) {
             if (resourceTypeCount[i] < resourceCountChecks[i]) {
                 Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
+                generateHexagonTiles();
             }
         }
-
     }
 
     /**
