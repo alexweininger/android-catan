@@ -126,7 +126,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView robberLumberPlus = (ImageView) null;
     private ImageView robberLumberMinus = (ImageView) null;
     private ImageView robberGrainPlus = (ImageView) null;
-    private ImageView RobberGrainMinu = (ImageView) null;
+    private ImageView robberGrainMinus = (ImageView) null;
     private ImageView robberOrePlus = (ImageView) null;
     private ImageView robberOreMinus = (ImageView) null;
     private ImageView robberWoolPlus = (ImageView) null;
@@ -439,8 +439,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton.setOnClickListener(this);
 
         /*--------------------Robber Buttons and Groups------------------------*/
-//        robberDiscard = (Button)activity.findViewById(R.id.);
-//        robberDiscard.setOnClickListener(this);
+        robberBrickPlus = (ImageView) activity.findViewById(R.id.robber_discard_brickAddImg);
+        robberBrickMinus = (ImageView) activity.findViewById(R.id.robber_discard_brickMinusImg);
+        robberLumberPlus = (ImageView) activity.findViewById(R.id.robber_discard_lumberAddImg);
+        robberLumberMinus = (ImageView) activity.findViewById(R.id.robber_discard_lumberMinusImg);
+        robberGrainPlus = (ImageView) activity.findViewById(R.id.robber_discard_grainAddImg);
+        robberGrainMinus = (ImageView) activity.findViewById(R.id.robber_discard_grainMinusImg);
+        robberOrePlus = (ImageView) activity.findViewById(R.id.robber_discard_oreAddImg);
+        robberOreMinus = (ImageView) activity.findViewById(R.id.robber_discard_oreMinusImg);
+        robberWoolPlus = (ImageView) activity.findViewById(R.id.robber_discard_woolAddImg);
+        robberWoolMinus = (ImageView) activity.findViewById(R.id.robber_discard_woolMinusImg);
+
+        robberDiscardGroup = (Group) activity.findViewById(R.id.robber_discard_group);
 
         //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
         //        tradeCustomPort.setOnClickListener(this);
