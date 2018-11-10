@@ -45,6 +45,10 @@ public class CatanGameState extends GameState {
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
+    // new
+    private int hightlightedHexagonId;
+    private int highlightedIntersectionId;
+
     public CatanGameState () { // CatanGameState constructor
         this.dice = new Dice();
         this.board = new Board();
@@ -593,13 +597,14 @@ public class CatanGameState extends GameState {
     }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
-    public void setRobberPhase(boolean rp){
+    public void setRobberPhase (boolean rp) {
         this.isRobberPhase = rp;
     }
 
-    public boolean getRobberPhase(){
+    public boolean getRobberPhase () {
         return this.isRobberPhase;
     }
+
     /**
      * TODO implement
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
@@ -608,10 +613,9 @@ public class CatanGameState extends GameState {
      */
     public boolean robberDiscard (ArrayList<Integer> resourceCards) {
         for (Player player : this.playerList) {
-            if(player.getPlayerId() == currentPlayerId){
+            if (player.getPlayerId() == currentPlayerId) {
 
-            }
-            else{
+            } else {
 
             }
         }
@@ -676,14 +680,14 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-//    public boolean hasSevenPlusCards(Player player){
-//        if(player.getTotalResourceCardCount() > 7){
-//            Log.i(TAG, "hasSevenPlusCards: Player has more than seven cards");
-//            return true;
-//        }
-//        Log.i(TAG, "hasSevenPlusCards: Player has 7 or less cards");
-//        return false;
-//    }
+    //    public boolean hasSevenPlusCards(Player player){
+    //        if(player.getTotalResourceCardCount() > 7){
+    //            Log.i(TAG, "hasSevenPlusCards: Player has more than seven cards");
+    //            return true;
+    //        }
+    //        Log.i(TAG, "hasSevenPlusCards: Player has 7 or less cards");
+    //        return false;
+    //    }
 
     /*-------------------------------------Setup Phase Methods------------------------------------------*/
 
@@ -829,6 +833,26 @@ public class CatanGameState extends GameState {
 
     public void setSetupPhase (boolean setupPhase) {
         this.isSetupPhase = setupPhase;
+    }
+
+    public boolean isRobberPhase () {
+        return isRobberPhase;
+    }
+
+    public int getHightlightedHexagonId () {
+        return hightlightedHexagonId;
+    }
+
+    public void setHightlightedHexagonId (int hightlightedHexagonId) {
+        this.hightlightedHexagonId = hightlightedHexagonId;
+    }
+
+    public int getHighlightedIntersectionId () {
+        return highlightedIntersectionId;
+    }
+
+    public void setHighlightedIntersectionId (int highlightedIntersectionId) {
+        this.highlightedIntersectionId = highlightedIntersectionId;
     }
 
     /*-------------------------------------toString------------------------------------------*/

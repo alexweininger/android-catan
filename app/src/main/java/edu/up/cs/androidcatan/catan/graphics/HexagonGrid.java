@@ -180,6 +180,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 //                Log.d(TAG, "getHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
+                boolean highlightedHexagon = true;
 
                 if (isRobberHexagon) {
                     Log.w(TAG, "getHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
@@ -193,7 +194,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId());
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon);
 
                 drawingHexagons.add(hexagon);
 

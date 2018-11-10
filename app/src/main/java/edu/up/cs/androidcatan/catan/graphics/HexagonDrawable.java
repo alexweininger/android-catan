@@ -21,6 +21,8 @@ public class HexagonDrawable extends BoardSurfaceView {
 
     private static final String TAG = "HexagonDrawable";
 
+    private boolean highlight;
+
     // instance variables concerning graphics
     protected int x, y;
     protected Path hexagonPath;
@@ -34,7 +36,7 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected boolean isRobber, isDesert;
 
 
-    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId) {
+    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight) {
         super(context);
         setWillNotDraw(false);
         this.x = x;

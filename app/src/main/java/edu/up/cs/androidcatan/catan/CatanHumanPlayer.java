@@ -55,6 +55,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private float lastTouchDownXY[] = new float[2];
 
+    private int highlightedHexagonId = -1;
+
     /* ---------- View variables for updating UI / Layout ---------- */
 
     /* ---------- SCOREBOARD button init ---------- */
@@ -498,6 +500,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     if (x > points[3][0] && x < points[0][0]) {
                         Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
                         Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
+                        highlightedHexagonId = dataHexagon.getHexagonId();
                     }
                 }
                 index++;
