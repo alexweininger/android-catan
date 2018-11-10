@@ -14,9 +14,9 @@ import android.graphics.Paint;
  **/
 public class RoadDrawable {
 
-    protected int[][] points;
+    private int[][] points;
     int position;
-    protected int[][] roadPoints = {{0,0},{0,0}, {0,0}, {0,0}};
+    private int[][] roadPoints = {{0,0},{0,0}, {0,0}, {0,0}};
 
     public RoadDrawable(int[][] points, int position) {
         this.points = points;

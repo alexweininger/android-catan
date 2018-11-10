@@ -41,6 +41,7 @@ public class CatanGameState extends GameState {
     private int currentPlayerId; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isSetupPhase = true;
+    private boolean isRobberPhase = false;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
@@ -305,6 +306,7 @@ public class CatanGameState extends GameState {
         }
     }
 
+
     /*-------------------------------------Action Methods------------------------------------------*/
 
     /**
@@ -321,6 +323,7 @@ public class CatanGameState extends GameState {
         }
 
         int rollNum = dice.roll();
+        this.currentDiceSum = rollNum;
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
 
         // if the robber is rolled
@@ -590,6 +593,13 @@ public class CatanGameState extends GameState {
     }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
+    public void setRobberPhase (boolean rp) {
+        this.isRobberPhase = rp;
+    }
+
+    public boolean getRobberPhase () {
+        return this.isRobberPhase;
+    }
 
     /**
      * TODO implement
@@ -599,13 +609,10 @@ public class CatanGameState extends GameState {
      */
     public boolean robberDiscard (ArrayList<Integer> resourceCards) {
         for (Player player : this.playerList) {
-            int handSize = player.getTotalResourceCardCount();
-            if (handSize > 7) {
-                int newHandSize = handSize / 2;
-                // TODO !!! somehow need to make users select newHandSize resource cards to discard !!!
-                for (int x = 0; x < resourceCards.size(); x++) {
-                    player.removeResourceCard(resourceCards.get(x), 1);
-                }
+            if (player.getPlayerId() == currentPlayerId) {
+
+            } else {
+
             }
         }
         Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
@@ -668,6 +675,15 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
         return true;
     }
+
+    //    public boolean hasSevenPlusCards(Player player){
+    //        if(player.getTotalResourceCardCount() > 7){
+    //            Log.i(TAG, "hasSevenPlusCards: Player has more than seven cards");
+    //            return true;
+    //        }
+    //        Log.i(TAG, "hasSevenPlusCards: Player has 7 or less cards");
+    //        return false;
+    //    }
 
     /*-------------------------------------Setup Phase Methods------------------------------------------*/
 
@@ -813,6 +829,10 @@ public class CatanGameState extends GameState {
 
     public void setSetupPhase (boolean setupPhase) {
         this.isSetupPhase = setupPhase;
+    }
+
+    public boolean isRobberPhase () {
+        return isRobberPhase;
     }
 
     /*-------------------------------------toString------------------------------------------*/

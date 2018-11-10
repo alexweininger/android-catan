@@ -23,7 +23,6 @@ public class BoardSurfaceView extends SurfaceView {
     private final String TAG = "BoardSurfaceView";
 
     ArrayList<Ports> ports = new ArrayList<>();
-    ArrayList<House> houses = new ArrayList<>();
 
     int size;
     HexagonGrid grid;
@@ -32,7 +31,6 @@ public class BoardSurfaceView extends SurfaceView {
     public BoardSurfaceView(Context context) {
         super(context);
         setWillNotDraw(false);
-
     }
 
     public BoardSurfaceView(Context context, AttributeSet attrs) {
@@ -40,12 +38,17 @@ public class BoardSurfaceView extends SurfaceView {
         setWillNotDraw(false);
     }
 
-    public void BoardSurfaceView(BoardSurfaceView b) {
-        this.setGrid(b.getGrid());
+    public void onDraw(Canvas canvas) {
+        if (grid == null) {
+            Log.e(TAG, "onDraw: grid is null");
+        } else {
+            Log.i(TAG, "onDraw: drawing grid");
+            grid.drawGameBoard(canvas);
+        }
     }
 
     public void createHexagons(Board board) {
-        this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20);
+        this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20, false);
     }
 
     public ArrayList<Ports> getPorts() {
@@ -54,14 +57,6 @@ public class BoardSurfaceView extends SurfaceView {
 
     public void setPorts(ArrayList<Ports> ports) {
         this.ports = ports;
-    }
-
-    public ArrayList<House> getHouses() {
-        return houses;
-    }
-
-    public void setHouses(ArrayList<House> houses) {
-        this.houses = houses;
     }
 
     public int getSize() {
@@ -78,15 +73,5 @@ public class BoardSurfaceView extends SurfaceView {
 
     public void setGrid(HexagonGrid grid) {
         this.grid = grid;
-    }
-
-    public void onDraw(Canvas canvas) {
-        canvas.drawARGB(255, 237, 237, 171);
-        if (grid == null) {
-            Log.e(TAG, "onDraw: grid is null");
-        } else {
-            Log.i(TAG, "onDraw: drawing grid");
-            grid.drawGrid(canvas);
-        }
     }
 }

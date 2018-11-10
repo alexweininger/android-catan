@@ -140,6 +140,7 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
+/*----------------------------------Robber Actions-----------------------------------------------*/
         if (action instanceof CatanRobberMoveAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             //return gameState.robberMove();
@@ -157,6 +158,7 @@ public class CatanLocalGame extends LocalGame {
             //return gameState.robberDiscard();
             return true;
         }
+/*----------------------------------Robber Actions End-----------------------------------------------*/
 
         if (action instanceof CatanTradeAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -179,5 +181,9 @@ public class CatanLocalGame extends LocalGame {
         // if we reach here, the GameAction object we received is not one that we recognize
         Log.e(TAG, "makeMove: FATAL ERROR: GameAction action was not and instance of an action class that we recognize.");
         return false;
+    }
+
+    public String getPlayerName(int playerId){
+        return this.playerNames[playerId];
     }
 }
