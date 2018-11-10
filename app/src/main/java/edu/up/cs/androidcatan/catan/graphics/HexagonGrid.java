@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
@@ -104,6 +105,8 @@ public class HexagonGrid extends BoardSurfaceView {
         for (IntersectionDrawable intersection : intersections) {
             intersection.drawIntersection(canvas, this.debugMode);
         } // draw each intersection
+
+        drawPorts(canvas);
 
         this.invalidate();
     }
@@ -197,6 +200,21 @@ public class HexagonGrid extends BoardSurfaceView {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * @param canvas Canvas to draw ports on.
+     */
+    private void drawPorts (Canvas canvas) {
+
+        ArrayList<Port> ports = this.board.getPortList();
+
+        for (int i = 0; i < ports.size(); i++) {
+            int portIntersectionId = ports.get(i).getIntersection();
+
+            ports.get(i).drawPort(canvas, intersections[portIntersectionId].getxPos() , intersections[portIntersectionId].getyPos(), 25);
+
         }
     }
 
