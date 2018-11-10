@@ -50,23 +50,19 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
 public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
     private final String TAG = "CatanHumanPlayer";
 
-    private ArrayList<Integer> buildingsBuiltOnThisTurn;
+    // instance variables for logic
+    private ArrayList<Integer> buildingsBuiltOnThisTurn; // todo ?
     private int currentBuildingSelectionId = 1;
-
     private float lastTouchDownXY[] = new float[2];
 
-    private int highlightedHexagonId = -1;
+    /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
-    /* ---------- View variables for updating UI / Layout ---------- */
-
-    /* ---------- SCOREBOARD button init ---------- */
-
-    // building buttons
+    /* ------------- Building Buttons -------------------- */
     private Button buildCityButton = null;
     private Button buildRoadButton = null;
     private Button buildSettlementButton = null;
 
-    // action buttons
+    /* ------------- Action Buttons -------------------- */
     private Button sidebarOpenDevCardMenuButton = null;
     private Button robberDiscard = null;
     private Button robberMove = null;
@@ -78,15 +74,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button buildDevCard = null;
     private Spinner devCardList = null;
 
-    // turn buttons
+    /* ------ Turn Buttons ------- */
     private Button rollButton = null;
     private Button endTurnButton = null;
 
-    // misc buttons
+    /* ------------- Misc Buttons -------------------- */
+
     private Button sidebarMenuButton = (Button) null;
     private Button sidebarScoreboardButton = (Button) null;
 
-    // resource count text views
+    /* ------------- resource count text views -------------------- */
+
     private TextView oreValue = (TextView) null;
     private TextView grainValue = (TextView) null;
     private TextView lumberValue = (TextView) null;
@@ -484,7 +482,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     // if x is greater than point 3 and less than point 0
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     touchedIntersection = true;
-                    boardSurfaceView.getGrid().setHighlightedIntersection(i);
+
+                    if (i == grid.getHighlightedIntersection()) {
+                        boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                    } else {
+                        boardSurfaceView.getGrid().setHighlightedIntersection(i);
+                    }
+
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                     boardSurfaceView.invalidate();
                 }
@@ -503,7 +507,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
                             Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
                             touchedHexagon = true;
-                            boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+
+                            if (dataHexagon.getHexagonId() == boardSurfaceView.getGrid().getHighlightedHexagon()) {
+                                boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                            } else {
+                                boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+                            }
+
                             boardSurfaceView.getGrid().setHighlightedIntersection(-1);
                             boardSurfaceView.invalidate();
 
