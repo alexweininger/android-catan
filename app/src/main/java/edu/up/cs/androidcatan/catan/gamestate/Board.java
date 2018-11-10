@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.Player;
@@ -538,25 +539,8 @@ public class Board {
             Log.i(TAG, "| " + hexagon);
         }
 
-        // checks if any 8's or 6's are adjacent to one another
-
-        // go through all hexagons
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 8 || hexagons.get(i).getChitValue() == 6) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 6 || hexagons.get(integer).getChitValue() == 8) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
-                            this.generateHexagonTiles();
-                        }
-                    }
-                }
-            }
-        }
-
         // the rest of the code checks the method for error
         int resourceCountChecks[] = new int[6];
-
         for (Hexagon hexagon : this.hexagons) {
             resourceCountChecks[hexagon.getResourceId()]++;
         }
@@ -567,6 +551,70 @@ public class Board {
                 generateHexagonTiles();
             }
         }
+
+        while(!checkChitRule()) {
+            Collections.shuffle(hexagons);
+        }
+    }
+
+    private boolean checkChitRule () {
+        Log.d(TAG, "checkChitRule() called");
+        // checks if any 8's or 6's are adjacent to one another
+
+        // go through all hexagons
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            if (hexagons.get(i).getChitValue() == 8) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 8) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 8 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            if (hexagons.get(i).getChitValue() == 6) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 6) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 6 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            if (hexagons.get(i).getChitValue() == 6) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 8) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            if (hexagons.get(i).getChitValue() == 8) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 6) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 8 and 6 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
