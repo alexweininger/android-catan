@@ -509,7 +509,7 @@ public class Board {
         result.add(hexagons.get(4));
         result.add(hexagons.get(0));
         result.add(hexagons.get(1));
-        result.add(hexagons.get(17));
+        result.add(hexagons.get(7));
 
         // row 2
         result.add(hexagons.get(14));

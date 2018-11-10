@@ -72,13 +72,13 @@ public class HexagonGrid extends BoardSurfaceView {
      *
      * @param canvas Canvas to draw on.
      */
-    public void drawGrid (Canvas canvas) {
+    public void drawGrid (Canvas canvas, boolean debugMode) {
         getHexagons(x, y, size); // get hexes
 
         drawBorder(canvas);
 
         for (HexagonDrawable h : drawingHexagons) {
-            h.drawHexagon(canvas);
+            h.drawHexagon(canvas, debugMode);
         } // draw each hexagon
 
         drawRoads(canvas);

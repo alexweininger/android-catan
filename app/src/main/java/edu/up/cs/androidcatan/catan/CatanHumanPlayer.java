@@ -424,6 +424,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     //                        Log.w(TAG, "onClick: intersection " + grid.getIntersections()[i].getIntersectionId() + " located at " + grid.getIntersections()[i].getxPos() + ", " + grid.getIntersections()[i].getyPos());
                     //                        Log.w(TAG, "onClick: local vars for x and y for " + grid.getIntersections()[i].getIntersectionId() + " located at " + xPos + ", " + yPos);
+
+
+
                 }
             }
 
