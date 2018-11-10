@@ -44,7 +44,6 @@ public class Player {
      * Player constructor
      */
     public Player (int id) {
-//        super("" + id);
         this.playerId = id;
         this.armySize = 0;
     }
@@ -55,7 +54,6 @@ public class Player {
      * @param p - Player object to copy
      */
     public Player (Player p) {
-//        super("" + p.getPlayerId() + "");
         this.setPlayerId(p.getPlayerId());
         this.setArmySize(p.getArmySize());
         this.setDevelopmentCards(p.getDevelopmentCards());
