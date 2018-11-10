@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
+ * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class HexagonGrid extends BoardSurfaceView {
 
     private static final String TAG = "HexagonGrid";
 
-    // instance variables
+    /* ---------- Instance variables ------------ */
 
     protected int x, y, height, margin;
     protected double width;
@@ -41,7 +42,7 @@ public class HexagonGrid extends BoardSurfaceView {
     ArrayList<RoadDrawable> roads = new ArrayList<>(); // list of Road objects
     ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>(); // list of HexagonDrawable objects
 
-    // constructors
+    /* ---------- Constructors ------------ */
 
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin) {
         super(context);
@@ -55,6 +56,16 @@ public class HexagonGrid extends BoardSurfaceView {
         this.board = new Board(board);
         generateIntersections();
     }
+
+    public HexagonGrid (Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public HexagonGrid (Context context) {
+        super(context);
+    }
+
+    /* ---------- Drawing methods ------------ */
 
     /**
      * Draws all of the components on the board.
