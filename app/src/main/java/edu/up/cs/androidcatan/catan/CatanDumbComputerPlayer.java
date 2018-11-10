@@ -19,18 +19,11 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 31th, 2018
+ * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanDumbComputerPlayer extends GameComputerPlayer {
     private static final String TAG = "CatanDumbComputerPlayer";
-
-    /**
-     * ctor does nothing extra
-     */
-    CatanDumbComputerPlayer (String name) {
-        super(name);
-    }
 
     /**
      * callback method--game's state has changed
@@ -140,4 +133,9 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         } // not setup phase if statement END
 
     }// receiveInfo() END
+
+    CatanDumbComputerPlayer (String name) {
+        super(name);
+    }
+
 } // CatanDumbComputerPlayer class END

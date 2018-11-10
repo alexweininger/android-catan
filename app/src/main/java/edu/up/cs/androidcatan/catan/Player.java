@@ -20,7 +20,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
+ * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 
