@@ -334,7 +334,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText("Select one intersection to build a city.");
             } else {
-                if (tryBuildSettlement(selectedIntersections.get(0))) {
+                if (tryBuildCity(selectedIntersections.get(0))) {
                     messageTextView.setText("Built a city.");
                 } else {
                     messageTextView.setText("Invalid city location.");

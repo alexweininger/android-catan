@@ -15,6 +15,7 @@ import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
@@ -169,6 +170,31 @@ public class HexagonGrid extends BoardSurfaceView {
                     buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
 
                     buildingPicture.draw(canvas);
+
+
+                } else if (buildings[i] instanceof City) {
+
+                    if (this.highlightedIntersections.contains(i)) {
+                        Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
+                        canvas.drawCircle(xPos, yPos, 30, highlightPaint);
+                    }
+
+                    if (buildings[i] != null) { // if we need to draw a building at this intersection
+
+                        if (buildings[i] instanceof Settlement) {
+
+                            if (this.highlightedIntersections.contains(i)) { // if we need to highlight the building
+                                bldgPaint.setColor(Color.CYAN);
+                                canvas.drawRect(xPos - 65, yPos - 65, xPos + 65, yPos + 65, bldgPaint);
+                            }
+
+                            buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
+                            buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
+                            buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
+
+                            buildingPicture.draw(canvas);
+                        }
+                    }
                 }
             }
         }
@@ -485,7 +511,6 @@ public class HexagonGrid extends BoardSurfaceView {
     public int getHighlightedHexagon () {
         return highlightedHexagon;
     }
-
 
     public void setHighlightedHexagon (int highlightedHexagon) {
         this.highlightedHexagon = highlightedHexagon;
