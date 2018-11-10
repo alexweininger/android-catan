@@ -41,6 +41,7 @@ public class CatanGameState extends GameState {
     private int currentPlayerId; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isSetupPhase = true;
+    private boolean isRobberPhase = false;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
@@ -592,7 +593,13 @@ public class CatanGameState extends GameState {
     }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
+    public void setRobberPhase(boolean rp){
+        this.isRobberPhase = rp;
+    }
 
+    public boolean getRobberPhase(){
+        return this.isRobberPhase;
+    }
     /**
      * TODO implement
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
@@ -601,13 +608,11 @@ public class CatanGameState extends GameState {
      */
     public boolean robberDiscard (ArrayList<Integer> resourceCards) {
         for (Player player : this.playerList) {
-            int handSize = player.getTotalResourceCardCount();
-            if (handSize > 7) {
-                int newHandSize = handSize / 2;
-                // TODO !!! somehow need to make users select newHandSize resource cards to discard !!!
-                for (int x = 0; x < resourceCards.size(); x++) {
-                    player.removeResourceCard(resourceCards.get(x), 1);
-                }
+            if(player.getPlayerId() == currentPlayerId){
+
+            }
+            else{
+
             }
         }
         Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
