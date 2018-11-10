@@ -58,6 +58,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private TextView messageTextView = (TextView) null;
 
+    private int selectedHexagonId = -1;
+
+    private ArrayList<Integer> selectedIntersections = new ArrayList<>();
+
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
     /* ------------- Building Buttons -------------------- */
@@ -296,37 +300,52 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------- Building sidebar buttons ---------- */
+        /* ---------------------------- Building sidebar buttons --------------------- */
 
         if (button.getId() == R.id.sidebar_button_road) {
-            if (roadIntersectionSelectionMenuGroup.getVisibility() == View.GONE) {
-                developmentGroup.setVisibility(View.GONE);
-                tradeGroup.setVisibility(View.GONE);
-                singleIntersectionInputMenuGroup.setVisibility(View.GONE);
-                roadIntersectionSelectionMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 0;
+            currentBuildingSelectionId = 0;
+            if (selectedIntersections.size() != 2) {
+                messageTextView.setText("Select two intersections to build a road.");
+            } else {
+                if (tryBuildRoad(selectedIntersections.get(0), selectedIntersections.get(1))) {
+                    messageTextView.setText("Built a road.");
+                } else {
+                    messageTextView.setText("Invalid road placement.");
+                }
             }
             return;
         }
 
         if (button.getId() == R.id.sidebar_button_settlement) {
-            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                developmentGroup.setVisibility(View.GONE);
-                tradeGroup.setVisibility(View.GONE);
-                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 1;
+            Log.d(TAG, "onClick: sidebar_button_settlement listener");
+            if (selectedIntersections.size() != 1) {
+                messageTextView.setText("Select one intersection to build a settlement.");
+            } else {
+                if (tryBuildSettlement(selectedIntersections.get(0))) {
+                    messageTextView.setText("Built a settlement.");
+                } else {
+                    messageTextView.setText("Invalid settlement location.");
+                }
             }
             return;
         }
 
         if (button.getId() == R.id.sidebar_button_city) {
-            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
-                developmentGroup.setVisibility(View.GONE);
-                tradeGroup.setVisibility(View.GONE);
-                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
-                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
-                currentBuildingSelectionId = 2;
+            //            if (singleIntersectionInputMenuGroup.getVisibility() == View.GONE) {
+            //                developmentGroup.setVisibility(View.GONE);
+            //                tradeGroup.setVisibility(View.GONE);
+            //                roadIntersectionSelectionMenuGroup.setVisibility(View.GONE);
+            //                singleIntersectionInputMenuGroup.setVisibility(View.VISIBLE);
+            //                currentBuildingSelectionId = 2;
+            //            }
+            if (selectedIntersections.size() != 1) {
+                messageTextView.setText("Select one intersection to build a city.");
+            } else {
+                if (tryBuildSettlement(selectedIntersections.get(0))) {
+                    messageTextView.setText("Built a city.");
+                } else {
+                    messageTextView.setText("Invalid city location.");
+                }
             }
             return;
         }
@@ -446,7 +465,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
 
-    }// onClick END
+    } // onClick END
+
+    /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
 
     // the purpose of the touch listener is just to store the touch X,Y coordinates
     View.OnTouchListener touchListener = new View.OnTouchListener() {
@@ -462,7 +483,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // let the touch event pass on to whoever needs it
             return false;
         }
-    };
+    }; // touchListener END
 
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -489,13 +510,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     touchedIntersection = true;
 
-                    if (i == grid.getHighlightedIntersection()) {
-                        boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                    if (grid.getHighlightedIntersections().contains(i)) {
+                        boardSurfaceView.getGrid().getHighlightedIntersections().remove((Integer) i);
+                        selectedIntersections.remove((Integer) i);
                     } else {
-                        boardSurfaceView.getGrid().setHighlightedIntersection(i);
+                        boardSurfaceView.getGrid().addHighlightedIntersection(i);
+                        if (selectedIntersections.size() > 1) {
+                            selectedIntersections.remove(0);
+                        }
+                        selectedIntersections.add(i);
                     }
 
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                    selectedHexagonId = -1;
                     boardSurfaceView.invalidate();
                 }
             }
@@ -515,12 +542,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             touchedHexagon = true;
 
                             if (dataHexagon.getHexagonId() == boardSurfaceView.getGrid().getHighlightedHexagon()) {
+                                // if the hexagon touched is already selected, un-select it
                                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                                selectedHexagonId = -1;
                             } else {
+                                // if touched hexagon is not already selected, select/highlight it
                                 boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+                                selectedHexagonId = dataHexagon.getHexagonId();
                             }
 
-                            boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                            boardSurfaceView.getGrid().getHighlightedIntersections().clear();
+                            selectedIntersections.clear();
                             boardSurfaceView.invalidate();
 
                         }
@@ -529,16 +561,254 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             }
 
+            // check if no hexagon or intersection was touched (aka. outside the island)
             if (!touchedHexagon && !touchedIntersection) {
                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
-                boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                boardSurfaceView.getGrid().getHighlightedIntersections().clear();
+                selectedIntersections.clear();
                 boardSurfaceView.invalidate();
             }
-
         }
-    };
+    }; // clickListener END
+
+    /*---------------------------------------Validation Methods-------------------------------------------*/
+
+    /**
+     * @param intersectionA First intersection of the road.
+     * @param intersectionB Second intersection of the road. (order does not matter)
+     * @return If success.
+     */
+    private boolean tryBuildRoad (int intersectionA, int intersectionB) {
+        Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
+
+        // check if user given intersections are valid
+        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
+            Log.i(TAG, "tryBuildRoad: Valid road placement received.");
+
+            // add just enough resources so player can build a road
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+
+            // send build settlement action to the game
+            Log.e(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
+            game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
+
+            boardSurfaceView.getGrid().clearHighLightedIntersections();
+
+            // return true
+            Log.d(TAG, "tryBuildRoad() returned: " + true);
+            return true;
+        } else {
+            messageTextView.setText("Invalid road location.");
+            Log.e(TAG, "tryBuildSettlement: Returning false.");
+            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+            roadIntersectionBEditText.startAnimation(shake);
+            messageTextView.startAnimation(shake);
+            return false;
+        }
+    }
+
+    /**
+     * @param intersection1 IntersectionDrawable at which the player is trying to build a settlement upon.
+     * @return If the building location chosen is valid, and if the action was carried out.
+     */
+    private boolean tryBuildSettlement (int intersection1) {
+
+        Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
+
+        if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersection1)) {
+            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+
+            // add just enough resources so player can build settlement
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+
+            // send build settlement action to the game
+            Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
+            game.sendAction(new CatanBuildSettlementAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
+            Log.d(TAG, "tryBuildSettlement() returned: " + true);
+
+            return true;
+        } else {
+            messageTextView.setText("Invalid settlement location.");
+            Log.e(TAG, "tryBuildSettlement: Returning false.");
+            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+            singleIntersectionInputEditText.startAnimation(shake);
+            messageTextView.startAnimation(shake);
+            return false;
+        }
+    }
+
+    /**
+     * @param intersection Intersection player is attempting to build a city at.
+     * @return If a city was built at the intersection.
+     */
+    private boolean tryBuildCity (int intersection) {
+        Log.d(TAG, "tryBuildCity() called with: intersection = [" + intersection + "]");
+
+        if (state.isSetupPhase()) {
+            Log.i(TAG, "tryBuildCity: Cannot built city during setup phase. Returning false.");
+            return false;
+        }
+
+        if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
+            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+        }
+        return true;
+    }
 
     /* ---------------------------------------- GUI Methods --------------------------------------*/
+
+    /**
+     *
+     */
+    private void updateTextViews () {
+
+        // Check if the Game State is null. If it is return void.
+        if (this.state == null) {
+            Log.e(TAG, "updateTextViews: state is null. Returning void.");
+            return;
+        }
+        if (this.state.getRobberPhase()) {
+
+            this.messageTextView.setText("Robber phase.");
+
+            // if it is the setup phase, grey out some buttons and make them un clickable
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+        }
+        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+
+            this.messageTextView.setText("Setup phase.");
+
+            // if it is the setup phase, grey out some buttons and make them un clickable
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+
+            this.singleIntersectionCancelButton.setAlpha(0.5f);
+            this.singleIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionCancelButton.setAlpha(0.5f);
+            this.roadIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionAEditText.setAlpha(0.5f);
+            this.roadIntersectionAEditText.setEnabled(false);
+
+        } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
+
+            this.messageTextView.setText("Roll the dice.");
+
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.rollButton.setAlpha(1f);
+            this.rollButton.setClickable(true);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+            this.singleIntersectionCancelButton.setAlpha(0.5f);
+            this.singleIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionCancelButton.setAlpha(0.5f);
+            this.roadIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionAEditText.setAlpha(0.5f);
+            this.roadIntersectionAEditText.setEnabled(false);
+
+
+        } else { // ACTION PHASE AND NOT SETUP PHASE
+
+            this.messageTextView.setText("Action phase.");
+            setAllButtonsToVisible();
+        }
+
+        setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
+
+        /* ----- update resource value TextViews ----- */
+
+        int[] resourceCards = this.state.getPlayerList().get(this.state.getCurrentPlayerId()).getResourceCards();
+        this.brickValue.setText(String.valueOf(resourceCards[0]));
+        this.grainValue.setText(String.valueOf(resourceCards[1]));
+        this.lumberValue.setText(String.valueOf(resourceCards[2]));
+        this.oreValue.setText(String.valueOf(resourceCards[3]));
+        this.woolValue.setText(String.valueOf(resourceCards[4]));
+
+        /* ----- update scoreboard ----- */
+
+        this.player0Score.setText(String.valueOf(state.getPlayerVictoryPoints()[0]));
+        this.player1Score.setText(String.valueOf(state.getPlayerVictoryPoints()[1]));
+        this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
+        this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
+
+        /* ----- update scoreboard names ----- */
+
+        player0Name.setBackgroundColor(Color.TRANSPARENT);
+        player1Name.setBackgroundColor(Color.TRANSPARENT);
+        player2Name.setBackgroundColor(Color.TRANSPARENT);
+        player3Name.setBackgroundColor(Color.TRANSPARENT);
+
+        switch (state.getCurrentPlayerId()) {
+            case 0:
+                player0Name.setBackgroundColor(HexagonGrid.playerColors[0]);
+                break;
+            case 1:
+                player1Name.setBackgroundColor(HexagonGrid.playerColors[1]);
+                break;
+            case 2:
+                player2Name.setBackgroundColor(HexagonGrid.playerColors[2]);
+                break;
+            case 3:
+                player3Name.setBackgroundColor(HexagonGrid.playerColors[3]);
+                break;
+        }
+
+        /* ----- update misc. sidebar TextViews ----- */
+
+        // human player score (sidebar menu)
+        this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
+
+        // current turn indicator (sidebar menu)
+        this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
+
+        /* -------- animations ----------- */
+
+        if (this.state.getCurrentPlayerId() == 0) {
+            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 250, 250);
+        }
+        //        this.player0Name.clearAnimation();
+        // Animate an image view
+        //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        //        imageView = (ImageView)Utils.blinkAnimation(imageView,250,20);
+
+    } // updateTextViews END
 
     /**
      * callback method--our game has been chosen/re-chosen to be the GUI,
@@ -727,230 +997,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
     }// setAsGui() END
-
-    /*---------------------------------------Validation Methods-------------------------------------------*/
-
-    /**
-     * @param intersectionA First intersection of the road.
-     * @param intersectionB Second intersection of the road. (order does not matter)
-     * @return If success.
-     */
-    private boolean tryBuildRoad (int intersectionA, int intersectionB) {
-        Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
-
-        // check if current building selection id matches that of the method call
-        if (this.currentBuildingSelectionId != 0) {
-            this.messageTextView.setText("Select an intersection to build a road.");
-            Log.e(TAG, "tryBuildRoad: currentBuildingSelectionId does not equal 0 (road id). Returning false.");
-            return false;
-        }
-
-        // check if user given intersections are valid
-        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
-            Log.i(TAG, "tryBuildRoad: Valid road placement received.");
-
-            // add just enough resources so player can build a road
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-
-            // send build settlement action to the game
-            Log.e(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
-            game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
-
-            // return true
-            Log.d(TAG, "tryBuildRoad() returned: " + true);
-            return true;
-        } else {
-            Log.e(TAG, "tryBuildSettlement: Returning false.");
-            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-            roadIntersectionBEditText.startAnimation(shake);
-            return false;
-        }
-    }
-
-    /**
-     * @param intersection1 IntersectionDrawable at which the player is trying to build a settlement upon.
-     * @return If the building location chosen is valid, and if the action was carried out.
-     */
-    private boolean tryBuildSettlement (int intersection1) {
-
-        Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
-
-        if (this.currentBuildingSelectionId != 1) {
-            this.messageTextView.setText("Select an intersection to build a settlement.");
-            Log.e(TAG, "tryBuildSettlement: Error the currently selected building id is not a settlement.");
-            return false;
-        }
-        if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersection1)) {
-            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-
-            // add just enough resources so player can build settlement
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
-
-            // send build settlement action to the game
-            Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
-            game.sendAction(new CatanBuildSettlementAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
-            Log.d(TAG, "tryBuildSettlement() returned: " + true);
-
-            return true;
-        } else {
-            Log.e(TAG, "tryBuildSettlement: Returning false.");
-            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-            singleIntersectionInputEditText.startAnimation(shake);
-            return false;
-        }
-    }
-
-    /**
-     *
-     */
-    private void updateTextViews () {
-
-        // Check if the Game State is null. If it is return void.
-        if (this.state == null) {
-            Log.e(TAG, "updateTextViews: state is null. Returning void.");
-            return;
-        }
-        if (this.state.getRobberPhase()) {
-
-            this.messageTextView.setText("Robber phase.");
-
-            // if it is the setup phase, grey out some buttons and make them un clickable
-            this.buildRoadButton.setAlpha(0.5f);
-            this.buildRoadButton.setClickable(false);
-            this.buildSettlementButton.setAlpha(0.5f);
-            this.buildSettlementButton.setClickable(false);
-            this.buildCityButton.setAlpha(0.5f);
-            this.buildCityButton.setClickable(false);
-            this.rollButton.setAlpha(0.5f);
-            this.rollButton.setClickable(false);
-            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
-            this.sidebarOpenDevCardMenuButton.setClickable(false);
-            this.tradeButton.setAlpha(0.5f);
-            this.tradeButton.setClickable(false);
-            this.endTurnButton.setAlpha(0.5f);
-            this.endTurnButton.setClickable(false);
-        }
-        if (this.state.isSetupPhase()) { // IF SETUP PHASE
-
-            this.messageTextView.setText("Setup phase.");
-
-            // if it is the setup phase, grey out some buttons and make them un clickable
-            this.buildRoadButton.setAlpha(0.5f);
-            this.buildRoadButton.setClickable(false);
-            this.buildSettlementButton.setAlpha(0.5f);
-            this.buildSettlementButton.setClickable(false);
-            this.buildCityButton.setAlpha(0.5f);
-            this.buildCityButton.setClickable(false);
-            this.rollButton.setAlpha(0.5f);
-            this.rollButton.setClickable(false);
-            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
-            this.sidebarOpenDevCardMenuButton.setClickable(false);
-            this.tradeButton.setAlpha(0.5f);
-            this.tradeButton.setClickable(false);
-            this.endTurnButton.setAlpha(0.5f);
-            this.endTurnButton.setClickable(false);
-
-            this.singleIntersectionCancelButton.setAlpha(0.5f);
-            this.singleIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionCancelButton.setAlpha(0.5f);
-            this.roadIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionAEditText.setAlpha(0.5f);
-            this.roadIntersectionAEditText.setEnabled(false);
-
-        } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
-
-            this.messageTextView.setText("Roll the dice.");
-
-            this.buildRoadButton.setAlpha(0.5f);
-            this.buildRoadButton.setClickable(false);
-            this.buildSettlementButton.setAlpha(0.5f);
-            this.buildSettlementButton.setClickable(false);
-            this.buildCityButton.setAlpha(0.5f);
-            this.buildCityButton.setClickable(false);
-            this.rollButton.setAlpha(1f);
-            this.rollButton.setClickable(true);
-            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
-            this.sidebarOpenDevCardMenuButton.setClickable(false);
-            this.tradeButton.setAlpha(0.5f);
-            this.tradeButton.setClickable(false);
-            this.endTurnButton.setAlpha(0.5f);
-            this.endTurnButton.setClickable(false);
-            this.singleIntersectionCancelButton.setAlpha(0.5f);
-            this.singleIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionCancelButton.setAlpha(0.5f);
-            this.roadIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionAEditText.setAlpha(0.5f);
-            this.roadIntersectionAEditText.setEnabled(false);
-
-
-        } else { // ACTION PHASE AND NOT SETUP PHASE
-
-            this.messageTextView.setText("Action phase.");
-            setAllButtonsToVisible();
-        }
-        setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
-
-        /* ----- update resource value TextViews ----- */
-
-        int[] resourceCards = this.state.getPlayerList().get(this.state.getCurrentPlayerId()).getResourceCards();
-        this.brickValue.setText(String.valueOf(resourceCards[0]));
-        this.grainValue.setText(String.valueOf(resourceCards[1]));
-        this.lumberValue.setText(String.valueOf(resourceCards[2]));
-        this.oreValue.setText(String.valueOf(resourceCards[3]));
-        this.woolValue.setText(String.valueOf(resourceCards[4]));
-
-        /* ----- update scoreboard ----- */
-
-        this.player0Score.setText(String.valueOf(state.getPlayerVictoryPoints()[0]));
-        this.player1Score.setText(String.valueOf(state.getPlayerVictoryPoints()[1]));
-        this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
-        this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
-
-        /* ----- update scoreboard names ----- */
-
-        player0Name.setBackgroundColor(Color.TRANSPARENT);
-        player1Name.setBackgroundColor(Color.TRANSPARENT);
-        player2Name.setBackgroundColor(Color.TRANSPARENT);
-        player3Name.setBackgroundColor(Color.TRANSPARENT);
-
-        switch (state.getCurrentPlayerId()) {
-            case 0:
-                player0Name.setBackgroundColor(HexagonGrid.playerColors[0]);
-                break;
-            case 1:
-                player1Name.setBackgroundColor(HexagonGrid.playerColors[1]);
-                break;
-            case 2:
-                player2Name.setBackgroundColor(HexagonGrid.playerColors[2]);
-                break;
-            case 3:
-                player3Name.setBackgroundColor(HexagonGrid.playerColors[3]);
-                break;
-        }
-
-        /* ----- update misc. sidebar TextViews ----- */
-
-        // human player score (sidebar menu)
-        this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
-
-        // current turn indicator (sidebar menu)
-        this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
-
-        /* -------- animations ----------- */
-
-        if (this.state.getCurrentPlayerId() == 0) {
-            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 250, 250);
-        }
-        //        this.player0Name.clearAnimation();
-        // Animate an image view
-        //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        //        imageView = (ImageView)Utils.blinkAnimation(imageView,250,20);
-
-    } // updateTextViews END
 
     private void drawGraphics () {
         Log.d(TAG, "drawGraphics() called");

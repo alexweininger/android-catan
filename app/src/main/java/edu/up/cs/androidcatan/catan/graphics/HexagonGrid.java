@@ -39,7 +39,12 @@ public class HexagonGrid extends BoardSurfaceView {
 
     protected int[] colors = {Color.argb(255, 165, 63, 4), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
 
-    public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE};
+    // colors for each player, the last color is for no player (highlighting)
+    public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE, Color.CYAN};
+
+    public static int[] settlementPictures = {R.drawable.settlement_red, R.drawable.settlement_white, R.drawable.settlement_orange, R.drawable.settlement_blue};
+
+    public static int[] cityPictures = {R.drawable.city_red, R.drawable.city_white, R.drawable.city_orange, R.drawable.city_blue};
 
     private Board board;
     private IntersectionDrawable[] intersections = new IntersectionDrawable[54]; // list of IntersectionDrawable objects
@@ -47,7 +52,8 @@ public class HexagonGrid extends BoardSurfaceView {
     ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>(); // list of HexagonDrawable objects
 
     private int highlightedHexagon = -1;
-    private int highlightedIntersection = -1;
+
+    private ArrayList<Integer> highlightedIntersections = new ArrayList<>();
 
     private boolean debugMode = false;
 
@@ -137,7 +143,7 @@ public class HexagonGrid extends BoardSurfaceView {
         // go through each building
         for (int i = 0; i < buildings.length; i++) {
 
-            if (i == this.highlightedIntersection) {
+            if (this.highlightedIntersections.contains(i)) {
                 Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
@@ -152,24 +158,18 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 Drawable buildingPicture;
                 if (buildings[i] instanceof Settlement) {
-                    buildingPicture = this.getContext().getDrawable(R.drawable.settlement);
+
+                    if (this.highlightedIntersections.contains(i)) { // if we need to highlight the building
+                        bldgPaint.setColor(Color.CYAN);
+                        canvas.drawRect(xPos - 65, yPos - 65, xPos + 65, yPos + 65, bldgPaint);
+                    }
+
+                    buildingPicture = this.getContext().getDrawable(settlementPictures[buildings[i].getOwnerId()]);
                     buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
                     buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
-                    if (i == this.highlightedIntersection) { // if we need to highlight the building
-                        bldgPaint.setColor(Color.CYAN);
-//                        canvas.drawRect(xPos - 35, yPos + 35, xPos + 35, yPos - 35, bldgPaint);
-//                        buildingPicture.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_OVER);
-                        buildingPicture.setTint(Color.CYAN);
-                        buildingPicture.setTintMode(PorterDuff.Mode.ADD);
-                    }
+
                     buildingPicture.draw(canvas);
-
-                } else {
-                    bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
-                    canvas.drawRect(xPos - 30, yPos + 30, xPos + 30, yPos - 30, bldgPaint);
                 }
-
-
             }
         }
     }
@@ -486,18 +486,10 @@ public class HexagonGrid extends BoardSurfaceView {
         return highlightedHexagon;
     }
 
+
     public void setHighlightedHexagon (int highlightedHexagon) {
         this.highlightedHexagon = highlightedHexagon;
     }
-
-    public int getHighlightedIntersection () {
-        return highlightedIntersection;
-    }
-
-    public void setHighlightedIntersection (int highlightedIntersection) {
-        this.highlightedIntersection = highlightedIntersection;
-    }
-
 
     public void toggleDebugMode () {
         this.debugMode = !this.debugMode;
@@ -509,5 +501,27 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void setDebugMode (boolean debugMode) {
         this.debugMode = debugMode;
+    }
+
+    public ArrayList<Integer> getHighlightedIntersections () {
+        return highlightedIntersections;
+    }
+
+    public void addHighlightedIntersection (int intersection) {
+        if (highlightedIntersections.size() > 1) {
+            highlightedIntersections.remove(0);
+            highlightedIntersections.add(intersection);
+            Log.e(TAG, "addSelectedIntersection: Cannot add interection to highlightedIntersections because there are already more than 1 selected intersection.");
+        } else {
+            this.highlightedIntersections.add(intersection);
+        }
+    }
+
+    public void clearHighLightedIntersections () {
+        this.highlightedIntersections = new ArrayList<>();
+    }
+
+    public void setHighlightedIntersections (ArrayList<Integer> highlightedIntersections) {
+        this.highlightedIntersections = highlightedIntersections;
     }
 }
