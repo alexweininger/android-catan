@@ -211,17 +211,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
+        /* ---------- Turn Actions ---------- */
 
-        /* ---------- actions other than building ---------- */
-        if (button.getId() == R.id.menu_settings) {
-            Log.d(TAG, state.toString());
-            return;
-        }
-
-        if (button.getId() == R.id.sidebar_button_score) {
-            toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
-            return;
-        }
         if (button.getId() == R.id.sidebar_button_roll) {
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
@@ -233,9 +224,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             return;
         }
+
         if (button.getId() == R.id.sidebar_button_endturn) {
             if (state.isSetupPhase()) {
-
+                // todo @Niraj Mali? - AW
             }
             Log.d(TAG, "onClick: End Turn");
 
@@ -244,10 +236,57 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /* ---------- actions other than building ---------- */
+
+        if (button.getId() == R.id.menu_settings) {
+            Log.d(TAG, state.toString());
+            return;
+        }
+
+        if (button.getId() == R.id.sidebar_button_score) {
+            toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
+            return;
+        }
+
+
+
         /*------------Robber Action------------------*/
+
+        /*-------------------- Robber ------------------------*/
         //TODO Put Robber buttons here
+        if (button.getId() == R.id.robber_discard_brickAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_brickMinusImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_lumberAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_grainAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_grainMinusImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_oreAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_oreMinusImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_woolAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_woolMinusImg) {
+
+        }
 
         /* ---------- Trade action buttons ---------- */
+
         //TODO Need functionality for both Port, Custom Port and Bank
         if (button.getId() == R.id.sidebar_button_trade) {
             // toggle menu vis.
@@ -404,37 +443,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /*----------------Robber Button Listeners---------------------*/
-        if (button.getId() == R.id.robber_discard_brickAddImg) {
 
-        }
-        if (button.getId() == R.id.robber_discard_brickMinusImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_lumberAddImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_grainAddImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_grainMinusImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_oreAddImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_oreMinusImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_woolAddImg) {
-
-        }
-        if (button.getId() == R.id.robber_discard_woolMinusImg) {
-
-        }
 
 
     }// onClick END
