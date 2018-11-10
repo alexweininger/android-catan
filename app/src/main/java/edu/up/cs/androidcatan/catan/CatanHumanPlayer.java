@@ -442,8 +442,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
 
-
-
     }// onClick END
 
     // the purpose of the touch listener is just to store the touch X,Y coordinates
