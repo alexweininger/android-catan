@@ -486,7 +486,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     // if x is greater than point 3 and less than point 0
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     touchedIntersection = true;
-                    boardSurfaceView.getGrid().set
+                    boardSurfaceView.getGrid().setHighlightedIntersection(i);
+                    boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                     boardSurfaceView.invalidate();
                 }
             }
@@ -505,6 +506,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
                             touchedHexagon = true;
                             boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+                            boardSurfaceView.getGrid().setHighlightedIntersection(-1);
                             boardSurfaceView.invalidate();
 
                         }
@@ -515,6 +517,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (!touchedHexagon && !touchedIntersection) {
                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                boardSurfaceView.getGrid().setHighlightedIntersection(-1);
                 boardSurfaceView.invalidate();
             }
 
