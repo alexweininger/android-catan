@@ -107,7 +107,6 @@ public class HexagonDrawable extends BoardSurfaceView {
             }
         }
 
-
         int radius = 25;
         int cx = points[5][0];
         int cy = points[5][1] + this.size;
