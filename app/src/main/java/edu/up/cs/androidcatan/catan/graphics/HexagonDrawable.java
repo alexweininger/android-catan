@@ -72,14 +72,19 @@ public class HexagonDrawable extends BoardSurfaceView {
         blackFont.setStyle(Paint.Style.FILL);
         blackFont.setTextSize(50);
 
-        if (this.highlight) {
-            hexagonPaint.setColor(Color.CYAN);
-        }
+        Paint highlightPaint = new Paint();
+        highlightPaint.setColor(Color.CYAN);
+        highlightPaint.setStyle(Paint.Style.STROKE);
+        highlightPaint.setStrokeWidth(10f);
 
         points = calculateHexagonPoints(this.x, this.y, this.size);
 
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, hexagonPaint);
+
+        if (this.highlight) {
+            canvas.drawPath(hexagonPath, highlightPaint);
+        }
 
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.DKGRAY);
