@@ -69,9 +69,6 @@ public class Board {
     // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
 
-    // List of port intersection locations. TODO
-    private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
-
     private ArrayList<Port> portList = new ArrayList<>();
 
     private ArrayList<ArrayList<Integer>> intersectionGraph = new ArrayList<>();
@@ -87,7 +84,6 @@ public class Board {
 
         populateHexagonIds(); // populate ids
         populateIntersectionIds();
-        populatePortIntersectionIds();
 
         generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
@@ -1445,17 +1441,6 @@ public class Board {
             for (int j = 0; j < roadGraph[i].length; j++) {
                 roadGraph[j][i] = roadGraph[i][j];
             }
-        }
-    }
-
-    /**
-     * TODO remove and fix
-     * adds ports to the intersection and port hash map
-     */
-    private void populatePortIntersectionIds () {
-        for (int i = 0; i < 6; i++) {
-            portIntersectionLocations.add(17 + i * 6);
-            portIntersectionLocations.add(17 + i * 6 + 1);
         }
     }
 

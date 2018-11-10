@@ -207,14 +207,11 @@ public class HexagonGrid extends BoardSurfaceView {
      * @param canvas Canvas to draw ports on.
      */
     private void drawPorts (Canvas canvas) {
-
         ArrayList<Port> ports = this.board.getPortList();
 
         for (int i = 0; i < ports.size(); i++) {
             int portIntersectionId = ports.get(i).getIntersection();
-
             ports.get(i).drawPort(canvas, intersections[portIntersectionId].getxPos() , intersections[portIntersectionId].getyPos(), 25);
-
         }
     }
 
