@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -119,10 +120,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group singleIntersectionInputMenuGroup = (Group) null;
     private Button singleIntersectionOkButton = (Button) null;
 
+    //Robber Buttons
+    private ImageView robberBrickPlus = (ImageView) null;
+    private ImageView robberBrickMinus = (ImageView) null;
+    private ImageView robberLumberPlus = (ImageView) null;
+    private ImageView robberLumberMinus = (ImageView) null;
+    private ImageView robberGrainPlus = (ImageView) null;
+    private ImageView RobberGrainMinu = (ImageView) null;
+    private ImageView robberOrePlus = (ImageView) null;
+    private ImageView robberOreMinus = (ImageView) null;
+    private ImageView robberWoolPlus = (ImageView) null;
+    private ImageView robberWoolMinus = (ImageView) null;
+
     //Other Groups
     private Group scoreBoardGroup = (Group) null;
     private Group developmentGroup = (Group) null;
     private Group tradeGroup = (Group) null;
+    private Group robberDiscardGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
