@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
@@ -27,7 +28,9 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
+import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
@@ -48,6 +51,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private ArrayList<Integer> buildingsBuiltOnThisTurn;
     private int currentBuildingSelectionId = 1;
+
+    private float lastTouchDownXY[] = new float[2];
 
     /* ---------- View variables for updating UI / Layout ---------- */
 
@@ -381,6 +386,56 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     }// onClick END
 
+    // the purpose of the touch listener is just to store the touch X,Y coordinates
+    View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            // save the X,Y coordinates
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                lastTouchDownXY[0] = event.getX();
+                lastTouchDownXY[1] = event.getY();
+            }
+
+            // let the touch event pass on to whoever needs it
+            return false;
+        }
+    };
+
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // retrieve the stored coordinates
+            float x = lastTouchDownXY[0];
+            float y = lastTouchDownXY[1];
+
+            HexagonGrid grid = boardSurfaceView.getGrid();
+
+
+
+            // use the coordinates for whatever
+            Log.i("TAG", "onLongClick: x = " + x + ", y = " + y);
+
+            ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
+
+            int index = 0;
+            for (HexagonDrawable hex : dHexes) {
+                int[][] points = hex.getHexagonPoints();
+
+                // if y is greater than point 0 and less than point 1
+                if (y > points[0][1] && y < points[1][1]) {
+                    // if x is greater than point 3 and less than point 0
+                    if (x > points[3][0] && x < points[0][0]) {
+                        Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
+                        Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
+                    }
+                }
+                index++;
+            }
+
+        }
+    };
+
     /* ---------------------------------------- GUI Methods --------------------------------------*/
 
     /**
@@ -396,6 +451,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         activity.setContentView(R.layout.activity_main); // Load the layout resource for our GUI
 
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard); // todo move this somewhere meaningful
+
+        /* ---------- Surface View for drawing the graphics ----------- */
+
+        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
+
+        this.boardSurfaceView.setOnClickListener(clickListener);
+        this.boardSurfaceView.setOnTouchListener(touchListener);
 
         /* ----------------------------------- SIDEBAR ------------------------------------------ */
 
@@ -537,12 +599,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------------- Trade Menu -------------------- */
 
         tradeGroup = activity.findViewById(R.id.group_trade_menu); // trade menu GROUP
-
-
-
-        /* ---------- Surface View for drawing the graphics ----------- */
-
-        this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 
         // if we have state update the GUI based on the state
         if (this.state != null) {

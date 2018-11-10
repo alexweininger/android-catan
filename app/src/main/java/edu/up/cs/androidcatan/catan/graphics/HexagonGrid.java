@@ -373,6 +373,58 @@ public class HexagonGrid extends BoardSurfaceView {
 
     /* ---------- getters and setters ------------ */
 
+    public int getXPos () {
+        return x;
+    }
+
+    public void setXPos (int x) {
+        this.x = x;
+    }
+
+    public int getYPos () {
+        return y;
+    }
+
+    public void setYPos (int y) {
+        this.y = y;
+    }
+
+    public int[] getHexagonsInEachRow () {
+        return hexagonsInEachRow;
+    }
+
+    public void setHexagonsInEachRow (int[] hexagonsInEachRow) {
+        this.hexagonsInEachRow = hexagonsInEachRow;
+    }
+
+    public static int[] getPlayerColors () {
+        return playerColors;
+    }
+
+    public static void setPlayerColors (int[] playerColors) {
+        HexagonGrid.playerColors = playerColors;
+    }
+
+    public Board getBoard () {
+        return board;
+    }
+
+    public void setBoard (Board board) {
+        this.board = board;
+    }
+
+    public IntersectionDrawable[] getIntersections () {
+        return intersections;
+    }
+
+    public void setIntersections (IntersectionDrawable[] intersections) {
+        this.intersections = intersections;
+    }
+
+    public void setRoads (ArrayList<RoadDrawable> roads) {
+        this.roads = roads;
+    }
+
     public int[] getColors () {
         return colors;
     }
