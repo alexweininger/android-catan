@@ -113,18 +113,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
             canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), roadPaint);
         }
-
-//        for (int k = 0; k < dataRoads.size(); k++) { // for each road stored on the board
-//            Road r = dataRoads.get(k);
-//
-//            roadPaint.setColor(playerColors[r.getOwnerId()]);
-//
-//            canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), roadPaint);
-//        }
-    }
-
-    public void drawHighlighedIntersections(Canvas canvas) {
-
     }
 
     /**
