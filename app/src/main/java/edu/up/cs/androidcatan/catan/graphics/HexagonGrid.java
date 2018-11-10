@@ -4,15 +4,19 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 /**
  * @author Alex Weininger
@@ -140,19 +144,32 @@ public class HexagonGrid extends BoardSurfaceView {
                 canvas.drawCircle(xPos, yPos, 30, highlightPaint);
             }
 
-            if (buildings[i] != null) {
+            if (buildings[i] != null) { // if we need to draw a building at this intersection
 
                 // get center of intersection
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
 
-                if (i == this.highlightedIntersection) {
-                    bldgPaint.setColor(Color.CYAN);
-                    canvas.drawRect(xPos - 35, yPos + 35, xPos + 35, yPos - 35, bldgPaint);
+                Drawable buildingPicture;
+                if (buildings[i] instanceof Settlement) {
+                    buildingPicture = this.getContext().getDrawable(R.drawable.settlement);
+                    buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
+                    buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
+                    if (i == this.highlightedIntersection) { // if we need to highlight the building
+                        bldgPaint.setColor(Color.CYAN);
+//                        canvas.drawRect(xPos - 35, yPos + 35, xPos + 35, yPos - 35, bldgPaint);
+//                        buildingPicture.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_OVER);
+                        buildingPicture.setTint(Color.CYAN);
+                        buildingPicture.setTintMode(PorterDuff.Mode.ADD);
+                    }
+                    buildingPicture.draw(canvas);
+
+                } else {
+                    bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
+                    canvas.drawRect(xPos - 30, yPos + 30, xPos + 30, yPos - 30, bldgPaint);
                 }
 
-                bldgPaint.setColor(playerColors[buildings[i].getOwnerId()]);
-                canvas.drawRect(xPos - 30, yPos + 30, xPos + 30, yPos - 30, bldgPaint);
+
             }
         }
     }

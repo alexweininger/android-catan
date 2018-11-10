@@ -56,6 +56,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private float lastTouchDownXY[] = new float[2];
     boolean debugMode = false;
 
+    private TextView messageTextView = (TextView) null;
+
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
     /* ------------- Building Buttons -------------------- */
@@ -552,6 +554,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard); // todo move this somewhere meaningful
 
+        messageTextView = activity.findViewById(R.id.textview_game_message);
+
         /* ---------- Surface View for drawing the graphics ----------- */
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
@@ -736,6 +740,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // check if current building selection id matches that of the method call
         if (this.currentBuildingSelectionId != 0) {
+            this.messageTextView.setText("Select an intersection to build a road.");
             Log.e(TAG, "tryBuildRoad: currentBuildingSelectionId does not equal 0 (road id). Returning false.");
             return false;
         }
@@ -772,6 +777,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
 
         if (this.currentBuildingSelectionId != 1) {
+            this.messageTextView.setText("Select an intersection to build a settlement.");
             Log.e(TAG, "tryBuildSettlement: Error the currently selected building id is not a settlement.");
             return false;
         }
@@ -809,6 +815,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
         if (this.state.getRobberPhase()) {
+
+            this.messageTextView.setText("Robber phase.");
+
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
@@ -826,6 +835,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setClickable(false);
         }
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
+
+            this.messageTextView.setText("Setup phase.");
 
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
@@ -852,6 +863,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
 
+            this.messageTextView.setText("Roll the dice.");
+
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
             this.buildSettlementButton.setAlpha(0.5f);
@@ -875,7 +888,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
         } else { // ACTION PHASE AND NOT SETUP PHASE
-            //            setAllButtonsToVisible();
+
+            this.messageTextView.setText("Action phase.");
+            setAllButtonsToVisible();
         }
         setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
@@ -992,7 +1007,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         else group.setVisibility(View.GONE);
     }
 
-    public void setAllButtonsToVisible () {
+    private void setAllButtonsToVisible () {
         this.buildRoadButton.setAlpha(1f);
         this.buildRoadButton.setClickable(true);
         this.buildSettlementButton.setAlpha(1f);
@@ -1030,7 +1045,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param offset Start offset.
      * @return returns The View with animation properties on it.
      */
-    public static View blinkAnimation (View view, int duration, int offset) {
+    private static View blinkAnimation (View view, int duration, int offset) {
 
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(duration);
