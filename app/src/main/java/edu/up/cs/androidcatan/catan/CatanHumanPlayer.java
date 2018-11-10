@@ -486,6 +486,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     // if x is greater than point 3 and less than point 0
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     touchedIntersection = true;
+                    boardSurfaceView.getGrid().set
                     boardSurfaceView.invalidate();
                 }
             }

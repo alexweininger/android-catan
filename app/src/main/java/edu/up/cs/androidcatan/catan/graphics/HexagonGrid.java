@@ -139,7 +139,7 @@ public class HexagonGrid extends BoardSurfaceView {
         for (int i = 0; i < buildings.length; i++) {
 
             if (i == this.highlightedIntersection) {
-
+                Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
                 int xPos = this.intersections[i].getxPos();
                 int yPos = this.intersections[i].getyPos();
                 canvas.drawCircle(xPos, yPos, 30, bldgPaint);
@@ -471,5 +471,13 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void setHighlightedHexagon (int highlightedHexagon) {
         this.highlightedHexagon = highlightedHexagon;
+    }
+
+    public int getHighlightedIntersection () {
+        return highlightedIntersection;
+    }
+
+    public void setHighlightedIntersection (int highlightedIntersection) {
+        this.highlightedIntersection = highlightedIntersection;
     }
 }
