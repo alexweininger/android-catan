@@ -166,14 +166,14 @@ public class HexagonGrid extends BoardSurfaceView {
                     }
 
                     buildingPicture = this.getContext().getDrawable(settlementPictures[buildings[i].getOwnerId()]);
-                    buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
+                    buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
                     buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
 
                     buildingPicture.draw(canvas);
 
 
                 } else if (buildings[i] instanceof City) {
-
+                    Log.e(TAG, "drawBuildings: drawing a city");
                     if (this.highlightedIntersections.contains(i)) {
                         Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
                         canvas.drawCircle(xPos, yPos, 30, highlightPaint);

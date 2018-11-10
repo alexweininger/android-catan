@@ -12,14 +12,14 @@ import android.graphics.Paint;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class Ports {
+public class Port {
 
     protected int x, y;
     protected int size;
     protected int color;
     protected Paint paint;
 
-    public Ports(int x, int y){
+    public Port (int x, int y){
 
         this.x = x;
         this.y = y;

@@ -22,7 +22,7 @@ public class BoardSurfaceView extends SurfaceView {
 
     private final String TAG = "BoardSurfaceView";
 
-    ArrayList<Ports> ports = new ArrayList<>();
+    ArrayList<Port> ports = new ArrayList<>();
 
     int size;
     HexagonGrid grid;
@@ -51,11 +51,11 @@ public class BoardSurfaceView extends SurfaceView {
         this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20, false);
     }
 
-    public ArrayList<Ports> getPorts() {
+    public ArrayList<Port> getPorts() {
         return ports;
     }
 
-    public void setPorts(ArrayList<Ports> ports) {
+    public void setPorts(ArrayList<Port> ports) {
         this.ports = ports;
     }
 
