@@ -86,10 +86,10 @@ public class HexagonGrid extends BoardSurfaceView {
      * @param canvas Canvas to draw upon.
      */
     public void drawBorder (Canvas canvas) {
-        Paint tanPaint = new Paint();
-        tanPaint.setColor(Color.argb(255, 255, 246, 183));
+        canvas.drawColor(Color.argb(255, 160, 206, 255)); // set the background to ocean color
 
-        canvas.drawColor(Color.argb(255, 160, 206, 255));
+        Paint tanPaint = new Paint(); // paint for island background
+        tanPaint.setColor(Color.argb(255, 255, 246, 183));
 
         int centerX = canvas.getWidth() / 2;
         int centerY = canvas.getHeight() / 2;
@@ -118,7 +118,6 @@ public class HexagonGrid extends BoardSurfaceView {
             paint.setColor(playerColors[r.getOwnerId()]);
 
             canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), paint);
-
         }
     }
 
@@ -188,6 +187,9 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
+    /**
+     * Generates locations of intersections for drawing.
+     */
     public void generateIntersections () {
         intersections[0] = new Intersection(0, 1049, 642);
         intersections[1] = new Intersection(1, 887, 574);
