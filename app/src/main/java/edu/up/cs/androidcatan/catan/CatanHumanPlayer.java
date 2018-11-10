@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -124,10 +125,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group singleIntersectionInputMenuGroup = (Group) null;
     private Button singleIntersectionOkButton = (Button) null;
 
+    //Robber Buttons
+    private ImageView robberBrickPlus = (ImageView) null;
+    private ImageView robberBrickMinus = (ImageView) null;
+    private ImageView robberLumberPlus = (ImageView) null;
+    private ImageView robberLumberMinus = (ImageView) null;
+    private ImageView robberGrainPlus = (ImageView) null;
+    private ImageView robberGrainMinus = (ImageView) null;
+    private ImageView robberOrePlus = (ImageView) null;
+    private ImageView robberOreMinus = (ImageView) null;
+    private ImageView robberWoolPlus = (ImageView) null;
+    private ImageView robberWoolMinus = (ImageView) null;
+
     //Other Groups
     private Group scoreBoardGroup = (Group) null;
     private Group developmentGroup = (Group) null;
     private Group tradeGroup = (Group) null;
+    private Group robberDiscardGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -215,6 +229,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if(state.getCurrentDiceSum() == 7){
                 //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
+                state.setRobberPhase(true);
             }
             return;
         }
@@ -389,6 +404,38 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /*----------------Robber Button Listeners---------------------*/
+        if(button.getId() == R.id.robber_discard_brickAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_brickMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_lumberAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_lumberMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_grainAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_grainMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_oreAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_oreMinusImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_woolAddImg){
+
+        }
+        if(button.getId() == R.id.robber_discard_woolMinusImg){
+
+        }
+
 
     }// onClick END
 
@@ -497,15 +544,32 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton = activity.findViewById(R.id.sidebar_button_trade); // trade
         tradeButton.setOnClickListener(this);
 
-        //        robberDiscard = (Button)activity.findViewById(R.id.);  TODO when menus are implemented
-        //        robberDiscard.setOnClickListener(this);
+        /*--------------------Robber Buttons and Groups------------------------*/
+        robberBrickPlus = (ImageView) activity.findViewById(R.id.robber_discard_brickAddImg);
+        robberBrickMinus = (ImageView) activity.findViewById(R.id.robber_discard_brickMinusImg);
+        robberLumberPlus = (ImageView) activity.findViewById(R.id.robber_discard_lumberAddImg);
+        robberLumberMinus = (ImageView) activity.findViewById(R.id.robber_discard_lumberMinusImg);
+        robberGrainPlus = (ImageView) activity.findViewById(R.id.robber_discard_grainAddImg);
+        robberGrainMinus = (ImageView) activity.findViewById(R.id.robber_discard_grainMinusImg);
+        robberOrePlus = (ImageView) activity.findViewById(R.id.robber_discard_oreAddImg);
+        robberOreMinus = (ImageView) activity.findViewById(R.id.robber_discard_oreMinusImg);
+        robberWoolPlus = (ImageView) activity.findViewById(R.id.robber_discard_woolAddImg);
+        robberWoolMinus = (ImageView) activity.findViewById(R.id.robber_discard_woolMinusImg);
 
-        //        robberMove = (Button)activity.findViewById(R.id.);
-        //        robberMove.setOnClickListener(this);
+        robberDiscardGroup = (Group) activity.findViewById(R.id.robber_discard_group);
 
-        //        robberSteal = (Button)activity.findViewById(R.id.);
-        //        robberSteal.setOnClickListener(this);
+        robberBrickPlus.setOnClickListener(this);
+        robberBrickMinus.setOnClickListener(this);
+        robberLumberPlus.setOnClickListener(this);
+        robberLumberMinus.setOnClickListener(this);
+        robberGrainPlus.setOnClickListener(this);
+        robberGrainMinus.setOnClickListener(this);
+        robberOrePlus.setOnClickListener(this);
+        robberOreMinus.setOnClickListener(this);
+        robberWoolPlus.setOnClickListener(this);
+        robberWoolMinus.setOnClickListener(this);
 
+        /*---------------------------TODO Trade Buttons-------------------------------------------*/
         //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
         //        tradeCustomPort.setOnClickListener(this);
 
@@ -710,7 +774,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
             return;
         }
-
+        if(this.state.getRobberPhase()){
+            // if it is the setup phase, grey out some buttons and make them un clickable
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+        }
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
             // if it is the setup phase, grey out some buttons and make them un clickable

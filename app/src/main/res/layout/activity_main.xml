@@ -1255,4 +1255,262 @@
 
     <!-- trade menu END -->
 
+
+    <!--Robber Menu Stuff-->
+
+    <android.support.constraint.Guideline
+        android:id="@+id/robber_discard_leftVerticalGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.14" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/robber_discard_topHorizontalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.52" />
+
+    <TextView
+        android:id="@+id/robber_discard_MenuHeaderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/robber_discard_menu_header"
+        android:textSize="32sp"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_topHorizontalGuideline" />
+
+    <ImageView
+        android:id="@+id/robber_discard_brickImg"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/brick"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_leftVerticalGuideLine"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_MenuHeaderText"
+        app:srcCompat="@drawable/brick_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/robber_discard_lumberImgReceive"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_brickImg"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_brickImg"
+        app:srcCompat="@drawable/lumber_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/robber_discard_grainImg"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/grain"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_lumberImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_lumberImgReceive"
+        app:srcCompat="@drawable/grain_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/robber_discard_oreImgReceive"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/ore"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_grainImg"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_grainImg"
+        app:srcCompat="@drawable/ore_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/robber_discard_woolImgReceive"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/wool"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_oreImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_oreImgReceive"
+        app:srcCompat="@drawable/wool_icon_25x25" />
+
+    <Button
+        android:id="@+id/robber_discard_confirm"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toBottomOf="@+id/robber_discard_selectMoreResources"
+        app:layout_constraintEnd_toEndOf="@+id/robber_discard_woolImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_selectMoreResources"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/robber_discard_selectMoreResources"
+        android:layout_width="359dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/select_more_resources"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/robber_discard_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_brickAmount" />
+
+    <TextView
+        android:id="@+id/robber_discard_brickAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/hint_00"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/robber_discard_brickAddImg"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_brickMinusImg"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_brickImg" />
+
+    <TextView
+        android:id="@+id/robber_discard_lumberAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/hint_00"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/robber_discard_lumberAddImg"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_lumberMinusImg"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_lumberImgReceive" />
+
+    <TextView
+        android:id="@+id/robber_discard_grainAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/hint_00"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/robber_discard_grainAddImg"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_grainMinusImg"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_grainImg" />
+
+    <TextView
+        android:id="@+id/robber_discard_oreAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/hint_00"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/robber_discard_oreAddImg"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_oreMinusImg"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_oreImgReceive" />
+
+    <TextView
+        android:id="@+id/robber_discard_woolAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@string/wool"
+        android:text="@string/hint_00"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/robber_discard_woolAddImg"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_woolMinusImg"
+        app:layout_constraintTop_toBottomOf="@+id/robber_discard_woolImgReceive" />
+
+    <ImageView
+        android:id="@+id/robber_discard_brickMinusImg"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/minus"
+        android:src="@drawable/minus_icon_25x25"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_brickImg"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_brickAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_lumberMinusImg"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/minus"
+        android:src="@drawable/minus_icon_25x25"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_lumberImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_lumberAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_grainMinusImg"
+        android:layout_width="45dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/minus"
+        android:src="@drawable/minus_icon_25x25"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_grainImg"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_grainAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_oreMinusImg"
+        android:layout_width="45dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/minus"
+        android:src="@drawable/minus_icon_25x25"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_oreImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_oreAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_woolMinusImg"
+        android:layout_width="45dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/minus"
+        android:src="@drawable/minus_icon_25x25"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_woolImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_woolAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_brickAddImg"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/add_player"
+        android:src="@drawable/plus_icon_25x25"
+        app:layout_constraintEnd_toEndOf="@+id/robber_discard_brickImg"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_brickAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_lumberAddImg"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/add"
+        android:src="@drawable/plus_icon_25x25"
+        app:layout_constraintEnd_toEndOf="@+id/robber_discard_lumberImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_lumberAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_grainAddImg"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/add"
+        android:src="@drawable/plus_icon_25x25"
+        app:layout_constraintEnd_toEndOf="@+id/robber_discard_grainImg"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_grainAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_oreAddImg"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/add"
+        android:src="@drawable/plus_icon_25x25"
+        app:layout_constraintEnd_toEndOf="@+id/robber_discard_oreImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_oreAmount" />
+
+    <ImageView
+        android:id="@+id/robber_discard_woolAddImg"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:contentDescription="@string/add"
+        android:src="@drawable/plus_icon_25x25"
+        app:layout_constraintEnd_toEndOf="@+id/robber_discard_woolImgReceive"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_woolAmount" />
+
+    <android.support.constraint.Group
+        android:id="@+id/robber_discard_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids=",robber_discard_lumberImgReceive,robber_discard_grainAmount,robber_discard_leftVerticalGuideLine,robber_discard_oreAmount,robber_discard_brickAmount,robber_discard_grainMinusImg,robber_discard_woolMinusImg,robber_discard_lumberAmount,robber_discard_oreImgReceive,robber_discard_grainImg,robber_discard_lumberMinusImg,robber_discard_oreAddImg,robber_discard_lumberAddImg,robber_discard_woolAddImg,robber_discard_woolImgReceive,robber_discard_brickMinusImg,robber_discard_confirm,robber_discard_brickImg,robber_discard_oreMinusImg,robber_discard_grainAddImg,robber_discard_topHorizontalGuideline,robber_discard_selectMoreResources,robber_discard_woolAmount,robber_discard_MenuHeaderText,robber_discard_brickAddImg" />
+
+    <!--Robber Menu End-->
 </android.support.constraint.ConstraintLayout>
