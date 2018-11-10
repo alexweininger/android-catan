@@ -131,7 +131,6 @@ public class Board {
                 this.buildings[i] = new City(i, b.getBuildings()[i].getOwnerId());
             }
         }
-        for (Port p : b.getPortList()) { this.portList.add(new Port(p)); }
         for (Hexagon hexagon : b.getHexagons()) { this.hexagons.add(new Hexagon(hexagon)); }
     } // end Board deep copy constructor
 
