@@ -389,7 +389,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     // the purpose of the touch listener is just to store the touch X,Y coordinates
     View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch (View v, MotionEvent event) {
 
             // save the X,Y coordinates
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
@@ -404,7 +404,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick (View v) {
             // retrieve the stored coordinates
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
@@ -413,6 +413,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             // use the coordinates for whatever
             Log.i("TAG", "onLongClick: x = " + x + ", y = " + y);
+
+            for (int i = 0; i < grid.getIntersections().length; i++) {
+                int xPos = grid.getIntersections()[i].getxPos();
+                int yPos = grid.getIntersections()[i].getyPos();
+
+                // if y is greater than y - 25 and less than y + 25
+                if (y > yPos - 100 && y < yPos + 100 && x > xPos - 100 && x < xPos + 100) {
+                    // if x is greater than point 3 and less than point 0
+                    Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
+                    //                        Log.w(TAG, "onClick: intersection " + grid.getIntersections()[i].getIntersectionId() + " located at " + grid.getIntersections()[i].getxPos() + ", " + grid.getIntersections()[i].getyPos());
+                    //                        Log.w(TAG, "onClick: local vars for x and y for " + grid.getIntersections()[i].getIntersectionId() + " located at " + xPos + ", " + yPos);
+                }
+            }
 
             ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
 
@@ -430,7 +443,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
                 index++;
             }
-
         }
     };
 
