@@ -122,6 +122,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             }
         } // setup phase if statement END
 
+        if (gs.isSetupPhase() && settlementCount == 2 && roadCount == 2) {
+            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+            game.sendAction(new CatanEndTurnAction(this));
+        }
+
         if (!gs.isSetupPhase()) { /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
 
             sleep(300);
