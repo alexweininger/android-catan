@@ -1,15 +1,12 @@
 package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
-import edu.up.cs.androidcatan.game.GameMainActivity;
-import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
 /**
  * @author Alex Weininger
@@ -64,25 +61,6 @@ public class Player {
         this.setDevelopmentCards(p.getDevelopmentCards());
         this.setBuildingInventory(p.getBuildingInventory());
         this.setResourceCards(p.getResourceCards());
-    }
-
-    // TODO Figure out what these methods from the GameHumanPlayer and OnClickListener do and implement them TODO @DB @NJ
-
-    public void onClick (View button) {
-
-    }
-
-    public void setAsGui (GameMainActivity activity) {
-
-    }
-
-    public View getTopView () {
-        //FIXME return myActivity.findViewById(R.id.top_gui_layout);
-        return null;
-    }
-
-    public void receiveInfo (GameInfo info) {
-
     }
 
     /**
