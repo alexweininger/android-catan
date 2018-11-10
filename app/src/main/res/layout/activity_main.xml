@@ -1278,7 +1278,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/robber_discard_menu_header"
-        android:textSize="32sp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/robber_discard_topHorizontalGuideline" />
 
@@ -1288,55 +1289,65 @@
         android:layout_height="125dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/brick_icon_25x25"
         android:contentDescription="@string/brick"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/robber_discard_MenuHeaderText"
-        app:srcCompat="@drawable/brick_icon_25x25" />
+        app:srcCompat="@drawable/brick_icon_25x25"
+        tools:srcCompat="@drawable/brick_icon_25x25" />
 
     <ImageView
         android:id="@+id/robber_discard_lumberImgReceive"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
+        android:background="@drawable/lumber_icon_25x25_icon_25x25"
         android:contentDescription="@string/lumber"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_brickImg"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_brickImg"
-        app:srcCompat="@drawable/lumber_icon_25x25" />
+        app:srcCompat="@drawable/lumber_icon_25x25_icon_25x25"
+        tools:srcCompat="@drawable/lumber_icon_25x25_icon_25x25" />
 
     <ImageView
         android:id="@+id/robber_discard_grainImg"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
+        android:background="@drawable/grain_icon_25x25"
         android:contentDescription="@string/grain"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_lumberImgReceive"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_lumberImgReceive"
-        app:srcCompat="@drawable/grain_icon_25x25" />
+        app:srcCompat="@drawable/grain_icon_25x25"
+        tools:srcCompat="@drawable/grain_icon_25x25" />
 
     <ImageView
         android:id="@+id/robber_discard_oreImgReceive"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
+        android:background="@drawable/ore_icon_25x25"
         android:contentDescription="@string/ore"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_grainImg"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_grainImg"
-        app:srcCompat="@drawable/ore_icon_25x25" />
+        app:srcCompat="@drawable/ore_icon_25x25"
+        tools:srcCompat="@drawable/ore_icon_25x25" />
 
     <ImageView
         android:id="@+id/robber_discard_woolImgReceive"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
+        android:background="@drawable/wool_icon_25x25"
         android:contentDescription="@string/wool"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_oreImgReceive"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_oreImgReceive"
-        app:srcCompat="@drawable/wool_icon_25x25" />
+        app:srcCompat="@drawable/wool_icon_25x25"
+        tools:srcCompat="@drawable/wool_icon_25x25" />
 
     <Button
         android:id="@+id/robber_discard_confirm"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="@+id/robber_discard_selectMoreResources"
         app:layout_constraintEnd_toEndOf="@+id/robber_discard_woolImgReceive"
@@ -1350,7 +1361,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="@string/select_more_resources"
-        android:textSize="32sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/robber_discard_confirm"
         app:layout_constraintTop_toBottomOf="@+id/robber_discard_brickAmount" />
 
@@ -1361,6 +1372,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/hint_00"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/robber_discard_brickAddImg"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_brickMinusImg"
@@ -1373,6 +1385,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/hint_00"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/robber_discard_lumberAddImg"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_lumberMinusImg"
@@ -1385,6 +1398,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/hint_00"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/robber_discard_grainAddImg"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_grainMinusImg"
@@ -1397,6 +1411,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/hint_00"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/robber_discard_oreAddImg"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_oreMinusImg"
@@ -1410,6 +1425,7 @@
         android:contentDescription="@string/wool"
         android:text="@string/hint_00"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/robber_discard_woolAddImg"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_woolMinusImg"

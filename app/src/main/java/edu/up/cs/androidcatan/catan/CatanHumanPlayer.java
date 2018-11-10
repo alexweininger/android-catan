@@ -236,7 +236,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------- actions other than building ---------- */
+        /* ---------- Misc. Buttons ---------- */
 
         if (button.getId() == R.id.menu_settings) {
             Log.d(TAG, state.toString());
@@ -248,12 +248,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-
-
-        /*------------Robber Action------------------*/
-
         /*-------------------- Robber ------------------------*/
-        //TODO Put Robber buttons here
+
         if (button.getId() == R.id.robber_discard_brickAddImg) {
 
         }
