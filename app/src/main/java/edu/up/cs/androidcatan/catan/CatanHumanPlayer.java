@@ -55,6 +55,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private float lastTouchDownXY[] = new float[2];
 
+    private int highlightedHexagonId = -1;
+
     /* ---------- View variables for updating UI / Layout ---------- */
 
     /* ---------- SCOREBOARD button init ---------- */
@@ -211,8 +213,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
+        /* ---------- Turn Actions ---------- */
 
-        /* ---------- actions other than building ---------- */
+        if (button.getId() == R.id.sidebar_button_roll) {
+            CatanRollDiceAction a = new CatanRollDiceAction(this);
+            Log.d(TAG, "onClick: Roll");
+            game.sendAction(a);
+            if (state.getCurrentDiceSum() == 7) {
+                //TODO Make robber menu appear
+                Log.i(TAG, "onClick: Robber has been activated");
+                state.setRobberPhase(true);
+            }
+            return;
+        }
+
+        if (button.getId() == R.id.sidebar_button_endturn) {
+            if (state.isSetupPhase()) {
+                // todo @Niraj Mali? - AW
+            }
+            Log.d(TAG, "onClick: End Turn");
+
+            game.sendAction(new CatanEndTurnAction(this));
+            this.buildingsBuiltOnThisTurn = new ArrayList<>();
+            return;
+        }
+
+        /* ---------- Misc. Buttons ---------- */
+
         if (button.getId() == R.id.menu_settings) {
             Log.d(TAG, state.toString());
             return;
@@ -222,32 +249,42 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
             return;
         }
-        if (button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
-            if(state.getCurrentDiceSum() == 7){
-                //TODO Make robber menu appear
-                Log.i(TAG, "onClick: Robber has been activated");
-                state.setRobberPhase(true);
-            }
-            return;
+
+        /*-------------------- Robber ------------------------*/
+
+        if (button.getId() == R.id.robber_discard_brickAddImg) {
+
         }
-        if (button.getId() == R.id.sidebar_button_endturn) {
-            if (state.isSetupPhase()) {
+        if (button.getId() == R.id.robber_discard_brickMinusImg) {
 
-            }
-            Log.d(TAG, "onClick: End Turn");
-
-            game.sendAction(new CatanEndTurnAction(this));
-            this.buildingsBuiltOnThisTurn = new ArrayList<>();
-            return;
         }
+        if (button.getId() == R.id.robber_discard_lumberAddImg) {
 
-        /*------------Robber Action------------------*/
-        //TODO Put Robber buttons here
+        }
+        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_grainAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_grainMinusImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_oreAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_oreMinusImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_woolAddImg) {
+
+        }
+        if (button.getId() == R.id.robber_discard_woolMinusImg) {
+
+        }
 
         /* ---------- Trade action buttons ---------- */
+
         //TODO Need functionality for both Port, Custom Port and Bank
         if (button.getId() == R.id.sidebar_button_trade) {
             // toggle menu vis.
@@ -308,8 +345,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
 
             if (tryBuildRoad(intersectionA, intersectionB)) {
-//                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
-//                game.sendAction(action);
+                //                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
+                //                game.sendAction(action);
 
                 Log.d(TAG, "onClick: valid location");
                 // toggle menu vis.
@@ -404,37 +441,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /*----------------Robber Button Listeners---------------------*/
-        if(button.getId() == R.id.robber_discard_brickAddImg){
 
-        }
-        if(button.getId() == R.id.robber_discard_brickMinusImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_lumberAddImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_lumberMinusImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_grainAddImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_grainMinusImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_oreAddImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_oreMinusImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_woolAddImg){
-
-        }
-        if(button.getId() == R.id.robber_discard_woolMinusImg){
-
-        }
 
 
     }// onClick END
@@ -462,6 +469,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
 
+            boolean touchedIntersection = false;
+            boolean touchedHexagon = false;
+
             HexagonGrid grid = boardSurfaceView.getGrid();
 
             // use the coordinates for whatever
@@ -475,30 +485,42 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (y > yPos - 100 && y < yPos + 100 && x > xPos - 100 && x < xPos + 100) {
                     // if x is greater than point 3 and less than point 0
                     Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
-                    //                        Log.w(TAG, "onClick: intersection " + grid.getIntersections()[i].getIntersectionId() + " located at " + grid.getIntersections()[i].getxPos() + ", " + grid.getIntersections()[i].getyPos());
-                    //                        Log.w(TAG, "onClick: local vars for x and y for " + grid.getIntersections()[i].getIntersectionId() + " located at " + xPos + ", " + yPos);
-
-
-
+                    touchedIntersection = true;
+                    boardSurfaceView.getGrid().setHighlightedIntersection(i);
+                    boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                    boardSurfaceView.invalidate();
                 }
             }
+            if (!touchedIntersection) {
+                ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
 
-            ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
+                int index = 0;
+                for (HexagonDrawable hex : dHexes) {
+                    int[][] points = hex.getHexagonPoints();
 
-            int index = 0;
-            for (HexagonDrawable hex : dHexes) {
-                int[][] points = hex.getHexagonPoints();
+                    // if y is greater than point 0 and less than point 1
+                    if (y > points[0][1] && y < points[1][1]) {
+                        // if x is greater than point 3 and less than point 0
+                        if (x > points[3][0] && x < points[0][0]) {
+                            Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
+                            Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
+                            touchedHexagon = true;
+                            boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
+                            boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                            boardSurfaceView.invalidate();
 
-                // if y is greater than point 0 and less than point 1
-                if (y > points[0][1] && y < points[1][1]) {
-                    // if x is greater than point 3 and less than point 0
-                    if (x > points[3][0] && x < points[0][0]) {
-                        Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
-                        Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
+                        }
                     }
+                    index++;
                 }
-                index++;
             }
+
+            if (!touchedHexagon && !touchedIntersection) {
+                boardSurfaceView.getGrid().setHighlightedHexagon(-1);
+                boardSurfaceView.getGrid().setHighlightedIntersection(-1);
+                boardSurfaceView.invalidate();
+            }
+
         }
     };
 
@@ -545,18 +567,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton.setOnClickListener(this);
 
         /*--------------------Robber Buttons and Groups------------------------*/
-        robberBrickPlus = (ImageView) activity.findViewById(R.id.robber_discard_brickAddImg);
-        robberBrickMinus = (ImageView) activity.findViewById(R.id.robber_discard_brickMinusImg);
-        robberLumberPlus = (ImageView) activity.findViewById(R.id.robber_discard_lumberAddImg);
-        robberLumberMinus = (ImageView) activity.findViewById(R.id.robber_discard_lumberMinusImg);
-        robberGrainPlus = (ImageView) activity.findViewById(R.id.robber_discard_grainAddImg);
-        robberGrainMinus = (ImageView) activity.findViewById(R.id.robber_discard_grainMinusImg);
-        robberOrePlus = (ImageView) activity.findViewById(R.id.robber_discard_oreAddImg);
-        robberOreMinus = (ImageView) activity.findViewById(R.id.robber_discard_oreMinusImg);
-        robberWoolPlus = (ImageView) activity.findViewById(R.id.robber_discard_woolAddImg);
-        robberWoolMinus = (ImageView) activity.findViewById(R.id.robber_discard_woolMinusImg);
+        robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
+        robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
+        robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
+        robberLumberMinus = activity.findViewById(R.id.robber_discard_lumberMinusImg);
+        robberGrainPlus = activity.findViewById(R.id.robber_discard_grainAddImg);
+        robberGrainMinus = activity.findViewById(R.id.robber_discard_grainMinusImg);
+        robberOrePlus = activity.findViewById(R.id.robber_discard_oreAddImg);
+        robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
+        robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
+        robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
 
-        robberDiscardGroup = (Group) activity.findViewById(R.id.robber_discard_group);
+        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberBrickPlus.setOnClickListener(this);
         robberBrickMinus.setOnClickListener(this);
@@ -774,7 +796,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
             return;
         }
-        if(this.state.getRobberPhase()){
+        if (this.state.getRobberPhase()) {
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
