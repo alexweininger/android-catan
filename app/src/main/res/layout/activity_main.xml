@@ -1301,12 +1301,12 @@
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="24dp"
-        android:background="@drawable/lumber_icon_25x25_icon_25x25"
+        android:background="@drawable/lumber_icon_25x25"
         android:contentDescription="@string/lumber"
         app:layout_constraintStart_toEndOf="@+id/robber_discard_brickImg"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_brickImg"
-        app:srcCompat="@drawable/lumber_icon_25x25_icon_25x25"
-        tools:srcCompat="@drawable/lumber_icon_25x25_icon_25x25" />
+        app:srcCompat="@drawable/lumber_icon_25x25"
+        tools:srcCompat="@drawable/lumber_icon_25x25" />
 
     <ImageView
         android:id="@+id/robber_discard_grainImg"
