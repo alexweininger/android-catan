@@ -151,6 +151,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView oreSelectionBoxReceive = (ImageView) null;
     private ImageView woolSelectionBoxReceive = (ImageView) null;
 
+    //Trade Buttons - Give
+    private ImageView brickSelectionBoxGive = (ImageView) null;
+    private ImageView grainSelectionBoxGive = (ImageView) null;
+    private ImageView lumberSelectionBoxGive = (ImageView) null;
+    private ImageView oreSelectionBoxGive = (ImageView) null;
+    private ImageView woolSelectionBoxGive = (ImageView) null;
+
+    //Trade Menu - Receive
+    private ImageView image_trade_menu_rec_brick = (ImageView) null;
+    private ImageView image_trade_menu_rec_grain = (ImageView) null;
+    private ImageView image_trade_menu_rec_ore = (ImageView) null;
+    private ImageView image_trade_menu_rec_lumber = (ImageView) null;
+    private ImageView image_trade_menu_rec_wool = (ImageView) null;
+
+    //Trade Menu - Gie
+    private ImageView image_trade_men_give_brick = (ImageView) null;
+    private ImageView image_trade_men_give_grain = (ImageView) null;
+    private ImageView image_trade_men_give_lumber = (ImageView) null;
+    private ImageView image_trade_men_give_ore = (ImageView) null;
+    private ImageView image_trade_men_give_wool = (ImageView) null;
+    
+
+
 
     //Other Groups
     private Group scoreBoardGroup = (Group) null;
