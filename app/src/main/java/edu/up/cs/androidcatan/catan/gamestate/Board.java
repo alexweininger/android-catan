@@ -381,7 +381,7 @@ public class Board {
         return 0;
     }
 
-    /* ----- building methods ----- */
+    /* ----- validate building methods ----- */
 
     /**
      * @param playerId - player building the building
