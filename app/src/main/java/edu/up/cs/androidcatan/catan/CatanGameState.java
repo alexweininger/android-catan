@@ -610,24 +610,6 @@ public class CatanGameState extends GameState{
     }
 
     /**
-     * TODO implement
-     * Player chooses cards to discard if they own more than 7 cards and robber is activated
-     *
-     * @return - action success
-     */
-    public boolean robberDiscard (ArrayList<Integer> resourceCards) {
-        for (Player player : this.playerList) {
-            if (player.getPlayerId() == currentPlayerId) {
-
-            } else {
-
-            }
-        }
-        Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
-        return true;
-    }
-
-    /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
      * @param hexagonId Hexagon the robber is going to move to.
@@ -649,6 +631,20 @@ public class CatanGameState extends GameState{
         }
         Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
         return false;
+    }
+
+    /**
+     * TODO implement
+     * Player chooses cards to discard if they own more than 7 cards and robber is activated
+     *
+     * @return - action success
+     */
+    public boolean robberChooseDiscard (int playerId) {
+
+    }
+
+    public boolean checkDiscard(int playerId){
+
     }
 
     /**
