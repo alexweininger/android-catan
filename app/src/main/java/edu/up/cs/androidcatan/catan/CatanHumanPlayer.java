@@ -592,7 +592,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
 
             boardSurfaceView.getGrid().clearHighLightedIntersections();
-
+            selectedIntersections.clear(); // clear the selected intersections
             // return true
             Log.d(TAG, "tryBuildRoad() returned: " + true);
             return true;

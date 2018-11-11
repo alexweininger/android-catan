@@ -69,9 +69,6 @@ public class Board {
     // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
 
-    // List of port intersection locations. TODO
-    private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
-
     private ArrayList<Port> portList = new ArrayList<>();
 
     private ArrayList<ArrayList<Integer>> intersectionGraph = new ArrayList<>();
@@ -87,7 +84,6 @@ public class Board {
 
         populateHexagonIds(); // populate ids
         populateIntersectionIds();
-        populatePortIntersectionIds();
 
         generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
@@ -121,7 +117,6 @@ public class Board {
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
         this.setRobber(new Robber(b.getRobber())); // class
-        this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
@@ -129,9 +124,14 @@ public class Board {
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
 
-        for (Hexagon hexagon : b.getHexagons()) {
-            this.hexagons.add(new Hexagon(hexagon));
+        for (int i = 0; i < b.getBuildings().length; i++) {
+            if (b.getBuildings()[i] instanceof Settlement) {
+                this.buildings[i] = new Settlement(b.getBuildings()[i].getOwnerId());
+            } else if (b.getBuildings()[i] instanceof City) {
+                this.buildings[i] = new City(i, b.getBuildings()[i].getOwnerId());
+            }
         }
+        for (Hexagon hexagon : b.getHexagons()) { this.hexagons.add(new Hexagon(hexagon)); }
     } // end Board deep copy constructor
 
     /**
@@ -1449,17 +1449,6 @@ public class Board {
     }
 
     /**
-     * TODO remove and fix
-     * adds ports to the intersection and port hash map
-     */
-    private void populatePortIntersectionIds () {
-        for (int i = 0; i < 6; i++) {
-            portIntersectionLocations.add(17 + i * 6);
-            portIntersectionLocations.add(17 + i * 6 + 1);
-        }
-    }
-
-    /**
      * Creates ports along the given intersection, and assigns them proper trade values
      */
     private void designatePorts () {
@@ -1568,13 +1557,6 @@ public class Board {
     }
 
     /**
-     * @return Port intersection locations in an Array List. Index is the intersection.
-     */
-    private ArrayList<Integer> getPortIntersectionLocations () {
-        return this.portIntersectionLocations;
-    }
-
-    /**
      * @return Road adjacency graph.
      */
     public Road[][] getRoadGraph () {
@@ -1664,13 +1646,6 @@ public class Board {
         this.robber = robber;
     }
 
-    /**
-     * @param portIntersectionLocations list of intersections that have access to a port
-     */
-    public void setPortIntersectionLocations (ArrayList<Integer> portIntersectionLocations) {
-        this.portIntersectionLocations = portIntersectionLocations;
-    }
-
     public ArrayList<Port> getPortList () {
         return portList;
     }
@@ -1752,8 +1727,6 @@ public class Board {
                 str += "\n";
             }
         }
-
-        str += "\nportIntersectionLocations=" + portIntersectionLocations;
 
         return str;
     }
