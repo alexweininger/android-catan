@@ -156,6 +156,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group developmentGroup = (Group) null;
     private Group tradeGroup = (Group) null;
     private Group robberDiscardGroup = (Group) null;
+    private Group robberChooseHexGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -271,12 +272,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /*-------------------- Robber ------------------------*/
 
         if(button.getId() == R.id.robber_chooosehex_confirm){
+            Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
             if(this.selectedHexagonId == -1){
-                Log.e(TAG, "onClick: Error, not integer");
+                Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-                roadIntersectionAEditText.startAnimation(shake);
+                robberHexMessage.startAnimation(shake);
+                robberHexMessage.setText("Not a valid tile!");
                 return;
             }
+
+            Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
+            robberChooseHexGroup.setVisibility(View.GONE);
+            robberHexMessage.setText("Please tap a tile to place the robber on.");
         }
 
         if (button.getId() == R.id.robber_discard_brickAddImg) {
@@ -906,11 +913,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
         robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
         robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
+        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberConfirmHex = activity.findViewById(R.id.robber_chooosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
+        robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
 
-        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberBrickPlus.setOnClickListener(this);
         robberBrickMinus.setOnClickListener(this);
