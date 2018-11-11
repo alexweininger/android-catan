@@ -492,7 +492,6 @@ public class Board {
         return this.buildings[intersectionId];
     }
 
-
     /**
      * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
@@ -698,18 +697,6 @@ public class Board {
         }
         Log.d(TAG, "getRoadsAtIntersection() returned: " + result);
         return result;
-    }
-
-    /**
-     * TODO? do we need this?
-     * returns whether a given player is an owner of the intersection
-     *
-     * @param intersectionId - intersection to check if playerId owns
-     * @param playerId - playerId to check against
-     * @return
-     */
-    public boolean isIntersectionOwner (int intersectionId, int playerId) {
-        return false;
     }
 
     /**
