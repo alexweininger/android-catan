@@ -313,9 +313,6 @@ public class Board {
                 currLongestRoad = longestRoadPerPlayer.get(n);
                 playerIdLongestRoad = n;
             }
-            if (longestRoadPerPlayer.get(n) == currLongestRoad) {
-                playerIdLongestRoad = -1;
-            }
         }
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
         return playerIdLongestRoad;
