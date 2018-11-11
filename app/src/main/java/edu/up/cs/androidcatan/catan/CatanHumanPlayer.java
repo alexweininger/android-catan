@@ -624,8 +624,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // send build settlement action to the game
             Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
             game.sendAction(new CatanBuildSettlementAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
-            Log.d(TAG, "tryBuildSettlement() returned: " + true);
 
+            this.buildingsBuiltOnThisTurn.add(1);
+
+            Log.d(TAG, "tryBuildSettlement() returned: " + true);
             return true;
         } else {
             messageTextView.setText("Invalid settlement location.");
@@ -662,36 +664,39 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private void updateTextViews () {
 
-            if(state.getDice().getDiceValues()[0] == 1)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_1);
-            else if (state.getDice().getDiceValues()[0] == 2)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_2);
-            else if (state.getDice().getDiceValues()[0] == 3)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_3);
-            else if(state.getDice().getDiceValues()[0] == 4)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_4);
-            else if (state.getDice().getDiceValues()[0] == 5)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_5);
-            else
-                diceImageLeft.setBackgroundResource(R.drawable.dice_6);
 
-            if(state.getDice().getDiceValues()[1] == 1)
-                diceImageRight.setBackgroundResource(R.drawable.dice_1);
-            else if (state.getDice().getDiceValues()[1] == 2)
-                diceImageRight.setBackgroundResource(R.drawable.dice_2);
-            else if (state.getDice().getDiceValues()[1] == 3)
-                diceImageRight.setBackgroundResource(R.drawable.dice_3);
-            else if(state.getDice().getDiceValues()[1] == 4)
-                diceImageRight.setBackgroundResource(R.drawable.dice_4);
-            else if (state.getDice().getDiceValues()[1] == 5)
-                diceImageRight.setBackgroundResource(R.drawable.dice_5);
-            else
-                diceImageRight.setBackgroundResource(R.drawable.dice_6);
         // Check if the Game State is null. If it is return void.
         if (this.state == null) {
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
             return;
         }
+
+        if(state.getDice().getDiceValues()[0] == 1)
+            diceImageLeft.setBackgroundResource(R.drawable.dice_1);
+        else if (state.getDice().getDiceValues()[0] == 2)
+            diceImageLeft.setBackgroundResource(R.drawable.dice_2);
+        else if (state.getDice().getDiceValues()[0] == 3)
+            diceImageLeft.setBackgroundResource(R.drawable.dice_3);
+        else if(state.getDice().getDiceValues()[0] == 4)
+            diceImageLeft.setBackgroundResource(R.drawable.dice_4);
+        else if (state.getDice().getDiceValues()[0] == 5)
+            diceImageLeft.setBackgroundResource(R.drawable.dice_5);
+        else
+            diceImageLeft.setBackgroundResource(R.drawable.dice_6);
+
+        if(state.getDice().getDiceValues()[1] == 1)
+            diceImageRight.setBackgroundResource(R.drawable.dice_1);
+        else if (state.getDice().getDiceValues()[1] == 2)
+            diceImageRight.setBackgroundResource(R.drawable.dice_2);
+        else if (state.getDice().getDiceValues()[1] == 3)
+            diceImageRight.setBackgroundResource(R.drawable.dice_3);
+        else if(state.getDice().getDiceValues()[1] == 4)
+            diceImageRight.setBackgroundResource(R.drawable.dice_4);
+        else if (state.getDice().getDiceValues()[1] == 5)
+            diceImageRight.setBackgroundResource(R.drawable.dice_5);
+        else
+            diceImageRight.setBackgroundResource(R.drawable.dice_6);
+
         if (this.state.getRobberPhase()) {
 
             this.messageTextView.setText("Robber phase.");
@@ -743,14 +748,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.messageTextView.setText("Roll the dice.");
 
+            // set the roll button only as available
+            this.rollButton.setAlpha(1f);
+            this.rollButton.setClickable(true);
+
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
             this.buildSettlementButton.setAlpha(0.5f);
             this.buildSettlementButton.setClickable(false);
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
-            this.rollButton.setAlpha(1f);
-            this.rollButton.setClickable(true);
             this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
             this.sidebarOpenDevCardMenuButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);

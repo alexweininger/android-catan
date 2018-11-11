@@ -101,6 +101,7 @@ public class Board {
         generateHexagonTiles();
 
         while (!checkChitRule()) {
+            Log.w(TAG, "Board: regenerating hexagon tiles");
             generateHexagonTiles(); // generate hex tiles
         }
         designatePorts();
