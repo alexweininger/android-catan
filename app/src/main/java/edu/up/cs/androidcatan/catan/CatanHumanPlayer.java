@@ -227,6 +227,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.getCurrentDiceSum() == 7) {
                 //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
+                Log.i(TAG, "onClick: Making Robber Visible");
+                robberDiscardGroup.setVisibility(View.VISIBLE);
                 state.setRobberPhase(true);
             }
             return;
@@ -683,6 +685,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
+
+            Log.i(TAG, "onClick: Making Robber Visible");
+            robberDiscardGroup.setVisibility(View.VISIBLE);
         }
         else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 

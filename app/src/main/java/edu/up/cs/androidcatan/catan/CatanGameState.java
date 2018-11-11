@@ -323,7 +323,7 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        int rollNum = dice.roll();
+        int rollNum = 7;// dice.roll();
         this.currentDiceSum = rollNum;
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
 
@@ -331,6 +331,7 @@ public class CatanGameState extends GameState {
         if (rollNum == 7) {
             // todo activate robber
             Log.i(TAG, "rollDice: The robber has been activated.");
+            this.isRobberPhase = true;
         } else {
             Log.i(TAG, "rollDice: Calling the produceResources method.");
             produceResources(rollNum);
@@ -338,10 +339,6 @@ public class CatanGameState extends GameState {
 
         Log.i(TAG, "rollDice: Set isActionPhase to true.");
         this.isActionPhase = true;
-
-        Log.d(TAG, "rollDice: Manually setting dice value to 7");
-        this.currentDiceSum = 7;
-        this.isRobberPhase = true;
 
         return true;
     } // end rollDice action method
