@@ -374,6 +374,10 @@ public class Board {
         return 0;
     }
 
+    public void markTraversedRoads(int intersectionId, int playerId, Road[][] road){
+
+    }
+
     /* ----- building methods ----- */
 
     /**
