@@ -273,6 +273,8 @@ public class Board {
     }
 
     /**
+     * Main method to calculate the longest road trophy holder. - AL
+     *
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
