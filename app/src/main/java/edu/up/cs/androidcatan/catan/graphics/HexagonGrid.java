@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -185,14 +184,16 @@ public class HexagonGrid extends BoardSurfaceView {
 
                         if (buildings[i] instanceof Settlement) {
 
+                            buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
+
                             if (this.highlightedIntersections.contains(i)) { // if we need to highlight the building
                                 bldgPaint.setColor(Color.CYAN);
-                                canvas.drawRect(xPos - 65, yPos - 65, xPos + 65, yPos + 65, bldgPaint);
+                                canvas.drawRect(xPos - 40, yPos, xPos + 40, yPos + 20, bldgPaint);
                             }
 
-                            buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
+
                             buildingPicture.setBounds(xPos - 60, yPos - 60, xPos + 60, yPos + 60);
-                            buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
+//                            buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
 
                             buildingPicture.draw(canvas);
                         }
