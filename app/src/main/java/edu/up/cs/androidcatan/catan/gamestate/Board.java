@@ -3,7 +3,6 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.Player;
@@ -99,8 +98,11 @@ public class Board {
         generateIntToHexMap(); // generate maps
         generateHexToIntMap();
 
-        generateHexagonTiles(); // generate hex tiles
+        generateHexagonTiles();
 
+        while (!checkChitRule()) {
+            generateHexagonTiles(); // generate hex tiles
+        }
         designatePorts();
     } // end Board constructor
 
@@ -550,11 +552,6 @@ public class Board {
                 Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
                 generateHexagonTiles();
             }
-        }
-
-        // shuffle the hexes until the chit rule is followed
-        while (!checkChitRule()) {
-            Collections.shuffle(hexagons);
         }
     }
 
