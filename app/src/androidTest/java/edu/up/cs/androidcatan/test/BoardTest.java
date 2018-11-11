@@ -2,6 +2,9 @@ package edu.up.cs.androidcatan.test;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
+import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;

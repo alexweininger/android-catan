@@ -368,6 +368,9 @@ public class CatanGameState extends GameState {
 
         Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
 
+        //call to get the player with the longest road given the current player list
+        this.board.getPlayerWithLongestRoad(playerList);
+
         if (this.currentPlayerId == 3) {
             this.currentPlayerId = 0;
         } else {
