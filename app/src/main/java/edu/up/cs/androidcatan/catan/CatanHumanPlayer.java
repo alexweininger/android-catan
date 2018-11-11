@@ -886,32 +886,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton = activity.findViewById(R.id.sidebar_button_trade); // trade
         tradeButton.setOnClickListener(this);
 
-        /*--------------------Robber Buttons and Groups------------------------*/
-
-        robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
-        robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
-        robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
-        robberLumberMinus = activity.findViewById(R.id.robber_discard_lumberMinusImg);
-        robberGrainPlus = activity.findViewById(R.id.robber_discard_grainAddImg);
-        robberGrainMinus = activity.findViewById(R.id.robber_discard_grainMinusImg);
-        robberOrePlus = activity.findViewById(R.id.robber_discard_oreAddImg);
-        robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
-        robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
-        robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
-
-        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
-
-        robberBrickPlus.setOnClickListener(this);
-        robberBrickMinus.setOnClickListener(this);
-        robberLumberPlus.setOnClickListener(this);
-        robberLumberMinus.setOnClickListener(this);
-        robberGrainPlus.setOnClickListener(this);
-        robberGrainMinus.setOnClickListener(this);
-        robberOrePlus.setOnClickListener(this);
-        robberOreMinus.setOnClickListener(this);
-        robberWoolPlus.setOnClickListener(this);
-        robberWoolMinus.setOnClickListener(this);
-
         /* ----------------------------------- Turn Buttons --------------------------------------*/
 
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
@@ -1023,6 +997,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             receiveInfo(state);
         }
 
+        /*--------------------Robber Buttons and Groups------------------------*/
+
+        robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
+        robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
+        robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
+        robberLumberMinus = activity.findViewById(R.id.robber_discard_lumberMinusImg);
+        robberGrainPlus = activity.findViewById(R.id.robber_discard_grainAddImg);
+        robberGrainMinus = activity.findViewById(R.id.robber_discard_grainMinusImg);
+        robberOrePlus = activity.findViewById(R.id.robber_discard_oreAddImg);
+        robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
+        robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
+        robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
+
+        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
+
+        robberBrickPlus.setOnClickListener(this);
+        robberBrickMinus.setOnClickListener(this);
+        robberLumberPlus.setOnClickListener(this);
+        robberLumberMinus.setOnClickListener(this);
+        robberGrainPlus.setOnClickListener(this);
+        robberGrainMinus.setOnClickListener(this);
+        robberOrePlus.setOnClickListener(this);
+        robberOreMinus.setOnClickListener(this);
+        robberWoolPlus.setOnClickListener(this);
+        robberWoolMinus.setOnClickListener(this);
     }// setAsGui() END
 
     private void drawGraphics () {
