@@ -89,12 +89,6 @@ public class Board {
         generateNewIntersectionGraphManually(); // new intersection graph
         generateRoadMatrix();
 
-        //         print graphs
-        //        Log.i(TAG, "Board: Printing hGraph...");
-        //        printGraph(hGraph);
-        //        Log.i(TAG, "Board: Printing iGraph...");
-        //        printGraph(iGraph);
-
         generateIntToHexMap(); // generate maps
         generateHexToIntMap();
 
