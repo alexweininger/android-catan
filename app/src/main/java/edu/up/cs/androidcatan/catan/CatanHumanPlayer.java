@@ -148,6 +148,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView robberWoolPlus = (ImageView) null;
     private ImageView robberWoolMinus = (ImageView) null;
 
+    private Button robberConfirmHex = (Button) null;
+    private TextView robberHexMessage = (TextView) null;
+
     //Other Groups
     private Group scoreBoardGroup = (Group) null;
     private Group developmentGroup = (Group) null;
@@ -266,6 +269,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         /*-------------------- Robber ------------------------*/
+
+        if(button.getId() == R.id.robber_chooosehex_confirm){
+            if(this.selectedHexagonId == -1){
+                Log.e(TAG, "onClick: Error, not integer");
+                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+                roadIntersectionAEditText.startAnimation(shake);
+                return;
+            }
+        }
 
         if (button.getId() == R.id.robber_discard_brickAddImg) {
 
@@ -895,6 +907,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
         robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
 
+        robberConfirmHex = activity.findViewById(R.id.robber_chooosehex_confirm);
+        robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
+
         robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberBrickPlus.setOnClickListener(this);
@@ -907,6 +922,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus.setOnClickListener(this);
         robberWoolPlus.setOnClickListener(this);
         robberWoolMinus.setOnClickListener(this);
+
+        robberConfirmHex.setOnClickListener(this);
 
         /*---------------------------TODO Trade Buttons-------------------------------------------*/
         //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
