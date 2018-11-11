@@ -80,6 +80,7 @@ public class CatanGameState extends GameState {
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
+        this.isRobberPhase = cgs.isRobberPhase;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
@@ -340,7 +341,7 @@ public class CatanGameState extends GameState {
 
         Log.d(TAG, "rollDice: Manually setting dice value to 7");
         this.currentDiceSum = 7;
-        this.setRobberPhase(true);
+        this.isRobberPhase = true;
 
         return true;
     } // end rollDice action method
