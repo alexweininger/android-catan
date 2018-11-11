@@ -1,6 +1,8 @@
 package edu.up.cs.androidcatan.catan;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,7 +25,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanGameState extends GameState {
+public class CatanGameState extends GameState{
 
     private static final String TAG = "CatanGameState";
 
@@ -38,12 +40,14 @@ public class CatanGameState extends GameState {
     private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
 
     private int currentDiceSum; // the sum of the dice at this very moment
+
     private int currentPlayerId; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isSetupPhase = true;
     private boolean isRobberPhase = false;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
+
 
     public CatanGameState () { // CatanGameState constructor
         this.dice = new Dice();
@@ -331,7 +335,6 @@ public class CatanGameState extends GameState {
         int rollNum = dice.roll();
         this.currentDiceSum = rollNum;
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
-
         // if the robber is rolled
         if (rollNum == 7) {
             // todo activate robber
