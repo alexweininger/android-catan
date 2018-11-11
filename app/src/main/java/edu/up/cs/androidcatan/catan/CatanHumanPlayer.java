@@ -171,9 +171,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView image_trade_men_give_lumber = (ImageView) null;
     private ImageView image_trade_men_give_ore = (ImageView) null;
     private ImageView image_trade_men_give_wool = (ImageView) null;
-    
 
-
+    //Trade Menu - Confirm and Cancel
+    private Button button_trade_menu_confirm = (Button) null;
+    private Button button_trade_menu_cancel = (Button) null;
 
     //Other Groups
     private Group scoreBoardGroup = (Group) null;
@@ -907,6 +908,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //        tradePort = activity.findViewById(R.id.sidebar_button_trade);
         //        tradePort.setOnClickListener(this);
+
+        //Trade Menu Background - Receive
+        brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
+        grainSelectionBoxReceive = activity.findViewById(R.id.grainSelectionBoxReceive);
+        lumberSelectionBoxReceive = activity.findViewById(R.id.lumberSelectionBoxReceive);
+        oreSelectionBoxReceive = activity.findViewById(R.id.oreSelectionBoxReceive);
+        woolSelectionBoxReceive = activity.findViewById(R.id.woolSelectionBoxGive);
+
+        //Trade Menu Background - Give
+        brickSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
+        grainSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
+        lumberSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
+        oreSelectionBoxGive = activity.findViewById(R.id.oreSelectiomBoxGive);
+        woolSelectionBoxGive = activity.findViewById(R.id.woolSelectionBoxGive);
 
         // turn buttons
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
