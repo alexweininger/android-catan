@@ -137,52 +137,6 @@ public class Board {
         for (Hexagon hexagon : b.getHexagons()) { this.hexagons.add(new Hexagon(hexagon)); }
     } // end Board deep copy constructor
 
-//    /**
-//     * alex's ultimate intersection adjacency method
-//     *
-//     * @param intersection IntersectionDrawable
-//     * @return ArrayList of adjacent intersections.
-//     */
-//    public ArrayList<Integer> getAdjacentIntersections (int intersection) {
-//
-//        Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
-//
-//        ArrayList<Integer> result = new ArrayList<>();
-//        ArrayList<Integer> allIntersections = new ArrayList<>();
-//
-//        if (intersection == 24) {
-//            result.add(25);
-//            result.add(53);
-//        } else if (intersection == 53) {
-//            result.add(24);
-//            result.add(52);
-//        } else if (intersection > 24 && intersection < 53) {
-//            result.add(intersection - 1);
-//            result.add(intersection + 1);
-//        } else {
-//
-//            for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
-//                ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
-//                allIntersections.addAll(allAdjInters);
-//            }
-//
-//            for (int i = 0; i < allIntersections.size(); i++) {
-//                int count = 0;
-//                for (int j = 0; j < allIntersections.size(); j++) {
-//                    if (i == allIntersections.get(j)) {
-//                        count++;
-//                    }
-//                }
-//                if (count == 3 && i != intersection) {
-//                    result.add(i);
-//                }
-//            }
-//        }
-//        Log.d(TAG, "ALEX getAdjacentIntersections() returned: " + result);
-//        return result;
-//    }
-
-
     /* ----- helper / checking methods ----- */
 
     /**
@@ -323,8 +277,6 @@ public class Board {
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
         return playerIdLongestRoad;
     }
-
-    //TODO: helper method to return a playerId's longest road (possibly for later)
 
     /**
      * @param intersectionId intersection to check for a break
@@ -473,6 +425,8 @@ public class Board {
         Log.d(TAG, "validCityLocation() returned: " + true);
         return true;
     }
+
+    // other methods
 
     /**
      * Checks to see if there is a building already at the given intersection or not
@@ -792,7 +746,6 @@ public class Board {
 
         return this.intersectionGraph.get(intA).contains(intB);
     }
-
 
     /*----- board helper methods for setting up board and populating data structures -----*/
 
