@@ -684,15 +684,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
         }
-        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
             this.messageTextView.setText("Setup phase.");
 
             // if it is the setup phase, grey out some buttons and make them un clickable
-            this.buildRoadButton.setAlpha(0.5f);
-            this.buildRoadButton.setClickable(false);
-            this.buildSettlementButton.setAlpha(0.5f);
-            this.buildSettlementButton.setClickable(false);
+            this.buildRoadButton.setAlpha(1f);
+            this.buildRoadButton.setClickable(true);
+            this.buildSettlementButton.setAlpha(1f);
+            this.buildSettlementButton.setClickable(true);
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
@@ -701,8 +701,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.sidebarOpenDevCardMenuButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
-            this.endTurnButton.setAlpha(0.5f);
-            this.endTurnButton.setClickable(false);
+            this.endTurnButton.setAlpha(1f);
+            this.endTurnButton.setClickable(true);
 
             this.singleIntersectionCancelButton.setAlpha(0.5f);
             this.singleIntersectionCancelButton.setClickable(false);
@@ -743,7 +743,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             setAllButtonsToVisible();
         }
 
-        setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
+        //setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
 
