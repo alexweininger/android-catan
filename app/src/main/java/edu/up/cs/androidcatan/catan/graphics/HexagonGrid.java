@@ -170,7 +170,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
                     buildingPicture = this.getContext().getDrawable(settlementPictures[buildings[i].getOwnerId()]);
                     buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
-                    buildingPicture.setColorFilter(playerColors[buildings[i].getOwnerId()], PorterDuff.Mode.OVERLAY);
 
                     buildingPicture.draw(canvas);
 
