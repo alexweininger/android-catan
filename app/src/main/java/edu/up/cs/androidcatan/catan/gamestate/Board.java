@@ -493,71 +493,6 @@ public class Board {
     }
 
     /**
-     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
-     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
-     */
-    private void generateHexagonTiles () {
-        Log.i(TAG, "generateHexagonTiles() called");
-
-        //arrays that contain information regarding what each hexagon will contain
-        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
-        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-        int[] resources = {0, 1, 2, 3, 4, 5};
-
-        Random random = new Random();
-
-        //iterates through the hexagons and assigns each individual one the information required
-        while (this.hexagons.size() < 19) {
-
-            int randomResourceType;
-            do {
-                randomResourceType = random.nextInt(resourceTypeCount.length);
-            } while (resourceTypeCount[randomResourceType] < 1);
-
-            int randomChitValue;
-            do {
-                randomChitValue = random.nextInt(chitValuesCount.length);
-            } while (chitValuesCount[randomChitValue] < 1);
-
-            if (randomResourceType == 5) {
-                Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
-                randomChitValue = 0;
-            }
-
-            Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
-            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
-            resourceTypeCount[randomResourceType]--;
-            chitValuesCount[randomChitValue]--;
-
-            if (resources[randomResourceType] == 5) {
-                robber.setHexagonId(this.hexagons.size() - 1);
-            }
-
-            Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
-        }
-
-        Log.i(TAG, "generateHexagonTiles: exited loop");
-
-        Log.i(TAG, "generateHexagonTiles: hexagon list:");
-        for (Hexagon hexagon : this.hexagons) {
-            Log.i(TAG, "| " + hexagon);
-        }
-
-        // the rest of the code checks the method for error
-        int resourceCountChecks[] = new int[6];
-        for (Hexagon hexagon : this.hexagons) {
-            resourceCountChecks[hexagon.getResourceId()]++;
-        }
-
-        for (int i = 0; i < resourceCountChecks.length; i++) {
-            if (resourceTypeCount[i] < resourceCountChecks[i]) {
-                Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
-                generateHexagonTiles();
-            }
-        }
-    }
-
-    /**
      * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
      */
     private boolean checkChitRule () {
@@ -860,6 +795,71 @@ public class Board {
 
 
     /*----- board helper methods for setting up board and populating data structures -----*/
+
+    /**
+     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
+     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
+     */
+    private void generateHexagonTiles () {
+        Log.i(TAG, "generateHexagonTiles() called");
+
+        //arrays that contain information regarding what each hexagon will contain
+        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
+        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
+        int[] resources = {0, 1, 2, 3, 4, 5};
+
+        Random random = new Random();
+
+        //iterates through the hexagons and assigns each individual one the information required
+        while (this.hexagons.size() < 19) {
+
+            int randomResourceType;
+            do {
+                randomResourceType = random.nextInt(resourceTypeCount.length);
+            } while (resourceTypeCount[randomResourceType] < 1);
+
+            int randomChitValue;
+            do {
+                randomChitValue = random.nextInt(chitValuesCount.length);
+            } while (chitValuesCount[randomChitValue] < 1);
+
+            if (randomResourceType == 5) {
+                Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
+                randomChitValue = 0;
+            }
+
+            Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
+            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
+            resourceTypeCount[randomResourceType]--;
+            chitValuesCount[randomChitValue]--;
+
+            if (resources[randomResourceType] == 5) {
+                robber.setHexagonId(this.hexagons.size() - 1);
+            }
+
+            Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
+        }
+
+        Log.i(TAG, "generateHexagonTiles: exited loop");
+
+        Log.i(TAG, "generateHexagonTiles: hexagon list:");
+        for (Hexagon hexagon : this.hexagons) {
+            Log.i(TAG, "| " + hexagon);
+        }
+
+        // the rest of the code checks the method for error
+        int resourceCountChecks[] = new int[6];
+        for (Hexagon hexagon : this.hexagons) {
+            resourceCountChecks[hexagon.getResourceId()]++;
+        }
+
+        for (int i = 0; i < resourceCountChecks.length; i++) {
+            if (resourceTypeCount[i] < resourceCountChecks[i]) {
+                Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
+                generateHexagonTiles();
+            }
+        }
+    }
 
     /**
      * populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
