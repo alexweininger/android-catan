@@ -988,6 +988,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
         image_trade_menu_rec_wool.setOnClickListener(this);
 
+        //Confirm trade action
+        button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
+        button_trade_menu_confirm.setOnClickListener(this);
+
+        button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
+        button_trade_menu_cancel.setOnClickListener(this);
         
         // turn buttons
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
