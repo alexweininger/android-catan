@@ -75,7 +75,7 @@
         app:srcCompat="@android:color/holo_orange_light" />
 
     <ImageView
-        android:id="@+id/birckSelectionBoxGive"
+        android:id="@+id/brickSelectionBoxGive"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
@@ -91,9 +91,9 @@
         android:layout_height="0dp"
         android:layout_marginStart="14dp"
         android:contentDescription="@string/grain"
-        app:layout_constraintBottom_toBottomOf="@+id/birckSelectionBoxGive"
-        app:layout_constraintStart_toEndOf="@+id/birckSelectionBoxGive"
-        app:layout_constraintTop_toTopOf="@+id/birckSelectionBoxGive"
+        app:layout_constraintBottom_toBottomOf="@+id/brickSelectionBoxGive"
+        app:layout_constraintStart_toEndOf="@+id/brickSelectionBoxGive"
+        app:layout_constraintTop_toTopOf="@+id/brickSelectionBoxGive"
         app:srcCompat="@android:color/holo_orange_light" />
 
     <ImageView
@@ -214,10 +214,10 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:contentDescription="@string/brick"
-        app:layout_constraintBottom_toBottomOf="@+id/birckSelectionBoxGive"
-        app:layout_constraintEnd_toEndOf="@+id/birckSelectionBoxGive"
-        app:layout_constraintStart_toStartOf="@+id/birckSelectionBoxGive"
-        app:layout_constraintTop_toTopOf="@+id/birckSelectionBoxGive"
+        app:layout_constraintBottom_toBottomOf="@+id/brickSelectionBoxGive"
+        app:layout_constraintEnd_toEndOf="@+id/brickSelectionBoxGive"
+        app:layout_constraintStart_toStartOf="@+id/brickSelectionBoxGive"
+        app:layout_constraintTop_toTopOf="@+id/brickSelectionBoxGive"
         app:srcCompat="@drawable/brick_icon_25x25" />
 
     <ImageView
@@ -298,8 +298,8 @@
         android:layout_marginBottom="8dp"
         android:text="@string/resourceGive"
         android:textSize="21sp"
-        app:layout_constraintBottom_toTopOf="@+id/birckSelectionBoxGive"
-        app:layout_constraintStart_toStartOf="@+id/birckSelectionBoxGive" />
+        app:layout_constraintBottom_toTopOf="@+id/brickSelectionBoxGive"
+        app:layout_constraintStart_toStartOf="@+id/brickSelectionBoxGive" />
 
     <Button
         android:id="@+id/button_trade_menu_confirm"
@@ -325,6 +325,6 @@
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="grainImgReceive,image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectiomBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,birckSelectionBoxGive,woolSelectionBoxReceive,birckImgReceive,image_trade_menu_give_birck,brickSelectionBoxReceive" />
+        app:constraint_referenced_ids="grainImgReceive,image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectiomBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,brickSelectionBoxGive,woolSelectionBoxReceive,birckImgReceive,image_trade_menu_give_birck,brickSelectionBoxReceive" />
 
 </android.support.constraint.ConstraintLayout>
