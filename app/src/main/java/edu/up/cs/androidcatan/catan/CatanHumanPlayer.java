@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -51,7 +52,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private final String TAG = "CatanHumanPlayer";
 
     // instance variables for logic
-    private ArrayList<Integer> buildingsBuiltOnThisTurn; // todo ?
+    private ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
     private int currentBuildingSelectionId = 1;
     private float lastTouchDownXY[] = new float[2];
     boolean debugMode = false;
@@ -724,11 +725,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.messageTextView.setText("Setup phase.");
 
+            int settlements = Collections.frequency(this.buildingsBuiltOnThisTurn, 1);
+            int roads = Collections.frequency(this.buildingsBuiltOnThisTurn, 0);
+
+            if ((settlements == 2 && roads == 1) || (settlements == 1 && roads == 0)) {
+                this.buildRoadButton.setAlpha(1f);
+                this.buildRoadButton.setClickable(true);
+            } else {
+                this.buildRoadButton.setAlpha(0.5f);
+                this.buildRoadButton.setClickable(false);
+            }
+
+            if (settlements == 2 && roads == 2) {
+                this.endTurnButton.setAlpha(1f);
+                this.endTurnButton.setClickable(true);
+            } else {
+                this.endTurnButton.setAlpha(0.5f);
+                this.endTurnButton.setClickable(false);
+            }
+
             // if it is the setup phase, grey out some buttons and make them un clickable
-            this.buildRoadButton.setAlpha(0.5f);
-            this.buildRoadButton.setClickable(false);
-            this.buildSettlementButton.setAlpha(0.5f);
-            this.buildSettlementButton.setClickable(false);
+
+            this.buildSettlementButton.setAlpha(1f);
+            this.buildSettlementButton.setClickable(true);
+
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
@@ -737,8 +757,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.sidebarOpenDevCardMenuButton.setClickable(false);
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
-            this.endTurnButton.setAlpha(0.5f);
-            this.endTurnButton.setClickable(false);
+
 
             this.singleIntersectionCancelButton.setAlpha(0.5f);
             this.singleIntersectionCancelButton.setClickable(false);
@@ -1024,6 +1043,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberWoolMinus.setOnClickListener(this);
     }// setAsGui() END
 
+    /**
+     *
+     */
     private void drawGraphics () {
         Log.d(TAG, "drawGraphics() called");
 
