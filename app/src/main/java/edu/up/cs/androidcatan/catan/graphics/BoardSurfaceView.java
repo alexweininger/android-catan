@@ -6,8 +6,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
 
-import java.util.ArrayList;
-
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 
 /**
@@ -21,8 +19,6 @@ import edu.up.cs.androidcatan.catan.gamestate.Board;
 public class BoardSurfaceView extends SurfaceView {
 
     private final String TAG = "BoardSurfaceView";
-
-    ArrayList<Ports> ports = new ArrayList<>();
 
     int size;
     HexagonGrid grid;
@@ -49,14 +45,6 @@ public class BoardSurfaceView extends SurfaceView {
 
     public void createHexagons(Board board) {
         this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20, false);
-    }
-
-    public ArrayList<Ports> getPorts() {
-        return ports;
-    }
-
-    public void setPorts(ArrayList<Ports> ports) {
-        this.ports = ports;
     }
 
     public int getSize() {
