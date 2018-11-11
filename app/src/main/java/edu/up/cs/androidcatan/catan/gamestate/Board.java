@@ -92,12 +92,10 @@ public class Board {
         generateIntToHexMap(); // generate maps
         generateHexToIntMap();
 
-        generateHexagonTiles();
-
-        while (!checkChitRule()) {
-            Log.w(TAG, "Board: regenerating hexagon tiles");
+        do {
             generateHexagonTiles(); // generate hex tiles
-        }
+        } while (!checkChitRule());
+
         designatePorts();
     } // end Board constructor
 
@@ -480,19 +478,6 @@ public class Board {
                     if (integer != i) {
                         if (hexagons.get(integer).getChitValue() == 8) {
                             Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 8) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 6) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 8 and 6 adjacent, reshuffling the hexagon tiles...");
                             return false;
                         }
                     }

@@ -252,6 +252,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_menu) {
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
+            this.debugMode = !this.debugMode;
             Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
