@@ -9,7 +9,13 @@ package edu.up.cs.androidcatan.catan.gamestate;
  * https://github.com/alexweininger/android-catan
  **/
 
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
 import java.util.Random;
+
+import edu.up.cs.androidcatan.R;
 
 /**
  * dice class - done for now 10/10
@@ -44,7 +50,10 @@ public class Dice {
     public int getSum() {
         return this.diceValues[0] + this.diceValues[1];
     }
-    public int[] getDiceValues() { return this.diceValues; };
+    public int[] getDiceValues(){
+        return this.diceValues;
+    };
+
     public void setDiceValues(int[] diceValues) {
         this.diceValues = diceValues;
     }
@@ -54,4 +63,5 @@ public class Dice {
         str.append("Dice roll: ").append(diceValues[0]).append(", ").append(diceValues[1]);
         return str.toString();
     }
+
 }
