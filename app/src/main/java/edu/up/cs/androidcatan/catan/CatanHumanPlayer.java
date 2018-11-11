@@ -228,33 +228,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
-            diceImageLeft = Activity.findViewById(R.id.diceImageLeft);
-            diceImageRight = Activity.findViewById(R.id.diceImageRight);
-            if(state.getDice().getDiceValues()[0] == 1)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_1);
-            else if (state.getDice().getDiceValues()[0] == 2)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_2);
-            else if (state.getDice().getDiceValues()[0] == 3)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_3);
-            else if(state.getDice().getDiceValues()[0] == 4)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_4);
-            else if (state.getDice().getDiceValues()[0] == 5)
-                diceImageLeft.setBackgroundResource(R.drawable.dice_5);
-            else
-                diceImageLeft.setBackgroundResource(R.drawable.dice_6);
 
-            if(state.getDice().getDiceValues()[1] == 1)
-                diceImageRight.setBackgroundResource(R.drawable.dice_1);
-            else if (state.getDice().getDiceValues()[1] == 2)
-                diceImageRight.setBackgroundResource(R.drawable.dice_2);
-            else if (state.getDice().getDiceValues()[1] == 3)
-                diceImageRight.setBackgroundResource(R.drawable.dice_3);
-            else if(state.getDice().getDiceValues()[1] == 4)
-                diceImageRight.setBackgroundResource(R.drawable.dice_4);
-            else if (state.getDice().getDiceValues()[1] == 5)
-                diceImageRight.setBackgroundResource(R.drawable.dice_5);
-            else
-                diceImageRight.setBackgroundResource(R.drawable.dice_6);
             if (state.getCurrentDiceSum() == 7) {
                 //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
@@ -690,6 +664,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private void updateTextViews () {
 
+            if(state.getDice().getDiceValues()[0] == 1)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_1);
+            else if (state.getDice().getDiceValues()[0] == 2)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_2);
+            else if (state.getDice().getDiceValues()[0] == 3)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_3);
+            else if(state.getDice().getDiceValues()[0] == 4)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_4);
+            else if (state.getDice().getDiceValues()[0] == 5)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_5);
+            else
+                diceImageLeft.setBackgroundResource(R.drawable.dice_6);
+
+            if(state.getDice().getDiceValues()[1] == 1)
+                diceImageRight.setBackgroundResource(R.drawable.dice_1);
+            else if (state.getDice().getDiceValues()[1] == 2)
+                diceImageRight.setBackgroundResource(R.drawable.dice_2);
+            else if (state.getDice().getDiceValues()[1] == 3)
+                diceImageRight.setBackgroundResource(R.drawable.dice_3);
+            else if(state.getDice().getDiceValues()[1] == 4)
+                diceImageRight.setBackgroundResource(R.drawable.dice_4);
+            else if (state.getDice().getDiceValues()[1] == 5)
+                diceImageRight.setBackgroundResource(R.drawable.dice_5);
+            else
+                diceImageRight.setBackgroundResource(R.drawable.dice_6);
         // Check if the Game State is null. If it is return void.
         if (this.state == null) {
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
@@ -859,6 +858,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----------------------------------- SIDEBAR ------------------------------------------ */
 
+        //dice roll images
+        diceImageLeft = activity.findViewById(R.id.diceImageLeft);
+        diceImageRight = activity.findViewById(R.id.diceImageRight);
         // building buttons
         buildRoadButton = activity.findViewById(R.id.sidebar_button_road);
         buildRoadButton.setOnClickListener(this);
