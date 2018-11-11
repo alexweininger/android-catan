@@ -48,6 +48,9 @@ public class CatanGameState extends GameState{
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
+    // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
+    private int[] robberDiscardedResources = new int[]{0,0,0,0,0};  //How many resources the player would like to discard
+
 
     public CatanGameState () { // CatanGameState constructor
         this.dice = new Dice();
