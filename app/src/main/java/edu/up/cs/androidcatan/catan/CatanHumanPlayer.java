@@ -1,6 +1,7 @@
 package edu.up.cs.androidcatan.catan;
 
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -29,6 +30,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
@@ -83,6 +85,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /* ------ Turn Buttons ------- */
     private Button rollButton = null;
+    private ImageView diceImageLeft = null;
+    private ImageView diceImageRight = null;
     private Button endTurnButton = null;
 
     /* ------------- Misc Buttons -------------------- */
@@ -224,6 +228,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
             game.sendAction(a);
+            diceImageLeft = Activity.findViewById(R.id.diceImageLeft);
+            diceImageRight = Activity.findViewById(R.id.diceImageRight);
+            if(state.getDice().getDiceValues()[0] == 1)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_1);
+            else if (state.getDice().getDiceValues()[0] == 2)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_2);
+            else if (state.getDice().getDiceValues()[0] == 3)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_3);
+            else if(state.getDice().getDiceValues()[0] == 4)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_4);
+            else if (state.getDice().getDiceValues()[0] == 5)
+                diceImageLeft.setBackgroundResource(R.drawable.dice_5);
+            else
+                diceImageLeft.setBackgroundResource(R.drawable.dice_6);
+
+            if(state.getDice().getDiceValues()[1] == 1)
+                diceImageRight.setBackgroundResource(R.drawable.dice_1);
+            else if (state.getDice().getDiceValues()[1] == 2)
+                diceImageRight.setBackgroundResource(R.drawable.dice_2);
+            else if (state.getDice().getDiceValues()[1] == 3)
+                diceImageRight.setBackgroundResource(R.drawable.dice_3);
+            else if(state.getDice().getDiceValues()[1] == 4)
+                diceImageRight.setBackgroundResource(R.drawable.dice_4);
+            else if (state.getDice().getDiceValues()[1] == 5)
+                diceImageRight.setBackgroundResource(R.drawable.dice_5);
+            else
+                diceImageRight.setBackgroundResource(R.drawable.dice_6);
             if (state.getCurrentDiceSum() == 7) {
                 //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
