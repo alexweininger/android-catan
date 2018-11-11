@@ -143,7 +143,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
         Building[] buildings = this.board.getBuildings();
 
-        // go through each building
+        // go through each buildingu
         for (int i = 0; i < buildings.length; i++) {
 
             if (this.highlightedIntersections.contains(i)) {

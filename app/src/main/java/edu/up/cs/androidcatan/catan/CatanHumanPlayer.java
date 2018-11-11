@@ -1,7 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
 
-import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -30,7 +29,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
-import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
@@ -773,7 +771,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             setAllButtonsToVisible();
         }
 
-        setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
+//        setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
 
