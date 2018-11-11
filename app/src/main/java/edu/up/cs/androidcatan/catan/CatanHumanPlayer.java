@@ -591,6 +591,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             boardSurfaceView.getGrid().clearHighLightedIntersections();
             selectedIntersections.clear(); // clear the selected intersections
+
+            this.buildingsBuiltOnThisTurn.add(0);
             // return true
             Log.d(TAG, "tryBuildRoad() returned: " + true);
             return true;
@@ -653,6 +655,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+            this.buildingsBuiltOnThisTurn.add(2);
         }
         return true;
     }
@@ -884,6 +887,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton.setOnClickListener(this);
 
         /*--------------------Robber Buttons and Groups------------------------*/
+
         robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
         robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
         robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
@@ -908,21 +912,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberWoolPlus.setOnClickListener(this);
         robberWoolMinus.setOnClickListener(this);
 
-        /*---------------------------TODO Trade Buttons-------------------------------------------*/
-        //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
-        //        tradeCustomPort.setOnClickListener(this);
+        /* ----------------------------------- Turn Buttons --------------------------------------*/
 
-        //        tradePort = activity.findViewById(R.id.sidebar_button_trade);
-        //        tradePort.setOnClickListener(this);
-
-        // turn buttons
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
         rollButton.setOnClickListener(this);
 
         endTurnButton = activity.findViewById(R.id.sidebar_button_endturn);
         endTurnButton.setOnClickListener(this);
-
-        // misc buttons
 
         /* ---------- Sidebar resource values ---------- */
 
