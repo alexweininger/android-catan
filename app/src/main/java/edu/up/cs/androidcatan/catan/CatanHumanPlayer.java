@@ -538,6 +538,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         }
 
+        if (button.getId() == R.id.button_trade_menu_confirm){
+
+        }
+
+        if (button.getId() == R.id.button_trade_menu_cancel){
+            
+        }
+
 
     } // onClick END
 
