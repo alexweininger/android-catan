@@ -98,14 +98,13 @@ public class HexagonGrid extends BoardSurfaceView {
             h.drawHexagon(canvas, this.debugMode);
         } // draw each hexagon
 
+        drawPorts(canvas);
         drawRoads(canvas);
         drawBuildings(canvas);
 
         for (IntersectionDrawable intersection : intersections) {
             intersection.drawIntersection(canvas, this.debugMode);
         } // draw each intersection
-
-        drawPorts(canvas);
 
         this.invalidate();
     }
