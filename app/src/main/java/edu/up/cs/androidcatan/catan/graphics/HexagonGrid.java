@@ -38,10 +38,9 @@ public class HexagonGrid extends BoardSurfaceView {
 
     int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
 
-    // brick, grain, lumber, ore, wool
-    protected int[] resourceColors = {Color.argb(255, 165, 63, 4), Color.argb(255, 255, 225, 0), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85) , Color.argb(255, 123, 206, 107), Color.argb(255, 192, 193, 141)};
+    protected int[] colors = {Color.argb(255, 165, 63, 4), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
 
-    // resourceColors for each player, the last color is for no player (highlighting)
+    // colors for each player, the last color is for no player (highlighting)
     public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE, Color.CYAN};
 
     public static int[] settlementPictures = {R.drawable.settlement_red, R.drawable.settlement_white, R.drawable.settlement_orange, R.drawable.settlement_blue, R.drawable.city_selected};
@@ -91,8 +90,6 @@ public class HexagonGrid extends BoardSurfaceView {
      * @param canvas Canvas to draw on.
      */
     public void drawGameBoard (Canvas canvas) {
-
-        Log.d(TAG, "drawGameBoard: " + board.getRobber().getHexagonId());
         generateDrawableHexagons(x, y, size); // get hexes
 
         drawBorder(canvas);
@@ -171,7 +168,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                     if (this.highlightedIntersections.contains(i)) {
                         Log.i(TAG, "drawBuildings: drawing highlighted city at " + i);
-                        buildingPicture = this.getContext().getDrawable(cityPictures[4]);
+                        buildingPicture = this.getContext().getDrawable(cityPictures[5]);
                     } else {
                         Log.i(TAG, "drawBuildings: drawing a city.");
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
@@ -249,10 +246,7 @@ public class HexagonGrid extends BoardSurfaceView {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < hexagonsInEachRow[i]; j++) {
 
-                int hexagonColor = this.resourceColors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
-
-                Log.e(TAG, "generateDrawableHexagons: settings hexagonId: " + dataHexagons + " to color of resource: " + dataHexagons.get(dataHexagonsIndex).getResourceId());
-
+                int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
                 //                Log.d(TAG, "generateDrawableHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 boolean isRobberHexagon = this.board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
@@ -274,7 +268,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon,dataHexagons.get(dataHexagonsIndex).getResourceId());
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon, dataHexagons.get(dataHexagonsIndex).getResourceId());
 
                 drawingHexagons.add(hexagon);
 
@@ -506,12 +500,12 @@ public class HexagonGrid extends BoardSurfaceView {
         this.roads = roads;
     }
 
-    public int[] getResourceColors () {
-        return resourceColors;
+    public int[] getColors () {
+        return colors;
     }
 
-    public void setResourceColors (int[] resourceColors) {
-        this.resourceColors = resourceColors;
+    public void setColors (int[] colors) {
+        this.colors = colors;
     }
 
     public ArrayList<RoadDrawable> getRoads () {

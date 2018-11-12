@@ -120,7 +120,6 @@ public class Board {
         this.setIntersectionGraph(b.getIntersectionGraph());
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
-        this.robber = new Robber(b.robber);
 
         for (int i = 0; i < b.getBuildings().length; i++) {
             if (b.getBuildings()[i] instanceof Settlement) {
@@ -1406,7 +1405,7 @@ public class Board {
     }
 
     /**
-     * Creates ports along the given intersection, and assigns them proper trade values
+     * Creates ports along the given intersection, and assigns them proper ge values
      */
     private void designatePorts () {
         portList.add(new Port(25, 26, 3, 3)); //Ore
@@ -1678,5 +1677,4 @@ public class Board {
 
         return str;
     }
-
 } // end Class

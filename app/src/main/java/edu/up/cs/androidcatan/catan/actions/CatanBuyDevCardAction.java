@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan.actions;
 
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -11,8 +12,18 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanBuyDevCardAction extends GameAction {
-    public CatanBuyDevCardAction(GamePlayer player)
-    {
+    private int developmentCardIdToBuy;
+
+    public CatanBuyDevCardAction (GamePlayer player, int developmentCardIdToBuy) {
         super(player);
+        this.developmentCardIdToBuy = developmentCardIdToBuy;
+    }
+
+    public int getDevelopmentCardIdToBuy () {
+        return developmentCardIdToBuy;
+    }
+
+    public void setDevelopmentCardIdToBuy (int developmentCardIdToBuy) {
+        this.developmentCardIdToBuy = developmentCardIdToBuy;
     }
 }
