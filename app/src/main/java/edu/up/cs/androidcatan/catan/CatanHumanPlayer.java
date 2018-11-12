@@ -408,6 +408,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //TODO Need functionality for both Port, Custom Port and Bank
         if (button.getId() == R.id.sidebar_button_trade) {
+
+            if (selectedIntersections.size() == 0) {
+                if (tryTradeWithBank()) {
+
+                }
+            } else if (selectedIntersections.size() == 1) {
+
+            }
+
             // toggle menu vis.
             toggleGroupVisibility(tradeGroup);
             return;
@@ -1093,7 +1102,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.roadIntersectionAEditText.setAlpha(0.5f);
             this.roadIntersectionAEditText.setEnabled(false);
 
-
         } else { // ACTION PHASE AND NOT SETUP PHASE
 
             this.messageTextView.setText("Action phase.");
@@ -1285,13 +1293,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberConfirmDiscard.setOnClickListener(this);
 
         robberConfirmHex.setOnClickListener(this);
-
-        /*---------------------------TODO Trade Buttons-------------------------------------------*/
-        //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
-        //        tradeCustomPort.setOnClickListener(this);
-
-        //        tradePort = activity.findViewById(R.id.sidebar_button_trade);
-        //        tradePort.setOnClickListener(this);
 
         //Trade Menu Background - Receive
         brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
