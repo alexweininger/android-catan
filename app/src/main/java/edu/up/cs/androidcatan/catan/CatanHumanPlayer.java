@@ -200,42 +200,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         super(name);
     }
 
-
-    /**
-     * callback method when we get a message (e.g., from the game)
-     *
-     * @param info the message
-     */
-    @Override
-    public void receiveInfo (GameInfo info) {
-        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
-        if (info == null) {
-            Log.e(TAG, "receiveInfo: info is null");
-            return;
-        }
-        if (this.boardSurfaceView == null) {
-            Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
-            return;
-        }
-
-        if (info instanceof CatanGameState) {
-            // set resource count TextViews to the players resource inventory amounts
-            Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
-
-            this.state = (CatanGameState) info;
-
-            updateTextViews();
-            drawGraphics();
-
-        } else if (info instanceof NotYourTurnInfo) {
-            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
-        } else if (info instanceof IllegalMoveInfo) {
-            Log.i(TAG, "receiveInfo: Illegal move info received.");
-        } else {
-            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
-        }
-    }//receiveInfo
-
     /*---------------------------------------onClick Methods-------------------------------------------*/
 
     /**
@@ -915,6 +879,41 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //        imageView = (ImageView)Utils.blinkAnimation(imageView,250,20);
 
     } // updateTextViews END
+
+    /**
+     * callback method when we get a message (e.g., from the game)
+     *
+     * @param info the message
+     */
+    @Override
+    public void receiveInfo (GameInfo info) {
+        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
+        if (info == null) {
+            Log.e(TAG, "receiveInfo: info is null");
+            return;
+        }
+        if (this.boardSurfaceView == null) {
+            Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
+            return;
+        }
+
+        if (info instanceof CatanGameState) {
+            // set resource count TextViews to the players resource inventory amounts
+            Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
+
+            this.state = (CatanGameState) info;
+
+            updateTextViews();
+            drawGraphics();
+
+        } else if (info instanceof NotYourTurnInfo) {
+            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
+        } else if (info instanceof IllegalMoveInfo) {
+            Log.i(TAG, "receiveInfo: Illegal move info received.");
+        } else {
+            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
+        }
+    }//receiveInfo
 
     /**
      * callback method--our game has been chosen/re-chosen to be the GUI,
