@@ -513,7 +513,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.build_devCard) {
-            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
             game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
             return;
         }
