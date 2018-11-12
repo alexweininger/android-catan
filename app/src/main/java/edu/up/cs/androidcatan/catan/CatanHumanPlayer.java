@@ -465,16 +465,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
         /* ---------- Development card buttons ---------- */
+
+        // Development button located on the sidebar. Should only show/hide dev card menu.
         if (button.getId() == R.id.sidebar_button_devcards) {
-            // toggle menu vis.
-            toggleGroupVisibility(developmentGroup);
+            toggleGroupVisibility(developmentGroup); // toggle menu vis.
             return;
         }
 
+        // Use development card button on the dev card menu.
         if (button.getId() == R.id.use_Card) {
-//            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
-//            game.sendAction(action);
-//            return;
+            // todo, validate the player can use the card. e.g. they have it etc. and then send the action
 
             if (devCardList.getSelectedItemPosition() == 0){
                 state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0);
