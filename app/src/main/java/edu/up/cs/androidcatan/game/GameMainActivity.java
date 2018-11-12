@@ -456,10 +456,10 @@ View.OnClickListener {
 		v.setOnClickListener(this);
 
 
-		String ipCode = IPCoder.encodeLocalIP();
-		String ipAddress = IPCoder.getLocalIpAddress();
-		TextView ipText = findViewById(R.id.ipCodeLabel);
-		ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
+//		String ipCode = IPCoder.encodeLocalIP();
+//		String ipAddress = IPCoder.getLocalIpAddress();
+//		TextView ipText = findViewById(R.id.ipCodeLabel);
+//		ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
 
 	}// initStarterGui
 
