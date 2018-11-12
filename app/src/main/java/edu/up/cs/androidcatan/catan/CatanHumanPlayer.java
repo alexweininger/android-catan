@@ -1,7 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
 
-import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -31,7 +30,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
-import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
@@ -925,7 +923,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----- update resource value TextViews ----- */
 
-        int[] resourceCards = this.state.getPlayerList().get(this.state.getCurrentPlayerId()).getResourceCards();
+        int[] resourceCards = this.state.getPlayerList().get(this.playerNum).getResourceCards();
         this.brickValue.setText(String.valueOf(resourceCards[0]));
         this.grainValue.setText(String.valueOf(resourceCards[1]));
         this.lumberValue.setText(String.valueOf(resourceCards[2]));

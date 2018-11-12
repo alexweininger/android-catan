@@ -304,11 +304,10 @@ public class CatanGameState extends GameState{
             // iterate through each intersection surrounding the producing hexagon
             for (Integer intersectionId : receivingIntersections) {
 
-                Building b = this.board.getBuildingAtIntersection(intersectionId);
                 // check if this intersection has a building
-                if (null != b) {
-                    this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
-                    Log.i(TAG, "produceResources: Giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                if (board.getBuildings()[intersectionId] != null) {
+                    this.playerList.get(board.getBuildings()[intersectionId].getOwnerId()).addResourceCard(hex.getResourceId(), board.getBuildings()[intersectionId].getVictoryPoints());
+                    Log.i(TAG, "produceResources: Giving " + board.getBuildings()[intersectionId].getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + board.getBuildings()[intersectionId].getOwnerId());
                 } else {
                     Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
                 }
