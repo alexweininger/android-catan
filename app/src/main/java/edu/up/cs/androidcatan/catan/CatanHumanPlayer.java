@@ -954,10 +954,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberBrickAmount = activity.findViewById(R.id.robber_discard_brickAmount);
-        robberBrickAmount = activity.findViewById(R.id.robber_discard_lumberAmount);
-        robberBrickAmount = activity.findViewById(R.id.robber_discard_grainAmount);
-        robberBrickAmount = activity.findViewById(R.id.robber_discard_oreAmount);
-        robberBrickAmount = activity.findViewById(R.id.robber_discard_woolAmount);
+        robberLumberAmount = activity.findViewById(R.id.robber_discard_lumberAmount);
+        robberGrainAmount = activity.findViewById(R.id.robber_discard_grainAmount);
+        robberOreAmount = activity.findViewById(R.id.robber_discard_oreAmount);
+        robberWoolAmount = activity.findViewById(R.id.robber_discard_woolAmount);
 
         robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
