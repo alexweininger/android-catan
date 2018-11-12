@@ -341,7 +341,7 @@ View.OnClickListener {
 	 */
 	protected void initTabs() {
 		// Setup the tabbed dialog on the layout and add the content of each tab
-		TabHost tabHost = findViewById(R.id.tabHost);
+		TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 		tabHost.setup();
 		TabSpec localTabSpec = tabHost.newTabSpec(localTabString());
 		localTabSpec.setContent(R.id.localGameTab);
@@ -369,7 +369,7 @@ View.OnClickListener {
 		config.setLocal(true);
 		
 		// put a row in the table for each player in the config
-		this.playerTable = findViewById(R.id.configTableLayout);
+		this.playerTable = (TableLayout) findViewById(R.id.configTableLayout);
 		int numPlayers = config.getNumPlayers();
 		for (int i = 0; i < numPlayers; ++i) {
 
@@ -377,14 +377,14 @@ View.OnClickListener {
 			TableRow row = addPlayer();
 
 			// Set the player name
-			TextView playerName = row
+			TextView playerName = (TextView) row
 					.findViewById(R.id.playerNameEditText);
 			playerName.setText(config.getSelName(i));
 
 			// Set the initial selection for the spinner
 			GamePlayerType[] selTypes = config.getSelTypes(); // the player types in the config
 			GamePlayerType[] availTypes = config.getAvailTypes(); // the available player types
-			Spinner typeSpinner = row
+			Spinner typeSpinner = (Spinner) row
 					.findViewById(R.id.playerTypeSpinner); // the spinner for the current player
 			// search through to find the one whose label matches; set it as the selection
 			for (int j = 0; j < availTypes.length; ++j) {
@@ -407,13 +407,13 @@ View.OnClickListener {
 
 	protected void initRemoteWidgets() {
 		//Set the remote name
-		EditText remoteNameEditText = findViewById(R.id.remoteNameEditText);
+		EditText remoteNameEditText = (EditText)findViewById(R.id.remoteNameEditText);
 		remoteNameEditText.setText(config.getRemoteName());
 
 		// index of remote player type
 		GamePlayerType remotePlayerType = config.getRemoteSelType();
 		GamePlayerType[] availTypes = config.getAvailTypes();
-		Spinner remoteTypeSpinner = findViewById(R.id.remote_player_spinner);
+		Spinner remoteTypeSpinner = (Spinner)findViewById(R.id.remote_player_spinner);
 		for (int j = 0; j < availTypes.length; ++j) {
 			if (remotePlayerType.getTypeName().equals(availTypes[j].getTypeName())) {
 				remoteTypeSpinner.setSelection(j);
@@ -422,7 +422,7 @@ View.OnClickListener {
 		}
 
 		//Set the IP code
-		EditText ipCodeEditText = findViewById(R.id.remoteIPCodeEditText);
+		EditText ipCodeEditText = (EditText)findViewById(R.id.remoteIPCodeEditText);
 		ipCodeEditText.setText(config.getIpCode());
 	}
 
@@ -456,10 +456,10 @@ View.OnClickListener {
 		v.setOnClickListener(this);
 
 
-//		String ipCode = IPCoder.encodeLocalIP();
-//		String ipAddress = IPCoder.getLocalIpAddress();
-//		TextView ipText = (TextView)findViewById(R.id.ipCodeLabel);
-//		ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
+		String ipCode = IPCoder.encodeLocalIP();
+		String ipAddress = IPCoder.getLocalIpAddress();
+		TextView ipText = (TextView)findViewById(R.id.ipCodeLabel);
+		ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
 
 	}// initStarterGui
 
@@ -586,11 +586,11 @@ View.OnClickListener {
 		for (GamePlayerType gpt : availTypes) {
 			adapter.add(gpt.getTypeName());
 		}
-		Spinner typeSpinner = row
+		Spinner typeSpinner = (Spinner) row
 				.findViewById(R.id.playerTypeSpinner);
 		typeSpinner.setAdapter(adapter);
 		// link player name field and spinner
-		TextView playerName = row
+		TextView playerName = (TextView) row
 				.findViewById(R.id.playerNameEditText);
 		typeSpinner.setOnItemSelectedListener(new SpinnerListListener(playerName, availTypes.length-1));
 		typeSpinner.setSelection(0);
@@ -602,11 +602,11 @@ View.OnClickListener {
 			// leaves out the last item (network player)
 			adapter2.add(availTypes[j].getTypeName());
 		}
-		Spinner remoteTypeSpinner = findViewById(R.id.remote_player_spinner);
+		Spinner remoteTypeSpinner = (Spinner)findViewById(R.id.remote_player_spinner);
 		remoteTypeSpinner.setAdapter(adapter2);
 
 		// set myself up as the button listener for the button
-		ImageButton delButton = row
+		ImageButton delButton = (ImageButton) row
 				.findViewById(R.id.delPlayerButton);
 		delButton.setOnClickListener(this);
 
@@ -629,18 +629,18 @@ View.OnClickListener {
 		GameConfig result = config.copyWithoutPlayers();
 
 		// Set remote/local
-		TabHost tabHost = findViewById(R.id.tabHost);
+		TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
 		result.setLocal(tabHost.getCurrentTab() == 0);
 
 		// Retrieve the info for each player and add to the config
 		for (TableRow row : this.tableRows) {
 			//player name
-			EditText nameEditor = row
+			EditText nameEditor = (EditText) row
 					.findViewById(R.id.playerNameEditText);
 			String name = nameEditor.getText().toString();
 
 			//index of player type
-			Spinner typeSpinner = row
+			Spinner typeSpinner = (Spinner) row
 					.findViewById(R.id.playerTypeSpinner);
 			int selIndex = typeSpinner.getSelectedItemPosition();
 
@@ -649,17 +649,17 @@ View.OnClickListener {
 		}//for
 
 		//Set the remote name
-		EditText remoteNameEditText = findViewById(R.id.remoteNameEditText);
+		EditText remoteNameEditText = (EditText)findViewById(R.id.remoteNameEditText);
 		String remoteName = remoteNameEditText.getText().toString();
 		result.setRemoteName(remoteName);
 
 		//index of remote player type
-		Spinner remoteTypeSpinner = findViewById(R.id.remote_player_spinner);
+		Spinner remoteTypeSpinner = (Spinner)findViewById(R.id.remote_player_spinner);
 		int selIndex = remoteTypeSpinner.getSelectedItemPosition();
 		result.setRemoteSelType(selIndex);
 
 		//Set the IP code
-		EditText ipCodeEditText = findViewById(R.id.remoteIPCodeEditText);
+		EditText ipCodeEditText = (EditText)findViewById(R.id.remoteIPCodeEditText);
 		String ipCode = ipCodeEditText.getText().toString();
 		result.setIpCode(ipCode);
 
