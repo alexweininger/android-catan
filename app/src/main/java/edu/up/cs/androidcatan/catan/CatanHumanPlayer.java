@@ -148,6 +148,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView robberOreMinus = (ImageView) null;
     private ImageView robberWoolPlus = (ImageView) null;
     private ImageView robberWoolMinus = (ImageView) null;
+    private TextView robberDiscardMessage = (TextView) null;
+
+    private TextView robberBrickAmount = (TextView) null;
+    private TextView robberLumberAmount = (TextView) null;
+    private TextView robberGrainAmount = (TextView) null;
+    private TextView robberOreAmount = (TextView) null;
+    private TextView robberWoolAmount = (TextView) null;
 
     private Button robberConfirmHex = (Button) null;
     private TextView robberHexMessage = (TextView) null;
@@ -294,8 +301,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if(state.discardResources(this.playerNum, this.robberDiscardedResources)){
                 robberDiscardGroup.setVisibility(View.VISIBLE);
                 robberHexMessage.setVisibility(View.VISIBLE);
+                this.robberDiscardedResources = state.getRobberDiscardedResource();
             }
-            robberDis
+
+            String message = "" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount()/2 + " resources are needed.";
+            robberDiscardMessage.setText(message);
+            return;
         }
 
         if (button.getId() == R.id.robber_discard_brickAddImg) {
@@ -747,7 +758,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
-            if(state.checkDiscard(this.playerNum)){
+            if(state.checkPlayerResources(this.playerNum)){
                 robberDiscardGroup.setVisibility(View.VISIBLE);
             }
             else{
@@ -929,6 +940,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
         robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
         robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
+        robberDiscardMessage = activity.findViewById(R.id.robber_discard_selectMoreResources);
         robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);

@@ -846,6 +846,10 @@ public class CatanGameState extends GameState{
         return isRobberPhase;
     }
 
+    public int[] getRobberDiscardedResource(){
+        return robberDiscardedResources;
+    }
+
     /*-------------------------------------toString------------------------------------------*/
 
     /**
