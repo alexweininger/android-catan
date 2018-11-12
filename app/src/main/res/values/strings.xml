@@ -111,8 +111,8 @@
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
-        <item>Road Building</item>
-        <item>Monopoly</item>
         <item>Year of Plenty</item>
+        <item>Monopoly</item>
+        <item>Road Building</item>
     </string-array>
 </resources>
