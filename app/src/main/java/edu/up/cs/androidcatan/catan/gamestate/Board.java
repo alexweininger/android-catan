@@ -557,6 +557,11 @@ public class Board {
      */
     public boolean addBuilding (int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
+
+        if (building instanceof City) {
+
+        }
+
         if (this.buildings[intersectionId] != null) {
             Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
             return false;

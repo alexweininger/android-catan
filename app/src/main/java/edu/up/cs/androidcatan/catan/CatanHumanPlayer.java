@@ -302,14 +302,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if(state.isHasMovedRobber()){
                 if(selectedIntersections.size() != 1){
                     robberHexMessage.setText("Please select only one intersection.");
+                    messageTextView.setText("Please select only one intersection.");
                     return;
                 }
                 if(!state.getBoard().hasBuilding(selectedIntersections.get(0))){
                     robberHexMessage.setText("Please select an intersection with a building owned by another player on it.");
+                    messageTextView.setText("Please select an intersection with a building owned by another player on it.");
                     return;
                 }
                 if(state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum){
                     robberHexMessage.setText("Please select an intersection not owned by you.");
+                    messageTextView.setText("Please select an intersection not owned by you.");
                     return;
                 }
 
@@ -324,12 +327,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
                 robberHexMessage.startAnimation(shake);
                 robberHexMessage.setText("Not a valid tile!");
+                messageTextView.setText("Not a valid tile!");
                 return;
             }
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.GONE);
             robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
+            messageTextView.setText("Please selected an intersection with a building adjacent to the robber");
             CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, selectedHexagonId);
             game.sendAction(action);
 
