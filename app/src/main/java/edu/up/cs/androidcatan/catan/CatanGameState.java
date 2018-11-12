@@ -609,6 +609,27 @@ public class CatanGameState extends GameState{
         return this.isRobberPhase;
     }
 
+
+    public boolean checkPlayerResources(int playerId){
+        if(playerList.get(playerId).getTotalResourceCardCount() > 7){
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean discardResources(int playerId, int[] resourcesDiscarded){
+        int totalDiscarded = 0;
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            totalDiscarded += resourcesDiscarded[i];
+        }
+        if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
@@ -631,20 +652,6 @@ public class CatanGameState extends GameState{
         }
         Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
         return false;
-    }
-
-    /**
-     * TODO implement
-     * Player chooses cards to discard if they own more than 7 cards and robber is activated
-     *
-     * @return - action success
-     */
-    public boolean robberChooseDiscard (int playerId) {
-
-    }
-
-    public boolean checkDiscard(int playerId){
-
     }
 
     /**

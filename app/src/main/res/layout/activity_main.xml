@@ -25,7 +25,7 @@
     <edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView
         android:id="@+id/board"
         android:layout_width="0dp"
-        android:layout_height="652dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -84,6 +84,7 @@
         android:id="@+id/robber_choosehex_menu"
         android:layout_width="0dp"
         android:layout_height="156dp"
+        android:visibility="gone"
         app:constraint_referenced_ids="robber_choosehex_message, robber_choosehex_confirm" />
 
     <!--Robber Confirm Menu End-->
@@ -95,7 +96,7 @@
         android:id="@+id/robber_discard_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids=",robber_discard_lumberImgReceive,robber_discard_grainAmount,robber_discard_leftVerticalGuideLine,robber_discard_oreAmount,robber_discard_brickAmount,robber_discard_grainMinusImg,robber_discard_woolMinusImg,robber_discard_lumberAmount,robber_discard_oreImgReceive,robber_discard_grainImg,robber_discard_lumberMinusImg,robber_discard_oreAddImg,robber_discard_lumberAddImg,robber_discard_woolAddImg,robber_discard_woolImgReceive,robber_discard_brickMinusImg,robber_discard_confirm,robber_discard_brickImg,robber_discard_oreMinusImg,robber_discard_grainAddImg,robber_discard_topHorizontalGuideline,robber_discard_selectMoreResources,robber_discard_woolAmount,robber_discard_MenuHeaderText,robber_discard_brickAddImg,imageView2,group,textView,textView5" />
 
     <android.support.constraint.Guideline
@@ -136,17 +137,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/robber_chooosehex_confirm"
+        app:layout_constraintEnd_toStartOf="@+id/robber_choosehex_confirm"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex" />
 
     <Button
-        android:id="@+id/robber_chooosehex_confirm"
+        android:id="@+id/robber_choosehex_confirm"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
-        android:text="Button"
+        android:text="Confirm"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
         app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex" />
@@ -1350,6 +1351,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
         android:text="@string/robber_discard_menu_header"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
@@ -1361,11 +1363,11 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginBottom="60dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="350dp"
         android:background="@drawable/brick_icon_25x25"
         android:contentDescription="@string/brick"
         app:layout_constraintBottom_toTopOf="@+id/robber_discard_selectMoreResources"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
         app:srcCompat="@drawable/brick_icon_25x25"
         tools:srcCompat="@drawable/brick_icon_25x25" />
 

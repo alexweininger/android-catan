@@ -1,7 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
 
-import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -30,7 +29,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
-import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
@@ -63,6 +61,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int selectedHexagonId = -1;
 
     private ArrayList<Integer> selectedIntersections = new ArrayList<>();
+
+    // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
+    private int[] robberDiscardedResources = new int[]{0,0,0,0,0};  //How many resources the player would like to discard
 
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
@@ -271,7 +272,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /*-------------------- Robber ------------------------*/
 
-        if(button.getId() == R.id.robber_chooosehex_confirm){
+        if(button.getId() == R.id.robber_choosehex_confirm){
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
             if(this.selectedHexagonId == -1){
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
@@ -284,10 +285,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.GONE);
             robberHexMessage.setText("Please tap a tile to place the robber on.");
-            robberDiscardGroup.setVisibility(View.VISIBLE);
             state.getBoard().setRobberLocation(this.selectedHexagonId);
             return;
 
+        }
+
+        if(button.getId() == R.id.robber_discard_confirm){
+            if(state.discardResources(this.playerNum, this.robberDiscardedResources)){
+                robberDiscardGroup.setVisibility(View.VISIBLE);
+                robberHexMessage.setVisibility(View.VISIBLE);
+            }
+            robberDis
         }
 
         if (button.getId() == R.id.robber_discard_brickAddImg) {
@@ -739,7 +747,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
-            robberChooseHexGroup.setVisibility(View.VISIBLE);
+            if(state.checkDiscard(this.playerNum)){
+                robberDiscardGroup.setVisibility(View.VISIBLE);
+            }
+            else{
+                robberChooseHexGroup.setVisibility(View.VISIBLE);
+            }
         }
         else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
@@ -918,7 +931,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
         robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
-        robberConfirmHex = activity.findViewById(R.id.robber_chooosehex_confirm);
+        robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
         robberHexMessage.setText("Please choose a tile to place the Robber on.");
         robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
