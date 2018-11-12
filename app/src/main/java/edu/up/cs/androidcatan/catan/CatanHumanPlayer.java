@@ -327,8 +327,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------------------------- Building sidebar buttons --------------------- */
+        /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
 
+        // Road button on the sidebar.
         if (button.getId() == R.id.sidebar_button_road) {
             currentBuildingSelectionId = 0;
             if (selectedIntersections.size() != 2) {
@@ -343,6 +344,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        // Settlement button on the sidebar.
         if (button.getId() == R.id.sidebar_button_settlement) {
             Log.d(TAG, "onClick: sidebar_button_settlement listener");
             if (selectedIntersections.size() != 1) {
@@ -357,6 +359,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        // City button on the sidebar.
         if (button.getId() == R.id.sidebar_button_city) {
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText("Select one intersection to build a city.");
@@ -370,7 +373,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------- Development card buttons ---------- */
+        /* -------------------- Development Card Button OnClick() Handlers ---------------------- */
 
         // Development button located on the sidebar. Should only show/hide dev card menu.
         if (button.getId() == R.id.sidebar_button_devcards) {
