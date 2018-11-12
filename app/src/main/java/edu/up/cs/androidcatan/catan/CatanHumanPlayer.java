@@ -414,13 +414,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        if (button.getId() == R.id.button_roadCancel) {
-            Log.i(TAG, "onClick: Road Cancel Button");
-            toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
-            currentBuildingSelectionId = -1;
-            return;
-        }
-
         if (button.getId() == R.id.button_singleIntersectionMenuOk) {
             int singleIntersectionIdInput;
             if (singleIntersectionInputEditText.getText().equals("")) {
