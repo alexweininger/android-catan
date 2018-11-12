@@ -694,6 +694,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
+    private boolean tryTradeWithPort(int resourceGiving, int resourceReceiving) {
+
+
+
+        return  true;
+    }
+
+    private boolean tryTradeWithBank() {
+
+        return true;
+    }
+
     /* ---------------------------------------- GUI Methods --------------------------------------*/
 
     /**
