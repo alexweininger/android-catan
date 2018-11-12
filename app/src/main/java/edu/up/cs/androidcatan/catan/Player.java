@@ -30,7 +30,7 @@ public class Player {
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
 
     // ArrayList of the development cards the player owns
-    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>();
+    private ArrayList<Integer> developmentCards = new ArrayList<>();
 
     // number of buildings the player has to build {roads, settlements, cities}
     private int[] buildingInventory = {15, 5, 4};
@@ -238,7 +238,7 @@ public class Player {
     /**
      * @param devCard dev card to add
      */
-    void addDevelopmentCard (DevelopmentCard devCard) {
+    void addDevelopmentCard (int devCard) {
         developmentCards.add(devCard);
     }
 
@@ -246,7 +246,7 @@ public class Player {
      * @param devCard dev card to remove
      * @return if action was possible
      */
-    public boolean useDevCard (DevelopmentCard devCard) {
+    public boolean useDevCard (int devCard) {
         if (developmentCards.contains(devCard)) {
             developmentCards.remove(devCard);
             return true;
@@ -261,7 +261,7 @@ public class Player {
     // use to allow the player to use the dev card they built the turn prior
     public void setDevelopmentCardsAsPlayable () {
         for (int i = 0; i < developmentCards.size(); i++) {
-            developmentCards.get(i).setPlayable(true);
+            //developmentCards.get(i).setPlayable(true);
         }
     }
 
@@ -275,14 +275,14 @@ public class Player {
     /**
      * @return - list of players' development cards
      */
-    public ArrayList<DevelopmentCard> getDevelopmentCards () {
+    public ArrayList<Integer> getDevelopmentCards () {
         return developmentCards;
     }
 
     /**
      * @param developmentCards List of DevelopmentCards the player currently has.
      */
-    public void setDevelopmentCards (ArrayList<DevelopmentCard> developmentCards) {
+    public void setDevelopmentCards (ArrayList<Integer> developmentCards) {
         this.developmentCards = developmentCards;
     }
 
