@@ -1,6 +1,7 @@
 package edu.up.cs.androidcatan.catan;
 
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -30,6 +31,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
@@ -447,7 +449,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.use_Card) {
-            CatanUseDevCardAction action = new CatanUseDevCardAction(this);
+            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
             game.sendAction(action);
             return;
         }
@@ -458,6 +460,78 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /* ---------------Trade Menu Buttons ---------------- */
+
+        int give = -1;
+        int receive = -1;
+
+        brickSelectionBoxGive.setVisibility(View.GONE);
+        grainSelectionBoxGive.setVisibility(View.GONE);
+        lumberSelectionBoxGive.setVisibility(View.GONE);
+        oreSelectionBoxGive.setVisibility(View.GONE);
+        woolSelectionBoxGive.setVisibility(View.GONE);
+
+        //Give
+        if (button.getId() == R.id.image_trade_menu_give_brick){
+            Log.d(TAG, "onClick: brick");
+            brickSelectionBoxGive.setBackgroundColor(Color.BLACK);
+            toggleViewVisibility(brickSelectionBoxGive);
+            give = 0;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_grain){
+            toggleViewVisibility(grainSelectionBoxGive);
+            give = 1;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_lumber){
+            toggleViewVisibility(lumberSelectionBoxGive);
+            give = 2;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_ore){
+            toggleViewVisibility(oreSelectionBoxGive);
+            give = 3;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_wool){
+            toggleViewVisibility(woolSelectionBoxGive);
+            give = 4;
+        }
+
+        //Receive
+        if (button.getId() == R.id.image_trade_menu_rec_brick){
+            toggleViewVisibility(brickSelectionBoxReceive);
+            receive = 0;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_grain){
+            toggleViewVisibility(grainSelectionBoxReceive);
+            receive = 1;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_lumber){
+            toggleViewVisibility(lumberSelectionBoxReceive);
+            receive = 2;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_ore){
+            toggleViewVisibility(oreSelectionBoxReceive);
+            receive = 3;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_wool){
+            toggleViewVisibility(woolSelectionBoxReceive);
+            receive = 4;
+        }
+
+        if (button.getId() == R.id.button_trade_menu_confirm){
+
+        }
+
+        if (button.getId() == R.id.button_trade_menu_cancel){
+            toggleGroupVisibility(tradeGroup);
+        }
 
     } // onClick END
 
@@ -628,6 +702,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildingsBuiltOnThisTurn.add(1);
 
             Log.d(TAG, "tryBuildSettlement() returned: " + true);
+
             return true;
         } else {
             messageTextView.setText("Invalid settlement location.");
@@ -653,7 +728,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-            this.buildingsBuiltOnThisTurn.add(2);
         }
         return true;
     }
@@ -1011,6 +1085,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
         image_trade_menu_rec_wool.setOnClickListener(this);
 
+        //Confirm trade action
+        button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
+        button_trade_menu_confirm.setOnClickListener(this);
+
+        button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
+        button_trade_menu_cancel.setOnClickListener(this);
 
         // turn buttons
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
@@ -1052,6 +1132,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //TODO Implement the Listener
+
             }
 
             @Override
@@ -1109,6 +1190,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         useDevCard = activity.findViewById(R.id.use_Card); // use dev card
         useDevCard.setOnClickListener(this);
+
+
 
         buildDevCard = activity.findViewById(R.id.build_devCard); // build dev card
         buildDevCard.setOnClickListener(this);
@@ -1205,6 +1288,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void toggleGroupVisibility (Group group) {
         if (group.getVisibility() == View.GONE) group.setVisibility(View.VISIBLE);
         else group.setVisibility(View.GONE);
+    }
+
+    private void toggleViewVisibility(View view){
+        if (view.getVisibility() == View.GONE){
+            view.setVisibility(View.VISIBLE);
+        }
+        else {
+            view.setVisibility(View.GONE);
+        }
     }
 
     private void setAllButtonsToVisible () {
