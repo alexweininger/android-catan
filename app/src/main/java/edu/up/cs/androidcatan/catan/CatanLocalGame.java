@@ -153,8 +153,7 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanRobberStealAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.robberSteal();
-            return true;
+            return gameState.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealId());
         }
 
 /*----------------------------------Robber Actions End-----------------------------------------------*/

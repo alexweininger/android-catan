@@ -19,4 +19,12 @@ public class CatanRobberStealAction extends GameAction {
         this.playerId = playerId;
         this.stealId = stealId;
     }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public int getStealId() {
+        return stealId;
+    }
 }

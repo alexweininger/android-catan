@@ -706,11 +706,10 @@ public class CatanGameState extends GameState{
     /**
      * After the player has moved the Robber, the player will choose a player to steal from and receive a random card from their hand
      *
-     * @param hexagonId - hexagon that the robber is moved to
      * @param playerId - player stealing resources
      * @return - action success
      */
-    public boolean robberSteal (int hexagonId, int playerId) {
+    public boolean robberSteal (int playerId, int stealId) {
         // check if valid player if
         if (!valPlId(playerId)) {
             Log.e(TAG, "robberSteal: invalid player id: " + playerId);
