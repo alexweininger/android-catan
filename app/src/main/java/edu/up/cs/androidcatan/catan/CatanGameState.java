@@ -732,6 +732,10 @@ public class CatanGameState extends GameState{
 
         this.playerList.get(playerId).addResourceCard(randomStolenResourceId, 1);
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
+
+        isRobberPhase = false;
+        hasDiscarded = false;
+        hasMovedRobber = false;
         return true;
     }
 
