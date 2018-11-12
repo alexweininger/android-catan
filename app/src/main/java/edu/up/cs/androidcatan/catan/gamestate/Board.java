@@ -120,6 +120,7 @@ public class Board {
         this.setIntersectionGraph(b.getIntersectionGraph());
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
+        this.robber = new Robber(b.robber);
 
         for (int i = 0; i < b.getBuildings().length; i++) {
             if (b.getBuildings()[i] instanceof Settlement) {
@@ -1670,4 +1671,5 @@ public class Board {
 
         return str;
     }
+
 } // end Class

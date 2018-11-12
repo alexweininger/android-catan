@@ -18,7 +18,6 @@
     <string name="save_config_as_default">Save this Configuration as the Default</string><string name="start_the_game">Start Game!</string>
     <string name="robber_discard_menu_header">Select Half Your Cards to Discard</string>
     <string name="confirm">Confirm</string>
-    <string name="select_more_resources">You need to select more resources</string>
     <string name="score">Score</string>
     <string name="vp00">VP: 00</string>
     <string name="playerTurn">Players Turn</string>
@@ -104,6 +103,8 @@
     <string name="value_ore">0</string>
 
     <string name="confirmString">Would you like to build this here?</string>
+
+    <string name="select_more_resources">Select resources to discard</string>
 
 
     <!--resources-->
