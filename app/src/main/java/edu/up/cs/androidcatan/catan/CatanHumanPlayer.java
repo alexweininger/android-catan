@@ -29,6 +29,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
@@ -317,7 +318,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.robber_choosehex_confirm){
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if(this.selectedHexagonId == -1){
+            if(!tryMoveRobber()){
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
                 robberHexMessage.startAnimation(shake);
@@ -328,6 +329,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.GONE);
             robberHexMessage.setText("Please tap a tile to place the robber on.");
+            CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, selectedHexagonId);
+            game.sendAction(action);
 
             return;
 
@@ -752,6 +755,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
             this.buildingsBuiltOnThisTurn.add(2);
         }
+        return true;
+    }
+
+    //TODO Alex
+    private boolean tryMoveRobber(){
         return true;
     }
 
