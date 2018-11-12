@@ -876,6 +876,10 @@ public class CatanGameState extends GameState{
         return robberDiscardedResources;
     }
 
+    public boolean isHasDiscarded() { return hasDiscarded;}
+
+    public boolean isHasMovedRobber() { return hasMovedRobber; }
+
     /*-------------------------------------toString------------------------------------------*/
 
     /**

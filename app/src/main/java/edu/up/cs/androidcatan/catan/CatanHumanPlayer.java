@@ -315,8 +315,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /*-------------------- Robber ------------------------*/
 
+
+
         if(button.getId() == R.id.robber_choosehex_confirm){
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
+            if(state.)
             if(!tryMoveRobber()){
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
