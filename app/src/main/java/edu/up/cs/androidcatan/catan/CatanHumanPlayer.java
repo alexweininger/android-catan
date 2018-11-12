@@ -149,6 +149,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView robberWoolPlus = (ImageView) null;
     private ImageView robberWoolMinus = (ImageView) null;
     private TextView robberDiscardMessage = (TextView) null;
+    private Button robberConfirmDiscard = (Button) null;
 
     private TextView robberBrickAmount = (TextView) null;
     private TextView robberLumberAmount = (TextView) null;
@@ -311,43 +312,43 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_discard_brickAddImg) {
             robberDiscardedResources[0] += 1;
-            robberBrickAmount.setText(robberDiscardedResources[0]);
+            robberBrickAmount.setText("" + robberDiscardedResources[0]);
         }
         if (button.getId() == R.id.robber_discard_brickMinusImg) {
             robberDiscardedResources[0] -= 1;
-            robberBrickAmount.setText(robberDiscardedResources[0]);
+            robberBrickAmount.setText("" + robberDiscardedResources[0]);
         }
         if (button.getId() == R.id.robber_discard_lumberAddImg) {
             robberDiscardedResources[1] += 1;
-            robberLumberAmount.setText(robberDiscardedResources[1]);
+            robberLumberAmount.setText("" + robberDiscardedResources[1]);
         }
         if (button.getId() == R.id.robber_discard_lumberMinusImg) {
             robberDiscardedResources[1] -= 1;
-            robberLumberAmount.setText(robberDiscardedResources[1]);
+            robberLumberAmount.setText("" + robberDiscardedResources[1]);
         }
         if (button.getId() == R.id.robber_discard_grainAddImg) {
             robberDiscardedResources[2] += 1;
-            robberGrainAmount.setText(robberDiscardedResources[2]);
+            robberGrainAmount.setText("" + robberDiscardedResources[2]);
         }
         if (button.getId() == R.id.robber_discard_grainMinusImg) {
             robberDiscardedResources[2] -= 1;
-            robberGrainAmount.setText(robberDiscardedResources[2]);
+            robberGrainAmount.setText("" + robberDiscardedResources[2]);
         }
         if (button.getId() == R.id.robber_discard_oreAddImg) {
             robberDiscardedResources[3] += 1;
-            robberOreAmount.setText(robberDiscardedResources[3]);
+            robberOreAmount.setText("" + robberDiscardedResources[3]);
         }
         if (button.getId() == R.id.robber_discard_oreMinusImg) {
             robberDiscardedResources[3] -= 1;
-            robberOreAmount.setText(robberDiscardedResources[3]);
+            robberOreAmount.setText("" + robberDiscardedResources[3]);
         }
         if (button.getId() == R.id.robber_discard_woolAddImg) {
             robberDiscardedResources[4] += 1;
-            robberWoolAmount.setText(robberDiscardedResources[4]);
+            robberWoolAmount.setText("" + robberDiscardedResources[4]);
         }
         if (button.getId() == R.id.robber_discard_woolMinusImg) {
             robberDiscardedResources[4] -= 1;
-            robberWoolAmount.setText(robberDiscardedResources[4]);
+            robberWoolAmount.setText("" + robberDiscardedResources[4]);
         }
 
         /* ---------- Trade action buttons ---------- */
@@ -952,6 +953,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
         robberDiscardMessage = activity.findViewById(R.id.robber_discard_selectMoreResources);
         robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
+        robberConfirmDiscard = activity.findViewById(R.id.robber_discard_confirm);
 
         robberBrickAmount = activity.findViewById(R.id.robber_discard_brickAmount);
         robberLumberAmount = activity.findViewById(R.id.robber_discard_lumberAmount);
