@@ -28,8 +28,17 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
@@ -64,6 +73,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private ArrayList<Integer> selectedIntersections = new ArrayList<>();
 
+    // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
+    private int[] robberDiscardedResources = new int[]{0,0,0,0,0};  //How many resources the player would like to discard
+
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
     /* ------------- Building Buttons -------------------- */
@@ -92,6 +104,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* ------------- Misc Buttons -------------------- */
 
     private Button sidebarMenuButton = (Button) null;
+    private ImageView buildingCosts = null;
     private Button sidebarScoreboardButton = (Button) null;
 
     /* ------------- resource count text views -------------------- */
@@ -147,6 +160,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView robberOreMinus = (ImageView) null;
     private ImageView robberWoolPlus = (ImageView) null;
     private ImageView robberWoolMinus = (ImageView) null;
+    private TextView robberDiscardMessage = (TextView) null;
+    private Button robberConfirmDiscard = (Button) null;
+
+    private TextView robberBrickAmount = (TextView) null;
+    private TextView robberLumberAmount = (TextView) null;
+    private TextView robberGrainAmount = (TextView) null;
+    private TextView robberOreAmount = (TextView) null;
+    private TextView robberWoolAmount = (TextView) null;
+
+    private Button robberConfirmHex = (Button) null;
+    private TextView robberHexMessage = (TextView) null;
 
     //Trade Buttons - Receive
     private ImageView brickSelectionBoxReceive = (ImageView) null;
@@ -185,6 +209,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group developmentGroup = (Group) null;
     private Group tradeGroup = (Group) null;
     private Group robberDiscardGroup = (Group) null;
+    private Group robberChooseHexGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
 
@@ -226,8 +251,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(a);
 
             if (state.getCurrentDiceSum() == 7) {
-                //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
+                Log.i(TAG, "onClick: Making Robber Visible");
+                robberDiscardGroup.setVisibility(View.VISIBLE);
                 state.setRobberPhase(true);
             }
             return;
@@ -250,6 +276,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode;
+            if(this.buildingCosts.getVisibility() == View.VISIBLE)
+            {
+                this.buildingCosts.setVisibility(View.GONE);
+            }else
+            {
+                this.buildingCosts.setVisibility(View.VISIBLE);
+            }
             Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
@@ -260,38 +293,118 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /*----------------------End of Turn and Misc. Actions----------*/
+
         /*-------------------- Robber ------------------------*/
 
-        if (button.getId() == R.id.robber_discard_brickAddImg) {
 
+
+        if(button.getId() == R.id.robber_choosehex_confirm){
+            Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
+            if(state.isHasMovedRobber()){
+                if(selectedIntersections.size() != 1){
+                    robberHexMessage.setText("Please select only one intersection.");
+                    return;
+                }
+                if(!state.getBoard().hasBuilding(selectedIntersections.get(0))){
+                    robberHexMessage.setText("Please select an intersection with a building owned by another player on it.");
+                    return;
+                }
+                if(state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum){
+                    robberHexMessage.setText("Please select an intersection not owned by you.");
+                    return;
+                }
+
+                int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
+                CatanRobberStealAction action = new CatanRobberStealAction(this, playerNum, stealId);
+                robberChooseHexGroup.setVisibility(View.GONE);
+                game.sendAction(action);
+                return;
+            }
+            if(!tryMoveRobber(selectedHexagonId)){
+                Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
+                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+                robberHexMessage.startAnimation(shake);
+                robberHexMessage.setText("Not a valid tile!");
+                return;
+            }
+
+            Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
+            robberChooseHexGroup.setVisibility(View.GONE);
+            robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
+            CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, selectedHexagonId);
+            game.sendAction(action);
+
+            return;
+
+        }
+
+        if(button.getId() == R.id.robber_discard_confirm){
+            if(state.validDiscard(this.playerNum, this.robberDiscardedResources)){
+                if(state.getCurrentPlayerId() == playerNum){
+                    robberChooseHexGroup.setVisibility(View.VISIBLE);
+                }
+                robberDiscardGroup.setVisibility(View.GONE);
+
+                robberBrickAmount.setText("00");
+                robberLumberAmount.setText("00");
+                robberGrainAmount.setText("00");
+                robberOreAmount.setText("00");
+                robberWoolAmount.setText("00");
+
+                this.robberDiscardedResources = state.getRobberDiscardedResource();
+                CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources);
+                game.sendAction(action);
+                return;
+            }
+
+            String message = "" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount()/2 + " resources are needed.";
+            robberDiscardMessage.setText(message);
+            return;
+        }
+
+        if (button.getId() == R.id.robber_discard_brickAddImg) {
+            robberDiscardedResources[0] += 1;
+            robberBrickAmount.setText("" + robberDiscardedResources[0]);
         }
         if (button.getId() == R.id.robber_discard_brickMinusImg) {
-
+            robberDiscardedResources[0] -= 1;
+            robberBrickAmount.setText("" + robberDiscardedResources[0]);
         }
         if (button.getId() == R.id.robber_discard_lumberAddImg) {
-
+            robberDiscardedResources[1] += 1;
+            robberLumberAmount.setText("" + robberDiscardedResources[1]);
         }
         if (button.getId() == R.id.robber_discard_lumberMinusImg) {
-
+            robberDiscardedResources[1] -= 1;
+            robberLumberAmount.setText("" + robberDiscardedResources[1]);
         }
         if (button.getId() == R.id.robber_discard_grainAddImg) {
-
+            robberDiscardedResources[2] += 1;
+            robberGrainAmount.setText("" + robberDiscardedResources[2]);
         }
         if (button.getId() == R.id.robber_discard_grainMinusImg) {
-
+            robberDiscardedResources[2] -= 1;
+            robberGrainAmount.setText("" + robberDiscardedResources[2]);
         }
         if (button.getId() == R.id.robber_discard_oreAddImg) {
-
+            robberDiscardedResources[3] += 1;
+            robberOreAmount.setText("" + robberDiscardedResources[3]);
         }
         if (button.getId() == R.id.robber_discard_oreMinusImg) {
-
+            robberDiscardedResources[3] -= 1;
+            robberOreAmount.setText("" + robberDiscardedResources[3]);
         }
         if (button.getId() == R.id.robber_discard_woolAddImg) {
-
+            robberDiscardedResources[4] += 1;
+            robberWoolAmount.setText("" + robberDiscardedResources[4]);
         }
         if (button.getId() == R.id.robber_discard_woolMinusImg) {
-
+            robberDiscardedResources[4] -= 1;
+            robberWoolAmount.setText("" + robberDiscardedResources[4]);
         }
+
+        /*-------------------------End of Robber----------------------------------------*/
 
         /* ---------- Trade action buttons ---------- */
 
@@ -448,9 +561,45 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.use_Card) {
-            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
-            game.sendAction(action);
-            return;
+//            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
+//            game.sendAction(action);
+//            return;
+
+            if (devCardList.getSelectedItemPosition() == 0){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0);
+                CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 1){
+
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1);
+                CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 2){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2);
+                CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 3){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3);
+                CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 4){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(4);
+                CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
+                game.sendAction(action);
+                return;
+            }
         }
 
         if (button.getId() == R.id.build_devCard) {
@@ -738,6 +887,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
+    //TODO Niraj
+    private boolean tryMoveRobber(int hexId){
+
+        if(hexId == -1){
+            return false;
+        }
+
+        if(hexId == state.getBoard().getRobber().getHexagonId()){
+            return false;
+        }
+
+        ArrayList<Integer> intersections = state.getBoard().getHexToIntIdMap().get(hexId);
+
+        for (Integer intersection : intersections) {
+            if(state.getBoard().getBuildings()[intersection] != null){
+                if(state.getBoard().getBuildings()[intersection].getOwnerId() != playerNum){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     private boolean tryTradeWithPort (int resourceGiving, int resourceReceiving) {
 
@@ -831,8 +1003,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
+
+            if(state.checkPlayerResources(this.playerNum) && !state.isHasDiscarded()){
+                Log.d(TAG, "updateTextViews: Has not discarded cards");
+                robberDiscardGroup.setVisibility(View.VISIBLE);
+            }
+            else if(state.getCurrentPlayerId() == playerNum && state.isHasDiscarded()){
+                Log.d(TAG, "updateTextViews: Now needs to move Robber");
+                robberChooseHexGroup.setVisibility(View.VISIBLE);
+            }
+            else{
+
+            }
         }
-        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
             this.messageTextView.setText("Setup phase."); // set info message
 
@@ -1062,6 +1246,50 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton.setOnClickListener(this);
 
         /* ----------------------------------- Turn Buttons --------------------------------------*/
+        /*--------------------Robber Buttons and Groups------------------------*/
+        robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
+        robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
+        robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
+        robberLumberMinus = activity.findViewById(R.id.robber_discard_lumberMinusImg);
+        robberGrainPlus = activity.findViewById(R.id.robber_discard_grainAddImg);
+        robberGrainMinus = activity.findViewById(R.id.robber_discard_grainMinusImg);
+        robberOrePlus = activity.findViewById(R.id.robber_discard_oreAddImg);
+        robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
+        robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
+        robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
+        robberDiscardMessage = activity.findViewById(R.id.robber_discard_selectMoreResources);
+        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
+        robberConfirmDiscard = activity.findViewById(R.id.robber_discard_confirm);
+
+        robberBrickAmount = activity.findViewById(R.id.robber_discard_brickAmount);
+        robberLumberAmount = activity.findViewById(R.id.robber_discard_lumberAmount);
+        robberGrainAmount = activity.findViewById(R.id.robber_discard_grainAmount);
+        robberOreAmount = activity.findViewById(R.id.robber_discard_oreAmount);
+        robberWoolAmount = activity.findViewById(R.id.robber_discard_woolAmount);
+
+        robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);
+        robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
+        robberHexMessage.setText("Please choose a tile to place the Robber on.");
+        robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
+
+
+        robberBrickPlus.setOnClickListener(this);
+        robberBrickMinus.setOnClickListener(this);
+        robberLumberPlus.setOnClickListener(this);
+        robberLumberMinus.setOnClickListener(this);
+        robberGrainPlus.setOnClickListener(this);
+        robberGrainMinus.setOnClickListener(this);
+        robberOrePlus.setOnClickListener(this);
+        robberOreMinus.setOnClickListener(this);
+        robberWoolPlus.setOnClickListener(this);
+        robberWoolMinus.setOnClickListener(this);
+        robberConfirmDiscard.setOnClickListener(this);
+
+        robberConfirmHex.setOnClickListener(this);
+
+        /*---------------------------TODO Trade Buttons-------------------------------------------*/
+        //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
+        //        tradeCustomPort.setOnClickListener(this);
 
         //        tradePort = activity.findViewById(R.id.sidebar_button_trade);
         //        tradePort.setOnClickListener(this);
@@ -1138,6 +1366,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.sidebarMenuButton = activity.findViewById(R.id.sidebar_button_menu);
         this.sidebarMenuButton.setOnClickListener(this);
+        this.buildingCosts = activity.findViewById(R.id.building_costs);
 
         this.sidebarScoreboardButton = activity.findViewById(R.id.sidebar_button_score);
         this.sidebarScoreboardButton.setOnClickListener(this);
@@ -1330,8 +1559,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.buildSettlementButton.setClickable(true);
         this.buildCityButton.setAlpha(1f);
         this.buildCityButton.setClickable(true);
-        this.rollButton.setAlpha(1f);
-        this.rollButton.setClickable(true);
         this.endTurnButton.setAlpha(1f);
         this.endTurnButton.setClickable(true);
         this.sidebarOpenDevCardMenuButton.setAlpha(1f);
@@ -1344,6 +1571,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.buildRoadButton.setClickable(true);
         this.endTurnButton.setAlpha(1f);
         this.endTurnButton.setClickable(true);
+
+        this.rollButton.setAlpha(0.5f);
+        this.rollButton.setClickable(false);
 
         this.singleIntersectionCancelButton.setAlpha(1f);
         this.singleIntersectionCancelButton.setClickable(true);

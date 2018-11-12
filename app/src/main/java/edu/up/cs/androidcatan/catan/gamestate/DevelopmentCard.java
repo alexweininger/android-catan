@@ -63,7 +63,7 @@ public class DevelopmentCard {
     }
 
     public void useVictoryPointsCard(Player player) {
-        player.useDevCard(this);
+        player.useDevCard(1);
     }
 
     public void useRoadDevCard(Player player) {

@@ -16,6 +16,11 @@ import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
@@ -129,6 +134,8 @@ public class CatanLocalGame extends LocalGame {
             return gameState.buildCity(gameState.getCurrentPlayerId(), 2);
         }
 
+/*----------------------------------Dev Card Actions---------------------------------------------*/
+
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.buyDevCard(gameState.getCurrentPlayerId());
@@ -140,24 +147,52 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
-/*----------------------------------Robber Actions-----------------------------------------------*/
-        if (action instanceof CatanRobberMoveAction) {
+        if (action instanceof CatanUseKnightCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.robberMove();
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 0);
+        }
+
+        if (action instanceof CatanUseVictoryPointCardAction){
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+
+            gameState.getPlayerList().get(gameState.getCurrentPlayerId()).addVictoryPointsDevCard();
+            gameState.getPlayerList().get(gameState.getCurrentPlayerId()).removeDevCard(1);
+
             return true;
         }
 
-        if (action instanceof CatanRobberStealAction) {
+        if (action instanceof CatanUseRoadBuildingCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.robberSteal();
-            return true;
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 4);
+        }
+
+        if (action instanceof CatanUseMonopolyCardAction){
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
+        }
+
+        if (action instanceof CatanUseYearOfPlentyCardAction){
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 2);
+        }
+
+/*----------------------------------Robber Actions-----------------------------------------------*/
+        if (action instanceof CatanRobberMoveAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.moveRobber(((CatanRobberMoveAction) action).getHexagonId(), ((CatanRobberMoveAction) action).getPlayerId());
         }
 
         if (action instanceof CatanRobberDiscardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.robberDiscard();
-            return true;
+            return gameState.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getResourcesDiscarded());
         }
+
+        if (action instanceof CatanRobberStealAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealId());
+        }
+
 /*----------------------------------Robber Actions End-----------------------------------------------*/
 
         if (action instanceof CatanTradeAction) {

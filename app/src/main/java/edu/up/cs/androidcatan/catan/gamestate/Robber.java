@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
+import android.util.Log;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -29,6 +31,7 @@ public class Robber {
     //sets the new position of the Robber to be moved
     public void setHexagonId(int newHexagonId) {
         this.hexagonId = newHexagonId;
+        Log.d("Robber", "setHexagonId() called with: newHexagonId = [" + newHexagonId + "]");
     }
 
     //returns the current location of the Robber

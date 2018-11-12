@@ -43,8 +43,13 @@ public class CatanGameState extends GameState{
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isSetupPhase = true;
     private boolean isRobberPhase = false;
+    private boolean hasDiscarded = false;
+    private boolean hasMovedRobber = false;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
+
+    // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
+    private int[] robberDiscardedResources = new int[]{0,0,0,0,0};  //How many resources the player would like to discard
 
 
     public CatanGameState () { // CatanGameState constructor
@@ -82,6 +87,9 @@ public class CatanGameState extends GameState{
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
+        this.isRobberPhase = cgs.isRobberPhase;
+        this.hasDiscarded = cgs.hasDiscarded;
+        this.hasMovedRobber = cgs.hasMovedRobber;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
@@ -120,7 +128,7 @@ public class CatanGameState extends GameState{
     /**
      * @return The id of the development card the player drew randomly.
      */
-    public DevelopmentCard getRandomCard () {
+    public int getRandomCard () {
         // generate random number from 0 to the length of the dev card deck
         Random random = new Random();
         int randomDevCard = random.nextInt(developmentCards.size() - 1);
@@ -129,7 +137,7 @@ public class CatanGameState extends GameState{
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
 
-        return new DevelopmentCard(drawnDevCard);
+        return drawnDevCard;
     }
 
     /**
@@ -336,8 +344,8 @@ public class CatanGameState extends GameState{
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
         // if the robber is rolled
         if (rollNum == 7) {
-            // todo activate robber
             Log.i(TAG, "rollDice: The robber has been activated.");
+            this.isRobberPhase = true;
         } else {
             Log.i(TAG, "rollDice: Calling the produceResources method.");
             produceResources(rollNum);
@@ -368,9 +376,9 @@ public class CatanGameState extends GameState{
         //method is called at the end of every turn to give an accurate victory point count
         updateVictoryPoints();
 
-        for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
+        /*for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
-        }
+        }*/
 
         this.isActionPhase = false;
 
@@ -609,22 +617,73 @@ public class CatanGameState extends GameState{
     }
 
     /**
-     * TODO implement
-     * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
-     * @return - action success
+     * @param playerId
+     * @return
      */
-    public boolean robberDiscard (ArrayList<Integer> resourceCards) {
-        for (Player player : this.playerList) {
-            if (player.getPlayerId() == currentPlayerId) {
-
-            } else {
-
-            }
+    public boolean checkPlayerResources(int playerId){
+        if(hasDiscarded){
+            return false;
         }
-        Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
+        if(playerList.get(playerId).getTotalResourceCardCount() > 7){
+            return true;
+        }
+        hasDiscarded = true;
+
+        return false;
+    }
+
+    /**
+     * Checking if we can actually discard the resources
+     *
+     * @param playerId
+     * @param resourcesDiscarded
+     * @return
+     */
+    public boolean validDiscard(int playerId, int[] resourcesDiscarded){
+        int totalDiscarded = 0;
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            if(resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]){
+                Log.i(TAG, "validDiscard: Invalid due to not having enough resources, returning false");
+                return false;
+            }
+            totalDiscarded += resourcesDiscarded[i];
+        }
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
+        if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Discards resources when robber is played; makes sure it is exactly half of the player's hand;
+     * if not, returns false
+     *
+     * @param playerId
+     * @param resourcesDiscarded
+     * @return
+     */
+    public boolean discardResources(int playerId, int[] resourcesDiscarded){
+        int totalDiscarded = 0;
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            totalDiscarded += resourcesDiscarded[i];
+        }
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
+        Log.i(TAG, "discardResources: Discarded resources");
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
+        }
+        if(playerId == currentPlayerId){
+            hasDiscarded = true;
+        }
+        else{
+            hasDiscarded = true;
+            hasMovedRobber = true;
+        }
         return true;
     }
+
 
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
@@ -644,6 +703,7 @@ public class CatanGameState extends GameState{
         }
         if (this.board.moveRobber(hexagonId)) {
             Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
+            hasMovedRobber = true;
             return true;
         }
         Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
@@ -653,11 +713,10 @@ public class CatanGameState extends GameState{
     /**
      * After the player has moved the Robber, the player will choose a player to steal from and receive a random card from their hand
      *
-     * @param hexagonId - hexagon that the robber is moved to
      * @param playerId - player stealing resources
      * @return - action success
      */
-    public boolean robberSteal (int hexagonId, int playerId) {
+    public boolean robberSteal (int playerId, int stealId) {
         // check if valid player if
         if (!valPlId(playerId)) {
             Log.e(TAG, "robberSteal: invalid player id: " + playerId);
@@ -680,6 +739,10 @@ public class CatanGameState extends GameState{
 
         this.playerList.get(playerId).addResourceCard(randomStolenResourceId, 1);
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
+
+        isRobberPhase = false;
+        hasDiscarded = false;
+        hasMovedRobber = false;
         return true;
     }
 
@@ -819,6 +882,14 @@ public class CatanGameState extends GameState{
         return isRobberPhase;
     }
 
+    public int[] getRobberDiscardedResource(){
+        return robberDiscardedResources;
+    }
+
+    public boolean isHasDiscarded() { return hasDiscarded;}
+
+    public boolean isHasMovedRobber() { return hasMovedRobber; }
+
     /*-------------------------------------toString------------------------------------------*/
 
     /**
@@ -835,6 +906,7 @@ public class CatanGameState extends GameState{
         result.append("diceVal: ").append(this.currentDiceSum).append(", ");
         result.append("actionPhase: ").append(this.isActionPhase).append(", ");
         result.append("setupPhase: ").append(this.isSetupPhase).append(", ");
+        result.append("robberPhase: ").append(this.isRobberPhase).append(", ");
         result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
 

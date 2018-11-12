@@ -120,6 +120,7 @@ public class Board {
         this.setIntersectionGraph(b.getIntersectionGraph());
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
+        this.robber = new Robber(b.robber);
 
         for (int i = 0; i < b.getBuildings().length; i++) {
             if (b.getBuildings()[i] instanceof Settlement) {
@@ -398,7 +399,7 @@ public class Board {
         }
 
         // check if city already exists at intersection
-        if (this.buildings[intersectionId] instanceof City) {
+        if ((this.buildings[intersectionId] instanceof City)) {
             Log.w(TAG, "validCityLocation: Cannot build a city if there is already a city built at the intersection. Returning false.");
             return false;
         }
@@ -1670,4 +1671,5 @@ public class Board {
 
         return str;
     }
+
 } // end Class
