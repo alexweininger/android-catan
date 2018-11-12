@@ -29,6 +29,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
@@ -210,12 +211,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         super(name);
     }
 
-    /*---------------------------------------onClick Methods-------------------------------------------*/
+    /*---------------------------------- onClick Method -----------------------------------------*/
 
     /**
-     * this method gets called when the user clicks the die or hold button. It
-     * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
-     * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
+     * this method gets called when the user clicks ANY button that has the listener set to 'this'
      *
      * @param button the button that was clicked
      */
@@ -230,9 +229,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------- Turn Actions ---------- */
 
         if (button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
+            game.sendAction(new CatanRollDiceAction(this));
 
             if (state.getCurrentDiceSum() == 7) {
                 //TODO Make robber menu appear
@@ -259,11 +257,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode;
-            if(this.buildingCosts.getVisibility() == View.VISIBLE)
-            {
+            if (this.buildingCosts.getVisibility() == View.VISIBLE) {
                 this.buildingCosts.setVisibility(View.GONE);
-            }else
-            {
+            } else {
                 this.buildingCosts.setVisibility(View.VISIBLE);
             }
             Log.e(TAG, "onClick: toggled debug mode");
@@ -462,81 +458,51 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
         woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
 
-        // in these if statements we can set ONE selection box to visible and we need to set the selection integer
-        if (button.getId() == R.id.image_trade_menu_give_brick){
-            Log.d(TAG, "onClick: brick");
-            brickSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            tradeGiveSelection = 0;
+        int giveButtonIds[] = {R.id.image_trade_menu_give_brick, R.id.image_trade_menu_give_grain, R.id.image_trade_menu_give_lumber, R.id.image_trade_menu_give_ore, R.id.image_trade_menu_give_wool};
+        int recButtonIds[] = {R.id.image_trade_menu_rec_brick, R.id.image_trade_menu_rec_grain, R.id.image_trade_menu_rec_lumber, R.id.image_trade_menu_rec_ore, R.id.image_trade_menu_rec_wool};
+
+        for (int i = 0; i < 5; i++) {
+            if (button.getId() == giveButtonIds[i]) {
+                tradeGiveSelection = i;
+                break;
+            }
+            if (button.getId() == recButtonIds[i]) {
+                tradeReceiveSelection = i;
+                break;
+            }
         }
 
-        if (button.getId() == R.id.image_trade_menu_give_grain){
-            grainSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            tradeGiveSelection = 1;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_give_lumber){
-            lumberSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            tradeGiveSelection = 2;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_give_ore){
-            oreSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            tradeGiveSelection = 3;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_give_wool){
-            woolSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            tradeGiveSelection = 4;
-        }
-
-        //Receive
-        if (button.getId() == R.id.image_trade_menu_rec_brick){
-            brickSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            tradeReceiveSelection = 0;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_grain){
-            grainSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            tradeReceiveSelection = 1;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_lumber){
-            lumberSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            tradeReceiveSelection = 2;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_ore){
-            oreSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            tradeReceiveSelection = 3;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_wool){
-            woolSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            tradeReceiveSelection = 4;
-        }
-
+        ImageView selectionBoxGive[] = {brickSelectionBoxGive, grainSelectionBoxGive, lumberSelectionBoxGive, oreSelectionBoxGive, woolSelectionBoxGive};
         ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
 
-        if (tradeReceiveSelection != -1) {
-            selectionBoxReceive[tradeReceiveSelection].setBackgroundColor(Color.YELLOW);
+        // set all give selection boxes to transparent
+        for (ImageView imageView : selectionBoxGive) {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
         }
 
+        // set all receive selection boxes to transparent
+        for (ImageView imageView : selectionBoxReceive) {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
 
+        if (tradeReceiveSelection != -1) {
+            selectionBoxReceive[tradeReceiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
+        }
+        if (tradeGiveSelection != -1) {
+            selectionBoxGive[tradeGiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
+        }
 
-        if (button.getId() == R.id.button_trade_menu_confirm){
-            if(selectedIntersections.size()>0)
-            {
-                if(tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
+        if (button.getId() == R.id.button_trade_menu_confirm) {
+            if (selectedIntersections.size() > 0) {
+                if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with port");
-                }
-                else
-                {
+                } else {
                     Log.d(TAG, "onClick: invalid location");
                 }
             }
         }
 
-        if (button.getId() == R.id.button_trade_menu_cancel){
+        if (button.getId() == R.id.button_trade_menu_cancel) {
             toggleGroupVisibility(tradeGroup);
         }
 
@@ -666,7 +632,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
 
-            if (state.isSetupPhase()) {
+            if (state.isSetupPhase()) { // todo remove
                 // add just enough resources so player can build a road
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
@@ -750,10 +716,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
-    private boolean tryTradeWithPort(int resourceGiving, int resourceReceiving) {
+    private boolean tryTradeWithPort (int resourceGiving, int resourceReceiving) {
 
         ArrayList<Port> ports = state.getBoard().getPortList();
-
         Port tradingWith = null;
 
         for (Port port : ports) {
@@ -769,19 +734,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (tradingWith.getResourceId() != -1) {
-            state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio());
-        } else {
-
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio())) {
 
             }
+        } else {
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
+                game.sendAction(new CatanTradeWithPortAction(this));
+            } else {
 
+            }
         }
-
-        return  true;
+        return true;
     }
 
-    private boolean tryTradeWithBank() {
+    private boolean tryTradeWithBank () {
 
         return true;
     }
@@ -793,41 +759,37 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private void updateTextViews () {
 
-
         // Check if the Game State is null. If it is return void.
         if (this.state == null) {
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
             return;
         }
 
-        if(state.getDice().getDiceValues()[0] == 1)
+        if (state.getDice().getDiceValues()[0] == 1)
             diceImageLeft.setBackgroundResource(R.drawable.dice_1);
         else if (state.getDice().getDiceValues()[0] == 2)
             diceImageLeft.setBackgroundResource(R.drawable.dice_2);
         else if (state.getDice().getDiceValues()[0] == 3)
             diceImageLeft.setBackgroundResource(R.drawable.dice_3);
-        else if(state.getDice().getDiceValues()[0] == 4)
+        else if (state.getDice().getDiceValues()[0] == 4)
             diceImageLeft.setBackgroundResource(R.drawable.dice_4);
         else if (state.getDice().getDiceValues()[0] == 5)
             diceImageLeft.setBackgroundResource(R.drawable.dice_5);
-        else
-            diceImageLeft.setBackgroundResource(R.drawable.dice_6);
+        else diceImageLeft.setBackgroundResource(R.drawable.dice_6);
 
-        if(state.getDice().getDiceValues()[1] == 1)
+        if (state.getDice().getDiceValues()[1] == 1)
             diceImageRight.setBackgroundResource(R.drawable.dice_1);
         else if (state.getDice().getDiceValues()[1] == 2)
             diceImageRight.setBackgroundResource(R.drawable.dice_2);
         else if (state.getDice().getDiceValues()[1] == 3)
             diceImageRight.setBackgroundResource(R.drawable.dice_3);
-        else if(state.getDice().getDiceValues()[1] == 4)
+        else if (state.getDice().getDiceValues()[1] == 4)
             diceImageRight.setBackgroundResource(R.drawable.dice_4);
         else if (state.getDice().getDiceValues()[1] == 5)
             diceImageRight.setBackgroundResource(R.drawable.dice_5);
-        else
-            diceImageRight.setBackgroundResource(R.drawable.dice_6);
+        else diceImageRight.setBackgroundResource(R.drawable.dice_6);
 
         if (this.state.getRobberPhase()) {
-
             this.messageTextView.setText("Robber phase.");
 
             // if it is the setup phase, grey out some buttons and make them un clickable
@@ -890,7 +852,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
 
-
             this.singleIntersectionCancelButton.setAlpha(0.5f);
             this.singleIntersectionCancelButton.setClickable(false);
             this.roadIntersectionCancelButton.setAlpha(0.5f);
@@ -935,7 +896,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             setAllButtonsToVisible();
         }
 
-//                setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
+        //                setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
 
@@ -1090,10 +1051,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
-
-
-
-
         robberBrickPlus.setOnClickListener(this);
         robberBrickMinus.setOnClickListener(this);
         robberLumberPlus.setOnClickListener(this);
@@ -1104,7 +1061,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus.setOnClickListener(this);
         robberWoolPlus.setOnClickListener(this);
         robberWoolMinus.setOnClickListener(this);
-
 
         //Trade Menu Background - Receive
         brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
@@ -1259,8 +1215,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         useDevCard = activity.findViewById(R.id.use_Card); // use dev card
         useDevCard.setOnClickListener(this);
 
-
-
         buildDevCard = activity.findViewById(R.id.build_devCard); // build dev card
         buildDevCard.setOnClickListener(this);
 
@@ -1358,11 +1312,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         else group.setVisibility(View.GONE);
     }
 
-    private void toggleViewVisibility(View view){
-        if (view.getVisibility() == View.GONE){
+    private void toggleViewVisibility (View view) {
+        if (view.getVisibility() == View.GONE) {
             view.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             view.setVisibility(View.GONE);
         }
     }
