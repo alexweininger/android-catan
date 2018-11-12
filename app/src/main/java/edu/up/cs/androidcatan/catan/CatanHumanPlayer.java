@@ -514,67 +514,207 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         int give = -1;
         int receive = -1;
 
-        brickSelectionBoxGive.setVisibility(View.GONE);
-        grainSelectionBoxGive.setVisibility(View.GONE);
-        lumberSelectionBoxGive.setVisibility(View.GONE);
-        oreSelectionBoxGive.setVisibility(View.GONE);
-        woolSelectionBoxGive.setVisibility(View.GONE);
 
         //Give
         if (button.getId() == R.id.image_trade_menu_give_brick){
             Log.d(TAG, "onClick: brick");
-            brickSelectionBoxGive.setBackgroundColor(Color.BLACK);
-            toggleViewVisibility(brickSelectionBoxGive);
+            brickSelectionBoxGive.setVisibility(View.VISIBLE);
+            grainSelectionBoxGive.setVisibility(Color.TRANSPARENT);
+            lumberSelectionBoxGive.setVisibility(Color.TRANSPARENT);
+            oreSelectionBoxGive.setVisibility(Color.TRANSPARENT);
+            woolSelectionBoxGive.setVisibility(Color.TRANSPARENT);
             give = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_grain){
-            toggleViewVisibility(grainSelectionBoxGive);
+            brickSelectionBoxGive.setVisibility(View.GONE);
+            grainSelectionBoxGive.setVisibility(View.VISIBLE);
+            lumberSelectionBoxGive.setVisibility(View.GONE);
+            oreSelectionBoxGive.setVisibility(View.GONE);
+            woolSelectionBoxGive.setVisibility(View.GONE);
             give = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_lumber){
-            toggleViewVisibility(lumberSelectionBoxGive);
+            brickSelectionBoxGive.setVisibility(View.GONE);
+            grainSelectionBoxGive.setVisibility(View.GONE);
+            lumberSelectionBoxGive.setVisibility(View.VISIBLE);
+            oreSelectionBoxGive.setVisibility(View.GONE);
+            woolSelectionBoxGive.setVisibility(View.GONE);
             give = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_ore){
-            toggleViewVisibility(oreSelectionBoxGive);
+            brickSelectionBoxGive.setVisibility(View.GONE);
+            grainSelectionBoxGive.setVisibility(View.GONE);
+            lumberSelectionBoxGive.setVisibility(View.GONE);
+            oreSelectionBoxGive.setVisibility(View.VISIBLE);
+            woolSelectionBoxGive.setVisibility(View.GONE);
             give = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_wool){
-            toggleViewVisibility(woolSelectionBoxGive);
+            brickSelectionBoxGive.setVisibility(View.GONE);
+            grainSelectionBoxGive.setVisibility(View.GONE);
+            lumberSelectionBoxGive.setVisibility(View.GONE);
+            oreSelectionBoxGive.setVisibility(View.GONE);
+            woolSelectionBoxGive.setVisibility(View.VISIBLE);
             give = 4;
         }
 
         //Receive
         if (button.getId() == R.id.image_trade_menu_rec_brick){
-            toggleViewVisibility(brickSelectionBoxReceive);
+            brickSelectionBoxReceive.setVisibility(View.VISIBLE);
+            grainSelectionBoxReceive.setVisibility(View.GONE);
+            lumberSelectionBoxReceive.setVisibility(View.GONE);
+            oreSelectionBoxReceive.setVisibility(View.GONE);
+            woolSelectionBoxReceive.setVisibility(View.GONE);
             receive = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_grain){
-            toggleViewVisibility(grainSelectionBoxReceive);
+            brickSelectionBoxReceive.setVisibility(View.GONE);
+            grainSelectionBoxReceive.setVisibility(View.VISIBLE);
+            lumberSelectionBoxReceive.setVisibility(View.GONE);
+            oreSelectionBoxReceive.setVisibility(View.GONE);
+            woolSelectionBoxReceive.setVisibility(View.GONE);
             receive = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_lumber){
-            toggleViewVisibility(lumberSelectionBoxReceive);
+            brickSelectionBoxReceive.setVisibility(View.GONE);
+            grainSelectionBoxReceive.setVisibility(View.GONE);
+            lumberSelectionBoxReceive.setVisibility(View.VISIBLE);
+            oreSelectionBoxReceive.setVisibility(View.GONE);
+            woolSelectionBoxReceive.setVisibility(View.GONE);
             receive = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_ore){
-            toggleViewVisibility(oreSelectionBoxReceive);
+            brickSelectionBoxReceive.setVisibility(View.GONE);
+            grainSelectionBoxReceive.setVisibility(View.GONE);
+            lumberSelectionBoxReceive.setVisibility(View.GONE);
+            oreSelectionBoxReceive.setVisibility(View.VISIBLE);
+            woolSelectionBoxReceive.setVisibility(View.GONE);
             receive = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_wool){
-            toggleViewVisibility(woolSelectionBoxReceive);
+            brickSelectionBoxReceive.setVisibility(View.GONE);
+            grainSelectionBoxReceive.setVisibility(View.GONE);
+            lumberSelectionBoxReceive.setVisibility(View.GONE);
+            oreSelectionBoxReceive.setVisibility(View.GONE);
+            woolSelectionBoxReceive.setVisibility(View.VISIBLE);
             receive = 4;
         }
 
         if (button.getId() == R.id.button_trade_menu_confirm){
+            if(give == 0)
+            {
+                if(receive == 0)
+                {
+
+                }
+                else if(receive == 1)
+                {
+
+                }
+                else if(receive == 2)
+                {
+
+                }else if(receive == 3)
+                {
+
+                }else if(receive == 4)
+                {
+
+                }
+
+            }
+            else if(give == 1)
+            {
+                if(receive == 0)
+                {
+
+                }
+                else if(receive == 1)
+                {
+
+                }
+                else if(receive == 2)
+                {
+
+                }else if(receive == 3)
+                {
+
+                }else if(receive == 4)
+                {
+
+                }
+            }
+            else if(give == 2)
+            {
+                if(receive == 0)
+                {
+
+                }
+                else if(receive == 1)
+                {
+
+                }
+                else if(receive == 2)
+                {
+
+                }else if(receive == 3)
+                {
+
+                }else if(receive == 4)
+                {
+
+                }
+            }
+            else if(give == 3)
+            {
+                if(receive == 0)
+                {
+
+                }
+                else if(receive == 1)
+                {
+
+                }
+                else if(receive == 2)
+                {
+
+                }else if(receive == 3)
+                {
+
+                }else if(receive == 4)
+                {
+
+                }
+            }
+            else if(give == 4)
+            {
+                if(receive == 0)
+                {
+
+                }
+                else if(receive == 1)
+                {
+
+                }
+                else if(receive == 2)
+                {
+
+                }else if(receive == 3)
+                {
+
+                }else if(receive == 4)
+                {
+
+                }
+            }
 
         }
 
