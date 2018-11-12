@@ -205,7 +205,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     //Dev Card Menu
     private TextView devcard_text_name = (TextView) null;
-    private TextView getDevcard_text_description = (TextView) null;
+    private TextView devcard_text_info = (TextView) null;
     private int devCardId = 0;
 
     //Other Groups
@@ -1407,7 +1407,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ------------ DEV CARD SPINNER ----------------- */
 
         devcard_text_name = activity.findViewById(R.id.development_Card_Name);
-        devcard_text_name = activity.findViewById(R.id.development_Card_Info);
+        devcard_text_info = activity.findViewById(R.id.development_Card_Info);
         devCardList = activity.findViewById(R.id.development_Card_Spinner); // DEV CARD SPINNER
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(), R.array.dev_Card, android.R.layout.simple_spinner_item);
