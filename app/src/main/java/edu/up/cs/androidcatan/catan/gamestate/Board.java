@@ -418,26 +418,6 @@ public class Board {
         return true;
     }
 
-    // other methods
-
-    /**
-     * Checks to see if there is a building already at the given intersection or not
-     *
-     * @param intersectionId - intersection id
-     * @return whether there is a building at that given intersection
-     */
-    public boolean hasBuilding (int intersectionId) {
-        return this.buildings[intersectionId] != null;
-    }
-
-    /**
-     * @param intersectionId - intersection id
-     * @return - the building located at given intersection
-     */
-    public Building getBuildingAtIntersection (int intersectionId) {
-        return this.buildings[intersectionId];
-    }
-
     /**
      * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
      */
@@ -624,6 +604,24 @@ public class Board {
         return true;
     }
 
+    /**
+     * Checks to see if there is a building already at the given intersection or not
+     *
+     * @param intersectionId - intersection id
+     * @return whether there is a building at that given intersection
+     */
+    public boolean hasBuilding (int intersectionId) {
+        return this.buildings[intersectionId] != null;
+    }
+
+    /**
+     * @param intersectionId - intersection id
+     * @return - the building located at given intersection
+     */
+    public Building getBuildingAtIntersection (int intersectionId) {
+        return this.buildings[intersectionId];
+    }
+
     /* ----- adjacency checking methods -----*/
 
     /**
@@ -728,6 +726,11 @@ public class Board {
 
     /*----- board helper methods for setting up board and populating data structures -----*/
 
+    private ArrayList<Integer> generateChitList () {
+//        ArrayList<Integer> chitLst
+        return null;
+    }
+
     /**
      * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
@@ -738,6 +741,9 @@ public class Board {
         //arrays that contain information regarding what each hexagon will contain
         int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
         int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
+
+
+
         int[] resources = {0, 1, 2, 3, 4, 5};
 
         Random random = new Random();
