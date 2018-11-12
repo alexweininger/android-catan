@@ -32,13 +32,11 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
-import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
@@ -449,6 +447,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText("Select one intersection to build a city.");
             } else {
+                Log.e(TAG, "onClick: build city selected intersection: " + selectedIntersections.get(0));
                 if (tryBuildCity(selectedIntersections.get(0))) {
                     messageTextView.setText("Built a city.");
                 } else {
