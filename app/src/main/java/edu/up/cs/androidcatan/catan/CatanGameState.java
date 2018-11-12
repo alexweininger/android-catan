@@ -1,8 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
-import android.app.Activity;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -266,6 +264,12 @@ public class CatanGameState extends GameState{
             this.playerVictoryPoints[i] = 0;
         }
 
+        for (int n = 0; n < this.playerList.size(); n++){
+            if (playerList.get(n).getPlayerId() == this.board.getPlayerWithLongestRoad(playerList)){
+                playerVictoryPoints[playerList.get(n).getPlayerId()] += 2;
+            }
+        }
+
         // goes through all buildings and the amount of victory points to the player to who owns the building
         Building[] buildings = this.board.getBuildings();
 
@@ -375,6 +379,9 @@ public class CatanGameState extends GameState{
         this.isActionPhase = false;
 
         Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
+
+        //call to get the player with the longest road given the current player list
+        this.board.getPlayerWithLongestRoad(playerList);
 
         if (this.currentPlayerId == 3) {
             this.currentPlayerId = 0;
@@ -729,29 +736,6 @@ public class CatanGameState extends GameState{
         if (board.getRoads().size() < 8 || buildingCount < 8) {
             return true;
         }
-
-        //        for (int n = 0; n < playerList.size(); n++) {
-        //            for (Building building : board.getBuildings()) {
-        //                if (building != null) {
-        //                    if (building.getOwnerId() == n) {
-
-        //                        Log.d(TAG, "updateSetupPhase: OwnerId " + building.getOwnerId());
-        //                        buildingCount++;
-        //                    }
-        //                }
-        //                for (Road road : board.getRoads()) {
-        //                    if (road.getOwnerId() == n) {
-        //                        Log.d(TAG, "updateSetupPhase: OwnerId " + road.getOwnerId());
-        //                        roadCount++;
-        //                    }
-        //                }
-        //
-        //                if (buildingCount < 2 || roadCount < 2) {
-        //                    Log.d(TAG, "updateSetupPhase() returned: " + true);
-        //                    return true;
-        //                }
-        //            }
-        //        }
         Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }

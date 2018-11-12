@@ -69,9 +69,6 @@ public class Board {
     // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
 
-    // List of port intersection locations. TODO
-    private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
-
     private ArrayList<Port> portList = new ArrayList<>();
 
     private ArrayList<ArrayList<Integer>> intersectionGraph = new ArrayList<>();
@@ -87,23 +84,19 @@ public class Board {
 
         populateHexagonIds(); // populate ids
         populateIntersectionIds();
-        populatePortIntersectionIds();
 
         generateHexagonGraph(); // generate adj. graphs
         generateIntersectionGraph();
         generateNewIntersectionGraphManually(); // new intersection graph
         generateRoadMatrix();
 
-        //         print graphs
-        //        Log.i(TAG, "Board: Printing hGraph...");
-        //        printGraph(hGraph);
-        //        Log.i(TAG, "Board: Printing iGraph...");
-        //        printGraph(iGraph);
-
         generateIntToHexMap(); // generate maps
         generateHexToIntMap();
 
-        generateHexagonTiles(); // generate hex tiles
+        do {
+            this.hexagons.clear();
+            generateHexagonTiles(); // generate hex tiles
+        } while (!checkChitRule());
 
         designatePorts();
     } // end Board constructor
@@ -121,7 +114,6 @@ public class Board {
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
         this.setRobber(new Robber(b.getRobber())); // class
-        this.setPortIntersectionLocations(b.getPortIntersectionLocations());
         this.setRoadGraph(b.getRoadGraph());
         this.setRoadGraph(b.getRoadGraph());
         this.setPortList(b.getPortList());
@@ -129,56 +121,17 @@ public class Board {
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
 
+        for (int i = 0; i < b.getBuildings().length; i++) {
+            if (b.getBuildings()[i] instanceof Settlement) {
+                this.buildings[i] = new Settlement(b.getBuildings()[i].getOwnerId());
+            } else if (b.getBuildings()[i] instanceof City) {
+                this.buildings[i] = new City(i, b.getBuildings()[i].getOwnerId());
+            }
+        }
         for (Hexagon hexagon : b.getHexagons()) {
             this.hexagons.add(new Hexagon(hexagon));
         }
     } // end Board deep copy constructor
-
-    /**
-     * alex's ultimate intersection adjacency method
-     *
-     * @param intersection IntersectionDrawable
-     * @return ArrayList of adjacent intersections.
-     */
-    public ArrayList<Integer> getAdjacentIntersections (int intersection) {
-
-        Log.d(TAG, "getAdjacentIntersections() called with: intersection = [" + intersection + "]");
-
-        ArrayList<Integer> result = new ArrayList<>();
-        ArrayList<Integer> allIntersections = new ArrayList<>();
-
-        if (intersection == 24) {
-            result.add(25);
-            result.add(53);
-        } else if (intersection == 53) {
-            result.add(24);
-            result.add(52);
-        } else if (intersection > 24 && intersection < 53) {
-            result.add(intersection - 1);
-            result.add(intersection + 1);
-        } else {
-
-            for (Integer hexagonId : this.intToHexIdMap.get(intersection)) {
-                ArrayList<Integer> allAdjInters = this.hexToIntIdMap.get(hexagonId);
-                allIntersections.addAll(allAdjInters);
-            }
-
-            for (int i = 0; i < allIntersections.size(); i++) {
-                int count = 0;
-                for (int j = 0; j < allIntersections.size(); j++) {
-                    if (i == allIntersections.get(j)) {
-                        count++;
-                    }
-                }
-                if (count == 3 && i != intersection) {
-                    result.add(i);
-                }
-            }
-        }
-        Log.d(TAG, "ALEX getAdjacentIntersections() returned: " + result);
-        return result;
-    }
-
 
     /* ----- helper / checking methods ----- */
 
@@ -271,6 +224,8 @@ public class Board {
     }
 
     /**
+     * Main method to calculate the longest road trophy holder. - AL
+     *
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
@@ -311,15 +266,10 @@ public class Board {
                 currLongestRoad = longestRoadPerPlayer.get(n);
                 playerIdLongestRoad = n;
             }
-            if (longestRoadPerPlayer.get(n) == currLongestRoad) {
-                playerIdLongestRoad = -1;
-            }
         }
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
         return playerIdLongestRoad;
     }
-
-    //TODO: helper method to return a playerId's longest road (possibly for later)
 
     /**
      * @param intersectionId intersection to check for a break
@@ -377,7 +327,7 @@ public class Board {
         return 0;
     }
 
-    /* ----- building methods ----- */
+    /* ----- validate building methods ----- */
 
     /**
      * @param playerId - player building the building
@@ -469,155 +419,13 @@ public class Board {
         return true;
     }
 
-    /**
-     * Checks to see if there is a building already at the given intersection or not
-     *
-     * @param intersectionId - intersection id
-     * @return whether there is a building at that given intersection
-     */
-    public boolean hasBuilding (int intersectionId) {
-        return this.buildings[intersectionId] != null;
-    }
-
-    /**
-     * @param intersectionId - intersection id
-     * @return - the building located at given intersection
-     */
-    public Building getBuildingAtIntersection (int intersectionId) {
-        return this.buildings[intersectionId];
-    }
-
-
-    /**
-     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
-     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
-     */
-    private void generateHexagonTiles () {
-        Log.i(TAG, "generateHexagonTiles() called");
-
-        //arrays that contain information regarding what each hexagon will contain
-        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
-        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-        int[] resources = {0, 1, 2, 3, 4, 5};
-
+    private void swapChitValues(int hexagonId) {
         Random random = new Random();
-
-        //iterates through the hexagons and assigns each individual one the information required
-        while (this.hexagons.size() < 19) {
-
-            int randomResourceType;
-            do {
-                randomResourceType = random.nextInt(resourceTypeCount.length);
-            } while (resourceTypeCount[randomResourceType] < 1);
-
-            int randomChitValue;
-            do {
-                randomChitValue = random.nextInt(chitValuesCount.length);
-            } while (chitValuesCount[randomChitValue] < 1);
-
-            if (randomResourceType == 5) {
-                Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
-                randomChitValue = 0;
-            }
-
-            Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
-            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
-            resourceTypeCount[randomResourceType]--;
-            chitValuesCount[randomChitValue]--;
-
-            if (resources[randomResourceType] == 5) {
-                robber.setHexagonId(this.hexagons.size() - 1);
-            }
-
-            Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
-        }
-
-        Log.i(TAG, "generateHexagonTiles: exited loop");
-
-        Log.i(TAG, "generateHexagonTiles: hexagon list:");
-        for (Hexagon hexagon : this.hexagons) {
-            Log.i(TAG, "| " + hexagon);
-        }
-
-        // the rest of the code checks the method for error
-        int resourceCountChecks[] = new int[6];
-        for (Hexagon hexagon : this.hexagons) {
-            resourceCountChecks[hexagon.getResourceId()]++;
-        }
-
-        for (int i = 0; i < resourceCountChecks.length; i++) {
-            if (resourceTypeCount[i] < resourceCountChecks[i]) {
-                Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
-                generateHexagonTiles();
-            }
-        }
-
-        // shuffle the hexes until the chit rule is followed
-        while (!checkChitRule()) {
-            Collections.shuffle(hexagons);
-        }
-    }
-
-    /**
-     * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
-     */
-    private boolean checkChitRule () {
-        Log.d(TAG, "checkChitRule() called");
-        // checks if any 8's or 6's are adjacent to one another
-
-        // go through all hexagons
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 8) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 8) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 8 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 6) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 6) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 6 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 6) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 8) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 8) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 6) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 8 and 6 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
+        int randomHexId = random.nextInt(18);
+        Hexagon hex = this.hexagons.get(randomHexId);
+        int chitVal = this.hexagons.get(hexagonId).getChitValue();
+        this.hexagons.get(hexagonId).setChitValue(hex.getChitValue());
+        hex.setChitValue(chitVal);
     }
 
     /**
@@ -701,18 +509,6 @@ public class Board {
     }
 
     /**
-     * TODO? do we need this?
-     * returns whether a given player is an owner of the intersection
-     *
-     * @param intersectionId - intersection to check if playerId owns
-     * @param playerId - playerId to check against
-     * @return
-     */
-    public boolean isIntersectionOwner (int intersectionId, int playerId) {
-        return false;
-    }
-
-    /**
      * @param chitValue - value of dice sum and tile chit value that will produce resources
      * @return list of hexagons with chitValue AND DO NOT HAVE ROBBER - AW
      */
@@ -767,6 +563,24 @@ public class Board {
         building.setOwnerId(building.getOwnerId());
         this.buildings[intersectionId] = building;
         return true;
+    }
+
+    /**
+     * Checks to see if there is a building already at the given intersection or not
+     *
+     * @param intersectionId - intersection id
+     * @return whether there is a building at that given intersection
+     */
+    public boolean hasBuilding (int intersectionId) {
+        return this.buildings[intersectionId] != null;
+    }
+
+    /**
+     * @param intersectionId - intersection id
+     * @return - the building located at given intersection
+     */
+    public Building getBuildingAtIntersection (int intersectionId) {
+        return this.buildings[intersectionId];
     }
 
     /* ----- adjacency checking methods -----*/
@@ -871,8 +685,143 @@ public class Board {
         return this.intersectionGraph.get(intA).contains(intB);
     }
 
-
     /*----- board helper methods for setting up board and populating data structures -----*/
+
+    private ArrayList<Integer> generateChitList () {
+        Log.d(TAG, "generateChitList() called");
+        ArrayList<Integer> chitList = new ArrayList<>();
+
+        chitList.add(2);
+        chitList.add(2);
+        chitList.add(3);
+        chitList.add(3);
+        chitList.add(4);
+        chitList.add(4);
+        chitList.add(5);
+        chitList.add(5);
+        chitList.add(6);
+        chitList.add(6);
+        chitList.add(8);
+        chitList.add(8);
+        chitList.add(9);
+        chitList.add(9);
+        chitList.add(10);
+        chitList.add(10);
+        chitList.add(11);
+        chitList.add(11);
+        chitList.add(12);
+
+        Collections.shuffle(chitList);
+
+        return chitList;
+    }
+
+    /**
+     * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
+     */
+    private boolean checkChitRule () {
+        Log.d(TAG, "checkChitRule() called");
+        // checks if any 8's or 6's are adjacent to one another
+
+        // go through all hexagons
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            if (hexagons.get(i).getChitValue() == 8) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 8) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 8 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+            if (hexagons.get(i).getChitValue() == 6) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 6) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 6 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+
+                        if (hexagons.get(integer).getChitValue() == 8) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        Log.e(TAG, "checkChitRule() returned: " + true);
+        return true;
+    }
+
+    /**
+     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
+     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
+     */
+    private void generateHexagonTiles () {
+        Log.i(TAG, "generateHexagonTiles() called");
+
+        //arrays that contain information regarding what each hexagon will contain
+        int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
+
+        int[] resources = {0, 1, 2, 3, 4, 5};
+
+        Random random = new Random();
+
+        ArrayList<Integer> chitList = generateChitList();
+
+        //iterates through the hexagons and assigns each individual one the information required
+        while (this.hexagons.size() < 19) {
+
+            int randomChitValue = chitList.get(this.hexagons.size());
+
+            int randomResourceType;
+            do {
+                randomResourceType = random.nextInt(resourceTypeCount.length);
+            } while (resourceTypeCount[randomResourceType] < 1);
+
+            if (randomResourceType == 5) {
+                Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
+                randomChitValue = 0;
+            }
+
+            Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
+            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
+            resourceTypeCount[randomResourceType]--;
+
+            if (resources[randomResourceType] == 5) {
+                robber.setHexagonId(this.hexagons.size() - 1);
+            }
+
+            Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
+        }
+
+        Log.i(TAG, "generateHexagonTiles: exited loop");
+
+        Log.i(TAG, "generateHexagonTiles: hexagon list:");
+
+        if (hexagons.size() < 19) {
+            Log.e(TAG, "generateHexagonTiles: hexagons size less than 19");
+        }
+
+        for (Hexagon hexagon : this.hexagons) {
+            Log.i(TAG, "| " + hexagon);
+        }
+
+        // the rest of the code checks the method for error
+        int resourceCountChecks[] = new int[6];
+        for (Hexagon hexagon : this.hexagons) {
+            resourceCountChecks[hexagon.getResourceId()]++;
+        }
+
+        for (int i = 0; i < resourceCountChecks.length; i++) {
+            if (resourceTypeCount[i] < resourceCountChecks[i]) {
+                Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
+                //generateHexagonTiles();
+            }
+        }
+    }
 
     /**
      * populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
@@ -1449,17 +1398,6 @@ public class Board {
     }
 
     /**
-     * TODO remove and fix
-     * adds ports to the intersection and port hash map
-     */
-    private void populatePortIntersectionIds () {
-        for (int i = 0; i < 6; i++) {
-            portIntersectionLocations.add(17 + i * 6);
-            portIntersectionLocations.add(17 + i * 6 + 1);
-        }
-    }
-
-    /**
      * Creates ports along the given intersection, and assigns them proper trade values
      */
     private void designatePorts () {
@@ -1568,13 +1506,6 @@ public class Board {
     }
 
     /**
-     * @return Port intersection locations in an Array List. Index is the intersection.
-     */
-    private ArrayList<Integer> getPortIntersectionLocations () {
-        return this.portIntersectionLocations;
-    }
-
-    /**
      * @return Road adjacency graph.
      */
     public Road[][] getRoadGraph () {
@@ -1664,13 +1595,6 @@ public class Board {
         this.robber = robber;
     }
 
-    /**
-     * @param portIntersectionLocations list of intersections that have access to a port
-     */
-    public void setPortIntersectionLocations (ArrayList<Integer> portIntersectionLocations) {
-        this.portIntersectionLocations = portIntersectionLocations;
-    }
-
     public ArrayList<Port> getPortList () {
         return portList;
     }
@@ -1752,8 +1676,6 @@ public class Board {
                 str += "\n";
             }
         }
-
-        str += "\nportIntersectionLocations=" + portIntersectionLocations;
 
         return str;
     }
