@@ -779,6 +779,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     //TODO Niraj
     private boolean tryMoveRobber(int hexId){
 
+        if(hexId == state.getBoard().getRobber().getHexagonId()){
+            return false;
+        }
+
         ArrayList<Integer> intersections = state.getBoard().getHexToIntIdMap().get(hexId);
 
         for (Integer intersection : intersections) {
