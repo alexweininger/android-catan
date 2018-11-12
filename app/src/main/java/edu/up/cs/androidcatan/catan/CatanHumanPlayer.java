@@ -652,8 +652,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
-            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+            Log.i(TAG, "onClick: building location is valid. Sending a BuildCityAction to the game.");
             this.buildingsBuiltOnThisTurn.add(2);
+
+            game.sendAction(new CatanBuildCityAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection));
         }
         return true;
     }

@@ -60,7 +60,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
 
-        if (gs.isSetupPhase() && (roadCount != 2 || settlementCount != 2)) {  /*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
+        if (gs.isSetupPhase() && (roadCount < 2 || settlementCount < 2)) {  /*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
 
             Log.i(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road.");
 

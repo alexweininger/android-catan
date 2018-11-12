@@ -171,10 +171,6 @@ public class CatanGameState extends GameState{
      */
     public boolean useDevCard (int playerId, int devCardId) {
 
-        if (!valAction(playerId)) { // todo might need to remove
-            return false;
-        }
-
         DevelopmentCard developmentCard = new DevelopmentCard(devCardId);
         return true;
     }
