@@ -494,6 +494,50 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /* ---------------Trade Menu Buttons ---------------- */
+
+        //Give
+        if (button.getId() == R.id.image_trade_menu_give_brick){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_grain){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_lumber){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_ore){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_wool){
+
+        }
+
+        //Receive
+        if (button.getId() == R.id.image_trade_menu_rec_brick){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_grain){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_lumber){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_ore){
+
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_wool){
+
+        }
+
 
     } // onClick END
 
