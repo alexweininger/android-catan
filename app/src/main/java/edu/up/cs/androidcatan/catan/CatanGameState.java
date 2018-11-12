@@ -338,7 +338,7 @@ public class CatanGameState extends GameState{
             return false;
         }
 
-        int rollNum = 7;// dice.roll();
+        int rollNum = dice.roll();
         this.currentDiceSum = rollNum;
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
         // if the robber is rolled
