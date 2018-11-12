@@ -40,12 +40,15 @@ public class Player {
 
     private int playerId;  // playerId
 
+    private int victoryPointsFromDevCard;
+
     /**
      * Player constructor
      */
     public Player (int id) {
         this.playerId = id;
         this.armySize = 0;
+        this.victoryPointsFromDevCard = 0;
     }
 
     /**
@@ -59,6 +62,7 @@ public class Player {
         this.setDevelopmentCards(p.getDevelopmentCards());
         this.setBuildingInventory(p.getBuildingInventory());
         this.setResourceCards(p.getResourceCards());
+        this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
     }
 
     /**
@@ -220,6 +224,16 @@ public class Player {
     public void setArmySize (int armySize) {
         this.armySize = armySize;
     }
+
+    /**
+     * @return victory points from dev cards
+     */
+    public int getVictoryPointsFromDevCard() { return victoryPointsFromDevCard; }
+
+    /**
+     * @param victoryPointsFromDevCard the amount of points from dev cards they have
+     */
+    public void setVictoryPointsFromDevCard(int victoryPointsFromDevCard){ this.victoryPointsFromDevCard = victoryPointsFromDevCard; }
 
     /**
      * @param devCard dev card to add
