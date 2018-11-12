@@ -1100,6 +1100,36 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             setAllButtonsToVisible();
         }
 
+        //Not
+        if (this.playerNum != state.getCurrentPlayerId()){
+
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+            this.singleIntersectionCancelButton.setAlpha(0.5f);
+            this.singleIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionCancelButton.setAlpha(0.5f);
+            this.roadIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionAEditText.setAlpha(0.5f);
+            this.roadIntersectionAEditText.setEnabled(false);
+
+            this.sidebarScoreboardButton.setAlpha(1f);
+            this.sidebarScoreboardButton.setClickable(true);
+            this.sidebarMenuButton.setAlpha(1f);
+            this.sidebarMenuButton.setClickable(true);
+        }
+
         if (this.debugMode) {
             setAllButtonsToVisible();
         }
