@@ -112,6 +112,10 @@ public class Player {
         return true;
     }
 
+    public void removeDevCard(int removeCardNum){
+        this.developmentCards.remove(removeCardNum);
+    }
+
     /**
      * error checking:
      * - error checks for valid resourceCardId
