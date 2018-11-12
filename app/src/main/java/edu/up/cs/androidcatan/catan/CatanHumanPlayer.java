@@ -176,7 +176,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView image_trade_menu_rec_lumber = (ImageView) null;
     private ImageView image_trade_menu_rec_wool = (ImageView) null;
 
-    //Trade Menu - Gie
+    //Trade Menu - Give
     private ImageView image_trade_menu_give_brick = (ImageView) null;
     private ImageView image_trade_menu_give_grain = (ImageView) null;
     private ImageView image_trade_menu_give_lumber = (ImageView) null;
@@ -186,6 +186,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     //Trade Menu - Confirm and Cancel
     private Button button_trade_menu_confirm = (Button) null;
     private Button button_trade_menu_cancel = (Button) null;
+    private int tradeGiveSelection = -1;
+    private int tradeReceiveSelection = -1;
 
     //Other Groups
     private Group scoreBoardGroup = (Group) null;
@@ -511,10 +513,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------------Trade Menu Buttons ---------------- */
 
-        int give = -1;
-        int receive = -1;
-
-
         //Give
         if (button.getId() == R.id.image_trade_menu_give_brick){
             Log.d(TAG, "onClick: brick");
@@ -523,7 +521,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            give = 0;
+            tradeGiveSelection = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_grain){
@@ -532,7 +530,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            give = 1;
+            tradeGiveSelection = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_lumber){
@@ -541,7 +539,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxGive.setBackgroundColor(Color.YELLOW);
             oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            give = 2;
+            tradeGiveSelection = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_ore){
@@ -550,7 +548,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxGive.setBackgroundColor(Color.YELLOW);
             woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            give = 3;
+            tradeGiveSelection = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_wool){
@@ -559,7 +557,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            give = 4;
+            tradeGiveSelection = 4;
         }
 
         //Receive
@@ -569,7 +567,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            receive = 0;
+            tradeReceiveSelection = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_grain){
@@ -578,7 +576,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            receive = 1;
+            tradeReceiveSelection = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_lumber){
@@ -587,7 +585,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
             oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            receive = 2;
+            tradeReceiveSelection = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_ore){
@@ -596,7 +594,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
             woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            receive = 3;
+            tradeReceiveSelection = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_wool){
@@ -605,117 +603,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            receive = 4;
+            tradeReceiveSelection = 4;
         }
 
         if (button.getId() == R.id.button_trade_menu_confirm){
-            if(give == 0)
+            if(selectedIntersections.size()>0)
             {
-                if(receive == 0)
-                {
-
+                if(tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
+                    Log.d(TAG, "onClick: traded with port");
                 }
-                else if(receive == 1)
+                else
                 {
-
-                }
-                else if(receive == 2)
-                {
-
-                }else if(receive == 3)
-                {
-
-                }else if(receive == 4)
-                {
-
-                }
-
-            }
-            else if(give == 1)
-            {
-                if(receive == 0)
-                {
-
-                }
-                else if(receive == 1)
-                {
-
-                }
-                else if(receive == 2)
-                {
-
-                }else if(receive == 3)
-                {
-
-                }else if(receive == 4)
-                {
-
+                    Log.d(TAG, "onClick: invalid location");
                 }
             }
-            else if(give == 2)
-            {
-                if(receive == 0)
-                {
-
-                }
-                else if(receive == 1)
-                {
-
-                }
-                else if(receive == 2)
-                {
-
-                }else if(receive == 3)
-                {
-
-                }else if(receive == 4)
-                {
-
-                }
-            }
-            else if(give == 3)
-            {
-                if(receive == 0)
-                {
-
-                }
-                else if(receive == 1)
-                {
-
-                }
-                else if(receive == 2)
-                {
-
-                }else if(receive == 3)
-                {
-
-                }else if(receive == 4)
-                {
-
-                }
-            }
-            else if(give == 4)
-            {
-                if(receive == 0)
-                {
-
-                }
-                else if(receive == 1)
-                {
-
-                }
-                else if(receive == 2)
-                {
-
-                }else if(receive == 3)
-                {
-
-                }else if(receive == 4)
-                {
-
-                }
-            }
-
         }
 
         if (button.getId() == R.id.button_trade_menu_cancel){
