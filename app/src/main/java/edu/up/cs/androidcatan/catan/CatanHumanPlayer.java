@@ -977,6 +977,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus.setOnClickListener(this);
         robberWoolPlus.setOnClickListener(this);
         robberWoolMinus.setOnClickListener(this);
+        robberConfirmDiscard.setOnClickListener(this);
 
         robberConfirmHex.setOnClickListener(this);
 
