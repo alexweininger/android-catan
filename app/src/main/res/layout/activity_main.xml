@@ -1594,12 +1594,14 @@
 
     <TextView
         android:id="@+id/textview_game_message"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/message_text"
-        android:textSize="21sp"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
 
