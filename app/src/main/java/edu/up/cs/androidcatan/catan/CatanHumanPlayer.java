@@ -29,6 +29,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
@@ -210,12 +211,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         super(name);
     }
 
-    /*---------------------------------------onClick Methods-------------------------------------------*/
+    /*---------------------------------- onClick Method -----------------------------------------*/
 
     /**
-     * this method gets called when the user clicks the die or hold button. It
-     * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
-     * creates a new CatanRollAction or CatanHoldAction and sends it to the game.
+     * this method gets called when the user clicks ANY button that has the listener set to 'this'
      *
      * @param button the button that was clicked
      */
@@ -230,9 +229,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------- Turn Actions ---------- */
 
         if (button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
             Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
+            game.sendAction(new CatanRollDiceAction(this));
 
             if (state.getCurrentDiceSum() == 7) {
                 //TODO Make robber menu appear
@@ -460,57 +458,38 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
         woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
 
-        // in these if statements we can set ONE selection box to visible and we need to set the selection integer
-        if (button.getId() == R.id.image_trade_menu_give_brick) {
-            tradeGiveSelection = 0;
-        }
+        int giveButtonIds[] = {R.id.image_trade_menu_give_brick, R.id.image_trade_menu_give_grain, R.id.image_trade_menu_give_lumber, R.id.image_trade_menu_give_ore, R.id.image_trade_menu_give_wool};
+        int recButtonIds[] = {R.id.image_trade_menu_rec_brick, R.id.image_trade_menu_rec_grain, R.id.image_trade_menu_rec_lumber, R.id.image_trade_menu_rec_ore, R.id.image_trade_menu_rec_wool};
 
-        if (button.getId() == R.id.image_trade_menu_give_grain) {
-            tradeGiveSelection = 1;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_give_lumber) {
-            tradeGiveSelection = 2;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_give_ore) {
-            tradeGiveSelection = 3;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_give_wool) {
-            tradeGiveSelection = 4;
-        }
-
-        //Receive
-        if (button.getId() == R.id.image_trade_menu_rec_brick) {
-            tradeReceiveSelection = 0;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_grain) {
-            tradeReceiveSelection = 1;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_lumber) {
-            tradeReceiveSelection = 2;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_ore) {
-            tradeReceiveSelection = 3;
-        }
-
-        if (button.getId() == R.id.image_trade_menu_rec_wool) {
-            tradeReceiveSelection = 4;
+        for (int i = 0; i < 5; i++) {
+            if (button.getId() == giveButtonIds[i]) {
+                tradeGiveSelection = i;
+                break;
+            }
+            if (button.getId() == recButtonIds[i]) {
+                tradeReceiveSelection = i;
+                break;
+            }
         }
 
         ImageView selectionBoxGive[] = {brickSelectionBoxGive, grainSelectionBoxGive, lumberSelectionBoxGive, oreSelectionBoxGive, woolSelectionBoxGive};
         ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
 
-        if (tradeReceiveSelection != -1) {
-            selectionBoxReceive[tradeReceiveSelection].setBackgroundColor(Color.YELLOW);
+        // set all give selection boxes to transparent
+        for (ImageView imageView : selectionBoxGive) {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
         }
 
+        // set all receive selection boxes to transparent
+        for (ImageView imageView : selectionBoxReceive) {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
+
+        if (tradeReceiveSelection != -1) {
+            selectionBoxReceive[tradeReceiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
+        }
         if (tradeGiveSelection != -1) {
-            selectionBoxGive[tradeGiveSelection].setBackgroundColor(Color.YELLOW);
+            selectionBoxGive[tradeGiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
         }
 
         if (button.getId() == R.id.button_trade_menu_confirm) {
@@ -653,7 +632,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
 
-            if (state.isSetupPhase()) {
+            if (state.isSetupPhase()) { // todo remove
                 // add just enough resources so player can build a road
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
@@ -740,7 +719,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private boolean tryTradeWithPort (int resourceGiving, int resourceReceiving) {
 
         ArrayList<Port> ports = state.getBoard().getPortList();
-
         Port tradingWith = null;
 
         for (Port port : ports) {
@@ -756,15 +734,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (tradingWith.getResourceId() != -1) {
-            state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio());
-        } else {
-
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio())) {
 
             }
+        } else {
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
+                game.sendAction(new CatanTradeWithPortAction(this));
+            } else {
 
+            }
         }
-
         return true;
     }
 
@@ -811,7 +790,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         else diceImageRight.setBackgroundResource(R.drawable.dice_6);
 
         if (this.state.getRobberPhase()) {
-
             this.messageTextView.setText("Robber phase.");
 
             // if it is the setup phase, grey out some buttons and make them un clickable
