@@ -29,7 +29,7 @@
     <string name="resourceGive">Select a resource to give:</string>
     <string name="dice">Dice</string>
 
-    <string name="select_intersection_id">Select an intersection:</string>
+    <string name="select_intersection_id">Select an intersectionA:</string>
     <string name="hint_00">00</string>
     <string name="minus">minus</string>
     <string name="add">add</string>
