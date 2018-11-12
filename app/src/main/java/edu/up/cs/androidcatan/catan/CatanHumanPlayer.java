@@ -370,50 +370,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------- Building confirmation buttons ---------- */
-
-        if (button.getId() == R.id.button_roadOk) {
-            int intersectionA;
-            int intersectionB;
-            try {
-                intersectionA = Integer.parseInt(roadIntersectionAEditText.getText().toString());
-                intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
-            } catch (NumberFormatException nfe) {
-                Log.e(TAG, "onClick: Error, not integer");
-                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-                roadIntersectionAEditText.startAnimation(shake);
-                return;
-            }
-
-            Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
-
-            if (tryBuildRoad(intersectionA, intersectionB)) {
-                //                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
-                //                game.sendAction(action);
-
-                Log.d(TAG, "onClick: valid location");
-                // toggle menu vis.
-                toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
-                currentBuildingSelectionId = -1;
-                if (state.isSetupPhase()) {
-                    currentBuildingSelectionId = 1;
-                    roadCount++;
-                    if (roadCount == 2 && settlementCount == 2) {
-                        Log.d(TAG, "onClick: End setup phase for player");
-                        game.sendAction(new CatanEndTurnAction(this));
-                        this.buildingsBuiltOnThisTurn = new ArrayList<>();
-                        state.updateSetupPhase();
-
-                        return;
-                    }
-                    toggleGroupVisibility(singleIntersectionInputMenuGroup);
-                }
-            } else {
-                Log.d(TAG, "onClick: invalid location");
-            }
-            return;
-        }
-
         /* ---------- Development card buttons ---------- */
 
         // Development button located on the sidebar. Should only show/hide dev card menu.
