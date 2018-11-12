@@ -518,93 +518,93 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //Give
         if (button.getId() == R.id.image_trade_menu_give_brick){
             Log.d(TAG, "onClick: brick");
-            brickSelectionBoxGive.setVisibility(View.VISIBLE);
-            grainSelectionBoxGive.setVisibility(Color.TRANSPARENT);
-            lumberSelectionBoxGive.setVisibility(Color.TRANSPARENT);
-            oreSelectionBoxGive.setVisibility(Color.TRANSPARENT);
-            woolSelectionBoxGive.setVisibility(Color.TRANSPARENT);
+            brickSelectionBoxGive.setBackgroundColor(Color.YELLOW);
+            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             give = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_grain){
-            brickSelectionBoxGive.setVisibility(View.GONE);
-            grainSelectionBoxGive.setVisibility(View.VISIBLE);
-            lumberSelectionBoxGive.setVisibility(View.GONE);
-            oreSelectionBoxGive.setVisibility(View.GONE);
-            woolSelectionBoxGive.setVisibility(View.GONE);
+            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxGive.setBackgroundColor(Color.YELLOW);
+            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             give = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_lumber){
-            brickSelectionBoxGive.setVisibility(View.GONE);
-            grainSelectionBoxGive.setVisibility(View.GONE);
-            lumberSelectionBoxGive.setVisibility(View.VISIBLE);
-            oreSelectionBoxGive.setVisibility(View.GONE);
-            woolSelectionBoxGive.setVisibility(View.GONE);
+            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxGive.setBackgroundColor(Color.YELLOW);
+            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             give = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_ore){
-            brickSelectionBoxGive.setVisibility(View.GONE);
-            grainSelectionBoxGive.setVisibility(View.GONE);
-            lumberSelectionBoxGive.setVisibility(View.GONE);
-            oreSelectionBoxGive.setVisibility(View.VISIBLE);
-            woolSelectionBoxGive.setVisibility(View.GONE);
+            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxGive.setBackgroundColor(Color.YELLOW);
+            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             give = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_wool){
-            brickSelectionBoxGive.setVisibility(View.GONE);
-            grainSelectionBoxGive.setVisibility(View.GONE);
-            lumberSelectionBoxGive.setVisibility(View.GONE);
-            oreSelectionBoxGive.setVisibility(View.GONE);
-            woolSelectionBoxGive.setVisibility(View.VISIBLE);
+            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxGive.setBackgroundColor(Color.YELLOW);
             give = 4;
         }
 
         //Receive
         if (button.getId() == R.id.image_trade_menu_rec_brick){
-            brickSelectionBoxReceive.setVisibility(View.VISIBLE);
-            grainSelectionBoxReceive.setVisibility(View.GONE);
-            lumberSelectionBoxReceive.setVisibility(View.GONE);
-            oreSelectionBoxReceive.setVisibility(View.GONE);
-            woolSelectionBoxReceive.setVisibility(View.GONE);
+            brickSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
+            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             receive = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_grain){
-            brickSelectionBoxReceive.setVisibility(View.GONE);
-            grainSelectionBoxReceive.setVisibility(View.VISIBLE);
-            lumberSelectionBoxReceive.setVisibility(View.GONE);
-            oreSelectionBoxReceive.setVisibility(View.GONE);
-            woolSelectionBoxReceive.setVisibility(View.GONE);
+            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
+            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             receive = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_lumber){
-            brickSelectionBoxReceive.setVisibility(View.GONE);
-            grainSelectionBoxReceive.setVisibility(View.GONE);
-            lumberSelectionBoxReceive.setVisibility(View.VISIBLE);
-            oreSelectionBoxReceive.setVisibility(View.GONE);
-            woolSelectionBoxReceive.setVisibility(View.GONE);
+            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
+            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             receive = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_ore){
-            brickSelectionBoxReceive.setVisibility(View.GONE);
-            grainSelectionBoxReceive.setVisibility(View.GONE);
-            lumberSelectionBoxReceive.setVisibility(View.GONE);
-            oreSelectionBoxReceive.setVisibility(View.VISIBLE);
-            woolSelectionBoxReceive.setVisibility(View.GONE);
+            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
+            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             receive = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_wool){
-            brickSelectionBoxReceive.setVisibility(View.GONE);
-            grainSelectionBoxReceive.setVisibility(View.GONE);
-            lumberSelectionBoxReceive.setVisibility(View.GONE);
-            oreSelectionBoxReceive.setVisibility(View.GONE);
-            woolSelectionBoxReceive.setVisibility(View.VISIBLE);
+            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+            woolSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
             receive = 4;
         }
 
@@ -1259,12 +1259,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         grainSelectionBoxReceive = activity.findViewById(R.id.grainSelectionBoxReceive);
         lumberSelectionBoxReceive = activity.findViewById(R.id.lumberSelectionBoxReceive);
         oreSelectionBoxReceive = activity.findViewById(R.id.oreSelectionBoxReceive);
-        woolSelectionBoxReceive = activity.findViewById(R.id.woolSelectionBoxGive);
+        woolSelectionBoxReceive = activity.findViewById(R.id.woolSelectionBoxReceive);
 
         //Trade Menu Background - Give
         brickSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
-        grainSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
-        lumberSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
+        grainSelectionBoxGive = activity.findViewById(R.id.grainSelectiomBoxGive);
+        lumberSelectionBoxGive = activity.findViewById(R.id.lumberSelectionBoxGive);
         oreSelectionBoxGive = activity.findViewById(R.id.oreSelectionBoxGive);
         woolSelectionBoxGive = activity.findViewById(R.id.woolSelectionBoxGive);
 
