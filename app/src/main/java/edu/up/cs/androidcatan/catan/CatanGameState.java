@@ -120,7 +120,7 @@ public class CatanGameState extends GameState{
     /**
      * @return The id of the development card the player drew randomly.
      */
-    public DevelopmentCard getRandomCard () {
+    public int getRandomCard () {
         // generate random number from 0 to the length of the dev card deck
         Random random = new Random();
         int randomDevCard = random.nextInt(developmentCards.size() - 1);
@@ -129,7 +129,7 @@ public class CatanGameState extends GameState{
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
 
-        return new DevelopmentCard(drawnDevCard);
+        return drawnDevCard;
     }
 
     /**
@@ -367,9 +367,9 @@ public class CatanGameState extends GameState{
         //method is called at the end of every turn to give an accurate victory point count
         updateVictoryPoints();
 
-        for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
+        /*for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
-        }
+        }*/
 
         this.isActionPhase = false;
 

@@ -469,7 +469,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1);
                 CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
-                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(1);
                 game.sendAction(action);
                 return;
             }

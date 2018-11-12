@@ -157,8 +157,9 @@ public class CatanLocalGame extends LocalGame {
 
 
             gameState.getPlayerList().get(gameState.getCurrentPlayerId()).addVictoryPointsDevCard();
+            gameState.getPlayerList().get(gameState.getCurrentPlayerId()).removeDevCard(1);
 
-            return gameState.useDevCard(gameState.getCurrentPlayerId(), 1);
+            return true;
         }
 
         if (action instanceof CatanUseRoadBuildingCardAction){
