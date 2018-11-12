@@ -336,7 +336,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 game.sendAction(action);
                 return;
             }
-            if(!tryMoveRobber()){
+            if(!tryMoveRobber(selectedHexagonId)){
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
                 robberHexMessage.startAnimation(shake);
@@ -776,9 +776,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
-    //TODO Alex
-    private boolean tryMoveRobber(){
-        return true;
+    //TODO Niraj
+    private boolean tryMoveRobber(int hexId){
+
+        ArrayList<Integer> intersections = state.getBoard().getHexToIntIdMap().get(hexId);
+
+        for (Integer intersection : intersections) {
+            if(state.getBoard().getBuildings()[intersection] != null){
+                if(state.getBoard().getBuildings()[intersection].getOwnerId() != playerNum){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean tryTradeWithPort(int resourceGiving, int resourceReceiving) {
