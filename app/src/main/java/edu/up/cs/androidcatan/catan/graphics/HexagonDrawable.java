@@ -90,7 +90,6 @@ public class HexagonDrawable extends BoardSurfaceView {
         robberPaint.setColor(Color.DKGRAY);
         robberPaint.setStyle(Paint.Style.FILL);
 
-
         if (debugMode) {
             blackFont.setTextSize(30);
             canvas.drawText("id: " + this.hexagonId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
@@ -99,12 +98,12 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         if (!this.isDesert) {
             if (this.chitValue == 6 || this.chitValue == 8) {
-                blackFont.setColor(Color.argb(255, 163, 40, 40));
+                blackFont.setColor(Color.argb(255, 255, 0, 0));
             }
             if (this.chitValue < 10) {
-                canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2, blackFont);
+                canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2 + 50, blackFont);
             } else {
-                canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2, blackFont);
+                canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2 + 50, blackFont);
             }
         }
 
@@ -120,10 +119,6 @@ public class HexagonDrawable extends BoardSurfaceView {
         Paint intersectionPaint = new Paint();
         intersectionPaint.setColor(Color.DKGRAY);
         intersectionPaint.setStyle(Paint.Style.STROKE);
-
-        //        for (int i = 0; i < 6; i++) {
-        //            canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
-        //        }
     }
 
     /**

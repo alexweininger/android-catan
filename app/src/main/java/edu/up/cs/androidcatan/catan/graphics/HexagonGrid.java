@@ -193,23 +193,23 @@ public class HexagonGrid extends BoardSurfaceView {
     private void drawPorts (Canvas canvas) {
         ArrayList<Port> ports = this.board.getPortList();
 
-        ports.get(0).drawPort(canvas, this.intersections[ports.get(0).getIntersectionA()].getxPos() + 50, this.intersections[ports.get(0).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+        ports.get(0).drawPort(canvas, this.intersections[ports.get(0).getIntersectionA()].getxPos(), this.intersections[ports.get(0).getIntersectionA()].getyPos() - 100, 40, this.getContext(), this.intersections[ports.get(0).getIntersectionA()], this.intersections[ports.get(0).getIntersectionB()], debugMode);
 
-        ports.get(1).drawPort(canvas, this.intersections[ports.get(1).getIntersectionB()].getxPos() + 100, this.intersections[ports.get(1).getIntersectionB()].getyPos(), 25, this.getContext());
+        ports.get(1).drawPort(canvas, this.intersections[ports.get(1).getIntersectionB()].getxPos() + 100, this.intersections[ports.get(1).getIntersectionB()].getyPos() + 10, 25, this.getContext(), this.intersections[ports.get(1).getIntersectionA()], this.intersections[ports.get(1).getIntersectionB()], debugMode);
 
-        ports.get(2).drawPort(canvas, this.intersections[ports.get(2).getIntersectionA()].getxPos() - 100, this.intersections[ports.get(2).getIntersectionA()].getyPos(), 25, this.getContext());
+        ports.get(2).drawPort(canvas, this.intersections[ports.get(2).getIntersectionA()].getxPos() - 100, this.intersections[ports.get(2).getIntersectionA()].getyPos() + 10, 25, this.getContext(), this.intersections[ports.get(2).getIntersectionA()], this.intersections[ports.get(2).getIntersectionB()], debugMode);
 
-        ports.get(3).drawPort(canvas, this.intersections[ports.get(3).getIntersectionA()].getxPos() - 50, this.intersections[ports.get(3).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+        ports.get(3).drawPort(canvas, this.intersections[ports.get(3).getIntersectionA()].getxPos() - 50, this.intersections[ports.get(3).getIntersectionA()].getyPos() + 100, 40, this.getContext(), this.intersections[ports.get(3).getIntersectionA()], this.intersections[ports.get(3).getIntersectionB()], debugMode);
 
-        ports.get(4).drawPort(canvas, this.intersections[ports.get(4).getIntersectionA()].getxPos() - 50, this.intersections[ports.get(4).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+        ports.get(4).drawPort(canvas, this.intersections[ports.get(4).getIntersectionA()].getxPos() - 50, this.intersections[ports.get(4).getIntersectionA()].getyPos() + 100, 40, this.getContext(), this.intersections[ports.get(4).getIntersectionA()], this.intersections[ports.get(4).getIntersectionB()], debugMode);
 
-        ports.get(5).drawPort(canvas, this.intersections[ports.get(5).getIntersectionA()].getxPos() + 50, this.intersections[ports.get(5).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+        ports.get(5).drawPort(canvas, this.intersections[ports.get(5).getIntersectionA()].getxPos() + 50, this.intersections[ports.get(5).getIntersectionA()].getyPos() + 80, 35, this.getContext(), this.intersections[ports.get(5).getIntersectionA()], this.intersections[ports.get(5).getIntersectionB()], debugMode);
 
-        ports.get(6).drawPort(canvas, this.intersections[ports.get(6).getIntersectionA()].getxPos() + 50, this.intersections[ports.get(6).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+        ports.get(6).drawPort(canvas, this.intersections[ports.get(6).getIntersectionA()].getxPos() + 100, this.intersections[ports.get(6).getIntersectionA()].getyPos() - 30, 40, this.getContext(), this.intersections[ports.get(6).getIntersectionA()], this.intersections[ports.get(6).getIntersectionB()], debugMode);
 
-        ports.get(7).drawPort(canvas, this.intersections[ports.get(7).getIntersectionB()].getxPos() + 50, this.intersections[ports.get(7).getIntersectionB()].getyPos() + 100, 25, this.getContext());
+        ports.get(7).drawPort(canvas, this.intersections[ports.get(7).getIntersectionB()].getxPos() + 30, this.intersections[ports.get(7).getIntersectionB()].getyPos() + 100, 35, this.getContext(), this.intersections[ports.get(7).getIntersectionA()], this.intersections[ports.get(7).getIntersectionB()], debugMode);
 
-        ports.get(8).drawPort(canvas, this.intersections[ports.get(8).getIntersectionA()].getxPos() + 150, this.intersections[ports.get(8).getIntersectionA()].getyPos(), 25, this.getContext());
+        ports.get(8).drawPort(canvas, this.intersections[ports.get(8).getIntersectionA()].getxPos() + 150, this.intersections[ports.get(8).getIntersectionA()].getyPos(), 40, this.getContext(), this.intersections[ports.get(8).getIntersectionA()], this.intersections[ports.get(8).getIntersectionB()], debugMode);
     }
 
     /**
@@ -328,7 +328,7 @@ public class HexagonGrid extends BoardSurfaceView {
         intersections[43] = new IntersectionDrawable(43, 564, 1488);
         intersections[44] = new IntersectionDrawable(44, 726, 1400);
         intersections[45] = new IntersectionDrawable(45, 887, 1488);
-        intersections[46] = new IntersectionDrawable(46, 1038, 1400);
+        intersections[46] = new IntersectionDrawable(46, 1038, 1410);
         intersections[47] = new IntersectionDrawable(47, 1210, 1488);
         intersections[48] = new IntersectionDrawable(48, 1361, 1400);
         intersections[49] = new IntersectionDrawable(49, 1372, 1203);

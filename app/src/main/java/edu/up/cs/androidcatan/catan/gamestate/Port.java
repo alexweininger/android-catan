@@ -2,9 +2,12 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import edu.up.cs.androidcatan.R;
+import edu.up.cs.androidcatan.catan.graphics.IntersectionDrawable;
 
 public class Port {
     private int intersectionA, intersectionB, tradeRatio, resourceId;
@@ -36,14 +39,40 @@ public class Port {
     /**
      * @param canvas Canvas to draw the port on.
      */
-    public void drawPort (Canvas canvas, int xPos, int yPos, int size, Context context) {
+    public void drawPort (Canvas canvas, int xPos, int yPos, int size, Context context, IntersectionDrawable a, IntersectionDrawable b, boolean debugMode) {
+
+        int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
+
         this.xPos = xPos;
         this.yPos = yPos;
         this.size = size;
 
+        Paint portLinePaint = new Paint();
+        portLinePaint.setColor(Color.BLUE);
+        portLinePaint.setStrokeWidth(10);
+
+        if (debugMode) {
+            canvas.drawLine(xPos, yPos, b.getxPos(), b.getyPos(), portLinePaint);
+            canvas.drawLine(xPos, yPos, a.getxPos(), a.getyPos(), portLinePaint);
+        }
+
         Drawable portPicture = context.getDrawable(R.drawable.port_boat);
-        portPicture.setBounds(xPos - 40, yPos - 40, xPos + 40, yPos + 40);
+        portPicture.setBounds(xPos - size, yPos - size, xPos + size, yPos + size);
         portPicture.draw(canvas);
+
+        size = size / 2;
+
+        if (size < 20) {
+            size = 20;
+        }
+
+        int offset = 30;
+
+        if (resourceId != -1) {
+            Drawable resourcePicture = context.getDrawable(resourceDrawables[this.resourceId]);
+            resourcePicture.setBounds(xPos - size + offset, yPos - size + offset, xPos + size + offset, yPos + size + offset);
+            resourcePicture.draw(canvas);
+        }
     }
 
     public int getIntersectionA () {
