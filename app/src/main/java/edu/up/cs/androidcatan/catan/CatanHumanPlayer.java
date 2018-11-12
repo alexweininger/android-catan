@@ -251,7 +251,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.getCurrentDiceSum() == 7) {
                 Log.i(TAG, "onClick: Robber has been activated");
                 Log.i(TAG, "onClick: Making Robber Visible");
-                robberDiscardGroup.setVisibility(View.VISIBLE);
                 state.setRobberPhase(true);
             }
             return;
