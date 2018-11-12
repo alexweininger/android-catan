@@ -148,23 +148,28 @@ public class CatanLocalGame extends LocalGame {
         }
 
         if (action instanceof CatanUseKnightCardAction){
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 0);
         }
 
         if (action instanceof CatanUseVictoryPointCardAction){
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 1);
         }
 
         if (action instanceof CatanUseRoadBuildingCardAction){
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 4);
         }
 
         if (action instanceof CatanUseMonopolyCardAction){
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
         }
 
         if (action instanceof CatanUseYearOfPlentyCardAction){
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.useDevCard(gameState.getCurrentPlayerId(), 2);
         }
 
 /*----------------------------------Robber Actions-----------------------------------------------*/
