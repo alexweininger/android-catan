@@ -65,6 +65,10 @@ public class Player {
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
     }
 
+    public void addVictoryPointsDevCard(){
+        this.victoryPointsFromDevCard += 2;
+    }
+
     /**
      * error checking:
      * - checks for valid resourceCardId
