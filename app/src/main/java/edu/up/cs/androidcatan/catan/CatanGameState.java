@@ -616,9 +616,33 @@ public class CatanGameState extends GameState{
         return this.isRobberPhase;
     }
 
-
+    /**
+     *
+     * @param playerId
+     * @return
+     */
     public boolean checkPlayerResources(int playerId){
         if(playerList.get(playerId).getTotalResourceCardCount() > 7){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checking if we can actually discard the resources
+     *
+     * @param playerId
+     * @param resourcesDiscarded
+     * @return
+     */
+    public boolean validDiscard(int playerId, int[] resourcesDiscarded){
+        int totalDiscarded = 0;
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            totalDiscarded += resourcesDiscarded[i];
+        }
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
+        if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
             return true;
         }
         return false;
@@ -638,14 +662,11 @@ public class CatanGameState extends GameState{
             totalDiscarded += resourcesDiscarded[i];
         }
         Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
-        if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
-            Log.i(TAG, "discardResources: Discarded resources");
-            for(int i = 0; i < resourcesDiscarded.length; i++){
-                this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
-            }
-            return true;
+        Log.i(TAG, "discardResources: Discarded resources");
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
         }
-        return false;
+        return true;
     }
 
 

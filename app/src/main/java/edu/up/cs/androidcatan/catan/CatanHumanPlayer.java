@@ -327,8 +327,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.GONE);
             robberHexMessage.setText("Please tap a tile to place the robber on.");
-            state.getBoard().moveRobber(this.selectedHexagonId);
-            boardSurfaceView.invalidate();
+
             return;
 
         }

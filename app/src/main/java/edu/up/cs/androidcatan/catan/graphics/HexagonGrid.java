@@ -90,6 +90,8 @@ public class HexagonGrid extends BoardSurfaceView {
      * @param canvas Canvas to draw on.
      */
     public void drawGameBoard (Canvas canvas) {
+
+        Log.d(TAG, "drawGameBoard: " + board.getRobber().getHexagonId());
         generateDrawableHexagons(x, y, size); // get hexes
 
         drawBorder(canvas);

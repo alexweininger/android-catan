@@ -143,8 +143,12 @@ public class CatanLocalGame extends LocalGame {
 /*----------------------------------Robber Actions-----------------------------------------------*/
         if (action instanceof CatanRobberMoveAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.robberMove();
-            return true;
+            return gameState.robberMove();
+        }
+
+        if (action instanceof CatanRobberDiscardAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            return gameState.discardResources(action.getPlayer().);
         }
 
         if (action instanceof CatanRobberStealAction) {
@@ -153,11 +157,6 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
-        if (action instanceof CatanRobberDiscardAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.robberDiscard();
-            return true;
-        }
 /*----------------------------------Robber Actions End-----------------------------------------------*/
 
         if (action instanceof CatanTradeAction) {
