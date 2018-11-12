@@ -31,6 +31,11 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
@@ -449,9 +454,36 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.use_Card) {
-            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
-            game.sendAction(action);
-            return;
+//            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
+//            game.sendAction(action);
+//            return;
+
+            if (devCardList.getSelectedItemPosition() == 0){
+                CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 1){
+                CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 2){
+                CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 3){
+                //state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains()
+                CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 4){
+                CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
+                game.sendAction(action);
+                return;
+            }
         }
 
         if (button.getId() == R.id.build_devCard) {
