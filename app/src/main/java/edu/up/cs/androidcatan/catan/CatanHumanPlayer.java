@@ -30,6 +30,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
@@ -319,7 +320,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.robber_choosehex_confirm){
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if(state.)
+            if(state.isHasMovedRobber()){
+                if(selectedIntersections.size() != 1){
+                    robberHexMessage.setText("Please select only one intersection.");
+                    return;
+                }
+                if(!state.getBoard().hasBuilding(selectedIntersections.get(0))){
+                    robberHexMessage.setText("Please select an intersection with a building owned by another player on it.");
+                    return;
+                }
+
+                int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
+                CatanRobberStealAction action = new CatanRobberStealAction(this);
+                game.sendAction(action);
+                return;
+            }
             if(!tryMoveRobber()){
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
@@ -330,7 +345,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.GONE);
-            robberHexMessage.setText("Please tap a tile to place the robber on.");
+            robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
             CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, selectedHexagonId);
             game.sendAction(action);
 
