@@ -314,6 +314,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /*----------------------End of Turn and Misc. Actions----------*/
+
         /*-------------------- Robber ------------------------*/
 
 
@@ -327,6 +329,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
                 if(!state.getBoard().hasBuilding(selectedIntersections.get(0))){
                     robberHexMessage.setText("Please select an intersection with a building owned by another player on it.");
+                    return;
+                }
+                if(state.getBoard().getBuildingAtIntersection(selectedIntersections).getOwnerId() == playerNum){
+                    robberHexMessage.setText("Please select an intersection not owned by you.");
                     return;
                 }
 
@@ -411,6 +417,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             robberDiscardedResources[4] -= 1;
             robberWoolAmount.setText("" + robberDiscardedResources[4]);
         }
+
+        /*-------------------------End of Robber----------------------------------------*/
 
         /* ---------- Trade action buttons ---------- */
 
