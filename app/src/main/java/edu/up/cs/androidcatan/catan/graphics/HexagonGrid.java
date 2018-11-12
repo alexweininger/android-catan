@@ -249,7 +249,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
                 //                Log.d(TAG, "generateDrawableHexagons: board.getRobber().getHexagonId(): " + board.getRobber().getHexagonId() + " current hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
-                boolean isRobberHexagon = board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
+                boolean isRobberHexagon = this.board.getRobber().getHexagonId() == dataHexagons.get(dataHexagonsIndex).getHexagonId();
                 boolean highlightedHexagon = this.highlightedHexagon == dataHexagons.get(dataHexagonsIndex).getHexagonId();
 
                 if (highlightedHexagon) {
