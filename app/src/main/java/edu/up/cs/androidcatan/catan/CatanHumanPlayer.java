@@ -33,7 +33,14 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
@@ -97,6 +104,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* ------------- Misc Buttons -------------------- */
 
     private Button sidebarMenuButton = (Button) null;
+    private ImageView buildingCosts = null;
     private Button sidebarScoreboardButton = (Button) null;
 
     /* ------------- resource count text views -------------------- */
@@ -218,42 +226,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         super(name);
     }
 
-
-    /**
-     * callback method when we get a message (e.g., from the game)
-     *
-     * @param info the message
-     */
-    @Override
-    public void receiveInfo (GameInfo info) {
-        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
-        if (info == null) {
-            Log.e(TAG, "receiveInfo: info is null");
-            return;
-        }
-        if (this.boardSurfaceView == null) {
-            Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
-            return;
-        }
-
-        if (info instanceof CatanGameState) {
-            // set resource count TextViews to the players resource inventory amounts
-            Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
-
-            this.state = (CatanGameState) info;
-
-            updateTextViews();
-            drawGraphics();
-
-        } else if (info instanceof NotYourTurnInfo) {
-            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
-        } else if (info instanceof IllegalMoveInfo) {
-            Log.i(TAG, "receiveInfo: Illegal move info received.");
-        } else {
-            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
-        }
-    }//receiveInfo
-
     /*---------------------------------------onClick Methods-------------------------------------------*/
 
     /**
@@ -304,6 +276,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode;
+            if(this.buildingCosts.getVisibility() == View.VISIBLE)
+            {
+                this.buildingCosts.setVisibility(View.GONE);
+            }else
+            {
+                this.buildingCosts.setVisibility(View.VISIBLE);
+            }
             Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
@@ -582,9 +561,45 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.use_Card) {
-            CatanUseDevCardAction action = new CatanUseDevCardAction(this);
-            game.sendAction(action);
-            return;
+//            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
+//            game.sendAction(action);
+//            return;
+
+            if (devCardList.getSelectedItemPosition() == 0){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0);
+                CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 1){
+
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1);
+                CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 2){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2);
+                CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 3){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3);
+                CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
+                game.sendAction(action);
+                return;
+            }
+            else if (devCardList.getSelectedItemPosition() == 4){
+                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(4);
+                CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
+                state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
+                game.sendAction(action);
+                return;
+            }
         }
 
         if (button.getId() == R.id.build_devCard) {
@@ -593,6 +608,78 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        /* ---------------Trade Menu Buttons ---------------- */
+
+        int give = -1;
+        int receive = -1;
+
+        brickSelectionBoxGive.setVisibility(View.GONE);
+        grainSelectionBoxGive.setVisibility(View.GONE);
+        lumberSelectionBoxGive.setVisibility(View.GONE);
+        oreSelectionBoxGive.setVisibility(View.GONE);
+        woolSelectionBoxGive.setVisibility(View.GONE);
+
+        //Give
+        if (button.getId() == R.id.image_trade_menu_give_brick){
+            Log.d(TAG, "onClick: brick");
+            brickSelectionBoxGive.setBackgroundColor(Color.BLACK);
+            toggleViewVisibility(brickSelectionBoxGive);
+            give = 0;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_grain){
+            toggleViewVisibility(grainSelectionBoxGive);
+            give = 1;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_lumber){
+            toggleViewVisibility(lumberSelectionBoxGive);
+            give = 2;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_ore){
+            toggleViewVisibility(oreSelectionBoxGive);
+            give = 3;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_give_wool){
+            toggleViewVisibility(woolSelectionBoxGive);
+            give = 4;
+        }
+
+        //Receive
+        if (button.getId() == R.id.image_trade_menu_rec_brick){
+            toggleViewVisibility(brickSelectionBoxReceive);
+            receive = 0;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_grain){
+            toggleViewVisibility(grainSelectionBoxReceive);
+            receive = 1;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_lumber){
+            toggleViewVisibility(lumberSelectionBoxReceive);
+            receive = 2;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_ore){
+            toggleViewVisibility(oreSelectionBoxReceive);
+            receive = 3;
+        }
+
+        if (button.getId() == R.id.image_trade_menu_rec_wool){
+            toggleViewVisibility(woolSelectionBoxReceive);
+            receive = 4;
+        }
+
+        if (button.getId() == R.id.button_trade_menu_confirm){
+
+        }
+
+        if (button.getId() == R.id.button_trade_menu_cancel){
+            toggleGroupVisibility(tradeGroup);
+        }
 
     } // onClick END
 
@@ -747,14 +834,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
 
-        if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersection1)) {
+        if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), state.isSetupPhase(), intersection1)) {
             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
 
-            // add just enough resources so player can build settlement
             state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 lumber
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 brick
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 brick
 
             // send build settlement action to the game
             Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
@@ -763,6 +849,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.buildingsBuiltOnThisTurn.add(1);
 
             Log.d(TAG, "tryBuildSettlement() returned: " + true);
+
             return true;
         } else {
             messageTextView.setText("Invalid settlement location.");
@@ -787,8 +874,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
-            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
+            Log.i(TAG, "onClick: building location is valid. Sending a BuildCityAction to the game.");
             this.buildingsBuiltOnThisTurn.add(2);
+
+            game.sendAction(new CatanBuildCityAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection));
         }
         return true;
     }
@@ -818,7 +907,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private boolean tryTradeWithPort(int resourceGiving, int resourceReceiving) {
 
+        ArrayList<Port> ports = state.getBoard().getPortList();
 
+        Port tradingWith = null;
+
+        for (Port port : ports) {
+            if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
+                tradingWith = port;
+            }
+        }
+
+        if (tradeButton == null) {
+            this.messageTextView.setText("Selected intersection does not have port access.");
+            Log.d(TAG, "tryTradeWithPort() returned: " + false);
+            return false;
+        }
+
+        if (tradingWith.getResourceId() != -1) {
+            state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio());
+        } else {
+
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
+
+            }
+
+        }
 
         return  true;
     }
@@ -994,7 +1107,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----- update resource value TextViews ----- */
 
-        int[] resourceCards = this.state.getPlayerList().get(this.state.getCurrentPlayerId()).getResourceCards();
+        int[] resourceCards = this.state.getPlayerList().get(this.playerNum).getResourceCards();
         this.brickValue.setText(String.valueOf(resourceCards[0]));
         this.grainValue.setText(String.valueOf(resourceCards[1]));
         this.lumberValue.setText(String.valueOf(resourceCards[2]));
@@ -1049,6 +1162,41 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //        imageView = (ImageView)Utils.blinkAnimation(imageView,250,20);
 
     } // updateTextViews END
+
+    /**
+     * callback method when we get a message (e.g., from the game)
+     *
+     * @param info the message
+     */
+    @Override
+    public void receiveInfo (GameInfo info) {
+        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
+        if (info == null) {
+            Log.e(TAG, "receiveInfo: info is null");
+            return;
+        }
+        if (this.boardSurfaceView == null) {
+            Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
+            return;
+        }
+
+        if (info instanceof CatanGameState) {
+            // set resource count TextViews to the players resource inventory amounts
+            Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
+
+            this.state = (CatanGameState) info;
+
+            updateTextViews();
+            drawGraphics();
+
+        } else if (info instanceof NotYourTurnInfo) {
+            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
+        } else if (info instanceof IllegalMoveInfo) {
+            Log.i(TAG, "receiveInfo: Illegal move info received.");
+        } else {
+            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
+        }
+    }//receiveInfo
 
     /**
      * callback method--our game has been chosen/re-chosen to be the GUI,
@@ -1190,6 +1338,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
         image_trade_menu_rec_wool.setOnClickListener(this);
 
+        //Confirm trade action
+        button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
+        button_trade_menu_confirm.setOnClickListener(this);
+
+        button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
+        button_trade_menu_cancel.setOnClickListener(this);
 
         // turn buttons
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
@@ -1210,6 +1364,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.sidebarMenuButton = activity.findViewById(R.id.sidebar_button_menu);
         this.sidebarMenuButton.setOnClickListener(this);
+        this.buildingCosts = activity.findViewById(R.id.building_costs);
 
         this.sidebarScoreboardButton = activity.findViewById(R.id.sidebar_button_score);
         this.sidebarScoreboardButton.setOnClickListener(this);
@@ -1231,6 +1386,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //TODO Implement the Listener
+
             }
 
             @Override
@@ -1288,6 +1444,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         useDevCard = activity.findViewById(R.id.use_Card); // use dev card
         useDevCard.setOnClickListener(this);
+
+
 
         buildDevCard = activity.findViewById(R.id.build_devCard); // build dev card
         buildDevCard.setOnClickListener(this);
@@ -1384,6 +1542,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void toggleGroupVisibility (Group group) {
         if (group.getVisibility() == View.GONE) group.setVisibility(View.VISIBLE);
         else group.setVisibility(View.GONE);
+    }
+
+    private void toggleViewVisibility(View view){
+        if (view.getVisibility() == View.GONE){
+            view.setVisibility(View.VISIBLE);
+        }
+        else {
+            view.setVisibility(View.GONE);
+        }
     }
 
     private void setAllButtonsToVisible () {

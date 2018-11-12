@@ -36,7 +36,6 @@ public class DevelopmentCard {
 
     //default use method
     public void useCard(Player player, int devCardId) {
-        // TODO Daniel Development CArd (BORG RIGHT HERE)
         switch (devCardId){
             case 0:
                 useKnightCard(null, player);
@@ -64,7 +63,7 @@ public class DevelopmentCard {
     }
 
     public void useVictoryPointsCard(Player player) {
-        player.useDevCard(this);
+        player.useDevCard(1);
     }
 
     public void useRoadDevCard(Player player) {

@@ -399,7 +399,7 @@ public class Board {
         }
 
         // check if city already exists at intersection
-        if (!(this.buildings[intersectionId] instanceof City)) {
+        if ((this.buildings[intersectionId] instanceof City)) {
             Log.w(TAG, "validCityLocation: Cannot build a city if there is already a city built at the intersection. Returning false.");
             return false;
         }
