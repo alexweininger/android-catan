@@ -202,42 +202,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         super(name);
     }
 
-
-    /**
-     * callback method when we get a message (e.g., from the game)
-     *
-     * @param info the message
-     */
-    @Override
-    public void receiveInfo (GameInfo info) {
-        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
-        if (info == null) {
-            Log.e(TAG, "receiveInfo: info is null");
-            return;
-        }
-        if (this.boardSurfaceView == null) {
-            Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
-            return;
-        }
-
-        if (info instanceof CatanGameState) {
-            // set resource count TextViews to the players resource inventory amounts
-            Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
-
-            this.state = (CatanGameState) info;
-
-            updateTextViews();
-            drawGraphics();
-
-        } else if (info instanceof NotYourTurnInfo) {
-            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
-        } else if (info instanceof IllegalMoveInfo) {
-            Log.i(TAG, "receiveInfo: Illegal move info received.");
-        } else {
-            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
-        }
-    }//receiveInfo
-
     /*---------------------------------------onClick Methods-------------------------------------------*/
 
     /**
@@ -768,6 +732,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
+    private boolean tryTradeWithPort(int resourceGiving, int resourceReceiving) {
+
+
+
+        return  true;
+    }
+
+    private boolean tryTradeWithBank() {
+
+        return true;
+    }
+
     /* ---------------------------------------- GUI Methods --------------------------------------*/
 
     /**
@@ -830,10 +806,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
-            this.messageTextView.setText("Setup phase.");
+            this.messageTextView.setText("Setup phase."); // set info message
 
+            // get settlement and road count for the current turn
             int settlements = Collections.frequency(this.buildingsBuiltOnThisTurn, 1);
             int roads = Collections.frequency(this.buildingsBuiltOnThisTurn, 0);
+
+            if (settlements == 2 && roads == 2) {
+                this.endTurnButton.setAlpha(1f);
+                this.endTurnButton.setClickable(true);
+                this.messageTextView.setText("Setup turn complete. Please end your turn.");
+            } else {
+                this.endTurnButton.setAlpha(0.5f);
+                this.endTurnButton.setClickable(false);
+                this.buildRoadButton.setAlpha(1f);
+                this.buildRoadButton.setClickable(true);
+                this.buildSettlementButton.setAlpha(1f);
+                this.buildSettlementButton.setClickable(true);
+            }
 
             if ((settlements == 2 && roads == 1) || (settlements == 1 && roads == 0)) {
                 this.buildRoadButton.setAlpha(1f);
@@ -843,19 +833,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.buildRoadButton.setClickable(false);
             }
 
-            if (settlements == 2 && roads == 2) {
-                this.endTurnButton.setAlpha(1f);
-                this.endTurnButton.setClickable(true);
-            } else {
-                this.endTurnButton.setAlpha(0.5f);
-                this.endTurnButton.setClickable(false);
+            if ((settlements == 1 && roads == 0) || (settlements == 2 && roads == 1)) {
+                this.buildSettlementButton.setAlpha(0.5f);
+                this.buildSettlementButton.setClickable(false);
             }
 
             // if it is the setup phase, grey out some buttons and make them un clickable
-
-            this.buildSettlementButton.setAlpha(1f);
-            this.buildSettlementButton.setClickable(true);
-
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
@@ -970,6 +953,41 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //        imageView = (ImageView)Utils.blinkAnimation(imageView,250,20);
 
     } // updateTextViews END
+
+    /**
+     * callback method when we get a message (e.g., from the game)
+     *
+     * @param info the message
+     */
+    @Override
+    public void receiveInfo (GameInfo info) {
+        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
+        if (info == null) {
+            Log.e(TAG, "receiveInfo: info is null");
+            return;
+        }
+        if (this.boardSurfaceView == null) {
+            Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
+            return;
+        }
+
+        if (info instanceof CatanGameState) {
+            // set resource count TextViews to the players resource inventory amounts
+            Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
+
+            this.state = (CatanGameState) info;
+
+            updateTextViews();
+            drawGraphics();
+
+        } else if (info instanceof NotYourTurnInfo) {
+            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
+        } else if (info instanceof IllegalMoveInfo) {
+            Log.i(TAG, "receiveInfo: Illegal move info received.");
+        } else {
+            Log.e(TAG, "receiveInfo: Received instanceof not anything we know. Returning void.");
+        }
+    }//receiveInfo
 
     /**
      * callback method--our game has been chosen/re-chosen to be the GUI,

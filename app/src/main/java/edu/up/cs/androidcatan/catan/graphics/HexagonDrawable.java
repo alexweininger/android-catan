@@ -5,8 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
+
+import edu.up.cs.androidcatan.R;
 
 /**
  * @author Alex Weininger
@@ -35,10 +38,13 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected int chitValue;
     protected boolean isRobber, isDesert;
 
+    private Context context;
+
 
     public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight) {
         super(context);
         setWillNotDraw(false);
+        this.context = context;
         this.x = x;
         this.y = y;
         this.size = size; // size can also be thought of as the radius
@@ -90,7 +96,6 @@ public class HexagonDrawable extends BoardSurfaceView {
         robberPaint.setColor(Color.DKGRAY);
         robberPaint.setStyle(Paint.Style.FILL);
 
-
         if (debugMode) {
             blackFont.setTextSize(30);
             canvas.drawText("id: " + this.hexagonId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
@@ -99,12 +104,12 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         if (!this.isDesert) {
             if (this.chitValue == 6 || this.chitValue == 8) {
-                blackFont.setColor(Color.argb(255, 163, 40, 40));
+                blackFont.setColor(Color.argb(255, 255, 0, 0));
             }
             if (this.chitValue < 10) {
-                canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2, blackFont);
+                canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2 + 50, blackFont);
             } else {
-                canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2, blackFont);
+                canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2 + 50, blackFont);
             }
         }
 
@@ -114,16 +119,15 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         if (this.isRobber) {
             Log.d(TAG, "drawHexagon: Drawing the robber at hexagon: " + this.hexagonId);
-            canvas.drawCircle(cx, cy, radius, robberPaint);
+            Drawable robberDrawable = context.getDrawable(R.drawable.robber);
+            robberDrawable.setBounds(cx - 60, cy - 60, cx + 60, cy + 60);
+            robberDrawable.draw(canvas);
+//            canvas.drawCircle(cx, cy, radius, robberPaint);
         }
 
         Paint intersectionPaint = new Paint();
         intersectionPaint.setColor(Color.DKGRAY);
         intersectionPaint.setStyle(Paint.Style.STROKE);
-
-        //        for (int i = 0; i < 6; i++) {
-        //            canvas.drawCircle(points[i][0], points[i][1], 50, intersectionPaint);
-        //        }
     }
 
     /**
