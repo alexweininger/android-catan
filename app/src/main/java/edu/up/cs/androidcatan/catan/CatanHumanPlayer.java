@@ -446,49 +446,45 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------------------------- Trade Menu Buttons ------------------------ */
 
-        //Give
+        // set all selection boxes to gone / transparent
+
+        // give
+        brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+        grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+        lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+        oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+        woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+
+        // receive
+        brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+        grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+        lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+        oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+        woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+
+        // in these if statements we can set ONE selection box to visible and we need to set the selection integer
         if (button.getId() == R.id.image_trade_menu_give_brick){
             Log.d(TAG, "onClick: brick");
             brickSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             tradeGiveSelection = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_grain){
-            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             grainSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             tradeGiveSelection = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_lumber){
-            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             lumberSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             tradeGiveSelection = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_ore){
-            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxGive.setBackgroundColor(Color.YELLOW);
-            woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             tradeGiveSelection = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_wool){
-            brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-            oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxGive.setBackgroundColor(Color.YELLOW);
             tradeGiveSelection = 4;
         }
@@ -496,48 +492,36 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //Receive
         if (button.getId() == R.id.image_trade_menu_rec_brick){
             brickSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             tradeReceiveSelection = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_grain){
-            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             grainSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             tradeReceiveSelection = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_lumber){
-            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             lumberSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             tradeReceiveSelection = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_ore){
-            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             oreSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
-            woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             tradeReceiveSelection = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_wool){
-            brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-            oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
             woolSelectionBoxReceive.setBackgroundColor(Color.YELLOW);
             tradeReceiveSelection = 4;
         }
+
+        ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
+
+        if (tradeReceiveSelection != -1) {
+            selectionBoxReceive[tradeReceiveSelection].setBackgroundColor(Color.YELLOW);
+        }
+
+
 
         if (button.getId() == R.id.button_trade_menu_confirm){
             if(selectedIntersections.size()>0)
