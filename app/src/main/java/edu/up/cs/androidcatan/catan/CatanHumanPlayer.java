@@ -567,7 +567,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (devCardList.getSelectedItemPosition() == 0){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0)){
-                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    Log.e(TAG, "onClick: Knight Dev card is not owned!");
                     return;
                 }
                 CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
@@ -577,7 +577,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             else if (devCardList.getSelectedItemPosition() == 1){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1)){
-                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    Log.e(TAG, "onClick: Victory Points Dev card is not owned!");
                     return;
                 }
                 CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
@@ -586,7 +586,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             else if (devCardList.getSelectedItemPosition() == 2){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)){
-                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    Log.e(TAG, "onClick: Year of Plenty Dev card is not owned!");
                     return;
                 }
                 CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
@@ -596,7 +596,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             else if (devCardList.getSelectedItemPosition() == 3){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3)){
-                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    Log.e(TAG, "onClick: Monopoly Dev card is not owned!");
                     return;
                 }
                 CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
@@ -606,7 +606,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             else if (devCardList.getSelectedItemPosition() == 4){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)){
-                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    Log.e(TAG, "onClick: Road Building Dev card is not owned!");
                     return;
                 }
                 CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
