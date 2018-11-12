@@ -156,6 +156,7 @@ public class CatanGameState extends GameState{
 
         // check if player can build dev card
         if (!player.checkResourceBundle(DevelopmentCard.resourceCost)) {
+            Log.d(TAG, "buyDevCard: Unable to purchase Dev card");
             return false;
         }
 

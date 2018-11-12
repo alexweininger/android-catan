@@ -203,6 +203,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button button_trade_menu_confirm = (Button) null;
     private Button button_trade_menu_cancel = (Button) null;
 
+    private TextView devcard_text_name = (TextView) null;
+    private TextView getDevcard_text_description = (TextView) null;
+
     //Other Groups
     private Group scoreBoardGroup = (Group) null;
     private Group developmentGroup = (Group) null;
@@ -622,7 +625,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.build_devCard) {
-            if(!state.getPlayerList().get(playerNum).checkResourceBundle(DevelopmentCard.getResourceCost())){
+            if(!(state.getPlayerList().get(playerNum).checkResourceBundle(DevelopmentCard.getResourceCost()))){
                 messageTextView.setText("You don't have the resources to purchase a dev card!");
                 return;
             }
@@ -1008,7 +1011,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             diceImageRight.setBackgroundResource(R.drawable.dice_5);
         else diceImageRight.setBackgroundResource(R.drawable.dice_6);
 
-        if (this.state.getRobberPhase()) {
+        if (this.state.getRobberPhase() && this.state.getCurrentPlayerId() == playerNum) {
 
             this.messageTextView.setText("Robber phase.");
 
@@ -1412,12 +1415,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //TODO Implement the Listener
+                if()
 
             }
 
             @Override
             public void onNothingSelected (AdapterView<?> parentView) {
-                // your code here todo
+
             }
         });
 

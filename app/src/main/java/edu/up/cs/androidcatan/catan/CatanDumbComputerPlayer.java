@@ -73,7 +73,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
             if (gs.isSetupPhase()) { // need to build a settlement
 
-                sleep(1000); // sleep
+                sleep(200); // sleep
 
                 Log.w(TAG, "receiveInfo: Attempting to build a settlement at intersection " + randSettlementIntersection);
 
