@@ -44,6 +44,7 @@ public class CatanGameState extends GameState{
     private boolean isSetupPhase = true;
     private boolean isRobberPhase = false;
     private boolean hasDiscarded = false;
+    private boolean hasMovedRobber = false;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
@@ -88,6 +89,7 @@ public class CatanGameState extends GameState{
         this.isSetupPhase = cgs.isSetupPhase;
         this.isRobberPhase = cgs.isRobberPhase;
         this.hasDiscarded = cgs.hasDiscarded;
+        this.hasMovedRobber = cgs.hasMovedRobber;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
@@ -694,6 +696,7 @@ public class CatanGameState extends GameState{
         }
         if (this.board.moveRobber(hexagonId)) {
             Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
+            hasMovedRobber = true;
             return true;
         }
         Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
