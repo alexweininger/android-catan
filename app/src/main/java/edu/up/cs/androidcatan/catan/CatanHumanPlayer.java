@@ -331,7 +331,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     robberHexMessage.setText("Please select an intersection with a building owned by another player on it.");
                     return;
                 }
-                if(state.getBoard().getBuildingAtIntersection(selectedIntersections).getOwnerId() == playerNum){
+                if(state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum){
                     robberHexMessage.setText("Please select an intersection not owned by you.");
                     return;
                 }
@@ -788,6 +788,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     //TODO Niraj
     private boolean tryMoveRobber(int hexId){
+
+        if(hexId == -1){
+            return false;
+        }
 
         if(hexId == state.getBoard().getRobber().getHexagonId()){
             return false;
