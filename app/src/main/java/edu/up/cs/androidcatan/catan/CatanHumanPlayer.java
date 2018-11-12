@@ -485,7 +485,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.use_Card) {
-            CatanUseDevCardAction action = new CatanUseDevCardAction(this);
+            CatanUseDevCardAction action = new CatanUseDevCardAction(this, devCardList.getSelectedItemPosition());
             game.sendAction(action);
             return;
         }
@@ -566,7 +566,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.button_trade_menu_cancel){
             toggleGroupVisibility(developmentGroup);
         }
-        
+
     } // onClick END
 
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
@@ -1112,6 +1112,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //TODO Implement the Listener
+
             }
 
             @Override
@@ -1169,6 +1170,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         useDevCard = activity.findViewById(R.id.use_Card); // use dev card
         useDevCard.setOnClickListener(this);
+
+
 
         buildDevCard = activity.findViewById(R.id.build_devCard); // build dev card
         buildDevCard.setOnClickListener(this);
