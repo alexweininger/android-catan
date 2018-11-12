@@ -119,7 +119,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
         Paint roadPaint = new Paint(); // paint for drawing the roads
         roadPaint.setStyle(Paint.Style.STROKE);
-        roadPaint.setStrokeWidth(25);
+        roadPaint.setStrokeWidth(30);
 
         ArrayList<Road> dataRoads = this.board.getRoads(); // get list of all roads on the board
 
@@ -193,10 +193,23 @@ public class HexagonGrid extends BoardSurfaceView {
     private void drawPorts (Canvas canvas) {
         ArrayList<Port> ports = this.board.getPortList();
 
-        for (int i = 0; i < ports.size(); i++) {
-            int portIntersectionId = ports.get(i).getIntersection();
-            ports.get(i).drawPort(canvas, intersections[portIntersectionId].getxPos(), intersections[portIntersectionId].getyPos(), 25);
-        }
+        ports.get(0).drawPort(canvas, this.intersections[ports.get(0).getIntersectionA()].getxPos() + 50, this.intersections[ports.get(0).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+
+        ports.get(1).drawPort(canvas, this.intersections[ports.get(1).getIntersectionB()].getxPos() + 100, this.intersections[ports.get(1).getIntersectionB()].getyPos(), 25, this.getContext());
+
+        ports.get(2).drawPort(canvas, this.intersections[ports.get(2).getIntersectionA()].getxPos() - 100, this.intersections[ports.get(2).getIntersectionA()].getyPos(), 25, this.getContext());
+
+        ports.get(3).drawPort(canvas, this.intersections[ports.get(3).getIntersectionA()].getxPos() - 50, this.intersections[ports.get(3).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+
+        ports.get(4).drawPort(canvas, this.intersections[ports.get(4).getIntersectionA()].getxPos() - 50, this.intersections[ports.get(4).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+
+        ports.get(5).drawPort(canvas, this.intersections[ports.get(5).getIntersectionA()].getxPos() + 50, this.intersections[ports.get(5).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+
+        ports.get(6).drawPort(canvas, this.intersections[ports.get(6).getIntersectionA()].getxPos() + 50, this.intersections[ports.get(6).getIntersectionA()].getyPos() + 100, 25, this.getContext());
+
+        ports.get(7).drawPort(canvas, this.intersections[ports.get(7).getIntersectionB()].getxPos() + 50, this.intersections[ports.get(7).getIntersectionB()].getyPos() + 100, 25, this.getContext());
+
+        ports.get(8).drawPort(canvas, this.intersections[ports.get(8).getIntersectionA()].getxPos() + 150, this.intersections[ports.get(8).getIntersectionA()].getyPos(), 25, this.getContext());
     }
 
     /**
@@ -208,7 +221,7 @@ public class HexagonGrid extends BoardSurfaceView {
         canvas.drawColor(Color.argb(255, 160, 206, 255)); // set the background to ocean color
 
         Paint tanPaint = new Paint(); // paint for island background
-        tanPaint.setColor(Color.argb(255, 255, 246, 183));
+        tanPaint.setColor(Color.argb(255, 226, 210, 113));
 
         int centerX = canvas.getWidth() / 2;
         int centerY = canvas.getHeight() / 2;

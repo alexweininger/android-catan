@@ -1401,32 +1401,23 @@ public class Board {
      * Creates ports along the given intersection, and assigns them proper trade values
      */
     private void designatePorts () {
-        portList.add(new Port(25, 3, 3)); //Ore
-        portList.add(new Port(26, 3, 3));
+        portList.add(new Port(25, 26, 3, 3)); //Ore
 
-        portList.add(new Port(29, 2, 1)); //Grain
-        portList.add(new Port(30, 2, 1));
+        portList.add(new Port(29, 30, 2, 1)); //Grain
 
-        portList.add(new Port(32, 3, -1)); //Anything
-        portList.add(new Port(33, 3, -1));
+        portList.add(new Port(32, 33, 3, -1)); //Anything
 
-        portList.add(new Port(35, 2, 2)); //Lumber
-        portList.add(new Port(36, 2, 2));
+        portList.add(new Port(35, 36, 2, 2)); //Lumber
 
-        portList.add(new Port(39, 2, 0)); //Brick
-        portList.add(new Port(40, 2, 0));
+        portList.add(new Port(39, 40, 2, 0)); //Brick
 
-        portList.add(new Port(42, 3, -1)); //anything
-        portList.add(new Port(43, 3, -1));
+        portList.add(new Port(42, 43, 3, -1)); //anything
 
-        portList.add(new Port(45, 3, -1)); //anything
-        portList.add(new Port(46, 3, -1));
+        portList.add(new Port(45, 46, 3, -1)); //anything
 
-        portList.add(new Port(52, 3, -1)); //anything
-        portList.add(new Port(53, 3, -1));
+        portList.add(new Port(52, 53, 3, -1)); //anything
 
-        portList.add(new Port(49, 2, 4));  //Wool
-        portList.add(new Port(50, 2, 4));
+        portList.add(new Port(49, 50, 2, 4));  //Wool
     }
 
     /* ----- generic getter methods ----- */
@@ -1592,7 +1583,7 @@ public class Board {
      * @param robber Robber object
      */
     public void setRobber (Robber robber) {
-        this.robber = robber;
+        this.robber = new Robber(robber);
     }
 
     public ArrayList<Port> getPortList () {

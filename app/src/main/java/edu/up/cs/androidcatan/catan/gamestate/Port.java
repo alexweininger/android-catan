@@ -1,20 +1,23 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+
+import edu.up.cs.androidcatan.R;
 
 public class Port {
-    private int intersection, tradeRatio, resourceId;
+    private int intersectionA, intersectionB, tradeRatio, resourceId;
     private int xPos, yPos, size;
 
     /**
-     * @param intersection
+     * @param intersectionA
      * @param tradeRatio
      * @param resourceId
      */
-    public Port (int intersection, int tradeRatio, int resourceId) {
-        this.intersection = intersection;
+    public Port (int intersectionA, int intersectionB, int tradeRatio, int resourceId) {
+        this.intersectionA = intersectionA;
+        this.intersectionB = intersectionB;
         this.tradeRatio = tradeRatio;
         this.resourceId = resourceId;
     }
@@ -25,31 +28,26 @@ public class Port {
      * @param p Port to copy
      */
     public Port (Port p) {
-        this.setIntersection(p.getIntersection());
+        this.setIntersectionA(p.getIntersectionA());
         this.setTradeRatio(p.getTradeRatio());
         this.setResourceId(p.getResourceId());
     }
 
     /**
      * @param canvas Canvas to draw the port on.
-     * @param xPos X position of the port.
-     * @param yPos Y position of the port.
-     * @param size Size of the port.
      */
-    public void drawPort (Canvas canvas, int xPos, int yPos, int size) {
-
-        this.size = size;
+    public void drawPort (Canvas canvas, int xPos, int yPos, int size, Context context) {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.size = size;
 
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(xPos, yPos, size, paint);
+        Drawable portPicture = context.getDrawable(R.drawable.port_boat);
+        portPicture.setBounds(xPos - 40, yPos - 40, xPos + 40, yPos + 40);
+        portPicture.draw(canvas);
     }
 
-    public int getIntersection () {
-        return intersection;
+    public int getIntersectionA () {
+        return intersectionA;
     }
 
     public int getTradeRatio () {
@@ -60,8 +58,8 @@ public class Port {
         return resourceId;
     }
 
-    public void setIntersection (int intersection) {
-        this.intersection = intersection;
+    public void setIntersectionA (int intersectionA) {
+        this.intersectionA = intersectionA;
     }
 
     public void setTradeRatio (int tradeRatio) {
@@ -96,8 +94,16 @@ public class Port {
         this.size = size;
     }
 
+    public int getIntersectionB () {
+        return intersectionB;
+    }
+
+    public void setIntersectionB (int intersectionB) {
+        this.intersectionB = intersectionB;
+    }
+
     @Override
     public String toString () {
-        return "{" + "intersection=" + intersection + " rate=" + tradeRatio + " res=" + resourceId + '}';
+        return "{" + "intersectionA=" + intersectionA + " rate=" + tradeRatio + " res=" + resourceId + '}';
     }
 }
