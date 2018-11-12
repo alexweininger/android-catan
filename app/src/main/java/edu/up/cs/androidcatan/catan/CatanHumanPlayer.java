@@ -414,44 +414,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        if (button.getId() == R.id.button_singleIntersectionMenuOk) {
-            int singleIntersectionIdInput;
-            if (singleIntersectionInputEditText.getText().equals("")) {
-                Log.d(TAG, "onClick: IntersectionDrawable is null (" + singleIntersectionInputEditText.getText() + ")");
-                return;
-            }
-            try {
-                singleIntersectionIdInput = Integer.parseInt(singleIntersectionInputEditText.getText().toString());
-            } catch (NumberFormatException nfe) {
-                Log.e(TAG, "onClick: Error, not integer");
-                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-                singleIntersectionInputEditText.startAnimation(shake);
-                return;
-            }
-            Log.e(TAG, "onClick: Single intersection id input: " + singleIntersectionIdInput + " selected building id: " + currentBuildingSelectionId);
-
-            if (tryBuildSettlement(singleIntersectionIdInput)) {
-                if (currentBuildingSelectionId == 1) {
-                    Log.e(TAG, "onClick: sent settlement action ");
-                } else {
-                    CatanBuildCityAction action = new CatanBuildCityAction(this, state.isSetupPhase(), singleIntersectionIdInput, this.state.getCurrentPlayerId());
-                    game.sendAction(action);
-                }
-                Log.d(TAG, "onClick: valid location");
-                // toggle menu vis.
-                toggleGroupVisibility(singleIntersectionInputMenuGroup);
-                currentBuildingSelectionId = -1;
-                if (state.isSetupPhase()) {
-                    toggleGroupVisibility(roadIntersectionSelectionMenuGroup);
-                    roadIntersectionAEditText.setText(String.valueOf(singleIntersectionIdInput));
-                    currentBuildingSelectionId = 0;
-                    settlementCount++;
-                }
-            } else {
-                Log.d(TAG, "onClick: invalid location at " + singleIntersectionIdInput);
-            }
-            return;
-        }
         /* ---------- Development card buttons ---------- */
 
         // Development button located on the sidebar. Should only show/hide dev card menu.
