@@ -30,7 +30,7 @@ public class Player {
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
 
     // ArrayList of the development cards the player owns
-    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>();
+    private ArrayList<Integer> developmentCards = new ArrayList<>();
 
     // number of buildings the player has to build {roads, settlements, cities}
     private int[] buildingInventory = {15, 5, 4};
@@ -40,12 +40,15 @@ public class Player {
 
     private int playerId;  // playerId
 
+    private int victoryPointsFromDevCard;
+
     /**
      * Player constructor
      */
     public Player (int id) {
         this.playerId = id;
         this.armySize = 0;
+        this.victoryPointsFromDevCard = 0;
     }
 
     /**
@@ -59,6 +62,11 @@ public class Player {
         this.setDevelopmentCards(p.getDevelopmentCards());
         this.setBuildingInventory(p.getBuildingInventory());
         this.setResourceCards(p.getResourceCards());
+        this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
+    }
+
+    public void addVictoryPointsDevCard(){
+        this.victoryPointsFromDevCard += 2;
     }
 
     /**
@@ -106,6 +114,10 @@ public class Player {
         }
         Log.d(TAG, "checkResourceBundle() returned: " + true);
         return true;
+    }
+
+    public void removeDevCard(int removeCardNum){
+        this.developmentCards.remove(removeCardNum);
     }
 
     /**
@@ -222,9 +234,19 @@ public class Player {
     }
 
     /**
+     * @return victory points from dev cards
+     */
+    public int getVictoryPointsFromDevCard() { return victoryPointsFromDevCard; }
+
+    /**
+     * @param victoryPointsFromDevCard the amount of points from dev cards they have
+     */
+    public void setVictoryPointsFromDevCard(int victoryPointsFromDevCard){ this.victoryPointsFromDevCard = victoryPointsFromDevCard; }
+
+    /**
      * @param devCard dev card to add
      */
-    void addDevelopmentCard (DevelopmentCard devCard) {
+    void addDevelopmentCard (int devCard) {
         developmentCards.add(devCard);
     }
 
@@ -232,7 +254,7 @@ public class Player {
      * @param devCard dev card to remove
      * @return if action was possible
      */
-    public boolean useDevCard (DevelopmentCard devCard) {
+    public boolean useDevCard (int devCard) {
         if (developmentCards.contains(devCard)) {
             developmentCards.remove(devCard);
             return true;
@@ -247,7 +269,7 @@ public class Player {
     // use to allow the player to use the dev card they built the turn prior
     public void setDevelopmentCardsAsPlayable () {
         for (int i = 0; i < developmentCards.size(); i++) {
-            developmentCards.get(i).setPlayable(true);
+            //developmentCards.get(i).setPlayable(true);
         }
     }
 
@@ -261,14 +283,14 @@ public class Player {
     /**
      * @return - list of players' development cards
      */
-    public ArrayList<DevelopmentCard> getDevelopmentCards () {
+    public ArrayList<Integer> getDevelopmentCards () {
         return developmentCards;
     }
 
     /**
      * @param developmentCards List of DevelopmentCards the player currently has.
      */
-    public void setDevelopmentCards (ArrayList<DevelopmentCard> developmentCards) {
+    public void setDevelopmentCards (ArrayList<Integer> developmentCards) {
         this.developmentCards = developmentCards;
     }
 
