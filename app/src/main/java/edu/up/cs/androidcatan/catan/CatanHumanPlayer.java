@@ -36,6 +36,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
@@ -518,7 +519,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------------Trade Menu Buttons ---------------- */
+        /* ---------------------------- Trade Menu Buttons ------------------------ */
 
         //Give
         if (button.getId() == R.id.image_trade_menu_give_brick){
@@ -745,6 +746,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
+
+        if (!state.isSetupPhase()) {
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceBundle(Road.resourceCost)) {
+                messageTextView.setText("Not enough resources to build a road.");
+            }
+        }
 
         // check if user given intersections are valid
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
@@ -1019,7 +1026,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             setAllButtonsToVisible();
         }
 
-                setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
+//                setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
 
