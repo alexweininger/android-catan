@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.game.config.GameConfig;
 import edu.up.cs.androidcatan.game.config.GamePlayerType;
-import edu.up.cs.androidcatan.game.util.IPCoder;
 import edu.up.cs.androidcatan.game.util.MessageBox;
 
 /**
@@ -458,7 +457,7 @@ View.OnClickListener {
 
 //		String ipCode = IPCoder.encodeLocalIP();
 //		String ipAddress = IPCoder.getLocalIpAddress();
-//		TextView ipText = (TextView)findViewById(R.id.ipCodeLabel);
+//		TextView ipText = findViewById(R.id.ipCodeLabel);
 //		ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
 
 	}// initStarterGui
