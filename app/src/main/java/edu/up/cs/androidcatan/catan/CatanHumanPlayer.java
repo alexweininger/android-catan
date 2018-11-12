@@ -1419,13 +1419,35 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //TODO Implement the Listener
-                if()
+                switch(position){
+                    case 0:
+                        devcard_text_name.setText(R.string.knight_name);
+                        getDevcard_text_description.setText(R.string.knight_info);
+                        break;
+                    case 1:
+                        devcard_text_name.setText(R.string.victory_point_name);
+                        getDevcard_text_description.setText(R.string.victory_point_info);
+                        break;
+                    case 2:
+                        devcard_text_name.setText(R.string.year_of_plenty_name);
+                        getDevcard_text_description.setText(R.string.year_of_plenty_name);
+                        break;
+                    case 3:
+                        devcard_text_name.setText(R.string.monopoly_name);
+                        getDevcard_text_description.setText(R.string.monopoly_info);
+                        break;
+                    case 4:
+                        devcard_text_name.setText(R.string.road_building_name);
+                        getDevcard_text_description.setText(R.string.road_building_info);
+                        break;
+                }
 
             }
 
             @Override
             public void onNothingSelected (AdapterView<?> parentView) {
-                    devcard_text_name.setText(R.string.);
+                    devcard_text_name.setText(R.string.knight_name);
+                    getDevcard_text_description.setText(R.string.knight_info);
             }
         });
 
