@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.Player;
@@ -93,6 +94,7 @@ public class Board {
         generateHexToIntMap();
 
         do {
+            this.hexagons.clear();
             generateHexagonTiles(); // generate hex tiles
         } while (!checkChitRule());
 
@@ -126,7 +128,9 @@ public class Board {
                 this.buildings[i] = new City(i, b.getBuildings()[i].getOwnerId());
             }
         }
-        for (Hexagon hexagon : b.getHexagons()) { this.hexagons.add(new Hexagon(hexagon)); }
+        for (Hexagon hexagon : b.getHexagons()) {
+            this.hexagons.add(new Hexagon(hexagon));
+        }
     } // end Board deep copy constructor
 
     /* ----- helper / checking methods ----- */
@@ -418,53 +422,13 @@ public class Board {
         return true;
     }
 
-    /**
-     * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
-     */
-    private boolean checkChitRule () {
-        Log.d(TAG, "checkChitRule() called");
-        // checks if any 8's or 6's are adjacent to one another
-
-        // go through all hexagons
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 8) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 8) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 8 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 6) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 6) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 6 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < this.hexagons.size(); i++) {
-            if (hexagons.get(i).getChitValue() == 6) {
-                for (Integer integer : getAdjacentHexagons(i)) {
-                    if (integer != i) {
-                        if (hexagons.get(integer).getChitValue() == 8) {
-                            Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
+    private void swapChitValues(int hexagonId) {
+        Random random = new Random();
+        int randomHexId = random.nextInt(18);
+        Hexagon hex = this.hexagons.get(randomHexId);
+        int chitVal = this.hexagons.get(hexagonId).getChitValue();
+        this.hexagons.get(hexagonId).setChitValue(hex.getChitValue());
+        hex.setChitValue(chitVal);
     }
 
     /**
@@ -727,8 +691,71 @@ public class Board {
     /*----- board helper methods for setting up board and populating data structures -----*/
 
     private ArrayList<Integer> generateChitList () {
-//        ArrayList<Integer> chitLst
-        return null;
+        Log.d(TAG, "generateChitList() called");
+        ArrayList<Integer> chitList = new ArrayList<>();
+
+        chitList.add(2);
+        chitList.add(2);
+        chitList.add(3);
+        chitList.add(3);
+        chitList.add(4);
+        chitList.add(4);
+        chitList.add(5);
+        chitList.add(5);
+        chitList.add(6);
+        chitList.add(6);
+        chitList.add(8);
+        chitList.add(8);
+        chitList.add(9);
+        chitList.add(9);
+        chitList.add(10);
+        chitList.add(10);
+        chitList.add(11);
+        chitList.add(11);
+        chitList.add(12);
+
+        Collections.shuffle(chitList);
+
+        return chitList;
+    }
+
+    /**
+     * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
+     */
+    private boolean checkChitRule () {
+        Log.d(TAG, "checkChitRule() called");
+        // checks if any 8's or 6's are adjacent to one another
+
+        // go through all hexagons
+        for (int i = 0; i < this.hexagons.size(); i++) {
+            if (hexagons.get(i).getChitValue() == 8) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 8) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 8 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+            if (hexagons.get(i).getChitValue() == 6) {
+                for (Integer integer : getAdjacentHexagons(i)) {
+                    if (integer != i) {
+                        if (hexagons.get(integer).getChitValue() == 6) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 6 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+
+                        if (hexagons.get(integer).getChitValue() == 8) {
+                            Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        Log.e(TAG, "checkChitRule() returned: " + true);
+        return true;
     }
 
     /**
@@ -740,26 +767,22 @@ public class Board {
 
         //arrays that contain information regarding what each hexagon will contain
         int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
-        int[] chitValuesCount = {1, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-
-
 
         int[] resources = {0, 1, 2, 3, 4, 5};
 
         Random random = new Random();
 
+        ArrayList<Integer> chitList = generateChitList();
+
         //iterates through the hexagons and assigns each individual one the information required
         while (this.hexagons.size() < 19) {
+
+            int randomChitValue = chitList.get(this.hexagons.size());
 
             int randomResourceType;
             do {
                 randomResourceType = random.nextInt(resourceTypeCount.length);
             } while (resourceTypeCount[randomResourceType] < 1);
-
-            int randomChitValue;
-            do {
-                randomChitValue = random.nextInt(chitValuesCount.length);
-            } while (chitValuesCount[randomChitValue] < 1);
 
             if (randomResourceType == 5) {
                 Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
@@ -769,7 +792,6 @@ public class Board {
             Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
             hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             resourceTypeCount[randomResourceType]--;
-            chitValuesCount[randomChitValue]--;
 
             if (resources[randomResourceType] == 5) {
                 robber.setHexagonId(this.hexagons.size() - 1);
@@ -781,6 +803,11 @@ public class Board {
         Log.i(TAG, "generateHexagonTiles: exited loop");
 
         Log.i(TAG, "generateHexagonTiles: hexagon list:");
+
+        if (hexagons.size() < 19) {
+            Log.e(TAG, "generateHexagonTiles: hexagons size less than 19");
+        }
+
         for (Hexagon hexagon : this.hexagons) {
             Log.i(TAG, "| " + hexagon);
         }
@@ -794,7 +821,7 @@ public class Board {
         for (int i = 0; i < resourceCountChecks.length; i++) {
             if (resourceTypeCount[i] < resourceCountChecks[i]) {
                 Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
-                generateHexagonTiles();
+                //generateHexagonTiles();
             }
         }
     }
