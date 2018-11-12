@@ -1757,4 +1757,10 @@ public class Board {
 
         return str;
     }
+
+
+    /*------------------------------Niraj Stuff----------------------------------------------*/
+    public void setRobberLocation(int hexId){
+        this.robber.setHexagonId(hexId);
+    }
 } // end Class

@@ -284,6 +284,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.GONE);
             robberHexMessage.setText("Please tap a tile to place the robber on.");
+            robberDiscardGroup.setVisibility(View.VISIBLE);
+            state.getBoard().setRobberLocation(this.selectedHexagonId);
+            return;
+
         }
 
         if (button.getId() == R.id.robber_discard_brickAddImg) {
@@ -735,8 +739,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
-            Log.i(TAG, "onClick: Making Robber Visible");
-            robberDiscardGroup.setVisibility(View.VISIBLE);
+            robberChooseHexGroup.setVisibility(View.VISIBLE);
         }
         else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
@@ -917,6 +920,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         robberConfirmHex = activity.findViewById(R.id.robber_chooosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
+        robberHexMessage.setText("Please choose a tile to place the Robber on.");
         robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
 
 
