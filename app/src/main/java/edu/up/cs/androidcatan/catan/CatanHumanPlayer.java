@@ -278,7 +278,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(a);
 
             if (state.getCurrentDiceSum() == 7) {
-                //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
                 Log.i(TAG, "onClick: Making Robber Visible");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
