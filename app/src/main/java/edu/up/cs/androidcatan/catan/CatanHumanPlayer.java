@@ -814,10 +814,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
 
-            // add just enough resources so player can build a road
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-
+            if (state.isSetupPhase()) {
+                // add just enough resources so player can build a road
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+            }
             // send build settlement action to the game
             Log.e(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
             game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
@@ -1117,7 +1118,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             setAllButtonsToVisible();
         }
 
-        //        setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
+                setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
 
@@ -1577,8 +1578,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.endTurnButton.setAlpha(1f);
         this.endTurnButton.setClickable(true);
 
-        this.rollButton.setAlpha(0.5f);
-        this.rollButton.setClickable(false);
+        this.rollButton.setAlpha(1f);
+        this.rollButton.setClickable(true);
 
         this.singleIntersectionCancelButton.setAlpha(1f);
         this.singleIntersectionCancelButton.setClickable(true);

@@ -176,7 +176,7 @@ public class HexagonGrid extends BoardSurfaceView {
                         Log.i(TAG, "drawBuildings: drawing a city.");
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
                     }
-                    buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
+                    buildingPicture.setBounds(xPos - 50, yPos - 60, xPos + 50, yPos + 60);
                     buildingPicture.draw(canvas);
                 }
             } else {

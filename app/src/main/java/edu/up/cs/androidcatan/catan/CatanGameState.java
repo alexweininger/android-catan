@@ -323,7 +323,6 @@ public class CatanGameState extends GameState{
         }
     }
 
-
     /*-------------------------------------Action Methods------------------------------------------*/
 
     /**
@@ -499,13 +498,6 @@ public class CatanGameState extends GameState{
             }
         }
 
-        // check if they have enough resources to build a road
-        if (!this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
-            Log.e(TAG, "buildRoad: Player " + playerId + " does not have enough resources.\n");
-            Log.e(TAG, "buildRoad: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
-            return false;
-        }
-
         // check if it is a valid road placement
         if (!board.validRoadPlacement(playerId, this.isSetupPhase, startIntersectionID, endIntersectionID)) {
             Log.e(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
@@ -650,10 +642,7 @@ public class CatanGameState extends GameState{
             totalDiscarded += resourcesDiscarded[i];
         }
         Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
-        if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
-            return true;
-        }
-        return false;
+        return totalDiscarded == playerList.get(playerId).getTotalResourceCardCount() / 2;
     }
 
     /**
