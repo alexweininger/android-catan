@@ -37,6 +37,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
@@ -338,6 +339,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.robber_discard_confirm){
             if(state.validDiscard(this.playerNum, this.robberDiscardedResources)){
+                robberDiscardMessage.setText("Discarding..");
                 if(state.getCurrentPlayerId() == playerNum){
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
@@ -566,6 +568,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (devCardList.getSelectedItemPosition() == 0){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0)){
                     Log.e(TAG, "onClick: Knight Dev card is not owned!");
+                    messageTextView.setText("You don't have that card!");
                     return;
                 }
                 CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
@@ -576,6 +579,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             else if (devCardList.getSelectedItemPosition() == 1){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1)){
                     Log.e(TAG, "onClick: Victory Points Dev card is not owned!");
+                    messageTextView.setText("You don't have that card!");
                     return;
                 }
                 CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
@@ -585,6 +589,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             else if (devCardList.getSelectedItemPosition() == 2){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)){
                     Log.e(TAG, "onClick: Year of Plenty Dev card is not owned!");
+                    messageTextView.setText("You don't have that card!");
                     return;
                 }
                 CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
@@ -595,6 +600,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             else if (devCardList.getSelectedItemPosition() == 3){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3)){
                     Log.e(TAG, "onClick: Monopoly Dev card is not owned!");
+                    messageTextView.setText("You don't have that card!");
                     return;
                 }
                 CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
@@ -605,6 +611,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             else if (devCardList.getSelectedItemPosition() == 4){
                 if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)){
                     Log.e(TAG, "onClick: Road Building Dev card is not owned!");
+                    messageTextView.setText("You don't have that card!");
                     return;
                 }
                 CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
@@ -615,6 +622,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.build_devCard) {
+            if(!state.getPlayerList().get(playerNum).checkResourceBundle(DevelopmentCard.getResourceCost())){
+                messageTextView.setText("You don't have the resources to purchase a dev card!");
+                return;
+            }
+            messageTextView.setText("You bought a dev card!");
             CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
             game.sendAction(action);
             return;
