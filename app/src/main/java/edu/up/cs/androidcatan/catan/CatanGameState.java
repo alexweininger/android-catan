@@ -617,7 +617,14 @@ public class CatanGameState extends GameState{
         return false;
     }
 
-
+    /**
+     * Discards resources when robber is played; makes sure it is exactly half of the player's hand;
+     * if not, returns false
+     *
+     * @param playerId
+     * @param resourcesDiscarded
+     * @return
+     */
     public boolean discardResources(int playerId, int[] resourcesDiscarded){
         int totalDiscarded = 0;
         for(int i = 0; i < resourcesDiscarded.length; i++){
@@ -626,6 +633,9 @@ public class CatanGameState extends GameState{
         Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
         if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
             Log.i(TAG, "discardResources: Discarded resources");
+            for(int i = 0; i < resourcesDiscarded.length; i++){
+                this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
+            }
             return true;
         }
         return false;
