@@ -496,46 +496,52 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------------Trade Menu Buttons ---------------- */
 
+        brickSelectionBoxGive.setImageAlpha(0);
+        grainSelectionBoxGive.setImageAlpha(0);
+        lumberSelectionBoxGive.setImageAlpha(0);
+        oreSelectionBoxGive.setImageAlpha(0);
+        woolSelectionBoxGive.setImageAlpha(0);
+
         //Give
         if (button.getId() == R.id.image_trade_menu_give_brick){
-
+            brickSelectionBoxGive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_give_grain){
-
+            grainSelectionBoxGive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_give_lumber){
-
+            lumberSelectionBoxGive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_give_ore){
-
+            oreSelectionBoxGive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_give_wool){
-
+            woolSelectionBoxGive.setImageAlpha(255);
         }
 
         //Receive
         if (button.getId() == R.id.image_trade_menu_rec_brick){
-
+            brickSelectionBoxReceive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_grain){
-
+            grainSelectionBoxReceive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_lumber){
-
+            lumberSelectionBoxReceive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_ore){
-
+            oreSelectionBoxReceive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_wool){
-
+            woolSelectionBoxReceive.setImageAlpha(255);
         }
 
         if (button.getId() == R.id.button_trade_menu_confirm){
@@ -543,7 +549,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.button_trade_menu_cancel){
-            
+
         }
 
 
