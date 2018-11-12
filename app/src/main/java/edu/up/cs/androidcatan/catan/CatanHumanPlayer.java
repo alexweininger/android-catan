@@ -34,6 +34,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
@@ -472,6 +473,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        // Buy development card button on the dev card menu. This sends a BuyDevCard action to the game state.
+        if (button.getId() == R.id.build_devCard) {
+
+            // try to remove the resources required to buy a dev card from the players inventory
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceBundle(DevelopmentCard.resourceCost)) {
+                // the CatanBuyDevCardAction holds the player, and the currently selected dev card id from the spinner.
+                game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
+                return;
+            } else {
+                // else: meaning the player does not have enough resources to buy dev card
+                Log.i(TAG, "onClick: Player " + this.playerNum + " tried to buy a dev card. But does not have enough resources. (removeResourceBundle returned false.)");
+
+                // tell the user with the message text view
+                messageTextView.setText("You do not have enough resources to buy a development.");
+
+                // shake the message text view TODO make this a helper method bc we use it a lot for this one repeated thing
+                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+                roadIntersectionBEditText.startAnimation(shake);
+                messageTextView.startAnimation(shake);
+                return;
+            }
+        }
+
         // Use development card button on the dev card menu.
         if (button.getId() == R.id.use_Card) {
             // todo, validate the player can use the card. e.g. they have it etc. and then send the action
@@ -510,11 +534,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     return;
                 }
             }
-        }
-
-        if (button.getId() == R.id.build_devCard) {
-            game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
-            return;
         }
 
         /* ---------------------------- Trade Menu Buttons ------------------------ */
