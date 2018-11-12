@@ -63,7 +63,8 @@ public class HexagonDrawable extends BoardSurfaceView {
     }
 
     /**
-     * @param canvas Canvas object to draw the hexagon on.
+     * @param canvas Canvas to draw the hexagon upon.
+     * @param debugMode Debug mode.
      */
     public void drawHexagon (Canvas canvas, boolean debugMode) {
         Paint hexagonPaint = new Paint();
@@ -154,17 +155,19 @@ public class HexagonDrawable extends BoardSurfaceView {
      * @return Path
      */
     public Path createHexagonPath (int[][] corners) {
-        hexagonPath = new Path();
-        hexagonPath.moveTo(corners[0][0], corners[0][1]);
+        this.hexagonPath = new Path();
+        this.hexagonPath.moveTo(corners[0][0], corners[0][1]);
 
         for (int i = 1; i < corners.length; i++) {
-            hexagonPath.lineTo(corners[i][0], corners[i][1]);
+            this.hexagonPath.lineTo(corners[i][0], corners[i][1]);
         }
-        hexagonPath.close();
-
-        return hexagonPath;
+        this.hexagonPath.close();
+        return this.hexagonPath;
     }
 
+    /**
+     * @return Array of the corner points of a hexagon.
+     */
     public int[][] getHexagonPoints () {
         return this.points;
     }

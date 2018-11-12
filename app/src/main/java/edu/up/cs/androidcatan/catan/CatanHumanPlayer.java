@@ -31,6 +31,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
@@ -579,10 +580,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
 
-            // add just enough resources so player can build a road
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-
             // send build settlement action to the game
             Log.e(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
             game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
@@ -614,12 +611,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), true, intersection1)) {
             Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-
-            // add just enough resources so player can build settlement
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(1, 1); // give 1 grain
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(4, 1); // give 1 wool
 
             // send build settlement action to the game
             Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
@@ -660,7 +651,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private boolean tryTradeWithPort(int resourceGiving, int resourceReceiving) {
 
+        ArrayList<Port> ports = state.getBoard().getPortList();
 
+        Port tradingWith = null;
+
+        for (Port port : ports) {
+            if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
+                tradingWith = port;
+            }
+        }
+
+        if (tradeButton == null) {
+            this.messageTextView.setText("Selected intersection does not have port access.");
+            Log.d(TAG, "tryTradeWithPort() returned: " + false);
+            return false;
+        }
+
+        if (tradingWith.getResourceId() != -1) {
+            state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio());
+        } else {
+
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
+
+            }
+
+        }
 
         return  true;
     }
