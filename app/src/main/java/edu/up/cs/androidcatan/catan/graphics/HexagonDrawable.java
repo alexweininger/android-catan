@@ -22,24 +22,21 @@ import edu.up.cs.androidcatan.R;
 
 public class HexagonDrawable extends BoardSurfaceView {
 
-    private static final String TAG = "HexagonDrawable";
-
-    private boolean highlight;
+    private static final String TAG = "HexagonDrawable"; // log tag
 
     // instance variables concerning graphics
+    private Context context;
     protected int x, y;
     protected Path hexagonPath;
     protected int[][] points;
     protected int size;
     protected int color;
+    private boolean highlight;
 
     // instance variables concerning game logic
     protected int hexagonId;
     protected int chitValue;
     protected boolean isRobber, isDesert;
-
-    private Context context;
-
 
     public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight) {
         super(context);
@@ -66,7 +63,8 @@ public class HexagonDrawable extends BoardSurfaceView {
     }
 
     /**
-     * @param canvas Canvas object to draw the hexagon on.
+     * @param canvas Canvas to draw the hexagon upon.
+     * @param debugMode Debug mode.
      */
     public void drawHexagon (Canvas canvas, boolean debugMode) {
         Paint hexagonPaint = new Paint();
@@ -113,7 +111,6 @@ public class HexagonDrawable extends BoardSurfaceView {
             }
         }
 
-        int radius = 25;
         int cx = points[5][0];
         int cy = points[5][1] + this.size;
 
@@ -122,7 +119,6 @@ public class HexagonDrawable extends BoardSurfaceView {
             Drawable robberDrawable = context.getDrawable(R.drawable.robber);
             robberDrawable.setBounds(cx - 60, cy - 60, cx + 60, cy + 60);
             robberDrawable.draw(canvas);
-//            canvas.drawCircle(cx, cy, radius, robberPaint);
         }
 
         Paint intersectionPaint = new Paint();
@@ -140,16 +136,13 @@ public class HexagonDrawable extends BoardSurfaceView {
      */
     public int[][] calculateHexagonPoints (int x, int y, int size) {
         int[][] points = new int[6][2];
-        double angle_deg, angle_rad;
 
         for (int i = 0; i < 6; i++) {
-
-            angle_deg = 60 * i - 30;
-            angle_rad = Math.PI / 180 * angle_deg;
+            double angle_deg = 60 * i - 30;
+            double angle_rad = Math.PI / 180 * angle_deg;
 
             points[i][0] = (int) (x + size * Math.cos(angle_rad));
             points[i][1] = (int) (y + size * Math.sin(angle_rad));
-
         }
         this.points = points;
         return points;
@@ -162,17 +155,19 @@ public class HexagonDrawable extends BoardSurfaceView {
      * @return Path
      */
     public Path createHexagonPath (int[][] corners) {
-        hexagonPath = new Path();
-        hexagonPath.moveTo(corners[0][0], corners[0][1]);
+        this.hexagonPath = new Path();
+        this.hexagonPath.moveTo(corners[0][0], corners[0][1]);
 
         for (int i = 1; i < corners.length; i++) {
-            hexagonPath.lineTo(corners[i][0], corners[i][1]);
+            this.hexagonPath.lineTo(corners[i][0], corners[i][1]);
         }
-        hexagonPath.close();
-
-        return hexagonPath;
+        this.hexagonPath.close();
+        return this.hexagonPath;
     }
 
+    /**
+     * @return Array of the corner points of a hexagon.
+     */
     public int[][] getHexagonPoints () {
         return this.points;
     }

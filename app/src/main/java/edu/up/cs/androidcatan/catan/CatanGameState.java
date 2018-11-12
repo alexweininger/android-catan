@@ -171,10 +171,6 @@ public class CatanGameState extends GameState{
      */
     public boolean useDevCard (int playerId, int devCardId) {
 
-        if (!valAction(playerId)) { // todo might need to remove
-            return false;
-        }
-
         DevelopmentCard developmentCard = new DevelopmentCard(devCardId);
         return true;
     }
@@ -290,6 +286,12 @@ public class CatanGameState extends GameState{
             Log.e(TAG, "produceResources: It is the action phase. Returned false.");
             return;
         }
+
+        if (this.isSetupPhase) {
+            Log.e(TAG, "produceResources: not producing any resources since it is the setup phase.");
+            return;
+        }
+
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
         Log.i(TAG, "produceResources: Hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
         for (Integer i : productionHexagonIds) {
@@ -302,11 +304,10 @@ public class CatanGameState extends GameState{
             // iterate through each intersection surrounding the producing hexagon
             for (Integer intersectionId : receivingIntersections) {
 
-                Building b = this.board.getBuildingAtIntersection(intersectionId);
                 // check if this intersection has a building
-                if (null != b) {
-                    this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), b.getVictoryPoints());
-                    Log.i(TAG, "produceResources: Giving " + b.getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                if (board.getBuildings()[intersectionId] != null) {
+                    this.playerList.get(board.getBuildings()[intersectionId].getOwnerId()).addResourceCard(hex.getResourceId(), board.getBuildings()[intersectionId].getVictoryPoints());
+                    Log.i(TAG, "produceResources: Giving " + board.getBuildings()[intersectionId].getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + board.getBuildings()[intersectionId].getOwnerId());
                 } else {
                     Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
                 }
@@ -531,11 +532,7 @@ public class CatanGameState extends GameState{
                 return false;
             }
         } else {
-            Log.d(TAG, "buildSettlement: adding resources for a settlement to player " + playerId);
-            this.playerList.get(playerId).addResourceCard(0, 1);
-            this.playerList.get(playerId).addResourceCard(1, 1);
-            this.playerList.get(playerId).addResourceCard(2, 1);
-            this.playerList.get(playerId).addResourceCard(4, 1);
+
 
             Log.i(TAG, "buildSettlement: Player " + playerId + " now has resources: " + this.getPlayerList().get(playerId).printResourceCards());
         }
