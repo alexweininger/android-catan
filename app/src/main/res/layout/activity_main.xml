@@ -1606,5 +1606,17 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
 
+    <ImageView
+        android:id="@+id/building_costs"
+        android:layout_width="150dp"
+        android:layout_height="316dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/building_costs"
+        android:contentDescription="@string/buildingCosts"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
+
     <!--Robber Menu End-->
 </android.support.constraint.ConstraintLayout>

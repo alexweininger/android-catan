@@ -94,6 +94,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* ------------- Misc Buttons -------------------- */
 
     private Button sidebarMenuButton = (Button) null;
+    private ImageView buildingCosts = null;
     private Button sidebarScoreboardButton = (Button) null;
 
     /* ------------- resource count text views -------------------- */
@@ -252,6 +253,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode;
+            if(this.buildingCosts.getVisibility() == View.VISIBLE)
+            {
+                this.buildingCosts.setVisibility(View.GONE);
+            }else
+            {
+                this.buildingCosts.setVisibility(View.VISIBLE);
+            }
             Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
@@ -1138,6 +1146,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.sidebarMenuButton = activity.findViewById(R.id.sidebar_button_menu);
         this.sidebarMenuButton.setOnClickListener(this);
+        this.buildingCosts = activity.findViewById(R.id.building_costs);
 
         this.sidebarScoreboardButton = activity.findViewById(R.id.sidebar_button_score);
         this.sidebarScoreboardButton.setOnClickListener(this);
