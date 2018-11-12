@@ -43,9 +43,9 @@ public class HexagonGrid extends BoardSurfaceView {
     // colors for each player, the last color is for no player (highlighting)
     public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE, Color.CYAN};
 
-    public static int[] settlementPictures = {R.drawable.settlement_red, R.drawable.settlement_white, R.drawable.settlement_orange, R.drawable.settlement_blue, R.drawable.settlement_selected};
+    public static int[] settlementPictures = {R.drawable.settlement_red, R.drawable.settlement_white, R.drawable.settlement_orange, R.drawable.settlement_blue, R.drawable.city_selected};
 
-    public static int[] cityPictures = {R.drawable.city_red, R.drawable.city_white, R.drawable.city_orange, R.drawable.city_blue, R.drawable.city_selected};
+    public static int[] cityPictures = {R.drawable.city_red, R.drawable.city_white, R.drawable.city_orange, R.drawable.city_blue, R.drawable.settlement_selected};
 
     private Board board;
     private IntersectionDrawable[] intersections = new IntersectionDrawable[54]; // list of IntersectionDrawable objects
@@ -126,7 +126,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
         for (Road r : dataRoads) {
             roadPaint.setColor(playerColors[r.getOwnerId()]);
-
             canvas.drawLine(intersections[r.getIntersectionAId()].getxPos(), intersections[r.getIntersectionAId()].getyPos(), intersections[r.getIntersectionBId()].getxPos(), intersections[r.getIntersectionBId()].getyPos(), roadPaint);
         }
     }
@@ -143,15 +142,8 @@ public class HexagonGrid extends BoardSurfaceView {
 
         Building[] buildings = this.board.getBuildings();
 
-        // go through each buildingu
+        // go through each building
         for (int i = 0; i < buildings.length; i++) {
-
-            if (this.highlightedIntersections.contains(i)) {
-                Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
-                int xPos = this.intersections[i].getxPos();
-                int yPos = this.intersections[i].getyPos();
-                canvas.drawCircle(xPos, yPos, 30, highlightPaint);
-            }
 
             if (buildings[i] != null) { // if we need to draw a building at this intersection
 
@@ -184,6 +176,13 @@ public class HexagonGrid extends BoardSurfaceView {
                     }
                     buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
                     buildingPicture.draw(canvas);
+                }
+            } else {
+                if (this.highlightedIntersections.contains(i)) {
+                    Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
+                    int xPos = this.intersections[i].getxPos();
+                    int yPos = this.intersections[i].getyPos();
+                    canvas.drawCircle(xPos, yPos, 30, highlightPaint);
                 }
             }
         }
