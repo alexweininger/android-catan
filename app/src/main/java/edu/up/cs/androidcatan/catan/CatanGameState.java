@@ -339,12 +339,11 @@ public class CatanGameState extends GameState{
             return false;
         }
 
-        int rollNum = dice.roll();
+        int rollNum = 7;//dice.roll();
         this.currentDiceSum = rollNum;
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
         // if the robber is rolled
         if (rollNum == 7) {
-            // todo activate robber
             Log.i(TAG, "rollDice: The robber has been activated.");
             this.isRobberPhase = true;
         } else {
@@ -629,6 +628,7 @@ public class CatanGameState extends GameState{
         if(playerList.get(playerId).getTotalResourceCardCount() > 7){
             return true;
         }
+        hasDiscarded = true;
 
         return false;
     }
