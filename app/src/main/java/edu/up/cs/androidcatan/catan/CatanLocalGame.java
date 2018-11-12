@@ -16,6 +16,11 @@ import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
@@ -129,7 +134,7 @@ public class CatanLocalGame extends LocalGame {
             return gameState.buildCity(gameState.getCurrentPlayerId(), 2);
         }
 
-        
+/*----------------------------------Dev Card Actions---------------------------------------------*/
 
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -140,6 +145,26 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             //return gameState.useDevCard();
             return true;
+        }
+
+        if (action instanceof CatanUseKnightCardAction){
+
+        }
+
+        if (action instanceof CatanUseVictoryPointCardAction){
+
+        }
+
+        if (action instanceof CatanUseRoadBuildingCardAction){
+
+        }
+
+        if (action instanceof CatanUseMonopolyCardAction){
+
+        }
+
+        if (action instanceof CatanUseYearOfPlentyCardAction){
+
         }
 
 /*----------------------------------Robber Actions-----------------------------------------------*/
