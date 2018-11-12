@@ -70,8 +70,8 @@
 
     <android.support.constraint.Group
         android:id="@+id/group_development_card_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone"
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner,textView" />
 
@@ -262,9 +262,10 @@
 
     <TextView
         android:id="@+id/development_Card_Name"
-        android:layout_width="wrap_content"
+        android:layout_width="218dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
         android:padding="8dp"
@@ -272,11 +273,12 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
+        app:layout_constraintStart_toStartOf="@+id/guideline_right_68"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/development_Card_Info"
-        android:layout_width="0dp"
+        android:layout_width="221dp"
         android:layout_height="150dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
