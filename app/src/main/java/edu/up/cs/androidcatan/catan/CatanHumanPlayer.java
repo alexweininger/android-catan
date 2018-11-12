@@ -756,10 +756,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
-            this.messageTextView.setText("Setup phase.");
+            this.messageTextView.setText("Setup phase."); // set info message
 
+            // get settlement and road count for the current turn
             int settlements = Collections.frequency(this.buildingsBuiltOnThisTurn, 1);
             int roads = Collections.frequency(this.buildingsBuiltOnThisTurn, 0);
+
+            if (settlements == 2 && roads == 2) {
+                this.endTurnButton.setAlpha(1f);
+                this.endTurnButton.setClickable(true);
+                this.messageTextView.setText("Setup turn complete. Please end your turn.");
+            } else {
+                this.endTurnButton.setAlpha(0.5f);
+                this.endTurnButton.setClickable(false);
+                this.buildRoadButton.setAlpha(1f);
+                this.buildRoadButton.setClickable(true);
+                this.buildSettlementButton.setAlpha(1f);
+                this.buildSettlementButton.setClickable(true);
+            }
 
             if ((settlements == 2 && roads == 1) || (settlements == 1 && roads == 0)) {
                 this.buildRoadButton.setAlpha(1f);
@@ -769,19 +783,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.buildRoadButton.setClickable(false);
             }
 
-            if (settlements == 2 && roads == 2) {
-                this.endTurnButton.setAlpha(1f);
-                this.endTurnButton.setClickable(true);
-            } else {
-                this.endTurnButton.setAlpha(0.5f);
-                this.endTurnButton.setClickable(false);
+            if ((settlements == 1 && roads == 0) || (settlements == 2 && roads == 1)) {
+                this.buildSettlementButton.setAlpha(0.5f);
+                this.buildSettlementButton.setClickable(false);
             }
 
             // if it is the setup phase, grey out some buttons and make them un clickable
-
-            this.buildSettlementButton.setAlpha(1f);
-            this.buildSettlementButton.setClickable(true);
-
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
