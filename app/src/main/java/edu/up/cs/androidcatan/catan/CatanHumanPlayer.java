@@ -509,53 +509,55 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //Give
         if (button.getId() == R.id.image_trade_menu_give_brick){
-            brickSelectionBoxGive;
+            Log.d(TAG, "onClick: brick");
+            brickSelectionBoxGive.setBackgroundColor(Color.BLACK);
+            toggleViewVisibility(brickSelectionBoxGive);
             give = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_grain){
-            grainSelectionBoxGive.setImageAlpha(255);
+            toggleViewVisibility(grainSelectionBoxGive);
             give = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_lumber){
-            lumberSelectionBoxGive.setImageAlpha(255);
+            toggleViewVisibility(lumberSelectionBoxGive);
             give = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_ore){
-            oreSelectionBoxGive.setImageAlpha(255);
+            toggleViewVisibility(oreSelectionBoxGive);
             give = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_give_wool){
-            woolSelectionBoxGive.setImageAlpha(255);
+            toggleViewVisibility(woolSelectionBoxGive);
             give = 4;
         }
 
         //Receive
         if (button.getId() == R.id.image_trade_menu_rec_brick){
-            brickSelectionBoxReceive.setImageAlpha(255);
+            toggleViewVisibility(brickSelectionBoxReceive);
             receive = 0;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_grain){
-            grainSelectionBoxReceive.setImageAlpha(255);
+            toggleViewVisibility(grainSelectionBoxReceive);
             receive = 1;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_lumber){
-            lumberSelectionBoxReceive.setImageAlpha(255);
+            toggleViewVisibility(lumberSelectionBoxReceive);
             receive = 2;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_ore){
-            oreSelectionBoxReceive.setImageAlpha(255);
+            toggleViewVisibility(oreSelectionBoxReceive);
             receive = 3;
         }
 
         if (button.getId() == R.id.image_trade_menu_rec_wool){
-            woolSelectionBoxReceive.setImageAlpha(255);
+            toggleViewVisibility(woolSelectionBoxReceive);
             receive = 4;
         }
 
