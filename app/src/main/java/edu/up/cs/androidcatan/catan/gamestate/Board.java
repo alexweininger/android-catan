@@ -941,7 +941,7 @@ public class Board {
 
         intersectionGraph.get(2).add(1);
         intersectionGraph.get(2).add(12);
-        intersectionGraph.get(2).add(13);
+        intersectionGraph.get(2).add(3);
 
         intersectionGraph.get(3).add(2);
         intersectionGraph.get(3).add(4);
