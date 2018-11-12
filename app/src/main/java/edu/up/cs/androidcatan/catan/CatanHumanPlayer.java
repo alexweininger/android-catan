@@ -356,8 +356,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.robber_discard_confirm){
             if(state.validDiscard(this.playerNum, this.robberDiscardedResources)){
+                if(state.getCurrentPlayerId() == playerNum){
+                    robberChooseHexGroup.setVisibility(View.VISIBLE);
+                }
                 robberDiscardGroup.setVisibility(View.GONE);
-                robberChooseHexGroup.setVisibility(View.VISIBLE);
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
                 CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources);
                 game.sendAction(action);
@@ -867,13 +869,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
-            if(state.checkPlayerResources(this.playerNum)){
+            if(state.checkPlayerResources(this.playerNum) && !state.isHasDiscarded()){
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
             }
-            else{
+            else if(state.isHasDiscarded()){
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
+            }
+            else{
+
             }
         }
         else if (this.state.isSetupPhase()) { // IF SETUP PHASE

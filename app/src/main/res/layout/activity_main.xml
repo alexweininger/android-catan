@@ -130,14 +130,14 @@
 
     <TextView
         android:id="@+id/robber_choosehex_message"
-        android:layout_width="145dp"
-        android:layout_height="41dp"
+        android:layout_width="250dp"
+        android:layout_height="39dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toStartOf="@+id/robber_choosehex_confirm"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline_middle_54"
         app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex" />
 
     <Button

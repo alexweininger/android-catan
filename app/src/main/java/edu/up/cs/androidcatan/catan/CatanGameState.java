@@ -673,7 +673,13 @@ public class CatanGameState extends GameState{
         for(int i = 0; i < resourcesDiscarded.length; i++){
             this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
         }
-        hasDiscarded = true;
+        if(playerId == currentPlayerId){
+            hasDiscarded = true;
+        }
+        else{
+            hasDiscarded = true;
+            hasMovedRobber = true;
+        }
         return true;
     }
 
