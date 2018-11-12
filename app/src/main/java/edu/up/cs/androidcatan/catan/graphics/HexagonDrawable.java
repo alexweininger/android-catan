@@ -5,8 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
+
+import edu.up.cs.androidcatan.R;
 
 /**
  * @author Alex Weininger
@@ -35,10 +38,13 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected int chitValue;
     protected boolean isRobber, isDesert;
 
+    private Context context;
+
 
     public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight) {
         super(context);
         setWillNotDraw(false);
+        this.context = context;
         this.x = x;
         this.y = y;
         this.size = size; // size can also be thought of as the radius
@@ -113,7 +119,10 @@ public class HexagonDrawable extends BoardSurfaceView {
 
         if (this.isRobber) {
             Log.d(TAG, "drawHexagon: Drawing the robber at hexagon: " + this.hexagonId);
-            canvas.drawCircle(cx, cy, radius, robberPaint);
+            Drawable robberDrawable = context.getDrawable(R.drawable.robber);
+            robberDrawable.setBounds(cx - 60, cy - 60, cx + 60, cy + 60);
+            robberDrawable.draw(canvas);
+//            canvas.drawCircle(cx, cy, radius, robberPaint);
         }
 
         Paint intersectionPaint = new Paint();
