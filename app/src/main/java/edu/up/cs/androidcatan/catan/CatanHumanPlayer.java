@@ -366,6 +366,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
                 robberDiscardGroup.setVisibility(View.GONE);
+
+                robberBrickAmount.setText("00");
+                robberLumberAmount.setText("00");
+                robberGrainAmount.setText("00");
+                robberOreAmount.setText("00");
+                robberWoolAmount.setText("00");
+
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
                 CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources);
                 game.sendAction(action);
