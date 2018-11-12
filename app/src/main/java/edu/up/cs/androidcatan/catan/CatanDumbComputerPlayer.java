@@ -109,7 +109,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 // add just enough resources for a road
                 gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-                gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+                gs.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
 
                 // send the game a build road action
                 Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game.");
