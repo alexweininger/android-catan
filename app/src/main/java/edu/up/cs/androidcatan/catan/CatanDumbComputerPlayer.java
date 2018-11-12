@@ -73,7 +73,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
             if (gs.isSetupPhase()) { // need to build a settlement
 
-                sleep(1000); // sleep
+                sleep(2000); // sleep
 
                 Log.w(TAG, "receiveInfo: Attempting to build a settlement at intersection " + randSettlementIntersection);
 
@@ -103,7 +103,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 }
 
-                sleep(500); // sleep
+                sleep(1000); // sleep
 
                 Log.w(TAG, "receiveInfo: Attempting to build a road between " + intersectionsToChooseFrom.get(randomRoadIntersection) + " and " + randSettlementIntersection);
 
