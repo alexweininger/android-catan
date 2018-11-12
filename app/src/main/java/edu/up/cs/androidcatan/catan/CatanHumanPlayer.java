@@ -331,7 +331,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                CatanRobberStealAction action = new CatanRobberStealAction(this);
+                CatanRobberStealAction action = new CatanRobberStealAction(this, playerNum, stealId);
                 game.sendAction(action);
                 return;
             }
