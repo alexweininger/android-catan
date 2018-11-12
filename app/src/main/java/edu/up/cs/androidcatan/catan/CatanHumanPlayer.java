@@ -566,35 +566,49 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //            return;
 
             if (devCardList.getSelectedItemPosition() == 0){
-                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0);
+                if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0)){
+                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    return;
+                }
                 CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
                 state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
                 game.sendAction(action);
                 return;
             }
             else if (devCardList.getSelectedItemPosition() == 1){
-
-                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1);
+                if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1)){
+                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    return;
+                }
                 CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
                 game.sendAction(action);
                 return;
             }
             else if (devCardList.getSelectedItemPosition() == 2){
-                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2);
+                if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)){
+                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    return;
+                }
                 CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
                 state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
                 game.sendAction(action);
                 return;
             }
             else if (devCardList.getSelectedItemPosition() == 3){
-                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3);
+                if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3)){
+                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    return;
+                }
                 CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
                 state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
                 game.sendAction(action);
                 return;
             }
             else if (devCardList.getSelectedItemPosition() == 4){
-                state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(4);
+                if(!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)){
+                    Log.e(TAG, "onClick: Dev card specified is not owned!");
+                    return;
+                }
                 CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
                 state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
                 game.sendAction(action);
