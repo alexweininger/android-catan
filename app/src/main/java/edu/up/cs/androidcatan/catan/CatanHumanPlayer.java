@@ -501,15 +501,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         int give = -1;
         int receive = -1;
 
-        brickSelectionBoxGive.setImageAlpha(0);
-        grainSelectionBoxGive.setImageAlpha(0);
-        lumberSelectionBoxGive.setImageAlpha(0);
-        oreSelectionBoxGive.setImageAlpha(0);
-        woolSelectionBoxGive.setImageAlpha(0);
+        brickSelectionBoxGive.setVisibility(View.GONE);
+        grainSelectionBoxGive.setVisibility(View.GONE);
+        lumberSelectionBoxGive.setVisibility(View.GONE);
+        oreSelectionBoxGive.setVisibility(View.GONE);
+        woolSelectionBoxGive.setVisibility(View.GONE);
 
         //Give
         if (button.getId() == R.id.image_trade_menu_give_brick){
-            brickSelectionBoxGive.setImageAlpha(255);
+            brickSelectionBoxGive;
             give = 0;
         }
 
@@ -564,7 +564,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.button_trade_menu_cancel){
-            toggleGroupVisibility(developmentGroup);
+            toggleGroupVisibility(tradeGroup);
         }
 
     } // onClick END
@@ -1268,6 +1268,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void toggleGroupVisibility (Group group) {
         if (group.getVisibility() == View.GONE) group.setVisibility(View.VISIBLE);
         else group.setVisibility(View.GONE);
+    }
+
+    private void toggleViewVisibility(View view){
+        if (view.getVisibility() == View.GONE){
+            view.setVisibility(View.VISIBLE);
+        }
+        else {
+            view.setVisibility(View.GONE);
+        }
     }
 
     private void setAllButtonsToVisible () {
