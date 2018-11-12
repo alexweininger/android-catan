@@ -836,9 +836,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setClickable(false);
 
             if(state.checkPlayerResources(this.playerNum)){
+                Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
             }
             else{
+                Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
         }

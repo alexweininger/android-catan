@@ -43,6 +43,7 @@ public class CatanGameState extends GameState{
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isSetupPhase = true;
     private boolean isRobberPhase = false;
+    private boolean hasDiscarded = false;
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
@@ -86,6 +87,7 @@ public class CatanGameState extends GameState{
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
         this.isRobberPhase = cgs.isRobberPhase;
+        this.hasDiscarded = cgs.hasDiscarded;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
@@ -622,6 +624,9 @@ public class CatanGameState extends GameState{
      * @return
      */
     public boolean checkPlayerResources(int playerId){
+        if(hasDiscarded){
+            return false;
+        }
         if(playerList.get(playerId).getTotalResourceCardCount() > 7){
             return true;
         }
@@ -666,6 +671,7 @@ public class CatanGameState extends GameState{
         for(int i = 0; i < resourcesDiscarded.length; i++){
             this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
         }
+        hasDiscarded = true;
         return true;
     }
 
