@@ -459,12 +459,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             return;
         }
-
-        if (button.getId() == R.id.button_singleIntersectionMenuCancel) {
-            toggleGroupVisibility(singleIntersectionInputMenuGroup);
-            currentBuildingSelectionId = -1;
-            return;
-        }
         /* ---------- Development card buttons ---------- */
 
         // Development button located on the sidebar. Should only show/hide dev card menu.
