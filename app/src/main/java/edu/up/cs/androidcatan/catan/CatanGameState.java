@@ -311,7 +311,7 @@ public class CatanGameState extends GameState{
 
             // iterate through each intersection surrounding the producing hexagon
             for (Integer intersectionId : receivingIntersections) {
-
+                Log.e(TAG, "produceResources: hex:" + hex.toString());
                 // check if this intersection has a building
                 if (board.getBuildings()[intersectionId] != null) {
                     this.playerList.get(board.getBuildings()[intersectionId].getOwnerId()).addResourceCard(hex.getResourceId(), board.getBuildings()[intersectionId].getVictoryPoints());

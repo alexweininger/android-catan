@@ -32,13 +32,14 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected int size;
     protected int color;
     private boolean highlight;
+    protected int resourceId;
 
     // instance variables concerning game logic
     protected int hexagonId;
     protected int chitValue;
     protected boolean isRobber, isDesert;
 
-    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight) {
+    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight, int resourceId) {
         super(context);
         setWillNotDraw(false);
         this.context = context;
@@ -51,6 +52,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.chitValue = chitValue;
         this.hexagonId = hexagonId;
         this.highlight = highlight;
+        this.resourceId = resourceId;
     }
 
     // constructors needed by android
@@ -97,6 +99,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         if (debugMode) {
             blackFont.setTextSize(30);
             canvas.drawText("id: " + this.hexagonId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
+            canvas.drawText("resId: " + this.resourceId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
             blackFont.setTextSize(50);
         }
 

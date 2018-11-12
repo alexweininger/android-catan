@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
