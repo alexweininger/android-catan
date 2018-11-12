@@ -897,7 +897,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
             else{
-
+                
             }
         }
         else if (this.state.isSetupPhase()) { // IF SETUP PHASE
