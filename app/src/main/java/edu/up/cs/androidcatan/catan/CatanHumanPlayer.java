@@ -300,9 +300,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.robber_discard_confirm){
             if(state.discardResources(this.playerNum, this.robberDiscardedResources)){
-                robberDiscardGroup.setVisibility(View.VISIBLE);
-                robberHexMessage.setVisibility(View.VISIBLE);
+                robberDiscardGroup.setVisibility(View.GONE);
+                robberChooseHexGroup.setVisibility(View.VISIBLE);
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
+                return;
             }
 
             String message = "" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount()/2 + " resources are needed.";
