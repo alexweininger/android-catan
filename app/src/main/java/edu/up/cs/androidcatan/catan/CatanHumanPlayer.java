@@ -28,6 +28,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
+import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
@@ -333,10 +334,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if(button.getId() == R.id.robber_discard_confirm){
-            if(state.discardResources(this.playerNum, this.robberDiscardedResources)){
+            if(state.validDiscard(this.playerNum, this.robberDiscardedResources)){
                 robberDiscardGroup.setVisibility(View.GONE);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
+                CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources);
+                game.sendAction(action);
                 return;
             }
 

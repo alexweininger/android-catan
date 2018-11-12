@@ -12,10 +12,20 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanRobberDiscardAction extends GameAction {
     int playerId;
+    int[] resourcesDiscarded;
 
-    public CatanRobberDiscardAction(GamePlayer player, int playerId)
+    public CatanRobberDiscardAction(GamePlayer player, int playerId, int[] resourcesDiscarded)
     {
         super(player);
         this.playerId = playerId;
+        this.resourcesDiscarded = resourcesDiscarded;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public int[] getResourcesDiscarded() {
+        return resourcesDiscarded;
     }
 }
