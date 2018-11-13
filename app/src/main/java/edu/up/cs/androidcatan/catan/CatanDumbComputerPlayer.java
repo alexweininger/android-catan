@@ -177,7 +177,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 sleep(500);
                 ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
                 for (Integer intersection : intersections){
-                    if(gs.getBoard().hasBuilding(intersection)) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum){
+                    if(gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum){
                         CatanRobberStealAction action = new CatanRobberStealAction(this, playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
                         game.sendAction(action);
                     }
