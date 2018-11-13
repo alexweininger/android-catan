@@ -901,12 +901,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setClickable(false);
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
-            this.singleIntersectionCancelButton.setAlpha(0.5f);
-            this.singleIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionCancelButton.setAlpha(0.5f);
-            this.roadIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionAEditText.setAlpha(0.5f);
-            this.roadIntersectionAEditText.setEnabled(false);
 
             this.sidebarScoreboardButton.setAlpha(1f);
             this.sidebarScoreboardButton.setClickable(true);
