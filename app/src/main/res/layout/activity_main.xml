@@ -70,10 +70,10 @@
 
     <android.support.constraint.Group
         android:id="@+id/group_development_card_menu"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner,textView" />
+        app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
 
@@ -163,7 +163,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.20019531" />
+        app:layout_constraintGuide_percent="0.19" />
 
 
     <android.support.constraint.Guideline
@@ -310,10 +310,11 @@
 
     <TextView
         android:id="@+id/victory_Points"
-        android:layout_width="0dp"
+        android:layout_width="143dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/scoreboard"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/guideline_right_sidebar"
@@ -321,10 +322,12 @@
 
     <TextView
         android:id="@+id/Player1_Name"
-        android:layout_width="0dp"
+        android:layout_width="115dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
+        android:maxLength="11"
         android:text="@string/Player1"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/victory_Points"
@@ -335,7 +338,9 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
+        android:maxLength="11"
         android:text="@string/Player2"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/Player1_Name"
@@ -347,7 +352,9 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
+        android:maxLength="11"
         android:text="@string/Player3"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/Player2_Name"
@@ -359,7 +366,9 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
+        android:maxLength="11"
         android:text="@string/Player4"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/Player3_Name"
@@ -372,6 +381,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:text="@string/Player1_Score"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/Player1_Name"
@@ -385,6 +395,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Player2_Score"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/Player1_Score"
@@ -398,6 +409,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Player3_Score"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/Player2_Score"
@@ -411,6 +423,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Player4_Score"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/Player3_Score"
@@ -816,7 +829,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.19" />
+        app:layout_constraintGuide_percent="0.43" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline49"

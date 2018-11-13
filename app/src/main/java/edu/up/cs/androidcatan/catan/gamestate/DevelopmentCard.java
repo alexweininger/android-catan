@@ -16,7 +16,7 @@ import edu.up.cs.androidcatan.catan.Player;
  **/
 public class DevelopmentCard {
 
-    public static int[] resourceCost = {0, 0, 1, 1, 1};
+    public static int[] resourceCost = {0, 1, 0, 1, 1};
 
     //default instance variable
     private int devCardId;
