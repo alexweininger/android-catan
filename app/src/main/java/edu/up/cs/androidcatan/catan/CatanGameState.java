@@ -155,8 +155,7 @@ public class CatanGameState extends GameState{
         Player player = this.playerList.get(playerId);
 
         // check if player can build dev card
-        if (!player.checkResourceBundle(DevelopmentCard.resourceCost)) {
-            Log.d(TAG, "buyDevCard: Unable to purchase Dev card");
+        if (!player.hasResourceBundle(DevelopmentCard.resourceCost)) {
             return false;
         }
 
@@ -230,7 +229,7 @@ public class CatanGameState extends GameState{
     }
 
     /**
-     * TODO we should be calling this somewhere right? - AW
+     *
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize () {
@@ -247,7 +246,15 @@ public class CatanGameState extends GameState{
             }
         }
         if (max > 2) {
+            // if the award has already been given out remove the awarded VP from that player
+            if(currentLargestArmyPlayerId != -1)
+            {
+                this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
+            }
+            // update the player witht he kargest army
             this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
+            // add 2 VP to who ever has the largest army
+            this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
         }
     }
 
@@ -280,6 +287,7 @@ public class CatanGameState extends GameState{
                 playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
             }
         }
+        checkArmySize();
     }
 
     /*-------------------------------------Resource Methods------------------------------------------*/
@@ -493,26 +501,6 @@ public class CatanGameState extends GameState{
     public boolean buildRoad (int playerId, int startIntersectionID, int endIntersectionID) {
         Log.d(TAG, "buildRoad() called with: playerId = [" + playerId + "], startIntersectionID = [" + startIntersectionID + "], endIntersectionID = [" + endIntersectionID + "]");
 
-        // if it is not the setup phase, check if it is the action phase
-        if (!this.isSetupPhase) {
-            if (!this.isActionPhase) {
-                Log.e(TAG, "buildRoad: Not setup phase, and not action phase. Returning false.");
-                return false;
-            }
-        }
-
-        // check if they have enough resources to build a road
-        if (!this.playerList.get(playerId).checkResourceBundle(Road.resourceCost)) {
-            Log.e(TAG, "buildRoad: Player " + playerId + " does not have enough resources.\n");
-            Log.e(TAG, "buildRoad: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
-            return false;
-        }
-
-        // check if it is a valid road placement
-        if (!board.validRoadPlacement(playerId, this.isSetupPhase, startIntersectionID, endIntersectionID)) {
-            Log.e(TAG, "buildRoad: Invalid road placement: " + startIntersectionID + ", " + endIntersectionID);
-            return false;
-        }
 
         // remove resources from players inventory (also does checks)
         if (!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
@@ -548,7 +536,7 @@ public class CatanGameState extends GameState{
         }
 
         // check if player has the required resources to build a Settlement
-        if (!this.playerList.get(playerId).checkResourceBundle(Settlement.resourceCost)) {
+        if (!this.playerList.get(playerId).hasResourceBundle(Settlement.resourceCost)) {
             Log.e(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
             Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
             return false;
@@ -590,7 +578,7 @@ public class CatanGameState extends GameState{
         }
 
         // check if player has enough resources
-        if (!this.playerList.get(playerId).checkResourceBundle(City.resourceCost)) {
+        if (!this.playerList.get(playerId).hasResourceBundle(City.resourceCost)) {
             Log.i(TAG, "buildCity: Player " + playerId + " does not have enough resources to build a City.");
             return false;
         }
@@ -694,6 +682,7 @@ public class CatanGameState extends GameState{
                 return false;
             }
         }
+        Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
         return true;
     }
 

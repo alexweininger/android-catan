@@ -119,6 +119,20 @@
     <!--resources-->
 
     <string name="developmentCards">Development</string>
+    <string name="need_2_ints_for_road">Select two intersections to build a road.</string>
+    <string name="build_a_road">Built a road.</string>
+    <string name="invalid_road_placement">Invalid road placement.</string>
+    <string name="one_int_for_set">Select one intersection to build a settlement.</string>
+    <string name="built_settlement">Built a settlement.</string>
+    <string name="invalid_set_loc">Invalid settlement location.</string>
+    <string name="select_one_int_for_city">Select one intersection to build a city.</string>
+    <string name="built_city">Built a city.</string>
+    <string name="invalid_city_loc">Invalid city location.</string>
+    <string name="not_enough_for_dev">You do not have enough resources to buy a development.</string>
+    <string name="not_enough_for_road">Not enough resources to build a road.</string>
+    <string name="robber_phase">Robber phase.</string>
+    <string name="setup_phase">Setup phase.</string>
+    <string name="setup_phase_complete">Setup turn complete. Please end your turn.</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
