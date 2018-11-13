@@ -427,7 +427,7 @@ public class CatanGameState extends GameState{
         int tradeResourceId = this.board.getPortList().get(intersectionId).getResourceId();
 
         // check if player has enough resources to complete trade
-        if (this.playerList.get(playerId).removeResourceCard(lostResourceId, 0)) {
+        if (this.playerList.get(playerId).removeResourceCard(lostResourceId, 0)) { // todo
             Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
             return false;
         }

@@ -38,7 +38,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
     int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
 
-    protected int[] colors = {Color.argb(255, 165, 63, 4), Color.argb(255, 123, 206, 107), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 255, 225, 0), Color.argb(255, 192, 193, 141)};
+    protected int[] colors = {Color.argb(255, 165, 63, 4), Color.argb(255, 255, 225, 0), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85) , Color.argb(255, 123, 206, 107), Color.argb(255, 192, 193, 141)};
 
     // colors for each player, the last color is for no player (highlighting)
     public static int[] playerColors = {Color.RED, Color.WHITE, Color.argb(255, 255, 128, 17), Color.BLUE, Color.CYAN};
@@ -173,7 +173,7 @@ public class HexagonGrid extends BoardSurfaceView {
                         Log.i(TAG, "drawBuildings: drawing a city.");
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
                     }
-                    buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
+                    buildingPicture.setBounds(xPos - 50, yPos - 60, xPos + 50, yPos + 60);
                     buildingPicture.draw(canvas);
                 }
             } else {
@@ -268,7 +268,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon);
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon, dataHexagons.get(dataHexagonsIndex).getResourceId());
 
                 drawingHexagons.add(hexagon);
 

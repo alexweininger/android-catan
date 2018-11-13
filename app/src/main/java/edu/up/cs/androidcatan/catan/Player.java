@@ -152,6 +152,7 @@ public class Player {
      */
     boolean removeResourceBundle (int[] resourceCost) {
         Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
+        Log.w(TAG, "removeResourceBundle: players resources: " + Arrays.toString(this.resourceCards));
         if (!checkResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
             return false;

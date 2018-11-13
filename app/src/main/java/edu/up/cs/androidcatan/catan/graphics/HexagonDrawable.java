@@ -32,13 +32,16 @@ public class HexagonDrawable extends BoardSurfaceView {
     protected int size;
     protected int color;
     private boolean highlight;
+    protected int resourceId;
 
     // instance variables concerning game logic
     protected int hexagonId;
     protected int chitValue;
     protected boolean isRobber, isDesert;
 
-    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight) {
+    int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
+
+    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight, int resourceId) {
         super(context);
         setWillNotDraw(false);
         this.context = context;
@@ -51,6 +54,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         this.chitValue = chitValue;
         this.hexagonId = hexagonId;
         this.highlight = highlight;
+        this.resourceId = resourceId;
     }
 
     // constructors needed by android
@@ -97,6 +101,7 @@ public class HexagonDrawable extends BoardSurfaceView {
         if (debugMode) {
             blackFont.setTextSize(30);
             canvas.drawText("id: " + this.hexagonId, points[5][0] - 15, points[5][1] + 100 + this.size / 2, blackFont);
+            canvas.drawText("resId: " + this.resourceId, points[5][0] - 15, points[5][1] + 150 + this.size / 2, blackFont);
             blackFont.setTextSize(50);
         }
 
@@ -119,6 +124,12 @@ public class HexagonDrawable extends BoardSurfaceView {
             Drawable robberDrawable = context.getDrawable(R.drawable.robber);
             robberDrawable.setBounds(cx - 60, cy - 60, cx + 60, cy + 60);
             robberDrawable.draw(canvas);
+        }
+
+        if (this.resourceId < 5 && this.resourceId >= 0) {
+            Drawable resourceDrawable = context.getDrawable(resourceDrawables[this.resourceId]);
+            resourceDrawable.setBounds(cx - 30, cy - 30 + 100, cx + 30, cy + 30 + 100);
+            resourceDrawable.draw(canvas);
         }
 
         Paint intersectionPaint = new Paint();
