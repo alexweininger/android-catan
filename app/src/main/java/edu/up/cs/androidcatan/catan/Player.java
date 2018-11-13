@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -96,6 +94,8 @@ public class Player {
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         }
+        // return true if player has greater or equal to num to check for
+        Log.d(TAG, "checkResourceCard() returned: " + (this.resourceCards[resourceCardId] >= numToCheckFor));
         return this.resourceCards[resourceCardId] >= numToCheckFor;
     }
 
@@ -103,16 +103,16 @@ public class Player {
      * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
      * @return - true of false, does the player have all of these resources?
      */
-    boolean checkResourceBundle (int[] resourceCost) {
-        Log.d(TAG, "checkResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
-        Log.i(TAG, "checkResourceBundle: " + this.printResourceCards());
-        for (Integer id : resourceCost) {
-            if (!checkResourceCard(id, resourceCost[id])) {
-                Log.d(TAG, "checkResourceBundle() returned: " + false);
+    boolean hasResourceBundle (int[] resourceCost) {
+        Log.d(TAG, "hasResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
+        Log.i(TAG, "hasResourceBundle: " + this.printResourceCards());
+        for (int i = 0; i < resourceCost.length; i++) {
+            if (!checkResourceCard(i, resourceCost[i])) {
+                Log.d(TAG, "hasResourceBundle() returned: " + false);
                 return false;
             }
         }
-        Log.d(TAG, "checkResourceBundle() returned: " + true);
+        Log.d(TAG, "hasResourceBundle() returned: " + true);
         return true;
     }
 
@@ -153,7 +153,7 @@ public class Player {
     boolean removeResourceBundle (int[] resourceCost) {
         Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.w(TAG, "removeResourceBundle: players resources: " + Arrays.toString(this.resourceCards));
-        if (!checkResourceBundle(resourceCost)) {
+        if (!hasResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
             return false;
         }
