@@ -1169,20 +1169,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* -------------------------------------- MENUS ---------------------------------------- */
 
-        /* ---------- Road IntersectionDrawable Menu -------------- */
-
-        roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu); // road intersection menu GROUP
-
-        roadIntersectionAEditText = activity.findViewById(R.id.start_road_id_entered);
-        roadIntersectionBEditText = activity.findViewById(R.id.end_road_id_entered);
-        roadIntersectionPromptLabel = activity.findViewById(R.id.selectRoadIntersectionText);
-
-        roadIntersectionOkButton = activity.findViewById(R.id.button_roadOk);
-        roadIntersectionOkButton.setOnClickListener(this);
-
-        roadIntersectionCancelButton = activity.findViewById(R.id.button_roadCancel); // Cancel button
-        roadIntersectionCancelButton.setOnClickListener(this);
-
         /* ------------ Development Card Menu ------------- */
 
         developmentGroup = activity.findViewById(R.id.group_development_card_menu); // dev card menu GROUP
