@@ -65,14 +65,14 @@
         android:id="@+id/group_scoreboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="Player1_Name,Player1_Score,Player2_Score,victory_Points,Player4_Name,Player3_Name,Player2_Name,Player3_Score,Player4_Score" />
 
     <android.support.constraint.Group
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
