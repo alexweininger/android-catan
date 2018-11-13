@@ -1,6 +1,7 @@
 package edu.up.cs.androidcatan.catan;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -1123,9 +1124,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
 
         /* -------- animations ----------- */
-        this.playerNameSidebar.setTextColor(Color.RED);
+        this.playerNameSidebar.setTextColor(HexagonGrid.playerColors[this.playerNum]);
 
-        if (this.state.getCurrentPlayerId() == this.playerNum) {
+        if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase()) {
             this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 300, 100);
         }
 
@@ -1139,10 +1140,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     @Override
     public void receiveInfo (GameInfo info) {
         Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
-        if (info == null) {
-            Log.e(TAG, "receiveInfo: info is null");
-            return;
-        }
+
         if (this.boardSurfaceView == null) {
             Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
             return;
@@ -1172,6 +1170,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      *
      * @param activity the activity under which we are running
      */
+    @SuppressLint("ClickableViewAccessibility")
     public void setAsGui (GameMainActivity activity) {
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
 
@@ -1236,7 +1235,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberHexMessage.setText("Please choose a tile to place the Robber on.");
         robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
 
-
         robberBrickPlus.setOnClickListener(this);
         robberBrickMinus.setOnClickListener(this);
         robberLumberPlus.setOnClickListener(this);
@@ -1250,15 +1248,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberConfirmDiscard.setOnClickListener(this);
 
         robberConfirmHex.setOnClickListener(this);
-
-        /*---------------------------TODO Trade Buttons-------------------------------------------*/
-        //        tradeCustomPort = activity.findViewById(R.id.sidebar_button_trade);
-        //        tradeCustomPort.setOnClickListener(this);
-
-        //        tradePort = activity.findViewById(R.id.sidebar_button_trade);
-        //        tradePort.setOnClickListener(this);
-
-
 
         // Confirm Trade action
         button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
@@ -1303,11 +1292,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         devCardList = activity.findViewById(R.id.development_Card_Spinner); // DEV CARD SPINNER
 
         /* ---------- Scoreboard  ---------- */
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(), R.array.dev_Card, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(), R.array.dev_Card, android.R.layout.simple_spinner_dropdown_item);
+//        // Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
+
+
+
+//        List<String> spList = new ArrayList<>(devCards);
+//        devCardList.setAdapter(new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spList));
         // Apply the adapter to the spinner
-        devCardList.setAdapter(adapter);
+//        devCardList.setAdapter(adapter);
         devCardList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
