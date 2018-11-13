@@ -1039,6 +1039,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.roadIntersectionAEditText.setAlpha(0.5f);
             this.roadIntersectionAEditText.setEnabled(false);
 
+        }
+        else if(state.getCurrentPlayerId() != playerNum){
+
+            this.messageTextView.setText("Waiting for other player's moves");
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+            this.singleIntersectionCancelButton.setAlpha(0.5f);
+            this.singleIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionCancelButton.setAlpha(0.5f);
+            this.roadIntersectionCancelButton.setClickable(false);
+            this.roadIntersectionAEditText.setAlpha(0.5f);
+            this.roadIntersectionAEditText.setEnabled(false);
+
         } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
 
             this.messageTextView.setText("Roll the dice.");
