@@ -462,46 +462,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------- Building confirmation buttons ---------- */
 
-        if (button.getId() == R.id.button_roadOk) {
-            int intersectionA;
-            int intersectionB;
-            try {
-                intersectionA = Integer.parseInt(roadIntersectionAEditText.getText().toString());
-                intersectionB = Integer.parseInt(roadIntersectionBEditText.getText().toString());
-            } catch (NumberFormatException nfe) {
-                Log.e(TAG, "onClick: Error, not integer");
-                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-                roadIntersectionAEditText.startAnimation(shake);
-                return;
-            }
-
-            Log.e(TAG, "onClick: Single intersection id input: " + intersectionA + " and: " + intersectionB + ". Selected building id: " + currentBuildingSelectionId);
-
-            if (tryBuildRoad(intersectionA, intersectionB)) {
-                CatanBuildRoadAction action = new CatanBuildRoadAction(this, state.isSetupPhase(), intersectionA, intersectionB, this.state.getCurrentPlayerId());
-                game.sendAction(action);
-            }
-
-            // try to remove the resources required to buy a dev card from the players inventory
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceBundle(DevelopmentCard.resourceCost)) {
-                Log.d(TAG, "onClick: Sending a CatanBuyDevCardAction to the game.");
-
-                // the CatanBuyDevCardAction holds the player, and the currently selected dev card id from the spinner.
-                game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
-                return;
-            } else {
-                // else: meaning the player does not have enough resources to buy dev card
-                Log.i(TAG, "onClick: Player " + this.playerNum + " tried to buy a dev card. But does not have enough resources. (removeResourceBundle returned false.)");
-
-                // tell the user with the message text view
-                messageTextView.setText(R.string.not_enough_for_dev);
-
-                // shake the message text view
-                shake(messageTextView);
-                return;
-            }
-        }
-
         // Use development card button on the dev card menu.
         if (button.getId() == R.id.use_Card) {
             // todo, validate the player can use the card. e.g. they have it etc. and then send the action
