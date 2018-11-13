@@ -105,7 +105,17 @@
 
     <string name="confirmString">Would you like to build this here?</string>
 
+    <string name="knight_name">Knight</string>
+    <string name="road_building_name">Road Building</string>
+    <string name="year_of_plenty_name">Year of Plenty</string>
+    <string name="monopoly_name">Monopoly</string>
+    <string name="victory_point_name">Victory Point Card</string>
 
+    <string name="knight_info">Lets the player move the robber</string>
+    <string name="road_building_info">Player can place 2 roads as if they just built them</string>
+    <string name="year_of_plenty_info">The player can draw 2 resource cards of their choice from the bank</string>
+    <string name="monopoly_info">Player can claim all resource cards of a specific declared type</string>
+    <string name="victory_point_info">1 additional Victory Point is added to the owners total and doesn\'t need to be played to win</string>
     <!--resources-->
 
     <string name="developmentCards">Development</string>

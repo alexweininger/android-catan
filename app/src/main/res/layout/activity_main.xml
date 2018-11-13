@@ -70,15 +70,25 @@
 
     <android.support.constraint.Group
         android:id="@+id/group_development_card_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner,textView" />
 
     <!-- build menu group -->
 
 
-    <!-- static bottom menu START -->
+    <!--Robber Confirm Menu End-->
+    <android.support.constraint.Group
+        android:id="@+id/robber_choosehex_menu"
+        android:layout_width="0dp"
+        android:layout_height="156dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="robber_choosehex_message, robber_choosehex_confirm" />
+
+    <!--Robber Confirm Menu End-->
+
+    <!--Robber Discard Menu START-->
 
 
     <android.support.constraint.Group
@@ -118,6 +128,29 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4" />
 
+    <TextView
+        android:id="@+id/robber_choosehex_message"
+        android:layout_width="250dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/robber_choosehex_confirm"
+        app:layout_constraintStart_toStartOf="@+id/guideline_middle_54"
+        app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex" />
+
+    <Button
+        android:id="@+id/robber_choosehex_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Confirm"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
+        app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline_left_0"
         android:layout_width="wrap_content"
@@ -155,7 +188,8 @@
         app:layout_constraintGuide_percent="1.0" />
 
 
-    <!-- static bottom menu END -->
+    <!-- Robber Discard Menu END -->
+
 
     <!--build menu START-->
 
@@ -228,8 +262,9 @@
 
     <TextView
         android:id="@+id/development_Card_Name"
-        android:layout_width="wrap_content"
+        android:layout_width="218dp"
         android:layout_height="50dp"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/white"
@@ -238,11 +273,12 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
+        app:layout_constraintStart_toStartOf="@+id/guideline_right_68"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/development_Card_Info"
-        android:layout_width="0dp"
+        android:layout_width="221dp"
         android:layout_height="150dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
