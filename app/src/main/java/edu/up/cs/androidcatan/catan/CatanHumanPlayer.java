@@ -229,6 +229,53 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
+        /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
+
+        // Road button on the sidebar.
+        if (button.getId() == R.id.sidebar_button_road) {
+            if (selectedIntersections.size() != 2) {
+                messageTextView.setText(R.string.need_2_ints_for_road);
+            } else {
+                if (tryBuildRoad(selectedIntersections.get(0), selectedIntersections.get(1))) {
+                    messageTextView.setText(R.string.build_a_road);
+                } else {
+                    messageTextView.setText(R.string.invalid_road_placement);
+                }
+            }
+            return;
+        }
+
+        // Settlement button on the sidebar.
+        if (button.getId() == R.id.sidebar_button_settlement) {
+            Log.d(TAG, "onClick: sidebar_button_settlement listener");
+            if (selectedIntersections.size() != 1) {
+                messageTextView.setText(R.string.one_int_for_set);
+            } else {
+                if (tryBuildSettlement(selectedIntersections.get(0))) {
+                    messageTextView.setText(R.string.built_settlement);
+                } else {
+                    // tell user location is invalid
+                    messageTextView.setText(R.string.invalid_set_loc);
+                }
+            }
+            return;
+        }
+
+        // City button on the sidebar.
+        if (button.getId() == R.id.sidebar_button_city) {
+            if (selectedIntersections.size() != 1) {
+                messageTextView.setText(R.string.select_one_int_for_city);
+            } else {
+                Log.e(TAG, "onClick: build city selected intersection: " + selectedIntersections.get(0));
+                if (tryBuildCity(selectedIntersections.get(0))) {
+                    messageTextView.setText(R.string.built_city);
+                } else {
+                    messageTextView.setText(R.string.invalid_city_loc);
+                }
+            }
+            return;
+        }
+
         /* ----------------------------------- Turn Actions ------------------------------------- */
 
         // Roll button on the sidebar.
@@ -344,46 +391,63 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        if (button.getId() == R.id.robber_discard_brickAddImg) {
-            robberDiscardedResources[0] += 1;
-            robberBrickAmount.setText("" + robberDiscardedResources[0]);
+        int robberDiscardAddButtonIds[] = {R.id.robber_discard_brickAddImg, R.id.robber_discard_grainAddImg, R.id.robber_discard_lumberAddImg, R.id.robber_discard_oreAddImg, R.id.robber_discard_woolAddImg};
+        int robberDiscardMinusButtonIds[] = {R.id.robber_discard_brickMinusImg, R.id.robber_discard_grainMinusImg, R.id.robber_discard_lumberMinusImg, R.id.robber_discard_oreMinusImg, R.id.robber_discard_woolMinusImg};
+        TextView robberAmounts[] = {robberBrickAmount, robberGrainAmount, robberLumberAmount, robberOreAmount, robberWoolAmount};
+
+        for (int i = 0; i < robberDiscardAddButtonIds.length; i++) {
+            if (button.getId() == robberDiscardAddButtonIds[i]) {
+                robberDiscardedResources[i]++;
+            } else if (button.getId() == robberDiscardAddButtonIds[i]) {
+                robberDiscardedResources[i]--;
+            }
         }
-        if (button.getId() == R.id.robber_discard_brickMinusImg) {
-            robberDiscardedResources[0] -= 1;
-            robberBrickAmount.setText("" + robberDiscardedResources[0]);
+
+        for (int i = 0; i < robberAmounts.length; i++) {
+            robberAmounts[i].setText(robberDiscardedResources[i]);
         }
-        if (button.getId() == R.id.robber_discard_grainAddImg) {
-            robberDiscardedResources[1] += 1;
-            robberGrainAmount.setText("" + robberDiscardedResources[1]);
-        }
-        if (button.getId() == R.id.robber_discard_grainMinusImg) {
-            robberDiscardedResources[1] -= 1;
-            robberGrainAmount.setText("" + robberDiscardedResources[1]);
-        }
-        if (button.getId() == R.id.robber_discard_lumberAddImg) {
-            robberDiscardedResources[2] += 1;
-            robberLumberAmount.setText("" + robberDiscardedResources[2]);
-        }
-        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
-            robberDiscardedResources[2] -= 1;
-            robberLumberAmount.setText("" + robberDiscardedResources[2]);
-        }
-        if (button.getId() == R.id.robber_discard_oreAddImg) {
-            robberDiscardedResources[3] += 1;
-            robberOreAmount.setText("" + robberDiscardedResources[3]);
-        }
-        if (button.getId() == R.id.robber_discard_oreMinusImg) {
-            robberDiscardedResources[3] -= 1;
-            robberOreAmount.setText("" + robberDiscardedResources[3]);
-        }
-        if (button.getId() == R.id.robber_discard_woolAddImg) {
-            robberDiscardedResources[4] += 1;
-            robberWoolAmount.setText("" + robberDiscardedResources[4]);
-        }
-        if (button.getId() == R.id.robber_discard_woolMinusImg) {
-            robberDiscardedResources[4] -= 1;
-            robberWoolAmount.setText("" + robberDiscardedResources[4]);
-        }
+
+        // todo i think the code i added above does the same as this please verify @todo - alex and niraj
+//        if (button.getId() == R.id.robber_discard_brickAddImg) {
+//            robberDiscardedResources[0] += 1;
+//            robberBrickAmount.setText("" + robberDiscardedResources[0]);
+//        }
+//        if (button.getId() == R.id.robber_discard_brickMinusImg) {
+//            robberDiscardedResources[0] -= 1;
+//            robberBrickAmount.setText("" + robberDiscardedResources[0]);
+//        }
+//        if (button.getId() == R.id.robber_discard_grainAddImg) {
+//            robberDiscardedResources[1] += 1;
+//            robberGrainAmount.setText("" + robberDiscardedResources[1]);
+//        }
+//        if (button.getId() == R.id.robber_discard_grainMinusImg) {
+//            robberDiscardedResources[1] -= 1;
+//            robberGrainAmount.setText("" + robberDiscardedResources[1]);
+//        }
+//        if (button.getId() == R.id.robber_discard_lumberAddImg) {
+//            robberDiscardedResources[2] += 1;
+//            robberLumberAmount.setText("" + robberDiscardedResources[2]);
+//        }
+//        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
+//            robberDiscardedResources[2] -= 1;
+//            robberLumberAmount.setText("" + robberDiscardedResources[2]);
+//        }
+//        if (button.getId() == R.id.robber_discard_oreAddImg) {
+//            robberDiscardedResources[3] += 1;
+//            robberOreAmount.setText("" + robberDiscardedResources[3]);
+//        }
+//        if (button.getId() == R.id.robber_discard_oreMinusImg) {
+//            robberDiscardedResources[3] -= 1;
+//            robberOreAmount.setText("" + robberDiscardedResources[3]);
+//        }
+//        if (button.getId() == R.id.robber_discard_woolAddImg) {
+//            robberDiscardedResources[4] += 1;
+//            robberWoolAmount.setText("" + robberDiscardedResources[4]);
+//        }
+//        if (button.getId() == R.id.robber_discard_woolMinusImg) {
+//            robberDiscardedResources[4] -= 1;
+//            robberWoolAmount.setText("" + robberDiscardedResources[4]);
+//        }
 
         /*-------------------------End of Robber----------------------------------------*/
 
@@ -405,52 +469,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
 
-        // Road button on the sidebar.
-        if (button.getId() == R.id.sidebar_button_road) {
-            if (selectedIntersections.size() != 2) {
-                messageTextView.setText(R.string.need_2_ints_for_road);
-            } else {
-                if (tryBuildRoad(selectedIntersections.get(0), selectedIntersections.get(1))) {
-                    messageTextView.setText(R.string.build_a_road);
-                } else {
-                    messageTextView.setText(R.string.invalid_road_placement);
-                }
-            }
-            return;
-        }
-
-        // Settlement button on the sidebar.
-        if (button.getId() == R.id.sidebar_button_settlement) {
-            Log.d(TAG, "onClick: sidebar_button_settlement listener");
-            if (selectedIntersections.size() != 1) {
-                messageTextView.setText(R.string.one_int_for_set);
-            } else {
-                if (tryBuildSettlement(selectedIntersections.get(0))) {
-                    messageTextView.setText(R.string.built_settlement);
-                } else {
-                    // tell user location is invalid
-                    messageTextView.setText(R.string.invalid_set_loc);
-                }
-            }
-            return;
-        }
-
-        // City button on the sidebar.
-        if (button.getId() == R.id.sidebar_button_city) {
-            if (selectedIntersections.size() != 1) {
-                messageTextView.setText(R.string.select_one_int_for_city);
-            } else {
-                Log.e(TAG, "onClick: build city selected intersection: " + selectedIntersections.get(0));
-                if (tryBuildCity(selectedIntersections.get(0))) {
-                    messageTextView.setText(R.string.built_city);
-                } else {
-                    messageTextView.setText(R.string.invalid_city_loc);
-                }
-            }
-            return;
-        }
 
         /* -------------------- Development Card Button OnClick() Handlers ---------------------- */
 
