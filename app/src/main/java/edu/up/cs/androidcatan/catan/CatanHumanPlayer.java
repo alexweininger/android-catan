@@ -385,7 +385,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Use development card button on the dev card menu.
         if (button.getId() == R.id.use_Card) {
-            // todo, validate the player can use the card. e.g. they have it etc. and then send the action
 
             // this long af expression does this: gets the spinner position and checks if the player has that specific dev card in their dev card list
             if (state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(devCardList.getSelectedItemPosition())) {
@@ -761,12 +760,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
 
+        if (!devCards.isEmpty()) {
+            devCards.clear();
+        }
         for (int i = 0; i < state.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); i++) {
             devCards.add(devCardNames[state.getPlayerList().get(this.playerNum).getDevelopmentCards().get(i)]);
         }
 
         List<String> spinnerList = new ArrayList<>(devCards);
-        devCardList.setAdapter(new ArrayAdapter<String>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
+        devCardList.setAdapter(new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
 
         // Apply the adapter to the spinner
         // array of dice image ids
