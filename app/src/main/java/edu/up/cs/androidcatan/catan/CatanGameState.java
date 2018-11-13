@@ -345,6 +345,7 @@ public class CatanGameState extends GameState{
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
         // if the robber is rolled
         if (rollNum == 7) {
+            // todo activate robber
             Log.i(TAG, "rollDice: The robber has been activated.");
             this.isRobberPhase = true;
         } else {
@@ -618,9 +619,10 @@ public class CatanGameState extends GameState{
     }
 
     /**
+     * TODO implement
+     * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
-     * @param playerId
-     * @return
+     * @return - action success
      */
     public boolean checkPlayerResources(int playerId){
         if(hasDiscarded){

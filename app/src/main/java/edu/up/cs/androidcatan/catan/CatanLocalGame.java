@@ -131,7 +131,7 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildCityAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.buildCity(gameState.getCurrentPlayerId(), ((CatanBuildCityAction) action).getIntersectionId());
+            return gameState.buildCity(gameState.getCurrentPlayerId(), 2);
         }
 
 /*----------------------------------Dev Card Actions---------------------------------------------*/
@@ -180,19 +180,21 @@ public class CatanLocalGame extends LocalGame {
 /*----------------------------------Robber Actions-----------------------------------------------*/
         if (action instanceof CatanRobberMoveAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.moveRobber(((CatanRobberMoveAction) action).getHexagonId(), ((CatanRobberMoveAction) action).getPlayerId());
-        }
-
-        if (action instanceof CatanRobberDiscardAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getResourcesDiscarded());
+            //return gameState.robberMove();
+            return true;
         }
 
         if (action instanceof CatanRobberStealAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealId());
+            //return gameState.robberSteal();
+            return true;
         }
 
+        if (action instanceof CatanRobberDiscardAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            //return gameState.robberDiscard();
+            return true;
+        }
 /*----------------------------------Robber Actions End-----------------------------------------------*/
 
         if (action instanceof CatanTradeAction) {
