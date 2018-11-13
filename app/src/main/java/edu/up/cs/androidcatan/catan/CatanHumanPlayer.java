@@ -377,21 +377,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             robberDiscardedResources[0] -= 1;
             robberBrickAmount.setText("" + robberDiscardedResources[0]);
         }
-        if (button.getId() == R.id.robber_discard_lumberAddImg) {
-            robberDiscardedResources[1] += 1;
-            robberLumberAmount.setText("" + robberDiscardedResources[1]);
-        }
-        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
-            robberDiscardedResources[1] -= 1;
-            robberLumberAmount.setText("" + robberDiscardedResources[1]);
-        }
         if (button.getId() == R.id.robber_discard_grainAddImg) {
-            robberDiscardedResources[2] += 1;
-            robberGrainAmount.setText("" + robberDiscardedResources[2]);
+            robberDiscardedResources[1] += 1;
+            robberGrainAmount.setText("" + robberDiscardedResources[1]);
         }
         if (button.getId() == R.id.robber_discard_grainMinusImg) {
+            robberDiscardedResources[1] -= 1;
+            robberGrainAmount.setText("" + robberDiscardedResources[1]);
+        }
+        if (button.getId() == R.id.robber_discard_lumberAddImg) {
+            robberDiscardedResources[2] += 1;
+            robberLumberAmount.setText("" + robberDiscardedResources[2]);
+        }
+        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
             robberDiscardedResources[2] -= 1;
-            robberGrainAmount.setText("" + robberDiscardedResources[2]);
+            robberLumberAmount.setText("" + robberDiscardedResources[2]);
         }
         if (button.getId() == R.id.robber_discard_oreAddImg) {
             robberDiscardedResources[3] += 1;
