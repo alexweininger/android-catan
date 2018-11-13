@@ -173,7 +173,7 @@ public class HexagonGrid extends BoardSurfaceView {
                         Log.i(TAG, "drawBuildings: drawing a city.");
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
                     }
-                    buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
+                    buildingPicture.setBounds(xPos - 50, yPos - 60, xPos + 50, yPos + 60);
                     buildingPicture.draw(canvas);
                 }
             } else {
@@ -268,7 +268,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
                 int yPos = y + (((this.height) * 3) / 4 + this.margin) * i;
 
-                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon);
+                HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon, dataHexagons.get(dataHexagonsIndex).getResourceId());
 
                 drawingHexagons.add(hexagon);
 

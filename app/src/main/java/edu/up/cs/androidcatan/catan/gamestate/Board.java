@@ -419,7 +419,7 @@ public class Board {
         return true;
     }
 
-    private void swapChitValues(int hexagonId) {
+    private void swapChitValues (int hexagonId) {
         Random random = new Random();
         int randomHexId = random.nextInt(18);
         Hexagon hex = this.hexagons.get(randomHexId);
@@ -556,9 +556,16 @@ public class Board {
      */
     public boolean addBuilding (int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
+
         if (this.buildings[intersectionId] != null) {
-            Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
-            return false;
+            if (building instanceof City) {
+                if (!(this.buildings[intersectionId] instanceof Settlement)) {
+                    return false;
+                }
+            } else {
+                Log.e(TAG, "addBuilding: Cannot add building, building already exists at intersection id: " + intersectionId);
+                return false;
+            }
         }
         building.setOwnerId(building.getOwnerId());
         this.buildings[intersectionId] = building;
@@ -1398,7 +1405,7 @@ public class Board {
     }
 
     /**
-     * Creates ports along the given intersection, and assigns them proper trade values
+     * Creates ports along the given intersection, and assigns them proper ge values
      */
     private void designatePorts () {
         portList.add(new Port(25, 26, 3, 3)); //Ore
