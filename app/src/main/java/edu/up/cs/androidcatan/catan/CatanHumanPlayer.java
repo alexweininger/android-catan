@@ -258,7 +258,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             game.sendAction(a);
 
             if (state.getCurrentDiceSum() == 7) {
-                //TODO Make robber menu appear
                 Log.i(TAG, "onClick: Robber has been activated");
                 Log.i(TAG, "onClick: Making Robber Visible");
                 state.setRobberPhase(true);
@@ -267,9 +266,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (button.getId() == R.id.sidebar_button_endturn) {
-            if (state.isSetupPhase()) {
-                // todo @Niraj Mali? - AW
-            }
             Log.d(TAG, "onClick: End Turn");
 
             game.sendAction(new CatanEndTurnAction(this));
@@ -300,7 +296,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /*----------------------End of Turn and Misc. Actions----------*/
 
-        /*-------------------- Robber ------------------------*/
+        /*-------------------- Robber onClick ------------------------*/
 
 
 
