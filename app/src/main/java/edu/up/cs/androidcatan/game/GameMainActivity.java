@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.game.config.GameConfig;
 import edu.up.cs.androidcatan.game.config.GamePlayerType;
-import edu.up.cs.androidcatan.game.util.IPCoder;
 import edu.up.cs.androidcatan.game.util.MessageBox;
 
 /**

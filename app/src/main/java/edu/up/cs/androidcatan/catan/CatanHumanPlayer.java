@@ -294,9 +294,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_trade) {
 
             if (selectedIntersections.size() == 0) {
-                if (tryTradeWithBank()) {
-
-                }
+//                if (tryTradeWithBank()) {
+//
+//                }
             } else if (selectedIntersections.size() == 1) {
 
             }
@@ -455,20 +455,42 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
 
+        // if the user selects resource to receive -> highlight the selection
         if (tradeReceiveSelection != -1) {
             selectionBoxReceive[tradeReceiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
         }
+        // if the user selects resource to give -> highlight the selection
         if (tradeGiveSelection != -1) {
             selectionBoxGive[tradeGiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
         }
 
+        // confirm trade logic
         if (button.getId() == R.id.button_trade_menu_confirm) {
-            if (selectedIntersections.size() > 0) {
+            Log.d(TAG, "onClick: Player tried to confrim trade");
+            //checks to see if the user has any intersections selected.
+            if (selectedIntersections.size() == 1) {
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with port");
-                } else {
-                    Log.d(TAG, "onClick: invalid location");
+                }else
+                {
+                    Log.e(TAG, "onClick: trade with port failed");
                 }
+            }
+            else if(selectedIntersections.size() == 0)
+            {
+                if(tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection))
+                {
+                    Log.d(TAG, "onClick: traded with bank");
+                }else
+                {
+                    Log.e(TAG, "onClick: tade with bank failed");
+                }
+            }else if(selectedIntersections.size() > 1)
+            {
+                Log.e(TAG, "onClick: user has selected too many intersections");
+            }else
+            {
+                Log.e(TAG, "onClick: logic error, becuase selectedIntersections.size() is negative or null");
             }
         }
 
@@ -687,13 +709,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
 
+
+
         for (Port port : ports) {
             if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
                 tradingWith = port;
             }
         }
 
-        if (tradeButton == null) {
+        if (tradingWith == null) {
             this.messageTextView.setText("Selected intersection does not have port access.");
             Log.d(TAG, "tryTradeWithPort() returned: " + false);
             return false;
@@ -701,7 +725,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (tradingWith.getResourceId() != -1) {
             if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio())) {
-
+                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(resourceReceiving, 1);
             }
         } else {
             if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
@@ -713,9 +737,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
-    private boolean tryTradeWithBank () {
+    private boolean tryTradeWithBank (int resourceGiving, int resourceReceiving) {
 
-        return true;
+        if(state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0)
+        {
+            state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, 4);
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(resourceReceiving, 1);
+            //Log.d(TAG, "tryTradeWithBank: removed 4 " + resourceGiving + " from player " + state.getPlayerList().get(state.getCurrentPlayerId())) + " and added 1 " + resourceReceiving + " to player " + state.getPlayerList().get(state.getCurrentPlayerId());
+            return true;
+        }
+        else
+        {
+            Log.d(TAG, "tryTradeWithBank: player " + state.getPlayerList().get(state.getCurrentPlayerId()) + " would have have enough " + resourceGiving + " to comeplete trade");
+            return false;
+        }
     }
 
     /* ---------------------------------------- GUI Methods --------------------------------------*/
@@ -838,6 +873,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } else { // ACTION PHASE AND NOT SETUP PHASE
             this.messageTextView.setText("Action phase.");
             setAllButtonsToVisible();
+        }
+
+        //Not
+        if (this.playerNum != state.getCurrentPlayerId()){
+
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
+            this.buildRoadButton.setAlpha(0.5f);
+            this.buildRoadButton.setClickable(false);
+            this.buildSettlementButton.setAlpha(0.5f);
+            this.buildSettlementButton.setClickable(false);
+            this.buildCityButton.setAlpha(0.5f);
+            this.buildCityButton.setClickable(false);
+            this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+            this.sidebarOpenDevCardMenuButton.setClickable(false);
+            this.tradeButton.setAlpha(0.5f);
+            this.tradeButton.setClickable(false);
+            this.endTurnButton.setAlpha(0.5f);
+            this.endTurnButton.setClickable(false);
+
+            this.sidebarScoreboardButton.setAlpha(1f);
+            this.sidebarScoreboardButton.setClickable(true);
+            this.sidebarMenuButton.setAlpha(1f);
+            this.sidebarMenuButton.setClickable(true);
         }
 
         if (this.debugMode) {
