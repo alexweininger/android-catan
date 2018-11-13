@@ -1,6 +1,5 @@
 package edu.up.cs.androidcatan.catan;
 
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.constraint.Group;
@@ -63,16 +62,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int currentBuildingSelectionId = 1;
     private float lastTouchDownXY[] = new float[2];
     boolean debugMode = false;
-
-    private TextView messageTextView = (TextView) null;
+    private boolean isMenuOpen = false;
 
     private int selectedHexagonId = -1;
-
     private ArrayList<Integer> selectedIntersections = new ArrayList<>();
 
-    private boolean isMenuOpen;
-
-    /* ------------------------------ SCOREBOARD button init ------------------------------------ */
+    private TextView messageTextView = (TextView) null;
 
     /* ------------- Building Buttons -------------------- */
     private Button buildCityButton = null;
@@ -246,6 +241,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             } else {
                 this.buildingCosts.setVisibility(View.VISIBLE);
             }
+
+            setAllButtonsToVisible();
+
             Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
@@ -731,29 +729,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        if (state.getDice().getDiceValues()[0] == 1)
-            diceImageLeft.setBackgroundResource(R.drawable.dice_1);
-        else if (state.getDice().getDiceValues()[0] == 2)
-            diceImageLeft.setBackgroundResource(R.drawable.dice_2);
-        else if (state.getDice().getDiceValues()[0] == 3)
-            diceImageLeft.setBackgroundResource(R.drawable.dice_3);
-        else if (state.getDice().getDiceValues()[0] == 4)
-            diceImageLeft.setBackgroundResource(R.drawable.dice_4);
-        else if (state.getDice().getDiceValues()[0] == 5)
-            diceImageLeft.setBackgroundResource(R.drawable.dice_5);
-        else diceImageLeft.setBackgroundResource(R.drawable.dice_6);
+        int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
 
-        if (state.getDice().getDiceValues()[1] == 1)
-            diceImageRight.setBackgroundResource(R.drawable.dice_1);
-        else if (state.getDice().getDiceValues()[1] == 2)
-            diceImageRight.setBackgroundResource(R.drawable.dice_2);
-        else if (state.getDice().getDiceValues()[1] == 3)
-            diceImageRight.setBackgroundResource(R.drawable.dice_3);
-        else if (state.getDice().getDiceValues()[1] == 4)
-            diceImageRight.setBackgroundResource(R.drawable.dice_4);
-        else if (state.getDice().getDiceValues()[1] == 5)
-            diceImageRight.setBackgroundResource(R.drawable.dice_5);
-        else diceImageRight.setBackgroundResource(R.drawable.dice_6);
+        diceImageLeft.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[0]]);
+        diceImageRight.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[1]]);
 
         if (this.state.getRobberPhase()) {
             this.messageTextView.setText("Robber phase.");
@@ -1265,7 +1244,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.buildRoadButton.setClickable(true);
         this.endTurnButton.setAlpha(1f);
         this.endTurnButton.setClickable(true);
-
         this.rollButton.setAlpha(1f);
         this.rollButton.setClickable(true);
     }
