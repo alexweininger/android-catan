@@ -496,12 +496,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     } // onClick END
 
-    private void shake(View v) {
-        Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-        v.startAnimation(shake);
-        v.startAnimation(shake);
-    }
-
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
 
     // the purpose of the touch listener is just to store the touch X,Y coordinates
@@ -1175,19 +1169,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* -------------------------------------- MENUS ---------------------------------------- */
 
-        /* ---------- Single IntersectionDrawable Menu (buildings) ---------- */
-
-        singleIntersectionInputMenuGroup = myActivity.findViewById(R.id.group_singleIntersectionInput); // single intersection menu GROUP
-
-        singleIntersectionLabelTextView = myActivity.findViewById(R.id.selectIntersectionText);
-        singleIntersectionInputEditText = myActivity.findViewById(R.id.editText_singleIntersectionInput);
-
-        singleIntersectionOkButton = myActivity.findViewById(R.id.button_singleIntersectionMenuOk); // OK button
-        singleIntersectionOkButton.setOnClickListener(this);
-
-        singleIntersectionCancelButton = myActivity.findViewById(R.id.button_singleIntersectionMenuCancel); // Cancel button
-        singleIntersectionCancelButton.setOnClickListener(this);
-
         /* ---------- Road IntersectionDrawable Menu -------------- */
 
         roadIntersectionSelectionMenuGroup = activity.findViewById(R.id.group_road_intersection_selection_menu); // road intersection menu GROUP
@@ -1365,6 +1346,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         view.startAnimation(anim);
         return view;
     }// blinkAnimation END
+
+    /**
+     * @param v View to make shake.
+     */
+    private void shake (View v) {
+        Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+        v.startAnimation(shake);
+        v.startAnimation(shake);
+    }
 
 }// class CatanHumanPlayer END
 
