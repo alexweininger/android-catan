@@ -327,17 +327,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
+
             if (state.isHasMovedRobber()) {
+
                 if (selectedIntersections.size() != 1) {
-                    robberHexMessage.setText("Please select only one intersection.");
+                    robberHexMessage.setText(R.string.select_one_intersection);
                     messageTextView.setText(R.string.select_one_intersection);
                     return;
                 }
+
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
-                    robberHexMessage.setText("Please select an intersection with a building owned by another player on it.");
+                    robberHexMessage.setText(R.string.select_int_w_bldg_robber);
                     messageTextView.setText(R.string.select_int_w_bldg_robber);
                     return;
                 }
+
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
                     robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
@@ -349,6 +353,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
                 return;
             }
+
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 robberHexMessage.setText(R.string.invalid_tile);
