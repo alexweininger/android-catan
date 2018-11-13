@@ -140,6 +140,7 @@
     <string name="select_int_not_owned_by_you">Please select an intersection not owned by you.</string>
     <string name="invalid_tile">Not a valid tile!</string>
     <string name="zero">00</string>
+    <string name="dont_have_card">You don\'t have that card!</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>

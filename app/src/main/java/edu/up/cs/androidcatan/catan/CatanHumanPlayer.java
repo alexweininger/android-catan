@@ -491,17 +491,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (!state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(DevelopmentCard.resourceCost)) {
                 Log.i(TAG, "onClick: Player " + this.playerNum + " tried to buy a dev card. But does not have enough resources. (removeResourceBundle returned false.)");
 
-                // tell the user with the message text view
-                messageTextView.setText(R.string.not_enough_for_dev);
+                messageTextView.setText(R.string.not_enough_for_dev); // tell the user with the message text view
 
-                // shake the message text view
-                shake(messageTextView);
+                shake(messageTextView); // shake the message text view
                 return;
             }
             Log.d(TAG, "onClick: Sending a CatanBuyDevCardAction to the game.");
 
             // the CatanBuyDevCardAction holds the player, and the currently selected dev card id from the spinner.
             game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
+            return;
         }
 
         // Use development card button on the dev card menu.
@@ -514,7 +513,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (devCardList.getSelectedItemPosition() == 0) {
                     if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0)) {
                         Log.e(TAG, "onClick: Knight Dev card is not owned!");
-                        messageTextView.setText("You don't have that card!");
+                        messageTextView.setText(R.string.dont_have_card);
                         return;
                     }
                     CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
@@ -524,7 +523,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else if (devCardList.getSelectedItemPosition() == 1) {
                     if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1)) {
                         Log.e(TAG, "onClick: Victory Points Dev card is not owned!");
-                        messageTextView.setText("You don't have that card!");
+                        messageTextView.setText(R.string.dont_have_card);
                         return;
                     }
                     CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
@@ -533,7 +532,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else if (devCardList.getSelectedItemPosition() == 2) {
                     if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)) {
                         Log.e(TAG, "onClick: Year of Plenty Dev card is not owned!");
-                        messageTextView.setText("You don't have that card!");
+                        messageTextView.setText(R.string.dont_have_card);
                         return;
                     }
                     CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
@@ -543,7 +542,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else if (devCardList.getSelectedItemPosition() == 3) {
                     if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3)) {
                         Log.e(TAG, "onClick: Monopoly Dev card is not owned!");
-                        messageTextView.setText("You don't have that card!");
+                        messageTextView.setText(R.string.dont_have_card);
                         return;
                     }
                     CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
@@ -553,7 +552,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else if (devCardList.getSelectedItemPosition() == 4) {
                     if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)) {
                         Log.e(TAG, "onClick: Road Building Dev card is not owned!");
-                        messageTextView.setText("You don't have that card!");
+                        messageTextView.setText(R.string.dont_have_card);
                         return;
                     }
                     CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
