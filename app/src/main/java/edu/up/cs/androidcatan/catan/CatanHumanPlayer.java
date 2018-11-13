@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -68,6 +67,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ArrayList<Integer> selectedIntersections = new ArrayList<>();
 
     private TextView messageTextView = (TextView) null;
+
+    private ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) (null);
 
     /* ------------- Building Buttons -------------------- */
     private Button buildCityButton = null;
@@ -311,12 +312,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_road) {
             currentBuildingSelectionId = 0;
             if (selectedIntersections.size() != 2) {
-                messageTextView.setText("Select two intersections to build a road.");
+                messageTextView.setText(R.string.need_2_ints_for_road);
             } else {
                 if (tryBuildRoad(selectedIntersections.get(0), selectedIntersections.get(1))) {
-                    messageTextView.setText("Built a road.");
+                    messageTextView.setText(R.string.build_a_road);
                 } else {
-                    messageTextView.setText("Invalid road placement.");
+                    messageTextView.setText(R.string.invalid_road_placement);
                 }
             }
             return;
@@ -326,12 +327,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_settlement) {
             Log.d(TAG, "onClick: sidebar_button_settlement listener");
             if (selectedIntersections.size() != 1) {
-                messageTextView.setText("Select one intersection to build a settlement.");
+                messageTextView.setText(R.string.one_int_for_set);
             } else {
                 if (tryBuildSettlement(selectedIntersections.get(0))) {
-                    messageTextView.setText("Built a settlement.");
+                    messageTextView.setText(R.string.built_settlement);
                 } else {
-                    messageTextView.setText("Invalid settlement location.");
+                    // tell user location is invalid
+                    messageTextView.setText(R.string.invalid_set_loc);
                 }
             }
             return;
@@ -340,12 +342,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // City button on the sidebar.
         if (button.getId() == R.id.sidebar_button_city) {
             if (selectedIntersections.size() != 1) {
-                messageTextView.setText("Select one intersection to build a city.");
+                messageTextView.setText(R.string.select_one_int_for_city);
             } else {
                 if (tryBuildCity(selectedIntersections.get(0))) {
-                    messageTextView.setText("Built a city.");
+                    messageTextView.setText(R.string.built_city);
                 } else {
-                    messageTextView.setText("Invalid city location.");
+                    messageTextView.setText(R.string.invalid_city_loc);
                 }
             }
             return;
@@ -374,7 +376,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.i(TAG, "onClick: Player " + this.playerNum + " tried to buy a dev card. But does not have enough resources. (removeResourceBundle returned false.)");
 
                 // tell the user with the message text view
-                messageTextView.setText("You do not have enough resources to buy a development.");
+                messageTextView.setText(R.string.not_enough_for_dev);
 
                 // shake the message text view
                 shake(messageTextView);
@@ -592,7 +594,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (!state.isSetupPhase()) {
             if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceBundle(Road.resourceCost)) {
-                messageTextView.setText("Not enough resources to build a road.");
+                messageTextView.setText(R.string.not_enough_for_road);
             }
         }
 
@@ -718,9 +720,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /* ---------------------------------------- GUI Methods --------------------------------------*/
 
-    /**
-     *
-     */
     private void updateTextViews () {
 
         // Check if the Game State is null. If it is return void.
@@ -729,13 +728,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        adapter.clear();
+        for (Integer integer : state.getPlayerList().get(this.playerNum).getDevelopmentCards()) {
+            adapter.add(Integer.toString(integer));
+        }
+        adapter.notifyDataSetChanged();
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        devCardList.setAdapter(adapter);
+
+        // array of dice image ids
         int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
 
+        // set the dice ImageViews to the corresponding dice image of the current dice values
         diceImageLeft.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[0]]);
         diceImageRight.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[1]]);
 
         if (this.state.getRobberPhase()) {
-            this.messageTextView.setText("Robber phase.");
+            this.messageTextView.setText(R.string.robber_phase);
 
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildRoadButton.setAlpha(0.5f);
@@ -755,7 +767,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
-            this.messageTextView.setText("Setup phase."); // set info message
+            this.messageTextView.setText(R.string.setup_phase); // set info message
 
             // get settlement and road count for the current turn
             int settlements = Collections.frequency(this.buildingsBuiltOnThisTurn, 1);
@@ -764,7 +776,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (settlements == 2 && roads == 2) {
                 this.endTurnButton.setAlpha(1f);
                 this.endTurnButton.setClickable(true);
-                this.messageTextView.setText("Setup turn complete. Please end your turn.");
+                this.messageTextView.setText(R.string.setup_phase_complete);
             } else {
                 this.endTurnButton.setAlpha(0.5f);
                 this.endTurnButton.setClickable(false);
@@ -939,6 +951,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
         this.boardSurfaceView.setOnClickListener(clickListener);
+        this.boardSurfaceView.setOnTouchListener(touchListener);
 
         /* ----------------------------------- SIDEBAR ------------------------------------------ */
 
@@ -1075,24 +1088,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         devCardList = activity.findViewById(R.id.development_Card_Spinner); // DEV CARD SPINNER
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(), R.array.dev_Card, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        devCardList.setAdapter(adapter);
-        devCardList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //TODO Implement the Listener
-
-            }
-
-            @Override
-            public void onNothingSelected (AdapterView<?> parentView) {
-                // your code here todo
-            }
-        });
-
         /* ---------- Scoreboard  ---------- */
 
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
@@ -1155,6 +1150,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus.setOnClickListener(this);
         robberWoolPlus.setOnClickListener(this);
         robberWoolMinus.setOnClickListener(this);
+
+
     }// setAsGui() END
 
     /**
