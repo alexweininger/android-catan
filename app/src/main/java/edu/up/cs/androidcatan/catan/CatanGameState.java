@@ -221,7 +221,7 @@ public class CatanGameState extends GameState{
     }
 
     /**
-     * TODO we should be calling this somewhere right? - AW
+     * 
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize () {
