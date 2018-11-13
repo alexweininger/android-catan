@@ -574,6 +574,7 @@
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:maxLength="11"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right_sidebar"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left_0"
