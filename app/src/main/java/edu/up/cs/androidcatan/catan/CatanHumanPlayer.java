@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -128,23 +127,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView myScore = (TextView) null;
     private TextView currentTurnIdTextView = (TextView) null;
     private TextView playerNameSidebar = (TextView) null;
-
-    // intersection menu
-    private Group roadIntersectionSelectionMenuGroup = (Group) null;
-    private TextView singleIntersectionLabelTextView = (TextView) null;
-    private EditText singleIntersectionInputEditText = (EditText) null;
-    private Button singleIntersectionCancelButton = (Button) null;
-
-    // road intersection selection menu
-    private EditText roadIntersectionAEditText = (EditText) null;
-    private EditText roadIntersectionBEditText = (EditText) null;
-
-    private TextView roadIntersectionPromptLabel = (EditText) null;
-    private Button roadIntersectionOkButton = (Button) null;
-    private Button roadIntersectionCancelButton = (Button) null;
-
-    private Group singleIntersectionInputMenuGroup = (Group) null;
-    private Button singleIntersectionOkButton = (Button) null;
 
     //Robber Buttons
     private ImageView robberBrickPlus = (ImageView) null;
@@ -384,6 +366,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             // try to remove the resources required to buy a dev card from the players inventory
             if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceBundle(DevelopmentCard.resourceCost)) {
+                Log.d(TAG, "onClick: Sending a CatanBuyDevCardAction to the game.");
+
                 // the CatanBuyDevCardAction holds the player, and the currently selected dev card id from the spinner.
                 game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
                 return;
@@ -394,10 +378,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // tell the user with the message text view
                 messageTextView.setText("You do not have enough resources to buy a development.");
 
-                // shake the message text view TODO make this a helper method bc we use it a lot for this one repeated thing
-                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-                roadIntersectionBEditText.startAnimation(shake);
-                messageTextView.startAnimation(shake);
+                // shake the message text view
+                shake(messageTextView);
                 return;
             }
         }
@@ -639,9 +621,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } else {
             messageTextView.setText("Invalid road location.");
             Log.e(TAG, "tryBuildSettlement: Returning false.");
-            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-            roadIntersectionBEditText.startAnimation(shake);
-            messageTextView.startAnimation(shake);
+            shake(messageTextView);
             return false;
         }
     }
@@ -676,9 +656,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } else {
             messageTextView.setText("Invalid settlement location.");
             Log.e(TAG, "tryBuildSettlement: Returning false.");
-            Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-            singleIntersectionInputEditText.startAnimation(shake);
-            messageTextView.startAnimation(shake);
+            shake(messageTextView);
             return false;
         }
     }
@@ -840,13 +818,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
 
-            this.singleIntersectionCancelButton.setAlpha(0.5f);
-            this.singleIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionCancelButton.setAlpha(0.5f);
-            this.roadIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionAEditText.setAlpha(0.5f);
-            this.roadIntersectionAEditText.setEnabled(false);
-
         } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
 
             this.messageTextView.setText("Roll the dice.");
@@ -857,25 +828,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.buildRoadButton.setAlpha(0.5f);
             this.buildRoadButton.setClickable(false);
+
             this.buildSettlementButton.setAlpha(0.5f);
             this.buildSettlementButton.setClickable(false);
+
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
+
             this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
             this.sidebarOpenDevCardMenuButton.setClickable(false);
+
             this.tradeButton.setAlpha(0.5f);
             this.tradeButton.setClickable(false);
+
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
-            this.singleIntersectionCancelButton.setAlpha(0.5f);
-            this.singleIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionCancelButton.setAlpha(0.5f);
-            this.roadIntersectionCancelButton.setClickable(false);
-            this.roadIntersectionAEditText.setAlpha(0.5f);
-            this.roadIntersectionAEditText.setEnabled(false);
 
         } else { // ACTION PHASE AND NOT SETUP PHASE
-
             this.messageTextView.setText("Action phase.");
             setAllButtonsToVisible();
         }
@@ -883,8 +852,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (this.debugMode) {
             setAllButtonsToVisible();
         }
-
-        //                setAllButtonsToVisible(); // TODO REMOVE THIS IS ONLY FOR DEBUGGING
 
         /* ----- update resource value TextViews ----- */
 
@@ -937,10 +904,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (this.state.getCurrentPlayerId() == 0) {
             this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 250, 250);
         }
-        //        this.player0Name.clearAnimation();
-        // Animate an image view
-        //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        //        imageView = (ImageView)Utils.blinkAnimation(imageView,250,20);
 
     } // updateTextViews END
 
@@ -991,23 +954,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         myActivity = activity; // remember the activity
         activity.setContentView(R.layout.activity_main); // Load the layout resource for our GUI
 
-        scoreBoardGroup = activity.findViewById(R.id.group_scoreboard); // todo move this somewhere meaningful
-
         messageTextView = activity.findViewById(R.id.textview_game_message);
 
         /* ---------- Surface View for drawing the graphics ----------- */
 
         this.boardSurfaceView = activity.findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
-
         this.boardSurfaceView.setOnClickListener(clickListener);
-        this.boardSurfaceView.setOnTouchListener(touchListener);
 
         /* ----------------------------------- SIDEBAR ------------------------------------------ */
 
         //dice roll images
         diceImageLeft = activity.findViewById(R.id.diceImageLeft);
         diceImageRight = activity.findViewById(R.id.diceImageRight);
-        // building buttons
+
+        /* ------------------------ Building Buttons -----------------------------------------*/
         buildRoadButton = activity.findViewById(R.id.sidebar_button_road);
         buildRoadButton.setOnClickListener(this);
 
@@ -1024,8 +984,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         tradeButton = activity.findViewById(R.id.sidebar_button_trade); // trade
         tradeButton.setOnClickListener(this);
 
-        /* ----------------------------------- Turn Buttons --------------------------------------*/
         /*--------------------Robber Buttons and Groups------------------------*/
+
         robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
         robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
         robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
@@ -1096,17 +1056,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
         image_trade_menu_rec_wool.setOnClickListener(this);
 
-        //Confirm trade action
+        // Confirm Trade action
         button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
         button_trade_menu_confirm.setOnClickListener(this);
 
         button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
         button_trade_menu_cancel.setOnClickListener(this);
 
-        // turn buttons
+        // Roll button
         rollButton = activity.findViewById(R.id.sidebar_button_roll);
         rollButton.setOnClickListener(this);
 
+        // End Turn button
         endTurnButton = activity.findViewById(R.id.sidebar_button_endturn);
         endTurnButton.setOnClickListener(this);
 
@@ -1153,15 +1114,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         });
 
-        /* ---------- Scoreboard scores ---------- */
+        /* ---------- Scoreboard  ---------- */
 
+        scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
+
+        // scores
         this.player0Score = activity.findViewById(R.id.Player1_Score);
         this.player1Score = activity.findViewById(R.id.Player2_Score);
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
 
-        /* ---------- Scoreboard names ---------- */
-
+        // names
         this.player0Name = activity.findViewById(R.id.Player1_Name);
         this.player1Name = activity.findViewById(R.id.Player2_Name);
         this.player2Name = activity.findViewById(R.id.Player3_Name);
@@ -1190,6 +1153,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /*--------------------Robber Buttons and Groups------------------------*/
 
+        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
+
         robberBrickPlus = activity.findViewById(R.id.robber_discard_brickAddImg);
         robberBrickMinus = activity.findViewById(R.id.robber_discard_brickMinusImg);
         robberLumberPlus = activity.findViewById(R.id.robber_discard_lumberAddImg);
@@ -1200,8 +1165,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus = activity.findViewById(R.id.robber_discard_oreMinusImg);
         robberWoolPlus = activity.findViewById(R.id.robber_discard_woolAddImg);
         robberWoolMinus = activity.findViewById(R.id.robber_discard_woolMinusImg);
-
-        robberDiscardGroup = activity.findViewById(R.id.robber_discard_group);
 
         robberBrickPlus.setOnClickListener(this);
         robberBrickMinus.setOnClickListener(this);
@@ -1305,13 +1268,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.rollButton.setAlpha(1f);
         this.rollButton.setClickable(true);
-
-        this.singleIntersectionCancelButton.setAlpha(1f);
-        this.singleIntersectionCancelButton.setClickable(true);
-        this.roadIntersectionCancelButton.setAlpha(1f);
-        this.roadIntersectionCancelButton.setClickable(true);
-        this.roadIntersectionAEditText.setAlpha(1f);
-        this.roadIntersectionAEditText.setEnabled(true);
     }
 
     /**
