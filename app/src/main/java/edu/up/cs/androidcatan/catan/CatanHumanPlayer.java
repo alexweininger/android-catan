@@ -426,6 +426,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ------------------------------------ Trade Menu -------------------------------------- */
 
+        isMenuOpen = !isMenuOpen;
         // arrays of the selection box image views
         ImageView selectionBoxGive[] = {brickSelectionBoxGive, grainSelectionBoxGive, lumberSelectionBoxGive, oreSelectionBoxGive, woolSelectionBoxGive};
         ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
@@ -932,7 +933,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
 
         // current turn indicator (sidebar menu)
-        this.currentTurnIdTextView.setText(String.valueOf(state.getCurrentPlayerId()));
+        this.currentTurnIdTextView.setText(String.valueOf( getAllPlayerNames()[state.getCurrentPlayerId()]));
 
         /* -------- animations ----------- */
 
@@ -1331,6 +1332,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
         v.startAnimation(shake);
         v.startAnimation(shake);
+    }
+
+    /**
+     *
+     * @return names of all the players in the game
+     */
+    public String[] getAllPlayerNames()
+    {
+        return super.allPlayerNames;
     }
 
 }// class CatanHumanPlayer END
