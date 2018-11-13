@@ -71,6 +71,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private ArrayList<Integer> selectedIntersections = new ArrayList<>();
 
+    private boolean isMenuOpen;
+
     /* ------------------------------ SCOREBOARD button init ------------------------------------ */
 
     /* ------------- Building Buttons -------------------- */
@@ -440,24 +442,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
 
-        /* ---------------------------- Trade Menu Buttons ------------------------ */
+        /* ------------------------------------ Trade Menu -------------------------------------- */
 
-        // set all selection boxes to gone / transparent
+        // arrays of the selection box image views
+        ImageView selectionBoxGive[] = {brickSelectionBoxGive, grainSelectionBoxGive, lumberSelectionBoxGive, oreSelectionBoxGive, woolSelectionBoxGive};
+        ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
 
-        // give
-        brickSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-        grainSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-        lumberSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-        oreSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
-        woolSelectionBoxGive.setBackgroundColor(Color.TRANSPARENT);
+        // set all give selection boxes to transparent
+        for (ImageView imageView : selectionBoxGive) {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
 
-        // receive
-        brickSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-        grainSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-        lumberSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-        oreSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
-        woolSelectionBoxReceive.setBackgroundColor(Color.TRANSPARENT);
+        // set all receive selection boxes to transparent
+        for (ImageView imageView : selectionBoxReceive) {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
 
+        // arrays of the buttons
         int giveButtonIds[] = {R.id.image_trade_menu_give_brick, R.id.image_trade_menu_give_grain, R.id.image_trade_menu_give_lumber, R.id.image_trade_menu_give_ore, R.id.image_trade_menu_give_wool};
         int recButtonIds[] = {R.id.image_trade_menu_rec_brick, R.id.image_trade_menu_rec_grain, R.id.image_trade_menu_rec_lumber, R.id.image_trade_menu_rec_ore, R.id.image_trade_menu_rec_wool};
 
@@ -470,19 +471,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 tradeReceiveSelection = i;
                 break;
             }
-        }
-
-        ImageView selectionBoxGive[] = {brickSelectionBoxGive, grainSelectionBoxGive, lumberSelectionBoxGive, oreSelectionBoxGive, woolSelectionBoxGive};
-        ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
-
-        // set all give selection boxes to transparent
-        for (ImageView imageView : selectionBoxGive) {
-            imageView.setBackgroundColor(Color.TRANSPARENT);
-        }
-
-        // set all receive selection boxes to transparent
-        for (ImageView imageView : selectionBoxReceive) {
-            imageView.setBackgroundColor(Color.TRANSPARENT);
         }
 
         if (tradeReceiveSelection != -1) {
@@ -507,6 +495,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
     } // onClick END
+
+    private void shake(View v) {
+        Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
+        v.startAnimation(shake);
+        v.startAnimation(shake);
+    }
 
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
 
