@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -1350,14 +1349,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ---------- Scoreboard  ---------- */
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(), R.array.dev_Card, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         // Apply the adapter to the spinner
         devCardList.setAdapter(adapter);
         devCardList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //TODO Implement the Listener
-                switch(position){
+
+                String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
+
+                int devCardId = -1;
+                for (int i = 0; i < devCardNames.length; i++) {
+                    if (devCardNames[i].equals(devCards.get(position))) {
+                        devCardId = i;
+                    }
+                }
+
+                switch(devCardId){
                     case 0:
                         devcard_text_name.setText(R.string.knight_name);
                         devcard_text_info.setText(R.string.knight_info);
@@ -1379,7 +1387,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         devcard_text_info.setText(R.string.road_building_info);
                         break;
                 }
-
             }
 
             @Override
