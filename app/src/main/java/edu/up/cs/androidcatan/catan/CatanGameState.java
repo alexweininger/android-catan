@@ -50,7 +50,7 @@ public class CatanGameState extends GameState{
 
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0,0,0,0,0};  //How many resources the player would like to discard
-
+    private boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
 
     public CatanGameState () { // CatanGameState constructor
         this.dice = new Dice();
