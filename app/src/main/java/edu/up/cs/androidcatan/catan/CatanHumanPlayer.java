@@ -1054,6 +1054,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
 
         /* ----- update scoreboard names ----- */
+        this.player0Name.setText(getAllPlayerNames()[0]);
+        this.player1Name.setText(getAllPlayerNames()[1]);
+        this.player2Name.setText(getAllPlayerNames()[2]);
+        this.player3Name.setText(getAllPlayerNames()[3]);
 
         player0Name.setBackgroundColor(Color.TRANSPARENT);
         player1Name.setBackgroundColor(Color.TRANSPARENT);
