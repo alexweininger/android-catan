@@ -164,7 +164,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                     for (Hexagon hex : gs.getBoard().getHexagons()) {
                         hexId = hex.getHexagonId();
-                        if (tryMoveRobber(hexId)) {
+                        if (tryMoveRobber(hexId, gs)) {
                             sleep(1000);
                             CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
                             game.sendAction(action);
@@ -201,21 +201,21 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         super(name);
     }
 
-    private boolean tryMoveRobber(int hexId){
+    private boolean tryMoveRobber(int hexId, CatanGameState gs){
 
         if(hexId == -1){
             return false;
         }
 
-        if(hexId == state.getBoard().getRobber().getHexagonId()){
+        if(hexId == gs.getBoard().getRobber().getHexagonId()){
             return false;
         }
 
-        ArrayList<Integer> intersections = state.getBoard().getHexToIntIdMap().get(hexId);
+        ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
 
         for (Integer intersection : intersections) {
-            if(state.getBoard().getBuildings()[intersection] != null){
-                if(state.getBoard().getBuildings()[intersection].getOwnerId() != playerNum){
+            if(gs.getBoard().getBuildings()[intersection] != null){
+                if(gs.getBoard().getBuildings()[intersection].getOwnerId() != playerNum){
                     return true;
                 }
             }
