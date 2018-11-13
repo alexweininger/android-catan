@@ -142,7 +142,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
         if(gs.isRobberPhase()){
-
+            Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
+            sleep(5000);
             /*--------------------Discard Phase--------------------*/
             if(gs.getPlayerList().get(playerNum).getTotalResourceCardCount() > 7 && !gs.getRobberPlayerListHasDiscarded()[playerNum]){
                 for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
@@ -156,6 +157,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                         }
                     }
                     if(gs.getRobberPlayerListHasDiscarded()[playerNum]){
+                        Log.i(TAG, "receiveInfo: Computer has ended the discard phase");
                         break;
                     }
                 }
@@ -163,6 +165,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
             /*----------------------Move Robber Phase----------------*/
             if(gs.getCurrentPlayerId() == playerNum) {
+                Log.i(TAG, "receiveInfo: Computer is moving the robber");
                 if(gs.isHasMovedRobber()) {
                     while (!gs.allPlayersHaveDiscarded()) {
                         sleep(2000);
@@ -171,7 +174,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     for (Hexagon hex : gs.getBoard().getHexagons()) {
                         hexId = hex.getHexagonId();
                         if (tryMoveRobber(hexId, gs)) {
-                            sleep(1000);
+                            Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
+                            sleep(2000);
                             CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
                             game.sendAction(action);
                             break;
