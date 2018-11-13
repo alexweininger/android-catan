@@ -260,14 +260,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode;
-            if (this.buildingCosts.getVisibility() == View.VISIBLE) {
-                this.buildingCosts.setVisibility(View.GONE);
-            } else {
-                this.buildingCosts.setVisibility(View.VISIBLE);
-            }
+
+            toggleViewVisibility(this.buildingCosts);
 
             setAllButtonsToVisible();
-
             Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
