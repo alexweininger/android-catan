@@ -105,8 +105,6 @@
 
     <string name="confirmString">Would you like to build this here?</string>
 
-    <string name="select_more_resources">Select resources to discard</string>
-
     <string name="knight_name">Knight</string>
     <string name="road_building_name">Road Building</string>
     <string name="year_of_plenty_name">Year of Plenty</string>
