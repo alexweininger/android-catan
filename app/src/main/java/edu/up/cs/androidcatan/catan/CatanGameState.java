@@ -238,7 +238,15 @@ public class CatanGameState extends GameState{
             }
         }
         if (max > 2) {
+            // if the award has already been given out remove the awarded VP from that player
+            if(currentLargestArmyPlayerId != -1)
+            {
+                this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
+            }
+            // update the player witht he kargest army
             this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
+            // add 2 VP to who ever has the largest army
+            this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
         }
     }
 
@@ -271,6 +279,7 @@ public class CatanGameState extends GameState{
                 playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
             }
         }
+        checkArmySize();
     }
 
     /*-------------------------------------Resource Methods------------------------------------------*/
