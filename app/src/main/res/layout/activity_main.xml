@@ -241,7 +241,7 @@
         android:alpha="255"
         android:background="@android:color/background_light"
         android:spinnerMode="dropdown"
-        android:theme="@android:style/Widget.Material.Light.Spinner"
+        android:theme="@style/Base.Widget.AppCompat.Spinner"
         app:layout_constraintEnd_toEndOf="@+id/use_Card"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/use_Card"

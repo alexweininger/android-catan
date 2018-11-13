@@ -1258,51 +1258,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         //        tradePort = activity.findViewById(R.id.sidebar_button_trade);
         //        tradePort.setOnClickListener(this);
 
-        //Trade Menu Background - Receive
-        brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
-        grainSelectionBoxReceive = activity.findViewById(R.id.grainSelectionBoxReceive);
-        lumberSelectionBoxReceive = activity.findViewById(R.id.lumberSelectionBoxReceive);
-        oreSelectionBoxReceive = activity.findViewById(R.id.oreSelectionBoxReceive);
-        woolSelectionBoxReceive = activity.findViewById(R.id.woolSelectionBoxReceive);
 
-        //Trade Menu Background - Give
-        brickSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
-        grainSelectionBoxGive = activity.findViewById(R.id.grainSelectiomBoxGive);
-        lumberSelectionBoxGive = activity.findViewById(R.id.lumberSelectionBoxGive);
-        oreSelectionBoxGive = activity.findViewById(R.id.oreSelectionBoxGive);
-        woolSelectionBoxGive = activity.findViewById(R.id.woolSelectionBoxGive);
-
-        //Trade Menu - Receive
-        image_trade_menu_give_brick = activity.findViewById(R.id.image_trade_menu_give_brick);
-        image_trade_menu_give_brick.setOnClickListener(this);
-
-        image_trade_menu_give_grain = activity.findViewById(R.id.image_trade_menu_give_grain);
-        image_trade_menu_give_grain.setOnClickListener(this);
-
-        image_trade_menu_give_lumber = activity.findViewById(R.id.image_trade_menu_give_lumber);
-        image_trade_menu_give_lumber.setOnClickListener(this);
-
-        image_trade_menu_give_ore = activity.findViewById(R.id.image_trade_menu_give_ore);
-        image_trade_menu_give_ore.setOnClickListener(this);
-
-        image_trade_menu_give_wool = activity.findViewById(R.id.image_trade_menu_give_wool);
-        image_trade_menu_give_wool.setOnClickListener(this);
-
-        //Trade Menu - Give
-        image_trade_menu_rec_brick = activity.findViewById(R.id.image_trade_menu_rec_brick);
-        image_trade_menu_rec_brick.setOnClickListener(this);
-
-        image_trade_menu_rec_grain = activity.findViewById(R.id.image_trade_menu_rec_grain);
-        image_trade_menu_rec_grain.setOnClickListener(this);
-
-        image_trade_menu_rec_lumber = activity.findViewById(R.id.image_trade_menu_rec_lumber);
-        image_trade_menu_rec_lumber.setOnClickListener(this);
-
-        image_trade_menu_rec_ore = activity.findViewById(R.id.image_trade_menu_rec_ore);
-        image_trade_menu_rec_ore.setOnClickListener(this);
-
-        image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
-        image_trade_menu_rec_wool.setOnClickListener(this);
 
         // Confirm Trade action
         button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
@@ -1429,6 +1385,52 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (this.state != null) {
             receiveInfo(state);
         }
+
+        //Trade Menu Background - Receive
+        brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
+        grainSelectionBoxReceive = activity.findViewById(R.id.grainSelectionBoxReceive);
+        lumberSelectionBoxReceive = activity.findViewById(R.id.lumberSelectionBoxReceive);
+        oreSelectionBoxReceive = activity.findViewById(R.id.oreSelectionBoxReceive);
+        woolSelectionBoxReceive = activity.findViewById(R.id.woolSelectionBoxReceive);
+
+        //Trade Menu Background - Give
+        brickSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
+        grainSelectionBoxGive = activity.findViewById(R.id.grainSelectiomBoxGive);
+        lumberSelectionBoxGive = activity.findViewById(R.id.lumberSelectionBoxGive);
+        oreSelectionBoxGive = activity.findViewById(R.id.oreSelectionBoxGive);
+        woolSelectionBoxGive = activity.findViewById(R.id.woolSelectionBoxGive);
+
+        //Trade Menu - Receive
+        image_trade_menu_give_brick = activity.findViewById(R.id.image_trade_menu_give_brick);
+        image_trade_menu_give_brick.setOnClickListener(this);
+
+        image_trade_menu_give_grain = activity.findViewById(R.id.image_trade_menu_give_grain);
+        image_trade_menu_give_grain.setOnClickListener(this);
+
+        image_trade_menu_give_lumber = activity.findViewById(R.id.image_trade_menu_give_lumber);
+        image_trade_menu_give_lumber.setOnClickListener(this);
+
+        image_trade_menu_give_ore = activity.findViewById(R.id.image_trade_menu_give_ore);
+        image_trade_menu_give_ore.setOnClickListener(this);
+
+        image_trade_menu_give_wool = activity.findViewById(R.id.image_trade_menu_give_wool);
+        image_trade_menu_give_wool.setOnClickListener(this);
+
+        //Trade Menu - Give
+        image_trade_menu_rec_brick = activity.findViewById(R.id.image_trade_menu_rec_brick);
+        image_trade_menu_rec_brick.setOnClickListener(this);
+
+        image_trade_menu_rec_grain = activity.findViewById(R.id.image_trade_menu_rec_grain);
+        image_trade_menu_rec_grain.setOnClickListener(this);
+
+        image_trade_menu_rec_lumber = activity.findViewById(R.id.image_trade_menu_rec_lumber);
+        image_trade_menu_rec_lumber.setOnClickListener(this);
+
+        image_trade_menu_rec_ore = activity.findViewById(R.id.image_trade_menu_rec_ore);
+        image_trade_menu_rec_ore.setOnClickListener(this);
+
+        image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
+        image_trade_menu_rec_wool.setOnClickListener(this);
 
         /*--------------------Robber Buttons and Groups------------------------*/
 
