@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -68,7 +69,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private TextView messageTextView = (TextView) null;
 
-    private ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) (null);
+    private ArrayAdapter<String> adapter = (ArrayAdapter<String>) (null);
+
+    private ArrayList<String> devCards = new ArrayList<>();
 
     /* ------------- Building Buttons -------------------- */
     private Button buildCityButton = null;
@@ -763,16 +766,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        adapter.clear();
-        for (Integer integer : state.getPlayerList().get(this.playerNum).getDevelopmentCards()) {
-            adapter.add(Integer.toString(integer));
-        }
-        adapter.notifyDataSetChanged();
+        devCards.add("Dev 1");
+        devCards.add("dev 2");
 
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        devCardList.setAdapter(adapter);
 
         // array of dice image ids
         int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
@@ -1210,6 +1207,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberWoolPlus.setOnClickListener(this);
         robberWoolMinus.setOnClickListener(this);
 
+        List<String> spinnerList = new ArrayList<>(devCards);
+        adapter = new ArrayAdapter<String>(activity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
+        devCardList.setAdapter(adapter);
 
     }// setAsGui() END
 
