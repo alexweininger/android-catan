@@ -934,7 +934,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             }
         }
-        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
             this.messageTextView.setText(R.string.setup_phase); // set info message
 
