@@ -903,6 +903,18 @@ public class CatanGameState extends GameState{
 
     public boolean isHasMovedRobber() { return hasMovedRobber; }
 
+    public boolean[] getRobberPlayerListHasDiscarded() {
+        return robberPlayerListHasDiscarded;
+    }
+
+    public void setRobberPlayerListHasDiscarded(boolean[] robberPlayerListHasDiscarded) {
+        this.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
+    }
+
+    public void playerHasDiscardedResources(int playerId){
+        this.robberPlayerListHasDiscarded[playerId] = true;
+    }
+
     /*-------------------------------------toString------------------------------------------*/
 
     /**

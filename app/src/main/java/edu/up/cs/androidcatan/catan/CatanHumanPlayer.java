@@ -859,7 +859,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
-    //TODO Niraj
     private boolean tryMoveRobber(int hexId){
 
         if(hexId == -1){
