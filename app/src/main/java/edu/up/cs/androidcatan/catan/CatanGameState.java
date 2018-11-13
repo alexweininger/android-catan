@@ -650,7 +650,7 @@ public class CatanGameState extends GameState{
             }
             totalDiscarded += resourcesDiscarded[i];
         }
-        Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount()/2);
         if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
             return true;
         }
