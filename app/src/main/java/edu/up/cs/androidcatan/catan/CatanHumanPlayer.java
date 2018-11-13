@@ -1,6 +1,5 @@
 package edu.up.cs.androidcatan.catan;
 
-
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -66,9 +65,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // instance variables for logic
     private ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
-    private int currentBuildingSelectionId = 1;
     private float lastTouchDownXY[] = new float[2];
-    boolean debugMode = false;
+    private boolean debugMode = false;
     private boolean isMenuOpen = false;
 
     private int selectedHexagonId = -1;
@@ -205,9 +203,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group robberChooseHexGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
-
     public CatanGameState state = null; // game state
-
     private BoardSurfaceView boardSurfaceView;
 
     private int roadCount = 0; // counter variables
@@ -227,38 +223,39 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick (View button) {
-
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
         if (state == null) {
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
-        /* ---------- Turn Actions ---------- */
+        /* ----------------------------------- Turn Actions ------------------------------------- */
 
+        // Roll button on the sidebar.
         if (button.getId() == R.id.sidebar_button_roll) {
-            CatanRollDiceAction a = new CatanRollDiceAction(this);
-            Log.d(TAG, "onClick: Roll");
-            game.sendAction(a);
+            Log.d(TAG, "onClick: Roll button clicked.");
+            game.sendAction(new CatanRollDiceAction(this));
 
             if (state.getCurrentDiceSum() == 7) {
-                Log.i(TAG, "onClick: Robber has been activated");
-                Log.i(TAG, "onClick: Making Robber Visible");
+                Log.d(TAG, "onClick: Robber has been activated");
+                Log.d(TAG, "onClick: Making Robber Visible");
                 state.setRobberPhase(true);
             }
             return;
         }
 
+        // End turn button on the sidebar.
         if (button.getId() == R.id.sidebar_button_endturn) {
-            Log.d(TAG, "onClick: End Turn");
+            Log.d(TAG, "onClick: End Turn button pressed.");
 
             game.sendAction(new CatanEndTurnAction(this));
-            this.buildingsBuiltOnThisTurn = new ArrayList<>();
+            this.buildingsBuiltOnThisTurn = new ArrayList<>(); // reset array list
             return;
         }
 
-        /* ---------- Misc. Buttons ---------- */
+        /* -------------------------- Scoreboard and Menu Buttons Handlers ---------------------- */
 
+        // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
@@ -276,16 +273,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        // Score button on the sidebar.
         if (button.getId() == R.id.sidebar_button_score) {
             toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
             return;
         }
 
-        /*----------------------End of Turn and Misc. Actions----------*/
-
         /*-------------------- Robber onClick ------------------------*/
-
-
 
         if(button.getId() == R.id.robber_choosehex_confirm){
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
@@ -417,7 +411,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Road button on the sidebar.
         if (button.getId() == R.id.sidebar_button_road) {
-            currentBuildingSelectionId = 0;
             if (selectedIntersections.size() != 2) {
                 messageTextView.setText(R.string.need_2_ints_for_road);
             } else {
