@@ -12,7 +12,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanRobberStealAction extends GameAction {
     int playerId;
-    int stealId
+    int stealId;
     public CatanRobberStealAction(GamePlayer player, int playerId, int stealId) {
         super(player);
         this.playerId = playerId;

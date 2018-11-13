@@ -586,7 +586,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     return;
                 }
                 messageTextView.setText("You bought a dev card!");
-                CatanBuyDevCardAction action = new CatanBuyDevCardAction(this);
+                CatanBuyDevCardAction action = new CatanBuyDevCardAction(this, 0);
                 game.sendAction(action);
                 return;
             }
