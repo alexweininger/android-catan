@@ -69,8 +69,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private TextView messageTextView = (TextView) null;
 
-    private ArrayAdapter<String> adapter = (ArrayAdapter<String>) (null);
-
     private ArrayList<String> devCards = new ArrayList<>();
 
     /* ------------- Building Buttons -------------------- */
@@ -766,17 +764,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        devCards.add("Dev 1");
-        devCards.add("dev 2");
+        String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
+
+        for (int i = 0; i < state.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); i++) {
+            devCards.add(devCardNames[state.getPlayerList().get(this.playerNum).getDevelopmentCards().get(i)]);
+        }
+
+        List<String> spinnerList = new ArrayList<>(devCards);
+        devCardList.setAdapter(new ArrayAdapter<String>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
 
         // Apply the adapter to the spinner
-
         // array of dice image ids
         int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
 
         // set the dice ImageViews to the corresponding dice image of the current dice values
-        diceImageLeft.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[0]]);
-        diceImageRight.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[1]]);
+        diceImageLeft.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[0] - 1]);
+        diceImageRight.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[1] - 1]);
 
         if (this.state.getRobberPhase()) {
             this.messageTextView.setText(R.string.robber_phase);
@@ -871,6 +874,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.messageTextView.setText("Action phase.");
             setAllButtonsToVisible();
         }
+
+
 
         //Not
         if (this.playerNum != state.getCurrentPlayerId()){
@@ -1208,9 +1213,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberWoolMinus.setOnClickListener(this);
 
         List<String> spinnerList = new ArrayList<>(devCards);
-        adapter = new ArrayAdapter<String>(activity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
-        devCardList.setAdapter(adapter);
-
+        devCardList.setAdapter(new ArrayAdapter<String>(activity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
     }// setAsGui() END
 
     /**
