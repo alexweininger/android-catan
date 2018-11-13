@@ -146,11 +146,6 @@ public class CatanGameState extends GameState{
 
         Player player = this.playerList.get(playerId);
 
-        // check if player can build dev card
-        if (!player.hasResourceBundle(DevelopmentCard.resourceCost)) {
-            return false;
-        }
-
         // remove resources from players inventory (also does checks)
         if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) {
             return false;
@@ -176,6 +171,10 @@ public class CatanGameState extends GameState{
     }
 
     /*-------------------------------------Validation Methods------------------------------------------*/
+
+    public Player getCurrentPlayer() {
+        return this.playerList.get(this.currentPlayerId);
+    }
 
     /**
      * @param playerId -
