@@ -133,6 +133,12 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             game.sendAction(new CatanEndTurnAction(this));
         }
 
+        /*-------------------------------CPUs Roll Dice Action--------------------------------------*/
+        if (!gs.isSetupPhase() && !gs.isActionPhase()) {
+            sleep(300);
+            game.sendAction(new CatanRollDiceAction(this));
+            sleep(300);
+        }
 
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
         if(gs.isRobberPhase()){
@@ -185,15 +191,12 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             }
 
         }
-        if (!gs.isSetupPhase()) { /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
 
-            sleep(300);
-            game.sendAction(new CatanRollDiceAction(this));
-            sleep(300);
+        /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
+        Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+        game.sendAction(new CatanEndTurnAction(this));
+        // not setup phase if statement END
 
-            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-            game.sendAction(new CatanEndTurnAction(this));
-        } // not setup phase if statement END
 
     }// receiveInfo() END
 
@@ -224,3 +227,19 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     }
 
 } // CatanDumbComputerPlayer class END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
