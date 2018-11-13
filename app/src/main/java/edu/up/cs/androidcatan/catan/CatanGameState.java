@@ -684,6 +684,16 @@ public class CatanGameState extends GameState{
             hasDiscarded = true;
             hasMovedRobber = true;
         }
+        robberPlayerListHasDiscarded[playerId] = true;
+        return true;
+    }
+
+    public boolean allPlayersHaveDiscarded(){
+        for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
+            if(robberPlayerListHasDiscarded[i] == false){
+                return false;
+            }
+        }
         return true;
     }
 
