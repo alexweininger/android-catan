@@ -42,6 +42,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
@@ -460,11 +461,36 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ---------- Building confirmation buttons ---------- */
+        /* -------------------- Development Card Button OnClick() Handlers ---------------------- */
+
+        // Development button located on the sidebar. Should only show/hide dev card menu.
+        if (button.getId() == R.id.sidebar_button_devcards) {
+            toggleGroupVisibility(developmentGroup); // toggle menu vis.
+            return;
+        }
+
+        // Buy development card button on the dev card menu. This sends a BuyDevCard action to the game state.
+        if (button.getId() == R.id.build_devCard) {
+
+            // try to remove the resources required to buy a dev card from the players inventory
+            if (!state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(DevelopmentCard.resourceCost)) {
+                Log.i(TAG, "onClick: Player " + this.playerNum + " tried to buy a dev card. But does not have enough resources. (removeResourceBundle returned false.)");
+
+                // tell the user with the message text view
+                messageTextView.setText(R.string.not_enough_for_dev);
+
+                // shake the message text view
+                shake(messageTextView);
+                return;
+            }
+            Log.d(TAG, "onClick: Sending a CatanBuyDevCardAction to the game.");
+
+            // the CatanBuyDevCardAction holds the player, and the currently selected dev card id from the spinner.
+            game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
+        }
 
         // Use development card button on the dev card menu.
         if (button.getId() == R.id.use_Card) {
-            // todo, validate the player can use the card. e.g. they have it etc. and then send the action
 
             // this long af expression does this: gets the spinner position and checks if the player has that specific dev card in their dev card list
             if (state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(devCardList.getSelectedItemPosition())) {
@@ -799,8 +825,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return false;
         }
 
+        if (!state.getCurrentPlayer().hasResourceBundle(City.resourceCost)) {
+            messageTextView.setText(R.string.not_enough_for_city);
+            shake(messageTextView);
+            Log.d(TAG, "tryBuildCity() returned: " + false);
+            return false;
+        }
+
         if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
-            Log.i(TAG, "onClick: building location is valid. Sending a BuildCityAction to the game.");
+            Log.d(TAG, "onClick: building location is valid. Sending a BuildCityAction to the game.");
             this.buildingsBuiltOnThisTurn.add(2);
 
             game.sendAction(new CatanBuildCityAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection));
@@ -843,7 +876,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (tradingWith == null) {
-            this.messageTextView.setText("Selected intersection does not have port access.");
+            this.messageTextView.setText(R.string.no_port_access);
             Log.d(TAG, "tryTradeWithPort() returned: " + false);
             return false;
         }
@@ -887,12 +920,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
 
+        if (!devCards.isEmpty()) {
+            devCards.clear();
+        }
         for (int i = 0; i < state.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); i++) {
             devCards.add(devCardNames[state.getPlayerList().get(this.playerNum).getDevelopmentCards().get(i)]);
         }
 
         List<String> spinnerList = new ArrayList<>(devCards);
-        devCardList.setAdapter(new ArrayAdapter<String>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
+        devCardList.setAdapter(new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
 
         // Apply the adapter to the spinner
         // array of dice image ids
@@ -1085,12 +1121,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
 
         // current turn indicator (sidebar menu)
-        this.currentTurnIdTextView.setText(String.valueOf( getAllPlayerNames()[state.getCurrentPlayerId()]));
+        this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
 
         /* -------- animations ----------- */
+        this.playerNameSidebar.setTextColor(Color.RED);
 
-        if (this.state.getCurrentPlayerId() == 0) {
-            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 250, 250);
+        if (this.state.getCurrentPlayerId() == this.playerNum) {
+            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 300, 100);
         }
 
     } // updateTextViews END
@@ -1535,11 +1572,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     /**
-     *
      * @return names of all the players in the game
      */
-    public String[] getAllPlayerNames()
-    {
+    public String[] getAllPlayerNames () {
         return super.allPlayerNames;
     }
 

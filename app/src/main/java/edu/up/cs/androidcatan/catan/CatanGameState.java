@@ -147,17 +147,8 @@ public class CatanGameState extends GameState{
      * @return - Action success.
      */
     public boolean buyDevCard (int playerId) {
-        // check if player id is valid and if action phase of players turn
-        if (!valAction(playerId)) {
-            return false;
-        }
 
         Player player = this.playerList.get(playerId);
-
-        // check if player can build dev card
-        if (!player.hasResourceBundle(DevelopmentCard.resourceCost)) {
-            return false;
-        }
 
         // remove resources from players inventory (also does checks)
         if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) {
@@ -184,6 +175,10 @@ public class CatanGameState extends GameState{
     }
 
     /*-------------------------------------Validation Methods------------------------------------------*/
+
+    public Player getCurrentPlayer() {
+        return this.playerList.get(this.currentPlayerId);
+    }
 
     /**
      * @param playerId -
@@ -348,17 +343,16 @@ public class CatanGameState extends GameState{
             return false;
         }
 
-        int rollNum = 7;//dice.roll();
-        this.currentDiceSum = rollNum;
-        Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + rollNum);
+        this.currentDiceSum = dice.roll();
+        Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
         // if the robber is rolled
-        if (rollNum == 7) {
+        if (this.currentDiceSum == 7) {
             // todo activate robber
             Log.i(TAG, "rollDice: The robber has been activated.");
             this.isRobberPhase = true;
         } else {
             Log.i(TAG, "rollDice: Calling the produceResources method.");
-            produceResources(rollNum);
+            produceResources(this.currentDiceSum);
         }
 
         Log.i(TAG, "rollDice: Set isActionPhase to true.");
@@ -641,10 +635,7 @@ public class CatanGameState extends GameState{
             totalDiscarded += resourcesDiscarded[i];
         }
         Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount()/2);
-        if(totalDiscarded == playerList.get(playerId).getTotalResourceCardCount()/2){
-            return true;
-        }
-        return false;
+        return totalDiscarded == playerList.get(playerId).getTotalResourceCardCount() / 2;
     }
 
     /**
