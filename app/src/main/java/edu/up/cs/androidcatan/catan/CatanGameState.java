@@ -139,10 +139,6 @@ public class CatanGameState extends GameState{
      * @return - Action success.
      */
     public boolean buyDevCard (int playerId) {
-        // check if player id is valid and if action phase of players turn
-        if (!valAction(playerId)) {
-            return false;
-        }
 
         Player player = this.playerList.get(playerId);
 
