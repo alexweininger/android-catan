@@ -11,11 +11,14 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.Random;
 
 import edu.up.cs.androidcatan.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * dice class - done for now 10/10
