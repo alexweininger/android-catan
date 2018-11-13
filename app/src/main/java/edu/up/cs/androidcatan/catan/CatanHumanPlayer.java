@@ -295,9 +295,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_trade) {
 
             if (selectedIntersections.size() == 0) {
-//                if (tryTradeWithBank()) {
-//
-//                }
+                //                if (tryTradeWithBank()) {
+                //
+                //                }
             } else if (selectedIntersections.size() == 1) {
 
             }
@@ -472,25 +472,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (selectedIntersections.size() == 1) {
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with port");
-                }else
-                {
+                } else {
                     Log.e(TAG, "onClick: trade with port failed");
                 }
-            }
-            else if(selectedIntersections.size() == 0)
-            {
-                if(tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection))
-                {
+            } else if (selectedIntersections.size() == 0) {
+                if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with bank");
-                }else
-                {
+                } else {
                     Log.e(TAG, "onClick: tade with bank failed");
                 }
-            }else if(selectedIntersections.size() > 1)
-            {
+            } else if (selectedIntersections.size() > 1) {
                 Log.e(TAG, "onClick: user has selected too many intersections");
-            }else
-            {
+            } else {
                 Log.e(TAG, "onClick: logic error, becuase selectedIntersections.size() is negative or null");
             }
         }
@@ -615,38 +608,39 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
 
-        if (!state.isSetupPhase()) {
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceBundle(Road.resourceCost)) {
-                messageTextView.setText(R.string.not_enough_for_road);
-            }
-        }
-
         // check if user given intersections are valid
-        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
-            Log.i(TAG, "tryBuildRoad: Valid road placement received.");
-
-            if (state.isSetupPhase()) { // todo remove
-                // add just enough resources so player can build a road
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
-            }
-            // send build settlement action to the game
-            Log.e(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
-            game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
-
-            boardSurfaceView.getGrid().clearHighLightedIntersections();
-            selectedIntersections.clear(); // clear the selected intersections
-
-            this.buildingsBuiltOnThisTurn.add(0);
-            // return true
-            Log.d(TAG, "tryBuildRoad() returned: " + true);
-            return true;
-        } else {
-            messageTextView.setText("Invalid road location.");
-            Log.e(TAG, "tryBuildSettlement: Returning false.");
-            shake(messageTextView);
+        if (!state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
+            messageTextView.setText(R.string.invalid_road_placement);
+            Log.d(TAG, "tryBuildRoad() returned: " + false);
             return false;
         }
+        Log.i(TAG, "tryBuildRoad: Valid road placement received.");
+
+        if (state.isSetupPhase()) {
+            // add just enough resources so player can build a road
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(0, 1); // give 1 brick
+            state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(2, 1); // give 1 lumber
+        } else {
+            // if it is not the setup phase check if the player has enough resources to build a road
+            if (!state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
+                Log.i(TAG, "tryBuildRoad: player does not have enough resources to build a road.");
+                messageTextView.setText(R.string.not_enough_for_road);
+                Log.d(TAG, "tryBuildRoad() returned: " + false);
+                return false;
+            }
+        }
+
+        // send build settlement action to the game
+        Log.d(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
+        game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
+
+        boardSurfaceView.getGrid().clearHighLightedIntersections();
+        selectedIntersections.clear(); // clear the selected intersections
+        this.buildingsBuiltOnThisTurn.add(0);
+
+        // return true
+        Log.d(TAG, "tryBuildRoad() returned: " + true);
+        return true;
     }
 
     /**
@@ -710,8 +704,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
 
-
-
         for (Port port : ports) {
             if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
                 tradingWith = port;
@@ -740,15 +732,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private boolean tryTradeWithBank (int resourceGiving, int resourceReceiving) {
 
-        if(state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0)
-        {
+        if (state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0) {
             state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(resourceGiving, 4);
             state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(resourceReceiving, 1);
             //Log.d(TAG, "tryTradeWithBank: removed 4 " + resourceGiving + " from player " + state.getPlayerList().get(state.getCurrentPlayerId())) + " and added 1 " + resourceReceiving + " to player " + state.getPlayerList().get(state.getCurrentPlayerId());
             return true;
-        }
-        else
-        {
+        } else {
             Log.d(TAG, "tryTradeWithBank: player " + state.getPlayerList().get(state.getCurrentPlayerId()) + " would have have enough " + resourceGiving + " to comeplete trade");
             return false;
         }
@@ -875,10 +864,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             setAllButtonsToVisible();
         }
 
-
-
         //Not
-        if (this.playerNum != state.getCurrentPlayerId()){
+        if (this.playerNum != state.getCurrentPlayerId()) {
 
             this.rollButton.setAlpha(0.5f);
             this.rollButton.setClickable(false);
