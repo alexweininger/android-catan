@@ -283,39 +283,39 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.isHasMovedRobber()) {
                 if (selectedIntersections.size() != 1) {
                     robberHexMessage.setText("Please select only one intersection.");
+                    messageTextView.setText(R.string.select_one_intersection);
                     return;
                 }
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
                     robberHexMessage.setText("Please select an intersection with a building owned by another player on it.");
+                    messageTextView.setText(R.string.select_int_w_bldg_robber);
                     return;
                 }
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
                     robberHexMessage.setText("Please select an intersection not owned by you.");
+                    messageTextView.setText(R.string.select_int_not_owned_by_you);
                     return;
                 }
 
                 int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                CatanRobberStealAction action = new CatanRobberStealAction(this, playerNum, stealId);
                 robberChooseHexGroup.setVisibility(View.GONE);
-                game.sendAction(action);
+                game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
                 return;
             }
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
-                Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
-                robberHexMessage.startAnimation(shake);
-                robberHexMessage.setText("Not a valid tile!");
+                robberHexMessage.setText(R.string.invalid_tile);
+                shake(robberHexMessage);
+                messageTextView.setText(R.string.invalid_tile);
+                shake(messageTextView);
                 return;
             }
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.GONE);
             robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
-            CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, selectedHexagonId);
-            game.sendAction(action);
-
+            game.sendAction(new CatanRobberMoveAction(this, playerNum, selectedHexagonId));
             return;
-
         }
 
         if (button.getId() == R.id.robber_discard_confirm) {
@@ -326,20 +326,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
                 robberDiscardGroup.setVisibility(View.GONE);
 
-                robberBrickAmount.setText("00");
-                robberLumberAmount.setText("00");
-                robberGrainAmount.setText("00");
-                robberOreAmount.setText("00");
-                robberWoolAmount.setText("00");
+                robberBrickAmount.setText(R.string.zero);
+                robberLumberAmount.setText(R.string.zero);
+                robberGrainAmount.setText(R.string.zero);
+                robberOreAmount.setText(R.string.zero);
+                robberWoolAmount.setText(R.string.zero);
 
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
-                CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources);
-                game.sendAction(action);
+                game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 return;
             }
 
             String message = "" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources are needed.";
             robberDiscardMessage.setText(message);
+            messageTextView.setText(message);
+            shake(messageTextView);
             return;
         }
 

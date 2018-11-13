@@ -135,6 +135,11 @@
     <string name="setup_phase_complete">Setup turn complete. Please end your turn.</string>
     <string name="not_enough_for_city">Not enough resources to built a city.</string>
     <string name="no_port_access">Selected intersection does not have port access.</string>
+    <string name="select_one_intersection">Please select only one intersection.</string>
+    <string name="select_int_w_bldg_robber">Please select an intersection with a building owned by another player on it.</string>
+    <string name="select_int_not_owned_by_you">Please select an intersection not owned by you.</string>
+    <string name="invalid_tile">Not a valid tile!</string>
+    <string name="zero">00</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
