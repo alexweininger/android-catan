@@ -36,6 +36,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.graphics.BoardSurfaceView;
 import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
@@ -366,14 +367,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.build_devCard) {
 
             // try to remove the resources required to buy a dev card from the players inventory
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceBundle(DevelopmentCard.resourceCost)) {
-                Log.d(TAG, "onClick: Sending a CatanBuyDevCardAction to the game.");
-
-                // the CatanBuyDevCardAction holds the player, and the currently selected dev card id from the spinner.
-                game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
-                return;
-            } else {
-                // else: meaning the player does not have enough resources to buy dev card
+            if (!state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(DevelopmentCard.resourceCost)) {
                 Log.i(TAG, "onClick: Player " + this.playerNum + " tried to buy a dev card. But does not have enough resources. (removeResourceBundle returned false.)");
 
                 // tell the user with the message text view
@@ -383,6 +377,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 shake(messageTextView);
                 return;
             }
+            Log.d(TAG, "onClick: Sending a CatanBuyDevCardAction to the game.");
+
+            // the CatanBuyDevCardAction holds the player, and the currently selected dev card id from the spinner.
+            game.sendAction(new CatanBuyDevCardAction(this, devCardList.getSelectedItemPosition()));
         }
 
         // Use development card button on the dev card menu.
@@ -691,8 +689,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return false;
         }
 
+        if (!state.getCurrentPlayer().hasResourceBundle(City.resourceCost)) {
+            messageTextView.setText(R.string.not_enough_for_city);
+            shake(messageTextView);
+            Log.d(TAG, "tryBuildCity() returned: " + false);
+            return false;
+        }
+
         if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
-            Log.i(TAG, "onClick: building location is valid. Sending a BuildCityAction to the game.");
+            Log.d(TAG, "onClick: building location is valid. Sending a BuildCityAction to the game.");
             this.buildingsBuiltOnThisTurn.add(2);
 
             game.sendAction(new CatanBuildCityAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection));
@@ -712,7 +717,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         if (tradingWith == null) {
-            this.messageTextView.setText("Selected intersection does not have port access.");
+            this.messageTextView.setText(R.string.no_port_access);
             Log.d(TAG, "tryTradeWithPort() returned: " + false);
             return false;
         }
@@ -937,12 +942,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
 
         // current turn indicator (sidebar menu)
-        this.currentTurnIdTextView.setText(String.valueOf( getAllPlayerNames()[state.getCurrentPlayerId()]));
+        this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
 
         /* -------- animations ----------- */
+        this.playerNameSidebar.setTextColor(Color.RED);
 
-        if (this.state.getCurrentPlayerId() == 0) {
-            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 250, 250);
+        if (this.state.getCurrentPlayerId() == this.playerNum) {
+            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 300, 100);
         }
 
     } // updateTextViews END
@@ -1324,11 +1330,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     }
 
     /**
-     *
      * @return names of all the players in the game
      */
-    public String[] getAllPlayerNames()
-    {
+    public String[] getAllPlayerNames () {
         return super.allPlayerNames;
     }
 
