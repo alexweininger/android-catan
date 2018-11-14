@@ -588,11 +588,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     if(button.getId() == R.id.pickResMenu_ConfirmButton)
                     {
                         Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
-
+                        game.sendAction(new CatanUseMonopolyCardAction(this, 1)); // todo
+                        toggleGroupVisibilityAllowTapping(monopolyPickGroup);
+                        return;
                     }
-
-                    game.sendAction(new CatanUseMonopolyCardAction(this, 1)); // todo
-                    return;
                 }
 
                 if (developmentCardId == 4) {
