@@ -166,7 +166,7 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanUseMonopolyCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //gameState.getCurrentPlayer().addResourceCard();
+            gameState.getCurrentPlayer().addResourceCard(((CatanUseMonopolyCardAction) action).getChosenResource(), ((CatanUseMonopolyCardAction) action).getPlayer2Resource() + ((CatanUseMonopolyCardAction) action).getPlayer3Resource() + ((CatanUseMonopolyCardAction) action).getPlayer4Resource());
 
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
         }
