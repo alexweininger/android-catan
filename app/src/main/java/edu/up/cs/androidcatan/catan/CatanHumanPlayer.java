@@ -510,9 +510,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Development button located on the sidebar. Should only show/hide dev card menu.
         if (button.getId() == R.id.sidebar_button_devcards) {
 
-            state.getCurrentPlayer().addResourceCard(1, 2);
-            state.getCurrentPlayer().addResourceCard(3, 2);
-            state.getCurrentPlayer().addResourceCard(4, 2);
+//            state.getCurrentPlayer().addResourceCard(1, 2);
+//            state.getCurrentPlayer().addResourceCard(3, 2);
+//            state.getCurrentPlayer().addResourceCard(4, 2);
 
             toggleGroupVisibility(developmentGroup); // toggle menu vis.
             return;
