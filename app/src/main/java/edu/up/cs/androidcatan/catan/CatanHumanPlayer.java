@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -319,9 +318,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, state.toString());
             return;
         }
-
         // Score button on the sidebar.
-        toggleGroupVisibilityAllowTapping(scoreBoardGroup);
+        if (button.getId() == R.id.sidebar_button_score) {
+            toggleGroupVisibilityAllowTapping(scoreBoardGroup);
+        }
+
 
         /*--------------------------------- Robber onClick --------------------------------*/
 
