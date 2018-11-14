@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.provider.ContactsContract;
 import android.support.constraint.Group;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -190,6 +191,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button button_trade_menu_cancel = (Button) null;
     private int tradeGiveSelection = -1;
     private int tradeReceiveSelection = -1;
+
+    //Monopoly Menu - Resource Icons
+    private Button monopolyBrickIcon = (Button) null;
+    private Button monopolyGrainIcon = (Button) null;
+    private Button monopolyLumberIcon = (Button) null;
+    private Button monopolyOreIcon = (Button) null;
+    private Button monopolyWoolIcon = (Button) null;
+
+    //Monopoly Menu - SelectionBoxes
+    private ImageView monopolyBrickSelectionBox = (ImageView) null;
+    private ImageView monopolyGrainSelcionBox = (ImageView) null;
+    private ImageView monopolyLumberSelectionBox = (ImageView) null;
+    private ImageView monopolyOreSelectionBox = (ImageView) null;
+    private ImageView monopolyWoolSelectionBox = (ImageView) null;
+
+    //Monopoly Menu - Confrim
+    private TextView monopolyConfirm = (TextView) null;
+    private int monopolyResourceChoice = -1;
 
     //Dev Card Menu
     private TextView devcard_text_name = (TextView) null;
@@ -642,6 +661,38 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.button_trade_menu_cancel) {
             toggleGroupVisibility(tradeGroup);
+        }
+
+
+
+        /*----------------Monopoly-----------------------------*/
+        ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
+
+        for(ImageView imageView : monopolySelectionBox)
+        {
+            imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
+
+        int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon,R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
+
+        for(int i = 0; i < 5; i++)
+        {
+            if(button.getId() == monopolyResourceIds[i])
+            {
+                monopolyResourceChoice = i;
+                break;
+            }
+        }
+
+        if(monopolyResourceChoice != -1)
+        {
+            monopolySelectionBox[monopolyResourceChoice].setBackgroundColor(Color.argb(255, 255, 255, 187));
+        }
+
+        if(button.getId() == R.id.pickResMenu_ConfirmButton)
+        {
+            Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
+
         }
 
     } // onClick END
@@ -1512,7 +1563,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         devCardList.setAdapter(new ArrayAdapter<>(activity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
 
         messageTextView.setTextColor(Color.WHITE);
+
+        /*--------------------------Monopoly---------------------------------*/
+        monopolyBrickIcon = activity.findViewById(R.id.pickResMenu_brickIcon);
+        monopolyGrainIcon = activity.findViewById(R.id.pickResMenu_grainIcon);
+        monopolyLumberIcon = activity.findViewById(R.id.pickResMenu_lumberIcon);
+        monopolyOreIcon = activity.findViewById(R.id.pickResMenu_oreIcon);
+        monopolyWoolIcon = activity.findViewById(R.id.pickResMenu_woolIcon);
+
+        monopolyBrickSelectionBox = activity.findViewById(R.id.pickResMenu_brickSelectionBox);
+        monopolyGrainSelcionBox = activity.findViewById(R.id.pickResMenu_grainSelectionBox);
+        monopolyLumberSelectionBox = activity.findViewById(R.id.pickResMenu_lumberSelectionBox);
+        monopolyOreSelectionBox = activity.findViewById(R.id.pickResMenu_oreSelectionBox);
+        monopolyWoolSelectionBox = activity.findViewById(R.id.pickResMenu_woolSelectionBox);
+
+        monopolyConfirm = activity.findViewById(R.id.pickResMenu_ConfirmButton);
+
+
+
     }// setAsGui() END
+
 
     /**
      *
@@ -1541,7 +1611,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     protected void gameIsOver (String message) {
         for (int i = 0; i < this.state.getPlayerVictoryPoints().length; i++) {
             if (this.state.getPlayerVictoryPoints()[i] > 9) {
-                super.gameIsOver("Player " + i + " wins!");
+                super.gameIsOver(getAllPlayerNames()[i] + " wins!");
             }
         }
     } // gameIsOver END
