@@ -96,7 +96,6 @@
         android:id="@+id/group_pickResourceMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:constraint_referenced_ids="pickResMenu_monopolyHorizontalGuideline,pickResMenu_grainIcon,pickResMenu_oreSelectionBox,pickResMenu_lumberIcon,pickResMenu_woolIcon,pickResMenu_monopolyVerticalGuideLine,pickResMenu_oreIcon,pickResMenu_ConfirmButton,pickResMenu_woolSelectionBox,pickResMenu_brickIcon,pickResMenu_lumberSelectionBox,pickResMenu_brickSelectionBox,pickResMenu_grainSelectionBox" />
 
     <android.support.constraint.Guideline
@@ -1467,6 +1466,7 @@
         android:textAlignment="gravity"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
 
