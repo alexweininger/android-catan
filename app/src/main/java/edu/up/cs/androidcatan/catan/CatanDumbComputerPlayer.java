@@ -129,7 +129,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         } // setup phase if statement END
 
         if (gs.isSetupPhase() && settlementCount == 2 && roadCount == 2) {
-            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction because it is the setup phase and they already have 2 roads and 2 settlements.");
             game.sendAction(new CatanEndTurnAction(this));
         }
 
