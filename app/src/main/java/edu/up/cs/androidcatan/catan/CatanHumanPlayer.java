@@ -222,6 +222,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group tradeGroup = (Group) null;
     private Group robberDiscardGroup = (Group) null;
     private Group robberChooseHexGroup = (Group) null;
+    private Group monopolyPickGroup = (Group) null;
 
     private GameMainActivity myActivity;  // the android activity that we are running
     public CatanGameState state = null; // game state
@@ -544,8 +545,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
 
-
+                //year of plenty
                 if (developmentCardId == 2) {
+
+                    game.sendAction(new CatanUseYearOfPlentyCardAction(this, 1)); // todo
+                    return;
+                }
+
+                //
+                if (developmentCardId == 3) {
+                    toggleGroupVisibility(monopolyPickGroup);
                     for(ImageView imageView : monopolySelectionBox)
                     {
                         imageView.setBackgroundColor(Color.TRANSPARENT);
@@ -555,11 +564,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                     for(int i = 0; i < 5; i++)
                     {
-//                        if(Button.getId() == monopolyResourceIds[i])
-//                        {
-//                            monopolyResourceChoice = i;
-//                            break;
-//                        }
+                        if(button.getId() == monopolyResourceIds[i])
+                        {
+                            monopolyResourceChoice = i;
+                            break;
+                        }
                     }
 
                     if(monopolyResourceChoice != -1)
@@ -572,12 +581,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
 
                     }
-
-                    game.sendAction(new CatanUseYearOfPlentyCardAction(this, 1)); // todo
-                    return;
-                }
-
-                if (developmentCardId == 3) {
 
                     game.sendAction(new CatanUseMonopolyCardAction(this, 1)); // todo
                     return;
@@ -1603,6 +1606,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         monopolyOreIcon.setOnClickListener(this);
         monopolyWoolIcon = activity.findViewById(R.id.pickResMenu_woolIcon);
         monopolyWoolIcon.setOnClickListener(this);
+
+        monopolyPickGroup = activity.findViewById(R.id.group_pickResourceMenu);
+        monopolyPickGroup.setOnClickListener(this);
 
         monopolyBrickSelectionBox = activity.findViewById(R.id.pickResMenu_brickSelectionBox);
         monopolyGrainSelcionBox = activity.findViewById(R.id.pickResMenu_grainSelectionBox);
