@@ -327,6 +327,22 @@ public class Board {
         return 0;
     }
 
+    public int travelRoads(ArrayList<Player> playerList){
+        for (Player player: playerList){
+            ArrayList<Road> playerRoad = new ArrayList<>();
+            for (Road road: roads){
+                if (road.getOwnerId() == player.getPlayerId()){
+                    playerRoad.add(road);
+                }
+            }
+            for (int n = 0; n < playerRoad.size(); n++){
+
+            }
+        }
+        return -1;
+    }
+
+
     /* ----- validate building methods ----- */
 
     /**

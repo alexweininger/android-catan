@@ -161,16 +161,39 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanUseRoadBuildingCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            gameState.getCurrentPlayer().addResourceCard(0,2);
+            gameState.getCurrentPlayer().addResourceCard(2,2);
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 4);
         }
 
         if (action instanceof CatanUseMonopolyCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
+            int totalResources = 0;
+
+            int resourceId = ((CatanUseMonopolyCardAction) action).getChosenResource();
+
+            for (Player player : gameState.getPlayerList()) {
+                int resCount = player.getResourceCards()[resourceId];
+                player.removeResourceCard(resourceId, resCount);
+                totalResources += resCount;
+            }
+
+//            gameState.getPlayerL
+//
+//            for (int n = 0; n < gameState.getPlayerList().size(); n++){
+//                if (gameState.getPlayerList().get(n).getPlayerId() != gameState.getCurrentPlayerId()){
+//                    totalResources += gameState.getPlayerList().get(n).getResourceCards()[((CatanUseMonopolyCardAction) action).getChosenResource()];
+//                    gameState.getPlayerList().get(n).removeResourceCard(((CatanUseMonopolyCardAction) action).getChosenResource(), totalResources);
+//                }
+//            }
+            gameState.getCurrentPlayer().addResourceCard(resourceId, totalResources);
+
+//            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
         }
 
         if (action instanceof CatanUseYearOfPlentyCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            gameState.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 2);
         }
 

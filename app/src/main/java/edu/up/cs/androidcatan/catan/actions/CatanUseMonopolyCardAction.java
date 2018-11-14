@@ -7,8 +7,18 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanUseMonopolyCardAction extends GameAction {
     private static final String TAG = "CatanUseMonopolyCardAction";
-    public CatanUseMonopolyCardAction(GamePlayer player){
+    private int chosenResource;
+
+
+    public CatanUseMonopolyCardAction(GamePlayer player, int chosenResource){
         super(player);
+        this.chosenResource = chosenResource;
+
         Log.d(TAG, "CatanUseMonopolyCardAction called");
     }
+
+    public int getChosenResource() {
+        return chosenResource;
+    }
+
 }
