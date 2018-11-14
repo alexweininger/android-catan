@@ -134,7 +134,7 @@ public class CatanLocalGame extends LocalGame {
             return gameState.buildCity(gameState.getCurrentPlayerId(), ((CatanBuildCityAction) action).getIntersectionId());
         }
 
-/*----------------------------------Dev Card Actions---------------------------------------------*/
+        /*----------------------------------Dev Card Actions---------------------------------------------*/
 
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -147,26 +147,26 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
-        if (action instanceof CatanUseKnightCardAction){
+        if (action instanceof CatanUseKnightCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 0);
         }
 
-        if (action instanceof CatanUseVictoryPointCardAction){
+        if (action instanceof CatanUseVictoryPointCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
             gameState.getPlayerList().get(gameState.getCurrentPlayerId()).addVictoryPointsDevCard();
             return true;
         }
 
-        if (action instanceof CatanUseRoadBuildingCardAction){
+        if (action instanceof CatanUseRoadBuildingCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            gameState.getCurrentPlayer().addResourceCard(0,2);
-            gameState.getCurrentPlayer().addResourceCard(2,2);
+            gameState.getCurrentPlayer().addResourceCard(0, 2);
+            gameState.getCurrentPlayer().addResourceCard(2, 2);
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 4);
         }
 
-        if (action instanceof CatanUseMonopolyCardAction){
+        if (action instanceof CatanUseMonopolyCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             int totalResources = 0;
 
@@ -178,26 +178,18 @@ public class CatanLocalGame extends LocalGame {
                 totalResources += resCount;
             }
 
-//            gameState.getPlayerL
-//
-//            for (int n = 0; n < gameState.getPlayerList().size(); n++){
-//                if (gameState.getPlayerList().get(n).getPlayerId() != gameState.getCurrentPlayerId()){
-//                    totalResources += gameState.getPlayerList().get(n).getResourceCards()[((CatanUseMonopolyCardAction) action).getChosenResource()];
-//                    gameState.getPlayerList().get(n).removeResourceCard(((CatanUseMonopolyCardAction) action).getChosenResource(), totalResources);
-//                }
-//            }
             gameState.getCurrentPlayer().addResourceCard(resourceId, totalResources);
 
-//            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
+            return true;
         }
 
-        if (action instanceof CatanUseYearOfPlentyCardAction){
+        if (action instanceof CatanUseYearOfPlentyCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             gameState.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 2);
         }
 
-/*----------------------------------Robber Actions-----------------------------------------------*/
+        /*----------------------------------Robber Actions-----------------------------------------------*/
         if (action instanceof CatanRobberDiscardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getRobberDiscardedResources());
@@ -210,7 +202,7 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealId());
         }
-/*---------------------------------- Trade Actions -----------------------------------------------*/
+        /*---------------------------------- Trade Actions -----------------------------------------------*/
 
         if (action instanceof CatanTradeAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -220,12 +212,12 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanTradeWithBankAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.tradeWithBank(gameState.getCurrentPlayerId(),((CatanTradeWithBankAction) action).getResourceIdGiving() , ((CatanTradeWithBankAction) action).getResourceIdRec());
+            return gameState.tradeWithBank(gameState.getCurrentPlayerId(), ((CatanTradeWithBankAction) action).getResourceIdGiving(), ((CatanTradeWithBankAction) action).getResourceIdRec());
         }
 
         if (action instanceof CatanTradeWithPortAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-//            return gameState.tradeWithPort(gameState.getCurrentPlayerId());
+            //            return gameState.tradeWithPort(gameState.getCurrentPlayerId());
         }
 
         // if we reach here, the GameAction object we received is not one that we recognize
@@ -233,7 +225,7 @@ public class CatanLocalGame extends LocalGame {
         return false;
     }
 
-    public String getPlayerName(int playerId){
+    public String getPlayerName (int playerId) {
         return this.playerNames[playerId];
     }
 }
