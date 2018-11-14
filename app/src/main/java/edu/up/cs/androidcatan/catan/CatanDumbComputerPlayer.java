@@ -45,7 +45,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         CatanGameState gs = (CatanGameState) info;
 
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
-        if (gs.getCurrentPlayerId() != this.playerNum) return;
 
         Random random = new Random();
         int settlementCount = 0;
@@ -68,7 +67,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
 
         /*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
-        if (gs.isSetupPhase() && (roadCount < 2 || settlementCount < 2)) {
+        if (gs.isSetupPhase() && (roadCount < 2 || settlementCount < 2) && gs.getCurrentPlayerId() == this.playerNum) {
 
             Log.i(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road.");
 
@@ -128,7 +127,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             }
         } // setup phase if statement END
 
-        if (gs.isSetupPhase() && settlementCount == 2 && roadCount == 2) {
+        if (gs.isSetupPhase() && settlementCount == 2 && roadCount == 2 && gs.getCurrentPlayerId() == playerNum) {
             Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
             game.sendAction(new CatanEndTurnAction(this));
         }
@@ -136,7 +135,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         /*------------------------------Setup Phase End------------------------------------------*/
 
         /*-------------------------------CPUs Roll Dice Action--------------------------------------*/
-        if (!gs.isSetupPhase() && !gs.isActionPhase()) {
+        if (!gs.isSetupPhase() && !gs.isActionPhase() && gs.getCurrentPlayerId() == playerNum) {
             sleep(300);
             game.sendAction(new CatanRollDiceAction(this));
             sleep(300);
