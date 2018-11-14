@@ -33,25 +33,11 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <android.support.constraint.Group
-        android:id="@+id/group_road_intersection_selection_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="end_road_id_entered,selectRoadIntersectionText,start_road_id_entered,button_roadOk,button_roadCancel" />
-
-    <android.support.constraint.Group
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectionBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,brickSelectionBoxGive,woolSelectionBoxReceive,image_trade_menu_rec_brick,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
-
-    <android.support.constraint.Group
-        android:id="@+id/group_singleIntersectionInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="editText_singleIntersectionInput,selectIntersectionText,button_singleIntersectionMenuOk,button_singleIntersectionMenuCancel" />
 
     <android.support.constraint.Group
         android:id="@+id/group_static_sidebar_menu"
@@ -73,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
+        app:constraint_referenced_ids="development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
 
@@ -106,6 +92,12 @@
         app:layout_constraintGuide_percent="0.68" />
 
 
+    <android.support.constraint.Group
+        android:id="@+id/group_pickResourceMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="pickResMenu_monopolyHorizontalGuideline,pickResMenu_grainIcon,pickResMenu_oreSelectionBox,pickResMenu_lumberIcon,pickResMenu_woolIcon,pickResMenu_monopolyVerticalGuideLine,pickResMenu_oreIcon,pickResMenu_ConfirmButton,pickResMenu_woolSelectionBox,pickResMenu_brickIcon,pickResMenu_lumberSelectionBox,pickResMenu_brickSelectionBox,pickResMenu_grainSelectionBox" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline_bottom_83"
         android:layout_width="wrap_content"
@@ -118,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.84" />
+        app:layout_constraintGuide_percent="0.7" />
 
 
     <android.support.constraint.Guideline
@@ -254,54 +246,38 @@
         android:layout_marginTop="8dp"
         android:alpha="255"
         android:background="@android:color/background_light"
+        android:dropDownWidth="match_parent"
+        android:paddingStart="4dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="4dp"
         android:spinnerMode="dropdown"
-        android:theme="@android:style/Widget.DeviceDefault.Light.DropDownItem.Spinner"
         app:layout_constraintEnd_toEndOf="@+id/use_Card"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/use_Card"
-        app:layout_constraintTop_toBottomOf="@+id/use_Card" />
-
-    <TextView
-        android:id="@+id/development_Card_Name"
-        android:layout_width="218dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/white"
-        android:padding="8dp"
-        android:text="@string/development_Card_Name"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
-        app:layout_constraintStart_toStartOf="@+id/guideline_right_68"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/build_devCard" />
 
     <TextView
         android:id="@+id/development_Card_Info"
-        android:layout_width="221dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@android:color/white"
+        android:layout_marginEnd="8dp"
+        android:minHeight="0dp"
         android:padding="8dp"
-        android:text="@string/development_Card_Info"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/development_Card_Name"
-        app:layout_constraintStart_toStartOf="@+id/development_Card_Name"
-        app:layout_constraintTop_toBottomOf="@+id/development_Card_Name" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/use_Card"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
-        android:layout_marginTop="8dp"
-        android:alpha="255"
         android:text="@string/Use_Button"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/development_Card_Info"
-        app:layout_constraintStart_toStartOf="@+id/development_Card_Name"
+        app:layout_constraintStart_toStartOf="@+id/development_Card_Info"
         app:layout_constraintTop_toBottomOf="@+id/development_Card_Info" />
 
     <!--dev card menu END-->
@@ -726,11 +702,10 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
-        android:layout_marginTop="8dp"
         android:text="@string/buildDevelopment"
-        app:layout_constraintEnd_toEndOf="@+id/development_Card_Spinner"
-        app:layout_constraintStart_toStartOf="@+id/development_Card_Spinner"
-        app:layout_constraintTop_toBottomOf="@+id/development_Card_Spinner" />
+        app:layout_constraintEnd_toEndOf="@+id/use_Card"
+        app:layout_constraintStart_toStartOf="@+id/use_Card"
+        app:layout_constraintTop_toBottomOf="@+id/use_Card" />
 
     <ImageView
         android:id="@+id/brick_icon"
@@ -808,173 +783,12 @@
 
     <!-- trade menu END -->
 
-    <!--intersectionA input menu START-->
-
-    <TextView
-        android:id="@+id/selectIntersectionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
-        android:text="@string/select_intersection_id"
-        android:textAlignment="textEnd"
-        android:textColor="@color/colorAccent"
-        android:textSize="24sp"
-        android:theme="@android:style/Widget.Material.Light.TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_singleIntersectionInput"
-        app:layout_constraintEnd_toStartOf="@+id/editText_singleIntersectionInput" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline45"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.43" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline49"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.94" />
-
-    <EditText
-        android:id="@+id/editText_singleIntersectionInput"
-        android:layout_width="48dp"
-        android:layout_height="65dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/hint_00"
-        android:inputType="textNoSuggestions|number|numberSigned|phone"
-        android:maxLength="2"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:text="@string/hint_00"
-        android:textColor="@color/colorPrimary"
-        android:textColorLink="@color/colorAccent"
-        android:textSize="28sp"
-        android:theme="@android:style/Widget.Material.Light.EditText"
-        app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuOk"
-        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuOk"
-        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuOk"
-        tools:text="13" />
-
-    <Button
-        android:id="@+id/button_singleIntersectionMenuOk"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/confirm"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/button_singleIntersectionMenuCancel"
-        app:layout_constraintEnd_toStartOf="@+id/button_singleIntersectionMenuCancel"
-        app:layout_constraintTop_toTopOf="@+id/button_singleIntersectionMenuCancel" />
-
-
-    <Button
-        android:id="@+id/button_singleIntersectionMenuCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@android:string/cancel"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
-
-    <TextView
-        android:id="@+id/selectRoadIntersectionText"
-        android:layout_width="405dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:alpha="255"
-        android:text="@string/selectIntersections"
-        android:textAlignment="textEnd"
-        android:textColor="@color/colorAccent"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/start_road_id_entered"
-        app:layout_constraintEnd_toStartOf="@+id/start_road_id_entered" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline67"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".17" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline94"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1" />
-
-    <EditText
-        android:id="@+id/start_road_id_entered"
-        android:layout_width="48dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/hint_00"
-        android:inputType="number"
-        android:maxLength="2"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/end_road_id_entered"
-        app:layout_constraintEnd_toStartOf="@+id/end_road_id_entered"
-        app:layout_constraintTop_toTopOf="@+id/end_road_id_entered"
-        app:layout_constraintVertical_bias="0.605" />
-
-    <EditText
-        android:id="@+id/end_road_id_entered"
-        android:layout_width="48dp"
-        android:layout_height="65dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/hint_00"
-        android:importantForAutofill="no"
-        android:inputType="number|numberSigned"
-        android:maxLength="2"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/button_roadOk"
-        app:layout_constraintEnd_toStartOf="@+id/button_roadOk"
-        app:layout_constraintTop_toTopOf="@+id/button_roadOk" />
-
-    <Button
-        android:id="@+id/button_roadOk"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:text="@android:string/ok"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/button_roadCancel"
-        app:layout_constraintEnd_toStartOf="@+id/button_roadCancel"
-        app:layout_constraintTop_toTopOf="@+id/button_roadCancel" />
-
-    <Button
-        android:id="@+id/button_roadCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@android:string/cancel"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/top_buildmenu_alex"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
-
-    <!--intersectionA input menu END-->
-
     <!-- trade menu START -->
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="273dp"
-        android:layout_height="140dp"
+        android:layout_height="0dp"
         android:alpha="0.5"
         android:background="@android:color/background_light"
         android:contentDescription="@string/add"
@@ -1669,4 +1483,147 @@
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
 
     <!--Robber Menu End-->
+
+    <!--pick resource menu START-->
+
+    <android.support.constraint.Guideline
+        android:id="@+id/pickResMenu_monopolyHorizontalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/pickResMenu_monopolyVerticalGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_brickSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/brick"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_grainSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_grainSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_grainSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/grain"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_lumberSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_lumberSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_lumberSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="35dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_oreSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_oreIcon"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_oreSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/ore"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_woolSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_woolSelectionBox"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_lumberSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_woolSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/wool"
+        app:layout_constraintBottom_toTopOf="@+id/pickResMenu_ConfirmButton"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_oreSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_brickIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/brick_icon_25x25"
+        android:contentDescription="@string/brick"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_brickSelectionBox"
+        app:layout_constraintStart_toStartOf="@+id/pickResMenu_monopolyVerticalGuideLine"
+        app:srcCompat="@drawable/brick_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_grainIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/grain_icon_25x25"
+        android:contentDescription="@string/grain"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_brickIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_brickIcon"
+        app:srcCompat="@drawable/grain_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_lumberIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/lumber_icon_25x25"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_grainIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_grainIcon"
+        app:srcCompat="@drawable/lumber_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_oreIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/ore_icon_25x25"
+        android:contentDescription="@string/ore"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_lumberIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_lumberIcon"
+        app:srcCompat="@drawable/ore_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_woolIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/wool_icon_25x25"
+        android:contentDescription="@string/wool"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_oreIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_oreIcon"
+        app:srcCompat="@drawable/wool_icon_25x25" />
+
+    <Button
+        android:id="@+id/pickResMenu_ConfirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toTopOf="@+id/pickResMenu_monopolyHorizontalGuideline"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
+        tools:text="@string/confirm" />
+
+    <!--pick resource menu END-->
 </android.support.constraint.ConstraintLayout>

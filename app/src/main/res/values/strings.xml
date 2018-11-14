@@ -133,8 +133,20 @@
     <string name="robber_phase">Robber phase.</string>
     <string name="setup_phase">Setup phase.</string>
     <string name="setup_phase_complete">Setup turn complete. Please end your turn.</string>
-    <string name="not_enough_for_city">Not enough resources to built a city.</string>
+    <string name="not_enough_for_city">Not enough resources to build a city.</string>
     <string name="no_port_access">Selected intersection does not have port access.</string>
+    <string name="select_one_intersection">Please select only one intersection.</string>
+    <string name="select_int_w_bldg_robber">Please select another player\'s building.</string>
+    <string name="select_int_not_owned_by_you">Please select an intersection not owned by you.</string>
+    <string name="invalid_tile">Not a valid tile!</string>
+    <string name="zero">00</string>
+    <string name="dont_have_card">You don\'t have that card!</string>
+    <string name="you_built_a_dev">Development built.</string>
+    <string name="not_enough_for_dev_card">Not enough resources to build a development.</string>
+    <string name="invalid_settlement_loc">Invalid settlement location.</string>
+    <string name="roll_the_dice">Roll the dice.</string>
+    <string name="action_phase">Action phase.</string>
+    <string name="choose_robber_tile">Please choose a tile to place the Robber on.</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
