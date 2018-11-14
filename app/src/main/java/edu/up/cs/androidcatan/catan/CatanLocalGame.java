@@ -166,9 +166,27 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanUseMonopolyCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            gameState.getCurrentPlayer().addResourceCard(((CatanUseMonopolyCardAction) action).getChosenResource(), ((CatanUseMonopolyCardAction) action).getPlayer2Resource() + ((CatanUseMonopolyCardAction) action).getPlayer3Resource() + ((CatanUseMonopolyCardAction) action).getPlayer4Resource());
+            int totalResources = 0;
 
-            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
+            int resourceId = ((CatanUseMonopolyCardAction) action).getChosenResource();
+
+            for (Player player : gameState.getPlayerList()) {
+                int resCount = player.getResourceCards()[resourceId];
+                player.removeResourceCard(resourceId, resCount);
+                totalResources += resCount;
+            }
+
+//            gameState.getPlayerL
+//
+//            for (int n = 0; n < gameState.getPlayerList().size(); n++){
+//                if (gameState.getPlayerList().get(n).getPlayerId() != gameState.getCurrentPlayerId()){
+//                    totalResources += gameState.getPlayerList().get(n).getResourceCards()[((CatanUseMonopolyCardAction) action).getChosenResource()];
+//                    gameState.getPlayerList().get(n).removeResourceCard(((CatanUseMonopolyCardAction) action).getChosenResource(), totalResources);
+//                }
+//            }
+            gameState.getCurrentPlayer().addResourceCard(resourceId, totalResources);
+
+//            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
         }
 
         if (action instanceof CatanUseYearOfPlentyCardAction){
