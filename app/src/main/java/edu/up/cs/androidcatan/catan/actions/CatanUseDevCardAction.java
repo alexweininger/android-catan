@@ -22,4 +22,6 @@ public class CatanUseDevCardAction extends GameAction {
         this.devCardId = devCardId;
     }
 
+
+
 }

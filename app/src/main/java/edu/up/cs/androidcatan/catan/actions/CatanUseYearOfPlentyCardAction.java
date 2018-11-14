@@ -7,9 +7,16 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanUseYearOfPlentyCardAction extends GameAction {
     private static final String TAG = "CatanUseYearOfPlentyCardAction";
+    private int chosenResource;
 
-    public CatanUseYearOfPlentyCardAction(GamePlayer player){
+    public CatanUseYearOfPlentyCardAction(GamePlayer player, int chosenResource){
         super(player);
+        this.chosenResource = chosenResource;
         Log.d(TAG, "CatanUseYearOfPlentyCardAction called");
     }
+
+    public int getChosenResource() {
+        return chosenResource;
+    }
+
 }

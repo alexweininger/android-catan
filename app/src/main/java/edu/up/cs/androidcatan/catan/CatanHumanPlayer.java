@@ -521,7 +521,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 if (developmentCardId == 2) {
-                    game.sendAction(new CatanUseYearOfPlentyCardAction(this));
+                    //ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
+
+
+
+                    //game.sendAction(new CatanUseYearOfPlentyCardAction(this));
                     return;
                 }
 
