@@ -530,12 +530,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 if (developmentCardId == 3) {
-                    game.sendAction(new CatanUseMonopolyCardAction(this));
+                    //game.sendAction(new CatanUseMonopolyCardAction(this));
                     return;
                 }
 
                 if (developmentCardId == 4) {
                     game.sendAction(new CatanUseRoadBuildingCardAction(this));
+                    this.rollButton.setAlpha(0.5f);
+                    this.rollButton.setClickable(false);
+                    this.buildRoadButton.setAlpha(1f);
+                    this.buildRoadButton.setClickable(true);
+                    this.buildSettlementButton.setAlpha(0.5f);
+                    this.buildSettlementButton.setClickable(false);
+                    this.buildCityButton.setAlpha(0.5f);
+                    this.buildCityButton.setClickable(false);
+                    this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+                    this.sidebarOpenDevCardMenuButton.setClickable(false);
+                    this.tradeButton.setAlpha(0.5f);
+                    this.tradeButton.setClickable(false);
+                    this.endTurnButton.setAlpha(0.5f);
+                    this.endTurnButton.setClickable(false);
+                    this.sidebarScoreboardButton.setAlpha(0.5f);
+                    this.sidebarScoreboardButton.setClickable(false);
+                    this.sidebarMenuButton.setAlpha(0.5f);
+                    this.sidebarMenuButton.setClickable(false);
+
                     return;
                 }
             }
