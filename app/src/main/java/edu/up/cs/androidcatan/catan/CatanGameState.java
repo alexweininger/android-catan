@@ -748,6 +748,10 @@ public class CatanGameState extends GameState{
         isRobberPhase = false;
         hasDiscarded = false;
         hasMovedRobber = false;
+
+        for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
+            robberPlayerListHasDiscarded[i] = false;
+        }
         return true;
     }
 
@@ -893,7 +897,7 @@ public class CatanGameState extends GameState{
 
     public boolean isHasDiscarded() { return hasDiscarded;}
 
-    public boolean isHasMovedRobber() { return hasMovedRobber; }
+    public boolean getHasMovedRobber() { return hasMovedRobber; }
 
     public boolean[] getRobberPlayerListHasDiscarded() {
         return robberPlayerListHasDiscarded;

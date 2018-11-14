@@ -182,7 +182,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
             /*----------------------Move Robber Phase----------------*/
             if(gs.getCurrentPlayerId() == playerNum) {
-                if(gs.isHasMovedRobber()) {
+                Log.i(TAG, "receiveInfo: Computer is moving robber");
+                if(!gs.getHasMovedRobber()) {
                     Log.i(TAG, "receiveInfo: Computer is moving the robber");
                     sleep(2000);
 

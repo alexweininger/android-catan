@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -289,7 +288,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if(button.getId() == R.id.robber_choosehex_confirm){
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if(state.isHasMovedRobber()){
+            if(state.getHasMovedRobber()){
                 if(selectedIntersections.size() != 1){
                     robberHexMessage.setText("Please select only one intersection.");
                     return;
@@ -1155,9 +1154,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
             this.state = (CatanGameState) info;
-
             updateTextViews();
             drawGraphics();
+
+            if(state.isRobberPhase() && state.getCurrentPlayerId() != playerNum){
+                if(state.checkPlayerResources(playerNum)){
+                   toggleGroupVisibility(robberDiscardGroup);
+                }
+                else{
+                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
+                }
+            }
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
