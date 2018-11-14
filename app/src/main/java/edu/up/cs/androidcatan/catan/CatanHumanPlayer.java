@@ -508,30 +508,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText(R.string.dont_have_card);
                 return;
             } else {
-
                 state.getCurrentPlayer().removeDevCard(developmentCardId);
 
-                if (devCardList.getSelectedItemPosition() == 0) {
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
+                if (developmentCardId == 0) {
                     game.sendAction(new CatanUseKnightCardAction(this));
                     return;
                 }
-                if (devCardList.getSelectedItemPosition() == 1) {
+
+                if (developmentCardId == 1) {
                     game.sendAction(new CatanUseVictoryPointCardAction(this));
                     return;
                 }
-                if (devCardList.getSelectedItemPosition() == 2) {
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
+
+                if (developmentCardId == 2) {
                     game.sendAction(new CatanUseYearOfPlentyCardAction(this));
                     return;
                 }
-                if (devCardList.getSelectedItemPosition() == 3) {
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
+
+                if (developmentCardId == 3) {
                     game.sendAction(new CatanUseMonopolyCardAction(this));
                     return;
                 }
-                if (devCardList.getSelectedItemPosition() == 4) {
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
+
+                if (developmentCardId == 4) {
                     game.sendAction(new CatanUseRoadBuildingCardAction(this));
                     return;
                 }

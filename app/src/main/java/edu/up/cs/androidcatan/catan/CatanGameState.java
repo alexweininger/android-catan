@@ -275,6 +275,10 @@ public class CatanGameState extends GameState{
             }
         }
 
+        for (int i = 0; i < this.playerList.size(); i++) {
+            this.playerVictoryPoints[i] += this.playerList.get(i).getVictoryPointsFromDevCard();
+        }
+
         // goes through all buildings and the amount of victory points to the player to who owns the building
         Building[] buildings = this.board.getBuildings();
 
