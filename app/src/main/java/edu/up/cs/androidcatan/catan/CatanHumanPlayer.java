@@ -66,6 +66,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // instance variables for logic
     private ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
+    private int currentBuildingSelectionId = 1;
     private float lastTouchDownXY[] = new float[2];
     private boolean debugMode = false;
     private boolean isMenuOpen = false;
@@ -347,12 +348,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-
-            if (state.isHasMovedRobber()) {
-
-                if (selectedIntersections.size() != 1) {
-                    robberHexMessage.setText(R.string.select_one_intersection);
-                    messageTextView.setText(R.string.select_one_intersection);
+            if(state.getHasMovedRobber()){
+                if(selectedIntersections.size() != 1){
+                    robberHexMessage.setText("Please select only one intersection.");
                     return;
                 }
 
@@ -384,7 +382,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
-            robberChooseHexGroup.setVisibility(View.GONE);
+            robberChooseHexGroup.setVisibility(View.VISIBLE);
             robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
             game.sendAction(new CatanRobberMoveAction(this, playerNum, selectedHexagonId));
             return;
@@ -526,7 +524,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
                 Log.e(TAG, "onClick: player does not have development card. Cannot use.");
-                messageTextView.setText(R.string.dont_have_card);
+                messageTextView.setText("Don't have card");
                 return;
             } else {
 
@@ -680,6 +678,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with bank");
                     selectedIntersections.clear();
+                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
@@ -910,7 +909,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             return true;
         } else {
-            messageTextView.setText(R.string.invalid_settlement_loc);
+            messageTextView.setText(R.string.invalid_set_loc);
             Log.e(TAG, "tryBuildSettlement: Returning false.");
             shake(messageTextView);
             return false;
@@ -973,7 +972,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
 
-
         for (Port port : ports) {
             if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
                 tradingWith = port;
@@ -1007,7 +1005,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio())) {
                 state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(resourceReceiving, 1);
             }
-
         } else {
 
             if (state.getPlayerList().get(state.getCurrentPlayerId()).checkResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
@@ -1107,7 +1104,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             }
         }
-        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
             this.messageTextView.setText(R.string.setup_phase); // set info message
 
@@ -1180,6 +1177,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } else { // ACTION PHASE AND NOT SETUP PHASE
             this.messageTextView.setText(R.string.action_phase);
             setAllButtonsToVisible();
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
         }
 
         //Not
@@ -1291,9 +1290,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
             this.state = (CatanGameState) info;
-
             updateTextViews();
             drawGraphics();
+
+            if(state.isRobberPhase() && state.getCurrentPlayerId() != playerNum){
+                messageTextView.setText("Robber Phase");
+                if(state.checkPlayerResources(playerNum)){
+                   toggleGroupVisibility(robberDiscardGroup);
+                }
+                else{
+                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
+                }
+            }
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
@@ -1372,7 +1380,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
-        robberHexMessage.setText(R.string.choose_robber_tile);
+        robberHexMessage.setText("Choose Robber tile");
         robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
 
         robberBrickPlus.setOnClickListener(this);

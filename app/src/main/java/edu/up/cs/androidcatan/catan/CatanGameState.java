@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
@@ -92,6 +93,8 @@ public class CatanGameState extends GameState{
         this.hasMovedRobber = cgs.hasMovedRobber;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
+
+        this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
 
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
         this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
@@ -349,8 +352,6 @@ public class CatanGameState extends GameState{
             return false;
         }
 
-
-
         this.currentDiceSum = dice.roll();
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
         // if the robber is rolled
@@ -591,17 +592,23 @@ public class CatanGameState extends GameState{
 
     /**
      * TODO implement
-     * Player chooses cards to discard if they own more than 7 cards and robber is activated
+     * Check to see if resources need to be discarded
      *
      * @return - action success
      */
     public boolean checkPlayerResources(int playerId){
-        if(hasDiscarded){
+        if(robberPlayerListHasDiscarded[playerId]){
+            //Returns false since player has already discarded cards
+            Log.i(TAG, "checkPlayerResources: PLAYER HAS DISCARDED ALREADY");
             return false;
         }
         if(playerList.get(playerId).getTotalResourceCardCount() > 7){
+            //Returns true since player has more than 7 cards and has not discarded yet
+            Log.i(TAG, "checkPlayerResources: PLAYER NEEDS TO DISCARD CARDS");
             return true;
         }
+        Log.i(TAG, "checkPlayerResources: PLAYER DOES NOT NEED TO DISCARDS");
+        robberPlayerListHasDiscarded[playerId] = true;
         hasDiscarded = true;
 
         return false;
@@ -636,6 +643,10 @@ public class CatanGameState extends GameState{
      * @return
      */
     public boolean discardResources(int playerId, int[] resourcesDiscarded){
+        Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
+        if(checkPlayerResources(playerId)){
+            return true;
+        }
         int totalDiscarded = 0;
         for(int i = 0; i < resourcesDiscarded.length; i++){
             totalDiscarded += resourcesDiscarded[i];
@@ -725,6 +736,10 @@ public class CatanGameState extends GameState{
         isRobberPhase = false;
         hasDiscarded = false;
         hasMovedRobber = false;
+
+        for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
+            robberPlayerListHasDiscarded[i] = false;
+        }
         return true;
     }
 
@@ -870,7 +885,7 @@ public class CatanGameState extends GameState{
 
     public boolean isHasDiscarded() { return hasDiscarded;}
 
-    public boolean isHasMovedRobber() { return hasMovedRobber; }
+    public boolean getHasMovedRobber() { return hasMovedRobber; }
 
     public boolean[] getRobberPlayerListHasDiscarded() {
         return robberPlayerListHasDiscarded;
@@ -903,6 +918,7 @@ public class CatanGameState extends GameState{
         result.append("robberPhase: ").append(this.isRobberPhase).append(", ");
         result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
+        result.append("Players that have discarded: ").append(Arrays.toString(this.robberPlayerListHasDiscarded)).append(", \n");
 
         for (Player player : playerList) {
             result.append(player.toString()).append("\n");
