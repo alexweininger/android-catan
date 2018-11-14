@@ -494,38 +494,43 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Use development card button on the dev card menu.
         if (button.getId() == R.id.use_Card) {
             Log.d(TAG, "onClick: Player tapped the use card button.");
-            // this long af expression does this: gets the spinner position and checks if the player has that specific dev card in their dev card list
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(devCardList.getSelectedItemPosition())) {
-                int developmentCardId = devCardList.getSelectedItemPosition();
 
-                if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
-                    messageTextView.setText(R.string.dont_have_card);
+            String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
+
+            int developmentCardId = -1;
+            for (int i = 0; i < devCardNames.length; i++) {
+                if (devCardList.getSelectedItem().equals(devCardNames[i])) {
+                    developmentCardId = i;
+                }
+            }
+
+            if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
+                messageTextView.setText(R.string.dont_have_card);
+                return;
+            } else {
+                if (devCardList.getSelectedItemPosition() == 0) {
+                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
+                    game.sendAction(new CatanUseKnightCardAction(this));
                     return;
-                } else {
-                    if (devCardList.getSelectedItemPosition() == 0) {
-                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
-                        game.sendAction(new CatanUseKnightCardAction(this));
-                        return;
-                    }
-                    if (devCardList.getSelectedItemPosition() == 1) {
-                        game.sendAction(new CatanUseVictoryPointCardAction(this));
-                        return;
-                    }
-                    if (devCardList.getSelectedItemPosition() == 2) {
-                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
-                        game.sendAction(new CatanUseYearOfPlentyCardAction(this));
-                        return;
-                    }
-                    if (devCardList.getSelectedItemPosition() == 3) {
-                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
-                        game.sendAction(new CatanUseMonopolyCardAction(this));
-                        return;
-                    }
-                    if (devCardList.getSelectedItemPosition() == 4) {
-                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
-                        game.sendAction(new CatanUseRoadBuildingCardAction(this));
-                        return;
-                    }
+                }
+                if (devCardList.getSelectedItemPosition() == 1) {
+                    game.sendAction(new CatanUseVictoryPointCardAction(this));
+                    return;
+                }
+                if (devCardList.getSelectedItemPosition() == 2) {
+                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
+                    game.sendAction(new CatanUseYearOfPlentyCardAction(this));
+                    return;
+                }
+                if (devCardList.getSelectedItemPosition() == 3) {
+                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
+                    game.sendAction(new CatanUseMonopolyCardAction(this));
+                    return;
+                }
+                if (devCardList.getSelectedItemPosition() == 4) {
+                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
+                    game.sendAction(new CatanUseRoadBuildingCardAction(this));
+                    return;
                 }
             }
         }
