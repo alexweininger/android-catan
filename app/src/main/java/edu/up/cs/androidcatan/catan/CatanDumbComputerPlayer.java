@@ -148,7 +148,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             sleep(5000);
             /*--------------------Discard Phase--------------------*/
 
-            if(gs.checkPlayerResources(playerNum)){
+            if(!gs.getRobberPlayerListHasDiscarded()[playerNum]){
+                if(!gs.checkPlayerResources(playerNum)){
+                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
+                    return;
+                }
                 for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
                     for(int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++){
                         robberResourcesDiscard[i]++;
@@ -169,7 +173,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 return;
             }
 
-            if(!gs.allPlayersHaveDiscarded()){
+            if(!gs.allPlayersHaveDiscarded() && gs.getCurrentPlayerId() == playerNum){
                 Log.d(TAG, "receiveInfo: Not all players have discarded!!!!");
                 return;
             }
@@ -255,19 +259,3 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     }
 
 } // CatanDumbComputerPlayer class END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
