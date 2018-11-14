@@ -63,7 +63,7 @@ public class Player {
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
     }
 
-    public void addVictoryPointsDevCard(){
+    public void addVictoryPointsDevCard () {
         this.victoryPointsFromDevCard += 2;
     }
 
@@ -116,8 +116,8 @@ public class Player {
         return true;
     }
 
-    public void removeDevCard(int removeCardNum){
-        this.developmentCards.remove(removeCardNum);
+    public void removeDevCard (int removeCardNum) {
+        this.developmentCards.remove((Integer) removeCardNum);
     }
 
     /**
@@ -237,12 +237,12 @@ public class Player {
     /**
      * @return victory points from dev cards
      */
-    public int getVictoryPointsFromDevCard() { return victoryPointsFromDevCard; }
+    public int getVictoryPointsFromDevCard () { return victoryPointsFromDevCard; }
 
     /**
      * @param victoryPointsFromDevCard the amount of points from dev cards they have
      */
-    public void setVictoryPointsFromDevCard(int victoryPointsFromDevCard){ this.victoryPointsFromDevCard = victoryPointsFromDevCard; }
+    public void setVictoryPointsFromDevCard (int victoryPointsFromDevCard) { this.victoryPointsFromDevCard = victoryPointsFromDevCard; }
 
     /**
      * @param devCard dev card to remove

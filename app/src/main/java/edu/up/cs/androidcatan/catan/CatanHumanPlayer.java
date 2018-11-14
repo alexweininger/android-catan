@@ -505,9 +505,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
 
             if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
+                Log.e(TAG, "onClick: player does not have development card. Cannot use.");
                 messageTextView.setText(R.string.dont_have_card);
                 return;
             } else {
+
+                state.getCurrentPlayer().removeDevCard(developmentCardId);
+
                 if (devCardList.getSelectedItemPosition() == 0) {
                     state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
                     game.sendAction(new CatanUseKnightCardAction(this));
