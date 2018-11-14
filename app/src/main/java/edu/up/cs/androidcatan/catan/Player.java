@@ -296,6 +296,7 @@ public class Player {
         for (int resourceCard : this.resourceCards) {
             result += resourceCard;
         }
+        Log.d(TAG, "getTotalResourceCardCount() returned: " + result);
         return result;
     }
 

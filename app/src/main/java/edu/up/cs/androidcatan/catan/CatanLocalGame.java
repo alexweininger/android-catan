@@ -90,6 +90,11 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove (int playerIdx) {
+
+        if (gameState.isRobberPhase()) {
+            return true;
+        }
+
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
 
         if (playerIdx < 0 || playerIdx > 3) {
@@ -196,7 +201,7 @@ public class CatanLocalGame extends LocalGame {
         }
         if (action instanceof CatanRobberMoveAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.moveRobber(((CatanRobberMoveAction) action).getHexagonId(), ((CatanRobberMoveAction) action).getPlayerId());
+            return gameState.tryToMoveRobber(((CatanRobberMoveAction) action).getHexagonId(), ((CatanRobberMoveAction) action).getPlayerId());
         }
         if (action instanceof CatanRobberStealAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");

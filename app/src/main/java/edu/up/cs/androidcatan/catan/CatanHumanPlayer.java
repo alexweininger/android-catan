@@ -76,6 +76,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
+    private ArrayList<Integer> resourceIdsToDiscard = new ArrayList<>();
     private TextView messageTextView = (TextView) null;
 
     private ArrayList<String> devCards = new ArrayList<>();
@@ -256,14 +257,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_road) {
             if (selectedIntersections.size() != 2) {
                 messageTextView.setText(R.string.need_2_ints_for_road);
+                return;
             } else {
                 if (tryBuildRoad(selectedIntersections.get(0), selectedIntersections.get(1))) {
                     messageTextView.setText(R.string.build_a_road);
+                    return;
                 } else {
-                    messageTextView.setText(R.string.invalid_road_placement);
+                    return;
                 }
             }
-            return;
         }
 
         // Settlement button on the sidebar.
@@ -396,14 +398,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
                 robberDiscardGroup.setVisibility(View.GONE);
 
+                // todo
+
                 robberBrickAmount.setText(R.string.zero);
                 robberLumberAmount.setText(R.string.zero);
                 robberGrainAmount.setText(R.string.zero);
                 robberOreAmount.setText(R.string.zero);
                 robberWoolAmount.setText(R.string.zero);
 
+                // putting the array into the arraylist todo fix lol this is not good
+                for (int i = 0; i < robberDiscardedResources.length; i++) {
+                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
+                        resourceIdsToDiscard.add(i);
+                    }
+                }
+
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
-                game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
+                game.sendAction(new CatanRobberDiscardAction(this, playerNum, resourceIdsToDiscard));
                 return;
             }
 
@@ -421,7 +432,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         for (int i = 0; i < robberDiscardAddButtonIds.length; i++) {
             if (button.getId() == robberDiscardAddButtonIds[i]) {
                 robberDiscardedResources[i]++;
-            } else if (button.getId() == robberDiscardAddButtonIds[i]) {
+            } else if (button.getId() == robberDiscardMinusButtonIds[i]) {
                 robberDiscardedResources[i]--;
             }
         }
@@ -1094,7 +1105,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
-            if (state.checkPlayerResources(this.playerNum) && !state.isHasDiscarded()) {
+            if (state.needsToDiscardHalf(this.playerNum) && !state.isHasDiscarded()) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
             } else if (state.getCurrentPlayerId() == playerNum && state.isHasDiscarded()) {
@@ -1295,11 +1306,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if(state.isRobberPhase() && state.getCurrentPlayerId() != playerNum){
                 messageTextView.setText("Robber Phase");
-                if(state.checkPlayerResources(playerNum)){
-                   toggleGroupVisibility(robberDiscardGroup);
-                }
-                else{
-                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
+                if(state.needsToDiscardHalf(playerNum)){
+                   robberDiscardGroup.setVisibility(View.VISIBLE);
+                } else{
+                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, new ArrayList<Integer>()));
                 }
             }
 
