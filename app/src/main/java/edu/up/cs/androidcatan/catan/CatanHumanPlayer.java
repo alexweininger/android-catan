@@ -628,6 +628,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with bank");
                     selectedIntersections.clear();
+                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
