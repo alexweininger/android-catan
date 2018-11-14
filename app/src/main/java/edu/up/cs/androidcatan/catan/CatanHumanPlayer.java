@@ -509,7 +509,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             } else {
                 state.getCurrentPlayer().removeDevCard(developmentCardId);
-
+                Log.d(TAG, "onClick: Development Card was removed from hand");
                 if (developmentCardId == 0) {
                     game.sendAction(new CatanUseKnightCardAction(this));
                     return;
@@ -521,17 +521,40 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 if (developmentCardId == 2) {
-                    game.sendAction(new CatanUseYearOfPlentyCardAction(this));
+                    //ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
+
+
+
+                    //game.sendAction(new CatanUseYearOfPlentyCardAction(this));
                     return;
                 }
 
                 if (developmentCardId == 3) {
-                    game.sendAction(new CatanUseMonopolyCardAction(this));
+                    //game.sendAction(new CatanUseMonopolyCardAction(this));
                     return;
                 }
 
                 if (developmentCardId == 4) {
                     game.sendAction(new CatanUseRoadBuildingCardAction(this));
+                    this.rollButton.setAlpha(0.5f);
+                    this.rollButton.setClickable(false);
+                    this.buildRoadButton.setAlpha(1f);
+                    this.buildRoadButton.setClickable(true);
+                    this.buildSettlementButton.setAlpha(0.5f);
+                    this.buildSettlementButton.setClickable(false);
+                    this.buildCityButton.setAlpha(0.5f);
+                    this.buildCityButton.setClickable(false);
+                    this.sidebarOpenDevCardMenuButton.setAlpha(0.5f);
+                    this.sidebarOpenDevCardMenuButton.setClickable(false);
+                    this.tradeButton.setAlpha(0.5f);
+                    this.tradeButton.setClickable(false);
+                    this.endTurnButton.setAlpha(0.5f);
+                    this.endTurnButton.setClickable(false);
+                    this.sidebarScoreboardButton.setAlpha(0.5f);
+                    this.sidebarScoreboardButton.setClickable(false);
+                    this.sidebarMenuButton.setAlpha(0.5f);
+                    this.sidebarMenuButton.setClickable(false);
+
                     return;
                 }
             }
@@ -950,6 +973,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         List<String> spinnerList = new ArrayList<>(devCards);
+        if (spinnerList.size() == 0){
+            this.useDevCard.setAlpha(0.5f);
+            this.useDevCard.setClickable(false);
+        }
+        else {
+            this.useDevCard.setAlpha(1f);
+            this.useDevCard.setClickable(true);
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         devCardList.setAdapter(adapter);
