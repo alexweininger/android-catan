@@ -415,46 +415,46 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         // todo i think the code i added above does the same as this please verify @todo - alex and niraj
-//        if (button.getId() == R.id.robber_discard_brickAddImg) {
-//            robberDiscardedResources[0] += 1;
-//            robberBrickAmount.setText("" + robberDiscardedResources[0]);
-//        }
-//        if (button.getId() == R.id.robber_discard_brickMinusImg) {
-//            robberDiscardedResources[0] -= 1;
-//            robberBrickAmount.setText("" + robberDiscardedResources[0]);
-//        }
-//        if (button.getId() == R.id.robber_discard_grainAddImg) {
-//            robberDiscardedResources[1] += 1;
-//            robberGrainAmount.setText("" + robberDiscardedResources[1]);
-//        }
-//        if (button.getId() == R.id.robber_discard_grainMinusImg) {
-//            robberDiscardedResources[1] -= 1;
-//            robberGrainAmount.setText("" + robberDiscardedResources[1]);
-//        }
-//        if (button.getId() == R.id.robber_discard_lumberAddImg) {
-//            robberDiscardedResources[2] += 1;
-//            robberLumberAmount.setText("" + robberDiscardedResources[2]);
-//        }
-//        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
-//            robberDiscardedResources[2] -= 1;
-//            robberLumberAmount.setText("" + robberDiscardedResources[2]);
-//        }
-//        if (button.getId() == R.id.robber_discard_oreAddImg) {
-//            robberDiscardedResources[3] += 1;
-//            robberOreAmount.setText("" + robberDiscardedResources[3]);
-//        }
-//        if (button.getId() == R.id.robber_discard_oreMinusImg) {
-//            robberDiscardedResources[3] -= 1;
-//            robberOreAmount.setText("" + robberDiscardedResources[3]);
-//        }
-//        if (button.getId() == R.id.robber_discard_woolAddImg) {
-//            robberDiscardedResources[4] += 1;
-//            robberWoolAmount.setText("" + robberDiscardedResources[4]);
-//        }
-//        if (button.getId() == R.id.robber_discard_woolMinusImg) {
-//            robberDiscardedResources[4] -= 1;
-//            robberWoolAmount.setText("" + robberDiscardedResources[4]);
-//        }
+        //        if (button.getId() == R.id.robber_discard_brickAddImg) {
+        //            robberDiscardedResources[0] += 1;
+        //            robberBrickAmount.setText("" + robberDiscardedResources[0]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_brickMinusImg) {
+        //            robberDiscardedResources[0] -= 1;
+        //            robberBrickAmount.setText("" + robberDiscardedResources[0]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_grainAddImg) {
+        //            robberDiscardedResources[1] += 1;
+        //            robberGrainAmount.setText("" + robberDiscardedResources[1]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_grainMinusImg) {
+        //            robberDiscardedResources[1] -= 1;
+        //            robberGrainAmount.setText("" + robberDiscardedResources[1]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_lumberAddImg) {
+        //            robberDiscardedResources[2] += 1;
+        //            robberLumberAmount.setText("" + robberDiscardedResources[2]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
+        //            robberDiscardedResources[2] -= 1;
+        //            robberLumberAmount.setText("" + robberDiscardedResources[2]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_oreAddImg) {
+        //            robberDiscardedResources[3] += 1;
+        //            robberOreAmount.setText("" + robberDiscardedResources[3]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_oreMinusImg) {
+        //            robberDiscardedResources[3] -= 1;
+        //            robberOreAmount.setText("" + robberDiscardedResources[3]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_woolAddImg) {
+        //            robberDiscardedResources[4] += 1;
+        //            robberWoolAmount.setText("" + robberDiscardedResources[4]);
+        //        }
+        //        if (button.getId() == R.id.robber_discard_woolMinusImg) {
+        //            robberDiscardedResources[4] -= 1;
+        //            robberWoolAmount.setText("" + robberDiscardedResources[4]);
+        //        }
 
         /*-------------------------End of Robber----------------------------------------*/
 
@@ -491,11 +491,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-
-
         // Use development card button on the dev card menu.
         if (button.getId() == R.id.use_Card) {
-
+            Log.d(TAG, "onClick: Player tapped the use card button.");
             // this long af expression does this: gets the spinner position and checks if the player has that specific dev card in their dev card list
             if (state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(devCardList.getSelectedItemPosition())) {
                 int developmentCardId = devCardList.getSelectedItemPosition();
@@ -932,7 +930,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         devCardList.setAdapter(adapter);
 
-
         // Apply the adapter to the spinner
         // array of dice image ids
         int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
@@ -1140,7 +1137,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo (GameInfo info) {
-        Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
+        if (debugMode) {
+            Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
+        }
 
         if (this.boardSurfaceView == null) {
             Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
@@ -1287,7 +1286,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
 
         /* ------------ DEV CARD SPINNER ----------------- */
-
 
         devcard_text_info = activity.findViewById(R.id.development_Card_Info);
         devCardList = activity.findViewById(R.id.development_Card_Spinner); // DEV CARD SPINNER
