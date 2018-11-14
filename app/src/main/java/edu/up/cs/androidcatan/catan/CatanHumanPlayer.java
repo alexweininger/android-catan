@@ -527,8 +527,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText(R.string.dont_have_card);
                 return;
             } else {
+
                 state.getCurrentPlayer().removeDevCard(developmentCardId);
                 Log.d(TAG, "onClick: Development Card was removed from hand");
+
                 if (developmentCardId == 0) {
                     game.sendAction(new CatanUseKnightCardAction(this));
                     return;
@@ -544,12 +546,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
 
-                    //game.sendAction(new CatanUseYearOfPlentyCardAction(this));
+                    game.sendAction(new CatanUseYearOfPlentyCardAction(this, 0)); // todo
                     return;
                 }
 
                 if (developmentCardId == 3) {
-                    //game.sendAction(new CatanUseMonopolyCardAction(this));
+                    game.sendAction(new CatanUseMonopolyCardAction(this, 0)); // todo
                     return;
                 }
 
