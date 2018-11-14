@@ -134,4 +134,10 @@
         app:layout_constraintStart_toEndOf="@+id/pickResMenu_monopolyVerticalGuideLine"
         tools:text="@string/confirm" />
 
+    <android.support.constraint.Group
+        android:id="@+id/group_pickResourceMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="pickResMenu_monopolyHorizontalGuideline,pickResMenu_grainIcon,pickResMenu_oreSelectionBox,pickResMenu_lumberIcon,pickResMenu_woolIcon,pickResMenu_monopolyVerticalGuideLine,pickResMenu_oreIcon,pickResMenu_ConfirmButton,pickResMenu_woolSelectionBox,pickResMenu_brickIcon,pickResMenu_lumberSelectionBox,pickResMenu_brickSelectionBox,pickResMenu_grainSelectionBox" />
+
 </android.support.constraint.ConstraintLayout>

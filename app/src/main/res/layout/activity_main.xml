@@ -36,7 +36,7 @@
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectionBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,brickSelectionBoxGive,woolSelectionBoxReceive,image_trade_menu_rec_brick,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
 
     <android.support.constraint.Group
@@ -58,7 +58,7 @@
         android:id="@+id/group_development_card_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
@@ -91,6 +91,12 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.68" />
 
+
+    <android.support.constraint.Group
+        android:id="@+id/group_pickResourceMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="pickResMenu_monopolyHorizontalGuideline,pickResMenu_grainIcon,pickResMenu_oreSelectionBox,pickResMenu_lumberIcon,pickResMenu_woolIcon,pickResMenu_monopolyVerticalGuideLine,pickResMenu_oreIcon,pickResMenu_ConfirmButton,pickResMenu_woolSelectionBox,pickResMenu_brickIcon,pickResMenu_lumberSelectionBox,pickResMenu_brickSelectionBox,pickResMenu_grainSelectionBox" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_bottom_83"
@@ -1477,4 +1483,147 @@
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
 
     <!--Robber Menu End-->
+
+    <!--pick resource menu START-->
+
+    <android.support.constraint.Guideline
+        android:id="@+id/pickResMenu_monopolyHorizontalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/pickResMenu_monopolyVerticalGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.21" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_brickSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/brick"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_grainSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_grainSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_grainSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/grain"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_lumberSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_lumberSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_lumberSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginEnd="35dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_oreSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_oreIcon"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_oreSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/ore"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_woolSelectionBox"
+        app:layout_constraintEnd_toStartOf="@+id/pickResMenu_woolSelectionBox"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_lumberSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_woolSelectionBox"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/holo_orange_light"
+        android:contentDescription="@string/wool"
+        app:layout_constraintBottom_toTopOf="@+id/pickResMenu_ConfirmButton"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_oreSelectionBox"
+        app:srcCompat="@android:color/holo_orange_light" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_brickIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/brick_icon_25x25"
+        android:contentDescription="@string/brick"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_brickSelectionBox"
+        app:layout_constraintStart_toStartOf="@+id/pickResMenu_monopolyVerticalGuideLine"
+        app:srcCompat="@drawable/brick_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_grainIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/grain_icon_25x25"
+        android:contentDescription="@string/grain"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_brickIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_brickIcon"
+        app:srcCompat="@drawable/grain_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_lumberIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/lumber_icon_25x25"
+        android:contentDescription="@string/lumber"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_grainIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_grainIcon"
+        app:srcCompat="@drawable/lumber_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_oreIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/ore_icon_25x25"
+        android:contentDescription="@string/ore"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_lumberIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_lumberIcon"
+        app:srcCompat="@drawable/ore_icon_25x25" />
+
+    <ImageView
+        android:id="@+id/pickResMenu_woolIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/wool_icon_25x25"
+        android:contentDescription="@string/wool"
+        app:layout_constraintBottom_toBottomOf="@+id/pickResMenu_oreIcon"
+        app:layout_constraintStart_toEndOf="@+id/pickResMenu_oreIcon"
+        app:srcCompat="@drawable/wool_icon_25x25" />
+
+    <Button
+        android:id="@+id/pickResMenu_ConfirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toTopOf="@+id/pickResMenu_monopolyHorizontalGuideline"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
+        tools:text="@string/confirm" />
+
+    <!--pick resource menu END-->
 </android.support.constraint.ConstraintLayout>
