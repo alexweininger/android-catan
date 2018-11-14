@@ -3,8 +3,6 @@ package edu.up.cs.androidcatan.catan;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.media.Image;
-import android.provider.ContactsContract;
 import android.support.constraint.Group;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -523,6 +521,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     developmentCardId = i;
                 }
             }
+
+            Log.i(TAG, "onClick: Player is using dev card id: " + developmentCardId + " (" + devCardNames[developmentCardId] + ")");
 
             if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
                 Log.e(TAG, "onClick: player does not have development card. Cannot use.");
