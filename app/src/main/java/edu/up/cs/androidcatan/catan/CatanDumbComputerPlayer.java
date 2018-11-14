@@ -44,6 +44,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         if (!(info instanceof CatanGameState)) return;
         CatanGameState gs = (CatanGameState) info;
 
+        sleep(1000);
+
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
 
         Random random = new Random();
@@ -80,7 +82,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
             if (gs.isSetupPhase()) { // need to build a settlement
 
-                sleep(300); // sleep
+                sleep(800); // sleep
 
                 Log.w(TAG, "receiveInfo: Attempting to build a settlement at intersection " + randSettlementIntersection);
 
@@ -110,7 +112,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 }
 
-                sleep(300); // sleep
+                sleep(500); // sleep
 
                 Log.w(TAG, "receiveInfo: Attempting to build a road between " + intersectionsToChooseFrom.get(randomRoadIntersection) + " and " + randSettlementIntersection);
 
