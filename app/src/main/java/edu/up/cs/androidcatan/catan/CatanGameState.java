@@ -172,7 +172,7 @@ public class CatanGameState extends GameState{
     public boolean useDevCard (int playerId, int devCardId) {
         Log.d(TAG, "useDevCard() called with: playerId = [" + playerId + "], devCardId = [" + devCardId + "]");
 
-        DevelopmentCard developmentCard = new DevelopmentCard(devCardId);
+        Log.e(TAG, "useDevCard: this method is not implemented yet...");
         return true;
     }
 
