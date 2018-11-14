@@ -1542,7 +1542,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.buildRoadButton.setClickable(true);
         this.endTurnButton.setAlpha(1f);
         this.endTurnButton.setClickable(true);
-        this.rollButton.setAlpha(1f;
+        this.rollButton.setAlpha(1f);
         this.rollButton.setClickable(true);
     }
 
