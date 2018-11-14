@@ -161,6 +161,8 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanUseRoadBuildingCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            gameState.getCurrentPlayer().addResourceCard(0,2);
+            gameState.getCurrentPlayer().addResourceCard(2,2);
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 4);
         }
 
