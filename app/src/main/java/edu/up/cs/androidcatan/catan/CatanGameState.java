@@ -356,9 +356,8 @@ public class CatanGameState extends GameState{
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
         // if the robber is rolled
         if (this.currentDiceSum == 7) {
-            // todo activate robber
             Log.i(TAG, "rollDice: The robber has been activated.");
-            //this.isRobberPhase = true;
+            this.isRobberPhase = true;
         } else {
             Log.i(TAG, "rollDice: Calling the produceResources method.");
             produceResources(this.currentDiceSum);
