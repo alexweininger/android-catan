@@ -147,7 +147,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
             sleep(5000);
             /*--------------------Discard Phase--------------------*/
-            if(gs.getPlayerList().get(playerNum).getTotalResourceCardCount() > 7 && !gs.getRobberPlayerListHasDiscarded()[playerNum]){
+
+            if(gs.checkPlayerResources(playerNum)){
                 for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
                     for(int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++){
                         robberResourcesDiscard[i]++;
@@ -160,19 +161,26 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                         }
                     }
                     if(gs.getRobberPlayerListHasDiscarded()[playerNum]){
-                        Log.i(TAG, "receiveInfo: Computer has ended the discard phase");
+                        Log.i(TAG, "receiveInfo: Computer discarded cards!");
                         break;
                     }
                 }
+                Log.i(TAG, "receiveInfo: Player is ending the discard phase!");
+                return;
             }
+
+            if(!gs.allPlayersHaveDiscarded()){
+                Log.d(TAG, "receiveInfo: Not all players have discarded!!!!");
+                return;
+            }
+
+            Log.i(TAG, "receiveInfo: Robber Phase --> Move Robber Phase");
 
             /*----------------------Move Robber Phase----------------*/
             if(gs.getCurrentPlayerId() == playerNum) {
                 if(gs.isHasMovedRobber()) {
                     Log.i(TAG, "receiveInfo: Computer is moving the robber");
-                    while (!gs.allPlayersHaveDiscarded()) {
-                        sleep(2000);
-                    }
+                    sleep(2000);
 
                     for (Hexagon hex : gs.getBoard().getHexagons()) {
                         hexId = hex.getHexagonId();
@@ -181,7 +189,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                             sleep(2000);
                             CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
                             game.sendAction(action);
-                            break;
+                            return;
                         }
                     }
                 }

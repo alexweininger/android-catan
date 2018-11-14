@@ -602,17 +602,20 @@ public class CatanGameState extends GameState{
 
     /**
      * TODO implement
-     * Player chooses cards to discard if they own more than 7 cards and robber is activated
+     * Check to see if resources need to be discarded
      *
      * @return - action success
      */
     public boolean checkPlayerResources(int playerId){
-        if(hasDiscarded){
+        if(robberPlayerListHasDiscarded[playerId]){
+            //Returns false since player has already discarded cards
             return false;
         }
         if(playerList.get(playerId).getTotalResourceCardCount() > 7){
+            //Returns true since player has more than 7 cards and has not discarded yet
             return true;
         }
+        robberPlayerListHasDiscarded[playerId] = true;
         hasDiscarded = true;
 
         return false;
@@ -914,6 +917,7 @@ public class CatanGameState extends GameState{
         result.append("robberPhase: ").append(this.isRobberPhase).append(", ");
         result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
+        result.append("Players that have discarded: ").append(this.robberPlayerListHasDiscarded.toString()).append(", \n");
 
         for (Player player : playerList) {
             result.append(player.toString()).append("\n");
