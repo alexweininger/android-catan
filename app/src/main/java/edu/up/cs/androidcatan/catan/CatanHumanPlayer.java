@@ -640,7 +640,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
 
-
+        /*----------------Monopoly-----------------------------*/
         ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
 
         for(ImageView imageView : monopolySelectionBox)
@@ -667,7 +667,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if(button.getId() == R.id.pickResMenu_ConfirmButton)
         {
             Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
-            
+
         }
 
     } // onClick END
