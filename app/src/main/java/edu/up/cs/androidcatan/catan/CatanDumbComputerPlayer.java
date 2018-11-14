@@ -149,6 +149,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             /*--------------------Discard Phase--------------------*/
 
             if(!gs.getRobberPlayerListHasDiscarded()[playerNum]){
+                Log.i(TAG, "receiveInfo: Computer player " + playerNum + " needs to discard!!!");
                 if(!gs.checkPlayerResources(playerNum)){
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
                     return;

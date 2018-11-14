@@ -318,7 +318,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
-            robberChooseHexGroup.setVisibility(View.GONE);
+            robberChooseHexGroup.setVisibility(View.VISIBLE);
             robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
             CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, selectedHexagonId);
             game.sendAction(action);
