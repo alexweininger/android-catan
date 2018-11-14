@@ -178,17 +178,9 @@ public class CatanLocalGame extends LocalGame {
                 totalResources += resCount;
             }
 
-//            gameState.getPlayerL
-//
-//            for (int n = 0; n < gameState.getPlayerList().size(); n++){
-//                if (gameState.getPlayerList().get(n).getPlayerId() != gameState.getCurrentPlayerId()){
-//                    totalResources += gameState.getPlayerList().get(n).getResourceCards()[((CatanUseMonopolyCardAction) action).getChosenResource()];
-//                    gameState.getPlayerList().get(n).removeResourceCard(((CatanUseMonopolyCardAction) action).getChosenResource(), totalResources);
-//                }
-//            }
             gameState.getCurrentPlayer().addResourceCard(resourceId, totalResources);
 
-//            return gameState.useDevCard(gameState.getCurrentPlayerId(), 3);
+            return true;
         }
 
         if (action instanceof CatanUseYearOfPlentyCardAction){
