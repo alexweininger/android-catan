@@ -1508,7 +1508,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     protected void gameIsOver (String message) {
         for (int i = 0; i < this.state.getPlayerVictoryPoints().length; i++) {
             if (this.state.getPlayerVictoryPoints()[i] > 9) {
-                super.gameIsOver("Player " + i + " wins!");
+                super.gameIsOver(getAllPlayerNames()[i] + " wins!");
             }
         }
     } // gameIsOver END

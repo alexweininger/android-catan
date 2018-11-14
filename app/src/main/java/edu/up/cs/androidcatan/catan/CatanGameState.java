@@ -649,8 +649,8 @@ public class CatanGameState extends GameState{
             hasDiscarded = true;
         }
         else{
-            hasDiscarded = true;
-            hasMovedRobber = true;
+                    hasDiscarded = true;
+                    hasMovedRobber = true;
         }
         robberPlayerListHasDiscarded[playerId] = true;
         return true;
