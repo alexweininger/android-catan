@@ -137,6 +137,7 @@ public class CatanGameState extends GameState{
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
 
+        Log.d(TAG, "getRandomCard() returned: " + drawnDevCard);
         return drawnDevCard;
     }
 
@@ -156,7 +157,7 @@ public class CatanGameState extends GameState{
         }
 
         // add random dev card to players inventory
-        player.addDevelopmentCard(getRandomCard());
+        player.getDevelopmentCards().add(getRandomCard());
         return true;
     }
 
@@ -169,6 +170,7 @@ public class CatanGameState extends GameState{
      * @return - action success
      */
     public boolean useDevCard (int playerId, int devCardId) {
+        Log.d(TAG, "useDevCard() called with: playerId = [" + playerId + "], devCardId = [" + devCardId + "]");
 
         DevelopmentCard developmentCard = new DevelopmentCard(devCardId);
         return true;
@@ -343,6 +345,8 @@ public class CatanGameState extends GameState{
             return false;
         }
 
+
+
         this.currentDiceSum = dice.roll();
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
         // if the robber is rolled
@@ -399,7 +403,6 @@ public class CatanGameState extends GameState{
 
         // update the setup phase boolean variable using the method that does setup phase completion check
         this.setSetupPhase(updateSetupPhase());
-
         return true;
     } // end endTurn method
 
@@ -424,15 +427,7 @@ public class CatanGameState extends GameState{
         if (!valAction(playerId)) {
             return false;
         }
-        // check if the intersection has a building on it
-        if (!board.hasBuilding(intersectionId)) {
-            return false;
-        }
 
-        // check if the player owns the building
-        if (board.getBuildings()[intersectionId].getOwnerId() != playerId) {
-            return false;
-        }
 
         // code to commence trade
         int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();
@@ -461,24 +456,14 @@ public class CatanGameState extends GameState{
      */
     //TODO implement
     public boolean tradeWithBank (int playerId, int resGiven, int resReceive) {
-        if (this.isActionPhase) {
-            return false;
-        }
-
-        //Setting ratio then checking resources; if enough, we commence with trade
-        Random random = new Random();
-        int ratio = random.nextInt(1) + 2;
 
         // Player.removeResources returns false if the player does not have enough, if they do it removes them.
-        if (!this.playerList.get(playerId).removeResourceCard(resGiven, ratio)) { // here it can do two checks at once. It can't always do this.
+        if (!this.playerList.get(playerId).removeResourceCard(resGiven, 4)) {
             Log.e(TAG, "tradeWithBank - not enough resources, player id: " + playerId);
             return false;
         }
-
         this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
-        this.playerList.get(playerId).removeResourceCard(resGiven, ratio); //removes resource cards from players inventory
-
-        Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with bank.\n");
+        Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + 4 + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
     } // end tradeWithBank
 

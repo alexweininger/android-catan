@@ -12,18 +12,8 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanBuyDevCardAction extends GameAction {
-    private int developmentCardIdToBuy;
 
-    public CatanBuyDevCardAction (GamePlayer player, int developmentCardIdToBuy) {
+    public CatanBuyDevCardAction (GamePlayer player) {
         super(player);
-        this.developmentCardIdToBuy = developmentCardIdToBuy;
-    }
-
-    public int getDevelopmentCardIdToBuy () {
-        return developmentCardIdToBuy;
-    }
-
-    public void setDevelopmentCardIdToBuy (int developmentCardIdToBuy) {
-        this.developmentCardIdToBuy = developmentCardIdToBuy;
     }
 }
