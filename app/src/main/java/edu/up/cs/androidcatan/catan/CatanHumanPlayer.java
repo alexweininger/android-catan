@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -865,6 +866,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
 
+
         for (Port port : ports) {
             if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
                 tradingWith = port;
@@ -880,6 +882,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.getBoard().hasBuilding(tradingWith.getIntersectionA()) || state.getBoard().hasBuilding(tradingWith.getIntersectionB())) {
             // todo check if they own a building here
         } else {
+            return false;
+        }
+
+        // check if the intersection has a building on it
+        if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
+            return false;
+        }
+
+        // check if the player owns the building
+        if (state.getBoard().getBuildings()[selectedIntersections.get(0)].getOwnerId() != state.getCurrentPlayerId()) {
             return false;
         }
 
@@ -1126,6 +1138,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         /* ----- update misc. sidebar TextViews ----- */
+        this.playerNameSidebar.setText(getAllPlayerNames()[0]);
 
         // human player score (sidebar menu)
         this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
@@ -1296,6 +1309,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
         this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
+
 
         /* ------------ DEV CARD SPINNER ----------------- */
 

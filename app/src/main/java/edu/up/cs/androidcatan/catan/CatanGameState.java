@@ -423,16 +423,11 @@ public class CatanGameState extends GameState{
      */
     public boolean tradeWithPort (int playerId, int intersectionId, int lostResourceId, int receivedResourceId) {
         Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + lostResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
-
-        // check if the intersection has a building on it
-        if (!board.hasBuilding(intersectionId)) {
+        // check if current player's turn and then if player has rolled dice
+        if (!valAction(playerId)) {
             return false;
         }
 
-        // check if the player owns the building
-        if (board.getBuildings()[intersectionId].getOwnerId() != playerId) {
-            return false;
-        }
 
         // code to commence trade
         int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();
