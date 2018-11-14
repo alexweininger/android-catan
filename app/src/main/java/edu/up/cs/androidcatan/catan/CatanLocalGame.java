@@ -190,7 +190,7 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealId());
         }
-/*----------------------------------Robber Actions End-----------------------------------------------*/
+/*---------------------------------- Trade Actions -----------------------------------------------*/
 
         if (action instanceof CatanTradeAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -200,14 +200,12 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanTradeWithBankAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.tradeBank();
-            return true;
+            return gameState.tradeWithBank(gameState.getCurrentPlayerId(),((CatanTradeWithBankAction) action).getResourceIdGiving() , ((CatanTradeWithBankAction) action).getResourceIdRec());
         }
 
         if (action instanceof CatanTradeWithPortAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return gameState.tradePort();
-            return true;
+//            return gameState.tradeWithPort(gameState.getCurrentPlayerId());
         }
 
         // if we reach here, the GameAction object we received is not one that we recognize

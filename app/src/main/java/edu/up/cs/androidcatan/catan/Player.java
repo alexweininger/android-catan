@@ -245,13 +245,6 @@ public class Player {
     public void setVictoryPointsFromDevCard(int victoryPointsFromDevCard){ this.victoryPointsFromDevCard = victoryPointsFromDevCard; }
 
     /**
-     * @param devCard dev card to add
-     */
-    void addDevelopmentCard (int devCard) {
-        developmentCards.add(devCard);
-    }
-
-    /**
      * @param devCard dev card to remove
      * @return if action was possible
      */

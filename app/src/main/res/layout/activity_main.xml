@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="development_Card_Name,development_Card_Info,use_Card,development_Card_Spinner" />
+        app:constraint_referenced_ids="development_Card_Info,use_Card,development_Card_Spinner" />
 
     <!-- build menu group -->
 
@@ -235,55 +235,45 @@
     <Spinner
         android:id="@+id/development_Card_Spinner"
         style="@android:style/Widget.Material.DropDownItem.Spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:alpha="255"
         android:background="@android:color/background_light"
+        android:dropDownWidth="match_parent"
+        android:paddingStart="4dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="4dp"
         android:spinnerMode="dropdown"
-        android:theme="@style/Base.Widget.AppCompat.Spinner"
         app:layout_constraintEnd_toEndOf="@+id/use_Card"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/use_Card"
         app:layout_constraintTop_toBottomOf="@+id/build_devCard" />
 
     <TextView
-        android:id="@+id/development_Card_Name"
-        android:layout_width="218dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        android:padding="8dp"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/development_Card_Info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/white"
         android:minHeight="0dp"
         android:padding="8dp"
-        android:textColor="@android:color/background_light"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/development_Card_Name"
-        app:layout_constraintStart_toStartOf="@+id/development_Card_Name"
-        app:layout_constraintTop_toBottomOf="@+id/development_Card_Name" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/use_Card"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="37dp"
-        android:alpha="255"
         android:text="@string/Use_Button"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/development_Card_Info"
-        app:layout_constraintStart_toStartOf="@+id/development_Card_Name"
+        app:layout_constraintStart_toStartOf="@+id/development_Card_Info"
         app:layout_constraintTop_toBottomOf="@+id/development_Card_Info" />
 
     <!--dev card menu END-->
@@ -812,7 +802,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.73" />
+        app:layout_constraintGuide_percent="0.81" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
