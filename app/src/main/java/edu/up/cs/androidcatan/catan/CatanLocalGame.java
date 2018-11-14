@@ -155,10 +155,7 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanUseVictoryPointCardAction){
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
-
             gameState.getPlayerList().get(gameState.getCurrentPlayerId()).addVictoryPointsDevCard();
-            gameState.getPlayerList().get(gameState.getCurrentPlayerId()).removeDevCard(1);
-
             return true;
         }
 
