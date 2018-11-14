@@ -258,7 +258,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
         
         Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-        if (!gs.isRobberPhase()) {
+        if (!gs.isRobberPhase() && gs.getCurrentPlayerId() == this.playerNum) {
             game.sendAction(new CatanEndTurnAction(this));
         }
 
