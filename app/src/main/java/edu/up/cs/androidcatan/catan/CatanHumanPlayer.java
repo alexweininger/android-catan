@@ -509,7 +509,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             } else {
                 state.getCurrentPlayer().removeDevCard(developmentCardId);
-
+                Log.d(TAG, "onClick: Development Card was removed from hand");
                 if (developmentCardId == 0) {
                     game.sendAction(new CatanUseKnightCardAction(this));
                     return;
@@ -973,6 +973,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         List<String> spinnerList = new ArrayList<>(devCards);
+        if (spinnerList.size() == 0){
+            this.useDevCard.setAlpha(0.5f);
+            this.useDevCard.setClickable(false);
+        }
+        else {
+            this.useDevCard.setAlpha(1f);
+            this.useDevCard.setClickable(true);
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         devCardList.setAdapter(adapter);
