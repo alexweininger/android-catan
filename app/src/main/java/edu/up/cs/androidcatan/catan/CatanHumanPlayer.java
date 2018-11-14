@@ -321,7 +321,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Score button on the sidebar.
         if (button.getId() == R.id.sidebar_button_score) {
-            toggleGroupVisibility(scoreBoardGroup); // toggle menu vis.
+            if (scoreBoardGroup.getVisibility() == View.GONE) {
+                scoreBoardGroup.setVisibility(View.VISIBLE);
+            } else {
+                scoreBoardGroup.setVisibility(View.GONE);
+            }
             return;
         }
 
@@ -1524,21 +1528,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param group Group to toggle visibility.
      */
     private void toggleGroupVisibility (Group group) {
-        if (group.getVisibility() == View.GONE) group.setVisibility(View.VISIBLE);
-        else group.setVisibility(View.GONE);
+        if (group.getVisibility() == View.GONE) {
+            this.isMenuOpen = true;
+            group.setVisibility(View.VISIBLE);
+        } else {
+            this.isMenuOpen = false;
+            group.setVisibility(View.GONE);
+        }
     }
 
+    /**
+     * @param view View to toggle.
+     */
     private void toggleViewVisibility (View view) {
         if (view.getVisibility() == View.GONE) {
             view.setVisibility(View.VISIBLE);
-            this.isMenuOpen = true;
         } else {
             view.setVisibility(View.GONE);
-            this.isMenuOpen = false;
         }
-
     }
 
+    /**
+     * Sets all buttons to visible and clickable.
+     */
     private void setAllButtonsToVisible () {
         this.buildRoadButton.setAlpha(1f);
         this.buildRoadButton.setClickable(true);
