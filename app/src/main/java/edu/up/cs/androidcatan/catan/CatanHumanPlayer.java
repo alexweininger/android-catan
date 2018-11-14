@@ -510,67 +510,48 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(devCardList.getSelectedItemPosition())) {
                 int developmentCardId = devCardList.getSelectedItemPosition();
 
-                if (devCardList.getSelectedItemPosition() == 0) {
-                    if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(0)) {
-                        Log.e(TAG, "onClick: Knight Dev card is not owned!");
-                        messageTextView.setText(R.string.dont_have_card);
+                if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
+                    messageTextView.setText(R.string.dont_have_card);
+                    return;
+                } else {
+                    if (devCardList.getSelectedItemPosition() == 0) {
+                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
+                        game.sendAction(new CatanUseKnightCardAction(this));
                         return;
                     }
-                    CatanUseKnightCardAction action = new CatanUseKnightCardAction(this);
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(0);
-                    game.sendAction(action);
-                    return;
-                } else if (devCardList.getSelectedItemPosition() == 1) {
-                    if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(1)) {
-                        Log.e(TAG, "onClick: Victory Points Dev card is not owned!");
-                        messageTextView.setText(R.string.dont_have_card);
+                    if (devCardList.getSelectedItemPosition() == 1) {
+                        game.sendAction(new CatanUseVictoryPointCardAction(this));
                         return;
                     }
-                    CatanUseVictoryPointCardAction action = new CatanUseVictoryPointCardAction(this);
-                    game.sendAction(action);
-                    return;
-                } else if (devCardList.getSelectedItemPosition() == 2) {
-                    if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)) {
-                        Log.e(TAG, "onClick: Year of Plenty Dev card is not owned!");
-                        messageTextView.setText(R.string.dont_have_card);
+                    if (devCardList.getSelectedItemPosition() == 2) {
+                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
+                        game.sendAction(new CatanUseYearOfPlentyCardAction(this));
                         return;
                     }
-                    CatanUseYearOfPlentyCardAction action = new CatanUseYearOfPlentyCardAction(this);
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(2);
-                    game.sendAction(action);
-                    return;
-                } else if (devCardList.getSelectedItemPosition() == 3) {
-                    if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(3)) {
-                        Log.e(TAG, "onClick: Monopoly Dev card is not owned!");
-                        messageTextView.setText(R.string.dont_have_card);
+                    if (devCardList.getSelectedItemPosition() == 3) {
+                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
+                        game.sendAction(new CatanUseMonopolyCardAction(this));
                         return;
                     }
-                    CatanUseMonopolyCardAction action = new CatanUseMonopolyCardAction(this);
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(3);
-                    game.sendAction(action);
-                    return;
-                } else if (devCardList.getSelectedItemPosition() == 4) {
-                    if (!state.getPlayerList().get(state.getCurrentPlayerId()).getDevelopmentCards().contains(2)) {
-                        Log.e(TAG, "onClick: Road Building Dev card is not owned!");
-                        messageTextView.setText(R.string.dont_have_card);
+                    if (devCardList.getSelectedItemPosition() == 4) {
+                        state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
+                        game.sendAction(new CatanUseRoadBuildingCardAction(this));
                         return;
                     }
-                    CatanUseRoadBuildingCardAction action = new CatanUseRoadBuildingCardAction(this);
-                    state.getPlayerList().get(state.getCurrentPlayerId()).removeDevCard(4);
-                    game.sendAction(action);
-                    return;
                 }
             }
         }
 
+        // Build development card button in the development card menu.
         if (button.getId() == R.id.build_devCard) {
-            if (!(state.getPlayerList().get(playerNum).hasResourceBundle(DevelopmentCard.getResourceCost()))) {
-                messageTextView.setText("You don't have the resources to purchase a dev card!");
-                return;
+            // check if player has resources
+            if (state.getCurrentPlayer().hasResourceBundle(DevelopmentCard.resourceCost)) {
+                // send action to the game
+                game.sendAction(new CatanBuyDevCardAction(this, 0));
+                messageTextView.setText(R.string.you_built_a_dev);
+            } else {
+                messageTextView.setText(R.string.not_enough_for_dev_card);
             }
-            messageTextView.setText("You bought a dev card!");
-            CatanBuyDevCardAction action = new CatanBuyDevCardAction(this, 0);
-            game.sendAction(action);
             return;
         }
 

@@ -169,6 +169,7 @@ public class CatanGameState extends GameState{
      * @return - action success
      */
     public boolean useDevCard (int playerId, int devCardId) {
+        Log.d(TAG, "useDevCard() called with: playerId = [" + playerId + "], devCardId = [" + devCardId + "]");
 
         DevelopmentCard developmentCard = new DevelopmentCard(devCardId);
         return true;
@@ -343,6 +344,8 @@ public class CatanGameState extends GameState{
             return false;
         }
 
+
+
         this.currentDiceSum = dice.roll();
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
         // if the robber is rolled
@@ -399,7 +402,6 @@ public class CatanGameState extends GameState{
 
         // update the setup phase boolean variable using the method that does setup phase completion check
         this.setSetupPhase(updateSetupPhase());
-
         return true;
     } // end endTurn method
 
@@ -420,10 +422,7 @@ public class CatanGameState extends GameState{
      */
     public boolean tradeWithPort (int playerId, int intersectionId, int lostResourceId, int receivedResourceId) {
         Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + lostResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
-        // check if current player's turn and then if player has rolled dice
-        if (!valAction(playerId)) {
-            return false;
-        }
+
         // check if the intersection has a building on it
         if (!board.hasBuilding(intersectionId)) {
             return false;

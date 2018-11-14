@@ -141,6 +141,8 @@
     <string name="invalid_tile">Not a valid tile!</string>
     <string name="zero">00</string>
     <string name="dont_have_card">You don\'t have that card!</string>
+    <string name="you_built_a_dev">You bought a dev card!</string>
+    <string name="not_enough_for_dev_card">You don\'t have the resources to purchase a dev card!</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
