@@ -320,14 +320,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         // Score button on the sidebar.
-        if (button.getId() == R.id.sidebar_button_score) {
-            if (scoreBoardGroup.getVisibility() == View.GONE) {
-                scoreBoardGroup.setVisibility(View.VISIBLE);
-            } else {
-                scoreBoardGroup.setVisibility(View.GONE);
-            }
-            return;
-        }
+        toggleGroupVisibilityAllowTapping(scoreBoardGroup);
 
         /*--------------------------------- Robber onClick --------------------------------*/
 
@@ -1520,6 +1513,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     public View getTopView () {
         return myActivity.findViewById(R.id.top_gui_layout);
+    }
+
+    /**
+     * Toggles the visibility of a group.
+     *
+     * @param group Group to toggle visibility.
+     */
+    private void toggleGroupVisibilityAllowTapping (Group group) {
+        if (group.getVisibility() == View.GONE) {
+            group.setVisibility(View.VISIBLE);
+        } else {
+            group.setVisibility(View.GONE);
+        }
     }
 
     /**
