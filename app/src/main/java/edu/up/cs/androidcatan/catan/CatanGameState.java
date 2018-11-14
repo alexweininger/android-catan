@@ -643,6 +643,7 @@ public class CatanGameState extends GameState{
      * @return
      */
     public boolean discardResources(int playerId, int[] resourcesDiscarded){
+        Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
         if(checkPlayerResources(playerId)){
             return true;
         }
