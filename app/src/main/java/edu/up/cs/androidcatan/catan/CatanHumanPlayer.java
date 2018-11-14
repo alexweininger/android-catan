@@ -1212,6 +1212,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             drawGraphics();
 
             if(state.isRobberPhase() && state.getCurrentPlayerId() != playerNum){
+                messageTextView.setText("Robber Phase");
                 if(state.checkPlayerResources(playerNum)){
                    toggleGroupVisibility(robberDiscardGroup);
                 }
