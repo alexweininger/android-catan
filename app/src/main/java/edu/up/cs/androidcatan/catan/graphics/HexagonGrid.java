@@ -168,7 +168,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
                     if (this.highlightedIntersections.contains(i)) {
                         Log.i(TAG, "drawBuildings: drawing highlighted city at " + i);
-                        buildingPicture = this.getContext().getDrawable(cityPictures[5]);
+                        buildingPicture = this.getContext().getDrawable(cityPictures[4]);
                     } else {
                         Log.i(TAG, "drawBuildings: drawing a city.");
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);

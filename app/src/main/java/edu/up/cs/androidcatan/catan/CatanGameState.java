@@ -357,7 +357,7 @@ public class CatanGameState extends GameState{
         if (this.currentDiceSum == 7) {
             // todo activate robber
             Log.i(TAG, "rollDice: The robber has been activated.");
-            this.isRobberPhase = true;
+            //this.isRobberPhase = true;
         } else {
             Log.i(TAG, "rollDice: Calling the produceResources method.");
             produceResources(this.currentDiceSum);
@@ -649,8 +649,8 @@ public class CatanGameState extends GameState{
             hasDiscarded = true;
         }
         else{
-            hasDiscarded = true;
-            hasMovedRobber = true;
+                    hasDiscarded = true;
+                    hasMovedRobber = true;
         }
         robberPlayerListHasDiscarded[playerId] = true;
         return true;
