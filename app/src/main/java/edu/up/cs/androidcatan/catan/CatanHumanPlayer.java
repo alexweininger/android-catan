@@ -629,6 +629,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch (View v, MotionEvent event) {
+            if (isMenuOpen) {
+                return false;
+            }
             // save the X,Y coordinates
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 lastTouchDownXY[0] = event.getX();
@@ -643,6 +646,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick (View v) {
+            if (isMenuOpen) {
+                return;
+            }
             // retrieve the stored coordinates
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
@@ -1525,9 +1531,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void toggleViewVisibility (View view) {
         if (view.getVisibility() == View.GONE) {
             view.setVisibility(View.VISIBLE);
+            this.isMenuOpen = true;
         } else {
             view.setVisibility(View.GONE);
+            this.isMenuOpen = false;
         }
+
     }
 
     private void setAllButtonsToVisible () {
