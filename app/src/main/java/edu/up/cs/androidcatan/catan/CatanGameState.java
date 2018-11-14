@@ -424,15 +424,7 @@ public class CatanGameState extends GameState{
         if (!valAction(playerId)) {
             return false;
         }
-        // check if the intersection has a building on it
-        if (!board.hasBuilding(intersectionId)) {
-            return false;
-        }
 
-        // check if the player owns the building
-        if (board.getBuildings()[intersectionId].getOwnerId() != playerId) {
-            return false;
-        }
 
         // code to commence trade
         int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();

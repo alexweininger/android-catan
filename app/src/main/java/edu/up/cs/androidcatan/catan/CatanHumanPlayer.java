@@ -869,6 +869,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
 
+
         for (Port port : ports) {
             if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
                 tradingWith = port;
@@ -878,6 +879,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (tradingWith == null) {
             this.messageTextView.setText(R.string.no_port_access);
             Log.d(TAG, "tryTradeWithPort() returned: " + false);
+            return false;
+        }
+
+        // check if the intersection has a building on it
+        if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
+            return false;
+        }
+
+        // check if the player owns the building
+        if (state.getBoard().getBuildings()[selectedIntersections.get(0)].getOwnerId() != state.getCurrentPlayerId()) {
             return false;
         }
 
