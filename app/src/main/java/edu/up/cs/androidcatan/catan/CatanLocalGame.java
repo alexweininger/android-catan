@@ -233,9 +233,4 @@ public class CatanLocalGame extends LocalGame {
         }
         return null; // return null if no winner, but the game is not over
     }
-
-
-    public String getPlayerName (int playerId) {
-        return this.playerNames[playerId];
-    }
 }
