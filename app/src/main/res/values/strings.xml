@@ -147,6 +147,7 @@
     <string name="roll_the_dice">Roll the dice.</string>
     <string name="action_phase">Action phase.</string>
     <string name="choose_robber_tile">Please choose a tile to place the Robber on.</string>
+    <string name="road_built">Successfully built a road!</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
