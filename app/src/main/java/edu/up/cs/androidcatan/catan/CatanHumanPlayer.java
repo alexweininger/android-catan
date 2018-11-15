@@ -328,15 +328,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
-//            this.boardSurfaceView.getGrid().toggleDebugMode();
+            //            this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
 
-//            this.debugMode = !this.debugMode; // toggle debug mode
+            //            this.debugMode = !this.debugMode; // toggle debug mode
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
-//            setAllButtonsToVisible();
-//            Log.e(TAG, "onClick: toggled debug mode");
+            //            setAllButtonsToVisible();
+            //            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -350,8 +350,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if(state.getHasMovedRobber()){
-                if(selectedIntersections.size() != 1){
+            if (state.getHasMovedRobber()) {
+                if (selectedIntersections.size() != 1) {
                     robberHexMessage.setText("Please select only one intersection.");
                     return;
                 }
@@ -510,9 +510,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Development button located on the sidebar. Should only show/hide dev card menu.
         if (button.getId() == R.id.sidebar_button_devcards) {
 
-//            state.getCurrentPlayer().addResourceCard(1, 2);
-//            state.getCurrentPlayer().addResourceCard(3, 2);
-//            state.getCurrentPlayer().addResourceCard(4, 2);
+            //            state.getCurrentPlayer().addResourceCard(1, 2);
+            //            state.getCurrentPlayer().addResourceCard(3, 2);
+            //            state.getCurrentPlayer().addResourceCard(4, 2);
 
             toggleGroupVisibility(developmentGroup); // toggle menu vis.
             return;
@@ -564,29 +564,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 //
                 if (developmentCardId == 3) {
                     toggleGroupVisibility(monopolyPickGroup);
-                    for(ImageView imageView : monopolySelectionBox)
-                    {
+                    for (ImageView imageView : monopolySelectionBox) {
                         imageView.setBackgroundColor(Color.TRANSPARENT);
                     }
 
-                    int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon,R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
+                    int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon, R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
 
-                    for(int i = 0; i < 5; i++)
-                    {
-                        if(button.getId() == monopolyResourceIds[i])
-                        {
+                    for (int i = 0; i < 5; i++) {
+                        if (button.getId() == monopolyResourceIds[i]) {
                             monopolyResourceChoice = i;
                             break;
                         }
                     }
 
-                    if(monopolyResourceChoice != -1)
-                    {
+                    if (monopolyResourceChoice != -1) {
                         monopolySelectionBox[monopolyResourceChoice].setBackgroundColor(Color.argb(255, 255, 255, 187));
                     }
 
-                    if(button.getId() == R.id.pickResMenu_ConfirmButton)
-                    {
+                    if (button.getId() == R.id.pickResMenu_ConfirmButton) {
                         Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
                         game.sendAction(new CatanUseMonopolyCardAction(this, 1)); // todo
                         toggleGroupVisibilityAllowTapping(monopolyPickGroup);
@@ -708,32 +703,32 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /*----------------Monopoly-----------------------------*/
         //ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
 
-//        for(ImageView imageView : monopolySelectionBox)
-//        {
-//            imageView.setBackgroundColor(Color.TRANSPARENT);
-//        }
-//
-//        int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon,R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
-//
-//        for(int i = 0; i < 5; i++)
-//        {
-//            if(button.getId() == monopolyResourceIds[i])
-//            {
-//                monopolyResourceChoice = i;
-//                break;
-//            }
-//        }
-//
-//        if(monopolyResourceChoice != -1)
-//        {
-//            monopolySelectionBox[monopolyResourceChoice].setBackgroundColor(Color.argb(255, 255, 255, 187));
-//        }
-//
-//        if(button.getId() == R.id.pickResMenu_ConfirmButton)
-//        {
-//            Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
-//
-//        }
+        //        for(ImageView imageView : monopolySelectionBox)
+        //        {
+        //            imageView.setBackgroundColor(Color.TRANSPARENT);
+        //        }
+        //
+        //        int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon,R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
+        //
+        //        for(int i = 0; i < 5; i++)
+        //        {
+        //            if(button.getId() == monopolyResourceIds[i])
+        //            {
+        //                monopolyResourceChoice = i;
+        //                break;
+        //            }
+        //        }
+        //
+        //        if(monopolyResourceChoice != -1)
+        //        {
+        //            monopolySelectionBox[monopolyResourceChoice].setBackgroundColor(Color.argb(255, 255, 255, 187));
+        //        }
+        //
+        //        if(button.getId() == R.id.pickResMenu_ConfirmButton)
+        //        {
+        //            Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
+        //
+        //        }
 
     } // onClick END
 
@@ -857,40 +852,45 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
 
         // check if user given intersections are valid
-        if (!state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
+        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
+            Log.i(TAG, "tryBuildRoad: Valid road placement received.");
+        } else {
             messageTextView.setText(R.string.invalid_road_placement);
             Log.d(TAG, "tryBuildRoad() returned: " + false);
             return false;
         }
-        Log.i(TAG, "tryBuildRoad: Valid road placement received.");
 
         if (state.isSetupPhase()) {
-            // add just enough resources so player can build a road
             game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
-        } else {
-            if (state.isActionPhase()) {
-                // if it is not the setup phase check if the player has enough resources to build a road
-                if (!state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
-                    Log.i(TAG, "tryBuildRoad: player does not have enough resources to build a road.");
-                    messageTextView.setText(R.string.not_enough_for_road);
-                    Log.d(TAG, "tryBuildRoad() returned: " + false);
-                    return false;
-
-                }
-            }
+            messageTextView.setText(R.string.road_built);
+            return true;
         }
 
-        // send build settlement action to the game
-        Log.d(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
-        game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
+        // if it is not the setup phase, then check if it is the action phase
+        if (!state.isActionPhase()) {
+            Log.i(TAG, "tryBuildRoad: Player cannot build road. Not action phase.");
+            messageTextView.setText(R.string.roll_the_dice);
+            shake(messageTextView);
+            return false;
+        }
 
-        boardSurfaceView.getGrid().clearHighLightedIntersections();
-        selectedIntersections.clear(); // clear the selected intersections
-        this.buildingsBuiltOnThisTurn.add(0);
+        // if it is not the setup phase check if the player has enough resources to build a road
+        if (state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
+            // send build settlement action to the game
+            Log.d(TAG, "tryBuildRoad: Sending a CatanBuildRoadAction to the game.");
+            game.sendAction(new CatanBuildRoadAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersectionA, intersectionB));
+            // clear selected intersections
+            boardSurfaceView.getGrid().clearHighLightedIntersections();
+            selectedIntersections.clear(); // clear the selected intersections
+            this.buildingsBuiltOnThisTurn.add(0);
+            Log.d(TAG, "tryBuildRoad() returned: " + true);
+            return true;
+        }
 
-        // return true
-        Log.d(TAG, "tryBuildRoad() returned: " + true);
-        return true;
+        Log.i(TAG, "tryBuildRoad: player does not have enough resources to build a road.");
+        messageTextView.setText(R.string.not_enough_for_road);
+        Log.d(TAG, "tryBuildRoad() returned: " + false);
+        return false;
     }
 
     /**
@@ -1059,11 +1059,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         List<String> spinnerList = new ArrayList<>(devCards);
-        if (spinnerList.size() == 0){
+        if (spinnerList.size() == 0) {
             this.useDevCard.setAlpha(0.5f);
             this.useDevCard.setClickable(false);
-        }
-        else {
+        } else {
             this.useDevCard.setAlpha(1f);
             this.useDevCard.setClickable(true);
         }
@@ -1108,8 +1107,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             } else {
 
             }
-        }
-        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
             this.messageTextView.setText(R.string.setup_phase); // set info message
 
@@ -1298,11 +1296,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             updateTextViews();
             drawGraphics();
 
-            if(state.isRobberPhase() && state.getCurrentPlayerId() != playerNum){
+            if (state.isRobberPhase() && state.getCurrentPlayerId() != playerNum) {
                 messageTextView.setText("Robber Phase");
-                if(state.needsToDiscardHalf(playerNum)){
-                   robberDiscardGroup.setVisibility(View.VISIBLE);
-                } else{
+                if (state.needsToDiscardHalf(playerNum)) {
+                    robberDiscardGroup.setVisibility(View.VISIBLE);
+                } else {
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new ArrayList<Integer>()));
                 }
             }
@@ -1630,7 +1628,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         monopolyConfirm = activity.findViewById(R.id.pickResMenu_ConfirmButton);
         monopolyConfirm.setOnClickListener(this);
-
 
 
     }// setAsGui() END
