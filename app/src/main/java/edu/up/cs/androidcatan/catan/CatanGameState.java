@@ -12,7 +12,6 @@ import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
 /**
@@ -476,48 +475,6 @@ public class CatanGameState extends GameState {
         Log.w(TAG, "buildRoad: Player " + playerId + " built a road. Returning true.");
         return true;
     } // end buildRoad
-
-    /**
-     * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
-     *
-     * @param playerId - player building a settlement
-     * @param intersectionId - intersection the player wants to build at
-     * @return - action success
-     */
-    public boolean buildSettlement (int playerId, int intersectionId) {
-        Log.d(TAG, "buildSettlement() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
-        if (!this.isSetupPhase) {
-            // validates the player id, checks if its their turn, and checks if it is the action phase
-            if (!valAction(playerId)) {
-                Log.d(TAG, "buildSettlement() Not setup phase, and not action phase. Returning false." + false);
-                return false;
-            }
-        } else {
-
-            Log.i(TAG, "buildSettlement: Player " + playerId + " now has resources: " + this.getPlayerList().get(playerId).printResourceCards());
-        }
-
-        // check if player has the required resources to build a Settlement
-        if (!this.playerList.get(playerId).hasResourceBundle(Settlement.resourceCost)) {
-            Log.e(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
-            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
-            return false;
-        }
-
-        // check if the selected building location is valid
-        if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
-            Log.e(TAG, "buildSettlement: validBuildingLocation returned false.");
-            return false;
-        }
-
-
-
-        // create Settlement object and add to Board object
-        Settlement settlement = new Settlement(playerId);
-        this.board.addBuilding(intersectionId, settlement);
-        Log.w(TAG, "buildSettlement: Player " + playerId + " built a settlement. Returning true.");
-        return true;
-    }
 
     /**
      * Player requests to build city and Game State processes requests and returns true if build was successful
