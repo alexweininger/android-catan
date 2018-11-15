@@ -17,7 +17,7 @@ public class City extends Building {
     /**
      * @param ownerId id of who owns the building
      */
-    public City(int intersectionId, int ownerId) {
+    public City(int ownerId) {
         super(ownerId);
     }
 

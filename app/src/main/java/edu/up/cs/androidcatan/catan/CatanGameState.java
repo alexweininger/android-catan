@@ -504,7 +504,7 @@ public class CatanGameState extends GameState {
         }
 
         // create City object and add to Board object
-        City city = new City(intersectionId, playerId);
+        City city = new City(playerId);
         this.board.addBuilding(intersectionId, city);
 
         Log.i(TAG, "buildCity: Player " + playerId + " built a city.");

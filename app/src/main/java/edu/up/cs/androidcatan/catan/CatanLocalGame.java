@@ -22,6 +22,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.game.GamePlayer;
@@ -123,7 +124,17 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildCityAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.buildCity(state.getCurrentPlayerId(), ((CatanBuildCityAction) action).getIntersectionId());
+
+            // remove resources from players inventory (also does checks)
+            if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
+                // add building to the board
+                state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));
+                Log.d(TAG, "makeMove() returned: " + true);
+                return true;
+            }
+            // if the player does not have enough resources at this point in execution something is WRONG
+            Log.e(TAG, "buildCity: Player " + state.getCurrentPlayerId() + " resources: " + state.getCurrentPlayer().printResourceCards() + " makeMove() returned: " + false);
+            return false;
         }
 
         /*------------------------------- Development Card Actions -------------------------------*/
