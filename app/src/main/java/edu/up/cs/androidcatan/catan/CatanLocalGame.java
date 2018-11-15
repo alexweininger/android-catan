@@ -84,7 +84,17 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.rollDice();
+            state.setCurrentDiceSum(state.getDice().roll());
+            Log.i(TAG, "rollDice: Player " + state.getCurrentPlayerId() + " rolled a " + state.getCurrentDiceSum());
+
+            if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
+                Log.i(TAG, "rollDice: The robber has been activated.");
+                //            this.isRobberPhase = true;
+            } else {
+                state.produceResources(state.getCurrentDiceSum());
+            }
+            state.setActionPhase(true);
+            return true;
         }
 
         if (action instanceof CatanEndTurnAction) {
