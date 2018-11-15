@@ -45,40 +45,6 @@ public class CatanLocalGame extends LocalGame {
         gameState = new CatanGameState();
     }
 
-    /*---------------------- Methods for checking the Game State and updating it ------------------------------------*/
-
-    /**
-     * Notify the given player that its state has changed. This should involve sending
-     * a GameInfo object to the player. If the game is not a perfect-information game
-     * this method should remove any information from the game that the player is not
-     * allowed to know.
-     *
-     * @param p the player to notify
-     */
-    @Override
-    protected void sendUpdatedStateTo (GamePlayer p) {
-        Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
-        p.sendInfo(new CatanGameState(this.gameState));
-    }
-
-    /**
-     * Check if the game is over. It is over, return a string that tells
-     * who the winner(s), if any, are. If the game is not over, return null;
-     *
-     * @return a message that tells who has won the game, or null if the
-     * game is not over
-     */
-    @Override
-    protected String checkIfGameOver () {
-        Log.d(TAG, "checkIfGameOver() called");
-        for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
-            if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
-                return playerNames[i] + " wins!";
-            }
-        }
-        return null; // return null if no winner, but the game is not over
-    }
-
     /*--------------------------------------- Action Methods -------------------------------------------*/
 
     /**
@@ -90,16 +56,14 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove (int playerIdx) {
-
-        if (gameState.isRobberPhase()) {
-            return true;
-        }
-
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
 
-        if (playerIdx < 0 || playerIdx > 3) {
+        if (gameState.isRobberPhase())
+            return true; // todo fix this iffy logic
+
+        if (playerIdx < 0 || playerIdx > 3)
             Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
-        }
+
         Log.d(TAG, "canMove() returned: " + (playerIdx == gameState.getCurrentPlayerId()));
         return playerIdx == gameState.getCurrentPlayerId();
     }
@@ -114,6 +78,8 @@ public class CatanLocalGame extends LocalGame {
     protected boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
+        /* --------------------------- Turn Actions --------------------------------------- */
+
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.rollDice();
@@ -123,6 +89,8 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.endTurn();
         }
+
+        /* --------------------------- Build Actions --------------------------------------- */
 
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -139,7 +107,7 @@ public class CatanLocalGame extends LocalGame {
             return gameState.buildCity(gameState.getCurrentPlayerId(), ((CatanBuildCityAction) action).getIntersectionId());
         }
 
-        /*----------------------------------Dev Card Actions---------------------------------------------*/
+        /*------------------------------- Development Card Actions -------------------------------*/
 
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -194,7 +162,8 @@ public class CatanLocalGame extends LocalGame {
             return gameState.useDevCard(gameState.getCurrentPlayerId(), 2);
         }
 
-        /*----------------------------------Robber Actions-----------------------------------------------*/
+        /*---------------------------------- Robber Actions --------------------------------------*/
+
         if (action instanceof CatanRobberDiscardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getRobberDiscardedResources());
@@ -207,7 +176,8 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             return gameState.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealId());
         }
-        /*---------------------------------- Trade Actions -----------------------------------------------*/
+
+        /*---------------------------------- Trade Actions ---------------------------------------*/
 
         if (action instanceof CatanTradeAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
@@ -229,6 +199,41 @@ public class CatanLocalGame extends LocalGame {
         Log.e(TAG, "makeMove: FATAL ERROR: GameAction action was not and instance of an action class that we recognize.");
         return false;
     }
+
+    /*---------------------- Methods for checking the Game State and updating it ------------------------------------*/
+
+    /**
+     * Notify the given player that its state has changed. This should involve sending
+     * a GameInfo object to the player. If the game is not a perfect-information game
+     * this method should remove any information from the game that the player is not
+     * allowed to know.
+     *
+     * @param p the player to notify
+     */
+    @Override
+    protected void sendUpdatedStateTo (GamePlayer p) {
+        Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
+        p.sendInfo(new CatanGameState(this.gameState));
+    }
+
+    /**
+     * Check if the game is over. It is over, return a string that tells
+     * who the winner(s), if any, are. If the game is not over, return null;
+     *
+     * @return a message that tells who has won the game, or null if the
+     * game is not over
+     */
+    @Override
+    protected String checkIfGameOver () {
+        Log.d(TAG, "checkIfGameOver() called");
+        for (int i = 0; i < this.gameState.getPlayerVictoryPoints().length; i++) {
+            if (this.gameState.getPlayerVictoryPoints()[i] > 9) {
+                return playerNames[i] + " wins!";
+            }
+        }
+        return null; // return null if no winner, but the game is not over
+    }
+
 
     public String getPlayerName (int playerId) {
         return this.playerNames[playerId];

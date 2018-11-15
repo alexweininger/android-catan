@@ -32,35 +32,40 @@ public class CatanGameState extends GameState {
     private Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
-
     private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
     private int[] playerVictoryPoints = new int[4]; // victory points of each player
     private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
 
+    private int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
 
-    private int currentPlayerId; // id of player who is the current playing player
+    // game phases
+    private boolean isSetupPhase = true; // is it the setup phase
     private boolean isActionPhase = false; // has the current player rolled the dice
-    private boolean isSetupPhase = true;
-    private boolean isRobberPhase = false;
+    private boolean isRobberPhase = false; // is the robber phase
+
+    // robber
     private boolean hasDiscarded = false;
     private boolean hasMovedRobber = false;
-    private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
-    private int currentLongestRoadPlayerId = -1;
-
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
     private boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
 
-    public CatanGameState () { // CatanGameState constructor
+    // trophies
+    private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
+    private int currentLongestRoadPlayerId = -1;
+
+    public CatanGameState () {
         this.dice = new Dice();
         this.board = new Board();
         generateDevCardDeck();
 
+        //
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
+        // add players to player list
         this.playerList.add(new Player(0));
         this.playerList.add(new Player(1));
         this.playerList.add(new Player(2));
@@ -355,7 +360,7 @@ public class CatanGameState extends GameState {
         // if the robber is rolled
         if (this.currentDiceSum == 7) {
             Log.i(TAG, "rollDice: The robber has been activated.");
-//            this.isRobberPhase = true;
+            //            this.isRobberPhase = true;
         } else {
             Log.i(TAG, "rollDice: Calling the produceResources method.");
             produceResources(this.currentDiceSum);

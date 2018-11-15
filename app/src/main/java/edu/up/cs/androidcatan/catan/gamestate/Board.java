@@ -342,7 +342,6 @@ public class Board {
         return -1;
     }
 
-
     /* ----- validate building methods ----- */
 
     /**
