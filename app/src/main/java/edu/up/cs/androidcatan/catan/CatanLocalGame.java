@@ -106,23 +106,39 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() receiving a CatanBuildRoadAction: " + action.toString());
-            // remove the resource cost of a road from the players resource cards
+
+            // if it is the setup phase, do not remove resources
+            if (((CatanBuildRoadAction) action).isSetupPhase()) {
+                Log.i(TAG, "makeMove: Setup phase. Not checking for resources.");
+                // add the road to the board
+                state.getBoard().addRoad(((CatanBuildRoadAction) action).getOwnerId(), ((CatanBuildRoadAction) action).getIntAId(), ((CatanBuildRoadAction) action).getIntBid());
+                return true;
+            }
+            // if not setup phase, remove the resource cost of a road from the players resource cards
             if (state.getCurrentPlayer().removeResourceBundle(Road.resourceCost)) {
                 // add the road to the board
                 state.getBoard().addRoad(((CatanBuildRoadAction) action).getOwnerId(), ((CatanBuildRoadAction) action).getIntAId(), ((CatanBuildRoadAction) action).getIntBid());
                 return true;
-            } else {
-                Log.e(TAG, "makeMove: Player sent a CatanBuildRoadAction but removeResourceBundle returned false.");
-                return false;
             }
+            Log.e(TAG, "makeMove: Player sent a CatanBuildRoadAction but removeResourceBundle returned false.");
+            return false;
         }
 
         if (action instanceof CatanBuildSettlementAction) {
             Log.i(TAG, "makeMove: received an CatanBuildSettlementAction.");
 
+            // if it is the setup phase do not remove resources
+            if (((CatanBuildSettlementAction) action).isSetupPhase()) {
+                Log.i(TAG, "makeMove: Setup phase. Not checking for resources.");
+                // add settlement to the board
+                state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
+                Log.d(TAG, "makeMove() returned: " + true);
+                return true;
+            }
+
             // remove resources from players inventory (also does checks)
             if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
-                // add building to the board
+                // add settlement to the board
                 state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
