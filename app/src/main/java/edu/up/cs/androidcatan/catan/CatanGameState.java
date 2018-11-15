@@ -10,7 +10,6 @@ import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
@@ -475,41 +474,6 @@ public class CatanGameState extends GameState {
         Log.w(TAG, "buildRoad: Player " + playerId + " built a road. Returning true.");
         return true;
     } // end buildRoad
-
-    /**
-     * Player requests to build city and Game State processes requests and returns true if build was successful
-     *
-     * @param playerId - player building a city
-     * @param intersectionId - intersection
-     * @return - action success
-     */
-    public boolean buildCity (int playerId, int intersectionId) {
-        Log.d(TAG, "buildCity() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
-        // check if valid player id, turn, and action phase
-        if (!valAction(playerId)) {
-            Log.e(TAG, "buildCity: valAction failed.");
-            return false;
-        }
-
-        // check if player has enough resources
-        if (!this.playerList.get(playerId).hasResourceBundle(City.resourceCost)) {
-            Log.i(TAG, "buildCity: Player " + playerId + " does not have enough resources to build a City.");
-            return false;
-        }
-
-        // remove resources from players inventory (also does checks)
-        if (!this.playerList.get(playerId).removeResourceBundle(City.resourceCost)) {
-            Log.e(TAG, "buildCity: Player.removeResourceBundle returned false.");
-            return false;
-        }
-
-        // create City object and add to Board object
-        City city = new City(playerId);
-        this.board.addBuilding(intersectionId, city);
-
-        Log.i(TAG, "buildCity: Player " + playerId + " built a city.");
-        return true;
-    }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
