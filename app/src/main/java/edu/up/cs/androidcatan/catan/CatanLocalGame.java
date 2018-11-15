@@ -21,6 +21,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.LocalGame;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
@@ -58,11 +59,9 @@ public class CatanLocalGame extends LocalGame {
     protected boolean canMove (int playerIdx) {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
 
-        if (gameState.isRobberPhase())
-            return true; // todo fix this iffy logic
+        if (gameState.isRobberPhase()) return true; // todo fix this iffy logic
 
-        if (playerIdx < 0 || playerIdx > 3)
-            Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
+        if (playerIdx < 0 || playerIdx > 3) Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
 
         Log.d(TAG, "canMove() returned: " + (playerIdx == gameState.getCurrentPlayerId()));
         return playerIdx == gameState.getCurrentPlayerId();
@@ -111,7 +110,15 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return gameState.buyDevCard(gameState.getCurrentPlayerId());
+
+            Player player = gameState.getCurrentPlayer();
+
+            // remove resources from players inventory (also does checks)
+            if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) return false;
+
+            // add random dev card to players inventory
+            player.getDevelopmentCards().add(gameState.getRandomCard());
+            return true;
         }
 
         if (action instanceof CatanUseDevCardAction) {

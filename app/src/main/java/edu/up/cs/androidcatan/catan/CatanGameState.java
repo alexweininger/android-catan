@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
-import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
@@ -93,12 +92,13 @@ public class CatanGameState extends GameState {
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
-        this.isRobberPhase = cgs.isRobberPhase;
         this.hasDiscarded = cgs.hasDiscarded;
         this.hasMovedRobber = cgs.hasMovedRobber;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
+        this.setRobberPhase(cgs.getRobberPhase());
+        this.setRobberDiscardedResources(cgs.getRobberDiscardedResources());
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
 
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
@@ -108,9 +108,8 @@ public class CatanGameState extends GameState {
         this.setBoard(cgs.getBoard());
 
         // copy player list (using player deep copy const.)
-        for (int i = 0; i < cgs.playerList.size(); i++) {
+        for (int i = 0; i < cgs.playerList.size(); i++)
             this.playerList.add(new Player(cgs.playerList.get(i)));
-        }
 
         // copy victory points of each player
         for (int i = 0; i < cgs.playerVictoryPoints.length; i++) {
@@ -147,26 +146,6 @@ public class CatanGameState extends GameState {
 
         Log.d(TAG, "getRandomCard() returned: " + drawnDevCard);
         return drawnDevCard;
-    }
-
-    /**
-     * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory.
-     *
-     * @param playerId Player id of the player who's requesting to buy a development card.
-     * @return - Action success.
-     */
-    public boolean buyDevCard (int playerId) {
-
-        Player player = this.playerList.get(playerId);
-
-        // remove resources from players inventory (also does checks)
-        if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) {
-            return false;
-        }
-
-        // add random dev card to players inventory
-        player.getDevelopmentCards().add(getRandomCard());
-        return true;
     }
 
     /**
@@ -906,6 +885,26 @@ public class CatanGameState extends GameState {
 
     public void playerHasDiscardedResources (int playerId) {
         this.robberPlayerListHasDiscarded[playerId] = true;
+    }
+
+    public void setHasDiscarded (boolean hasDiscarded) {
+        this.hasDiscarded = hasDiscarded;
+    }
+
+    public boolean isHasMovedRobber () {
+        return hasMovedRobber;
+    }
+
+    public void setHasMovedRobber (boolean hasMovedRobber) {
+        this.hasMovedRobber = hasMovedRobber;
+    }
+
+    public int[] getRobberDiscardedResources () {
+        return robberDiscardedResources;
+    }
+
+    public void setRobberDiscardedResources (int[] robberDiscardedResources) {
+        this.robberDiscardedResources = robberDiscardedResources;
     }
 
     /*-------------------------------------toString------------------------------------------*/
