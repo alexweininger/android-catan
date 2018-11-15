@@ -33,7 +33,7 @@ public class CatanBuildRoadAction extends GameAction {
 
     // getters and setters
 
-    public int getIntersectionAId() {
+    public int getIntAId () {
         return intersectionAId;
     }
 
@@ -41,7 +41,7 @@ public class CatanBuildRoadAction extends GameAction {
         this.intersectionAId = intersectionAId;
     }
 
-    public int getIntersectionBid() {
+    public int getIntBid () {
         return intersectionBid;
     }
 

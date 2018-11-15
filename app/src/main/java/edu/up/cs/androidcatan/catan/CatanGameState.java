@@ -510,12 +510,7 @@ public class CatanGameState extends GameState {
             return false;
         }
 
-        // remove resources from players inventory (also does checks)
-        if (!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
-            Log.e(TAG, "buildSettlement: Player.removeResourceBundle returned false.");
-            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
-            return false;
-        }
+
 
         // create Settlement object and add to Board object
         Settlement settlement = new Settlement(playerId);
