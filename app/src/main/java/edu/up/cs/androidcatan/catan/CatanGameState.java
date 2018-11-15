@@ -10,7 +10,6 @@ import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
 /**
@@ -449,31 +448,6 @@ public class CatanGameState extends GameState {
         Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + 4 + " " + resGiven + " for a " + resReceive + " with bank.\n");
         return true;
     } // end tradeWithBank
-
-    /*---------------------------------------Building Methods------------------------------------------*/
-
-    /**
-     * Player requests to build road ands Game State processes requests and returns true if build was successful
-     *
-     * @param playerId - player building a road
-     * @param startIntersectionID - intersection id
-     * @param endIntersectionID - intersection id
-     * @return - action success
-     */
-    public boolean buildRoad (int playerId, int startIntersectionID, int endIntersectionID) {
-        Log.d(TAG, "buildRoad() called with: playerId = [" + playerId + "], startIntersectionID = [" + startIntersectionID + "], endIntersectionID = [" + endIntersectionID + "]");
-
-        // remove resources from players inventory (also does checks)
-        if (!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
-            Log.e(TAG, "buildRoad: Player.removeResourceBundle returned false.");
-            return false;
-        }
-
-        // add road to the board
-        this.board.addRoad(playerId, startIntersectionID, endIntersectionID);
-        Log.w(TAG, "buildRoad: Player " + playerId + " built a road. Returning true.");
-        return true;
-    } // end buildRoad
 
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
