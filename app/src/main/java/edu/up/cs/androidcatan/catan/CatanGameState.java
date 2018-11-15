@@ -280,7 +280,7 @@ public class CatanGameState extends GameState {
      *
      * @param diceSum - dice sum
      */
-    private void produceResources (int diceSum) {
+    public void produceResources (int diceSum) {
         Log.d(TAG, "produceResources() called with: diceSum = [" + diceSum + "]");
         if (isActionPhase) {
             Log.e(TAG, "produceResources: It is the action phase. Returned false.");
@@ -314,7 +314,6 @@ public class CatanGameState extends GameState {
             }
         }
     }
-
 
     /*-------------------------------------Action Methods------------------------------------------*/
 

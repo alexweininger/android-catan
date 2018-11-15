@@ -125,7 +125,7 @@ public class Board {
             if (b.getBuildings()[i] instanceof Settlement) {
                 this.buildings[i] = new Settlement(b.getBuildings()[i].getOwnerId());
             } else if (b.getBuildings()[i] instanceof City) {
-                this.buildings[i] = new City(i, b.getBuildings()[i].getOwnerId());
+                this.buildings[i] = new City(b.getBuildings()[i].getOwnerId());
             }
         }
         for (Hexagon hexagon : b.getHexagons()) {
