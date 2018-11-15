@@ -776,8 +776,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i("TAG", "onLongClick: x = " + x + ", y = " + y);
 
             for (int i = 0; i < grid.getIntersections().length; i++) {
-                int xPos = grid.getIntersections()[i].getxPos();
-                int yPos = grid.getIntersections()[i].getyPos();
+                int xPos = grid.getIntersections()[i].getXPos();
+                int yPos = grid.getIntersections()[i].getYPos();
 
                 // if y is greater than y - 25 and less than y + 25
                 if (y > yPos - 100 && y < yPos + 100 && x > xPos - 100 && x < xPos + 100) {

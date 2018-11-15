@@ -52,8 +52,8 @@ public class Port {
         portLinePaint.setStrokeWidth(10);
 
         if (debugMode) {
-            canvas.drawLine(xPos, yPos, b.getxPos(), b.getyPos(), portLinePaint);
-            canvas.drawLine(xPos, yPos, a.getxPos(), a.getyPos(), portLinePaint);
+            canvas.drawLine(xPos, yPos, b.getXPos(), b.getYPos(), portLinePaint);
+            canvas.drawLine(xPos, yPos, a.getXPos(), a.getYPos(), portLinePaint);
         }
 
         Drawable portPicture = context.getDrawable(R.drawable.port_boat);

@@ -5,36 +5,33 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 public class IntersectionDrawable {
-    int intersectionId;
-    int xPos;
-    int yPos;
+    private int intersectionId, xPos, yPos;
 
-    public IntersectionDrawable (int id, int x, int y) {
+    IntersectionDrawable (int id, int x, int y) {
         this.intersectionId = id;
         this.xPos = x;
         this.yPos = y;
     }
 
-    public void drawIntersection(Canvas canvas, boolean debugMode) {
+    void drawIntersection(Canvas canvas, boolean debugMode) {
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(42);
 
-        if (debugMode) {
+        if (debugMode)
             canvas.drawText("" + intersectionId, xPos, yPos, paint);
-        }
     }
 
     public int getIntersectionId() {
-        return intersectionId;
+        return this.intersectionId;
     }
 
-    public int getxPos() {
-        return xPos;
+    public int getXPos () {
+        return this.xPos;
     }
 
-    public int getyPos() {
-        return yPos;
+    public int getYPos () {
+        return this.yPos;
     }
 
 }

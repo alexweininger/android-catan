@@ -63,7 +63,7 @@ public class Player {
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
     }
 
-    public void addVictoryPointsDevCard () {
+    void addVictoryPointsDevCard () {
         this.victoryPointsFromDevCard += 2;
     }
 
@@ -116,7 +116,7 @@ public class Player {
         return true;
     }
 
-    public void removeDevCard (int removeCardNum) {
+    void removeDevCard (int removeCardNum) {
         this.developmentCards.remove((Integer) removeCardNum);
     }
 
@@ -216,7 +216,7 @@ public class Player {
     /**
      * @param resourceCards - resource card array
      */
-    public void setResourceCards (int[] resourceCards) {
+    private void setResourceCards (int[] resourceCards) {
         this.resourceCards = resourceCards;
     }
 
@@ -256,11 +256,11 @@ public class Player {
         return false;
     }
 
-    public void decrementBuildingInventory (int buildingId) {
+    public void decrementBuildingInventory (int buildingId) { // TODO
         this.buildingInventory[buildingId]--;
     }
 
-    // use to allow the player to use the dev card they built the turn prior
+    // use to allow the player to use the dev card they built the turn prior TODO
     public void setDevelopmentCardsAsPlayable () {
         for (int i = 0; i < developmentCards.size(); i++) {
             //developmentCards.get(i).setPlayable(true);
@@ -293,9 +293,8 @@ public class Player {
      */
     int getTotalResourceCardCount () {
         int result = 0;
-        for (int resourceCard : this.resourceCards) {
+        for (int resourceCard : this.resourceCards)
             result += resourceCard;
-        }
         Log.d(TAG, "getTotalResourceCardCount() returned: " + result);
         return result;
     }
@@ -304,7 +303,6 @@ public class Player {
      * @return - A random resourceCard is removed from the players inventory and returned.
      */
     int getRandomCard () {
-
         if (this.getTotalResourceCardCount() < 1) {
             Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
             return -1;
@@ -320,7 +318,7 @@ public class Player {
             Log.e(TAG, "getRandomCard: Player does not have random card that was checked for.");
             return -1;
         }
-
+        Log.d(TAG, "getRandomCard() returned: " + randomResourceId);
         return randomResourceId;
     }
 
@@ -330,7 +328,6 @@ public class Player {
     @Override
     public String toString () {
         return " Player id: " + this.playerId + ", " + "DevCards: " + this.developmentCards + ", BldgInv: " + Arrays.toString(this.buildingInventory) + ", army: " + this.armySize + "\n\tResources: " + this.printResourceCards();
-
     }
 }
 
