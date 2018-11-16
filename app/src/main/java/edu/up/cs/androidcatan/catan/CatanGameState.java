@@ -172,29 +172,6 @@ public class CatanGameState extends GameState {
     }
 
     /**
-     * todo maybe this is deprecated?
-     * validates the player id, checks if its their turn, and checks if it is the action phase
-     *
-     * @param playerId - player id to validate an action for
-     * @return - can this player make an action?
-     */
-    private boolean valAction (int playerId) {
-        if (valPlId(playerId)) {
-            if (checkTurn(playerId)) {
-                if (this.isActionPhase) {
-                    return true;
-                }
-                Log.i(TAG, "valAction - it is not the action phase.");
-                return false;
-            }
-            Log.i(TAG, "valAction - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        Log.i(TAG, "valAction - invalid player id: " + playerId);
-        return false;
-    }
-
-    /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize () {
