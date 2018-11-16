@@ -64,7 +64,7 @@ public class Player {
     }
 
     void addVictoryPointsDevCard () {
-        this.victoryPointsFromDevCard += 2;
+        this.victoryPointsFromDevCard += 1;
     }
 
     /**
