@@ -388,29 +388,6 @@ public class CatanGameState extends GameState {
         return true;
     } // end endTurn method
 
-    /*---------------------------------------Trading Methods------------------------------------------*/
-
-    /**
-     * Player trades with bank, gives resources and receives a resource; number depends on the resource
-     *
-     * @param playerId - player attempting to trade with port
-     * @param resGiven - what player is giving in the trade
-     * @param resReceive - what the player is receiving in the trade
-     * @return - action success
-     */
-    //TODO implement
-    public boolean tradeWithBank (int playerId, int resGiven, int resReceive) {
-
-        // Player.removeResources returns false if the player does not have enough, if they do it removes them.
-        if (!this.playerList.get(playerId).removeResourceCard(resGiven, 4)) {
-            Log.e(TAG, "tradeWithBank - not enough resources, player id: " + playerId);
-            return false;
-        }
-        this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
-        Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + 4 + " " + resGiven + " for a " + resReceive + " with bank.\n");
-        return true;
-    } // end tradeWithBank
-
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
         this.isRobberPhase = rp;
