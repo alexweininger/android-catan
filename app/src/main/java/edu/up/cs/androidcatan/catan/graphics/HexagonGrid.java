@@ -403,7 +403,7 @@ public class HexagonGrid extends BoardSurfaceView {
         if (highlightedIntersections.size() > 1) {
             highlightedIntersections.remove(0);
             highlightedIntersections.add(intersection);
-            Log.e(TAG, "addSelectedIntersection: Cannot add interection to highlightedIntersections because there are already more than 1 selected intersection.");
+            Log.e(TAG, "addSelectedIntersection: Cannot add intersection to selectedIntersections because there are already more than 1 selected intersection.");
         } else {
             this.highlightedIntersections.add(intersection);
         }

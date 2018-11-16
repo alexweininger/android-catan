@@ -993,6 +993,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return Trade success.
      */
     private boolean tryTradeWithPort (int resourceGiving, int resourceReceiving) {
+        if (resourceGiving < 0) {
+            messageTextView.setText(R.string.give_res_not_sel);
+            shake(messageTextView);
+            return false;
+        }
+        if (resourceReceiving < 0) {
+            messageTextView.setText(R.string.rec_res_not_sel);
+            shake(messageTextView);
+            return false;
+        }
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
         for (Port port : ports) {
@@ -1043,32 +1053,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
     }
 
+    /**
+     * @param resourceGiving Resource to give in the trade with the bank.
+     * @param resourceReceiving Resource to receive in the trade with the bank.
+     * @return Trade success.
+     */
     private boolean tryTradeWithBank (int resourceGiving, int resourceReceiving) {
         Log.d(TAG, "tryTradeWithBank() called with: resourceGiving = [" + resourceGiving + "], resourceReceiving = [" + resourceReceiving + "]");
-
         if (resourceGiving < 0) {
-            messageTextView.setText("Giving resource not selected!");
+            messageTextView.setText(R.string.give_res_not_sel);
             shake(messageTextView);
             return false;
         }
-
         if (resourceReceiving < 0) {
-            messageTextView.setText("Receiving resource not selected!");
+            messageTextView.setText(R.string.rec_res_not_sel);
             shake(messageTextView);
             return false;
         }
-
         // Check if player has 4 or more of the resource they have selected to give to the bank.
         if (state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0) {
-
             Log.d(TAG, "tryTradeWithBank: sending CatanTradeWithBankAction to the game.");
             game.sendAction(new CatanTradeWithBankAction(this, resourceGiving, resourceReceiving));
             return true;
-
-        } else {
-            Log.d(TAG, "tryTradeWithBank: player " + state.getPlayerList().get(state.getCurrentPlayerId()) + " would have have enough " + resourceGiving + " to complete trade");
-            return false;
         }
+        Log.d(TAG, "tryTradeWithBank: player " + state.getPlayerList().get(state.getCurrentPlayerId()) + " would have have enough " + resourceGiving + " to complete trade");
+        return false;
     }
 
     /* ---------------------------------------- GUI Methods --------------------------------------*/
@@ -1137,7 +1146,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             } else {
-
+                // todo
             }
         } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
 
@@ -1218,7 +1227,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //Not
         if (this.playerNum != state.getCurrentPlayerId()) {
-
             this.rollButton.setAlpha(0.5f);
             this.rollButton.setClickable(false);
             this.buildRoadButton.setAlpha(0.5f);
@@ -1299,7 +1307,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.playerNameSidebar.setTextColor(HexagonGrid.playerColors[this.playerNum]);
 
         if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase()) {
-            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar, 300, 100);
+            this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar);
         }
 
     } // updateTextViews END
@@ -1329,7 +1337,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             drawGraphics();
 
             if (state.isRobberPhase() && state.getCurrentPlayerId() != playerNum) {
-                messageTextView.setText("Robber Phase");
+                messageTextView.setText(R.string.robber_phase);
                 if (state.needsToDiscardHalf(playerNum)) {
                     robberDiscardGroup.setVisibility(View.VISIBLE);
                 } else {
@@ -1414,7 +1422,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
-        robberHexMessage.setText("Choose Robber tile");
+        robberHexMessage.setText(R.string.choose_robber_tile);
         robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
 
         robberBrickPlus.setOnClickListener(this);
@@ -1427,23 +1435,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         robberOreMinus.setOnClickListener(this);
         robberWoolPlus.setOnClickListener(this);
         robberWoolMinus.setOnClickListener(this);
-        robberConfirmDiscard.setOnClickListener(this);
 
+        robberConfirmDiscard.setOnClickListener(this);
         robberConfirmHex.setOnClickListener(this);
 
-        // Confirm Trade action
-        button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
-        button_trade_menu_confirm.setOnClickListener(this);
-
-        button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
-        button_trade_menu_cancel.setOnClickListener(this);
-
-        // Roll button
-        rollButton = activity.findViewById(R.id.sidebar_button_roll);
+        rollButton = activity.findViewById(R.id.sidebar_button_roll); // Roll button
         rollButton.setOnClickListener(this);
-
-        // End Turn button
-        endTurnButton = activity.findViewById(R.id.sidebar_button_endturn);
+        endTurnButton = activity.findViewById(R.id.sidebar_button_endturn); // End Turn button
         endTurnButton.setOnClickListener(this);
 
         /* ---------- Sidebar resource values ---------- */
@@ -1467,53 +1465,34 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
         this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
 
-
         /* ------------ DEV CARD SPINNER ----------------- */
 
         devcard_text_info = activity.findViewById(R.id.development_Card_Info);
         devCardList = activity.findViewById(R.id.development_Card_Spinner); // DEV CARD SPINNER
 
-        /* ---------- Scoreboard  ---------- */
-        //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(), R.array.dev_Card, android.R.layout.simple_spinner_dropdown_item);
-        //        // Specify the layout to use when the list of choices appears
-        //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //        List<String> spList = new ArrayList<>(devCards);
-        //        devCardList.setAdapter(new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spList));
-        // Apply the adapter to the spinner
-        //        devCardList.setAdapter(adapter);
         devCardList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected (AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
                 String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
 
                 int devCardId = -1;
                 for (int i = 0; i < devCardNames.length; i++) {
-                    if (devCardNames[i].equals(devCards.get(position))) {
-                        devCardId = i;
-                    }
+                    if (devCardNames[i].equals(devCards.get(position))) devCardId = i;
                 }
-
                 switch (devCardId) {
                     case 0:
-
                         devcard_text_info.setText(R.string.knight_info);
                         break;
                     case 1:
-
                         devcard_text_info.setText(R.string.victory_point_info);
                         break;
                     case 2:
-
                         devcard_text_info.setText(R.string.year_of_plenty_name);
                         break;
                     case 3:
-
                         devcard_text_info.setText(R.string.monopoly_info);
                         break;
                     case 4:
-
                         devcard_text_info.setText(R.string.road_building_info);
                         break;
                 }
@@ -1525,16 +1504,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 devcard_text_info.setText(R.string.knight_info);
             }
         });
+
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
 
-        // scores
-        this.player0Score = activity.findViewById(R.id.Player1_Score);
+        this.player0Score = activity.findViewById(R.id.Player1_Score); // scores
         this.player1Score = activity.findViewById(R.id.Player2_Score);
         this.player2Score = activity.findViewById(R.id.Player3_Score);
         this.player3Score = activity.findViewById(R.id.Player4_Score);
-
-        // names
-        this.player0Name = activity.findViewById(R.id.Player1_Name);
+        this.player0Name = activity.findViewById(R.id.Player1_Name); // names
         this.player1Name = activity.findViewById(R.id.Player2_Name);
         this.player2Name = activity.findViewById(R.id.Player3_Name);
         this.player3Name = activity.findViewById(R.id.Player4_Name);
@@ -1547,62 +1524,49 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         useDevCard = activity.findViewById(R.id.use_Card); // use dev card
         useDevCard.setOnClickListener(this);
-
         buildDevCard = activity.findViewById(R.id.build_devCard); // build dev card
         buildDevCard.setOnClickListener(this);
 
         /* ---------------- Trade Menu -------------------- */
 
         tradeGroup = activity.findViewById(R.id.group_trade_menu); // trade menu GROUP
-
-        // if we have state update the GUI based on the state
-        if (this.state != null) {
-            receiveInfo(state);
-        }
-
+        // confirm and cancel trade buttons
+        button_trade_menu_confirm = activity.findViewById(R.id.button_trade_menu_confirm);
+        button_trade_menu_confirm.setOnClickListener(this);
+        button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
+        button_trade_menu_cancel.setOnClickListener(this);
         //Trade Menu Background - Receive
         brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
         grainSelectionBoxReceive = activity.findViewById(R.id.grainSelectionBoxReceive);
         lumberSelectionBoxReceive = activity.findViewById(R.id.lumberSelectionBoxReceive);
         oreSelectionBoxReceive = activity.findViewById(R.id.oreSelectionBoxReceive);
         woolSelectionBoxReceive = activity.findViewById(R.id.woolSelectionBoxReceive);
-
         //Trade Menu Background - Give
         brickSelectionBoxGive = activity.findViewById(R.id.brickSelectionBoxGive);
         grainSelectionBoxGive = activity.findViewById(R.id.grainSelectiomBoxGive);
         lumberSelectionBoxGive = activity.findViewById(R.id.lumberSelectionBoxGive);
         oreSelectionBoxGive = activity.findViewById(R.id.oreSelectionBoxGive);
         woolSelectionBoxGive = activity.findViewById(R.id.woolSelectionBoxGive);
-
         //Trade Menu - Receive
         image_trade_menu_give_brick = activity.findViewById(R.id.image_trade_menu_give_brick);
         image_trade_menu_give_brick.setOnClickListener(this);
-
         image_trade_menu_give_grain = activity.findViewById(R.id.image_trade_menu_give_grain);
         image_trade_menu_give_grain.setOnClickListener(this);
-
         image_trade_menu_give_lumber = activity.findViewById(R.id.image_trade_menu_give_lumber);
         image_trade_menu_give_lumber.setOnClickListener(this);
-
         image_trade_menu_give_ore = activity.findViewById(R.id.image_trade_menu_give_ore);
         image_trade_menu_give_ore.setOnClickListener(this);
-
         image_trade_menu_give_wool = activity.findViewById(R.id.image_trade_menu_give_wool);
         image_trade_menu_give_wool.setOnClickListener(this);
-
         //Trade Menu - Give
         image_trade_menu_rec_brick = activity.findViewById(R.id.image_trade_menu_rec_brick);
         image_trade_menu_rec_brick.setOnClickListener(this);
-
         image_trade_menu_rec_grain = activity.findViewById(R.id.image_trade_menu_rec_grain);
         image_trade_menu_rec_grain.setOnClickListener(this);
-
         image_trade_menu_rec_lumber = activity.findViewById(R.id.image_trade_menu_rec_lumber);
         image_trade_menu_rec_lumber.setOnClickListener(this);
-
         image_trade_menu_rec_ore = activity.findViewById(R.id.image_trade_menu_rec_ore);
         image_trade_menu_rec_ore.setOnClickListener(this);
-
         image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
         image_trade_menu_rec_wool.setOnClickListener(this);
 
@@ -1634,10 +1598,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         List<String> spinnerList = new ArrayList<>(devCards);
         devCardList.setAdapter(new ArrayAdapter<>(activity, R.layout.support_simple_spinner_dropdown_item, spinnerList));
-
         messageTextView.setTextColor(Color.WHITE);
 
         /*--------------------------Monopoly---------------------------------*/
+
+        monopolyPickGroup = activity.findViewById(R.id.group_pickResourceMenu);
+        monopolyPickGroup.setOnClickListener(this);
+
         monopolyBrickIcon = activity.findViewById(R.id.pickResMenu_brickIcon);
         monopolyBrickIcon.setOnClickListener(this);
         monopolyGrainIcon = activity.findViewById(R.id.pickResMenu_grainIcon);
@@ -1648,10 +1615,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         monopolyOreIcon.setOnClickListener(this);
         monopolyWoolIcon = activity.findViewById(R.id.pickResMenu_woolIcon);
         monopolyWoolIcon.setOnClickListener(this);
-
-        monopolyPickGroup = activity.findViewById(R.id.group_pickResourceMenu);
-        monopolyPickGroup.setOnClickListener(this);
-
         monopolyBrickSelectionBox = activity.findViewById(R.id.pickResMenu_brickSelectionBox);
         monopolyGrainSelcionBox = activity.findViewById(R.id.pickResMenu_grainSelectionBox);
         monopolyLumberSelectionBox = activity.findViewById(R.id.pickResMenu_lumberSelectionBox);
@@ -1661,9 +1624,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         monopolyConfirm = activity.findViewById(R.id.pickResMenu_ConfirmButton);
         monopolyConfirm.setOnClickListener(this);
 
-
+        // if we have state update the GUI based on the state
+        if (this.state != null) receiveInfo(state);
     }// setAsGui() END
-
 
     /**
      *
@@ -1719,11 +1682,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param group Group to toggle visibility.
      */
     private void toggleGroupVisibilityAllowTapping (Group group) {
-        if (group.getVisibility() == View.GONE) {
-            group.setVisibility(View.VISIBLE);
-        } else {
-            group.setVisibility(View.GONE);
-        }
+        if (group.getVisibility() == View.GONE) group.setVisibility(View.VISIBLE);
+        else group.setVisibility(View.GONE);
     }
 
     /**
@@ -1745,11 +1705,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param view View to toggle.
      */
     private void toggleViewVisibility (View view) {
-        if (view.getVisibility() == View.GONE) {
-            view.setVisibility(View.VISIBLE);
-        } else {
-            view.setVisibility(View.GONE);
-        }
+        if (view.getVisibility() == View.GONE) view.setVisibility(View.VISIBLE);
+        else view.setVisibility(View.GONE);
     }
 
     /**
@@ -1782,26 +1739,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * Make a View Blink for a desired duration
      *
      * @param view View to be animated.
-     * @param duration Duration of the animation.
-     * @param offset Start offset.
      * @return returns The View with animation properties on it.
      */
-    private static View blinkAnimation (View view, int duration, int offset) {
-
+    private static View blinkAnimation (View view) {
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(duration);
-        anim.setStartOffset(offset);
+        anim.setDuration(300);
+        anim.setStartOffset(100);
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(3);
         view.startAnimation(anim);
         return view;
-    }// blinkAnimation END
+    }
 
     /**
      * @param v View to make shake.
      */
     private void shake (TextView v) {
-        int color = v.getCurrentTextColor();
         Animation shake = AnimationUtils.loadAnimation(myActivity.getApplicationContext(), R.anim.shake_anim);
         v.setTextColor(Color.RED);
         v.startAnimation(shake);
