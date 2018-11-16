@@ -434,15 +434,6 @@ public class Board {
         return true;
     }
 
-    private void swapChitValues (int hexagonId) {
-        Random random = new Random();
-        int randomHexId = random.nextInt(18);
-        Hexagon hex = this.hexagons.get(randomHexId);
-        int chitVal = this.hexagons.get(hexagonId).getChitValue();
-        this.hexagons.get(hexagonId).setChitValue(hex.getChitValue());
-        hex.setChitValue(chitVal);
-    }
-
     /**
      * Method puts the hexagons in a new order starting from the top left to bottom right (line by line)
      *
