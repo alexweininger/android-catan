@@ -550,36 +550,6 @@ public class CatanGameState extends GameState {
         return true;
     }
 
-
-    /**
-     * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
-     *
-     * @param hexagonId Hexagon the robber is going to move to.
-     * @param playerId Player who is moving the robber.
-     * @return action success.
-     */
-    public boolean tryToMoveRobber (int hexagonId, int playerId) {
-        Log.d(TAG, "tryToMoveRobber() called with: hexagonId = [" + hexagonId + "], playerId = [" + playerId + "]");
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "tryToMoveRobber: invalid player id: " + playerId);
-            return false;
-        }
-
-        if (!checkTurn(playerId)) {
-            Log.i(TAG, "tryToMoveRobber: it is not " + playerId + "'s turn.");
-            return false;
-        }
-
-        if (this.board.moveRobber(hexagonId)) {
-            Log.e(TAG, "tryToMoveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
-            hasMovedRobber = true;
-            return true;
-        }
-
-        Log.i(TAG, "tryToMoveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
-        return false;
-    }
-
     /**
      * After the player has moved the Robber, the player will choose a player to steal from and receive a random card from their hand
      *

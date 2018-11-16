@@ -234,7 +234,13 @@ public class CatanLocalGame extends LocalGame {
         }
         if (action instanceof CatanRobberMoveAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.tryToMoveRobber(((CatanRobberMoveAction) action).getHexagonId(), ((CatanRobberMoveAction) action).getPlayerId());
+
+            if (state.getBoard().moveRobber(((CatanRobberMoveAction) action).getHexagonId())) {
+                Log.e(TAG, "makeMove() move robber: Player " + ((CatanRobberMoveAction) action).getPlayerId() + " moved the Robber to Hexagon " + ((CatanRobberMoveAction) action).getHexagonId());
+                state.setHasMovedRobber(true);
+                return true;
+            }
+            return false;
         }
         if (action instanceof CatanRobberStealAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
