@@ -1295,7 +1295,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.playerNameSidebar.setText(getAllPlayerNames()[0]);
 
         // human player score (sidebar menu)
-        this.myScore.setText(String.format("VPs: %s", String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()])));
+        this.myScore.setText(String.format("VPs: %s", String.valueOf(this.state.getPlayerVictoryPoints()[this.playerNum])));
 
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));

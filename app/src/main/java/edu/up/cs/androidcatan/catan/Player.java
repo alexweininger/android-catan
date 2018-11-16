@@ -36,7 +36,10 @@ public class Player {
     // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
     private int armySize;
 
-    private int playerId;  // playerId
+    private int playerId;  // player
+
+    private int victoryPoints;
+    private int victoryPointsPrivate;
 
     private int victoryPointsFromDevCard;
 
@@ -320,6 +323,26 @@ public class Player {
         }
         Log.d(TAG, "getRandomCard() returned: " + randomResourceId);
         return randomResourceId;
+    }
+
+    public static String[] getResourceCardIds () {
+        return resourceCardIds;
+    }
+
+    public int getVictoryPoints () {
+        return victoryPoints;
+    }
+
+    public void setVictoryPoints (int victoryPoints) {
+        this.victoryPoints = victoryPoints;
+    }
+
+    public int getVictoryPointsPrivate () {
+        return victoryPointsPrivate;
+    }
+
+    public void setVictoryPointsPrivate (int victoryPointsPrivate) {
+        this.victoryPointsPrivate = victoryPointsPrivate;
     }
 
     /**
