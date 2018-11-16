@@ -145,21 +145,6 @@ public class CatanGameState extends GameState {
         return drawnDevCard;
     }
 
-    /**
-     * TODO ???
-     * Method determines whether it is a valid move to use one of their dev cards or not
-     *
-     * @param playerId - player playing development card
-     * @param devCardId - id of the development card
-     * @return - action success
-     */
-    public boolean useDevCard (int playerId, int devCardId) {
-        Log.d(TAG, "useDevCard() called with: playerId = [" + playerId + "], devCardId = [" + devCardId + "]");
-
-        Log.e(TAG, "useDevCard: this method is not implemented yet...");
-        return true;
-    }
-
     /*-------------------------------------Validation Methods------------------------------------------*/
 
     public Player getCurrentPlayer () {

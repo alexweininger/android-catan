@@ -544,33 +544,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
                 Log.e(TAG, "onClick: player does not have development card. Cannot use.");
-                messageTextView.setText("Don't have card");
+                messageTextView.setText(R.string.dont_have_card);
                 return;
             } else {
-
                 state.getCurrentPlayer().removeDevCard(developmentCardId);
                 Log.d(TAG, "onClick: Development Card was removed from hand");
-
+                // knight card
                 if (developmentCardId == 0) {
                     game.sendAction(new CatanUseKnightCardAction(this));
                     return;
                 }
-
+                // victory point card
                 if (developmentCardId == 1) {
                     game.sendAction(new CatanUseVictoryPointCardAction(this));
                     return;
                 }
-
                 ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
-
                 //year of plenty
                 if (developmentCardId == 2) {
 
                     game.sendAction(new CatanUseYearOfPlentyCardAction(this, 1)); // todo
                     return;
                 }
-
-                //
+                // monopoly
                 if (developmentCardId == 3) {
                     toggleGroupVisibility(monopolyPickGroup);
                     for (ImageView imageView : monopolySelectionBox) {

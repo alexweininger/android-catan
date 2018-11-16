@@ -198,12 +198,13 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanUseKnightCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.useDevCard(state.getCurrentPlayerId(), 0);
+            state.getCurrentPlayer().removeDevCard(0);
+            return true;
         }
 
         if (action instanceof CatanUseVictoryPointCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+            state.getCurrentPlayer().removeDevCard(1);
             state.getPlayerList().get(state.getCurrentPlayerId()).addVictoryPointsDevCard();
             return true;
         }
@@ -212,7 +213,8 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().addResourceCard(0, 2);
             state.getCurrentPlayer().addResourceCard(2, 2);
-            return state.useDevCard(state.getCurrentPlayerId(), 4);
+            state.getCurrentPlayer().removeDevCard(2);
+            return true;
         }
 
         if (action instanceof CatanUseMonopolyCardAction) {
@@ -228,14 +230,15 @@ public class CatanLocalGame extends LocalGame {
             }
 
             state.getCurrentPlayer().addResourceCard(resourceId, totalResources);
-
+            state.getCurrentPlayer().removeDevCard(3);
             return true;
         }
 
         if (action instanceof CatanUseYearOfPlentyCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
-            return state.useDevCard(state.getCurrentPlayerId(), 2);
+            state.getCurrentPlayer().removeDevCard(4);
+            return true;
         }
 
         /*---------------------------------- Robber Actions --------------------------------------*/
