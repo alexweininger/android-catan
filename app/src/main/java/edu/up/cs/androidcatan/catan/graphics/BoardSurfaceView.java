@@ -15,24 +15,23 @@ import android.view.SurfaceView;
  * https://github.com/alexweininger/android-catan
  **/
 public class BoardSurfaceView extends SurfaceView {
-
     private static final String TAG = "BoardSurfaceView";
 
     int size;
     HexagonGrid grid;
 
     // constructors
-    public BoardSurfaceView(Context context) {
+    public BoardSurfaceView (Context context) {
         super(context);
         setWillNotDraw(false);
     }
 
-    public BoardSurfaceView(Context context, AttributeSet attrs) {
+    public BoardSurfaceView (Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
     }
 
-    public void onDraw(Canvas canvas) {
+    public void onDraw (Canvas canvas) {
         if (grid == null) {
             Log.e(TAG, "onDraw: grid is null");
             this.invalidate();
@@ -42,19 +41,19 @@ public class BoardSurfaceView extends SurfaceView {
         }
     }
 
-    public int getSize() {
+    public int getSize () {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize (int size) {
         this.size = size;
     }
 
-    public HexagonGrid getGrid() {
+    public HexagonGrid getGrid () {
         return grid;
     }
 
-    public void setGrid(HexagonGrid grid) {
+    public void setGrid (HexagonGrid grid) {
         this.grid = grid;
     }
 }
