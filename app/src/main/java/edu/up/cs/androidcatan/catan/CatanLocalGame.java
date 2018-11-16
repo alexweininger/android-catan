@@ -252,7 +252,14 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanTradeWithBankAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.tradeWithBank(state.getCurrentPlayerId(), ((CatanTradeWithBankAction) action).getResourceIdGiving(), ((CatanTradeWithBankAction) action).getResourceIdRec());
+            // Player.removeResources returns false if the player does not have enough, if they do it removes them.
+            if (!state.getCurrentPlayer().removeResourceCard(((CatanTradeWithBankAction) action).getResourceIdGiving(), 4)) {
+                Log.e(TAG, "makeMove: trade with bank action: not enough resources, player id: " + state.getCurrentPlayerId());
+                return false;
+            }
+            state.getCurrentPlayer().addResourceCard(((CatanTradeWithBankAction) action).getResourceIdRec(), 1); // add resource card to players inventory
+            Log.w(TAG, "tradeWithBank - player " + state.getCurrentPlayerId() + " traded " + 4 + " " + ((CatanTradeWithBankAction) action).getResourceIdGiving() + " for a " + ((CatanTradeWithBankAction) action).getResourceIdRec() + " with bank.\n");
+            return true;
         }
 
         if (action instanceof CatanTradeWithPortAction) {
