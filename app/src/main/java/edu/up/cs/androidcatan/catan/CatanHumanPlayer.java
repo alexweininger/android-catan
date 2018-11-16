@@ -337,6 +337,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // check if it is the players turn
             if (state.getCurrentPlayerId() != this.playerNum) return;
             game.sendAction(new CatanEndTurnAction(this));
+            hideAllMenusAtEndOfTurn();
             this.buildingsBuiltOnThisTurn = new ArrayList<>(); // reset array list
             selectedIntersections.clear();
             selectedHexagonId = -1;
@@ -503,28 +504,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /*-------------------------End of Robber----------------------------------------*/
 
-        /* ---------- Trade action buttons ---------- */
+        /* ---------------- Pick Resource Card Menu ---------------------- */
 
-        //TODO Need functionality for both Port, Custom Port and Bank
-        if (button.getId() == R.id.sidebar_button_trade) {
-
-            if (selectedIntersections.size() == 0) {
-                //                if (tryTradeWithBank()) {
-                //
-                //                }
-            } else if (selectedIntersections.size() == 1) {
-
-            }
-
-            // toggle menu vis.
-            toggleGroupVisibility(tradeGroup);
-            return;
-        }
+        int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon, R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
+        ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
 
         if (selectedDevCard == 2 || selectedDevCard == 3) {
-            int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon, R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
-            ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
-
             for (int i = 0; i < monopolyResourceIds.length; i++) {
                 if (button.getId() == monopolyResourceIds[i]) selectedResourceId = i;
             }
@@ -534,26 +519,27 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
 
+        // confirm choose resource button on the pick resource button
         if (button.getId() == R.id.pickResMenu_ConfirmButton) {
             Log.d(TAG, "onClick: Player tried to confirm a monopoly or year of plenty card");
-
+            // make sure they selected a resource
             if (selectedResourceId == -1) {
                 messageTextView.setText(R.string.pick_resource);
                 shake(messageTextView);
                 return;
             }
-
+            // make sure the selected dev card is either a year of plenty or monopoly card
             if (selectedDevCard != 2 && selectedDevCard != 3) {
                 Log.e(TAG, "onClick: selected dev card is not 2 or 3");
                 toggleGroupVisibilityAllowTapping(pickResourceGroup);
                 this.selectedDevCard = -1;
             }
-
+            // send corresponding actions to the game
             if (selectedDevCard == 2)
                 game.sendAction(new CatanUseYearOfPlentyCardAction(this, this.selectedResourceId));
             if (selectedDevCard == 3)
                 game.sendAction(new CatanUseMonopolyCardAction(this, this.selectedResourceId));
-
+            // hide pick resource menu
             toggleGroupVisibilityAllowTapping(pickResourceGroup);
             this.selectedDevCard = -1;
             this.selectedResourceId = -1;
@@ -589,12 +575,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // knight card
                 if (developmentCardId == 0) {
                     game.sendAction(new CatanUseKnightCardAction(this));
+                    if (devCards.size() == 1) {
+                        toggleGroupVisibilityAllowTapping(developmentGroup);
+                    }
                     return;
                 }
 
                 // victory point card
                 if (developmentCardId == 1) {
                     game.sendAction(new CatanUseVictoryPointCardAction(this));
+                    if (devCards.size() == 1) {
+                        toggleGroupVisibilityAllowTapping(developmentGroup);
+                    }
                     return;
                 }
 
@@ -611,8 +603,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     selectedDevCard = 3;
                 }
 
+                // build road card
                 if (developmentCardId == 4) {
                     game.sendAction(new CatanUseRoadBuildingCardAction(this));
+                    if (devCards.size() == 1) {
+                        toggleGroupVisibilityAllowTapping(developmentGroup);
+                    }
                     this.rollButton.setAlpha(0.5f);
                     this.rollButton.setClickable(false);
                     this.buildRoadButton.setAlpha(1f);
@@ -631,7 +627,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     this.sidebarScoreboardButton.setClickable(false);
                     this.sidebarMenuButton.setAlpha(0.5f);
                     this.sidebarMenuButton.setClickable(false);
-
                     return;
                 }
             }
@@ -651,7 +646,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ------------------------------------ Trade Menu -------------------------------------- */
+        /* ------------------------------------ Trading ---------------------------------- */
+
+        // trade button on sidebar
+        if (button.getId() == R.id.sidebar_button_trade) {
+            toggleGroupVisibility(tradeGroup);  // toggle menu vis.
+            return;
+        }
+
+        /* ----------------------- Trade Menu ---------------------------- */
 
         // arrays of the selection box image views
         ImageView selectionBoxGive[] = {brickSelectionBoxGive, grainSelectionBoxGive, lumberSelectionBoxGive, oreSelectionBoxGive, woolSelectionBoxGive};
@@ -661,7 +664,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         for (ImageView imageView : selectionBoxGive) {
             imageView.setBackgroundColor(Color.TRANSPARENT);
         }
-
         // set all receive selection boxes to transparent
         for (ImageView imageView : selectionBoxReceive) {
             imageView.setBackgroundColor(Color.TRANSPARENT);
@@ -683,13 +685,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         // if the user selects resource to receive -> highlight the selection
-        if (tradeReceiveSelection != -1) {
+        if (tradeReceiveSelection != -1)
             selectionBoxReceive[tradeReceiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
-        }
+
         // if the user selects resource to give -> highlight the selection
-        if (tradeGiveSelection != -1) {
+        if (tradeGiveSelection != -1)
             selectionBoxGive[tradeGiveSelection].setBackgroundColor(Color.argb(255, 255, 255, 187));
-        }
 
         // confirm trade logic
         if (button.getId() == R.id.button_trade_menu_confirm) {
@@ -712,7 +713,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             } else if (selectedIntersections.size() > 1) {
                 Log.e(TAG, "onClick: user has selected too many intersections");
-                messageTextView.setText("Please select less than 2 intersections.");
+                messageTextView.setText(R.string.less_than_2_res);
             } else {
                 Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
             }
@@ -720,40 +721,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.button_trade_menu_cancel) {
             toggleGroupVisibility(tradeGroup);
+            tradeReceiveSelection = -1;
+            tradeGiveSelection = -1;
         }
-
-
-
-        /*----------------Monopoly-----------------------------*/
-        //ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
-
-        //        for(ImageView imageView : monopolySelectionBox)
-        //        {
-        //            imageView.setBackgroundColor(Color.TRANSPARENT);
-        //        }
-        //
-        //        int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon,R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
-        //
-        //        for(int i = 0; i < 5; i++)
-        //        {
-        //            if(button.getId() == monopolyResourceIds[i])
-        //            {
-        //                monopolyResourceChoice = i;
-        //                break;
-        //            }
-        //        }
-        //
-        //        if(monopolyResourceChoice != -1)
-        //        {
-        //            monopolySelectionBox[monopolyResourceChoice].setBackgroundColor(Color.argb(255, 255, 255, 187));
-        //        }
-        //
-        //        if(button.getId() == R.id.pickResMenu_ConfirmButton)
-        //        {
-        //            Log.d(TAG, "onClick: Player tried to confirm a monopoly card");
-        //
-        //        }
-
     } // onClick END
 
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
@@ -1671,7 +1641,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         Canvas canvas = new Canvas();
-       // boardSurfaceView.createHexagons(this.state.getBoard());
+        // boardSurfaceView.createHexagons(this.state.getBoard());
 
         int height = boardSurfaceView.getHeight();
         int width = boardSurfaceView.getWidth();
@@ -1768,6 +1738,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.endTurnButton.setClickable(true);
         this.rollButton.setAlpha(1f);
         this.rollButton.setClickable(true);
+    }
+
+    private void hideAllMenusAtEndOfTurn () {
+        developmentGroup.setVisibility(View.GONE);
+        tradeGroup.setVisibility(View.GONE);
     }
 
     /**
