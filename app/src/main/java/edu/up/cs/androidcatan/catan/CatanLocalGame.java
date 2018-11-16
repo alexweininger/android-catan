@@ -240,6 +240,7 @@ public class CatanLocalGame extends LocalGame {
                 state.setHasMovedRobber(true);
                 return true;
             }
+            Log.e(TAG, "makeMove: moving the robber failed returning false.");
             return false;
         }
         if (action instanceof CatanRobberStealAction) {
