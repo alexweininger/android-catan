@@ -163,35 +163,27 @@ public class Board {
     public boolean validRoadPlacement (int playerId, boolean isSetupPhase, int a, int b) {
         Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
         // check if intersections are adjacent
-
         if (!this.intersectionGraph.get(a).contains(b)) {
             Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
             Log.i(TAG, "validRoadPlacement: intersectionGraph: " + this.intersectionGraph.toString());
             return false;
         }
-
-        // check if it is not the setup phase
-        if (!isSetupPhase) {
-            // check if road is connected to players roads / buildings at either intersection
-            if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
-                Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
-                return false;
-            }
+        // check if road is connected to players roads / buildings at either intersection
+        if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
+            Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
+            return false;
         }
-
         // check if 3 roads at either intersection
         if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
             Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
             return false;
         }
-
         // check if road is already built
         Log.i(TAG, "validRoadPlacement: this.roadGraph.getOwnerId: " + this.roadGraph[a][b].getOwnerId());
         if (this.roadGraph[a][b].getOwnerId() != -1) {
             Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
             return false;
         }
-
         Log.d(TAG, "validRoadPlacement: Valid road placement.");
         return true;
     }
@@ -327,15 +319,15 @@ public class Board {
         return 0;
     }
 
-    public int travelRoads(ArrayList<Player> playerList){
-        for (Player player: playerList){
+    public int travelRoads (ArrayList<Player> playerList) {
+        for (Player player : playerList) {
             ArrayList<Road> playerRoad = new ArrayList<>();
-            for (Road road: roads){
-                if (road.getOwnerId() == player.getPlayerId()){
+            for (Road road : roads) {
+                if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoad.add(road);
                 }
             }
-            for (int n = 0; n < playerRoad.size(); n++){
+            for (int n = 0; n < playerRoad.size(); n++) {
 
             }
         }
