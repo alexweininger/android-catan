@@ -316,38 +316,6 @@ public class CatanGameState extends GameState {
         }
     }
 
-    /*-------------------------------------Action Methods------------------------------------------*/
-
-    /**
-     * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
-     *
-     * @return - action success
-     */
-    public boolean rollDice () {
-        Log.d(TAG, "rollDice() called.");
-
-        if (this.isActionPhase) {
-            Log.e(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn. Returned false.");
-            return false;
-        }
-
-        this.currentDiceSum = dice.roll();
-        Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
-        // if the robber is rolled
-        if (this.currentDiceSum == 7) {
-            Log.i(TAG, "rollDice: The robber has been activated.");
-            //            this.isRobberPhase = true;
-        } else {
-            Log.i(TAG, "rollDice: Calling the produceResources method.");
-            produceResources(this.currentDiceSum);
-        }
-
-        Log.i(TAG, "rollDice: Set isActionPhase to true.");
-        this.isActionPhase = true;
-
-        return true;
-    } // end rollDice action method
-
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
         this.isRobberPhase = rp;
