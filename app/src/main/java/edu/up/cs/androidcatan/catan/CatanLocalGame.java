@@ -14,6 +14,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithCustomPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
@@ -263,7 +264,26 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanTradeWithPortAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //            return state.tradeWithPort(state.getCurrentPlayerId());
+            // remove resources from the player
+            if (state.getCurrentPlayer().removeResourceCard(((CatanTradeWithPortAction) action).getPort().getResourceId(), ((CatanTradeWithPortAction) action).getPort().getTradeRatio())) {
+                // add requested resource to player
+                state.getCurrentPlayer().addResourceCard(((CatanTradeWithPortAction) action).getResourceRecId(), 1);
+                return true;
+            } else {
+                Log.e(TAG, "makeMove: trade with port: Could not remove resources from player. Returning false");
+                return false;
+            }
+        }
+
+        if (action instanceof CatanTradeWithCustomPortAction) {
+            // remove resources from players inventory
+            if (state.getCurrentPlayer().removeResourceCard(((CatanTradeWithCustomPortAction) action).getResourceGiveId(), 3)) {
+                // add requested resource to player
+                state.getCurrentPlayer().addResourceCard(((CatanTradeWithCustomPortAction) action).getResourceRecId(), 1);
+            } else {
+                Log.e(TAG, "makeMove: custom port trade: Could not remove resources from player. Returning false");
+                return false;
+            }
         }
 
         // if we reach here, the GameAction object we received is not one that we recognize

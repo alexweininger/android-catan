@@ -391,43 +391,6 @@ public class CatanGameState extends GameState {
     /*---------------------------------------Trading Methods------------------------------------------*/
 
     /**
-     * TODO
-     * Player trades with ports, gives resources and receives a resource;
-     * number depends on the resource
-     * error checking:
-     * - checks if it is the action phase of the turn
-     * - checks if the player has enough resources to trade
-     *
-     * @param playerId - player attempting to trade with port
-     * @param lostResourceId - what player is giving in the trade
-     * @param receivedResourceId - what the player is receiving in the trade
-     * @return - action success
-     */
-    public boolean tradeWithPort (int playerId, int intersectionId, int lostResourceId, int receivedResourceId) {
-        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + lostResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
-        // check if current player's turn and then if player has rolled dice
-        if (!valAction(playerId)) {
-            return false;
-        }
-
-        // code to commence trade
-        int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();
-        int tradeResourceId = this.board.getPortList().get(intersectionId).getResourceId();
-
-        // check if player has enough resources to complete trade
-        if (this.playerList.get(playerId).removeResourceCard(lostResourceId, 0)) {
-            Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
-            return false;
-        }
-
-        //adds the resource they gained and removes the ones they lost to their hand
-        this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
-        this.playerList.get(playerId).removeResourceCard(lostResourceId, tradeRatio);
-        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + tradeRatio + " " + lostResourceId + " for a " + receivedResourceId + " with port.");
-        return true;
-    }
-
-    /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
      *
      * @param playerId - player attempting to trade with port

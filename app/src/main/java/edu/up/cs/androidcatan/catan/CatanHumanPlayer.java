@@ -1016,7 +1016,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // check if player has enough resources
             if (state.getPlayerList().get(state.getCurrentPlayerId()).checkResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio())) {
                 // send action to the game
-                game.sendAction(new CatanTradeWithCustomPortAction(this, resourceReceiving));
+                game.sendAction(new CatanTradeWithCustomPortAction(this, resourceGiving, resourceReceiving));
                 return true;
             } else {
                 messageTextView.setText(R.string.not_enough_for_trade);
@@ -1027,7 +1027,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // check if the player has enough resources
             if (state.getPlayerList().get(state.getCurrentPlayerId()).checkResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
                 // send action to the game
-                game.sendAction(new CatanTradeWithPortAction(this, tradingWith));
+                game.sendAction(new CatanTradeWithPortAction(this, tradingWith, resourceReceiving));
                 return true;
             } else {
                 messageTextView.setText(R.string.not_enough_for_trade);
