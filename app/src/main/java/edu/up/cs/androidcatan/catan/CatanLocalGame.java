@@ -100,9 +100,18 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
+            state.updateVictoryPoints();
+            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
+            state.setSetupPhase(state.updateSetupPhase());
 
+            // increment the current turn
+            if (state.getCurrentPlayerId() == 3) state.setCurrentPlayerId(0);
+            else state.setCurrentPlayerId(state.getCurrentPlayerId() + 1);
 
-            return state.endTurn();
+            state.setActionPhase(false);
+
+            Log.i(TAG, "makeMove: Player " + state.getCurrentPlayerId() + " has ended their turn.");
+            return true;
         }
 
         /* --------------------------- Build Actions --------------------------------------- */
