@@ -434,15 +434,6 @@ public class Board {
         return true;
     }
 
-    private void swapChitValues (int hexagonId) {
-        Random random = new Random();
-        int randomHexId = random.nextInt(18);
-        Hexagon hex = this.hexagons.get(randomHexId);
-        int chitVal = this.hexagons.get(hexagonId).getChitValue();
-        this.hexagons.get(hexagonId).setChitValue(hex.getChitValue());
-        hex.setChitValue(chitVal);
-    }
-
     /**
      * Method puts the hexagons in a new order starting from the top left to bottom right (line by line)
      *
@@ -609,36 +600,6 @@ public class Board {
 
     /**
      * TODO TEST
-     * getAdjacentIntersectionsToIntersection
-     *
-     * @param intersectionId - given intersection i (0-53)
-     * @return - ArrayList of intersection ids that are adjacent to the given intersection id
-     */
-    public ArrayList<Integer> getAdjacentIntersectionsToIntersectionOld (int intersectionId) {
-        Log.d(TAG, "getAdjacentIntersectionsToIntersectionOld() called with: intersectionId = [" + intersectionId + "]");
-
-        ArrayList<Integer> adjacentIntersections = new ArrayList<>(3);
-        for (int i = 0; i < 54; i++) {
-            if (areIntersectionsAdjacent(i, intersectionId)) {
-                adjacentIntersections.add(i);
-            }
-        }
-
-        if (adjacentIntersections.size() > 3) {
-            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Received more than 3 adjacent intersections. That makes no sense.");
-        }
-
-        // check if we have a bad error
-        if (adjacentIntersections.size() < 2) {
-            Log.e(TAG, "getAdjacentIntersectionsToIntersectionOld: Did not find 2 adjacent intersections. intersectionId = [\" + intersectionId + \"]. This is not good.", new Exception("IntersectionDrawable adjacency error."));
-        }
-
-        Log.d(TAG, "getAdjacentIntersectionsToIntersectionOld() returned: " + adjacentIntersections);
-        return adjacentIntersections;
-    }
-
-    /**
-     * TODO TEST
      *
      * @param hexagonId - hexagon id that you want to get adjacency of
      * @return ArrayList<Integer> - list of adj. hex id's
@@ -734,7 +695,6 @@ public class Board {
         chitList.add(12);
 
         Collections.shuffle(chitList);
-
         return chitList;
     }
 

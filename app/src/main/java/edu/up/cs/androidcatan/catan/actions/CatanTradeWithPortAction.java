@@ -1,7 +1,9 @@
 package edu.up.cs.androidcatan.catan.actions;
 
+import edu.up.cs.androidcatan.catan.gamestate.Port;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -11,8 +13,28 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanTradeWithPortAction extends GameAction {
-    public CatanTradeWithPortAction(GamePlayer player)
-    {
+
+    private Port port;
+    private int resourceRecId;
+    public CatanTradeWithPortAction (GamePlayer player, Port port, int resourceRecId) {
         super(player);
+        this.port = new Port(port);
+        this.resourceRecId = resourceRecId;
+    }
+
+    public int getResourceRecId () {
+        return resourceRecId;
+    }
+
+    public void setResourceRecId (int resourceRecId) {
+        this.resourceRecId = resourceRecId;
+    }
+
+    public Port getPort () {
+        return port;
+    }
+
+    public void setPort (Port port) {
+        this.port = port;
     }
 }

@@ -33,6 +33,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithCustomPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
@@ -672,6 +673,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // confirm trade logic
         if (button.getId() == R.id.button_trade_menu_confirm) {
             Log.d(TAG, "onClick: Player tried to confirm trade");
+            Log.e(TAG, "onClick: selected intersections: " + this.selectedIntersections);
             //checks to see if the user has any intersections selected.
             if (selectedIntersections.size() == 1) {
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
@@ -689,6 +691,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             } else if (selectedIntersections.size() > 1) {
                 Log.e(TAG, "onClick: user has selected too many intersections");
+                messageTextView.setText("Please select less than 2 intersections.");
             } else {
                 Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
             }
@@ -952,82 +955,108 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         return true;
     }
 
+    /**
+     * @param hexId Hexagon to try to move the robber to.
+     * @return Success.
+     */
     private boolean tryMoveRobber (int hexId) {
-
+        // make sure they have a hexagon selected
         if (hexId == -1) {
+            messageTextView.setText(R.string.hex_for_robber);
+            shake(messageTextView);
             return false;
         }
-
+        // make sure they move the robber to a new hexagon
         if (hexId == state.getBoard().getRobber().getHexagonId()) {
+            messageTextView.setText(R.string.new_hex);
+            shake(messageTextView);
             return false;
         }
-
+        // get a list of adjacent intersections to the hexagon
         ArrayList<Integer> intersections = state.getBoard().getHexToIntIdMap().get(hexId);
-
         for (Integer intersection : intersections) {
             if (state.getBoard().getBuildings()[intersection] != null) {
                 if (state.getBoard().getBuildings()[intersection].getOwnerId() != playerNum) {
+                    messageTextView.setText(R.string.robber_moved);
                     return true;
                 }
             }
         }
+        messageTextView.setText(R.string.opp_bldg);
+        shake(messageTextView);
         return false;
     }
 
-
+    /**
+     * @param resourceGiving Resource the player wants to give in the trade.
+     * @param resourceReceiving Resource the player wants to receive in the trade.
+     * @return Trade success.
+     */
     private boolean tryTradeWithPort (int resourceGiving, int resourceReceiving) {
-
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
-
         for (Port port : ports) {
-            if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0)) {
+            if (port.getIntersectionB() == selectedIntersections.get(0) || port.getIntersectionA() == selectedIntersections.get(0))
                 tradingWith = port;
-            }
         }
-
+        // make sure selected intersection has port access
         if (tradingWith == null) {
             this.messageTextView.setText(R.string.no_port_access);
             Log.d(TAG, "tryTradeWithPort() returned: " + false);
             return false;
         }
-
-        if (state.getBoard().hasBuilding(tradingWith.getIntersectionA()) || state.getBoard().hasBuilding(tradingWith.getIntersectionB())) {
-            // todo check if they own a building here
-        } else {
-            return false;
-        }
-
-        // check if the intersection has a building on it
+        // make sure a building is selected
         if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
             return false;
         }
-
-        // check if the player owns the building
+        // check if player owns selected building
         if (state.getBoard().getBuildings()[selectedIntersections.get(0)].getOwnerId() != state.getCurrentPlayerId()) {
             return false;
         }
-
+        // if trading with a normal port
         if (tradingWith.getResourceId() != -1) {
-
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).removeResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio())) {
-                state.getPlayerList().get(state.getCurrentPlayerId()).addResourceCard(resourceReceiving, 1);
-            }
-        } else {
-
-            if (state.getPlayerList().get(state.getCurrentPlayerId()).checkResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
-                game.sendAction(new CatanTradeWithPortAction(this));
+            // check if player has enough resources
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).checkResourceCard(tradingWith.getResourceId(), tradingWith.getTradeRatio())) {
+                // send action to the game
+                game.sendAction(new CatanTradeWithPortAction(this, tradingWith, resourceReceiving));
+                messageTextView.setText(R.string.traded_with_port);
+                toggleGroupVisibilityAllowTapping(tradeGroup);
                 return true;
-
             } else {
+                messageTextView.setText(R.string.not_enough_for_trade);
+                shake(messageTextView);
+                return false;
+            }
+        } else { // if the player is trading with a mystery port
+            // check if the player has enough resources
+            if (state.getPlayerList().get(state.getCurrentPlayerId()).checkResourceCard(resourceGiving, tradingWith.getTradeRatio())) {
+                // send action to the game
+                game.sendAction(new CatanTradeWithCustomPortAction(this, resourceGiving, resourceReceiving));
+                messageTextView.setText(R.string.traded_with_port);
+                toggleGroupVisibilityAllowTapping(tradeGroup);
+                return true;
+            } else {
+                messageTextView.setText(R.string.not_enough_for_trade);
+                shake(messageTextView);
                 return false;
             }
         }
-        return true;
     }
 
     private boolean tryTradeWithBank (int resourceGiving, int resourceReceiving) {
         Log.d(TAG, "tryTradeWithBank() called with: resourceGiving = [" + resourceGiving + "], resourceReceiving = [" + resourceReceiving + "]");
+
+        if (resourceGiving < 0) {
+            messageTextView.setText("Giving resource not selected!");
+            shake(messageTextView);
+            return false;
+        }
+
+        if (resourceReceiving < 0) {
+            messageTextView.setText("Receiving resource not selected!");
+            shake(messageTextView);
+            return false;
+        }
 
         // Check if player has 4 or more of the resource they have selected to give to the bank.
         if (state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0) {

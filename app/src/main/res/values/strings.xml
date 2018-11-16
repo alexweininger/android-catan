@@ -148,6 +148,12 @@
     <string name="action_phase">Action phase.</string>
     <string name="choose_robber_tile">Please choose a tile to place the Robber on.</string>
     <string name="road_built">Successfully built a road!</string>
+    <string name="robber_moved">Robber moved.</string>
+    <string name="new_hex">Robber must be moved to a new hexagon.</string>
+    <string name="hex_for_robber">Select an intersection to move the robber.</string>
+    <string name="opp_bldg">Robber must be moved next to an opponents building.</string>
+    <string name="not_enough_for_trade">Not enough resources to make trade.</string>
+    <string name="traded_with_port">Traded with port.</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
