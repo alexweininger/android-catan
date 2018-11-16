@@ -1181,7 +1181,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (this.playerNum == state.getCurrentPlayerId())
                 this.messageTextView.setText(R.string.roll_the_dice);
-            else messageTextView.setText(String.format("It is %s's turn.", allPlayerNames[state.getCurrentPlayerId()]));
+            else
+                messageTextView.setText(String.format("It is %s's turn.", allPlayerNames[state.getCurrentPlayerId()]));
 
             // set the roll button only as available
             this.rollButton.setAlpha(1f);
@@ -1236,9 +1237,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.sidebarMenuButton.setClickable(true);
         }
 
-        if (this.debugMode) {
-            setAllButtonsToVisible();
-        }
+        if (this.debugMode) setAllButtonsToVisible();
 
         /* ----- update resource value TextViews ----- */
 
@@ -1294,10 +1293,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* -------- animations ----------- */
         this.playerNameSidebar.setTextColor(HexagonGrid.playerColors[this.playerNum]);
 
-        if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase()) {
+        if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase())
             this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar);
-        }
-
     } // updateTextViews END
 
     /**
@@ -1307,9 +1304,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo (GameInfo info) {
-        if (debugMode) {
+        if (debugMode)
             Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
-        }
 
         if (this.boardSurfaceView == null) {
             Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
@@ -1326,11 +1322,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             if (state.isRobberPhase() && state.getCurrentPlayerId() != playerNum) {
                 messageTextView.setText(R.string.robber_phase);
-                if (state.needsToDiscardHalf(playerNum)) {
+                if (state.needsToDiscardHalf(playerNum))
                     robberDiscardGroup.setVisibility(View.VISIBLE);
-                } else {
+                else
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new ArrayList<Integer>()));
-                }
             }
 
         } else if (info instanceof NotYourTurnInfo) {
@@ -1354,7 +1349,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         myActivity = activity; // remember the activity
         activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
-
         messageTextView = activity.findViewById(R.id.textview_game_message);
 
         /* ---------- Surface View for drawing the graphics ----------- */
@@ -1363,11 +1357,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.boardSurfaceView.setOnClickListener(clickListener);
         this.boardSurfaceView.setOnTouchListener(touchListener);
 
-        /* ----------------------------------- SIDEBAR ------------------------------------------ */
-
-        //dice roll images
-        diceImageLeft = activity.findViewById(R.id.diceImageLeft);
-        diceImageRight = activity.findViewById(R.id.diceImageRight);
+        /* ----------------------------------- SIDEBAR ------------------------------------------ *
 
         /* ------------------------ Building Buttons -----------------------------------------*/
         buildRoadButton = activity.findViewById(R.id.sidebar_button_road);
@@ -1431,7 +1421,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         rollButton.setOnClickListener(this);
         endTurnButton = activity.findViewById(R.id.sidebar_button_endturn); // End Turn button
         endTurnButton.setOnClickListener(this);
-
+        diceImageLeft = activity.findViewById(R.id.diceImageLeft);  //dice roll images
+        diceImageRight = activity.findViewById(R.id.diceImageRight);
         /* ---------- Sidebar resource values ---------- */
 
         this.oreValue = activity.findViewById(R.id.sidebar_value_ore);
