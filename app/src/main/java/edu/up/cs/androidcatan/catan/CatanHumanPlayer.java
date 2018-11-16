@@ -1003,6 +1003,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             shake(messageTextView);
             return false;
         }
+        if (resourceGiving == resourceReceiving) {
+            messageTextView.setText(R.string.unique_res_trading);
+            shake(messageTextView);
+            return false;
+        }
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
         for (Port port : ports) {
@@ -1067,6 +1072,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
         if (resourceReceiving < 0) {
             messageTextView.setText(R.string.rec_res_not_sel);
+            shake(messageTextView);
+            return false;
+        }
+        if (resourceGiving == resourceReceiving) {
+            messageTextView.setText(R.string.unique_res_trading);
             shake(messageTextView);
             return false;
         }
