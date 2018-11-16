@@ -99,7 +99,19 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.endTurn();
+
+            state.updateVictoryPoints();
+            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
+            state.setSetupPhase(state.updateSetupPhase());
+
+            // increment the current turn
+            if (state.getCurrentPlayerId() == 3) state.setCurrentPlayerId(0);
+            else state.setCurrentPlayerId(state.getCurrentPlayerId() + 1);
+
+            state.setActionPhase(false);
+
+            Log.i(TAG, "makeMove: Player " + state.getCurrentPlayerId() + " has ended their turn.");
+            return true;
         }
 
         /* --------------------------- Build Actions --------------------------------------- */
@@ -186,13 +198,35 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanUseKnightCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.useDevCard(state.getCurrentPlayerId(), 0);
+            state.getCurrentPlayer().removeDevCard(0);
+            return true;
         }
 
         if (action instanceof CatanUseVictoryPointCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+            state.getCurrentPlayer().removeDevCard(1);
             state.getPlayerList().get(state.getCurrentPlayerId()).addVictoryPointsDevCard();
+            return true;
+        }
+
+        if (action instanceof CatanUseYearOfPlentyCardAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            state.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
+            state.getCurrentPlayer().removeDevCard(2);
+            return true;
+        }
+
+        if (action instanceof CatanUseMonopolyCardAction) {
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            int totalResources = 0;
+            int resourceId = ((CatanUseMonopolyCardAction) action).getChosenResource();
+            for (Player player : state.getPlayerList()) {
+                int resCount = player.getResourceCards()[resourceId];
+                player.removeResourceCard(resourceId, resCount);
+                totalResources += resCount;
+            }
+            state.getCurrentPlayer().addResourceCard(resourceId, totalResources);
+            state.getCurrentPlayer().removeDevCard(3);
             return true;
         }
 
@@ -200,30 +234,8 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().addResourceCard(0, 2);
             state.getCurrentPlayer().addResourceCard(2, 2);
-            return state.useDevCard(state.getCurrentPlayerId(), 4);
-        }
-
-        if (action instanceof CatanUseMonopolyCardAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            int totalResources = 0;
-
-            int resourceId = ((CatanUseMonopolyCardAction) action).getChosenResource();
-
-            for (Player player : state.getPlayerList()) {
-                int resCount = player.getResourceCards()[resourceId];
-                player.removeResourceCard(resourceId, resCount);
-                totalResources += resCount;
-            }
-
-            state.getCurrentPlayer().addResourceCard(resourceId, totalResources);
-
+            state.getCurrentPlayer().removeDevCard(4);
             return true;
-        }
-
-        if (action instanceof CatanUseYearOfPlentyCardAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            state.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
-            return state.useDevCard(state.getCurrentPlayerId(), 2);
         }
 
         /*---------------------------------- Robber Actions --------------------------------------*/
