@@ -6,8 +6,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
 
-import edu.up.cs.androidcatan.catan.gamestate.Board;
-
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -18,7 +16,7 @@ import edu.up.cs.androidcatan.catan.gamestate.Board;
  **/
 public class BoardSurfaceView extends SurfaceView {
 
-    private final String TAG = "BoardSurfaceView";
+    private static final String TAG = "BoardSurfaceView";
 
     int size;
     HexagonGrid grid;
@@ -42,10 +40,6 @@ public class BoardSurfaceView extends SurfaceView {
             Log.i(TAG, "onDraw: drawing grid");
             grid.drawGameBoard(canvas);
         }
-    }
-
-    public void createHexagons(Board board) {
-        this.grid = new HexagonGrid(this.getContext(), board, 100, 210, 175, 20, false);
     }
 
     public int getSize() {
