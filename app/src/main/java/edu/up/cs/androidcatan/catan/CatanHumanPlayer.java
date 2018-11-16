@@ -1396,7 +1396,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
 
         myActivity = activity; // remember the activity
-        activity.setContentView(R.layout.activity_main); // Load the layout resource for our GUI
+        activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
 
         messageTextView = activity.findViewById(R.id.textview_game_message);
 
