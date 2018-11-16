@@ -12,7 +12,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
-import edu.up.cs.androidcatan.catan.actions.CatanTradeAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithCustomPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
@@ -250,12 +249,6 @@ public class CatanLocalGame extends LocalGame {
         }
 
         /*---------------------------------- Trade Actions ---------------------------------------*/
-
-        if (action instanceof CatanTradeAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return state.trade();
-            return true;
-        }
 
         if (action instanceof CatanTradeWithBankAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
