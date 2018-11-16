@@ -14,9 +14,5 @@ public class CatanUseYearOfPlentyCardAction extends GameAction {
         this.chosenResource = chosenResource;
         Log.d(TAG, "CatanUseYearOfPlentyCardAction called");
     }
-
-    public int getChosenResource() {
-        return chosenResource;
-    }
-
+    public int getChosenResource() { return chosenResource; }
 }
