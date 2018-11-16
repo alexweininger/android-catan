@@ -746,23 +746,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
     }; // touchListener END
 
+    // listener that takes the x, y of the touch and converts it into a hex or intersection
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick (View v) {
-            if (isMenuOpen) {
-                return;
-            }
+            if (isMenuOpen) return;
+            boolean touchedIntersection = false;
+            boolean touchedHexagon = false;
             // retrieve the stored coordinates
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
-
-            boolean touchedIntersection = false;
-            boolean touchedHexagon = false;
-
             HexagonGrid grid = boardSurfaceView.getGrid();
-
-            // use the coordinates for whatever
-            Log.i("TAG", "onLongClick: x = " + x + ", y = " + y);
+            Log.d("TAG", "onLongClick: x = " + x + ", y = " + y); // x, y position
 
             for (int i = 0; i < grid.getIntersections().length; i++) {
                 int xPos = grid.getIntersections()[i].getXPos();
@@ -771,28 +766,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // if y is greater than y - 25 and less than y + 25
                 if (y > yPos - 100 && y < yPos + 100 && x > xPos - 100 && x < xPos + 100) {
                     // if x is greater than point 3 and less than point 0
-                    Log.w(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
+                    Log.d(TAG, "onClick: Touched intersection id: " + grid.getIntersections()[i].getIntersectionId());
                     touchedIntersection = true;
-
                     if (grid.getHighlightedIntersections().contains(i)) {
                         boardSurfaceView.getGrid().getHighlightedIntersections().remove((Integer) i);
                         selectedIntersections.remove((Integer) i);
                     } else {
                         boardSurfaceView.getGrid().addHighlightedIntersection(i);
-                        if (selectedIntersections.size() > 1) {
-                            selectedIntersections.remove(0);
-                        }
+                        if (selectedIntersections.size() > 1) selectedIntersections.remove(0);
                         selectedIntersections.add(i);
                     }
-
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                     selectedHexagonId = -1;
                     boardSurfaceView.invalidate();
                 }
             }
+            // if they didn't touch an intersection then check if they touched a hexagon
             if (!touchedIntersection) {
                 ArrayList<HexagonDrawable> dHexes = grid.getDrawingHexagons();
 
+                // go through each hexagon and check if the touch matches the bounds of the hex
                 int index = 0;
                 for (HexagonDrawable hex : dHexes) {
                     int[][] points = hex.getHexagonPoints();
@@ -804,7 +797,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                             Hexagon dataHexagon = state.getBoard().getHexagonListForDrawing().get(index);
                             Log.w(TAG, "onClick: Touched hexagon id: " + dataHexagon.getHexagonId());
                             touchedHexagon = true;
-
                             if (dataHexagon.getHexagonId() == boardSurfaceView.getGrid().getHighlightedHexagon()) {
                                 // if the hexagon touched is already selected, un-select it
                                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
@@ -814,17 +806,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                                 boardSurfaceView.getGrid().setHighlightedHexagon(dataHexagon.getHexagonId());
                                 selectedHexagonId = dataHexagon.getHexagonId();
                             }
-
                             boardSurfaceView.getGrid().getHighlightedIntersections().clear();
                             selectedIntersections.clear();
                             boardSurfaceView.invalidate();
-
                         }
                     }
                     index++;
                 }
             }
-
             // check if no hexagon or intersection was touched (aka. outside the island)
             if (!touchedHexagon && !touchedIntersection) {
                 boardSurfaceView.getGrid().setHighlightedHexagon(-1);
@@ -835,7 +824,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
     }; // clickListener END
 
-    /*---------------------------------------Validation Methods-------------------------------------------*/
+    /*--------------------------------------- Validation Methods ---------------------------------*/
 
     /**
      * @param intersectionA First intersection of the road.
@@ -844,7 +833,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
-
         // check if user given intersections are valid
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
@@ -853,7 +841,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "tryBuildRoad() returned: " + false);
             return false;
         }
-
+        // check if it is the setup phase
         if (state.isSetupPhase()) {
             boardSurfaceView.getGrid().clearHighLightedIntersections();
             selectedIntersections.clear(); // clear the selected intersections
@@ -862,7 +850,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             messageTextView.setText(R.string.road_built);
             return true;
         }
-
         // if it is not the setup phase, then check if it is the action phase
         if (!state.isActionPhase()) {
             Log.i(TAG, "tryBuildRoad: Player cannot build road. Not action phase.");
@@ -870,7 +857,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             shake(messageTextView);
             return false;
         }
-
         // if it is not the setup phase check if the player has enough resources to build a road
         if (state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
             // send build settlement action to the game
@@ -883,7 +869,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "tryBuildRoad() returned: " + true);
             return true;
         }
-
         Log.i(TAG, "tryBuildRoad: player does not have enough resources to build a road.");
         messageTextView.setText(R.string.not_enough_for_road);
         Log.d(TAG, "tryBuildRoad() returned: " + false);
@@ -895,25 +880,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return If the building location chosen is valid, and if the action was carried out.
      */
     private boolean tryBuildSettlement (int intersection1) {
-
         Log.d(TAG, "tryBuildSettlement() called with: intersection1 = [" + intersection1 + "]");
-
+        // check if valid settlement location
         if (state.getBoard().validBuildingLocation(state.getCurrentPlayerId(), state.isSetupPhase(), intersection1)) {
-            Log.i(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
-
+            Log.d(TAG, "onClick: building location is valid. Sending a BuildSettlementAction to the game.");
             // send build settlement action to the game
-            Log.e(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
+            Log.d(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
             game.sendAction(new CatanBuildSettlementAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
-
             this.buildingsBuiltOnThisTurn.add(1);
-
+            this.selectedIntersections.clear();
             Log.d(TAG, "tryBuildSettlement() returned: " + true);
-
             return true;
         } else {
             messageTextView.setText(R.string.invalid_set_loc);
-            Log.e(TAG, "tryBuildSettlement: Returning false.");
             shake(messageTextView);
+            Log.d(TAG, "tryBuildSettlement: Returning false.");
             return false;
         }
     }
@@ -924,26 +905,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryBuildCity (int intersection) {
         Log.d(TAG, "tryBuildCity() called with: intersection = [" + intersection + "]");
-
+        // check if it is the setup phase
         if (state.isSetupPhase()) {
             Log.i(TAG, "tryBuildCity: Cannot built city during setup phase. Returning false.");
             return false;
         }
-
+        // check if the player has enough resources
         if (!state.getCurrentPlayer().hasResourceBundle(City.resourceCost)) {
             messageTextView.setText(R.string.not_enough_for_city);
             shake(messageTextView);
             Log.d(TAG, "tryBuildCity() returned: " + false);
             return false;
         }
-
+        // check if valid location
         if (state.getBoard().validCityLocation(state.getCurrentPlayerId(), intersection)) {
             Log.d(TAG, "onClick: building location is valid. Sending a BuildCityAction to the game.");
-            this.buildingsBuiltOnThisTurn.add(2);
-
+            // send CatanBuildCityAction to the game
             game.sendAction(new CatanBuildCityAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection));
+            this.buildingsBuiltOnThisTurn.add(2);
+            this.selectedIntersections.clear();
+            return true;
         }
-        return true;
+        messageTextView.setText(R.string.invalid_city_loc);
+        shake(messageTextView);
+        return false;
     }
 
     /**
@@ -1150,7 +1135,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // todo
             }
         } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
-
             this.messageTextView.setText(R.string.setup_phase); // set info message
 
             // get settlement and road count for the current turn
@@ -1195,7 +1179,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         } else if (!state.isActionPhase()) { // IF NOT THE ACTION PHASE AND NOT THE SETUP PHASE
 
-            this.messageTextView.setText(R.string.roll_the_dice);
+            if (this.playerNum == state.getCurrentPlayerId())
+                this.messageTextView.setText(R.string.roll_the_dice);
+            else messageTextView.setText(String.format("It is %s's turn.", allPlayerNames[state.getCurrentPlayerId()]));
 
             // set the roll button only as available
             this.rollButton.setAlpha(1f);
@@ -1220,7 +1206,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setClickable(false);
 
         } else { // ACTION PHASE AND NOT SETUP PHASE
-            this.messageTextView.setText(R.string.action_phase);
+            if (this.playerNum == state.getCurrentPlayerId())
+                this.messageTextView.setText(R.string.action_phase);
             setAllButtonsToVisible();
             this.rollButton.setAlpha(0.5f);
             this.rollButton.setClickable(false);
