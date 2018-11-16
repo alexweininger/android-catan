@@ -17,7 +17,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
+ * @version November 15th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanGameState extends GameState {
@@ -57,7 +57,6 @@ public class CatanGameState extends GameState {
         this.board = new Board();
         generateDevCardDeck();
 
-        //
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 

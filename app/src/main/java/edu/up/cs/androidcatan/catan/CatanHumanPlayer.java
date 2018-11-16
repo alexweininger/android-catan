@@ -306,13 +306,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Roll button on the sidebar.
         if (button.getId() == R.id.sidebar_button_roll) {
             Log.d(TAG, "onClick: Roll button clicked.");
+            // check if it is the players turn
+            if (state.getCurrentPlayerId() != this.playerNum) return;
+            // check if it is the action phase
+            if (state.isActionPhase()) return;
+            // send a CatanRollDiceAction to the game
             game.sendAction(new CatanRollDiceAction(this));
-
-            if (state.getCurrentDiceSum() == 7) {
-                Log.d(TAG, "onClick: Robber has been activated");
-                Log.d(TAG, "onClick: Making Robber Visible");
-                state.setRobberPhase(true);
-            }
             return;
         }
 
@@ -326,11 +325,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 shake(messageTextView);
                 return;
             }
-
-            if (state.getCurrentPlayerId() != this.playerNum) {
-                return;
-            }
-
+            // check if it is the players turn
+            if (state.getCurrentPlayerId() != this.playerNum) return;
             game.sendAction(new CatanEndTurnAction(this));
             this.buildingsBuiltOnThisTurn = new ArrayList<>(); // reset array list
             selectedIntersections.clear();
@@ -358,7 +354,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_score) {
             toggleGroupVisibilityAllowTapping(scoreBoardGroup);
         }
-
 
         /*--------------------------------- Robber onClick --------------------------------*/
 
