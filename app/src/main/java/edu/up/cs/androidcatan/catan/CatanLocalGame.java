@@ -209,10 +209,9 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
-        if (action instanceof CatanUseRoadBuildingCardAction) {
+        if (action instanceof CatanUseYearOfPlentyCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            state.getCurrentPlayer().addResourceCard(0, 2);
-            state.getCurrentPlayer().addResourceCard(2, 2);
+            state.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
             state.getCurrentPlayer().removeDevCard(2);
             return true;
         }
@@ -220,23 +219,21 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanUseMonopolyCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             int totalResources = 0;
-
             int resourceId = ((CatanUseMonopolyCardAction) action).getChosenResource();
-
             for (Player player : state.getPlayerList()) {
                 int resCount = player.getResourceCards()[resourceId];
                 player.removeResourceCard(resourceId, resCount);
                 totalResources += resCount;
             }
-
             state.getCurrentPlayer().addResourceCard(resourceId, totalResources);
             state.getCurrentPlayer().removeDevCard(3);
             return true;
         }
 
-        if (action instanceof CatanUseYearOfPlentyCardAction) {
+        if (action instanceof CatanUseRoadBuildingCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            state.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
+            state.getCurrentPlayer().addResourceCard(0, 2);
+            state.getCurrentPlayer().addResourceCard(2, 2);
             state.getCurrentPlayer().removeDevCard(4);
             return true;
         }

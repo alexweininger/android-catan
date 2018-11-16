@@ -157,6 +157,7 @@
     <string name="rec_res_not_sel">Receiving resource not selected!</string>
     <string name="give_res_not_sel">Giving resource not selected!</string>
     <string name="unique_res_trading">Must receive a different resource than you give.</string>
+    <string name="pick_resource">Select a resource!</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
