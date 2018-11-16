@@ -348,43 +348,6 @@ public class CatanGameState extends GameState {
         return true;
     } // end rollDice action method
 
-    /**
-     * action for a player ending their turn, increments currentPlayerId. As of now does no checks.
-     *
-     * @return - action success
-     */
-    public boolean endTurn () {
-        Log.d(TAG, "endTurn() called");
-        // if it is not the setup phase
-        if (!this.isSetupPhase()) {
-            // check if it is the action phase
-            if (!isActionPhase) {
-                Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
-                return false;
-            }
-        }
-        //method is called at the end of every turn to give an accurate victory point count
-        updateVictoryPoints();
-
-        /*for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
-            developmentCard.setPlayable(true);
-        }*/
-        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
-
-        this.isActionPhase = false;
-
-        //call to get the player with the longest road given the current player list
-        this.board.getPlayerWithLongestRoad(playerList);
-
-        // increment turn
-        if (this.currentPlayerId == 3) this.currentPlayerId = 0;
-        else this.currentPlayerId++;
-
-        // update the setup phase boolean variable using the method that does setup phase completion check
-        this.setSetupPhase(updateSetupPhase());
-        return true;
-    } // end endTurn method
-
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
         this.isRobberPhase = rp;
