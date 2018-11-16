@@ -105,8 +105,9 @@ public class CatanGameState extends GameState {
         this.setBoard(cgs.getBoard());
 
         // copy player list (using player deep copy const.)
-        for (int i = 0; i < cgs.playerList.size(); i++)
+        for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
+        }
 
         // copy victory points of each player
         for (int i = 0; i < cgs.playerVictoryPoints.length; i++) {
@@ -354,7 +355,6 @@ public class CatanGameState extends GameState {
      */
     public boolean endTurn () {
         Log.d(TAG, "endTurn() called");
-
         // if it is not the setup phase
         if (!this.isSetupPhase()) {
             // check if it is the action phase
@@ -369,19 +369,16 @@ public class CatanGameState extends GameState {
         /*for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
             developmentCard.setPlayable(true);
         }*/
+        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
 
         this.isActionPhase = false;
-
-        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
 
         //call to get the player with the longest road given the current player list
         this.board.getPlayerWithLongestRoad(playerList);
 
-        if (this.currentPlayerId == 3) {
-            this.currentPlayerId = 0;
-        } else {
-            this.currentPlayerId++;
-        }
+        // increment turn
+        if (this.currentPlayerId == 3) this.currentPlayerId = 0;
+        else this.currentPlayerId++;
 
         // update the setup phase boolean variable using the method that does setup phase completion check
         this.setSetupPhase(updateSetupPhase());

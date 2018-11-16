@@ -320,8 +320,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_endturn) {
             Log.d(TAG, "onClick: End Turn button pressed.");
 
+            // check if it is the action phase
+            if (!state.isActionPhase()) {
+                messageTextView.setText("Cannot end turn before rolling!");
+                shake(messageTextView);
+                return;
+            }
+
+            if (state.getCurrentPlayerId() != this.playerNum) {
+                return;
+            }
+
             game.sendAction(new CatanEndTurnAction(this));
             this.buildingsBuiltOnThisTurn = new ArrayList<>(); // reset array list
+            selectedIntersections.clear();
+            selectedHexagonId = -1;
             return;
         }
 

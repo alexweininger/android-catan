@@ -99,6 +99,9 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+
+
             return state.endTurn();
         }
 
