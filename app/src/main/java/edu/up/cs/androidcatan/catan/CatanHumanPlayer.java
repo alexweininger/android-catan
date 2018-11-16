@@ -1260,6 +1260,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Name.setText(getAllPlayerNames()[2]);
         this.player3Name.setText(getAllPlayerNames()[3]);
 
+
+        this.player0Score.setTextColor(HexagonGrid.playerColors[0]);
+        this.player1Score.setTextColor(HexagonGrid.playerColors[1]);
+        this.player2Score.setTextColor(HexagonGrid.playerColors[2]);
+        this.player3Score.setTextColor(HexagonGrid.playerColors[3]);
+
+        this.player0Name.setTextColor(HexagonGrid.playerColors[0]);
+        this.player1Name.setTextColor(HexagonGrid.playerColors[1]);
+        this.player2Name.setTextColor(HexagonGrid.playerColors[2]);
+        this.player3Name.setTextColor(HexagonGrid.playerColors[3]);
+
         player0Name.setBackgroundColor(Color.TRANSPARENT);
         player1Name.setBackgroundColor(Color.TRANSPARENT);
         player2Name.setBackgroundColor(Color.TRANSPARENT);
@@ -1267,16 +1278,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         switch (state.getCurrentPlayerId()) {
             case 0:
-                player0Name.setBackgroundColor(HexagonGrid.playerColors[0]);
+                player0Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
                 break;
             case 1:
-                player1Name.setBackgroundColor(HexagonGrid.playerColors[1]);
+                player1Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
                 break;
             case 2:
-                player2Name.setBackgroundColor(HexagonGrid.playerColors[2]);
+                player2Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
                 break;
             case 3:
-                player3Name.setBackgroundColor(HexagonGrid.playerColors[3]);
+                player3Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
                 break;
         }
 
@@ -1284,10 +1295,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.playerNameSidebar.setText(getAllPlayerNames()[0]);
 
         // human player score (sidebar menu)
-        this.myScore.setText(String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()]));
+        this.myScore.setText(String.format("VPs: %s", String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()])));
 
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
+        this.currentTurnIdTextView.setTextColor(HexagonGrid.playerColors[state.getCurrentPlayerId()]);
 
         /* -------- animations ----------- */
         this.playerNameSidebar.setTextColor(HexagonGrid.playerColors[this.playerNum]);
