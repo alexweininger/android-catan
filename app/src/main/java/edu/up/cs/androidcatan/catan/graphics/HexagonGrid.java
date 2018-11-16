@@ -347,14 +347,6 @@ public class HexagonGrid extends BoardSurfaceView {
         this.y = y;
     }
 
-    public int[] getHexagonsInEachRow () {
-        return hexagonsInEachRow;
-    }
-
-    public void setHexagonsInEachRow (int[] hexagonsInEachRow) {
-        this.hexagonsInEachRow = hexagonsInEachRow;
-    }
-
     public static int[] getPlayerColors () {
         return playerColors;
     }
@@ -375,14 +367,6 @@ public class HexagonGrid extends BoardSurfaceView {
         return intersections;
     }
 
-    public void setIntersections (IntersectionDrawable[] intersections) {
-        this.intersections = intersections;
-    }
-
-    public void setRoads (ArrayList<RoadDrawable> roads) {
-        this.roads = roads;
-    }
-
     public int[] getColors () {
         return colors;
     }
@@ -399,10 +383,6 @@ public class HexagonGrid extends BoardSurfaceView {
         return drawingHexagons;
     }
 
-    public void setDrawingHexagons (ArrayList<HexagonDrawable> drawingHexagons) {
-        this.drawingHexagons = drawingHexagons;
-    }
-
     public int getHighlightedHexagon () {
         return highlightedHexagon;
     }
@@ -413,14 +393,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
     public void toggleDebugMode () {
         this.debugMode = !this.debugMode;
-    }
-
-    public boolean isDebugMode () {
-        return debugMode;
-    }
-
-    public void setDebugMode (boolean debugMode) {
-        this.debugMode = debugMode;
     }
 
     public ArrayList<Integer> getHighlightedIntersections () {
