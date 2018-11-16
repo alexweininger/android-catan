@@ -321,9 +321,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_endturn) {
             Log.d(TAG, "onClick: End Turn button pressed.");
 
-            // check if it is the action phase
-            if (!state.isActionPhase()) {
-                messageTextView.setText("Cannot end turn before rolling!");
+            if (state.isSetupPhase()) {
+                if (!buildingsBuiltOnThisTurn.contains(0) || !buildingsBuiltOnThisTurn.contains(1)) {
+                    messageTextView.setText(R.string.build_road_and_set);
+                    shake(messageTextView);
+                    return;
+                }
+            }
+            // check if it is the action phase and not the setup phase
+            if (!state.isActionPhase() && !state.isSetupPhase()) {
+                messageTextView.setText(R.string.cannot_end_turn_before_rolling);
                 shake(messageTextView);
                 return;
             }
@@ -527,15 +534,36 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
 
+        if (button.getId() == R.id.pickResMenu_ConfirmButton) {
+            Log.d(TAG, "onClick: Player tried to confirm a monopoly or year of plenty card");
+
+            if (selectedResourceId == -1) {
+                messageTextView.setText(R.string.pick_resource);
+                shake(messageTextView);
+                return;
+            }
+
+            if (selectedDevCard != 2 && selectedDevCard != 3) {
+                Log.e(TAG, "onClick: selected dev card is not 2 or 3");
+                toggleGroupVisibilityAllowTapping(pickResourceGroup);
+                this.selectedDevCard = -1;
+            }
+
+            if (selectedDevCard == 2)
+                game.sendAction(new CatanUseYearOfPlentyCardAction(this, this.selectedResourceId));
+            if (selectedDevCard == 3)
+                game.sendAction(new CatanUseMonopolyCardAction(this, this.selectedResourceId));
+
+            toggleGroupVisibilityAllowTapping(pickResourceGroup);
+            this.selectedDevCard = -1;
+            this.selectedResourceId = -1;
+            return;
+        }
+
         /* -------------------- Development Card Button OnClick() Handlers ---------------------- */
 
         // Development button located on the sidebar. Should only show/hide dev card menu.
         if (button.getId() == R.id.sidebar_button_devcards) {
-
-            //            state.getCurrentPlayer().addResourceCard(1, 2);
-            //            state.getCurrentPlayer().addResourceCard(3, 2);
-            //            state.getCurrentPlayer().addResourceCard(4, 2);
-
             toggleGroupVisibility(developmentGroup); // toggle menu vis.
             return;
         }
@@ -557,72 +585,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             } else {
                 state.getCurrentPlayer().removeDevCard(developmentCardId);
                 Log.d(TAG, "onClick: Development Card was removed from hand");
+
                 // knight card
                 if (developmentCardId == 0) {
                     game.sendAction(new CatanUseKnightCardAction(this));
                     return;
                 }
+
                 // victory point card
                 if (developmentCardId == 1) {
                     game.sendAction(new CatanUseVictoryPointCardAction(this));
                     return;
                 }
-                ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelcionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
+
                 //year of plenty
                 if (developmentCardId == 2) {
                     toggleGroupVisibilityAllowTapping(pickResourceGroup);
-                    for (ImageView imageView : monopolySelectionBox) {
-                        imageView.setBackgroundColor(Color.TRANSPARENT);
-                    }
                     selectedDevCard = 2;
                     return;
                 }
+
                 // monopoly
                 if (developmentCardId == 3) {
                     toggleGroupVisibility(pickResourceGroup);
                     selectedDevCard = 3;
-                    for (ImageView imageView : monopolySelectionBox) {
-                        imageView.setBackgroundColor(Color.TRANSPARENT);
-                    }
-
-                    int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon, R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
-
-                    for (int i = 0; i < 5; i++) {
-                        if (button.getId() == monopolyResourceIds[i]) {
-                            monopolyResourceChoice = i;
-                            break;
-                        }
-                    }
-
-                    if (monopolyResourceChoice != -1) {
-                        monopolySelectionBox[monopolyResourceChoice].setBackgroundColor(Color.argb(255, 255, 255, 187));
-                    }
-
-                    if (button.getId() == R.id.pickResMenu_ConfirmButton) {
-                        Log.d(TAG, "onClick: Player tried to confirm a monopoly or year of plenty card");
-
-                        if (selectedResourceId == -1) {
-                            messageTextView.setText(R.string.pick_resource);
-                            shake(messageTextView);
-                            return;
-                        }
-
-                        if (selectedDevCard != 2 && selectedDevCard != 3) {
-                            Log.e(TAG, "onClick: selected dev card is not 2 or 3");
-                            toggleGroupVisibilityAllowTapping(pickResourceGroup);
-                            this.selectedDevCard = -1;
-                        }
-
-                        if (selectedDevCard == 2)
-                            game.sendAction(new CatanUseYearOfPlentyCardAction(this, this.selectedResourceId));
-                        if (selectedDevCard == 3)
-                            game.sendAction(new CatanUseMonopolyCardAction(this, this.selectedResourceId));
-
-                        toggleGroupVisibilityAllowTapping(pickResourceGroup);
-                        this.selectedDevCard = -1;
-                        this.selectedResourceId = -1;
-                        return;
-                    }
                 }
 
                 if (developmentCardId == 4) {
@@ -1679,9 +1665,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void drawGraphics () {
         Log.d(TAG, "drawGraphics() called");
 
+        if (state == null) {
+            Log.d(TAG, "drawGraphics: state is null");
+            return;
+        }
+
         Canvas canvas = new Canvas();
-        boardSurfaceView.createHexagons(this.state.getBoard());
-        boardSurfaceView.createHexagons(this.state.getBoard()); // draw the board of hexagons and ports on the canvas
+       // boardSurfaceView.createHexagons(this.state.getBoard());
 
         int height = boardSurfaceView.getHeight();
         int width = boardSurfaceView.getWidth();
