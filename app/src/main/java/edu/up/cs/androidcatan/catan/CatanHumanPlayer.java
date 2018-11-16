@@ -673,6 +673,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // confirm trade logic
         if (button.getId() == R.id.button_trade_menu_confirm) {
             Log.d(TAG, "onClick: Player tried to confirm trade");
+            Log.e(TAG, "onClick: selected intersections: " + this.selectedIntersections);
             //checks to see if the user has any intersections selected.
             if (selectedIntersections.size() == 1) {
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
@@ -690,6 +691,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
             } else if (selectedIntersections.size() > 1) {
                 Log.e(TAG, "onClick: user has selected too many intersections");
+                messageTextView.setText("Please select less than 2 intersections.");
             } else {
                 Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
             }
@@ -1043,6 +1045,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private boolean tryTradeWithBank (int resourceGiving, int resourceReceiving) {
         Log.d(TAG, "tryTradeWithBank() called with: resourceGiving = [" + resourceGiving + "], resourceReceiving = [" + resourceReceiving + "]");
+
+        if (resourceGiving < 0) {
+            messageTextView.setText("Giving resource not selected!");
+            shake(messageTextView);
+            return false;
+        }
+
+        if (resourceReceiving < 0) {
+            messageTextView.setText("Receiving resource not selected!");
+            shake(messageTextView);
+            return false;
+        }
 
         // Check if player has 4 or more of the resource they have selected to give to the bank.
         if (state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0) {
