@@ -15,7 +15,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithCustomPortAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithPortAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
@@ -187,12 +186,6 @@ public class CatanLocalGame extends LocalGame {
 
             // add random dev card to players inventory
             player.getDevelopmentCards().add(state.getRandomCard());
-            return true;
-        }
-
-        if (action instanceof CatanUseDevCardAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            //return state.useDevCard();
             return true;
         }
 

@@ -67,7 +67,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // instance variables for logic
     private ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
-    private int currentBuildingSelectionId = 1;
     private float lastTouchDownXY[] = new float[2];
     private boolean debugMode = false;
     private boolean isMenuOpen = false;
@@ -1587,7 +1586,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         monopolyBrickIcon = activity.findViewById(R.id.pickResMenu_brickIcon);
         monopolyBrickIcon.setOnClickListener(this);
         monopolyGrainIcon = activity.findViewById(R.id.pickResMenu_grainIcon);
-        monopolyBrickIcon.setOnClickListener(this);
+        monopolyGrainIcon.setOnClickListener(this);
         monopolyLumberIcon = activity.findViewById(R.id.pickResMenu_lumberIcon);
         monopolyLumberIcon.setOnClickListener(this);
         monopolyOreIcon = activity.findViewById(R.id.pickResMenu_oreIcon);
