@@ -72,9 +72,9 @@
     <string name="Player4">Player 4</string>
 
     <string name="Player1_Score">0</string>
-    <string name="Player2_Score">4</string>
-    <string name="Player3_Score">2</string>
-    <string name="Player4_Score">8</string>
+    <string name="Player2_Score">0</string>
+    <string name="Player3_Score">0</string>
+    <string name="Player4_Score">0</string>
 
     <string name="Trading_Menu">Trading Menu</string>
     <string name="you_Want">You Want:</string>
