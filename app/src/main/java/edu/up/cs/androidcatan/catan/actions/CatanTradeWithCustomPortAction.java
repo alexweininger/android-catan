@@ -9,7 +9,9 @@ public class CatanTradeWithCustomPortAction extends GameAction {
      *
      * @param player the player who created the action
      */
-    public CatanTradeWithCustomPortAction(GamePlayer player) {
+    private int resourceRecId;
+    public CatanTradeWithCustomPortAction(GamePlayer player, int resourceRecId) {
         super(player);
+        this.resourceRecId = resourceRecId;
     }
 }

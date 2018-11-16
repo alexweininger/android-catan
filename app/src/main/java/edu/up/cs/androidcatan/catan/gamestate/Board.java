@@ -695,7 +695,6 @@ public class Board {
         chitList.add(12);
 
         Collections.shuffle(chitList);
-
         return chitList;
     }
 

@@ -65,10 +65,17 @@ public class Port {
 
         int offset = 30;
 
+        Paint ratioFont = new Paint();
+        ratioFont.setTextSize(30);
+        ratioFont.setColor(Color.WHITE);
+
         if (resourceId != -1) {
             Drawable resourcePicture = context.getDrawable(resourceDrawables[this.resourceId]);
             resourcePicture.setBounds(xPos - size + offset, yPos - size + offset, xPos + size + offset, yPos + size + offset);
             resourcePicture.draw(canvas);
+            canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
+        } else {
+            canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
         }
     }
 
