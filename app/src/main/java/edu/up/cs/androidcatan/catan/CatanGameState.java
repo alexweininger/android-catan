@@ -352,7 +352,7 @@ public class CatanGameState extends GameState{
             return false;
         }
 
-        this.currentDiceSum = dice.roll();
+        this.currentDiceSum = 7;//dice.roll();
         Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
         // if the robber is rolled
         if (this.currentDiceSum == 7) {
@@ -643,6 +643,7 @@ public class CatanGameState extends GameState{
      * @return
      */
     public boolean discardResources(int playerId, int[] resourcesDiscarded){
+        Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
         if(checkPlayerResources(playerId)){
             return true;
         }

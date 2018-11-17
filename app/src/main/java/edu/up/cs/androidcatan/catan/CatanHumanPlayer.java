@@ -628,6 +628,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with bank");
                     selectedIntersections.clear();
+                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
@@ -1094,6 +1095,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } else { // ACTION PHASE AND NOT SETUP PHASE
             this.messageTextView.setText(R.string.action_phase);
             setAllButtonsToVisible();
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
         }
 
         //Not
@@ -1209,6 +1212,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             drawGraphics();
 
             if(state.isRobberPhase() && state.getCurrentPlayerId() != playerNum){
+                messageTextView.setText("Robber Phase");
                 if(state.checkPlayerResources(playerNum)){
                    toggleGroupVisibility(robberDiscardGroup);
                 }
