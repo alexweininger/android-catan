@@ -152,6 +152,11 @@ public class CatanLocalGame extends LocalGame {
                 Log.i(TAG, "makeMove: Setup phase. Not checking for resources.");
                 // add settlement to the board
                 state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
+
+                if (state.getSetupPhaseTurnCounter() > 3) {
+
+                }
+
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             }
