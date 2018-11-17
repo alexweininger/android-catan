@@ -154,29 +154,28 @@ public class CatanLocalGame extends LocalGame {
                 Log.i(TAG, "makeMove: Setup phase. Not checking for resources.");
                 // add settlement to the board
                 state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
-
                 if (state.getSetupPhaseTurnCounter() > 3) {
                     ArrayList<Integer> adjacentHexagons = this.state.getBoard().getIntToHexIdMap().get(((CatanBuildSettlementAction) action).getIntersectionId());
                     for (Integer hexagon : adjacentHexagons) {
                         this.state.getCurrentPlayer().addResourceCard(state.getBoard().getHexagonFromId(hexagon).getResourceId(), 1);
                     }
                 }
-
-                Log.d(TAG, "makeMove() returned: " + true);
-                return true;
-            }
-
-            // remove resources from players inventory (also does checks)
-            if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
-                // add settlement to the board
-                state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
                 state.getCurrentPlayer().addVictoryPoints(1);
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
+            } else {
+                // remove resources from players inventory (also does checks)
+                if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
+                    // add settlement to the board
+                    state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
+                    state.getCurrentPlayer().addVictoryPoints(1);
+                    Log.d(TAG, "makeMove() returned: " + true);
+                    return true;
+                }
+                // if the player does not have enough resources at this point in execution something is WRONG
+                Log.e(TAG, "buildSettlement: Player " + state.getCurrentPlayerId() + " resources: " + state.getCurrentPlayer().printResourceCards() + " makeMove() returned: " + false);
+                return false;
             }
-            // if the player does not have enough resources at this point in execution something is WRONG
-            Log.e(TAG, "buildSettlement: Player " + state.getCurrentPlayerId() + " resources: " + state.getCurrentPlayer().printResourceCards() + " makeMove() returned: " + false);
-            return false;
         }
 
         if (action instanceof CatanBuildCityAction) {
