@@ -12,13 +12,5 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanRollDiceAction extends GameAction {
-
-    private int[] diceValues = new int[2];
-
-    public CatanRollDiceAction(GamePlayer player) {
-        super(player);
-
-
-
-    }
+    public CatanRollDiceAction (GamePlayer player) { super(player); }
 }

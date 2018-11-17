@@ -74,7 +74,7 @@ public class MainActivity extends GameMainActivity {
 //        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 //
 //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.catan_main_activity);
 //
 //        boardSurfaceView board = findViewById(R.id.board); // boardSurfaceView board is the custom SurfaceView
 //

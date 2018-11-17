@@ -21,7 +21,4 @@ public class CatanUseDevCardAction extends GameAction {
         Log.d(TAG, "CatanUseDevCardAction: called with player = [" + player + "], devCardId = [" + devCardId + "]");
         this.devCardId = devCardId;
     }
-
-
-
 }

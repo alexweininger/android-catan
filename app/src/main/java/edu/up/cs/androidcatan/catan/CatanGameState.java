@@ -3,16 +3,13 @@ package edu.up.cs.androidcatan.catan;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
-import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
 /**
@@ -20,10 +17,10 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
+ * @version November 15th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanGameState extends GameState{
+public class CatanGameState extends GameState {
 
     private static final String TAG = "CatanGameState";
 
@@ -31,28 +28,31 @@ public class CatanGameState extends GameState{
     private Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
-
     private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
     private int[] playerVictoryPoints = new int[4]; // victory points of each player
     private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
 
+    private int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
 
-    private int currentPlayerId; // id of player who is the current playing player
+    // game phases
+    private boolean isSetupPhase = true; // is it the setup phase
     private boolean isActionPhase = false; // has the current player rolled the dice
-    private boolean isSetupPhase = true;
-    private boolean isRobberPhase = false;
+    private boolean isRobberPhase = false; // is the robber phase
+
+    // robber
     private boolean hasDiscarded = false;
     private boolean hasMovedRobber = false;
+    // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
+    private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
+    private boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
+
+    // trophies
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
-    // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
-    private int[] robberDiscardedResources = new int[]{0,0,0,0,0};  //How many resources the player would like to discard
-    private boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
-
-    public CatanGameState () { // CatanGameState constructor
+    public CatanGameState () {
         this.dice = new Dice();
         this.board = new Board();
         generateDevCardDeck();
@@ -60,6 +60,7 @@ public class CatanGameState extends GameState{
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
+        // add players to player list
         this.playerList.add(new Player(0));
         this.playerList.add(new Player(1));
         this.playerList.add(new Player(2));
@@ -87,11 +88,14 @@ public class CatanGameState extends GameState{
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
-        this.isRobberPhase = cgs.isRobberPhase;
         this.hasDiscarded = cgs.hasDiscarded;
         this.hasMovedRobber = cgs.hasMovedRobber;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
+
+        this.setRobberPhase(cgs.getRobberPhase());
+        this.setRobberDiscardedResources(cgs.getRobberDiscardedResources());
+        this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
 
         this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
         this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
@@ -128,7 +132,7 @@ public class CatanGameState extends GameState{
     /**
      * @return The id of the development card the player drew randomly.
      */
-    public int getRandomCard () {
+    int getRandomCard () {
         // generate random number from 0 to the length of the dev card deck
         Random random = new Random();
         int randomDevCard = random.nextInt(developmentCards.size() - 1);
@@ -141,49 +145,14 @@ public class CatanGameState extends GameState{
         return drawnDevCard;
     }
 
-    /**
-     * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory.
-     *
-     * @param playerId Player id of the player who's requesting to buy a development card.
-     * @return - Action success.
-     */
-    public boolean buyDevCard (int playerId) {
-
-        Player player = this.playerList.get(playerId);
-
-        // remove resources from players inventory (also does checks)
-        if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) {
-            return false;
-        }
-
-        // add random dev card to players inventory
-        player.getDevelopmentCards().add(getRandomCard());
-        return true;
-    }
-
-    /**
-     * TODO ???
-     * Method determines whether it is a valid move to use one of their dev cards or not
-     *
-     * @param playerId - player playing development card
-     * @param devCardId - id of the development card
-     * @return - action success
-     */
-    public boolean useDevCard (int playerId, int devCardId) {
-        Log.d(TAG, "useDevCard() called with: playerId = [" + playerId + "], devCardId = [" + devCardId + "]");
-
-        Log.e(TAG, "useDevCard: this method is not implemented yet...");
-        return true;
-    }
-
     /*-------------------------------------Validation Methods------------------------------------------*/
 
-    public Player getCurrentPlayer() {
+    Player getCurrentPlayer () {
         return this.playerList.get(this.currentPlayerId);
     }
 
     /**
-     * @param playerId -
+     * @param playerId Player id
      * @return If id is valid.
      */
     private boolean valPlId (int playerId) {
@@ -203,30 +172,6 @@ public class CatanGameState extends GameState{
     }
 
     /**
-     * todo maybe this is deprecated?
-     * validates the player id, checks if its their turn, and checks if it is the action phase
-     *
-     * @param playerId - player id to validate an action for
-     * @return - can this player make an action?
-     */
-    private boolean valAction (int playerId) {
-        if (valPlId(playerId)) {
-            if (checkTurn(playerId)) {
-                if (this.isActionPhase) {
-                    return true;
-                }
-                Log.i(TAG, "valAction - it is not the action phase.");
-                return false;
-            }
-            Log.i(TAG, "valAction - it is not " + playerId + "'s turn.");
-            return false;
-        }
-        Log.i(TAG, "valAction - invalid player id: " + playerId);
-        return false;
-    }
-
-    /**
-     *
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     private void checkArmySize () {
@@ -244,8 +189,7 @@ public class CatanGameState extends GameState{
         }
         if (max > 2) {
             // if the award has already been given out remove the awarded VP from that player
-            if(currentLargestArmyPlayerId != -1)
-            {
+            if (currentLargestArmyPlayerId != -1) {
                 this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
             }
             // update the player witht he kargest army
@@ -254,8 +198,6 @@ public class CatanGameState extends GameState{
             this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
         }
     }
-
-    // TODO: Finish updateVictoryPoints method
 
     /**
      * Method updates the victory points count of the current player based off the actions taken within the turn
@@ -269,8 +211,8 @@ public class CatanGameState extends GameState{
             this.playerVictoryPoints[i] = 0;
         }
 
-        for (int n = 0; n < this.playerList.size(); n++){
-            if (playerList.get(n).getPlayerId() == this.board.getPlayerWithLongestRoad(playerList)){
+        for (int n = 0; n < this.playerList.size(); n++) {
+            if (playerList.get(n).getPlayerId() == this.board.getPlayerWithLongestRoad(playerList)) {
                 playerVictoryPoints[playerList.get(n).getPlayerId()] += 2;
             }
         }
@@ -298,7 +240,7 @@ public class CatanGameState extends GameState{
      *
      * @param diceSum - dice sum
      */
-    private void produceResources (int diceSum) {
+    void produceResources (int diceSum) {
         Log.d(TAG, "produceResources() called with: diceSum = [" + diceSum + "]");
         if (isActionPhase) {
             Log.e(TAG, "produceResources: It is the action phase. Returned false.");
@@ -333,253 +275,6 @@ public class CatanGameState extends GameState{
         }
     }
 
-
-    /*-------------------------------------Action Methods------------------------------------------*/
-
-    /**
-     * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
-     *
-     * @return - action success
-     */
-    public boolean rollDice () {
-        Log.d(TAG, "rollDice() called.");
-
-        if (this.isActionPhase) {
-            Log.e(TAG, "rollDice: Player " + currentPlayerId + " tried to roll the dice, but it is the action phase during " + this.currentPlayerId + "'s turn. Returned false.");
-            return false;
-        }
-
-
-
-        this.currentDiceSum = dice.roll();
-        Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
-        // if the robber is rolled
-        if (this.currentDiceSum == 7) {
-            // todo activate robber
-            Log.i(TAG, "rollDice: The robber has been activated.");
-            //this.isRobberPhase = true;
-        } else {
-            Log.i(TAG, "rollDice: Calling the produceResources method.");
-            produceResources(this.currentDiceSum);
-        }
-
-        Log.i(TAG, "rollDice: Set isActionPhase to true.");
-        this.isActionPhase = true;
-
-        return true;
-    } // end rollDice action method
-
-    /**
-     * action for a player ending their turn, increments currentPlayerId. As of now does no checks.
-     *
-     * @return - action success
-     */
-    public boolean endTurn () {
-        Log.d(TAG, "endTurn() called");
-
-        // if it is not the setup phase
-        if (!this.isSetupPhase()) {
-            // check if it is the action phase
-            if (!isActionPhase) {
-                Log.e(TAG, "endTurn: Player tried to end their turn, but it is not the action phase. Returning false.");
-                return false;
-            }
-        }
-        //method is called at the end of every turn to give an accurate victory point count
-        updateVictoryPoints();
-
-        /*for (DevelopmentCard developmentCard : playerList.get(currentPlayerId).getDevelopmentCards()) {
-            developmentCard.setPlayable(true);
-        }*/
-
-        this.isActionPhase = false;
-
-        Log.i(TAG, "endTurn: Player " + this.currentPlayerId + " has ended their turn. It is now player " + (this.currentPlayerId + 1) + "'s turn.");
-
-        //call to get the player with the longest road given the current player list
-        this.board.getPlayerWithLongestRoad(playerList);
-
-        if (this.currentPlayerId == 3) {
-            this.currentPlayerId = 0;
-        } else {
-            this.currentPlayerId++;
-        }
-
-        // update the setup phase boolean variable using the method that does setup phase completion check
-        this.setSetupPhase(updateSetupPhase());
-        return true;
-    } // end endTurn method
-
-    /*---------------------------------------Trading Methods------------------------------------------*/
-
-    /**
-     * TODO
-     * Player trades with ports, gives resources and receives a resource;
-     * number depends on the resource
-     * error checking:
-     * - checks if it is the action phase of the turn
-     * - checks if the player has enough resources to trade
-     *
-     * @param playerId - player attempting to trade with port
-     * @param lostResourceId - what player is giving in the trade
-     * @param receivedResourceId - what the player is receiving in the trade
-     * @return - action success
-     */
-    public boolean tradeWithPort (int playerId, int intersectionId, int lostResourceId, int receivedResourceId) {
-        Log.d(TAG, "tradeWithPort() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "], givenResourceId = [" + lostResourceId + "], receivedResourceId = [" + receivedResourceId + "]");
-        // check if current player's turn and then if player has rolled dice
-        if (!valAction(playerId)) {
-            return false;
-        }
-
-
-        // code to commence trade
-        int tradeRatio = this.board.getPortList().get(intersectionId).getTradeRatio();
-        int tradeResourceId = this.board.getPortList().get(intersectionId).getResourceId();
-
-        // check if player has enough resources to complete trade
-        if (this.playerList.get(playerId).removeResourceCard(lostResourceId, 0)) {
-            Log.i(TAG, "tradeWithPort: Player" + playerId + " does not have enough resources!");
-            return false;
-        }
-
-        //adds the resource they gained and removes the ones they lost to their hand
-        this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
-        this.playerList.get(playerId).removeResourceCard(lostResourceId, tradeRatio);
-        Log.i(TAG, "tradeWithPort: Player " + playerId + " traded " + tradeRatio + " " + lostResourceId + " for a " + receivedResourceId + " with port.");
-        return true;
-    }
-
-    /**
-     * Player trades with bank, gives resources and receives a resource; number depends on the resource
-     *
-     * @param playerId - player attempting to trade with port
-     * @param resGiven - what player is giving in the trade
-     * @param resReceive - what the player is receiving in the trade
-     * @return - action success
-     */
-    //TODO implement
-    public boolean tradeWithBank (int playerId, int resGiven, int resReceive) {
-
-        // Player.removeResources returns false if the player does not have enough, if they do it removes them.
-        if (!this.playerList.get(playerId).removeResourceCard(resGiven, 4)) {
-            Log.e(TAG, "tradeWithBank - not enough resources, player id: " + playerId);
-            return false;
-        }
-        this.playerList.get(playerId).addResourceCard(resReceive, 1); // add resource card to players inventory
-        Log.w(TAG, "tradeWithBank - player " + playerId + " traded " + 4 + " " + resGiven + " for a " + resReceive + " with bank.\n");
-        return true;
-    } // end tradeWithBank
-
-    /*---------------------------------------Building Methods------------------------------------------*/
-
-    /**
-     * Player requests to build road ands Game State processes requests and returns true if build was successful
-     *
-     * @param playerId - player building a road
-     * @param startIntersectionID - intersection id
-     * @param endIntersectionID - intersection id
-     * @return - action success
-     */
-    public boolean buildRoad (int playerId, int startIntersectionID, int endIntersectionID) {
-        Log.d(TAG, "buildRoad() called with: playerId = [" + playerId + "], startIntersectionID = [" + startIntersectionID + "], endIntersectionID = [" + endIntersectionID + "]");
-
-
-        // remove resources from players inventory (also does checks)
-        if (!this.playerList.get(playerId).removeResourceBundle(Road.resourceCost)) {
-            Log.e(TAG, "buildRoad: Player.removeResourceBundle returned false.");
-            return false;
-        }
-
-        // add road to the board
-        this.board.addRoad(playerId, startIntersectionID, endIntersectionID);
-        Log.w(TAG, "buildRoad: Player " + playerId + " built a road. Returning true.");
-        return true;
-    } // end buildRoad
-
-    /**
-     * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
-     *
-     * @param playerId - player building a settlement
-     * @param intersectionId - intersection the player wants to build at
-     * @return - action success
-     */
-    public boolean buildSettlement (int playerId, int intersectionId) {
-        Log.d(TAG, "buildSettlement() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
-        if (!this.isSetupPhase) {
-            // validates the player id, checks if its their turn, and checks if it is the action phase
-            if (!valAction(playerId)) {
-                Log.d(TAG, "buildSettlement() Not setup phase, and not action phase. Returning false." + false);
-                return false;
-            }
-        } else {
-
-
-            Log.i(TAG, "buildSettlement: Player " + playerId + " now has resources: " + this.getPlayerList().get(playerId).printResourceCards());
-        }
-
-        // check if player has the required resources to build a Settlement
-        if (!this.playerList.get(playerId).hasResourceBundle(Settlement.resourceCost)) {
-            Log.e(TAG, "buildSettlement: Player " + playerId + " does not have enough resources to build.\n");
-            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
-            return false;
-        }
-
-        // check if the selected building location is valid
-        if (!this.board.validBuildingLocation(playerId, this.isSetupPhase, intersectionId)) {
-            Log.e(TAG, "buildSettlement: validBuildingLocation returned false.");
-            return false;
-        }
-
-        // remove resources from players inventory (also does checks)
-        if (!this.playerList.get(playerId).removeResourceBundle(Settlement.resourceCost)) {
-            Log.e(TAG, "buildSettlement: Player.removeResourceBundle returned false.");
-            Log.e(TAG, "buildSettlement: Player " + playerId + " resources: " + this.getPlayerList().get(playerId).printResourceCards());
-            return false;
-        }
-
-        // create Settlement object and add to Board object
-        Settlement settlement = new Settlement(playerId);
-        this.board.addBuilding(intersectionId, settlement);
-        Log.w(TAG, "buildSettlement: Player " + playerId + " built a settlement. Returning true.");
-        return true;
-    }
-
-    /**
-     * Player requests to build city and Game State processes requests and returns true if build was successful
-     *
-     * @param playerId - player building a city
-     * @param intersectionId - intersection
-     * @return - action success
-     */
-    public boolean buildCity (int playerId, int intersectionId) {
-        Log.d(TAG, "buildCity() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
-        // check if valid player id, turn, and action phase
-        if (!valAction(playerId)) {
-            Log.e(TAG, "buildCity: valAction failed.");
-            return false;
-        }
-
-        // check if player has enough resources
-        if (!this.playerList.get(playerId).hasResourceBundle(City.resourceCost)) {
-            Log.i(TAG, "buildCity: Player " + playerId + " does not have enough resources to build a City.");
-            return false;
-        }
-
-        // remove resources from players inventory (also does checks)
-        if (!this.playerList.get(playerId).removeResourceBundle(City.resourceCost)) {
-            Log.e(TAG, "buildCity: Player.removeResourceBundle returned false.");
-            return false;
-        }
-
-        // create City object and add to Board object
-        City city = new City(intersectionId, playerId);
-        this.board.addBuilding(intersectionId, city);
-
-        Log.i(TAG, "buildCity: Player " + playerId + " built a city.");
-        return true;
-    }
-
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
         this.isRobberPhase = rp;
@@ -591,19 +286,24 @@ public class CatanGameState extends GameState{
 
     /**
      * TODO implement
-     * Player chooses cards to discard if they own more than 7 cards and robber is activated
+     * Check to see if resources need to be discarded
      *
      * @return - action success
      */
-    public boolean checkPlayerResources(int playerId){
-        if(hasDiscarded){
+    public boolean needsToDiscardHalf (int playerId) {
+        if (robberPlayerListHasDiscarded[playerId]) {
+            //Returns false since player has already discarded cards
+            Log.i(TAG, "needsToDiscardHalf: PLAYER HAS DISCARDED ALREADY");
             return false;
         }
-        if(playerList.get(playerId).getTotalResourceCardCount() > 7){
+        if (playerList.get(playerId).getTotalResourceCardCount() > 7) {
+            //Returns true since player has more than 7 cards and has not discarded yet
+            Log.i(TAG, "needsToDiscardHalf: PLAYER NEEDS TO DISCARD CARDS. returning true");
             return true;
         }
+        Log.i(TAG, "needsToDiscardHalf: PLAYER DOES NOT NEED TO DISCARDS");
+        robberPlayerListHasDiscarded[playerId] = true;
         hasDiscarded = true;
-
         return false;
     }
 
@@ -614,16 +314,20 @@ public class CatanGameState extends GameState{
      * @param resourcesDiscarded
      * @return
      */
-    public boolean validDiscard(int playerId, int[] resourcesDiscarded){
+    public boolean validDiscard (int playerId, int[] resourcesDiscarded) {
+        Log.d(TAG, "validDiscard() called with: playerId = [" + playerId + "], resourcesDiscarded = [" + Arrays.toString(resourcesDiscarded) + "]");
+
         int totalDiscarded = 0;
-        for(int i = 0; i < resourcesDiscarded.length; i++){
-            if(resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]){
-                Log.i(TAG, "validDiscard: Invalid due to not having enough resources, returning false");
+        for (int i = 0; i < resourcesDiscarded.length; i++) {
+
+            if (resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]) {
+                Log.i(TAG, "validDiscard: Invalid cannot have negative resources.");
                 return false;
             }
+
             totalDiscarded += resourcesDiscarded[i];
         }
-        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount()/2);
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
         return totalDiscarded == playerList.get(playerId).getTotalResourceCardCount() / 2;
     }
 
@@ -635,61 +339,39 @@ public class CatanGameState extends GameState{
      * @param resourcesDiscarded
      * @return
      */
-    public boolean discardResources(int playerId, int[] resourcesDiscarded){
-        int totalDiscarded = 0;
-        for(int i = 0; i < resourcesDiscarded.length; i++){
-            totalDiscarded += resourcesDiscarded[i];
+    public boolean discardResources (int playerId, ArrayList<Integer> resourcesDiscarded) {
+        Log.d(TAG, "discardResources() called with: playerId = [" + playerId + "], resourcesDiscarded = [" + resourcesDiscarded + "]");
+        Log.w(TAG, "discardResources: " + this.playerList.get(playerId).printResourceCards());
+
+        if (needsToDiscardHalf(playerId)) {
+            for (int i = 0; i < resourcesDiscarded.size(); i++) {
+                if (!this.getPlayerList().get(playerId).removeResourceCard(resourcesDiscarded.get(i), 1)) {
+                    Log.e(TAG, "discardResources: BAD", new Exception("error bc not enough resources but this is bad"));
+                }
+            }
+
+            //        if (playerId == currentPlayerId) { todo wtf
+            //            hasDiscarded = true;
+            //        } else {
+            //            hasDiscarded = true;
+            //            hasMovedRobber = true;
+            //        }
+
+            robberPlayerListHasDiscarded[playerId] = true;
+            return true;
+        } else {
+            // return true if they dont need to discard
+            return true;
         }
-        Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
-        Log.i(TAG, "discardResources: Discarded resources");
-        for(int i = 0; i < resourcesDiscarded.length; i++){
-            this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
-        }
-        if(playerId == currentPlayerId){
-            hasDiscarded = true;
-        }
-        else{
-                    hasDiscarded = true;
-                    hasMovedRobber = true;
-        }
-        robberPlayerListHasDiscarded[playerId] = true;
-        return true;
     }
 
-    public boolean allPlayersHaveDiscarded(){
+    public boolean allPlayersHaveDiscarded () {
+        Log.d(TAG, "allPlayersHaveDiscarded() called");
         for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
-            if(robberPlayerListHasDiscarded[i] == false){
-                return false;
-            }
+            if (robberPlayerListHasDiscarded[i] == false) return false;
         }
         Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
         return true;
-    }
-
-
-    /**
-     * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
-     *
-     * @param hexagonId Hexagon the robber is going to move to.
-     * @param playerId Player who is moving the robber.
-     * @return action success.
-     */
-    public boolean moveRobber (int hexagonId, int playerId) {
-        if (!valPlId(playerId)) {
-            Log.d(TAG, "moveRobber: invalid player id: " + playerId);
-            return false;
-        }
-        if (!checkTurn(playerId)) {
-            Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
-            return false;
-        }
-        if (this.board.moveRobber(hexagonId)) {
-            Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
-            hasMovedRobber = true;
-            return true;
-        }
-        Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
-        return false;
     }
 
     /**
@@ -704,13 +386,11 @@ public class CatanGameState extends GameState{
             Log.e(TAG, "robberSteal: invalid player id: " + playerId);
             return false;
         }
-
         // check if it is the players turn
         if (!checkTurn(playerId)) {
             Log.i(TAG, "robberSteal: it is not " + playerId + "'s turn.");
             return false;
         }
-
         // As of now this selects a random player and then steals a random card from their inventory. TODO enable the player moving the robber to choose to steal a resource from the players who have buildings adjacent to the new robbers location
         Random random = new Random();
         int randomStolenResourceId = this.playerList.get(random.nextInt(3)).getRandomCard();
@@ -725,17 +405,12 @@ public class CatanGameState extends GameState{
         isRobberPhase = false;
         hasDiscarded = false;
         hasMovedRobber = false;
+
+        for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
+            robberPlayerListHasDiscarded[i] = false;
+        }
         return true;
     }
-
-    //    public boolean hasSevenPlusCards(Player player){
-    //        if(player.getTotalResourceCardCount() > 7){
-    //            Log.i(TAG, "hasSevenPlusCards: Player has more than seven cards");
-    //            return true;
-    //        }
-    //        Log.i(TAG, "hasSevenPlusCards: Player has 7 or less cards");
-    //        return false;
-    //    }
 
     /*-------------------------------------Setup Phase Methods------------------------------------------*/
 
@@ -745,19 +420,13 @@ public class CatanGameState extends GameState{
      *
      * @return if the game is still in the setup phase
      */
-    public boolean updateSetupPhase () {
-        Log.d(TAG, "updateSetupPhase() called");
-        Log.e(TAG, "updateSetupPhase: " + this.toString());
-        //        int roadCount = 0;
+    boolean updateSetupPhase () {
+        Log.d(TAG, "updateSetupPhase() called " + this.toString());
         int buildingCount = 0;
         for (Building building : board.getBuildings()) {
-            if (building != null) {
-                buildingCount++;
-            }
+            if (building != null) buildingCount++;
         }
-        if (board.getRoads().size() < 8 || buildingCount < 8) {
-            return true;
-        }
+        if (board.getRoads().size() < 8 || buildingCount < 8) return true;
         Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }
@@ -864,27 +533,47 @@ public class CatanGameState extends GameState{
         return isRobberPhase;
     }
 
-    public int[] getRobberDiscardedResource(){
+    public int[] getRobberDiscardedResource () {
         return robberDiscardedResources;
     }
 
-    public boolean isHasDiscarded() { return hasDiscarded;}
+    public boolean isHasDiscarded () { return hasDiscarded;}
 
-    public boolean isHasMovedRobber() { return hasMovedRobber; }
+    public boolean getHasMovedRobber () { return hasMovedRobber; }
 
-    public boolean[] getRobberPlayerListHasDiscarded() {
+    public boolean[] getRobberPlayerListHasDiscarded () {
         return robberPlayerListHasDiscarded;
     }
 
-    public void setRobberPlayerListHasDiscarded(boolean[] robberPlayerListHasDiscarded) {
+    public void setRobberPlayerListHasDiscarded (boolean[] robberPlayerListHasDiscarded) {
         this.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
     }
 
-    public void playerHasDiscardedResources(int playerId){
+    public void playerHasDiscardedResources (int playerId) {
         this.robberPlayerListHasDiscarded[playerId] = true;
     }
 
-    /*-------------------------------------toString------------------------------------------*/
+    public void setHasDiscarded (boolean hasDiscarded) {
+        this.hasDiscarded = hasDiscarded;
+    }
+
+    public boolean isHasMovedRobber () {
+        return hasMovedRobber;
+    }
+
+    public void setHasMovedRobber (boolean hasMovedRobber) {
+        this.hasMovedRobber = hasMovedRobber;
+    }
+
+    public int[] getRobberDiscardedResources () {
+        return robberDiscardedResources;
+    }
+
+    public void setRobberDiscardedResources (int[] robberDiscardedResources) {
+        this.robberDiscardedResources = robberDiscardedResources;
+    }
+
+    /*------------------------------------- toString ------------------------------------------*/
 
     /**
      * TODO update???
@@ -894,7 +583,6 @@ public class CatanGameState extends GameState{
     @Override
     public String toString () {
         StringBuilder result = new StringBuilder();
-
         result.append(" ----------- CatanGameState toString ---------- \n");
         result.append("current Player: ").append(this.currentPlayerId).append(", ");
         result.append("diceVal: ").append(this.currentDiceSum).append(", ");
@@ -903,12 +591,11 @@ public class CatanGameState extends GameState{
         result.append("robberPhase: ").append(this.isRobberPhase).append(", ");
         result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
-
+        result.append("Players that have discarded: ").append(Arrays.toString(this.robberPlayerListHasDiscarded)).append(", \n");
         for (Player player : playerList) {
             result.append(player.toString()).append("\n");
         }
         result.append(this.board.toString()).append("\n");
-
         return result.toString();
-    } // end CatanGameState toString()
+    }
 }
