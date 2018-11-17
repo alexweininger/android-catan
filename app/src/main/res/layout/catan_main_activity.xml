@@ -1460,6 +1460,7 @@
         android:textAlignment="gravity"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
 
