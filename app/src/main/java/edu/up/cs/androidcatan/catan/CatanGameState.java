@@ -30,7 +30,7 @@ public class CatanGameState extends GameState {
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
     private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
-    private int currentPlayerId; // id of player who is the current playing player
+    private static int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
 
     // game phases
@@ -57,7 +57,7 @@ public class CatanGameState extends GameState {
         this.board = new Board();
         generateDevCardDeck();
 
-        this.currentPlayerId = 0;
+        currentPlayerId = 0;
         this.currentDiceSum = 3;
         this.setupPhaseTurnCounter = 0;
         // add players to player list
@@ -79,7 +79,7 @@ public class CatanGameState extends GameState {
         this.setDice(new Dice(cgs.getDice()));
         this.setBoard(new Board(cgs.getBoard()));
 
-        this.currentPlayerId = cgs.currentPlayerId;
+        currentPlayerId = currentPlayerId;
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
@@ -93,9 +93,8 @@ public class CatanGameState extends GameState {
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
 
         this.setDevelopmentCards(cgs.getDevelopmentCards());
-        this.setCurrentPlayerId(cgs.getCurrentPlayerId());
+//        this.setCurrentPlayerId(cgs.getCurrentPlayerId());
         this.setSetupPhaseTurnCounter(cgs.getSetupPhaseTurnCounter());
-        this.setBoard(cgs.getBoard());
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
@@ -136,7 +135,7 @@ public class CatanGameState extends GameState {
     /*-------------------------------------Validation Methods------------------------------------------*/
 
     Player getCurrentPlayer () {
-        return this.playerList.get(this.currentPlayerId);
+        return this.playerList.get(currentPlayerId);
     }
 
     /**
@@ -153,7 +152,7 @@ public class CatanGameState extends GameState {
      */
     private boolean checkTurn (int playerId) {
         if (valPlId(playerId)) {
-            return playerId == this.currentPlayerId;
+            return playerId == currentPlayerId;
         }
         Log.e(TAG, "checkTurn: Invalid player id: " + playerId);
         return false;
@@ -447,7 +446,7 @@ public class CatanGameState extends GameState {
     }
 
     public void setCurrentPlayerId (int currentPlayerId) {
-        this.currentPlayerId = currentPlayerId;
+        CatanGameState.currentPlayerId = currentPlayerId;
     }
 
     public boolean isActionPhase () {
@@ -545,7 +544,7 @@ public class CatanGameState extends GameState {
     public String toString () {
         StringBuilder result = new StringBuilder();
         result.append(" ----------- CatanGameState toString ---------- \n");
-        result.append("current Player: ").append(this.currentPlayerId).append(", ");
+        result.append("current Player: ").append(currentPlayerId).append(", ");
         result.append("diceVal: ").append(this.currentDiceSum).append(", ");
         result.append("actionPhase: ").append(this.isActionPhase).append(", ");
         result.append("setupPhase: ").append(this.isSetupPhase).append(", ");

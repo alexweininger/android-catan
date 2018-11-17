@@ -58,15 +58,15 @@ public class CatanLocalGame extends LocalGame {
      * @return true iff the player is allowed to move
      */
     @Override
-    protected boolean canMove (int playerIdx) {
-        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + state.getCurrentPlayerId());
+    public boolean canMove (int playerIdx) {
+        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + this.state.getCurrentPlayerId());
 
         if (state.isRobberPhase()) return true; // todo fix this iffy logic
 
         if (playerIdx < 0 || playerIdx > 3) Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
 
-        Log.d(TAG, "canMove() returned: " + (playerIdx == state.getCurrentPlayerId()));
-        return playerIdx == state.getCurrentPlayerId();
+        Log.d(TAG, "canMove() returned: " + (playerIdx == this.state.getCurrentPlayerId()));
+        return playerIdx == this.state.getCurrentPlayerId();
     }
 
     /**
@@ -83,8 +83,8 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            state.setCurrentDiceSum(state.getDice().roll());
-            Log.i(TAG, "rollDice: Player " + state.getCurrentPlayerId() + " rolled a " + state.getCurrentDiceSum());
+            this.state.setCurrentDiceSum(this.state.getDice().roll());
+            Log.i(TAG, "rollDice: Player " + this.state.getCurrentPlayerId() + " rolled a " + this.state.getCurrentDiceSum());
 
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
                 Log.i(TAG, "rollDice: The robber has been activated.");
@@ -100,11 +100,11 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
             state.updateVictoryPoints();
             //            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
-            state.setSetupPhase(state.updateSetupPhase());
+            this.state.setSetupPhase(this.state.updateSetupPhase());
 
             // increment the current turn
-            if (state.getCurrentPlayerId() == 3) state.setCurrentPlayerId(0);
-            else state.setCurrentPlayerId(state.getCurrentPlayerId() + 1);
+            if (this.state.getCurrentPlayerId() == 3) this.state.setCurrentPlayerId(0);
+            else this.state.setCurrentPlayerId(this.state.getCurrentPlayerId() + 1);
 
             state.setActionPhase(false);
             Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
