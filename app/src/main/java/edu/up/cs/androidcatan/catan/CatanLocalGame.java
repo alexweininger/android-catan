@@ -59,7 +59,7 @@ public class CatanLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove (int playerIdx) {
-        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
+        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + state.getCurrentPlayerId());
 
         if (state.isRobberPhase()) return true; // todo fix this iffy logic
 
@@ -97,10 +97,9 @@ public class CatanLocalGame extends LocalGame {
         }
 
         if (action instanceof CatanEndTurnAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+            Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
             state.updateVictoryPoints();
-            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
+            //            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
             state.setSetupPhase(state.updateSetupPhase());
 
             // increment the current turn
@@ -108,8 +107,8 @@ public class CatanLocalGame extends LocalGame {
             else state.setCurrentPlayerId(state.getCurrentPlayerId() + 1);
 
             state.setActionPhase(false);
-
-            Log.i(TAG, "makeMove: Player " + state.getCurrentPlayerId() + " has ended their turn.");
+            Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
+            Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
         }
 
@@ -151,6 +150,7 @@ public class CatanLocalGame extends LocalGame {
             if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
                 // add settlement to the board
                 state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
+                state.getCurrentPlayer().addVictoryPoints(1);
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             }
@@ -166,6 +166,7 @@ public class CatanLocalGame extends LocalGame {
             if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
                 // add building to the board
                 state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));
+                state.getCurrentPlayer().addVictoryPoints(1);
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             }
@@ -198,7 +199,7 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanUseVictoryPointCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(1);
-            state.getPlayerList().get(state.getCurrentPlayerId()).addVictoryPointsDevCard();
+            state.getCurrentPlayer().addPrivateVictoryPoints(1);
             return true;
         }
 
@@ -322,8 +323,8 @@ public class CatanLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
-        for (int i = 0; i < this.state.getPlayerVictoryPoints().length; i++) {
-            if (this.state.getPlayerVictoryPoints()[i] > 9) {
+        for (int i = 0; i < this.state.getPlayerList().size(); i++) {
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
                 return playerNames[i] + " wins!";
             }
         }

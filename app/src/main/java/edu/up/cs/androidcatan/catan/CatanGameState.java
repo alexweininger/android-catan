@@ -30,9 +30,6 @@ public class CatanGameState extends GameState {
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
     private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
-    private int[] playerVictoryPoints = new int[4]; // victory points of each player
-    private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
-
     private int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
 
@@ -40,6 +37,9 @@ public class CatanGameState extends GameState {
     private boolean isSetupPhase = true; // is it the setup phase
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isRobberPhase = false; // is the robber phase
+
+    public static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
+    private int setupPhaseTurnCounter;
 
     // robber
     private boolean hasDiscarded = false;
@@ -59,7 +59,7 @@ public class CatanGameState extends GameState {
 
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
-
+        this.setupPhaseTurnCounter = 0;
         // add players to player list
         this.playerList.add(new Player(0));
         this.playerList.add(new Player(1));
@@ -68,11 +68,6 @@ public class CatanGameState extends GameState {
 
         Log.i(TAG, this.board.toString());
 
-        // set all vic points to 0 to start
-        for (int i = 0; i < playerVictoryPoints.length; i++) {
-            playerVictoryPoints[i] = 0;
-            playerPrivateVictoryPoints[i] = 0;
-        }
     } // end CatanGameState constructor
 
     /**
@@ -97,21 +92,14 @@ public class CatanGameState extends GameState {
         this.setRobberDiscardedResources(cgs.getRobberDiscardedResources());
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
 
-        this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
-        this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
-
+        this.setCurrentPlayerId(cgs.getCurrentPlayerId());
+        this.setSetupPhaseTurnCounter(cgs.getSetupPhaseTurnCounter());
         this.setBoard(cgs.getBoard());
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
-        }
-
-        // copy victory points of each player
-        for (int i = 0; i < cgs.playerVictoryPoints.length; i++) {
-            this.playerVictoryPoints[i] = cgs.playerVictoryPoints[i];
-            this.playerPrivateVictoryPoints[i] = cgs.playerPrivateVictoryPoints[i];
         }
     } // end deep copy constructor
 
@@ -189,13 +177,13 @@ public class CatanGameState extends GameState {
         }
         if (max > 2) {
             // if the award has already been given out remove the awarded VP from that player
-            if (currentLargestArmyPlayerId != -1) {
-                this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
-            }
+//            if (currentLargestArmyPlayerId != -1) {
+//                this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
+//            }
             // update the player witht he kargest army
             this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
             // add 2 VP to who ever has the largest army
-            this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
+//            this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
         }
     }
 
@@ -207,30 +195,18 @@ public class CatanGameState extends GameState {
 
         Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
 
-        for (int i = 0; i < this.playerVictoryPoints.length; i++) {
-            this.playerVictoryPoints[i] = 0;
-        }
 
-        for (int n = 0; n < this.playerList.size(); n++) {
-            if (playerList.get(n).getPlayerId() == this.board.getPlayerWithLongestRoad(playerList)) {
-                playerVictoryPoints[playerList.get(n).getPlayerId()] += 2;
-            }
-        }
 
-        for (int i = 0; i < this.playerList.size(); i++) {
-            this.playerVictoryPoints[i] += this.playerList.get(i).getVictoryPointsFromDevCard();
-        }
-
-        // goes through all buildings and the amount of victory points to the player to who owns the building
-        Building[] buildings = this.board.getBuildings();
-
-        for (Building building : buildings) {
-            if (building != null) {
-                Log.w(TAG, "updateVictoryPoints: building.getOwnerId: " + building.getOwnerId() + " building.getVictoryPoints: " + building.getVictoryPoints());
-                playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
-            }
-        }
-        checkArmySize();
+//        // goes through all buildings and the amount of victory points to the player to who owns the building
+//        Building[] buildings = this.board.getBuildings();
+//
+//        for (Building building : buildings) {
+//            if (building != null) {
+//                Log.w(TAG, "updateVictoryPoints: building.getOwnerId: " + building.getOwnerId() + " building.getVictoryPoints: " + building.getVictoryPoints());
+////                playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
+//            }
+//        }
+//        checkArmySize();
     }
 
     /*-------------------------------------Resource Methods------------------------------------------*/
@@ -426,32 +402,25 @@ public class CatanGameState extends GameState {
         for (Building building : board.getBuildings()) {
             if (building != null) buildingCount++;
         }
-        if (board.getRoads().size() < 8 || buildingCount < 8) return true;
+        if (board.getRoads().size() < 8 || buildingCount < 8) {
+            Log.d(TAG, "updateSetupPhase() returned: " + true);
+            return true;
+        }
         Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }
 
     /*-------------------------------------Getter/Setter Methods------------------------------------------*/
 
-    public Dice getDice () {
-        return dice;
-    }
+    public Dice getDice () { return dice; }
 
-    public void setDice (Dice dice) {
-        this.dice = dice;
-    }
+    public void setDice (Dice dice) { this.dice = dice; }
 
-    public Board getBoard () {
-        return board;
-    }
+    public Board getBoard () { return board; }
 
-    public void setBoard (Board board) {
-        this.board = board;
-    }
+    public void setBoard (Board board) { this.board = board; }
 
-    public ArrayList<Player> getPlayerList () {
-        return playerList;
-    }
+    public ArrayList<Player> getPlayerList () { return playerList; }
 
     public void setPlayerList (ArrayList<Player> playerList) {
         this.playerList = playerList;
@@ -463,22 +432,6 @@ public class CatanGameState extends GameState {
 
     public void setDevelopmentCards (ArrayList<Integer> developmentCards) {
         this.developmentCards = developmentCards;
-    }
-
-    public int[] getPlayerVictoryPoints () {
-        return playerVictoryPoints;
-    }
-
-    public void setPlayerVictoryPoints (int[] playerVictoryPoints) {
-        this.playerVictoryPoints = playerVictoryPoints;
-    }
-
-    public int[] getPlayerPrivateVictoryPoints () {
-        return playerPrivateVictoryPoints;
-    }
-
-    public void setPlayerPrivateVictoryPoints (int[] playerPrivateVictoryPoints) {
-        this.playerPrivateVictoryPoints = playerPrivateVictoryPoints;
     }
 
     public int getCurrentDiceSum () {
@@ -571,6 +524,14 @@ public class CatanGameState extends GameState {
 
     public void setRobberDiscardedResources (int[] robberDiscardedResources) {
         this.robberDiscardedResources = robberDiscardedResources;
+    }
+
+    public int getSetupPhaseTurnCounter () {
+        return setupPhaseTurnCounter;
+    }
+
+    public void setSetupPhaseTurnCounter (int setupPhaseTurnCounter) {
+        this.setupPhaseTurnCounter = setupPhaseTurnCounter;
     }
 
     /*------------------------------------- toString ------------------------------------------*/

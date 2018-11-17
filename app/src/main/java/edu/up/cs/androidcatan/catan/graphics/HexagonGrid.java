@@ -248,12 +248,12 @@ public class HexagonGrid extends BoardSurfaceView {
                 boolean highlightedHexagon = this.highlightedHexagon == dataHexagons.get(dataHexagonsIndex).getHexagonId();
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
 
-                if (highlightedHexagon)
-                    Log.e(TAG, "generateDrawableHexagons: highlighted hexagon is: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
-                if (isRobberHexagon)
-                    Log.w(TAG, "generateDrawableHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
-                if (isDesertHexagon)
-                    Log.w(TAG, "generateDrawableHexagons: desert tile found to be at drawing hexagon id: " + dataHexagonsIndex + " and data hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+//                if (highlightedHexagon)
+//                    Log.e(TAG, "generateDrawableHexagons: highlighted hexagon is: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+//                if (isRobberHexagon)
+//                    Log.w(TAG, "generateDrawableHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+//                if (isDesertHexagon)
+//                    Log.w(TAG, "generateDrawableHexagons: desert tile found to be at drawing hexagon id: " + dataHexagonsIndex + " and data hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
 
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
                 int offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
@@ -263,7 +263,7 @@ public class HexagonGrid extends BoardSurfaceView {
                 HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon, dataHexagons.get(dataHexagonsIndex).getResourceId());
                 drawingHexagons.add(hexagon);
 
-                Log.d(TAG, "generateDrawableHexagons: dataHexagonsIndex: " + dataHexagonsIndex + " current hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
+//                Log.d(TAG, "generateDrawableHexagons: dataHexagonsIndex: " + dataHexagonsIndex + " current hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 dataHexagonsIndex++;
             }
         }

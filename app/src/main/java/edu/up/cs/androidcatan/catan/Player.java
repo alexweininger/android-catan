@@ -57,13 +57,15 @@ public class Player {
      *
      * @param p - Player object to copy
      */
-    public Player (Player p) {
+    Player (Player p) {
         this.setPlayerId(p.getPlayerId());
         this.setArmySize(p.getArmySize());
         this.setDevelopmentCards(p.getDevelopmentCards());
         this.setBuildingInventory(p.getBuildingInventory());
         this.setResourceCards(p.getResourceCards());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
+        this.setVictoryPoints(p.getVictoryPoints());
+        this.setVictoryPointsPrivate(p.getVictoryPointsPrivate());
     }
 
     void addVictoryPointsDevCard () {
@@ -331,6 +333,14 @@ public class Player {
 
     public int getVictoryPoints () {
         return victoryPoints;
+    }
+
+    public void addVictoryPoints(int number) {
+        this.victoryPoints += number;
+    }
+
+    public void addPrivateVictoryPoints(int number) {
+        this.victoryPointsPrivate += number;
     }
 
     public void setVictoryPoints (int victoryPoints) {
