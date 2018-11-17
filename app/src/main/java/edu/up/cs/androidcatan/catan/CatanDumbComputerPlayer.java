@@ -13,8 +13,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
@@ -39,100 +37,68 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo (GameInfo info) {
-        Log.i(TAG, "receiveInfo() called with: info = [" + info + "]");
+        Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
         if (!(info instanceof CatanGameState)) return;
         CatanGameState gs = (CatanGameState) info;
-
-        sleep(1000);
-
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
 
+        if (this.playerNum != gs.getCurrentPlayerId()) {
+            return;
+        } else {
+            Log.e(TAG, "receiveInfo: IT IS MY TURN I AM PLAYING" + " " + this.playerNum);
+        }
+
+        sleep(1000);
         Random random = new Random();
-        int settlementCount = 0;
-        int roadCount = 0;
-
-        // Get the number of settlements the player has built.
-        for (Building building : gs.getBoard().getBuildings()) {
-            if (building != null && building.getOwnerId() == this.playerNum) {
-                settlementCount++;
-            }
-        }
-
-        // Get the number of roads the player has built.
-        for (Road road : gs.getBoard().getRoads()) {
-            if (road.getOwnerId() == this.playerNum) {
-                roadCount++;
-            }
-        }
-
-        Log.i(TAG, "receiveInfo: roadCount: " + roadCount + " settlementCount: " + settlementCount);
 
         /*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
-        if (gs.isSetupPhase() && (roadCount < 2 || settlementCount < 2) && gs.getCurrentPlayerId() == this.playerNum) {
-
-            Log.i(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road.");
+        if (gs.isSetupPhase()) {
+            Log.d(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road." + " " + this.playerNum);
 
             int randSettlementIntersection = random.nextInt(53);
-
             // generate random intersection until we find a valid location to build our settlement
             while (!gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection)) {
+                sleep(1000); // sleep
+                Log.d(TAG, "receiveInfo: generating new building location" + " " + this.playerNum);
                 randSettlementIntersection = random.nextInt(53);
             }
+            Log.e(TAG, "receiveInfo: exiting settlement look for " + this.playerNum);
 
-            if (gs.isSetupPhase()) { // need to build a settlement
+            // send the build settlement action to the game
+            Log.d(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game with intersection id: " +randSettlementIntersection + " " + this.playerNum);
+            game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection)); // sending build settlement action
 
-                sleep(800); // sleep
+            // get adjacent intersections to what we just built
+            ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(randSettlementIntersection);
 
-                Log.w(TAG, "receiveInfo: Attempting to build a settlement at intersection " + randSettlementIntersection);
+            Log.d(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom + " " + this.playerNum);
 
-                // add just enough resources for a settlement
-                gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-                gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-                gs.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-                gs.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
-
-                // send the build settlement action to the game
-                Log.i(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game.");
-
-                game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection)); // sending build settlement action
-
-                Log.d(TAG, "receiveInfo() returned: void");
-
-                // get adjacent intersections to what we just built
-                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(randSettlementIntersection);
-
-                Log.i(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom);
-
-                // choose a random intersection from those intersections
-                int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-
-                // generate random intersection until we find a valid location to build our settlement
-                while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection))) {
-                    randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+            // choose a random intersection from those intersections
+            int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+            int count = 0;
+            // generate random intersection until we find a valid location to build our settlement
+            while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection))) {
+                if (count > 5) {
+                    Log.e(TAG, "receiveInfo: CANNOT PLACE ROAD" + " " + this.playerNum);
+                    break;
                 }
-
-                sleep(500); // sleep
-
-                Log.w(TAG, "receiveInfo: Attempting to build a road between " + intersectionsToChooseFrom.get(randomRoadIntersection) + " and " + randSettlementIntersection);
-
-                // add just enough resources for a road
-                gs.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-                gs.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-
-                // send the game a build road action
-                Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game.");
-                game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection)));
-
-                Log.d(TAG, "receiveInfo() returned: void");
-                return;
+                Log.e(TAG, "receiveInfo: generating new road intersection" + " " + this.playerNum);
+                sleep(1000); // sleep
+                randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                count++;
             }
-        } // setup phase if statement END
 
-        if (gs.isSetupPhase() && settlementCount == 2 && roadCount == 2 && gs.getCurrentPlayerId() == playerNum) {
-            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+            sleep(1000); // sleep
+            // send the game a build road action
+            Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game." + " " + this.playerNum);
+            game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection)));
+            Log.d(TAG, "receiveInfo() returned: void");
+
+            Log.d(TAG, "receiveInfo: Ending turn during the setup phase after building 1 road and 1 settlement" + " " + this.playerNum);
             game.sendAction(new CatanEndTurnAction(this));
-        }
+            return;
+        } // setup phase if statement END
 
         /*------------------------------Setup Phase End------------------------------------------*/
 
@@ -168,7 +134,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 ArrayList<Integer> resourcesToDiscardIds = new ArrayList<>();
 
-                while  (resourcesToDiscardIds.size() < amountOfResourcesToDiscard) {
+                while (resourcesToDiscardIds.size() < amountOfResourcesToDiscard) {
                     int resId = random.nextInt(5);
                     if (gs.getPlayerList().get(this.playerNum).checkResourceCard(resId, 1)) {
                         Log.d(TAG, "receiveInfo: Added resource " + resId + " to the players discard attempt.");
@@ -186,27 +152,27 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 return;
 
                 // logic for player to discard resource cards
-//                for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
-//                    for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
-//
-//                        // add to the resources they have discarded
-//                        robberResourcesDiscard[i]++;
-//
-//                        if (gs.validDiscard(playerNum, robberResourcesDiscard)) {
-//                            Log.i(TAG, "receiveInfo: Computer is now discarding resources");
-//                            CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
-//                            robberResourcesDiscard = gs.getRobberDiscardedResource();
-//                            game.sendAction(action);
-//                            break;
-//                        }
-//                    }
-//                    if (gs.getRobberPlayerListHasDiscarded()[playerNum]) {
-//                        Log.i(TAG, "receiveInfo: Computer discarded cards!");
-//                        break;
-//                    }
-//                }
-//                Log.i(TAG, "receiveInfo: Player is ending the discard phase!");
-//                return;
+                //                for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
+                //                    for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
+                //
+                //                        // add to the resources they have discarded
+                //                        robberResourcesDiscard[i]++;
+                //
+                //                        if (gs.validDiscard(playerNum, robberResourcesDiscard)) {
+                //                            Log.i(TAG, "receiveInfo: Computer is now discarding resources");
+                //                            CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
+                //                            robberResourcesDiscard = gs.getRobberDiscardedResource();
+                //                            game.sendAction(action);
+                //                            break;
+                //                        }
+                //                    }
+                //                    if (gs.getRobberPlayerListHasDiscarded()[playerNum]) {
+                //                        Log.i(TAG, "receiveInfo: Computer discarded cards!");
+                //                        break;
+                //                    }
+                //                }
+                //                Log.i(TAG, "receiveInfo: Player is ending the discard phase!");
+                //                return;
             }
 
             // if this player needs to move the robber, but all players have not discarded yet. Do nothing.
@@ -247,16 +213,16 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             }
             Log.e(TAG, "receiveInfo: here boiiiiiiiiiiiiiiii");
             return;
-//                        if(!gs.isRobberPhase()) {
-//                            game.sendAction(new CatanEndTurnAction(this));
-//                        }
-//                        else{
-//                            Log.e(TAG, "receiveInfo: Got to the end of CPU robber phase without ending robber phase", new Exception());
-//                        }
+            //                        if(!gs.isRobberPhase()) {
+            //                            game.sendAction(new CatanEndTurnAction(this));
+            //                        }
+            //                        else{
+            //                            Log.e(TAG, "receiveInfo: Got to the end of CPU robber phase without ending robber phase", new Exception());
+            //                        }
         }
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-        
+
         Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
         if (!gs.isRobberPhase() && gs.getCurrentPlayerId() == this.playerNum) {
             game.sendAction(new CatanEndTurnAction(this));

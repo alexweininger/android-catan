@@ -169,23 +169,24 @@ public class Board {
             return false;
         }
         // check if road is connected to players roads / buildings at either intersection
-        if (!isConnected(playerId, a) && !isConnected(playerId, b)) {
+        if (isConnected(playerId, a) || isConnected(playerId, b)) {
+            // check if 3 roads at either intersection
+            if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+                Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
+                return false;
+            }
+            // check if road is already built
+            Log.i(TAG, "validRoadPlacement: this.roadGraph.getOwnerId: " + this.roadGraph[a][b].getOwnerId());
+            if (this.roadGraph[a][b].getOwnerId() != -1) {
+                Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
+                return false;
+            }
+            Log.d(TAG, "validRoadPlacement: Valid road placement.");
+            return true;
+        } else {
             Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
             return false;
         }
-        // check if 3 roads at either intersection
-        if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
-            Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
-            return false;
-        }
-        // check if road is already built
-        Log.i(TAG, "validRoadPlacement: this.roadGraph.getOwnerId: " + this.roadGraph[a][b].getOwnerId());
-        if (this.roadGraph[a][b].getOwnerId() != -1) {
-            Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
-            return false;
-        }
-        Log.d(TAG, "validRoadPlacement: Valid road placement.");
-        return true;
     }
 
     /**
@@ -209,9 +210,11 @@ public class Board {
         Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
         for (Road road : roadGraph[i]) {
             if (road.getOwnerId() != -1) {
+                Log.d(TAG, "hasRoad() returned: " + true);
                 return true;
             }
         }
+        Log.d(TAG, "hasRoad() returned: " + false);
         return false;
     }
 

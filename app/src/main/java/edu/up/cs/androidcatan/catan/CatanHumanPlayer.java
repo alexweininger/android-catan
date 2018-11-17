@@ -1275,7 +1275,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             int settlements = Collections.frequency(this.buildingsBuiltOnThisTurn, 1);
             int roads = Collections.frequency(this.buildingsBuiltOnThisTurn, 0);
 
-            if (settlements == 2 && roads == 2) {
+            // check if they are done with their setup phase turn
+            if (settlements == 1 && roads == 1) {
+                // they need to end thier turn
                 this.endTurnButton.setAlpha(1f);
                 this.endTurnButton.setClickable(true);
                 this.messageTextView.setText(R.string.setup_phase_complete);
@@ -1285,25 +1287,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             } else {
                 this.endTurnButton.setAlpha(0.5f);
                 this.endTurnButton.setClickable(false);
+            }
+            // check if they have built a settlement but not a road
+            if (settlements == 1 && roads == 0) {
+                // they need to build a road
                 this.buildRoadButton.setAlpha(1f);
                 this.buildRoadButton.setClickable(true);
+                this.buildSettlementButton.setAlpha(0.5f);
+                this.buildSettlementButton.setClickable(false);
+            } else {
+                // they need to build a settlement
+                this.buildRoadButton.setAlpha(0.5f);
+                this.buildRoadButton.setClickable(false);
                 this.buildSettlementButton.setAlpha(1f);
                 this.buildSettlementButton.setClickable(true);
             }
-
-            if ((settlements == 2 && roads == 1) || (settlements == 1 && roads == 0)) {
-                this.buildRoadButton.setAlpha(1f);
-                this.buildRoadButton.setClickable(true);
-            } else {
-                this.buildRoadButton.setAlpha(0.5f);
-                this.buildRoadButton.setClickable(false);
-            }
-
-            if ((settlements == 1 && roads == 0) || (settlements == 2 && roads == 1)) {
-                this.buildSettlementButton.setAlpha(0.5f);
-                this.buildSettlementButton.setClickable(false);
-            }
-
             // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
@@ -1397,17 +1395,24 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----- update scoreboard ----- */
 
-        this.player0Score.setText(String.valueOf(state.getPlayerVictoryPoints()[0]));
-        this.player1Score.setText(String.valueOf(state.getPlayerVictoryPoints()[1]));
-        this.player2Score.setText(String.valueOf(state.getPlayerVictoryPoints()[2]));
-        this.player3Score.setText(String.valueOf(state.getPlayerVictoryPoints()[3]));
+        TextView scores[] = {player0Score, player1Score, player2Score, player3Score};
 
-        /* ----- update scoreboard names ----- */
-        this.player0Name.setText(getAllPlayerNames()[0]);
-        this.player1Name.setText(getAllPlayerNames()[1]);
-        this.player2Name.setText(getAllPlayerNames()[2]);
-        this.player3Name.setText(getAllPlayerNames()[3]);
+        // set the other players score on the scoreboard to their public scores except for the user which shows their private score
+        for (int i = 0; i < scores.length; i++) {
+            if (i != this.playerNum)
+                scores[i].setText(String.valueOf(state.getPlayerList().get(i).getVictoryPoints()));
+            else
+                scores[this.playerNum].setText(String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate()));
+        }
 
+        TextView playerNames[] = {player0Name, player1Name, player2Name, player3Name};
+
+        for (int i = 0; i < playerNames.length; i++) {
+            playerNames[i].setText(getAllPlayerNames()[i]);
+            if (i == state.getCurrentPlayerId())
+                playerNames[i].setBackgroundColor(Color.argb(120, 255, 255, 255));
+            else playerNames[i].setBackgroundColor(Color.TRANSPARENT);
+        }
 
         this.player0Score.setTextColor(HexagonGrid.playerColors[0]);
         this.player1Score.setTextColor(HexagonGrid.playerColors[1]);
@@ -1419,31 +1424,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Name.setTextColor(HexagonGrid.playerColors[2]);
         this.player3Name.setTextColor(HexagonGrid.playerColors[3]);
 
-        player0Name.setBackgroundColor(Color.TRANSPARENT);
-        player1Name.setBackgroundColor(Color.TRANSPARENT);
-        player2Name.setBackgroundColor(Color.TRANSPARENT);
-        player3Name.setBackgroundColor(Color.TRANSPARENT);
-
-        switch (state.getCurrentPlayerId()) {
-            case 0:
-                player0Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
-                break;
-            case 1:
-                player1Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
-                break;
-            case 2:
-                player2Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
-                break;
-            case 3:
-                player3Name.setBackgroundColor(Color.argb(120, 255, 255, 255));
-                break;
-        }
-
         /* ----- update misc. sidebar TextViews ----- */
         this.playerNameSidebar.setText(getAllPlayerNames()[0]);
 
         // human player score (sidebar menu)
-        this.myScore.setText(String.format("VPs: %s", String.valueOf(this.state.getPlayerVictoryPoints()[this.state.getCurrentPlayerId()])));
+        this.myScore.setText(String.format("VPs: %s", String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate())));
 
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
@@ -1454,6 +1439,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase())
             this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar);
+
     } // updateTextViews END
 
     /**
@@ -1799,8 +1785,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param message Game over message.
      */
     protected void gameIsOver (String message) {
-        for (int i = 0; i < this.state.getPlayerVictoryPoints().length; i++) {
-            if (this.state.getPlayerVictoryPoints()[i] > 9) {
+        for (int i = 0; i < state.getPlayerList().size(); i++) {
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
                 super.gameIsOver(getAllPlayerNames()[i] + " wins!");
             }
         }
