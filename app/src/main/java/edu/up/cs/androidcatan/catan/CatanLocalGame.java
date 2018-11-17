@@ -100,11 +100,21 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
             state.updateVictoryPoints();
             //            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
-            this.state.setSetupPhase(this.state.updateSetupPhase());
 
-            // increment the current turn
-            if (this.state.getCurrentPlayerId() == 3) this.state.setCurrentPlayerId(0);
-            else this.state.setCurrentPlayerId(this.state.getCurrentPlayerId() + 1);
+            // update setup phase
+            if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
+
+            // if it is still the setup phase
+            if (this.state.isSetupPhase()) {
+                // increment setup phase turn counter
+                this.state.setSetupPhaseTurnCounter(this.state.getSetupPhaseTurnCounter() + 1);
+                this.state.setCurrentPlayerId(CatanGameState.setupPhaseTurnOrder[state.getSetupPhaseTurnCounter()]);
+
+            } else {
+                // increment the current turn
+                if (this.state.getCurrentPlayerId() == 3) this.state.setCurrentPlayerId(0);
+                else this.state.setCurrentPlayerId(this.state.getCurrentPlayerId() + 1);
+            }
 
             state.setActionPhase(false);
             Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");

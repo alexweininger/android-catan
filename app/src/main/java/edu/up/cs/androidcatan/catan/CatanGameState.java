@@ -39,7 +39,7 @@ public class CatanGameState extends GameState {
     private boolean isRobberPhase = false; // is the robber phase
 
     public static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
-    private int setupPhaseTurnCounter;
+    private static int setupPhaseTurnCounter;
 
     // robber
     private boolean hasDiscarded = false;
@@ -59,7 +59,7 @@ public class CatanGameState extends GameState {
 
         currentPlayerId = 0;
         this.currentDiceSum = 3;
-        this.setupPhaseTurnCounter = 0;
+        setupPhaseTurnCounter = 0;
         // add players to player list
         this.playerList.add(new Player(0));
         this.playerList.add(new Player(1));
@@ -530,7 +530,7 @@ public class CatanGameState extends GameState {
     }
 
     public void setSetupPhaseTurnCounter (int setupPhaseTurnCounter) {
-        this.setupPhaseTurnCounter = setupPhaseTurnCounter;
+        CatanGameState.setupPhaseTurnCounter = setupPhaseTurnCounter;
     }
 
     /*------------------------------------- toString ------------------------------------------*/
