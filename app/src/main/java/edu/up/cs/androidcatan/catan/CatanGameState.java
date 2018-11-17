@@ -25,10 +25,10 @@ public class CatanGameState extends GameState {
     private static final String TAG = "CatanGameState";
 
     private Dice dice; // dice object
-    private Board board; // board object
+    private static Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
-    private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
+    private static ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
     private static int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
@@ -38,7 +38,7 @@ public class CatanGameState extends GameState {
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isRobberPhase = false; // is the robber phase
 
-    public static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
+    static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
     private static int setupPhaseTurnCounter;
 
     // robber
@@ -54,7 +54,7 @@ public class CatanGameState extends GameState {
 
     public CatanGameState () {
         this.dice = new Dice();
-        this.board = new Board();
+        board = new Board();
         generateDevCardDeck();
 
         currentPlayerId = 0;
@@ -66,7 +66,7 @@ public class CatanGameState extends GameState {
         this.playerList.add(new Player(2));
         this.playerList.add(new Player(3));
 
-        Log.i(TAG, this.board.toString());
+        Log.i(TAG, board.toString());
 
     } // end CatanGameState constructor
 
@@ -78,8 +78,6 @@ public class CatanGameState extends GameState {
     public CatanGameState (CatanGameState cgs) {
         this.setDice(new Dice(cgs.getDice()));
         this.setBoard(new Board(cgs.getBoard()));
-
-        currentPlayerId = currentPlayerId;
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
@@ -91,9 +89,8 @@ public class CatanGameState extends GameState {
         this.setRobberPhase(cgs.getRobberPhase());
         this.setRobberDiscardedResources(cgs.getRobberDiscardedResources());
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
-
         this.setDevelopmentCards(cgs.getDevelopmentCards());
-//        this.setCurrentPlayerId(cgs.getCurrentPlayerId());
+        this.setCurrentPlayerId(cgs.getCurrentPlayerId());
         this.setSetupPhaseTurnCounter(cgs.getSetupPhaseTurnCounter());
 
         // copy player list (using player deep copy const.)
@@ -111,7 +108,7 @@ public class CatanGameState extends GameState {
         int[] devCardCounts = {14, 5, 2, 2, 2};
         for (int i = 0; i < devCardCounts.length; i++) {
             for (int j = 0; j < devCardCounts[i]; j++) {
-                this.developmentCards.add(i);
+                developmentCards.add(i);
             }
         }
     }
@@ -233,7 +230,7 @@ public class CatanGameState extends GameState {
             Hexagon hex = board.getHexagonFromId(i);
             Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
-            ArrayList<Integer> receivingIntersections = this.board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            ArrayList<Integer> receivingIntersections = board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
             Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
 
             // iterate through each intersection surrounding the producing hexagon
@@ -260,7 +257,7 @@ public class CatanGameState extends GameState {
             Hexagon hex = board.getHexagonFromId(i);
             Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
-            ArrayList<Integer> receivingIntersections = this.board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            ArrayList<Integer> receivingIntersections = board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
             Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
 
             // iterate through each intersection surrounding the producing hexagon
@@ -444,7 +441,7 @@ public class CatanGameState extends GameState {
 
     public Board getBoard () { return board; }
 
-    public void setBoard (Board board) { this.board = board; }
+    public void setBoard (Board board) { CatanGameState.board = board; }
 
     public ArrayList<Player> getPlayerList () { return playerList; }
 
@@ -457,7 +454,7 @@ public class CatanGameState extends GameState {
     }
 
     public void setDevelopmentCards (ArrayList<Integer> developmentCards) {
-        this.developmentCards = developmentCards;
+        CatanGameState.developmentCards = developmentCards;
     }
 
     public int getCurrentDiceSum () {
@@ -582,7 +579,7 @@ public class CatanGameState extends GameState {
         for (Player player : playerList) {
             result.append(player.toString()).append("\n");
         }
-        result.append(this.board.toString()).append("\n");
+        result.append(board.toString()).append("\n");
         return result.toString();
     }
 }
