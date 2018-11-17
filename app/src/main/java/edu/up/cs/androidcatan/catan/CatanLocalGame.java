@@ -3,6 +3,8 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
@@ -154,7 +156,10 @@ public class CatanLocalGame extends LocalGame {
                 state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
 
                 if (state.getSetupPhaseTurnCounter() > 3) {
-
+                    ArrayList<Integer> adjacentHexagons = this.state.getBoard().getIntToHexIdMap().get(((CatanBuildSettlementAction) action).getIntersectionId());
+                    for (Integer hexagon : adjacentHexagons) {
+                        this.state.getCurrentPlayer().addResourceCard(state.getBoard().getHexagonFromId(hexagon).getResourceId(), 1);
+                    }
                 }
 
                 Log.d(TAG, "makeMove() returned: " + true);

@@ -250,6 +250,33 @@ public class CatanGameState extends GameState {
         }
     }
 
+
+    void produceResourcesForOneHex (int hexagonId) {
+        Log.d(TAG, "produceResourcesForOneHex() called with: hexagonId = [" + hexagonId + "]");
+
+        ArrayList<Integer> productionHexagonIds = board.getAdjacentHexagons(hexagonId);
+        Log.i(TAG, "produceResources: Hexagons with adj. to hexagon:" + hexagonId + ": " + productionHexagonIds.toString());
+        for (Integer i : productionHexagonIds) {
+            Hexagon hex = board.getHexagonFromId(i);
+            Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
+
+            ArrayList<Integer> receivingIntersections = this.board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
+
+            // iterate through each intersection surrounding the producing hexagon
+            for (Integer intersectionId : receivingIntersections) {
+                Log.e(TAG, "produceResources: hex:" + hex.toString());
+                // check if this intersection has a building
+                if (board.getBuildings()[intersectionId] != null) {
+                    this.playerList.get(board.getBuildings()[intersectionId].getOwnerId()).addResourceCard(hex.getResourceId(), board.getBuildings()[intersectionId].getVictoryPoints());
+                    Log.i(TAG, "produceResources: Giving " + board.getBuildings()[intersectionId].getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + board.getBuildings()[intersectionId].getOwnerId());
+                } else {
+                    Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
+                }
+            }
+        }
+    }
+
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
         this.isRobberPhase = rp;
