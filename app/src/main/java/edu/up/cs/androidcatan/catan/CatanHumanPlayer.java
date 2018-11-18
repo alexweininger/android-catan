@@ -250,6 +250,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick (View button) {
+
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
         if (state == null) {

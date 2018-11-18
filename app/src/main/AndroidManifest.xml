@@ -11,6 +11,7 @@
         android:windowSoftInputMode="stateHidden"
         android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen">
         <activity android:name=".catan.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="sensorLandscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
