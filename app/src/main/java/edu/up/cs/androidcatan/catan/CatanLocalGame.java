@@ -3,6 +3,8 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
@@ -58,15 +60,15 @@ public class CatanLocalGame extends LocalGame {
      * @return true iff the player is allowed to move
      */
     @Override
-    protected boolean canMove (int playerIdx) {
-        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "]");
+    public boolean canMove (int playerIdx) {
+        Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + this.state.getCurrentPlayerId());
 
         if (state.isRobberPhase()) return true; // todo fix this iffy logic
 
         if (playerIdx < 0 || playerIdx > 3) Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
 
-        Log.d(TAG, "canMove() returned: " + (playerIdx == state.getCurrentPlayerId()));
-        return playerIdx == state.getCurrentPlayerId();
+        Log.d(TAG, "canMove() returned: " + (playerIdx == this.state.getCurrentPlayerId()));
+        return playerIdx == this.state.getCurrentPlayerId();
     }
 
     /**
@@ -83,8 +85,8 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            state.setCurrentDiceSum(state.getDice().roll());
-            Log.i(TAG, "rollDice: Player " + state.getCurrentPlayerId() + " rolled a " + state.getCurrentDiceSum());
+            this.state.setCurrentDiceSum(this.state.getDice().roll());
+            Log.i(TAG, "rollDice: Player " + this.state.getCurrentPlayerId() + " rolled a " + this.state.getCurrentDiceSum());
 
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
                 Log.i(TAG, "rollDice: The robber has been activated.");
@@ -97,19 +99,28 @@ public class CatanLocalGame extends LocalGame {
         }
 
         if (action instanceof CatanEndTurnAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+            Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
             state.updateVictoryPoints();
-            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
-            state.setSetupPhase(state.updateSetupPhase());
+            //            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
 
-            // increment the current turn
-            if (state.getCurrentPlayerId() == 3) state.setCurrentPlayerId(0);
-            else state.setCurrentPlayerId(state.getCurrentPlayerId() + 1);
+            // update setup phase
+            if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
+
+            // if it is still the setup phase
+            if (this.state.isSetupPhase()) {
+                // increment setup phase turn counter
+                this.state.setSetupPhaseTurnCounter(this.state.getSetupPhaseTurnCounter() + 1);
+                this.state.setCurrentPlayerId(CatanGameState.setupPhaseTurnOrder[state.getSetupPhaseTurnCounter()]);
+
+            } else {
+                // increment the current turn
+                if (this.state.getCurrentPlayerId() == 3) this.state.setCurrentPlayerId(0);
+                else this.state.setCurrentPlayerId(this.state.getCurrentPlayerId() + 1);
+            }
 
             state.setActionPhase(false);
-
-            Log.i(TAG, "makeMove: Player " + state.getCurrentPlayerId() + " has ended their turn.");
+            Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
+            Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
         }
 
@@ -143,20 +154,28 @@ public class CatanLocalGame extends LocalGame {
                 Log.i(TAG, "makeMove: Setup phase. Not checking for resources.");
                 // add settlement to the board
                 state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
+                if (state.getSetupPhaseTurnCounter() > 3) {
+                    ArrayList<Integer> adjacentHexagons = this.state.getBoard().getIntToHexIdMap().get(((CatanBuildSettlementAction) action).getIntersectionId());
+                    for (Integer hexagon : adjacentHexagons) {
+                        this.state.getCurrentPlayer().addResourceCard(state.getBoard().getHexagonFromId(hexagon).getResourceId(), 1);
+                    }
+                }
+                state.getCurrentPlayer().addVictoryPoints(1);
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
+            } else {
+                // remove resources from players inventory (also does checks)
+                if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
+                    // add settlement to the board
+                    state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
+                    state.getCurrentPlayer().addVictoryPoints(1);
+                    Log.d(TAG, "makeMove() returned: " + true);
+                    return true;
+                }
+                // if the player does not have enough resources at this point in execution something is WRONG
+                Log.e(TAG, "buildSettlement: Player " + state.getCurrentPlayerId() + " resources: " + state.getCurrentPlayer().printResourceCards() + " makeMove() returned: " + false);
+                return false;
             }
-
-            // remove resources from players inventory (also does checks)
-            if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
-                // add settlement to the board
-                state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
-                Log.d(TAG, "makeMove() returned: " + true);
-                return true;
-            }
-            // if the player does not have enough resources at this point in execution something is WRONG
-            Log.e(TAG, "buildSettlement: Player " + state.getCurrentPlayerId() + " resources: " + state.getCurrentPlayer().printResourceCards() + " makeMove() returned: " + false);
-            return false;
         }
 
         if (action instanceof CatanBuildCityAction) {
@@ -166,6 +185,7 @@ public class CatanLocalGame extends LocalGame {
             if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
                 // add building to the board
                 state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));
+                state.getCurrentPlayer().addVictoryPoints(1);
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             }
@@ -192,13 +212,14 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanUseKnightCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(0);
+            state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
             return true;
         }
 
         if (action instanceof CatanUseVictoryPointCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(1);
-            state.getPlayerList().get(state.getCurrentPlayerId()).addVictoryPointsDevCard();
+            state.getCurrentPlayer().addPrivateVictoryPoints(1);
             return true;
         }
 
@@ -322,8 +343,8 @@ public class CatanLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
-        for (int i = 0; i < this.state.getPlayerVictoryPoints().length; i++) {
-            if (this.state.getPlayerVictoryPoints()[i] > 9) {
+        for (int i = 0; i < this.state.getPlayerList().size(); i++) {
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
                 return playerNames[i] + " wins!";
             }
         }

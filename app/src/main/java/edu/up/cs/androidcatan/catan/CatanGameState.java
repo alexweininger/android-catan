@@ -25,21 +25,21 @@ public class CatanGameState extends GameState {
     private static final String TAG = "CatanGameState";
 
     private Dice dice; // dice object
-    private Board board; // board object
+    private static Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
-    private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
+    private static ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
-    private int[] playerVictoryPoints = new int[4]; // victory points of each player
-    private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
-
-    private int currentPlayerId; // id of player who is the current playing player
+    private static int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
 
     // game phases
     private boolean isSetupPhase = true; // is it the setup phase
     private boolean isActionPhase = false; // has the current player rolled the dice
     private boolean isRobberPhase = false; // is the robber phase
+
+    static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
+    private static int setupPhaseTurnCounter;
 
     // robber
     private boolean hasDiscarded = false;
@@ -54,25 +54,20 @@ public class CatanGameState extends GameState {
 
     public CatanGameState () {
         this.dice = new Dice();
-        this.board = new Board();
+        board = new Board();
         generateDevCardDeck();
 
-        this.currentPlayerId = 0;
+        currentPlayerId = 0;
         this.currentDiceSum = 3;
-
+        setupPhaseTurnCounter = 0;
         // add players to player list
         this.playerList.add(new Player(0));
         this.playerList.add(new Player(1));
         this.playerList.add(new Player(2));
         this.playerList.add(new Player(3));
 
-        Log.i(TAG, this.board.toString());
+        Log.i(TAG, board.toString());
 
-        // set all vic points to 0 to start
-        for (int i = 0; i < playerVictoryPoints.length; i++) {
-            playerVictoryPoints[i] = 0;
-            playerPrivateVictoryPoints[i] = 0;
-        }
     } // end CatanGameState constructor
 
     /**
@@ -83,8 +78,6 @@ public class CatanGameState extends GameState {
     public CatanGameState (CatanGameState cgs) {
         this.setDice(new Dice(cgs.getDice()));
         this.setBoard(new Board(cgs.getBoard()));
-
-        this.currentPlayerId = cgs.currentPlayerId;
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
@@ -96,22 +89,13 @@ public class CatanGameState extends GameState {
         this.setRobberPhase(cgs.getRobberPhase());
         this.setRobberDiscardedResources(cgs.getRobberDiscardedResources());
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
-
-        this.setPlayerPrivateVictoryPoints(cgs.getPlayerPrivateVictoryPoints());
-        this.setPlayerVictoryPoints(cgs.getPlayerVictoryPoints());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
-
-        this.setBoard(cgs.getBoard());
+        this.setCurrentPlayerId(cgs.getCurrentPlayerId());
+        this.setSetupPhaseTurnCounter(cgs.getSetupPhaseTurnCounter());
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
-        }
-
-        // copy victory points of each player
-        for (int i = 0; i < cgs.playerVictoryPoints.length; i++) {
-            this.playerVictoryPoints[i] = cgs.playerVictoryPoints[i];
-            this.playerPrivateVictoryPoints[i] = cgs.playerPrivateVictoryPoints[i];
         }
     } // end deep copy constructor
 
@@ -124,7 +108,7 @@ public class CatanGameState extends GameState {
         int[] devCardCounts = {14, 5, 2, 2, 2};
         for (int i = 0; i < devCardCounts.length; i++) {
             for (int j = 0; j < devCardCounts[i]; j++) {
-                this.developmentCards.add(i);
+                developmentCards.add(i);
             }
         }
     }
@@ -148,7 +132,7 @@ public class CatanGameState extends GameState {
     /*-------------------------------------Validation Methods------------------------------------------*/
 
     Player getCurrentPlayer () {
-        return this.playerList.get(this.currentPlayerId);
+        return this.playerList.get(currentPlayerId);
     }
 
     /**
@@ -165,7 +149,7 @@ public class CatanGameState extends GameState {
      */
     private boolean checkTurn (int playerId) {
         if (valPlId(playerId)) {
-            return playerId == this.currentPlayerId;
+            return playerId == currentPlayerId;
         }
         Log.e(TAG, "checkTurn: Invalid player id: " + playerId);
         return false;
@@ -189,13 +173,13 @@ public class CatanGameState extends GameState {
         }
         if (max > 2) {
             // if the award has already been given out remove the awarded VP from that player
-            if (currentLargestArmyPlayerId != -1) {
-                this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
-            }
+//            if (currentLargestArmyPlayerId != -1) {
+//                this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
+//            }
             // update the player witht he kargest army
             this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
             // add 2 VP to who ever has the largest army
-            this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
+//            this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
         }
     }
 
@@ -207,30 +191,18 @@ public class CatanGameState extends GameState {
 
         Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
 
-        for (int i = 0; i < this.playerVictoryPoints.length; i++) {
-            this.playerVictoryPoints[i] = 0;
-        }
 
-        for (int n = 0; n < this.playerList.size(); n++) {
-            if (playerList.get(n).getPlayerId() == this.board.getPlayerWithLongestRoad(playerList)) {
-                playerVictoryPoints[playerList.get(n).getPlayerId()] += 2;
-            }
-        }
 
-        for (int i = 0; i < this.playerList.size(); i++) {
-            this.playerVictoryPoints[i] += this.playerList.get(i).getVictoryPointsFromDevCard();
-        }
-
-        // goes through all buildings and the amount of victory points to the player to who owns the building
-        Building[] buildings = this.board.getBuildings();
-
-        for (Building building : buildings) {
-            if (building != null) {
-                Log.w(TAG, "updateVictoryPoints: building.getOwnerId: " + building.getOwnerId() + " building.getVictoryPoints: " + building.getVictoryPoints());
-                playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
-            }
-        }
-        checkArmySize();
+//        // goes through all buildings and the amount of victory points to the player to who owns the building
+//        Building[] buildings = this.board.getBuildings();
+//
+//        for (Building building : buildings) {
+//            if (building != null) {
+//                Log.w(TAG, "updateVictoryPoints: building.getOwnerId: " + building.getOwnerId() + " building.getVictoryPoints: " + building.getVictoryPoints());
+////                playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
+//            }
+//        }
+//        checkArmySize();
     }
 
     /*-------------------------------------Resource Methods------------------------------------------*/
@@ -258,7 +230,34 @@ public class CatanGameState extends GameState {
             Hexagon hex = board.getHexagonFromId(i);
             Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
-            ArrayList<Integer> receivingIntersections = this.board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            ArrayList<Integer> receivingIntersections = board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
+
+            // iterate through each intersection surrounding the producing hexagon
+            for (Integer intersectionId : receivingIntersections) {
+                Log.e(TAG, "produceResources: hex:" + hex.toString());
+                // check if this intersection has a building
+                if (board.getBuildings()[intersectionId] != null) {
+                    this.playerList.get(board.getBuildings()[intersectionId].getOwnerId()).addResourceCard(hex.getResourceId(), board.getBuildings()[intersectionId].getVictoryPoints());
+                    Log.i(TAG, "produceResources: Giving " + board.getBuildings()[intersectionId].getVictoryPoints() + " resources of type: " + hex.getResourceId() + " to player " + board.getBuildings()[intersectionId].getOwnerId());
+                } else {
+                    Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
+                }
+            }
+        }
+    }
+
+
+    void produceResourcesForOneHex (int hexagonId) {
+        Log.d(TAG, "produceResourcesForOneHex() called with: hexagonId = [" + hexagonId + "]");
+
+        ArrayList<Integer> productionHexagonIds = board.getAdjacentHexagons(hexagonId);
+        Log.i(TAG, "produceResources: Hexagons with adj. to hexagon:" + hexagonId + ": " + productionHexagonIds.toString());
+        for (Integer i : productionHexagonIds) {
+            Hexagon hex = board.getHexagonFromId(i);
+            Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
+
+            ArrayList<Integer> receivingIntersections = board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
             Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
 
             // iterate through each intersection surrounding the producing hexagon
@@ -426,32 +425,25 @@ public class CatanGameState extends GameState {
         for (Building building : board.getBuildings()) {
             if (building != null) buildingCount++;
         }
-        if (board.getRoads().size() < 8 || buildingCount < 8) return true;
+        if (board.getRoads().size() < 8 || buildingCount < 8) {
+            Log.d(TAG, "updateSetupPhase() returned: " + true);
+            return true;
+        }
         Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }
 
     /*-------------------------------------Getter/Setter Methods------------------------------------------*/
 
-    public Dice getDice () {
-        return dice;
-    }
+    public Dice getDice () { return dice; }
 
-    public void setDice (Dice dice) {
-        this.dice = dice;
-    }
+    public void setDice (Dice dice) { this.dice = dice; }
 
-    public Board getBoard () {
-        return board;
-    }
+    public Board getBoard () { return board; }
 
-    public void setBoard (Board board) {
-        this.board = board;
-    }
+    public void setBoard (Board board) { CatanGameState.board = board; }
 
-    public ArrayList<Player> getPlayerList () {
-        return playerList;
-    }
+    public ArrayList<Player> getPlayerList () { return playerList; }
 
     public void setPlayerList (ArrayList<Player> playerList) {
         this.playerList = playerList;
@@ -462,23 +454,7 @@ public class CatanGameState extends GameState {
     }
 
     public void setDevelopmentCards (ArrayList<Integer> developmentCards) {
-        this.developmentCards = developmentCards;
-    }
-
-    public int[] getPlayerVictoryPoints () {
-        return playerVictoryPoints;
-    }
-
-    public void setPlayerVictoryPoints (int[] playerVictoryPoints) {
-        this.playerVictoryPoints = playerVictoryPoints;
-    }
-
-    public int[] getPlayerPrivateVictoryPoints () {
-        return playerPrivateVictoryPoints;
-    }
-
-    public void setPlayerPrivateVictoryPoints (int[] playerPrivateVictoryPoints) {
-        this.playerPrivateVictoryPoints = playerPrivateVictoryPoints;
+        CatanGameState.developmentCards = developmentCards;
     }
 
     public int getCurrentDiceSum () {
@@ -494,7 +470,7 @@ public class CatanGameState extends GameState {
     }
 
     public void setCurrentPlayerId (int currentPlayerId) {
-        this.currentPlayerId = currentPlayerId;
+        CatanGameState.currentPlayerId = currentPlayerId;
     }
 
     public boolean isActionPhase () {
@@ -573,6 +549,14 @@ public class CatanGameState extends GameState {
         this.robberDiscardedResources = robberDiscardedResources;
     }
 
+    public int getSetupPhaseTurnCounter () {
+        return setupPhaseTurnCounter;
+    }
+
+    public void setSetupPhaseTurnCounter (int setupPhaseTurnCounter) {
+        CatanGameState.setupPhaseTurnCounter = setupPhaseTurnCounter;
+    }
+
     /*------------------------------------- toString ------------------------------------------*/
 
     /**
@@ -584,7 +568,7 @@ public class CatanGameState extends GameState {
     public String toString () {
         StringBuilder result = new StringBuilder();
         result.append(" ----------- CatanGameState toString ---------- \n");
-        result.append("current Player: ").append(this.currentPlayerId).append(", ");
+        result.append("current Player: ").append(currentPlayerId).append(", ");
         result.append("diceVal: ").append(this.currentDiceSum).append(", ");
         result.append("actionPhase: ").append(this.isActionPhase).append(", ");
         result.append("setupPhase: ").append(this.isSetupPhase).append(", ");
@@ -595,7 +579,7 @@ public class CatanGameState extends GameState {
         for (Player player : playerList) {
             result.append(player.toString()).append("\n");
         }
-        result.append(this.board.toString()).append("\n");
+        result.append(board.toString()).append("\n");
         return result.toString();
     }
 }

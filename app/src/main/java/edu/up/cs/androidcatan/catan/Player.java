@@ -36,7 +36,10 @@ public class Player {
     // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
     private int armySize;
 
-    private int playerId;  // playerId
+    private int playerId;  // player
+
+    private int victoryPoints;
+    private int victoryPointsPrivate;
 
     private int victoryPointsFromDevCard;
 
@@ -54,13 +57,15 @@ public class Player {
      *
      * @param p - Player object to copy
      */
-    public Player (Player p) {
+    Player (Player p) {
         this.setPlayerId(p.getPlayerId());
         this.setArmySize(p.getArmySize());
         this.setDevelopmentCards(p.getDevelopmentCards());
         this.setBuildingInventory(p.getBuildingInventory());
         this.setResourceCards(p.getResourceCards());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
+        this.setVictoryPoints(p.getVictoryPoints());
+        this.setVictoryPointsPrivate(p.getVictoryPointsPrivate());
     }
 
     void addVictoryPointsDevCard () {
@@ -320,6 +325,34 @@ public class Player {
         }
         Log.d(TAG, "getRandomCard() returned: " + randomResourceId);
         return randomResourceId;
+    }
+
+    public static String[] getResourceCardIds () {
+        return resourceCardIds;
+    }
+
+    public int getVictoryPoints () {
+        return victoryPoints;
+    }
+
+    public void addVictoryPoints(int number) {
+        this.victoryPoints += number;
+    }
+
+    public void addPrivateVictoryPoints(int number) {
+        this.victoryPointsPrivate += number;
+    }
+
+    public void setVictoryPoints (int victoryPoints) {
+        this.victoryPoints = victoryPoints;
+    }
+
+    public int getVictoryPointsPrivate () {
+        return victoryPointsPrivate;
+    }
+
+    public void setVictoryPointsPrivate (int victoryPointsPrivate) {
+        this.victoryPointsPrivate = victoryPointsPrivate;
     }
 
     /**
