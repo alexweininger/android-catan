@@ -64,7 +64,9 @@ public class Board {
     private ArrayList<Road> roads = new ArrayList<>();
 
     // Adjacency graph identical to iGraph, however only contains Road objects and null.
-    private Road[][] roadGraph;
+    private Road[][] roadMatrix;
+
+    private ArrayList<ArrayList<Road>> roadGraph = new ArrayList<>(54);
 
     // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
@@ -79,7 +81,7 @@ public class Board {
 
     public Board () {
         Log.d(TAG, "Board() called");
-        this.roadGraph = new Road[54][54];
+        this.roadMatrix = new Road[54][54];
         robber = new Robber(0);
 
         populateHexagonIds(); // populate ids
@@ -114,8 +116,8 @@ public class Board {
         this.setBuildings(b.getBuildings());
         this.setRoads(b.getRoads());
         this.setRobber(new Robber(b.getRobber())); // class
-        this.setRoadGraph(b.getRoadGraph());
-        this.setRoadGraph(b.getRoadGraph());
+        this.setRoadMatrix(b.getRoadMatrix());
+        this.setRoadMatrix(b.getRoadMatrix());
         this.setPortList(b.getPortList());
         this.setIntersectionGraph(b.getIntersectionGraph());
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
@@ -176,8 +178,8 @@ public class Board {
                 return false;
             }
             // check if road is already built
-            Log.i(TAG, "validRoadPlacement: this.roadGraph.getOwnerId: " + this.roadGraph[a][b].getOwnerId());
-            if (this.roadGraph[a][b].getOwnerId() != -1) {
+            Log.i(TAG, "validRoadPlacement: this.roadMatrix.getOwnerId: " + this.roadMatrix[a][b].getOwnerId());
+            if (this.roadMatrix[a][b].getOwnerId() != -1) {
                 Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
                 return false;
             }
@@ -189,17 +191,14 @@ public class Board {
         }
     }
 
-    /**
-     * @param playerId
-     * @param intersectionA
-     * @param intersectionB
-     */
     public void addRoad (int playerId, int intersectionA, int intersectionB) {
         Log.d(TAG, "addRoad() called with: playerId = [" + playerId + "], intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         Road road = new Road(playerId, intersectionA, intersectionB);
+
+
         this.roads.add(road);
-        this.roadGraph[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
-        this.roadGraph[road.getIntersectionBId()][road.getIntersectionAId()] = road;
+        this.roadMatrix[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
+        this.roadMatrix[road.getIntersectionBId()][road.getIntersectionAId()] = road;
     }
 
     /**
@@ -208,7 +207,7 @@ public class Board {
      */
     public boolean hasRoad (int i) {
         Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
-        for (Road road : roadGraph[i]) {
+        for (Road road : roadMatrix[i]) {
             if (road.getOwnerId() != -1) {
                 Log.d(TAG, "hasRoad() returned: " + true);
                 return true;
@@ -240,26 +239,34 @@ public class Board {
                     playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
-            for (int n = 0; n < playerRoads.size(); n++) {
-                currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList, 0));
-            }
-            int max = 0;
-            for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
-                max = currentPlayerRoadLength.get(0);
-                if (currentPlayerRoadLength.get(n) >= max) {
-                    max = currentPlayerRoadLength.get(n);
+
+            if (playerRoads.size() < 5) {
+                longestRoadPerPlayer.add(player.getPlayerId(), 0);
+                break;
+            } else {
+                for (int n = 0; n < playerRoads.size(); n++) {
+                    currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList, 0));
                 }
+                int max = 0;
+                for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
+                    max = currentPlayerRoadLength.get(0);
+                    if (currentPlayerRoadLength.get(n) >= max) {
+                        max = currentPlayerRoadLength.get(n);
+                    }
+                }
+                longestRoadPerPlayer.add(player.getPlayerId(), max);
             }
-            longestRoadPerPlayer.add(player.getPlayerId(), max);
         }
         int playerIdLongestRoad = -1;
         int currLongestRoad = 0;
         //currently gives the longest road trophy to the most recent player checked within the array if
         //it shares the longest road with a prior player
         for (int n = 0; n < longestRoadPerPlayer.size(); n++) {
-            if (longestRoadPerPlayer.get(n) > currLongestRoad) {
-                currLongestRoad = longestRoadPerPlayer.get(n);
-                playerIdLongestRoad = n;
+            if (longestRoadPerPlayer.get(n) > 0) {
+                if (longestRoadPerPlayer.get(n) > currLongestRoad) {
+                    currLongestRoad = longestRoadPerPlayer.get(n);
+                    playerIdLongestRoad = n;
+                }
             }
         }
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
@@ -1364,12 +1371,12 @@ public class Board {
     private void generateRoadMatrix () {
         for (int i = 0; i < iGraph.length; i++) {
             for (int j = 0; j < iGraph[i].length; j++) {
-                roadGraph[i][j] = new Road(-1, j, j);
+                roadMatrix[i][j] = new Road(-1, j, j);
             }
         }
-        for (int i = 0; i < roadGraph.length; i++) {
-            for (int j = 0; j < roadGraph[i].length; j++) {
-                roadGraph[j][i] = roadGraph[i][j];
+        for (int i = 0; i < roadMatrix.length; i++) {
+            for (int j = 0; j < roadMatrix[i].length; j++) {
+                roadMatrix[j][i] = roadMatrix[i][j];
             }
         }
     }
@@ -1476,8 +1483,8 @@ public class Board {
     /**
      * @return Road adjacency graph.
      */
-    public Road[][] getRoadGraph () {
-        return roadGraph;
+    public Road[][] getRoadMatrix () {
+        return roadMatrix;
     }
 
     /* ----- generic setter methods ----- */
@@ -1543,10 +1550,10 @@ public class Board {
     }
 
     /**
-     * @param roadGraph adjacency graph for roads
+     * @param roadMatrix adjacency graph for roads
      */
-    public void setRoadGraph (Road[][] roadGraph) {
-        this.roadGraph = roadGraph;
+    public void setRoadMatrix (Road[][] roadMatrix) {
+        this.roadMatrix = roadMatrix;
     }
 
     /**
