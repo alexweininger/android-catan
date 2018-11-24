@@ -13,7 +13,7 @@ public class Port {
     private int intersectionA, intersectionB, tradeRatio, resourceId;
     private int xPos, yPos, size;
 
-    Port (int intersectionA, int intersectionB, int tradeRatio, int resourceId) {
+    public Port (int intersectionA, int intersectionB, int tradeRatio, int resourceId) {
         this.intersectionA = intersectionA;
         this.intersectionB = intersectionB;
         this.tradeRatio = tradeRatio;
