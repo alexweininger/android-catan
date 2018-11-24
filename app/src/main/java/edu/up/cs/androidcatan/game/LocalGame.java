@@ -46,7 +46,7 @@ public abstract class LocalGame implements Game, Tickable {
 	private boolean running = false;
 	
 	// the players' names, paralleling the 'players' array
-	protected String[] playerNames;
+	public String[] playerNames;
 	private int playerNameCount = 0; // number of players who have told us their name
 	
 	// the players are ready to start
