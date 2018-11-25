@@ -183,7 +183,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
         }// receiveInfo() END
 
-        CatanDumbComputerPlayer (String name) {
+        CatanSmartComputerPlayer (String name) {
             super(name);
         }
 
