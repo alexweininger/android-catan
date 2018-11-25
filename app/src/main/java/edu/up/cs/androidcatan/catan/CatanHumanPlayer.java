@@ -1243,7 +1243,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
-            if (state.needsToDiscardHalf(this.playerNum) && !state.isHasDiscarded()) {
+            if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
             } else if (state.getCurrentPlayerId() == playerNum && state.isHasDiscarded()) {
@@ -1265,7 +1265,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             // check if they are done with their setup phase turn
             if (settlements == 1 && roads == 1) {
-                // they need to end thier turn
+                // they need to end their turn
                 this.endTurnButton.setAlpha(1f);
                 this.endTurnButton.setClickable(true);
                 this.messageTextView.setText(R.string.setup_phase_complete);

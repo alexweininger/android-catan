@@ -15,7 +15,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanRobberDiscardAction extends GameAction {
     private int playerId;
-    private ArrayList<Integer> robberDiscardedResources;
+    private int[] robberDiscardedResources;
 
     public CatanRobberDiscardAction (GamePlayer player, int playerId, ArrayList<Integer> robberDiscardedResources) {
         super(player);
@@ -27,11 +27,11 @@ public class CatanRobberDiscardAction extends GameAction {
         return playerId;
     }
 
-    public void setRobberDiscardedResources (ArrayList<Integer> robberDiscardedResources) {
+    public void setRobberDiscardedResources (int[] robberDiscardedResources) {
         this.robberDiscardedResources = robberDiscardedResources;
     }
 
-    public ArrayList<Integer> getRobberDiscardedResources () {
+    public int[] getRobberDiscardedResources () {
         return robberDiscardedResources;
     }
 }
