@@ -14,33 +14,22 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanBuildSettlementAction extends GameAction {
-        private final String TAG = "CatanBuildSettlementAction";
+    private final String TAG = "CatanBuildSettlementAction";
 
-        // instance variables
-        private int intersectionId, ownerId;
-        private boolean isSetupPhase;
+    private int intersectionId, ownerId;
+    private boolean isSetupPhase;
 
-        public CatanBuildSettlementAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionId) {
-            super(player);
-            Log.d(TAG, "CatanBuildSettlementAction() called with: player = [" + player + "], ownerId = [" + ownerId + "], intersectionId = [" + intersectionId + "]");
+    public CatanBuildSettlementAction (GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionId) {
+        super(player);
+        Log.d(TAG, "CatanBuildSettlementAction() called with: player = [" + player + "], ownerId = [" + ownerId + "], intersectionId = [" + intersectionId + "]");
+        this.isSetupPhase = isSetupPhase;
+        this.ownerId = ownerId;
+        this.intersectionId = intersectionId;
+    }
 
-            this.ownerId = ownerId;
-            this.intersectionId = intersectionId;
-        }
+    public int getIntersectionId () { return intersectionId; }
 
-        public int getIntersectionId() {
-            return intersectionId;
-        }
+    public int getOwnerId () { return ownerId; }
 
-        public void setIntersectionId(int intersectionId) {
-            this.intersectionId = intersectionId;
-        }
-
-        public int getOwnerId() {
-            return ownerId;
-        }
-
-        public void setOwnerId(int ownerId) {
-            this.ownerId = ownerId;
-        }
+    public boolean isSetupPhase () { return isSetupPhase; }
 }

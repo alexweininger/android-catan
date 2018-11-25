@@ -36,7 +36,10 @@ public class Player {
     // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
     private int armySize;
 
-    private int playerId;  // playerId
+    private int playerId;  // player
+
+    private int victoryPoints;
+    private int victoryPointsPrivate;
 
     private int victoryPointsFromDevCard;
 
@@ -54,17 +57,19 @@ public class Player {
      *
      * @param p - Player object to copy
      */
-    public Player (Player p) {
+    Player (Player p) {
         this.setPlayerId(p.getPlayerId());
         this.setArmySize(p.getArmySize());
         this.setDevelopmentCards(p.getDevelopmentCards());
         this.setBuildingInventory(p.getBuildingInventory());
         this.setResourceCards(p.getResourceCards());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
+        this.setVictoryPoints(p.getVictoryPoints());
+        this.setVictoryPointsPrivate(p.getVictoryPointsPrivate());
     }
 
-    public void addVictoryPointsDevCard () {
-        this.victoryPointsFromDevCard += 2;
+    void addVictoryPointsDevCard () {
+        this.victoryPointsFromDevCard += 1;
     }
 
     /**
@@ -116,7 +121,7 @@ public class Player {
         return true;
     }
 
-    public void removeDevCard (int removeCardNum) {
+    void removeDevCard (int removeCardNum) {
         this.developmentCards.remove((Integer) removeCardNum);
     }
 
@@ -216,7 +221,7 @@ public class Player {
     /**
      * @param resourceCards - resource card array
      */
-    public void setResourceCards (int[] resourceCards) {
+    private void setResourceCards (int[] resourceCards) {
         this.resourceCards = resourceCards;
     }
 
@@ -256,11 +261,11 @@ public class Player {
         return false;
     }
 
-    public void decrementBuildingInventory (int buildingId) {
+    public void decrementBuildingInventory (int buildingId) { // TODO
         this.buildingInventory[buildingId]--;
     }
 
-    // use to allow the player to use the dev card they built the turn prior
+    // use to allow the player to use the dev card they built the turn prior TODO
     public void setDevelopmentCardsAsPlayable () {
         for (int i = 0; i < developmentCards.size(); i++) {
             //developmentCards.get(i).setPlayable(true);
@@ -293,9 +298,9 @@ public class Player {
      */
     int getTotalResourceCardCount () {
         int result = 0;
-        for (int resourceCard : this.resourceCards) {
+        for (int resourceCard : this.resourceCards)
             result += resourceCard;
-        }
+        Log.d(TAG, "getTotalResourceCardCount() returned: " + result);
         return result;
     }
 
@@ -303,7 +308,6 @@ public class Player {
      * @return - A random resourceCard is removed from the players inventory and returned.
      */
     int getRandomCard () {
-
         if (this.getTotalResourceCardCount() < 1) {
             Log.e(TAG, "getRandomCard: Player does not have any resources cards.");
             return -1;
@@ -319,8 +323,36 @@ public class Player {
             Log.e(TAG, "getRandomCard: Player does not have random card that was checked for.");
             return -1;
         }
-
+        Log.d(TAG, "getRandomCard() returned: " + randomResourceId);
         return randomResourceId;
+    }
+
+    public static String[] getResourceCardIds () {
+        return resourceCardIds;
+    }
+
+    public int getVictoryPoints () {
+        return victoryPoints;
+    }
+
+    public void addVictoryPoints(int number) {
+        this.victoryPoints += number;
+    }
+
+    public void addPrivateVictoryPoints(int number) {
+        this.victoryPointsPrivate += number;
+    }
+
+    public void setVictoryPoints (int victoryPoints) {
+        this.victoryPoints = victoryPoints;
+    }
+
+    public int getVictoryPointsPrivate () {
+        return victoryPointsPrivate;
+    }
+
+    public void setVictoryPointsPrivate (int victoryPointsPrivate) {
+        this.victoryPointsPrivate = victoryPointsPrivate;
     }
 
     /**
@@ -329,7 +361,6 @@ public class Player {
     @Override
     public String toString () {
         return " Player id: " + this.playerId + ", " + "DevCards: " + this.developmentCards + ", BldgInv: " + Arrays.toString(this.buildingInventory) + ", army: " + this.armySize + "\n\tResources: " + this.printResourceCards();
-
     }
 }
 

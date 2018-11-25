@@ -13,11 +13,6 @@ public class Port {
     private int intersectionA, intersectionB, tradeRatio, resourceId;
     private int xPos, yPos, size;
 
-    /**
-     * @param intersectionA
-     * @param tradeRatio
-     * @param resourceId
-     */
     public Port (int intersectionA, int intersectionB, int tradeRatio, int resourceId) {
         this.intersectionA = intersectionA;
         this.intersectionB = intersectionB;
@@ -34,6 +29,10 @@ public class Port {
         this.setIntersectionA(p.getIntersectionA());
         this.setTradeRatio(p.getTradeRatio());
         this.setResourceId(p.getResourceId());
+        this.setIntersectionB(p.getIntersectionB());
+        this.setSize(p.getSize());
+        this.setxPos(p.getxPos());
+        this.setyPos(p.getyPos());
     }
 
     /**
@@ -52,8 +51,8 @@ public class Port {
         portLinePaint.setStrokeWidth(10);
 
         if (debugMode) {
-            canvas.drawLine(xPos, yPos, b.getxPos(), b.getyPos(), portLinePaint);
-            canvas.drawLine(xPos, yPos, a.getxPos(), a.getyPos(), portLinePaint);
+            canvas.drawLine(xPos, yPos, b.getXPos(), b.getYPos(), portLinePaint);
+            canvas.drawLine(xPos, yPos, a.getXPos(), a.getYPos(), portLinePaint);
         }
 
         Drawable portPicture = context.getDrawable(R.drawable.port_boat);
@@ -61,17 +60,22 @@ public class Port {
         portPicture.draw(canvas);
 
         size = size / 2;
-
-        if (size < 20) {
+        if (size < 20)
             size = 20;
-        }
 
         int offset = 30;
+
+        Paint ratioFont = new Paint();
+        ratioFont.setTextSize(30);
+        ratioFont.setColor(Color.WHITE);
 
         if (resourceId != -1) {
             Drawable resourcePicture = context.getDrawable(resourceDrawables[this.resourceId]);
             resourcePicture.setBounds(xPos - size + offset, yPos - size + offset, xPos + size + offset, yPos + size + offset);
             resourcePicture.draw(canvas);
+            canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
+        } else {
+            canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
         }
     }
 
