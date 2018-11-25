@@ -275,6 +275,7 @@ public class CatanGameState extends GameState {
                     Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
                 }
             }
+        }
     }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
