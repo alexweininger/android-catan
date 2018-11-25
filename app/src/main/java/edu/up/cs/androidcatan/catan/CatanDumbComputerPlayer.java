@@ -13,8 +13,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
@@ -48,7 +46,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         Random random = new Random();
 
         /*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
-        if (gs.isSetupPhase()) {
+        if (gs.isSetupPhase() && this.playerNum == gs.getCurrentPlayerId()) {
             Log.d(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road." + " " + this.playerNum);
 
             int randSettlementIntersection = random.nextInt(53);
@@ -184,7 +182,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
         Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-        if(!gs.isRobberPhase()){
+        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
             game.sendAction(new CatanEndTurnAction(this));
         }
 

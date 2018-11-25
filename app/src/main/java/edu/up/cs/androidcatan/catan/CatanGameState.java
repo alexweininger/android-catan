@@ -7,13 +7,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.gamestate.Board;
-import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Dice;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
 /**
