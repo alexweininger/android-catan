@@ -78,7 +78,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
-    private ArrayList<Integer> resourceIdsToDiscard = new ArrayList<>();
+    private /*ArrayList<Integer>*/ int[] resourceIdsToDiscard = new int[]{0, 0, 0, 0, 0};
     private int selectedDevCard = -1;
     private int selectedResourceId = -1;
     private TextView messageTextView = (TextView) null;
@@ -466,12 +466,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // putting the array into the arraylist todo fix lol this is not good
                 for (int i = 0; i < robberDiscardedResources.length; i++) {
                     for (int j = 0; j < robberDiscardedResources[i]; j++) {
-                        resourceIdsToDiscard.add(i);
+
                     }
                 }
 
+                game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
-                game.sendAction(new CatanRobberDiscardAction(this, playerNum, resourceIdsToDiscard));
                 return;
             }
 
@@ -1473,7 +1473,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (!state.getRobberPlayerListHasDiscarded()[playerNum])
                     robberDiscardGroup.setVisibility(View.VISIBLE);
                 else
-                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, new ArrayList<Integer>()));
+                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0,0,0,0,0}));
             }
 
         } else if (info instanceof NotYourTurnInfo) {
