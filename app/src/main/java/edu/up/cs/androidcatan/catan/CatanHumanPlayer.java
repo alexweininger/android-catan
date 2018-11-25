@@ -463,12 +463,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 robberOreAmount.setText(R.string.zero);
                 robberWoolAmount.setText(R.string.zero);
 
-                // putting the array into the arraylist todo fix lol this is not good
-                for (int i = 0; i < robberDiscardedResources.length; i++) {
-                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
-
-                    }
-                }
+//                // putting the array into the arraylist todo fix lol this is not good
+//                for (int i = 0; i < robberDiscardedResources.length; i++) {
+//                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
+//
+//                    }
+//                }
 
                 game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
