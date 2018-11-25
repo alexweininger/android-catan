@@ -1470,7 +1470,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText(R.string.robber_phase);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
 
-                if (state.isHasDiscarded(playerNum))
+                if (!state.getRobberPlayerListHasDiscarded()[playerNum])
                     robberDiscardGroup.setVisibility(View.VISIBLE);
                 else
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new ArrayList<Integer>()));
