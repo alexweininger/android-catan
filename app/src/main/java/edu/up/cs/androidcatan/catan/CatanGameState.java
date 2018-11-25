@@ -261,17 +261,8 @@ public class CatanGameState extends GameState {
             Hexagon hex = board.getHexagonFromId(i);
             Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
 
-        this.currentDiceSum = 7;//dice.roll();
-        Log.i(TAG, "rollDice: Player " + currentPlayerId + " rolled a " + this.currentDiceSum);
-        // if the robber is rolled
-        if (this.currentDiceSum == 7) {
-            // todo activate robber
-            Log.i(TAG, "rollDice: The robber has been activated.");
-            this.isRobberPhase = true;
-        } else {
-            Log.i(TAG, "rollDice: Calling the produceResources method.");
-            produceResources(this.currentDiceSum);
-        }
+            ArrayList<Integer> receivingIntersections = board.getHexToIntIdMap().get(i);// intersections adjacent to producing hexagon tile
+            Log.i(TAG, "produceResources: received intersections: " + receivingIntersections);
 
             // iterate through each intersection surrounding the producing hexagon
             for (Integer intersectionId : receivingIntersections) {
@@ -284,7 +275,6 @@ public class CatanGameState extends GameState {
                     Log.i(TAG, "produceResources: No building located at intersection: " + intersectionId + " not giving any resources.");
                 }
             }
-        }
     }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
