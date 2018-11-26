@@ -527,10 +527,6 @@ public class CatanGameState extends GameState {
         return isRobberPhase;
     }
 
-    public int[] getRobberDiscardedResource () {
-        return robberDiscardedResources;
-    }
-
     public boolean getHasMovedRobber() { return hasMovedRobber; }
 
     public boolean[] getRobberPlayerListHasDiscarded() {
