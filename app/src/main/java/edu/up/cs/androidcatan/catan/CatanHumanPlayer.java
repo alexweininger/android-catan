@@ -85,7 +85,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     //private Toast popUpMessage = (Toast) null;
 
     private ArrayList<String> devCards = new ArrayList<>();
-    /* ------------------------------ SCOREBOARD button init ------------------------------------ */
+    /* ------------------------------ Scoreboard trophy images ------------------------------------ */
+
+    private ImageView roadTrophyImages[] = new ImageView[4];
+    private ImageView armyTrophyImages[] = new ImageView[4];
 
     /* ------------- Building Buttons -------------------- */
     private Button buildCityButton = null;
@@ -1636,6 +1639,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player1Name = activity.findViewById(R.id.Player2_Name);
         this.player2Name = activity.findViewById(R.id.Player3_Name);
         this.player3Name = activity.findViewById(R.id.Player4_Name);
+
+        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player0);
+        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player1);
+        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player2);
+        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player3);
+
+
 
         /* -------------------------------------- MENUS ---------------------------------------- */
 
