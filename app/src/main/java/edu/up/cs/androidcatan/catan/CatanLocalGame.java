@@ -45,7 +45,7 @@ public class CatanLocalGame extends LocalGame {
 
     private CatanGameState state;
 
-    CatanLocalGame () {
+    public CatanLocalGame () {
         super();
         state = new CatanGameState();
     }
@@ -341,7 +341,7 @@ public class CatanLocalGame extends LocalGame {
      * game is not over
      */
     @Override
-    protected String checkIfGameOver () {
+    public String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
         for (int i = 0; i < this.state.getPlayerList().size(); i++) {
             if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {

@@ -35,6 +35,6 @@ public class HexagonTest {
         assertEquals(6, hexagon.getHexagonId());
 
         hexagon.setHexagonId(9);
-        assertEquals(6, hexagon.getHexagonId());
+        assertEquals(9, hexagon.getHexagonId());
     }
 }

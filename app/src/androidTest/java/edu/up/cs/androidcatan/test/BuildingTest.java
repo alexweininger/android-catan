@@ -17,7 +17,7 @@ public class BuildingTest {
 
     @Test
     public void setOwnerId() {
-        Building building = new City(1);
+        Building building = new City(0);
         building.setOwnerId(-1);
 
         assertEquals(0, building.getOwnerId());
