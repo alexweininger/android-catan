@@ -1781,6 +1781,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the largest army trophy");
+            return;
         }
 
         ImageView[] largestArmyTrophies = {largestArmyPlayer0, largestArmyPlayer1, largestArmyPlayer2, largestArmyPlayer3};
@@ -1803,6 +1804,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the longest road trophy");
+            return;
         }
 
         ImageView[] longestRoadTrophies = {longestRoadPlayer0, longestRoadPlayer1, longestRoadPlayer2, longestRoadPlayer3};
