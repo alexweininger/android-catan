@@ -1446,7 +1446,6 @@
         android:textAlignment="gravity"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
-        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine" />
 
@@ -1604,6 +1603,90 @@
         app:layout_constraintBottom_toTopOf="@+id/pickResMenu_monopolyHorizontalGuideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
         tools:text="@string/confirm" />
+
+    <ImageView
+        android:id="@+id/largest_army_player0"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/largegstArmy"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_top_border_dc_layout"
+        tools:srcCompat="@drawable/trophy_largest_army" />
+
+    <ImageView
+        android:id="@+id/largest_army_player1"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/largegstArmy"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/largest_army_player0"
+        app:layout_constraintTop_toBottomOf="@+id/largest_army_player0"
+        tools:srcCompat="@drawable/trophy_largest_army" />
+
+    <ImageView
+        android:id="@+id/largest_army_player2"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/largegstArmy"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/largest_army_player1"
+        app:layout_constraintTop_toBottomOf="@+id/largest_army_player1"
+        tools:srcCompat="@drawable/trophy_largest_army" />
+
+    <ImageView
+        android:id="@+id/largest_army_player3"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/largegstArmy"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/largest_army_player2"
+        app:layout_constraintTop_toBottomOf="@+id/largest_army_player2"
+        tools:srcCompat="@drawable/trophy_largest_army" />
+
+    <ImageView
+        android:id="@+id/longest_road_player0"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="179dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/longestRoad"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_top_border_dc_layout"
+        tools:srcCompat="@drawable/trophy_longest_road" />
+
+    <ImageView
+        android:id="@+id/longest_road_player1"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/longestRoad"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/longest_road_player0"
+        app:layout_constraintTop_toBottomOf="@+id/longest_road_player0"
+        tools:srcCompat="@drawable/trophy_longest_road" />
+
+    <ImageView
+        android:id="@+id/longest_road_player2"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/longestRoad"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/longest_road_player1"
+        app:layout_constraintTop_toBottomOf="@+id/longest_road_player1"
+        tools:srcCompat="@drawable/trophy_longest_road" />
+
+    <ImageView
+        android:id="@+id/longest_road_player3"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/longestRoad"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/longest_road_player2"
+        app:layout_constraintTop_toBottomOf="@+id/longest_road_player2"
+        tools:srcCompat="@drawable/trophy_longest_road" />
 
     <!--pick resource menu END-->
 </android.support.constraint.ConstraintLayout>

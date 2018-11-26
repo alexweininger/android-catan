@@ -30,7 +30,7 @@ public class BoardTest {
     @Test
     public void testValidBuildingLocationSetupPhaseTakenIntersection(){
         Board board = new Board();
-        board.addBuilding(0, new City(0, 0));
+        board.addBuilding(0, new City(0));
         assertFalse(board.validBuildingLocation(1, true, 0));
         assertFalse(board.validBuildingLocation(0, true, 0));
         assertFalse(board.validBuildingLocation(0, true, -1));
@@ -57,18 +57,6 @@ public class BoardTest {
         board.addBuilding(0, settlement);
         assertTrue(board.hasBuilding(0));
         assertFalse(board.hasBuilding(53));
-    }
-
-    @Test
-    public void testIGraph(){
-        Board board = new Board();
-        boolean[][] iGraph = board.getIGraph();
-        //TODO if assertFalse, it needs to be fixed as is currently wrong
-        assertTrue(iGraph[0][1]);
-        assertFalse(iGraph[4][18]); //wrong
-        assertFalse(iGraph[19][46]); //wrong
-        assertTrue(iGraph[49][50]);
-        assertTrue(iGraph[8][29]);
     }
 
     @Test

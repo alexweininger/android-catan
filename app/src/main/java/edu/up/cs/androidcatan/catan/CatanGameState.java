@@ -34,19 +34,18 @@ public class CatanGameState extends GameState {
     private int currentDiceSum; // the sum of the dice at this very moment
 
     // game phases
-    private boolean isSetupPhase = true; // is it the setup phase
-    private boolean isActionPhase = false; // has the current player rolled the dice
-    private boolean isRobberPhase = false; // is the robber phase
+    private static boolean isSetupPhase = true; // is it the setup phase
+    private static boolean isActionPhase = false; // has the current player rolled the dice
+    private static boolean isRobberPhase = false; // is the robber phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
     private static int setupPhaseTurnCounter;
 
     // robber
-    private boolean hasDiscarded = false;
-    private boolean hasMovedRobber = false;
+    private static boolean hasMovedRobber = false;
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
-    private boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
+    private static boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
 
     // trophies
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
@@ -81,8 +80,7 @@ public class CatanGameState extends GameState {
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
-        this.hasDiscarded = cgs.hasDiscarded;
-        this.hasMovedRobber = cgs.hasMovedRobber;
+        hasMovedRobber = cgs.getHasMovedRobber();
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
@@ -295,20 +293,20 @@ public class CatanGameState extends GameState {
      *
      * @return - action success
      */
-    public boolean needsToDiscardHalf (int playerId) {
-        if (robberPlayerListHasDiscarded[playerId]) {
+    public boolean checkPlayerResources(int playerId){
+        if(robberPlayerListHasDiscarded[playerId]){
             //Returns false since player has already discarded cards
-            Log.i(TAG, "needsToDiscardHalf: PLAYER HAS DISCARDED ALREADY");
+            Log.i(TAG, "checkPlayerResources: PLAYER HAS DISCARDED ALREADY");
             return false;
         }
-        if (playerList.get(playerId).getTotalResourceCardCount() > 7) {
+        if(playerList.get(playerId).getTotalResourceCardCount() > 7){
             //Returns true since player has more than 7 cards and has not discarded yet
-            Log.i(TAG, "needsToDiscardHalf: PLAYER NEEDS TO DISCARD CARDS. returning true");
+            Log.i(TAG, "checkPlayerResources: PLAYER NEEDS TO DISCARD CARDS");
             return true;
         }
-        Log.i(TAG, "needsToDiscardHalf: PLAYER DOES NOT NEED TO DISCARDS");
+        Log.i(TAG, "checkPlayerResources: PLAYER DOES NOT NEED TO DISCARD");
         robberPlayerListHasDiscarded[playerId] = true;
-        hasDiscarded = true;
+
         return false;
     }
 
@@ -319,20 +317,16 @@ public class CatanGameState extends GameState {
      * @param resourcesDiscarded
      * @return
      */
-    public boolean validDiscard (int playerId, int[] resourcesDiscarded) {
-        Log.d(TAG, "validDiscard() called with: playerId = [" + playerId + "], resourcesDiscarded = [" + Arrays.toString(resourcesDiscarded) + "]");
-
+    public boolean validDiscard(int playerId, int[] resourcesDiscarded){
         int totalDiscarded = 0;
-        for (int i = 0; i < resourcesDiscarded.length; i++) {
-
-            if (resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]) {
-                Log.i(TAG, "validDiscard: Invalid cannot have negative resources.");
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            if(resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]){
+                Log.i(TAG, "validDiscard: Invalid due to not having enough resources, returning false");
                 return false;
             }
-
             totalDiscarded += resourcesDiscarded[i];
         }
-        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount()/2);
         return totalDiscarded == playerList.get(playerId).getTotalResourceCardCount() / 2;
     }
 
@@ -344,39 +338,62 @@ public class CatanGameState extends GameState {
      * @param resourcesDiscarded
      * @return
      */
-    public boolean discardResources (int playerId, ArrayList<Integer> resourcesDiscarded) {
-        Log.d(TAG, "discardResources() called with: playerId = [" + playerId + "], resourcesDiscarded = [" + resourcesDiscarded + "]");
-        Log.w(TAG, "discardResources: " + this.playerList.get(playerId).printResourceCards());
-
-        if (needsToDiscardHalf(playerId)) {
-            for (int i = 0; i < resourcesDiscarded.size(); i++) {
-                if (!this.getPlayerList().get(playerId).removeResourceCard(resourcesDiscarded.get(i), 1)) {
-                    Log.e(TAG, "discardResources: BAD", new Exception("error bc not enough resources but this is bad"));
-                }
-            }
-
-            //        if (playerId == currentPlayerId) { todo wtf
-            //            hasDiscarded = true;
-            //        } else {
-            //            hasDiscarded = true;
-            //            hasMovedRobber = true;
-            //        }
-
-            robberPlayerListHasDiscarded[playerId] = true;
-            return true;
-        } else {
-            // return true if they dont need to discard
+    public boolean discardResources(int playerId, int[] resourcesDiscarded){
+        Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
+        if(robberPlayerListHasDiscarded[playerId]){
+            Log.i(TAG, "discardResources: Player is not required to discard at this time");
             return true;
         }
+        int totalDiscarded = 0;
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            totalDiscarded += resourcesDiscarded[i];
+        }
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
+        Log.i(TAG, "discardResources: Discarded resources");
+        for(int i = 0; i < resourcesDiscarded.length; i++){
+            this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
+        }
+
+        robberPlayerListHasDiscarded[playerId] = true;
+        hasMovedRobber = true;
+        robberPlayerListHasDiscarded[playerId] = true;
+        return true;
     }
 
-    public boolean allPlayersHaveDiscarded () {
-        Log.d(TAG, "allPlayersHaveDiscarded() called");
+    public boolean allPlayersHaveDiscarded(){
         for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
-            if (robberPlayerListHasDiscarded[i] == false) return false;
+            if(!robberPlayerListHasDiscarded[i]){
+                return false;
+            }
         }
         Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
         return true;
+    }
+
+
+    /**
+     * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
+     *
+     * @param hexagonId Hexagon the robber is going to move to.
+     * @param playerId Player who is moving the robber.
+     * @return action success.
+     */
+    public boolean moveRobber (int hexagonId, int playerId) {
+        if (!valPlId(playerId)) {
+            Log.d(TAG, "moveRobber: invalid player id: " + playerId);
+            return false;
+        }
+        if (!checkTurn(playerId)) {
+            Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
+            return false;
+        }
+        if (this.board.moveRobber(hexagonId)) {
+            Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
+            hasMovedRobber = true;
+            return true;
+        }
+        Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
+        return false;
     }
 
     /**
@@ -391,11 +408,13 @@ public class CatanGameState extends GameState {
             Log.e(TAG, "robberSteal: invalid player id: " + playerId);
             return false;
         }
+
         // check if it is the players turn
         if (!checkTurn(playerId)) {
             Log.i(TAG, "robberSteal: it is not " + playerId + "'s turn.");
             return false;
         }
+
         // As of now this selects a random player and then steals a random card from their inventory. TODO enable the player moving the robber to choose to steal a resource from the players who have buildings adjacent to the new robbers location
         Random random = new Random();
         int randomStolenResourceId = this.playerList.get(random.nextInt(3)).getRandomCard();
@@ -408,7 +427,6 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
 
         isRobberPhase = false;
-        hasDiscarded = false;
         hasMovedRobber = false;
 
         for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
@@ -519,24 +537,18 @@ public class CatanGameState extends GameState {
         return robberDiscardedResources;
     }
 
-    public boolean isHasDiscarded () { return hasDiscarded;}
+    public boolean getHasMovedRobber() { return hasMovedRobber; }
 
-    public boolean getHasMovedRobber () { return hasMovedRobber; }
-
-    public boolean[] getRobberPlayerListHasDiscarded () {
+    public boolean[] getRobberPlayerListHasDiscarded() {
         return robberPlayerListHasDiscarded;
     }
 
-    public void setRobberPlayerListHasDiscarded (boolean[] robberPlayerListHasDiscarded) {
+    public void setRobberPlayerListHasDiscarded(boolean[] robberPlayerListHasDiscarded) {
         this.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
     }
 
-    public void playerHasDiscardedResources (int playerId) {
+    public void playerHasDiscardedResources(int playerId){
         this.robberPlayerListHasDiscarded[playerId] = true;
-    }
-
-    public void setHasDiscarded (boolean hasDiscarded) {
-        this.hasDiscarded = hasDiscarded;
     }
 
     public boolean isHasMovedRobber () {

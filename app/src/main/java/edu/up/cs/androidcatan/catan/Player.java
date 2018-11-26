@@ -122,7 +122,9 @@ public class Player {
     }
 
     void removeDevCard (int removeCardNum) {
+        Log.i(TAG, "removeDevCard BEFORE REMOVING: " + this.developmentCards.toString());
         this.developmentCards.remove((Integer) removeCardNum);
+        Log.i(TAG, "removeDevCard AFTER REMOVING: " + this.developmentCards.toString());
     }
 
     /**
