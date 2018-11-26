@@ -90,7 +90,7 @@ public class CatanLocalGame extends LocalGame {
 
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
                 Log.i(TAG, "rollDice: The robber has been activated.");
-                //            this.isRobberPhase = true;
+                state.setRobberPhase(true);
             } else {
                 state.produceResources(state.getCurrentDiceSum());
             }

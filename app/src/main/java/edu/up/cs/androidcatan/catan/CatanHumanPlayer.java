@@ -78,7 +78,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
-    private ArrayList<Integer> resourceIdsToDiscard = new ArrayList<>();
+    private /*ArrayList<Integer>*/ int[] resourceIdsToDiscard = new int[]{0, 0, 0, 0, 0};
     private int selectedDevCard = -1;
     private int selectedResourceId = -1;
     private TextView messageTextView = (TextView) null;
@@ -398,10 +398,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if (state.isHasMovedRobber()) {
-                if (selectedIntersections.size() != 1) {
-                    robberHexMessage.setText(R.string.select_one_intersection);
-                    messageTextView.setText(R.string.select_one_intersection);
+            if(state.getHasMovedRobber()){
+                if(selectedIntersections.size() != 1){
+                    robberHexMessage.setText("Please select only one intersection.");
                     return;
                 }
 
@@ -442,7 +441,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
-            robberChooseHexGroup.setVisibility(View.GONE);
+            robberChooseHexGroup.setVisibility(View.VISIBLE);
             robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
             game.sendAction(new CatanRobberMoveAction(this, playerNum, selectedHexagonId));
             return;
@@ -464,15 +463,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 robberOreAmount.setText(R.string.zero);
                 robberWoolAmount.setText(R.string.zero);
 
-                // putting the array into the arraylist todo fix lol this is not good
-                for (int i = 0; i < robberDiscardedResources.length; i++) {
-                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
-                        resourceIdsToDiscard.add(i);
-                    }
-                }
+//                // putting the array into the arraylist todo fix lol this is not good
+//                for (int i = 0; i < robberDiscardedResources.length; i++) {
+//                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
+//
+//                    }
+//                }
 
+                game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 this.robberDiscardedResources = state.getRobberDiscardedResource();
-                game.sendAction(new CatanRobberDiscardAction(this, playerNum, resourceIdsToDiscard));
                 return;
             }
 
@@ -1222,7 +1221,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         diceImageLeft.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[0] - 1]);
         diceImageRight.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[1] - 1]);
 
-        if (this.state.getRobberPhase() && this.state.getCurrentPlayerId() == playerNum) {
+        if (this.state.getRobberPhase()) {
 
             this.messageTextView.setText(R.string.robber_phase);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
@@ -1244,10 +1243,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
-            if (state.needsToDiscardHalf(this.playerNum) && !state.isHasDiscarded()) {
+            if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
-            } else if (state.getCurrentPlayerId() == playerNum && state.isHasDiscarded()) {
+            } else if (state.getCurrentPlayerId() == playerNum && state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             } else {
@@ -1266,7 +1265,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             // check if they are done with their setup phase turn
             if (settlements == 1 && roads == 1) {
-                // they need to end thier turn
+                // they need to end their turn
                 this.endTurnButton.setAlpha(1f);
                 this.endTurnButton.setClickable(true);
                 this.messageTextView.setText(R.string.setup_phase_complete);
@@ -1462,21 +1461,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.state = (CatanGameState) info;
 
-            updateTextViews();
-            drawGraphics();
-
-            if (state.isRobberPhase() && state.getCurrentPlayerId() != playerNum) {
+            if (state.isRobberPhase()){
                 messageTextView.setText(R.string.robber_phase);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
 
-                if (state.needsToDiscardHalf(playerNum))
-                    robberDiscardGroup.setVisibility(View.VISIBLE);
-                else
-                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, new ArrayList<Integer>()));
+                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum])
+                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0,0,0,0,0}));
             }
 
+            updateTextViews();
+            drawGraphics();
+
+
         } else if (info instanceof NotYourTurnInfo) {
-            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
+            Log.i(TAG, "receiveInfo: Player tried to make action but it is not their turn.");
         } else if (info instanceof IllegalMoveInfo) {
             Log.i(TAG, "receiveInfo: Illegal move info received.");
         } else {
