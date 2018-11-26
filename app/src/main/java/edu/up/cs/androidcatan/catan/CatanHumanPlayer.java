@@ -517,48 +517,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             robberAmounts[i].setText("" + robberDiscardedResources[i]);
         }
 
-        // todo i think the code i added above does the same as this please verify @todo - alex and niraj
-        //        if (button.getId() == R.id.robber_discard_brickAddImg) {
-        //            robberDiscardedResources[0] += 1;
-        //            robberBrickAmount.setText("" + robberDiscardedResources[0]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_brickMinusImg) {
-        //            robberDiscardedResources[0] -= 1;
-        //            robberBrickAmount.setText("" + robberDiscardedResources[0]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_grainAddImg) {
-        //            robberDiscardedResources[1] += 1;
-        //            robberGrainAmount.setText("" + robberDiscardedResources[1]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_grainMinusImg) {
-        //            robberDiscardedResources[1] -= 1;
-        //            robberGrainAmount.setText("" + robberDiscardedResources[1]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_lumberAddImg) {
-        //            robberDiscardedResources[2] += 1;
-        //            robberLumberAmount.setText("" + robberDiscardedResources[2]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_lumberMinusImg) {
-        //            robberDiscardedResources[2] -= 1;
-        //            robberLumberAmount.setText("" + robberDiscardedResources[2]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_oreAddImg) {
-        //            robberDiscardedResources[3] += 1;
-        //            robberOreAmount.setText("" + robberDiscardedResources[3]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_oreMinusImg) {
-        //            robberDiscardedResources[3] -= 1;
-        //            robberOreAmount.setText("" + robberDiscardedResources[3]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_woolAddImg) {
-        //            robberDiscardedResources[4] += 1;
-        //            robberWoolAmount.setText("" + robberDiscardedResources[4]);
-        //        }
-        //        if (button.getId() == R.id.robber_discard_woolMinusImg) {
-        //            robberDiscardedResources[4] -= 1;
-        //            robberWoolAmount.setText("" + robberDiscardedResources[4]);
-        //        }
-
         /*-------------------------End of Robber----------------------------------------*/
 
         /* ---------------- Pick Resource Card Menu ---------------------- */
