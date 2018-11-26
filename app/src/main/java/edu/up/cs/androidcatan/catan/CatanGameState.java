@@ -80,7 +80,6 @@ public class CatanGameState extends GameState {
         this.currentDiceSum = cgs.currentDiceSum;
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
-        this.hasDiscarded = cgs.hasDiscarded;
         hasMovedRobber = cgs.getHasMovedRobber();
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
@@ -348,20 +347,16 @@ public class CatanGameState extends GameState {
         for(int i = 0; i < resourcesDiscarded.length; i++){
             this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
         }
-        if(playerId == currentPlayerId){
-            hasDiscarded = true;
-        }
-        else{
-            hasDiscarded = true;
-            hasMovedRobber = true;
-        }
+
+        robberPlayerListHasDiscarded[playerId] = true;
+        hasMovedRobber = true;
         robberPlayerListHasDiscarded[playerId] = true;
         return true;
     }
 
     public boolean allPlayersHaveDiscarded(){
         for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
-            if(robberPlayerListHasDiscarded[i] == false){
+            if(!robberPlayerListHasDiscarded[i]){
                 return false;
             }
         }
@@ -536,8 +531,6 @@ public class CatanGameState extends GameState {
         return robberDiscardedResources;
     }
 
-    public boolean isHasDiscarded() { return hasDiscarded;}
-
     public boolean getHasMovedRobber() { return hasMovedRobber; }
 
     public boolean[] getRobberPlayerListHasDiscarded() {
@@ -550,10 +543,6 @@ public class CatanGameState extends GameState {
 
     public void playerHasDiscardedResources(int playerId){
         this.robberPlayerListHasDiscarded[playerId] = true;
-    }
-
-    public void setHasDiscarded (boolean hasDiscarded) {
-        this.hasDiscarded = hasDiscarded;
     }
 
     public boolean isHasMovedRobber () {
