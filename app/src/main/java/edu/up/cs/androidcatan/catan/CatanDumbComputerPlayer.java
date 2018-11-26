@@ -98,6 +98,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         /*-------------------------------CPUs Roll Dice Action--------------------------------------*/
         if (!gs.isSetupPhase() && !gs.isActionPhase() && gs.getCurrentPlayerId() == playerNum) {
             sleep(300);
+            Log.i(TAG, "receiveInfo: RollDiceAction by DumbComputerPlayer " + this.playerNum);
             game.sendAction(new CatanRollDiceAction(this));
             sleep(300);
             return;

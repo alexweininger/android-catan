@@ -34,8 +34,8 @@ public class CatanGameState extends GameState {
     private int currentDiceSum; // the sum of the dice at this very moment
 
     // game phases
-    private boolean isSetupPhase = true; // is it the setup phase
-    private boolean isActionPhase = false; // has the current player rolled the dice
+    private static boolean isSetupPhase = true; // is it the setup phase
+    private static boolean isActionPhase = false; // has the current player rolled the dice
     private static boolean isRobberPhase = false; // is the robber phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
