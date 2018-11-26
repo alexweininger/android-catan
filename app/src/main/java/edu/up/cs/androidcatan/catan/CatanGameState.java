@@ -183,11 +183,17 @@ public class CatanGameState extends GameState {
         }
     }
 
+    public void updateTrophies() {
+        this.currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(this.playerList);
+    }
+
     /**
      * Method updates the victory points count of the current player based off the actions taken within the turn
      */
     public void updateVictoryPoints () {
         Log.d(TAG, "updateVictoryPoints() called");
+
+
 
         Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
 

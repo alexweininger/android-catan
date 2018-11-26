@@ -119,6 +119,9 @@ public class CatanLocalGame extends LocalGame {
             }
 
             state.setActionPhase(false);
+
+            state.updateTrophies();
+
             Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
             Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;

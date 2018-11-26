@@ -230,7 +230,6 @@ public class Board {
             Log.i(TAG, str.toString());
         }
         generatePlayerRoadMatrix(0);
-        dfs();
     }
 
     public void printPlayerMatrix (int[][] pMatrix) {
@@ -262,24 +261,17 @@ public class Board {
         return result;
     }
 
-    public void dfs () {
+    public int dfs (int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
         Graph rg = new Graph(54);
         for (Road road : roads) {
-            if (road.getOwnerId() == 0) {
+            if (road.getOwnerId() == ownerId) {
                 rg.addEdge(road.getIntersectionAId(), road.getIntersectionBId());
                 pr.add(road);
             }
         }
-        rg.DFS(pr.get(0).getIntersectionAId());
+        return rg.DFS(pr.get(0).getIntersectionAId());
     }
-
-    /* calculating the longest road:
-     *
-     * traversing the roads
-     *
-     *
-     */
 
     /**
      * Main method to calculate the longest road trophy holder. - AL
@@ -287,7 +279,6 @@ public class Board {
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
-    //TODO properly implement this method and fix logic
     public int getPlayerWithLongestRoad (ArrayList<Player> playerList) {
         Log.i(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
@@ -308,9 +299,7 @@ public class Board {
                 longestRoadPerPlayer.add(player.getPlayerId(), 0);
                 break;
             } else {
-                for (int n = 0; n < playerRoads.size(); n++) {
-                    currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList, 0));
-                }
+                currentPlayerRoadLength.add(dfs(player.getPlayerId()));
                 int max = 0;
                 for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
                     max = currentPlayerRoadLength.get(0);
@@ -335,77 +324,6 @@ public class Board {
         }
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
         return playerIdLongestRoad;
-    }
-
-    /**
-     * @param intersectionId intersection to check for a break
-     * @param playerId player we're checking for
-     * @return if there is a break
-     */
-    public boolean isBreakAtIntersection (int intersectionId, int playerId) {
-        Log.d(TAG, "isBreakAtIntersection() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "]");
-
-        // if null (means no building) return false
-        if (this.buildings[intersectionId] == null) return false;
-
-        // (if not null) check if the player owns the building
-        return this.buildings[intersectionId].getOwnerId() != playerId;
-    }
-
-    /**
-     * @param intersectionId IntersectionId to check (0-53).
-     * @param road Road adjacency matrix.
-     * @return If intersection is a dead end for the given road object.
-     */
-    public boolean checkDeadEnd (int intersectionId, Road[][] road) {
-        Log.d(TAG, "checkDeadEnd() called with: intersectionId = [" + intersectionId + "], road = [" + road + "]");
-        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
-            if (road[intersectionId][intersection] != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Recursive method that will call other helper methods within board
-     *
-     * @param intersectionId IntersectionId to start traversing.
-     * @param playerId Which players roads to traverse.
-     * @param road Adjacency matrix for roads ONLY the given player owns.
-     * @return Number of roads in a given section of continuous roads.
-     */
-    public int traverseRoads (int intersectionId, int playerId, Road[][] road, int stackCount) {
-        if (stackCount > 200) {
-            Log.e(TAG, "traverseRoads: reached a stackCount of 200. Returning 0.");
-            return 0;
-        }
-        Log.d(TAG, "traverseRoads() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "], road = [" + road + "]");
-        if (isBreakAtIntersection(intersectionId, playerId)) {
-            return 0;
-        }
-        if (checkDeadEnd(intersectionId, road)) {
-            return 0;
-        }
-        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
-            return 1 + traverseRoads(intersection, playerId, road, stackCount + 1);
-        }
-        return 0;
-    }
-
-    public int travelRoads (ArrayList<Player> playerList) {
-        for (Player player : playerList) {
-            ArrayList<Road> playerRoad = new ArrayList<>();
-            for (Road road : roads) {
-                if (road.getOwnerId() == player.getPlayerId()) {
-                    playerRoad.add(road);
-                }
-            }
-            for (int n = 0; n < playerRoad.size(); n++) {
-
-            }
-        }
-        return -1;
     }
 
     /* ----- validate building methods ----- */

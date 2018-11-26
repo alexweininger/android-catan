@@ -56,7 +56,7 @@ class Graph {
     }
 
     // The function to do DFS traversal. It uses recursive DFSUtil()
-    void DFS (int v) {
+    int DFS (int v) {
         count = 0;
         // Mark all the vertices as not visited(set as
         // false by default in java)
@@ -65,5 +65,6 @@ class Graph {
         // Call the recursive helper function to print DFS traversal
         DFSUtil(v, visited);
         Log.e(TAG, "DFS: count=" + count);
+        return count - 1;
     }
 }
