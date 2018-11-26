@@ -739,8 +739,6 @@ public class Board {
         //iterates through the hexagons and assigns each individual one the information required
         while (this.hexagons.size() < 19) {
 
-
-
             int randomResourceType;
             do {
                 randomResourceType = random.nextInt(resourceTypeCount.length);
