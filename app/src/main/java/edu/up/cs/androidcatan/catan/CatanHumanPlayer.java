@@ -412,8 +412,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if(state.getHasMovedRobber()){
-                if(selectedIntersections.size() != 1){
+            if (state.getHasMovedRobber()) {
+                if (selectedIntersections.size() != 1) {
                     robberHexMessage.setText("Please select only one intersection.");
                     return;
                 }
@@ -478,12 +478,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 robberOreAmount.setText(R.string.zero);
                 robberWoolAmount.setText(R.string.zero);
 
-//                // putting the array into the arraylist todo fix lol this is not good
-//                for (int i = 0; i < robberDiscardedResources.length; i++) {
-//                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
-//
-//                    }
-//                }
+                //                // putting the array into the arraylist todo fix lol this is not good
+                //                for (int i = 0; i < robberDiscardedResources.length; i++) {
+                //                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
+                //
+                //                    }
+                //                }
 
                 game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 this.robberDiscardedResources = state.getRobberDiscardedResources();
@@ -1473,12 +1473,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.state = (CatanGameState) info;
 
-            if (state.isRobberPhase()){
+            if (state.isRobberPhase()) {
                 messageTextView.setText(R.string.robber_phase);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
 
                 if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum])
-                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0,0,0,0,0}));
+                    game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0, 0, 0, 0, 0}));
             }
 
             updateTextViews();
@@ -1779,7 +1779,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         longestRoadPlayer2 = activity.findViewById(R.id.longest_road_player2);
         longestRoadPlayer3 = activity.findViewById(R.id.longest_road_player3);
 
-
         // if we have state update the GUI based on the state
         if (this.state != null) receiveInfo(state);
     }// setAsGui() END
@@ -1812,14 +1811,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /**
      * Reset the image to gone incase the trophy switched players
      * Sets the visibilty of the image view to visible when the player on the trophy
+     *
      * @param playerNum - player who hold trophu
      */
-    public void showLargestArmyTrophy(int playerNum)
-    {
+    public void showLargestArmyTrophy (int playerNum) {
         ImageView[] largestArmyTrophies = {largestArmyPlayer0, largestArmyPlayer1, largestArmyPlayer2, largestArmyPlayer3};
 
-        for(int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             largestArmyTrophies[i].setVisibility(View.GONE);
 
         }
@@ -1830,22 +1828,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /**
      * Reset the image to gone incase the trophy switched players
      * Sets the visibilty of the image view to visible when the player on the trophy
+     *
      * @param playerNum - player who hold trophu
      */
-    public void showLongestRoadTrophy(int playerNum)
-    {
+    public void showLongestRoadTrophy (int playerNum) {
         ImageView[] longestRoadTrophies = {longestRoadPlayer0, longestRoadPlayer1, longestRoadPlayer2, longestRoadPlayer3};
 
-        for(int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             longestRoadTrophies[i].setVisibility(View.GONE);
 
         }
 
         longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
     }
-
-
 
 
     /**
