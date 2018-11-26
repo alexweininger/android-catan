@@ -44,7 +44,7 @@ public class CatanGameState extends GameState {
     // robber
     private static boolean hasMovedRobber = false;
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
-    private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
+    private static final int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //Resets amount of discarded resources
     private static boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
 
     // trophies
@@ -85,7 +85,6 @@ public class CatanGameState extends GameState {
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
         this.setRobberPhase(cgs.getRobberPhase());
-        this.setRobberDiscardedResources(cgs.getRobberDiscardedResources());
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
         this.setCurrentPlayerId(cgs.getCurrentPlayerId());
@@ -349,8 +348,6 @@ public class CatanGameState extends GameState {
         }
 
         robberPlayerListHasDiscarded[playerId] = true;
-        hasMovedRobber = true;
-        robberPlayerListHasDiscarded[playerId] = true;
         return true;
     }
 
@@ -553,9 +550,6 @@ public class CatanGameState extends GameState {
         return robberDiscardedResources;
     }
 
-    public void setRobberDiscardedResources (int[] robberDiscardedResources) {
-        this.robberDiscardedResources = robberDiscardedResources;
-    }
 
     public int getSetupPhaseTurnCounter () {
         return setupPhaseTurnCounter;
