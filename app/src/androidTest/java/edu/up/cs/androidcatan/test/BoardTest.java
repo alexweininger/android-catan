@@ -30,7 +30,7 @@ public class BoardTest {
     @Test
     public void testValidBuildingLocationSetupPhaseTakenIntersection(){
         Board board = new Board();
-        board.addBuilding(0, new City(0, 0));
+        board.addBuilding(0, new City(0));
         assertFalse(board.validBuildingLocation(1, true, 0));
         assertFalse(board.validBuildingLocation(0, true, 0));
         assertFalse(board.validBuildingLocation(0, true, -1));
