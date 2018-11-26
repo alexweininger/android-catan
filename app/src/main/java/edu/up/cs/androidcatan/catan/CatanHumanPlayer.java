@@ -427,7 +427,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 robberChooseHexGroup.setVisibility(View.GONE);
                 game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
                 //robberHexMessage.setText("Please select only one intersection.");
-                messageTextView.setText("Please select only one intersection.");
                 return;
             }
 
@@ -599,7 +598,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Development button located on the sidebar. Should only show/hide dev card menu.
         if (button.getId() == R.id.sidebar_button_devcards) {
-            toggleGroupVisibility(developmentGroup); // toggle menu vis.
+            toggleGroupVisibilityAllowTapping(developmentGroup); // toggle menu vis.
             return;
         }
 
@@ -1258,7 +1257,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // todo
             }
         }
-        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
             this.messageTextView.setText(R.string.setup_phase); // set info message
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.setup_phase, Toast.LENGTH_SHORT);
 //            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
