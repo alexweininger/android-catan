@@ -378,6 +378,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_menu) {
             //            this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
+            this.state.getBoard().printMatrix();
 
             //            this.debugMode = !this.debugMode; // toggle debug mode
 
@@ -1249,8 +1250,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             } else if (state.getCurrentPlayerId() == playerNum && state.isHasDiscarded()) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
-            } else {
-                // todo
             }
         }
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
@@ -1265,7 +1264,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             // check if they are done with their setup phase turn
             if (settlements == 1 && roads == 1) {
-                // they need to end thier turn
+                // they need to end their turn
                 this.endTurnButton.setAlpha(1f);
                 this.endTurnButton.setClickable(true);
                 this.messageTextView.setText(R.string.setup_phase_complete);
@@ -1284,7 +1283,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.buildSettlementButton.setAlpha(0.5f);
                 this.buildSettlementButton.setClickable(false);
             } else if (settlements == 1){
-                // they need to end thier turn
+                // they need to end their turn
                 this.buildRoadButton.setAlpha(0.5f);
                 this.buildRoadButton.setClickable(false);
                 this.buildSettlementButton.setAlpha(0.5f);

@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -216,6 +217,69 @@ public class Board {
         Log.d(TAG, "hasRoad() returned: " + false);
         return false;
     }
+
+    public void printMatrix () {
+        Log.d(TAG, "printMatrix: ------\n" + Arrays.deepToString(this.roadMatrix));
+
+        for (int i = 0; i < this.roadMatrix.length; i++) {
+            StringBuilder str = new StringBuilder();
+            for (int j = 0; j < this.roadMatrix[i].length; j++) {
+                str.append(i).append(":").append(j).append("=").append(this.roadMatrix[i][j].getOwnerId()).append("\t");
+            }
+            str.append("\n");
+            Log.i(TAG, str.toString());
+        }
+        generatePlayerRoadMatrix(0);
+        dfs();
+    }
+
+    public void printPlayerMatrix (int[][] pMatrix) {
+
+        for (int i = 0; i < pMatrix.length; i++) {
+            StringBuilder str = new StringBuilder();
+            for (int j = 0; j < pMatrix[i].length; j++) {
+                str.append(pMatrix[i][j]).append(" ");
+            }
+            str.append("\n");
+            Log.i(TAG, str.toString());
+        }
+    }
+
+    private int[][] generatePlayerRoadMatrix(int playerId) {
+        int[][] result = new int[54][54];
+
+        for (int i = 0; i < roadMatrix.length; i++) {
+            for (int j = 0; j < roadMatrix[i].length; j++) {
+                if (roadMatrix[i][j].getOwnerId() == playerId) {
+                    result[i][j] = 1;
+                    Log.w(TAG, "generatePlayerRoadMatrix: added road to player's road matrix from " + i + " to " + j + " for player " + playerId);
+                } else {
+                    result[i][j] = 0;
+                }
+            }
+        }
+        printPlayerMatrix(result);
+        return result;
+    }
+
+    public void dfs () {
+        ArrayList<Road> pr = new ArrayList<>();
+        Graph rg = new Graph(54);
+        for (Road road : roads) {
+            if (road.getOwnerId() == 0) {
+                rg.addEdge(road.getIntersectionAId(), road.getIntersectionBId());
+                pr.add(road);
+            }
+        }
+        rg.DFS(pr.get(0).getIntersectionAId());
+    }
+
+    /* calculating the longest road:
+     *
+     * traversing the roads
+     *
+     *
+     */
 
     /**
      * Main method to calculate the longest road trophy holder. - AL
@@ -1371,7 +1435,7 @@ public class Board {
     private void generateRoadMatrix () {
         for (int i = 0; i < iGraph.length; i++) {
             for (int j = 0; j < iGraph[i].length; j++) {
-                roadMatrix[i][j] = new Road(-1, j, j);
+                roadMatrix[i][j] = new Road(-1, i, j);
             }
         }
         for (int i = 0; i < roadMatrix.length; i++) {
