@@ -471,7 +471,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //                }
 
                 game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
-                this.robberDiscardedResources = state.getRobberDiscardedResource();
+                this.robberDiscardedResources = state.getRobberDiscardedResources();
                 return;
             }
 

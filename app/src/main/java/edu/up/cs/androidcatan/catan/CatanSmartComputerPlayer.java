@@ -112,7 +112,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                             if(gs.validDiscard(playerNum, robberResourcesDiscard)){
                                 Log.i(TAG, "receiveInfo: Computer is now discarding resources");
                                 CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
-                                robberResourcesDiscard = gs.getRobberDiscardedResource();
+                                robberResourcesDiscard = gs.getRobberDiscardedResources();
                                 game.sendAction(action);
                                 break;
                             }

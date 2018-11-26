@@ -124,9 +124,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                             if (gs.validDiscard(playerNum, robberResourcesDiscard)) {
                                 Log.i(TAG, "receiveInfo: Computer is now discarding resources");
                                 CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
-                                robberResourcesDiscard = gs.getRobberDiscardedResource();
                                 game.sendAction(action);
-                                robberResourcesDiscard = gs.getRobberDiscardedResource()
+                                robberResourcesDiscard = gs.getRobberDiscardedResources();
                                 break;
                             }
                         }
