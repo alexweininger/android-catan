@@ -618,7 +618,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 //toast.show();
                 return;
             } else {
-                state.getCurrentPlayer().removeDevCard(developmentCardId);
                 Log.d(TAG, "onClick: Development Card was removed from hand");
 
                 // knight card
