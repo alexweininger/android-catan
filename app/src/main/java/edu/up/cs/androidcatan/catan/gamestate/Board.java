@@ -726,7 +726,6 @@ public class Board {
                             Log.e(TAG, "generateHexagonTiles: Chits 6 adjacent, reshuffling the hexagon tiles...");
                             return false;
                         }
-
                         if (hexagons.get(integer).getChitValue() == 8) {
                             Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
                             return false;
