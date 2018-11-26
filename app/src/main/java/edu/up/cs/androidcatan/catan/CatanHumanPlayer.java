@@ -1221,7 +1221,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         diceImageLeft.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[0] - 1]);
         diceImageRight.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[1] - 1]);
 
-        if (this.state.getRobberPhase() && this.state.getCurrentPlayerId() == playerNum) {
+        if (this.state.getRobberPhase()) {
 
             this.messageTextView.setText(R.string.robber_phase);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
@@ -1246,7 +1246,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
-            } else if (state.getCurrentPlayerId() == playerNum && state.isHasDiscarded()) {
+            } else if (state.getCurrentPlayerId() == playerNum && state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             } else {
@@ -1461,18 +1461,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             this.state = (CatanGameState) info;
 
-            updateTextViews();
-            drawGraphics();
-
-            if (state.isRobberPhase() && state.getCurrentPlayerId() != playerNum) {
+            if (state.isRobberPhase()){
                 messageTextView.setText(R.string.robber_phase);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
 
-                if (!state.getRobberPlayerListHasDiscarded()[playerNum])
-                    robberDiscardGroup.setVisibility(View.VISIBLE);
-                else
+                if (!state.checkPlayerResources(playerNum))
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0,0,0,0,0}));
             }
+
+            updateTextViews();
+            drawGraphics();
+
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");

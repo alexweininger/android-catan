@@ -300,9 +300,8 @@ public class CatanGameState extends GameState {
             Log.i(TAG, "checkPlayerResources: PLAYER NEEDS TO DISCARD CARDS");
             return true;
         }
-        Log.i(TAG, "checkPlayerResources: PLAYER DOES NOT NEED TO DISCARDS");
+        Log.i(TAG, "checkPlayerResources: PLAYER DOES NOT NEED TO DISCARD");
         robberPlayerListHasDiscarded[playerId] = true;
-        hasDiscarded = true;
 
         return false;
     }
@@ -337,7 +336,8 @@ public class CatanGameState extends GameState {
      */
     public boolean discardResources(int playerId, int[] resourcesDiscarded){
         Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
-        if(checkPlayerResources(playerId)){
+        if(robberPlayerListHasDiscarded[playerId]){
+            Log.i(TAG, "discardResources: Player is not required to discard at this time");
             return true;
         }
         int totalDiscarded = 0;
