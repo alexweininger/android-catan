@@ -319,12 +319,8 @@ public class Player {
         int randomResourceId;
         do {
             randomResourceId = random.nextInt(4); // 0-4
-        } while (!checkResourceCard(randomResourceId, 1));
+        } while (checkResourceCard(randomResourceId, 1));
 
-        if (!removeResourceCard(randomResourceId, 1)) {
-            Log.e(TAG, "getRandomCard: Player does not have random card that was checked for.");
-            return -1;
-        }
         Log.d(TAG, "getRandomCard() returned: " + randomResourceId);
         return randomResourceId;
     }
