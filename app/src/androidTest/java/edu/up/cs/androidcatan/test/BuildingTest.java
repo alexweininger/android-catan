@@ -11,22 +11,22 @@ public class BuildingTest {
 
     @Test
     public void getOwnerId() {
-        Building city = new City(0, 1);
-        assertEquals(1, city.getOwnerId());
+        Building building = new City(1);
+        assertEquals(1, building.getOwnerId());
     }
 
     @Test
     public void setOwnerId() {
-        Building city = new City(1, 0);
-        city.setOwnerId(-1);
+        Building building = new City(0);
+        building.setOwnerId(-1);
 
-        assertEquals(0, city.getOwnerId());
+        assertEquals(0, building.getOwnerId());
 
-        city.setOwnerId(5);
-        assertEquals(0, city.getOwnerId());
+        building.setOwnerId(5);
+        assertEquals(0, building.getOwnerId());
 
-        city.setOwnerId(2);
-        assertEquals(2, city.getOwnerId());
+        building.setOwnerId(2);
+        assertEquals(2, building.getOwnerId());
     }
 
 }
