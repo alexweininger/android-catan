@@ -400,12 +400,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
             if(state.getHasMovedRobber()){
                 if(selectedIntersections.size() != 1){
-                    robberHexMessage.setText("Please select only one intersection.");
+                    //robberHexMessage.setText("Please select only one intersection.");
+                    messageTextView.setText("Please select only one intersection.");
                     return;
                 }
 
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
-                    robberHexMessage.setText(R.string.select_int_w_bldg_robber);
+                    //robberHexMessage.setText(R.string.select_int_w_bldg_robber);
                     messageTextView.setText(R.string.select_int_w_bldg_robber);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select another player's building", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -414,7 +415,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
-                    robberHexMessage.setText("Please select an intersection not owned by you.");
+                    //robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select an intersection not owned by you.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -423,15 +424,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                robberChooseHexGroup.setVisibility(View.GONE);
+                //robberChooseHexGroup.setVisibility(View.GONE);
                 game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
-                robberHexMessage.setText("Please select a tile to place the robber on.");
+                //robberHexMessage.setText("Please select only one intersection.");
+                messageTextView.setText("Please select only one intersection.");
                 return;
             }
 
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
-                robberHexMessage.setText(R.string.invalid_tile);
+                //robberHexMessage.setText(R.string.invalid_tile);
                 shake(robberHexMessage);
                 messageTextView.setText(R.string.invalid_tile);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
@@ -443,7 +445,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.VISIBLE);
-            robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
+            //robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
+            messageTextView.setText("Please selected an intersection with a building adjacent to the robber");
             game.sendAction(new CatanRobberMoveAction(this, playerNum, selectedHexagonId));
             return;
         }
@@ -1548,7 +1551,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
-        robberHexMessage.setText(R.string.choose_robber_tile);
+        //robberHexMessage.setText(R.string.choose_robber_tile);
         robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
 
         robberBrickPlus.setOnClickListener(this);
