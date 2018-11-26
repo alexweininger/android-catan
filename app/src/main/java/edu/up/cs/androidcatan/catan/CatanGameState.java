@@ -36,17 +36,16 @@ public class CatanGameState extends GameState {
     // game phases
     private boolean isSetupPhase = true; // is it the setup phase
     private boolean isActionPhase = false; // has the current player rolled the dice
-    private boolean isRobberPhase = false; // is the robber phase
+    private static boolean isRobberPhase = false; // is the robber phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
     private static int setupPhaseTurnCounter;
 
     // robber
-    private boolean hasDiscarded = false;
-    private boolean hasMovedRobber = false;
+    private static boolean hasMovedRobber = false;
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
-    private boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
+    private static boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
 
     // trophies
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
@@ -82,7 +81,7 @@ public class CatanGameState extends GameState {
         this.isActionPhase = cgs.isActionPhase;
         this.isSetupPhase = cgs.isSetupPhase;
         this.hasDiscarded = cgs.hasDiscarded;
-        this.hasMovedRobber = cgs.hasMovedRobber;
+        hasMovedRobber = cgs.getHasMovedRobber();
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
@@ -427,7 +426,6 @@ public class CatanGameState extends GameState {
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
 
         isRobberPhase = false;
-        hasDiscarded = false;
         hasMovedRobber = false;
 
         for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {

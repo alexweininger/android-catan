@@ -147,6 +147,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             if(gs.getCurrentPlayerId() == playerNum) {
                 Log.i(TAG, "receiveInfo: Computer is moving robber");
                 if(!gs.getHasMovedRobber()) {
+                    Log.i(TAG, "receiveInfo: Computer Player hasMovedRobber: " + gs.getHasMovedRobber());
                     Log.i(TAG, "receiveInfo: Computer is moving the robber");
                     sleep(2000);
 
@@ -170,21 +171,15 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                         Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() );
                         CatanRobberStealAction action = new CatanRobberStealAction(this, playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
                         game.sendAction(action);
+                        return;
                     }
                 }
             }
-            return;
-//            if(!gs.isRobberPhase()) {
-//                game.sendAction(new CatanEndTurnAction(this));
-//            }
-//            else{
-//                Log.e(TAG, "receiveInfo: Got to the end of CPU robber phase without ending robber phase", new Exception());
-//            }
         }
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-        Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
         if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
+            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
             game.sendAction(new CatanEndTurnAction(this));
         }
 
