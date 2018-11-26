@@ -659,7 +659,6 @@ public class Board {
         ArrayList<Integer> chitList = new ArrayList<>();
 
         chitList.add(2);
-        chitList.add(2);
         chitList.add(3);
         chitList.add(3);
         chitList.add(4);
@@ -740,7 +739,7 @@ public class Board {
         //iterates through the hexagons and assigns each individual one the information required
         while (this.hexagons.size() < 19) {
 
-            int randomChitValue = chitList.get(this.hexagons.size());
+
 
             int randomResourceType;
             do {
@@ -749,11 +748,14 @@ public class Board {
 
             if (randomResourceType == 5) {
                 Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
-                randomChitValue = 0;
+                hexagons.add(new Hexagon(resources[randomResourceType], 0, hexagons.size()));
+            } else {
+                Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
+                int randomChitValue = chitList.get(0);
+                chitList.remove(0);
+                hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             }
 
-            Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
-            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             resourceTypeCount[randomResourceType]--;
 
             if (resources[randomResourceType] == 5) {

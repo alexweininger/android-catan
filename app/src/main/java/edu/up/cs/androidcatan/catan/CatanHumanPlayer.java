@@ -376,16 +376,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
-            //            this.boardSurfaceView.getGrid().toggleDebugMode();
+            this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
-            this.state.getBoard().printMatrix();
-
-            //            this.debugMode = !this.debugMode; // toggle debug mode
+            this.debugMode = !this.debugMode; // toggle debug mode
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
             //            setAllButtonsToVisible();
-            //            Log.e(TAG, "onClick: toggled debug mode");
+            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -1255,8 +1253,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (this.state.isSetupPhase()) { // IF SETUP PHASE
             this.messageTextView.setText(R.string.setup_phase); // set info message
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.setup_phase, Toast.LENGTH_SHORT);
-//            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-//            toast.show();
+            //            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            //            toast.show();
 
             // get settlement and road count for the current turn
             int settlements = Collections.frequency(this.buildingsBuiltOnThisTurn, 1);
@@ -1282,7 +1280,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.buildRoadButton.setClickable(true);
                 this.buildSettlementButton.setAlpha(0.5f);
                 this.buildSettlementButton.setClickable(false);
-            } else if (settlements == 1){
+            } else if (settlements == 1) {
                 // they need to end their turn
                 this.buildRoadButton.setAlpha(0.5f);
                 this.buildRoadButton.setClickable(false);
@@ -1404,8 +1402,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (i == state.getCurrentPlayerId()) {
                 playerNames[i].setBackgroundColor(Color.argb(120, 255, 255, 255));
                 scores[i].setBackgroundColor(Color.argb(120, 255, 255, 255));
-            }
-            else {
+            } else {
                 playerNames[i].setBackgroundColor(Color.TRANSPARENT);
                 scores[i].setBackgroundColor(Color.TRANSPARENT);
             }
