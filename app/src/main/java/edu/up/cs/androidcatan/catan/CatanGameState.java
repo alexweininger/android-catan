@@ -78,13 +78,13 @@ public class CatanGameState extends GameState {
         this.setDice(new Dice(cgs.getDice()));
         this.setBoard(new Board(cgs.getBoard()));
         this.currentDiceSum = cgs.currentDiceSum;
-        this.isActionPhase = cgs.isActionPhase;
-        this.isSetupPhase = cgs.isSetupPhase;
+        isActionPhase = cgs.isActionPhase;
+        isSetupPhase = cgs.isSetupPhase;
         hasMovedRobber = cgs.getHasMovedRobber();
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
-        this.setRobberPhase(cgs.getRobberPhase());
+        setRobberPhase(cgs.getRobberPhase());
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
         this.setCurrentPlayerId(cgs.getCurrentPlayerId());

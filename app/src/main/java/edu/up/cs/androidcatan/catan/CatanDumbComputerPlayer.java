@@ -117,6 +117,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     return;
                 }
                 else{
+                    robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
                     for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
                         for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
                             robberResourcesDiscard[i]++;
@@ -125,7 +126,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                                 Log.i(TAG, "receiveInfo: Computer is now discarding resources");
                                 CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
                                 game.sendAction(action);
-                                robberResourcesDiscard = gs.getRobberDiscardedResources();
                                 break;
                             }
                         }
