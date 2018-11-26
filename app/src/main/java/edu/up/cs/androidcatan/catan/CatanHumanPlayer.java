@@ -424,7 +424,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                //robberChooseHexGroup.setVisibility(View.GONE);
+                robberChooseHexGroup.setVisibility(View.GONE);
                 game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
                 //robberHexMessage.setText("Please select only one intersection.");
                 messageTextView.setText("Please select only one intersection.");
