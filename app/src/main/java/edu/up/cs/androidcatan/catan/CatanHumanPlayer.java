@@ -425,6 +425,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
                 robberChooseHexGroup.setVisibility(View.GONE);
                 game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
+                robberHexMessage.setText("Please select a tile to place the robber on.");
                 return;
             }
 
@@ -471,7 +472,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //                }
 
                 game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
-                this.robberDiscardedResources = state.getRobberDiscardedResource();
+                this.robberDiscardedResources = state.getRobberDiscardedResources();
+                robberDiscardedResources = new int[]{0, 0, 0, 0, 0};
                 return;
             }
 
@@ -1246,7 +1248,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
-            } else if (state.getCurrentPlayerId() == playerNum && state.getRobberPlayerListHasDiscarded()[playerNum]) {
+            } else if (state.getCurrentPlayerId() == playerNum && state.allPlayersHaveDiscarded()) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             } else {
