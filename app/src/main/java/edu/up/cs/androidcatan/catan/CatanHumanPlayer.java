@@ -1465,7 +1465,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText(R.string.robber_phase);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
 
-                if (!state.checkPlayerResources(playerNum))
+                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum])
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0,0,0,0,0}));
             }
 
@@ -1474,7 +1474,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
         } else if (info instanceof NotYourTurnInfo) {
-            Log.i(TAG, "receiveInfo: Player tried to make action but it is not thier turn.");
+            Log.i(TAG, "receiveInfo: Player tried to make action but it is not their turn.");
         } else if (info instanceof IllegalMoveInfo) {
             Log.i(TAG, "receiveInfo: Illegal move info received.");
         } else {
