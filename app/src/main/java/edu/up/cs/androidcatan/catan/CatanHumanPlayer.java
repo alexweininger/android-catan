@@ -1778,6 +1778,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param playerNum - player who hold trophu
      */
     public void showLargestArmyTrophy (int playerNum) {
+
+        if (playerNum < 0) {
+            Log.w(TAG, "showLongestRoadTrophy: no player has the largest army trophy");
+        }
+
         ImageView[] largestArmyTrophies = {largestArmyPlayer0, largestArmyPlayer1, largestArmyPlayer2, largestArmyPlayer3};
 
         for (int i = 0; i < 4; i++) {
@@ -1795,6 +1800,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param playerNum - player who hold trophu
      */
     public void showLongestRoadTrophy (int playerNum) {
+
+        if (playerNum < 0) {
+            Log.w(TAG, "showLongestRoadTrophy: no player has the longest road trophy");
+        }
+
         ImageView[] longestRoadTrophies = {longestRoadPlayer0, longestRoadPlayer1, longestRoadPlayer2, longestRoadPlayer3};
 
         for (int i = 0; i < 4; i++) {
