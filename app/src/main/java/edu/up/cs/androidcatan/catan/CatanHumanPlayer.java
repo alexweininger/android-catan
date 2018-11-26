@@ -229,6 +229,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group robberChooseHexGroup = (Group) null;
     private Group pickResourceGroup = (Group) null;
 
+    //Largest Army Image Views
+    private ImageView largestArmyPlayer0 = (ImageView) null;
+    private ImageView largestArmyPlayer1 = (ImageView) null;
+    private ImageView largestArmyPlayer2 = (ImageView) null;
+    private ImageView largestArmyPlayer3 = (ImageView) null;
+
+    //Longest Road Image Views
+    private ImageView longestRoadPlayer0 = (ImageView) null;
+    private ImageView longestRoadPlayer1 = (ImageView) null;
+    private ImageView longestRoadPlayer2 = (ImageView) null;
+    private ImageView longestRoadPlayer3 = (ImageView) null;
+
     private GameMainActivity myActivity;  // the android activity that we are running
     public CatanGameState state = null; // game state
     private BoardSurfaceView boardSurfaceView;
@@ -1751,6 +1763,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         monopolyConfirm = activity.findViewById(R.id.pickResMenu_ConfirmButton);
         monopolyConfirm.setOnClickListener(this);
 
+        /*-----------------------Torphies---------------------------------------*/
+        largestArmyPlayer0 = activity.findViewById(R.id.largest_army_player0);
+        largestArmyPlayer1 = activity.findViewById(R.id.largest_army_player1);
+        largestArmyPlayer2 = activity.findViewById(R.id.largest_army_player2);
+        largestArmyPlayer3 = activity.findViewById(R.id.largest_army_player3);
+
+        longestRoadPlayer0 = activity.findViewById(R.id.longest_road_player0);
+        longestRoadPlayer1 = activity.findViewById(R.id.longest_road_player1);
+        longestRoadPlayer2 = activity.findViewById(R.id.longest_road_player2);
+        longestRoadPlayer3 = activity.findViewById(R.id.longest_road_player3);
+
+
         // if we have state update the GUI based on the state
         if (this.state != null) receiveInfo(state);
     }// setAsGui() END
@@ -1779,6 +1803,45 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         boardSurfaceView.invalidate();
     } // drawGraphics END
+
+    /**
+     * Reset the image to gone incase the trophy switched players
+     * Sets the visibilty of the image view to visible when the player on the trophy
+     * @param playerNum - player who hold trophu
+     */
+    public void showLargestArmyTrophy(int playerNum)
+    {
+        ImageView[] largestArmyTrophies = {largestArmyPlayer0, largestArmyPlayer1, largestArmyPlayer2, largestArmyPlayer3};
+
+        for(int i = 0; i < 4; i++)
+        {
+            largestArmyTrophies[i].setVisibility(View.GONE);
+
+        }
+
+        largestArmyTrophies[playerNum].setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Reset the image to gone incase the trophy switched players
+     * Sets the visibilty of the image view to visible when the player on the trophy
+     * @param playerNum - player who hold trophu
+     */
+    public void showLongestRoadTrophy(int playerNum)
+    {
+        ImageView[] longestRoadTrophies = {longestRoadPlayer0, longestRoadPlayer1, longestRoadPlayer2, longestRoadPlayer3};
+
+        for(int i = 0; i < 4; i++)
+        {
+            longestRoadTrophies[i].setVisibility(View.GONE);
+
+        }
+
+        longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
+    }
+
+
+
 
     /**
      * @param message Game over message.
