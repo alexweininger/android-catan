@@ -34,7 +34,6 @@ public class BoardSurfaceView extends SurfaceView {
     public void onDraw (Canvas canvas) {
         if (grid == null) {
             Log.e(TAG, "onDraw: grid is null");
-            this.invalidate();
         } else {
             Log.i(TAG, "onDraw: drawing grid");
             grid.drawGameBoard(canvas);

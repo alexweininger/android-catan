@@ -356,11 +356,10 @@ public class CatanLocalGame extends LocalGame {
             int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
             int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
 
-            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + lr + la > 9) {
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + lr + la + this.state.getPlayerList().get(i).getVictoryPoints() > 9) {
                 return playerNames[i] + " wins!";
             }
         }
-
         return null; // return null if no winner, but the game is not over
     }
 }
