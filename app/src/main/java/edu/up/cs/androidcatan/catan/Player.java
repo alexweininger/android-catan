@@ -174,7 +174,6 @@ public class Player {
         if (resourceCost.length != 5) {
             return false;
         }
-
         Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.w(TAG, "removeResourceBundle: players resources: " + Arrays.toString(this.resourceCards));
         if (!hasResourceBundle(resourceCost)) {
