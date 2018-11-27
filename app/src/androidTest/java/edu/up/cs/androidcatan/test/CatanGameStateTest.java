@@ -145,7 +145,7 @@ public class CatanGameStateTest {
         state.getBoard().addRoad(0, 5, 6);
         state.getBoard().addRoad(0, 6, 7);
         state.getBoard().addRoad(0, 7, 8);
-        assertTrue(state.updateSetupPhase());
+        assertFalse(state.updateSetupPhase());
     }
 
 }
