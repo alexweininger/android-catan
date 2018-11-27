@@ -126,7 +126,7 @@ public class Player {
         return true;
     }
 
-    void removeDevCard (int removeCardNum) {
+    public void removeDevCard (int removeCardNum) {
         Log.i(TAG, "removeDevCard BEFORE REMOVING: " + this.developmentCards.toString());
         this.developmentCards.remove((Integer) removeCardNum);
         Log.i(TAG, "removeDevCard AFTER REMOVING: " + this.developmentCards.toString());
@@ -167,6 +167,13 @@ public class Player {
      * @return If the player has ALL of the resources.
      */
     public boolean removeResourceBundle (int[] resourceCost) {
+        if (resourceCost == null) {
+            return false;
+        }
+
+        if (resourceCost.length != 5) {
+            return false;
+        }
         Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.w(TAG, "removeResourceBundle: players resources: " + Arrays.toString(this.resourceCards));
         if (!hasResourceBundle(resourceCost)) {
@@ -183,7 +190,6 @@ public class Player {
         Log.d(TAG, "removeResourceBundle successfully removed resourceCost = [" + Arrays.toString(resourceCost) + "] from players inventory.");
         return true;
     }
-
 
     /**
      * @return String showing the number of each resource card the player has
