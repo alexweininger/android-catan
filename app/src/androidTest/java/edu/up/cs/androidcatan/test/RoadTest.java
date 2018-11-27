@@ -16,13 +16,13 @@ public class RoadTest {
     }
 
     @Test // by Alex and Daniel
-    public void getIntersecitonAId () {
+    public void getIntersectionAId () {
         Road road = new Road(0, 5, 2);
         assertEquals(5, road.getIntersectionAId());
     }
 
     @Test // by Alex and Daniel
-    public void getIntersecitonBId () {
+    public void getIntersectionBId () {
         Road road = new Road(0, 5, 2);
         assertEquals(2, road.getIntersectionBId());
     }
