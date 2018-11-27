@@ -4,14 +4,13 @@ import org.junit.Test;
 
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SettlementTest {
 
     @Test
-    public void getVictoryPoints() {
+    public void getVictoryPoints () {
         Settlement settlement = new Settlement(0);
         assertEquals(1, settlement.getVictoryPoints());
     }
-
 }

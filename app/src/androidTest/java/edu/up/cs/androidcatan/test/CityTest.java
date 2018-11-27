@@ -8,9 +8,8 @@ import static org.junit.Assert.assertEquals;
 
 public class CityTest {
 
-    @Test //Written By: Niraj
-    public void getVictoryPoints()
-    {
+    @Test //Written By: Niraj Mali
+    public void getVictoryPoints () {
         City city = new City(0);
         assertEquals(2, city.getVictoryPoints());
     }

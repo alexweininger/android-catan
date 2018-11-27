@@ -1,12 +1,14 @@
 package edu.up.cs.androidcatan.test;
 
-import android.util.Log;
-
 import org.junit.Test;
 
 import edu.up.cs.androidcatan.catan.CatanGameState;
+
+import edu.up.cs.androidcatan.catan.Player;
+
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
+
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.*;
@@ -16,7 +18,7 @@ public class CatanGameStateTest {
     /*----------------------------------------Robber Methods------------------------------------------*/
     @Test
     //by Niraj Mali
-    public void testSetRobberPhase() {
+    public void testSetRobberPhase () {
         CatanGameState state = new CatanGameState();
         state.setRobberPhase(true);
         assertTrue(state.getRobberPhase());
@@ -28,7 +30,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testCheckPlayerResources(){
+    public void testCheckPlayerResources () {
         CatanGameState state = new CatanGameState();
         assertFalse(state.checkPlayerResources(0));
         assertTrue(state.getRobberPlayerListHasDiscarded()[0]);
@@ -45,7 +47,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testValidDiscard(){
+    public void testValidDiscard () {
         CatanGameState state = new CatanGameState();
         int[] resourcesToRemove = new int[]{0, 0, 0, 0, 0};
         assertTrue(state.validDiscard(0, resourcesToRemove));
@@ -60,18 +62,17 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testDiscardResources(){
+    public void testDiscardResources () {
         CatanGameState state = new CatanGameState();
         int[] resourcesToRemove = new int[]{0, 0, 0, 0, 0};
 
         state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
         assertTrue(state.discardResources(0, resourcesToRemove));
-        //TODO Further test cases needed
     }
 
     @Test
     //by Niraj Mali
-    public void testAllPlayersHaveDiscarded(){
+    public void testAllPlayersHaveDiscarded () {
         CatanGameState state = new CatanGameState();
         assertFalse(state.allPlayersHaveDiscarded());
         state.setRobberPlayerListHasDiscarded(new boolean[]{true, false, true, true});
@@ -88,7 +89,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testMoveRobber(){
+    public void testMoveRobber () {
         CatanGameState state = new CatanGameState();
         state.setCurrentPlayerId(0);
         assertFalse(state.moveRobber(0, -1));
@@ -100,6 +101,36 @@ public class CatanGameStateTest {
         state.getBoard().addBuilding(0, new Settlement(1));
         assertTrue(state.moveRobber(5, 0));
         //TODO May need some more cases
+    }
+
+    // tests the method that returns a random dev card from the dev card deck
+    @Test // by Alex Weininger
+    public void testGetRandomResourceCard () {
+        CatanGameState state = new CatanGameState();
+
+        // test drawing a random dev card 100 times, since this will make sure it 'reshuffles' the deck a few times
+        for (int i = 0; i < 100; i++) {
+            assertTrue(state.getRandomDevCard() > -1);
+            assertTrue(state.getRandomDevCard() < 5);
+        }
+    }
+
+    // tests the method that returns the current player id
+    @Test // by Alex Weininger
+    public void testGetCurrentPlayerId () {
+        CatanGameState state = new CatanGameState();
+        assertTrue(state.getCurrentPlayerId() > -1);
+        assertTrue(state.getCurrentPlayerId() < 4);
+    }
+
+    // tests the helper method that returns the player object of the player who is currently taking thier turn
+    @Test // by Alex Weininger
+    public void testGetCurrentPlayerObject () {
+        CatanGameState state = new CatanGameState();
+        assertNotNull(state.getCurrentPlayer());
+        assertNotNull(state.getCurrentPlayer());
+
+        assertTrue(state.getCurrentPlayer() instanceof Player);
     }
 
     @Test
