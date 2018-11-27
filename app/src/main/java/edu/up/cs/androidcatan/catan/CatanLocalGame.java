@@ -218,6 +218,9 @@ public class CatanLocalGame extends LocalGame {
             state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
             state.updateTrophies();
             state.setRobberPhase(true);
+            for (int i = 0; i < state.getPlayerList().size(); i++) {
+                state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
+            }
             return true;
         }
 
