@@ -354,8 +354,16 @@ public class CatanLocalGame extends LocalGame {
 
     public int findWinner(CatanGameState catanGameState)
     {
-        for (int i = 0; i < this.state.getPlayerList().size(); i++) {
-            if (catanGameState.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
+        for (int i = 0; i < catanGameState.getPlayerList().size(); i++) {
+            int addRoadVP = 0;
+            int addArmyVP = 0;
+            if (catanGameState.getCurrentLongestRoadPlayerId() == i) {
+                addRoadVP = 2;
+            }
+            if (catanGameState.getCurrentLargestArmyPlayerId() == i) {
+                addArmyVP = 2;
+            }
+            if (catanGameState.getPlayerList().get(i).getVictoryPointsPrivate() +addRoadVP + addArmyVP> 9) {
                 return i;
             }
         }
