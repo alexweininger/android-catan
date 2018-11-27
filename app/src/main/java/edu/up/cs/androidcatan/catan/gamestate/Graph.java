@@ -52,6 +52,7 @@ class Graph {
                 Log.d(TAG, "DFSUtil: already visited " + v);
             }
         }
+        Log.w(TAG, "DFSUtil: count++");
         count++;
     }
 
