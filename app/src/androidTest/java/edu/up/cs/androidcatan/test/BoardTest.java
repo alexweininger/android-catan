@@ -45,24 +45,6 @@ public class BoardTest {
     }
 
     @Test
-    public void testAddBuilding(){
-        Board board = new Board();
-        Board boardTrue = new Board();
-        Building settlement = new Settlement(0);
-
-        board.addBuilding(3, settlement);
-    }
-
-    @Test
-    public void testHasBuilding(){
-        Board board = new Board();
-        Building settlement = new Settlement(0);
-        board.addBuilding(0, settlement);
-        assertTrue(board.hasBuilding(0));
-        assertFalse(board.hasBuilding(53));
-    }
-
-    @Test
     public void testHGraph() {
         Board board = new Board();
         boolean hGraph[][] = board.getHGraph();
@@ -244,4 +226,33 @@ public class BoardTest {
         assertTrue(board.moveRobber(10));
         assertTrue(board.moveRobber(0));
     }
+
+    @Test
+    public void testAddBuilding(){
+        Board board = new Board();
+
+        board.getBuildings()[0] = new Settlement(1);
+
+        assertFalse(board.addBuilding(0, board.getBuildings()[0]));
+        assertFalse(board.addBuilding(-10, board.getBuildings()[0]));
+        assertFalse(board.addBuilding(54, board.getBuildings()[0]));
+
+        assertTrue(board.addBuilding(10, board.getBuildings()[0]));
+        assertTrue(board.addBuilding(1, board.getBuildings()[0]));
+    }
+
+    @Test
+    public void testHasBuilding(){
+        Board board = new Board();
+        Building settlement = new Settlement(0);
+        board.addBuilding(0, settlement);
+
+        assertTrue(board.hasBuilding(0));
+
+        assertFalse(board.hasBuilding(53));
+        assertFalse(board.hasBuilding(100));
+        assertFalse(board.hasBuilding(-20));
+    }
+
+    
 }

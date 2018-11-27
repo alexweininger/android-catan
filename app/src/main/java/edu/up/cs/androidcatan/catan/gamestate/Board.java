@@ -560,6 +560,10 @@ public class Board {
      */
     public boolean addBuilding (int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
+        if (intersectionId < 0 || intersectionId > 53){
+            Log.e(TAG, "addBuilding: IntersectionId was invalid");
+            return false;
+        }
 
         if (this.buildings[intersectionId] != null) {
             if (building instanceof City) {
@@ -583,6 +587,9 @@ public class Board {
      * @return whether there is a building at that given intersection
      */
     public boolean hasBuilding (int intersectionId) {
+        if (intersectionId < 0 || intersectionId > 53){
+            return false;
+        }
         return this.buildings[intersectionId] != null;
     }
 
