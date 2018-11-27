@@ -356,7 +356,7 @@ public class CatanGameState extends GameState {
             Log.e(TAG, "robberSteal: Trying to steal from self, error.");
             return false;
         }
-        if(playerId < 0 || playerId > 4 || stealingFromPlayerId < 0 || stealingFromPlayerId > 4){
+        if(playerId < 0 || playerId > 3 || stealingFromPlayerId < 0 || stealingFromPlayerId > 3){
             return false;
         }
 
