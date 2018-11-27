@@ -85,7 +85,7 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            this.state.setCurrentDiceSum(7);//this.state.getDice().roll());
+            this.state.setCurrentDiceSum(this.state.getDice().roll());
             Log.i(TAG, "rollDice: Player " + this.state.getCurrentPlayerId() + " rolled a " + this.state.getCurrentDiceSum());
 
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
@@ -119,6 +119,8 @@ public class CatanLocalGame extends LocalGame {
             }
 
             state.setActionPhase(false);
+            state.updateTrophies();
+
             Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
             Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
@@ -213,6 +215,7 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(0);
             state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
+            state.updateTrophies();
             state.setRobberPhase(true);
             return true;
         }

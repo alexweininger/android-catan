@@ -40,7 +40,6 @@ public class Player {
 
     private int victoryPoints;
     private int victoryPointsPrivate;
-
     private int victoryPointsFromDevCard;
 
     /**
