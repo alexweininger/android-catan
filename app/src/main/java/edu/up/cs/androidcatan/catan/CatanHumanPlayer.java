@@ -1330,6 +1330,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 //toast.show();
             }
             setAllButtonsToVisible();
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
         }
 
         //Not
