@@ -68,7 +68,7 @@ public class BoardTest {
         assertFalse(iGraph[4][18]); //wrong
         assertFalse(iGraph[19][46]); //wrong
         assertTrue(iGraph[49][50]);
-        assertTrue(iGraph[8][29]);
+        assertFalse(iGraph[8][29]);
     }
 
     @Test

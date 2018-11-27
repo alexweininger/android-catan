@@ -343,11 +343,22 @@ public class CatanLocalGame extends LocalGame {
     @Override
     public String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
+        int winner = findWinner(this.state);
+        if( winner != -1)
+        {
+            return playerNames[winner] + "'s wins!";
+        }
+        return null;
+    }
+
+
+    public int findWinner(CatanGameState catanGameState)
+    {
         for (int i = 0; i < this.state.getPlayerList().size(); i++) {
-            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
-                return playerNames[i] + " wins!";
+            if (catanGameState.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
+                return i;
             }
         }
-        return null; // return null if no winner, but the game is not over
+        return -1; // return -1 if no winner, but the game is not over
     }
 }
