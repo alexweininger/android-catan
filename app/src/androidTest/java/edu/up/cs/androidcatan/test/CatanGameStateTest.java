@@ -37,6 +37,7 @@ public class CatanGameStateTest {
         //TODO Check for when player actually has resources and needs to discard
         state.getPlayerList().get(0).addResourceCard(0, 7);
         assertFalse(state.checkPlayerResources(0));
+        state.setRobberPlayerListHasDiscarded(new boolean[]{false, false, false, false});
         state.getPlayerList().get(0).addResourceCard(0, 1);
         assertEquals(8, state.getPlayerList().get(0).getTotalResourceCardCount());
         assertTrue(state.checkPlayerResources(0));
