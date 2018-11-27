@@ -357,6 +357,7 @@ public class CatanLocalGame extends LocalGame {
                 return playerNames[i] + " wins!";
             }
         }
+
         return null; // return null if no winner, but the game is not over
     }
 }
