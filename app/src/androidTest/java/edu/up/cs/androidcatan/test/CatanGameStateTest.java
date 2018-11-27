@@ -134,6 +134,5 @@ public class CatanGameStateTest {
     @Test
     public void testProduceResources () {
         CatanGameState state = new CatanGameState();
-
-    }
+        }
 }
