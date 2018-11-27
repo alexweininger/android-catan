@@ -262,8 +262,8 @@ public class BoardTest {
 
         assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[0]);
 
-        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[2]);
-        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[5]);
+//        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[2]);
+//        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[5]);
     }
 
     @Test
@@ -278,6 +278,35 @@ public class BoardTest {
         assertFalse(board.getAdjacentHexagons(19).size() == 1);
         assertFalse(board.getAdjacentHexagons(-1).size() == 1);
         assertFalse(board.getAdjacentHexagons(0).size() == 7);
+    }
 
+    @Test
+    public void testGetIntersectionId(){
+        Board board = new Board();
+
+        assertTrue(board.getIntersectionId(0,0) == 0);
+        assertTrue(board.getIntersectionId(1,0) == 6);
+        assertTrue(board.getIntersectionId(-1,1) == -1);
+
+        assertFalse(board.getIntersectionId(0,-1) == 0);
+        assertFalse(board.getIntersectionId(5,4) == 0);
+        assertFalse(board.getIntersectionId(1,4) == 20);
+    }
+
+    @Test
+    public void testGetHexagonFromId(){
+        Board board = new Board();
+
+        assertTrue(board.getHexagonFromId(1).getHexagonId() == 1);
+        assertTrue(board.getHexagonFromId(10).getHexagonId() == 10);
+        assertTrue(board.getHexagonFromId(19) == null);
+        assertTrue(board.getHexagonFromId(-2) == null);
+
+        assertFalse(board.getHexagonFromId(5).getHexagonId() == 0);
+    }
+
+    @Test
+    public void testGenerateChitList(){
+        
     }
 }

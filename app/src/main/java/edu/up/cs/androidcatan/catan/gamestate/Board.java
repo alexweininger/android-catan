@@ -636,7 +636,7 @@ public class Board {
      * @param col - column within ring of intersection
      * @return - int intersection id
      */
-    private int getIntersectionId (int ring, int col) {
+    public int getIntersectionId (int ring, int col) {
         if (ring < 0 || ring > 2) {
             Log.e(TAG, "getIntersectionId: Invalid ring value received: " + ring);
             return -1;
