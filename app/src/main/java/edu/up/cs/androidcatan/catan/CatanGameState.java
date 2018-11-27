@@ -405,6 +405,7 @@ public class CatanGameState extends GameState {
 
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
             Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomCard method.");
+            return false;
         }
 
         // remove resource card from players inventory
