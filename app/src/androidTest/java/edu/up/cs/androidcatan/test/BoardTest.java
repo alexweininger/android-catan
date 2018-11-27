@@ -2,14 +2,10 @@ package edu.up.cs.androidcatan.test;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import edu.up.cs.androidcatan.catan.CatanGameState;
-import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 import static junit.framework.Assert.assertEquals;
@@ -178,5 +174,161 @@ public class BoardTest {
         assertTrue(board.validCityLocation(1, 0));
     }
 
-    
+    @Test
+    public void testGetHexagonListForDrawing(){
+        Board board = new Board();
+
+        assertTrue(board.getHexagonListForDrawing().size() == 19);
+
+        assertFalse(board.getHexagonListForDrawing().size() == 18);
+    }
+
+    @Test
+    public void testGetIntersectionOwners(){
+        Board board = new Board();
+        board.getBuildings()[0] = new Settlement(1);
+
+        assertTrue(board.getIntersectionOwners(0).get(0) == 1);
+        assertTrue(board.getIntersectionOwners(0).size() == 1);
+
+        assertFalse(board.getIntersectionOwners(0).get(0) == -3);
+    }
+
+    @Test
+    public void testGetRoadsAtIntersection(){
+        Board board = new Board();
+
+        board.addRoad(1,0,1);
+
+        assertTrue(board.getRoadsAtIntersection(0).get(0).getIntersectionAId() == 0);
+        assertTrue(board.getRoadsAtIntersection(1).get(0).getIntersectionBId() == 1);
+        assertTrue(board.getRoadsAtIntersection(0).get(0).getOppositeIntersection(0) == 1);
+        assertTrue(board.getRoadsAtIntersection(0).size() == 1);
+
+        assertFalse(board.getRoadsAtIntersection(0).get(0).getIntersectionAId() == -1);
+        assertFalse(board.getRoadsAtIntersection(1).get(0).getIntersectionBId() == -1);
+        assertFalse(board.getRoadsAtIntersection(0).get(0).getOppositeIntersection(0) == 0);
+    }
+
+    @Test
+    public void testGetHexagonsFromChitValue(){
+        Board board = new Board();
+
+        assertTrue(board.getHexagonsFromChitValue(2).size() == 1);
+        assertTrue(board.getHexagonsFromChitValue(12).size() == 1);
+        assertTrue(board.getHexagonsFromChitValue(8).size() == 2);
+        assertTrue(board.getHexagonsFromChitValue(4).size() == 2);
+
+        assertFalse(board.getHexagonsFromChitValue(7).size() == 3);
+        assertFalse(board.getHexagonsFromChitValue(9).size() == 0);
+        assertFalse(board.getHexagonsFromChitValue(20).size() == 1);
+        assertFalse(board.getHexagonsFromChitValue(-20).size() == 1);
+        assertFalse(board.getHexagonsFromChitValue(100).size() == 1);
+
+    }
+
+    @Test
+    public void testMoveRobber(){
+        Board board = new Board();
+
+        board.getRobber().setHexagonId(1);
+
+        assertFalse(board.moveRobber(1));
+        assertFalse(board.moveRobber(25));
+        assertFalse(board.moveRobber(-25));
+
+
+        assertTrue(board.moveRobber(2));
+        assertTrue(board.moveRobber(10));
+        assertTrue(board.moveRobber(0));
+    }
+
+    @Test
+    public void testAddBuilding(){
+        Board board = new Board();
+
+        board.getBuildings()[0] = new Settlement(1);
+
+        assertFalse(board.addBuilding(0, board.getBuildings()[0]));
+        assertFalse(board.addBuilding(-10, board.getBuildings()[0]));
+        assertFalse(board.addBuilding(54, board.getBuildings()[0]));
+
+        assertTrue(board.addBuilding(10, board.getBuildings()[0]));
+        assertTrue(board.addBuilding(1, board.getBuildings()[0]));
+    }
+
+    @Test
+    public void testHasBuilding(){
+        Board board = new Board();
+        Building settlement = new Settlement(0);
+        board.addBuilding(0, settlement);
+
+        assertTrue(board.hasBuilding(0));
+
+        assertFalse(board.hasBuilding(53));
+        assertFalse(board.hasBuilding(100));
+        assertFalse(board.hasBuilding(-20));
+    }
+
+    @Test
+    public void testGetBuildingAtIntersection(){
+        Board board = new Board();
+
+        board.getBuildings()[0] = new Settlement(1);
+
+        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[0]);
+    }
+
+    @Test
+    public void testGetAdjacentHexagons(){
+        Board board = new Board();
+
+        assertTrue(board.getAdjacentHexagons(0).size() == 6);
+        assertTrue(board.getAdjacentHexagons(7).size() == 4);
+        assertTrue(board.getAdjacentHexagons(6).size() == 6);
+
+        assertFalse(board.getAdjacentHexagons(14).size() == 0);
+        assertFalse(board.getAdjacentHexagons(19).size() == 1);
+        assertFalse(board.getAdjacentHexagons(-1).size() == 1);
+        assertFalse(board.getAdjacentHexagons(0).size() == 7);
+    }
+
+    @Test
+    public void testGetIntersectionId(){
+        Board board = new Board();
+
+        assertTrue(board.getIntersectionId(0,0) == 0);
+        assertTrue(board.getIntersectionId(1,0) == 6);
+        assertTrue(board.getIntersectionId(-1,1) == -1);
+
+        assertFalse(board.getIntersectionId(0,-1) == 0);
+        assertFalse(board.getIntersectionId(5,4) == 0);
+        assertFalse(board.getIntersectionId(1,4) == 20);
+    }
+
+    @Test
+    public void testGetHexagonFromId(){
+        Board board = new Board();
+
+        assertTrue(board.getHexagonFromId(1).getHexagonId() == 1);
+        assertTrue(board.getHexagonFromId(10).getHexagonId() == 10);
+        assertTrue(board.getHexagonFromId(19) == null);
+        assertTrue(board.getHexagonFromId(-2) == null);
+
+        assertFalse(board.getHexagonFromId(5).getHexagonId() == 0);
+    }
+
+    @Test
+    public void testGenerateChitList(){
+        Board board = new Board();
+
+        assertTrue(board.generateChitList().size() == 18);
+        assertTrue(board.generateChitList().contains(2));
+        assertTrue(board.generateChitList().contains(12));
+
+        assertFalse(board.generateChitList().contains(1));
+        assertFalse(board.generateChitList().contains(-1));
+        assertFalse(board.generateChitList().contains(13));
+        assertFalse(board.generateChitList().contains(7));
+    }
 }

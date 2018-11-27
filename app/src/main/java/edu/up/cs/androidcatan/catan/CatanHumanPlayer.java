@@ -52,6 +52,7 @@ import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.actionMsg.GameOverAckAction;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 import edu.up.cs.androidcatan.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
@@ -268,9 +269,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
-        if (state == null) {
+        if (this.state == null) {
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
+
+
 
         /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
         messageTextView.setTextColor(Color.WHITE);
@@ -395,6 +398,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode; // toggle debug mode
+
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
@@ -1404,10 +1413,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Name.setTextColor(HexagonGrid.playerColors[3]);
 
         /* ----- update misc. sidebar TextViews ----- */
-        this.playerNameSidebar.setText(getAllPlayerNames()[0]);
+        this.playerNameSidebar.setText(getAllPlayerNames()[this.playerNum]);
 
         // human player score (sidebar menu)
-        this.myScore.setText(String.format("VPs: %s", String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + state.getPlayerList().get(this.playerNum).getVictoryPoints())));
+        int add = 0;
+        if (this.playerNum == state.getCurrentLargestArmyPlayerId()) add += 2;
+        if (this.playerNum == state.getCurrentLongestRoadPlayerId()) add += 2;
+        this.myScore.setText(String.format("VPs: %s", String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + add + state.getPlayerList().get(this.playerNum).getVictoryPoints())));
 
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
@@ -1823,15 +1835,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
     }
 
-
     /**
      * @param message Game over message.
      */
     protected void gameIsOver (String message) {
         for (int i = 0; i < state.getPlayerList().size(); i++) {
-            int add = (i == state.getCurrentLongestRoadPlayerId())? 2:0;
-            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + add > 9) {
+            int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
+            int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + la + lr + this.state.getPlayerList().get(i).getVictoryPoints() > 9) {
                 super.gameIsOver(getAllPlayerNames()[i] + " wins!");
+                game.sendAction(new GameOverAckAction(this));
             }
         }
     } // gameIsOver END
