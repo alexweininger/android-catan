@@ -34,7 +34,6 @@ public class CatanGameStateTest {
         state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
         assertFalse(state.checkPlayerResources(0));
 
-        //TODO Check for when player actually has resources and needs to discard
         state.getPlayerList().get(0).addResourceCard(0, 7);
         assertFalse(state.checkPlayerResources(0));
         state.setRobberPlayerListHasDiscarded(new boolean[]{false, false, false, false});
@@ -51,24 +50,52 @@ public class CatanGameStateTest {
         assertTrue(state.validDiscard(0, resourcesToRemove));
         resourcesToRemove[0] = 2;
         assertFalse(state.validDiscard(0, resourcesToRemove));
+        state.getPlayerList().get(0).addResourceCard(0, 8);
+        resourcesToRemove[0] = 8;
+        assertTrue(state.validDiscard(0, resourcesToRemove));
+        resourcesToRemove[1] = 1;
+        assertFalse(state.validDiscard(0, resourcesToRemove));
     }
 
     @Test
     //by Niraj Mali
     public void testDiscardResources(){
+        CatanGameState state = new CatanGameState();
+        int[] resourcesToRemove = new int[]{0, 0, 0, 0, 0};
 
+        state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
+        assertTrue(state.discardResources(0, resourcesToRemove));
+        //TODO Further test cases needed
     }
 
     @Test
     //by Niraj Mali
     public void testAllPlayersHaveDiscarded(){
-
+        CatanGameState state = new CatanGameState();
+        assertFalse(state.allPlayersHaveDiscarded());
+        state.setRobberPlayerListHasDiscarded(new boolean[]{true, false, true, true});
+        assertFalse(state.allPlayersHaveDiscarded());
+        state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
+        assertTrue(state.allPlayersHaveDiscarded());
+        state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, false});
+        assertFalse(state.allPlayersHaveDiscarded());
+        state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, false, false});
+        assertFalse(state.allPlayersHaveDiscarded());
+        state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
+        assertTrue(state.allPlayersHaveDiscarded());
     }
 
     @Test
     //by Niraj Mali
     public void testMoveRobber(){
-
+        CatanGameState state = new CatanGameState();
+        state.setCurrentPlayerId(0);
+        assertFalse(state.moveRobber(0, -1));
+        assertFalse(state.moveRobber(0, 1));
+        assertFalse(state.moveRobber(-1, 0));
+        assertFalse(state.moveRobber(60, 0));
+        assertTrue(state.moveRobber(0, 0));
+        //TODO May need some more cases
     }
 
     @Test
