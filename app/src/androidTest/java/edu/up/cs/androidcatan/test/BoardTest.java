@@ -10,6 +10,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 public class BoardTest {
@@ -38,24 +39,6 @@ public class BoardTest {
         assertFalse(board.validBuildingLocation(-1, true, 5));      //bug
         assertTrue(board.validBuildingLocation(3, true, 53));
         assertTrue(board.validBuildingLocation(2, true, 24));
-    }
-
-    @Test //Written By: Andrew
-    public void testAddBuilding(){
-        Board board = new Board();
-        Board boardTrue = new Board();
-        Building settlement = new Settlement(0);
-
-        board.addBuilding(3, settlement);
-    }
-
-    @Test //Written By: Andrew
-    public void testHasBuilding(){
-        Board board = new Board();
-        Building settlement = new Settlement(0);
-        board.addBuilding(0, settlement);
-        assertTrue(board.hasBuilding(0));
-        assertFalse(board.hasBuilding(53));
     }
 
     @Test //Written By: Andrew
@@ -135,7 +118,7 @@ public class BoardTest {
         Board board = new Board();
         CatanGameState gameState = new CatanGameState();
 
-        assertTrue(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == -1);
+        assertEquals(board.getPlayerWithLongestRoad(gameState.getPlayerList()), -1);
 
         assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 0);
         assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 1);
@@ -178,7 +161,7 @@ public class BoardTest {
     public void testGetHexagonListForDrawing(){
         Board board = new Board();
 
-        assertTrue(board.getHexagonListForDrawing().size() == 19);
+        assertEquals(19, board.getHexagonListForDrawing().size());
 
         assertFalse(board.getHexagonListForDrawing().size() == 18);
     }
@@ -188,8 +171,8 @@ public class BoardTest {
         Board board = new Board();
         board.getBuildings()[0] = new Settlement(1);
 
-        assertTrue(board.getIntersectionOwners(0).get(0) == 1);
-        assertTrue(board.getIntersectionOwners(0).size() == 1);
+        assertEquals(1, (int) board.getIntersectionOwners(0).get(0));
+        assertEquals(1, board.getIntersectionOwners(0).size());
 
         assertFalse(board.getIntersectionOwners(0).get(0) == -3);
     }
@@ -200,10 +183,10 @@ public class BoardTest {
 
         board.addRoad(1,0,1);
 
-        assertTrue(board.getRoadsAtIntersection(0).get(0).getIntersectionAId() == 0);
-        assertTrue(board.getRoadsAtIntersection(1).get(0).getIntersectionBId() == 1);
-        assertTrue(board.getRoadsAtIntersection(0).get(0).getOppositeIntersection(0) == 1);
-        assertTrue(board.getRoadsAtIntersection(0).size() == 1);
+        assertEquals(0, board.getRoadsAtIntersection(0).get(0).getIntersectionAId());
+        assertEquals(1, board.getRoadsAtIntersection(1).get(0).getIntersectionBId());
+        assertEquals(1, board.getRoadsAtIntersection(0).get(0).getOppositeIntersection(0));
+        assertEquals(1, board.getRoadsAtIntersection(0).size());
 
         assertFalse(board.getRoadsAtIntersection(0).get(0).getIntersectionAId() == -1);
         assertFalse(board.getRoadsAtIntersection(1).get(0).getIntersectionBId() == -1);
@@ -214,10 +197,10 @@ public class BoardTest {
     public void testGetHexagonsFromChitValue(){
         Board board = new Board();
 
-        assertTrue(board.getHexagonsFromChitValue(2).size() == 1);
-        assertTrue(board.getHexagonsFromChitValue(12).size() == 1);
-        assertTrue(board.getHexagonsFromChitValue(8).size() == 2);
-        assertTrue(board.getHexagonsFromChitValue(4).size() == 2);
+        assertEquals(1, board.getHexagonsFromChitValue(2).size());
+        assertEquals(1, board.getHexagonsFromChitValue(12).size());
+        assertEquals(2, board.getHexagonsFromChitValue(8).size());
+        assertEquals(2, board.getHexagonsFromChitValue(4).size());
 
         assertFalse(board.getHexagonsFromChitValue(7).size() == 3);
         assertFalse(board.getHexagonsFromChitValue(9).size() == 0);
@@ -283,9 +266,9 @@ public class BoardTest {
     public void testGetAdjacentHexagons(){
         Board board = new Board();
 
-        assertTrue(board.getAdjacentHexagons(0).size() == 6);
-        assertTrue(board.getAdjacentHexagons(7).size() == 4);
-        assertTrue(board.getAdjacentHexagons(6).size() == 6);
+        assertEquals(6, board.getAdjacentHexagons(0).size());
+        assertEquals(4, board.getAdjacentHexagons(7).size());
+        assertEquals(6, board.getAdjacentHexagons(6).size());
 
         assertFalse(board.getAdjacentHexagons(14).size() == 0);
         assertFalse(board.getAdjacentHexagons(19).size() == 1);
@@ -297,9 +280,9 @@ public class BoardTest {
     public void testGetIntersectionId(){
         Board board = new Board();
 
-        assertTrue(board.getIntersectionId(0,0) == 0);
-        assertTrue(board.getIntersectionId(1,0) == 6);
-        assertTrue(board.getIntersectionId(-1,1) == -1);
+        assertEquals(0, board.getIntersectionId(0, 0));
+        assertEquals(6, board.getIntersectionId(1, 0));
+        assertEquals(board.getIntersectionId(-1, 1), -1);
 
         assertFalse(board.getIntersectionId(0,-1) == 0);
         assertFalse(board.getIntersectionId(5,4) == 0);
@@ -310,10 +293,10 @@ public class BoardTest {
     public void testGetHexagonFromId(){
         Board board = new Board();
 
-        assertTrue(board.getHexagonFromId(1).getHexagonId() == 1);
-        assertTrue(board.getHexagonFromId(10).getHexagonId() == 10);
-        assertTrue(board.getHexagonFromId(19) == null);
-        assertTrue(board.getHexagonFromId(-2) == null);
+        assertEquals(1, board.getHexagonFromId(1).getHexagonId());
+        assertEquals(10, board.getHexagonFromId(10).getHexagonId());
+        assertNull(board.getHexagonFromId(19));
+        assertNull(board.getHexagonFromId(-2));
 
         assertFalse(board.getHexagonFromId(5).getHexagonId() == 0);
     }
@@ -322,7 +305,7 @@ public class BoardTest {
     public void testGenerateChitList(){
         Board board = new Board();
 
-        assertTrue(board.generateChitList().size() == 18);
+        assertEquals(18, board.generateChitList().size());
         assertTrue(board.generateChitList().contains(2));
         assertTrue(board.generateChitList().contains(12));
 
