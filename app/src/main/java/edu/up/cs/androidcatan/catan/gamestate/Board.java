@@ -681,7 +681,7 @@ public class Board {
 
     /*----- board helper methods for setting up board and populating data structures -----*/
 
-    private ArrayList<Integer> generateChitList () {
+    public ArrayList<Integer> generateChitList () {
         Log.d(TAG, "generateChitList() called");
         ArrayList<Integer> chitList = new ArrayList<>();
 

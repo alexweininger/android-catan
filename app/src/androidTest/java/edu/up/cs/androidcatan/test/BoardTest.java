@@ -307,6 +307,15 @@ public class BoardTest {
 
     @Test
     public void testGenerateChitList(){
-        
+        Board board = new Board();
+
+        assertTrue(board.generateChitList().size() == 18);
+        assertTrue(board.generateChitList().contains(2));
+        assertTrue(board.generateChitList().contains(12));
+
+        assertFalse(board.generateChitList().contains(1));
+        assertFalse(board.generateChitList().contains(-1));
+        assertFalse(board.generateChitList().contains(13));
+        assertFalse(board.generateChitList().contains(7));
     }
 }
