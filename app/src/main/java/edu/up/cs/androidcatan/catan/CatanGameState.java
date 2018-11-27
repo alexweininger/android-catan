@@ -401,6 +401,14 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean robberSteal (int playerId, int stealingFromPlayerId) {
+        if(playerId == stealingFromPlayerId){
+            Log.e(TAG, "robberSteal: Trying to steal from self, error.");
+            return false;
+        }
+        if(playerId < 0 || playerId > 4 || stealingFromPlayerId < 0 || stealingFromPlayerId > 4){
+            return false;
+        }
+
         int randomStolenResourceId = this.playerList.get(stealingFromPlayerId).getRandomCard();
 
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {

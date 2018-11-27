@@ -101,7 +101,17 @@ public class CatanGameStateTest {
     @Test
     //by Niraj Mali
     public void testRobberSteal(){
-
+        CatanGameState state = new CatanGameState();
+        assertFalse(state.robberSteal(0, 0));
+        assertFalse(state.robberSteal(-1, 0));
+        assertFalse(state.robberSteal(0, -1));
+        assertFalse(state.robberSteal(0, 5));
+        assertFalse(state.robberSteal(5, -1));
+        assertFalse(state.robberSteal(5, 0));
+        assertFalse(state.robberSteal(0, 0));
+        assertTrue(state.robberSteal(0, 1));
+        assertTrue(state.robberSteal(1, 0));
+        assertTrue(state.robberSteal(0, 4));
     }
 
     @Test
