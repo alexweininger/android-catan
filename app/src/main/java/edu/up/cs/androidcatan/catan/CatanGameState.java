@@ -169,44 +169,13 @@ public class CatanGameState extends GameState {
             }
         }
         if (max > 2) {
-            // if the award has already been given out remove the awarded VP from that player
-//            if (currentLargestArmyPlayerId != -1) {
-//                this.playerVictoryPoints[currentLargestArmyPlayerId] -= 2;
-//            }
-            // update the player witht he kargest army
             this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
-            // add 2 VP to who ever has the largest army
-//            this.playerVictoryPoints[currentLargestArmyPlayerId] += 2;
         }
     }
 
     public void updateTrophies() {
         this.setCurrentLongestRoadPlayerId(this.currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(this.playerList));
         checkArmySize();
-    }
-
-    /**
-     * Method updates the victory points count of the current player based off the actions taken within the turn
-     */
-    public void updateVictoryPoints () {
-        Log.d(TAG, "updateVictoryPoints() called");
-
-
-
-        Log.w(TAG, "updateVictoryPoints: Reset victory points to 0 before calculations.");
-
-
-
-//        // goes through all buildings and the amount of victory points to the player to who owns the building
-//        Building[] buildings = this.board.getBuildings();
-//
-//        for (Building building : buildings) {
-//            if (building != null) {
-//                Log.w(TAG, "updateVictoryPoints: building.getOwnerId: " + building.getOwnerId() + " building.getVictoryPoints: " + building.getVictoryPoints());
-////                playerVictoryPoints[building.getOwnerId()] += building.getVictoryPoints();
-//            }
-//        }
-//        checkArmySize();
     }
 
     /*-------------------------------------Resource Methods------------------------------------------*/
