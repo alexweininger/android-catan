@@ -131,6 +131,9 @@ public class CatanGameState extends GameState {
 
     /*-------------------------------------Validation Methods------------------------------------------*/
 
+    /**
+     * @return Player object
+     */
     public Player getCurrentPlayer () {
         return this.playerList.get(currentPlayerId);
     }
@@ -176,6 +179,9 @@ public class CatanGameState extends GameState {
         }
     }
 
+    /**
+     * updates the current players with the longest road trophy and largest army trophy
+     */
     public void updateTrophies () {
         this.setCurrentLongestRoadPlayerId(this.currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(this.playerList));
         checkArmySize();
