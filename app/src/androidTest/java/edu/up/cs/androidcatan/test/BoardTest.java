@@ -16,19 +16,19 @@ import static junit.framework.Assert.assertTrue;
 public class BoardTest {
 
     @Test //Written By: Andrew
-    public void testValidBuildingLocationSetupPhaseEmptyIntersection(){
+    public void testValidBuildingLocationSetupPhaseEmptyIntersection () {
         Board board = new Board();
         assertTrue(board.validBuildingLocation(0, true, 0));
         assertFalse(board.validBuildingLocation(0, true, -1));
         assertFalse(board.validBuildingLocation(0, true, 90));
         assertFalse(board.validBuildingLocation(-3, true, -1));
-        assertFalse(board.validBuildingLocation(-1, true, 5));      //bug
+        assertFalse(board.validBuildingLocation(-1, true, 5));
         assertTrue(board.validBuildingLocation(3, true, 53));
         assertTrue(board.validBuildingLocation(2, true, 24));
     }
 
     @Test //Written By: Andrew
-    public void testValidBuildingLocationSetupPhaseTakenIntersection(){
+    public void testValidBuildingLocationSetupPhaseTakenIntersection () {
         Board board = new Board();
         board.addBuilding(0, new City(0));
         assertFalse(board.validBuildingLocation(1, true, 0));
@@ -36,13 +36,13 @@ public class BoardTest {
         assertFalse(board.validBuildingLocation(0, true, -1));
         assertFalse(board.validBuildingLocation(0, true, 90));
         assertFalse(board.validBuildingLocation(-3, true, -1));
-        assertFalse(board.validBuildingLocation(-1, true, 5));      //bug
+        assertFalse(board.validBuildingLocation(-1, true, 5));
         assertTrue(board.validBuildingLocation(3, true, 53));
         assertTrue(board.validBuildingLocation(2, true, 24));
     }
 
     @Test //Written By: Andrew
-    public void testHGraph() {
+    public void testHGraph () {
         Board board = new Board();
         boolean hGraph[][] = board.getHGraph();
         assertTrue(hGraph[5][14]);
@@ -54,57 +54,56 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testIsConnected(){
+    public void testIsConnected () {
         Board board = new Board();
 
         board.getBuildings()[1] = new Settlement(1);
 
-        assertFalse(board.isConnected(1,30));
+        assertFalse(board.isConnected(1, 30));
         assertFalse(board.isConnected(1, -20));
-        assertFalse(board.isConnected(0,1)); //wrong playerId
-        assertFalse(board.isConnected(1,2));
+        assertFalse(board.isConnected(0, 1)); //wrong playerId
+        assertFalse(board.isConnected(1, 2));
 
-        assertTrue(board.isConnected(1,1));
+        assertTrue(board.isConnected(1, 1));
     }
 
-    @Test //Written By: Andrew
-    public void testValidRoadPlacement(){
+    @Test //Written By: Andrew and Alex Weininger
+    public void testValidRoadPlacement () {
         Board board = new Board();
 
         board.getBuildings()[1] = new Settlement(1);
 
-        assertTrue(board.validRoadPlacement(1,false,1,2));
-        assertFalse(board.validRoadPlacement(1, false, 6,7));
+        assertTrue(board.validRoadPlacement(1, false, 1, 2));
+        assertFalse(board.validRoadPlacement(1, false, 6, 7));
     }
 
-    @Test //Written By: Andrew
-    public void testAddRoadArray(){
+    @Test //Written By: Andrew and Alex Weininger
+    public void testAddRoadArray () {
         Board board = new Board();
 
-        board.addRoad(1,1,2);
-        if (board.getRoads().size() != 0){
+        board.addRoad(1, 1, 2);
+        if (board.getRoads().size() != 0) {
             assert true;
-        }
-        else {
+        } else {
             assert false;
         }
     }
 
     @Test //Written By: Andrew
-    public void testAddRoadMatrix(){
+    public void testAddRoadMatrix () {
         Board board = new Board();
 
-        board.addRoad(1, 1,2);
+        board.addRoad(1, 1, 2);
         assertEquals(board.getRoadMatrix()[1][2].getOwnerId(), 1);
         assertFalse(board.getRoadMatrix()[1][2].getOwnerId() == 3);
     }
 
     @Test //Written By: Andrew
-    public void testHasRoad(){
+    public void testHasRoad () {
         Board board = new Board();
 
         board.getBuildings()[1] = new Settlement(1);
-        board.addRoad(1,1,2);
+        board.addRoad(1, 1, 2);
 
         assertTrue(board.hasRoad(1));
         assertTrue(board.hasRoad(2));
@@ -114,7 +113,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testGetPlayerWithLongestRoad(){
+    public void testGetPlayerWithLongestRoad () {
         Board board = new Board();
         CatanGameState gameState = new CatanGameState();
 
@@ -127,7 +126,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testValidBuildingLocation(){
+    public void testValidBuildingLocation () {
         Board board = new Board();
         int playerId = -1;
 
@@ -135,39 +134,36 @@ public class BoardTest {
         assertFalse(board.validBuildingLocation(1, false, 2));
         assertFalse(board.validBuildingLocation(4, true, 2));
 
-
         board.getBuildings()[0] = new Settlement(1);
-        board.addRoad(1,0,1);
+        board.addRoad(1, 0, 1);
 
         assertTrue(board.validBuildingLocation(1, true, 20));
-        assertFalse(board.validBuildingLocation(1, true,0));
+        assertFalse(board.validBuildingLocation(1, true, 0));
     }
 
-    @Test //Written By: Andrew
-    public void testValidCityLocation(){
+    @Test //Written By: Andrew and Alex Weininger
+    public void testValidCityLocation () {
         Board board = new Board();
 
         board.getBuildings()[0] = new Settlement(1);
 
-        assertFalse(board.validCityLocation(1,-3));
+        assertFalse(board.validCityLocation(1, -3));
         assertFalse(board.validCityLocation(-1, 3));
-        assertFalse(board.validCityLocation(-1,-4));
-        assertFalse(board.validCityLocation(1,-1));
+        assertFalse(board.validCityLocation(-1, -4));
+        assertFalse(board.validCityLocation(1, -1));
 
         assertTrue(board.validCityLocation(1, 0));
     }
 
-    @Test
-    public void testGetHexagonListForDrawing(){
+    @Test // by Alex Weininger
+    public void testGetHexagonListForDrawing () {
         Board board = new Board();
-
         assertEquals(19, board.getHexagonListForDrawing().size());
-
         assertFalse(board.getHexagonListForDrawing().size() == 18);
     }
 
-    @Test
-    public void testGetIntersectionOwners(){
+    @Test // by Alex Weininger
+    public void testGetIntersectionOwners () {
         Board board = new Board();
         board.getBuildings()[0] = new Settlement(1);
 
@@ -177,11 +173,11 @@ public class BoardTest {
         assertFalse(board.getIntersectionOwners(0).get(0) == -3);
     }
 
-    @Test
-    public void testGetRoadsAtIntersection(){
+    @Test // by Andrew
+    public void testGetRoadsAtIntersection () {
         Board board = new Board();
 
-        board.addRoad(1,0,1);
+        board.addRoad(1, 0, 1);
 
         assertEquals(0, board.getRoadsAtIntersection(0).get(0).getIntersectionAId());
         assertEquals(1, board.getRoadsAtIntersection(1).get(0).getIntersectionBId());
@@ -193,8 +189,8 @@ public class BoardTest {
         assertFalse(board.getRoadsAtIntersection(0).get(0).getOppositeIntersection(0) == 0);
     }
 
-    @Test
-    public void testGetHexagonsFromChitValue(){
+    @Test // by Alex Weininger and Andrew Lang
+    public void testGetHexagonsFromChitValue () {
         Board board = new Board();
 
         assertEquals(1, board.getHexagonsFromChitValue(2).size());
@@ -210,8 +206,8 @@ public class BoardTest {
 
     }
 
-    @Test
-    public void testMoveRobber(){
+    @Test // by Andrew
+    public void testMoveRobber () {
         Board board = new Board();
 
         board.getRobber().setHexagonId(1);
@@ -220,14 +216,13 @@ public class BoardTest {
         assertFalse(board.moveRobber(25));
         assertFalse(board.moveRobber(-25));
 
-
         assertTrue(board.moveRobber(2));
         assertTrue(board.moveRobber(10));
         assertTrue(board.moveRobber(0));
     }
 
-    @Test
-    public void testAddBuilding(){
+    @Test // by Andrew
+    public void testAddBuilding () {
         Board board = new Board();
 
         board.getBuildings()[0] = new Settlement(1);
@@ -240,8 +235,8 @@ public class BoardTest {
         assertTrue(board.addBuilding(1, board.getBuildings()[0]));
     }
 
-    @Test
-    public void testHasBuilding(){
+    @Test // by Andrew
+    public void testHasBuilding () {
         Board board = new Board();
         Building settlement = new Settlement(0);
         board.addBuilding(0, settlement);
@@ -253,8 +248,8 @@ public class BoardTest {
         assertFalse(board.hasBuilding(-20));
     }
 
-    @Test
-    public void testGetBuildingAtIntersection(){
+    @Test // by Andrew
+    public void testGetBuildingAtIntersection () {
         Board board = new Board();
 
         board.getBuildings()[0] = new Settlement(1);
@@ -262,8 +257,8 @@ public class BoardTest {
         assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[0]);
     }
 
-    @Test
-    public void testGetAdjacentHexagons(){
+    @Test // by Andrew and Alex Weininger
+    public void testGetAdjacentHexagons () {
         Board board = new Board();
 
         assertEquals(6, board.getAdjacentHexagons(0).size());
@@ -276,39 +271,37 @@ public class BoardTest {
         assertFalse(board.getAdjacentHexagons(0).size() == 7);
     }
 
-    @Test
-    public void testGetIntersectionId(){
+    @Test // by Andrew and Alex Weininger
+    public void testGetIntersectionId () {
         Board board = new Board();
 
         assertEquals(0, board.getIntersectionId(0, 0));
         assertEquals(6, board.getIntersectionId(1, 0));
         assertEquals(board.getIntersectionId(-1, 1), -1);
 
-        assertFalse(board.getIntersectionId(0,-1) == 0);
-        assertFalse(board.getIntersectionId(5,4) == 0);
-        assertFalse(board.getIntersectionId(1,4) == 20);
+        assertFalse(board.getIntersectionId(0, -1) == 0);
+        assertFalse(board.getIntersectionId(5, 4) == 0);
+        assertFalse(board.getIntersectionId(1, 4) == 20);
     }
 
-    @Test
-    public void testGetHexagonFromId(){
+    @Test // by Andrew Lang
+    public void testGetHexagonFromId () {
         Board board = new Board();
 
         assertEquals(1, board.getHexagonFromId(1).getHexagonId());
         assertEquals(10, board.getHexagonFromId(10).getHexagonId());
         assertNull(board.getHexagonFromId(19));
         assertNull(board.getHexagonFromId(-2));
-
         assertFalse(board.getHexagonFromId(5).getHexagonId() == 0);
     }
 
-    @Test
-    public void testGenerateChitList(){
+    @Test // by Andrew and Alex
+    public void testGenerateChitList () {
         Board board = new Board();
 
         assertEquals(18, board.generateChitList().size());
         assertTrue(board.generateChitList().contains(2));
         assertTrue(board.generateChitList().contains(12));
-
         assertFalse(board.generateChitList().contains(1));
         assertFalse(board.generateChitList().contains(-1));
         assertFalse(board.generateChitList().contains(13));

@@ -23,7 +23,6 @@ public class Settlement extends Building {
         return 1;
     }
 
-
     @Override
     public String toString() {
         return "[ S pId=" + this.getOwnerId() + "]";

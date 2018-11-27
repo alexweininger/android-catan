@@ -101,8 +101,6 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
-            state.updateVictoryPoints();
-            //            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
 
             // update setup phase
             if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
@@ -208,7 +206,7 @@ public class CatanLocalGame extends LocalGame {
             if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) return false;
 
             // add random dev card to players inventory
-            player.getDevelopmentCards().add(state.getRandomCard());
+            player.getDevelopmentCards().add(state.getRandomDevCard());
             return true;
         }
 
