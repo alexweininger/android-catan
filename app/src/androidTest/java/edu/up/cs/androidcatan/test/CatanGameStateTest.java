@@ -96,6 +96,9 @@ public class CatanGameStateTest {
         assertFalse(state.moveRobber(-1, 0));
         assertFalse(state.moveRobber(60, 0));
         assertTrue(state.moveRobber(0, 0));
+
+        state.getBoard().addBuilding(0, new Settlement(1));
+        assertTrue(state.moveRobber(5, 0));
         //TODO May need some more cases
     }
 
@@ -115,13 +118,14 @@ public class CatanGameStateTest {
         state.getPlayerList().get(1).addResourceCard(0, 1);
         assertTrue(state.robberSteal(0, 1));
         assertFalse(state.robberSteal(0, 4));
+        assertFalse(state.robberSteal(0, 3));
     }
 
     @Test
     //by Niraj Mali
     public void testUpdateSetupPhase () {
         CatanGameState state = new CatanGameState();
-        assertFalse(state.updateSetupPhase());
+        assertTrue(state.updateSetupPhase());
         state.getBoard().addBuilding(0, new Settlement(0));
         state.getBoard().addBuilding(1, new Settlement(0));
         state.getBoard().addBuilding(2, new Settlement(0));
@@ -130,9 +134,9 @@ public class CatanGameStateTest {
         state.getBoard().addBuilding(5, new Settlement(0));
         state.getBoard().addBuilding(6, new Settlement(0));
         state.getBoard().addBuilding(7, new Settlement(0));
-        assertFalse(state.updateSetupPhase());
+        assertTrue(state.updateSetupPhase());
         state.getBoard().addBuilding(8, new Settlement(0));
-        assertFalse(state.updateSetupPhase());
+        assertTrue(state.updateSetupPhase());
         state.getBoard().addRoad(0, 0, 1);
         state.getBoard().addRoad(0, 1, 2);
         state.getBoard().addRoad(0, 2, 3);
