@@ -98,6 +98,12 @@ public class Player {
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         }
+
+        if (numToCheckFor < 0) {
+            Log.e(TAG, "checkResourceCard: numToCheckFor cannot be negative. numToCheckFor: " + numToCheckFor);
+            return false;
+        }
+
         // return true if player has greater or equal to num to check for
         Log.d(TAG, "checkResourceCard() returned: " + (this.resourceCards[resourceCardId] >= numToCheckFor));
         return this.resourceCards[resourceCardId] >= numToCheckFor;
