@@ -81,6 +81,7 @@ public class CatanLocalGame extends LocalGame {
     protected boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
+
         /* --------------------------- Turn Actions --------------------------------------- */
 
         if (action instanceof CatanRollDiceAction) {
@@ -348,7 +349,11 @@ public class CatanLocalGame extends LocalGame {
     public String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
         for (int i = 0; i < this.state.getPlayerList().size(); i++) {
-            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
+
+            int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
+            int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
+
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + lr + la > 9) {
                 return playerNames[i] + " wins!";
             }
         }
