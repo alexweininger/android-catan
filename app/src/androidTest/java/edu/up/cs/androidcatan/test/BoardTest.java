@@ -154,7 +154,7 @@ public class BoardTest {
 
         assertFalse(board.validBuildingLocation(playerId, false, -1));
         assertFalse(board.validBuildingLocation(1, false, 2));
-        assertFalse(board.validBuildingLocation(4, false, 2));
+        assertFalse(board.validBuildingLocation(4, true, 2));
 
 
         board.getBuildings()[0] = new Settlement(1);
@@ -167,6 +167,6 @@ public class BoardTest {
     @Test
     public void testValidCityLocation(){
         Board board = new Board();
-        
+
     }
 }
