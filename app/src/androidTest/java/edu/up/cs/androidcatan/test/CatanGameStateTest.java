@@ -1,14 +1,12 @@
 package edu.up.cs.androidcatan.test;
 
-import android.util.Log;
-
 import org.junit.Test;
 
 import edu.up.cs.androidcatan.catan.CatanGameState;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 
 import static junit.framework.Assert.assertFalse;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CatanGameStateTest {
 
@@ -104,5 +102,8 @@ public class CatanGameStateTest {
 
     }
 
+    @Test
+    public void testGetRandomResourceCard() {
 
+    }
 }
