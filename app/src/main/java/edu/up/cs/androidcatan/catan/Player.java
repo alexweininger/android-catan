@@ -232,7 +232,7 @@ public class Player {
     /**
      * @param resourceCards - resource card array
      */
-    private void setResourceCards (int[] resourceCards) {
+    public void setResourceCards (int[] resourceCards) {
         this.resourceCards = resourceCards;
     }
 
@@ -361,6 +361,8 @@ public class Player {
     public void setVictoryPointsPrivate (int victoryPointsPrivate) {
         this.victoryPointsPrivate = victoryPointsPrivate;
     }
+
+
 
     /**
      * @return string representation of a Player

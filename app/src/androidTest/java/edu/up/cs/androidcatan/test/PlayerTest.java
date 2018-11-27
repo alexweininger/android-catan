@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import edu.up.cs.androidcatan.catan.Player;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
 
@@ -21,5 +22,14 @@ public class PlayerTest {
 
         assertFalse(p.removeResourceCard(0, -1));
         assertFalse(p.removeResourceCard(0, 10));
+
+        p.setResourceCards(new int[] {1, 0, 0, 0});
+        assertTrue(p.removeResourceCard(0,1));
+
+        p.setResourceCards(new int[] {1, 0, 0, 0});
+        assertFalse(p.removeResourceCard(0,-1));
+
+        p.setResourceCards(new int[] {1, 0, 0, 0});
+        assertFalse(p.removeResourceCard(0,10));
     }
 }
