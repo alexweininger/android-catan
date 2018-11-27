@@ -2,14 +2,10 @@ package edu.up.cs.androidcatan.test;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import edu.up.cs.androidcatan.catan.CatanGameState;
-import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
-import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 import static junit.framework.Assert.assertEquals;
@@ -164,7 +160,9 @@ public class BoardTest {
     public void testGetHexagonListForDrawing(){
         Board board = new Board();
 
-        assertEquals(board.getHexagons().size(), 19);
+        assertTrue(board.getHexagonListForDrawing().size() == 19);
+
+        assertFalse(board.getHexagonListForDrawing().size() == 18);
     }
 
     @Test
@@ -261,9 +259,6 @@ public class BoardTest {
         board.getBuildings()[0] = new Settlement(1);
 
         assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[0]);
-
-//        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[2]);
-//        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[5]);
     }
 
     @Test
