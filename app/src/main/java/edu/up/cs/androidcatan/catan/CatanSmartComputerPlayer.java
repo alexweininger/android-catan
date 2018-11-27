@@ -13,6 +13,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
@@ -176,10 +177,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
         }// receiveInfo() END
 
-        CatanSmartComputerPlayer (String name) {
-            super(name);
-        }
-
         private boolean tryMoveRobber(int hexId, CatanGameState gs){
 
             if(hexId == -1){
@@ -204,7 +201,53 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             Log.d(TAG, "tryMoveRobber: ");
             return false;
         }
-
+        private int getBuildingOfPlayer(CatanGameState gs){
+            for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
+                if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
+                    return n;
+                }
+            }
+            return -1;
+        }
+        private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
+            ArrayList<Road> playerRoads = new ArrayList<>();
+            for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
+                if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
+                    playerRoads.add(gs.getBoard().getRoads().get(n));
+                }
+            }
+            return playerRoads;
+        }
+        private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
+            ArrayList<Integer> intersections = new ArrayList<>();
+            for (int n = 0; n < playerRoads.size(); n++) {
+                intersections.add(playerRoads.get(n).getIntersectionAId());
+                intersections.add(playerRoads.get(n).getIntersectionBId());
+            }
+            ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
+            for (int n = 0; n < intersections.size(); n++){
+                for (int j = n+1; j < intersections.size(); j++){
+                    if (intersections.get(n) != intersections.get(j)){
+                        noRepeatIntersections.add(n);
+                    }
+                }
+                Log.d(TAG, "With repeat Intersections: " + intersections.toString());
+                Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
+            }
+            return intersections;
+        }
+        private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
+            Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
+            ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
+            for (Integer adjHexId : adjHexIds) {
+                if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
+                    Log.d(TAG, "checkIntersectionResource() returned: " + true);
+                    return true;
+                }
+            }
+            Log.d(TAG, "checkIntersectionResource() returned: " + false);
+            return false;
+        }
 } // CatanDumbComputerPlayer class END
 
 
@@ -453,51 +496,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 //        Log.d(TAG, "tryMoveRobber: ");
 //        return false;
 //    }
-//    private int getBuildingOfPlayer(CatanGameState gs){
-//        for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
-//            if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
-//                return n;
-//            }
-//        }
-//        return -1;
-//    }
-//    private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
-//        ArrayList<Road> playerRoads = new ArrayList<>();
-//        for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
-//            if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
-//                playerRoads.add(gs.getBoard().getRoads().get(n));
-//            }
-//        }
-//        return playerRoads;
-//    }
-//    private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
-//        ArrayList<Integer> intersections = new ArrayList<>();
-//        for (int n = 0; n < playerRoads.size(); n++) {
-//            intersections.add(playerRoads.get(n).getIntersectionAId());
-//            intersections.add(playerRoads.get(n).getIntersectionBId());
-//        }
-//        ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
-//        for (int n = 0; n < intersections.size(); n++){
-//            for (int j = n+1; j < intersections.size(); j++){
-//                if (intersections.get(n) != intersections.get(j)){
-//                    noRepeatIntersections.add(n);
-//                }
-//            }
-//            Log.d(TAG, "With repeat Intersections: " + intersections.toString());
-//            Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
-//        }
-//        return intersections;
-//    }
-//    private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
-//        Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
-//        ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
-//        for (Integer adjHexId : adjHexIds) {
-//            if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
-//                Log.d(TAG, "checkIntersectionResource() returned: " + true);
-//                return true;
-//            }
-//        }
-//        Log.d(TAG, "checkIntersectionResource() returned: " + false);
-//        return false;
-//    }
+
+//}
 //} // CatanDumbComputerPlayer class END
