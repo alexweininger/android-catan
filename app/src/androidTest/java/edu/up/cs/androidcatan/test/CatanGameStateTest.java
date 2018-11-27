@@ -104,5 +104,10 @@ public class CatanGameStateTest {
 
     }
 
+    @Test
+    //by Niraj Mali
+    public void testUpdateSetupPhase () {
+
+    }
 
 }
