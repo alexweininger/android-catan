@@ -187,7 +187,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             super(name);
         }
 
-        private boolean tryMoveRobber(int hexId, CatanGameState gs){
+        public boolean tryMoveRobber(int hexId, CatanGameState gs){
 
             if(hexId == -1){
                 Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
