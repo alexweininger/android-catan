@@ -223,10 +223,25 @@ public class BoardTest {
 
         assertFalse(board.getHexagonsFromChitValue(7).size() == 3);
         assertFalse(board.getHexagonsFromChitValue(9).size() == 0);
+        assertFalse(board.getHexagonsFromChitValue(20).size() == 1);
+        assertFalse(board.getHexagonsFromChitValue(-20).size() == 1);
+        assertFalse(board.getHexagonsFromChitValue(100).size() == 1);
+
     }
 
     @Test
     public void testMoveRobber(){
-        
+        Board board = new Board();
+
+        board.getRobber().setHexagonId(1);
+
+        assertFalse(board.moveRobber(1));
+        assertFalse(board.moveRobber(25));
+        assertFalse(board.moveRobber(-25));
+
+
+        assertTrue(board.moveRobber(2));
+        assertTrue(board.moveRobber(10));
+        assertTrue(board.moveRobber(0));
     }
 }

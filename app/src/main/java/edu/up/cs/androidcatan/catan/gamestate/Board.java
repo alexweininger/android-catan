@@ -540,6 +540,10 @@ public class Board {
     public boolean moveRobber (int hexagonId) {
         Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
+        if (hexagonId < 0 || hexagonId > 18){
+            return false;
+        }
+
         if (hexagonId == this.robber.getHexagonId()) return false;
 
         // change robber position
