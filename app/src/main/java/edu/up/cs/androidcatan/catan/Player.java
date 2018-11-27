@@ -98,6 +98,12 @@ public class Player {
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         }
+
+        if (numToCheckFor < 0) {
+            Log.e(TAG, "checkResourceCard: numToCheckFor cannot be negative. numToCheckFor: " + numToCheckFor);
+            return false;
+        }
+
         // return true if player has greater or equal to num to check for
         Log.d(TAG, "checkResourceCard() returned: " + (this.resourceCards[resourceCardId] >= numToCheckFor));
         return this.resourceCards[resourceCardId] >= numToCheckFor;
@@ -141,6 +147,10 @@ public class Player {
             Log.i(TAG, "removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         } else {
+            if (numToRemove < 0) {
+                Log.e(TAG, "removeResourceCard: numToRemove cannot be negative. numToRemove: " + numToRemove);
+                return false;
+            }
             if (this.resourceCards[resourceCardId] >= numToRemove) { // check to prevent negative card counts
                 Log.i(TAG, "removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
                 this.resourceCards[resourceCardId] -= numToRemove; // remove cards
@@ -222,7 +232,7 @@ public class Player {
     /**
      * @param resourceCards - resource card array
      */
-    private void setResourceCards (int[] resourceCards) {
+    public void setResourceCards (int[] resourceCards) {
         this.resourceCards = resourceCards;
     }
 
@@ -351,6 +361,8 @@ public class Player {
     public void setVictoryPointsPrivate (int victoryPointsPrivate) {
         this.victoryPointsPrivate = victoryPointsPrivate;
     }
+
+
 
     /**
      * @return string representation of a Player
