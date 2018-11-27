@@ -540,6 +540,10 @@ public class Board {
     public boolean moveRobber (int hexagonId) {
         Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
+        if (hexagonId < 0 || hexagonId > 18){
+            return false;
+        }
+
         if (hexagonId == this.robber.getHexagonId()) return false;
 
         // change robber position
@@ -556,6 +560,10 @@ public class Board {
      */
     public boolean addBuilding (int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
+        if (intersectionId < 0 || intersectionId > 53){
+            Log.e(TAG, "addBuilding: IntersectionId was invalid");
+            return false;
+        }
 
         if (this.buildings[intersectionId] != null) {
             if (building instanceof City) {
@@ -579,6 +587,9 @@ public class Board {
      * @return whether there is a building at that given intersection
      */
     public boolean hasBuilding (int intersectionId) {
+        if (intersectionId < 0 || intersectionId > 53){
+            return false;
+        }
         return this.buildings[intersectionId] != null;
     }
 
@@ -600,7 +611,13 @@ public class Board {
      */
     public ArrayList<Integer> getAdjacentHexagons (int hexagonId) {
         Log.d(TAG, "getAdjacentHexagons() called with: hexagonId = [" + hexagonId + "]");
+
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
+
+        if (hexagonId < 0 || hexagonId > 18){
+            return adjacentHexagons;
+        }
+
         for (int i = 0; i < 19; i++) {
             if (adjacentHexagons.size() > 6) {
                 Log.d(TAG, "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
@@ -619,7 +636,7 @@ public class Board {
      * @param col - column within ring of intersection
      * @return - int intersection id
      */
-    private int getIntersectionId (int ring, int col) {
+    public int getIntersectionId (int ring, int col) {
         if (ring < 0 || ring > 2) {
             Log.e(TAG, "getIntersectionId: Invalid ring value received: " + ring);
             return -1;
@@ -664,7 +681,7 @@ public class Board {
 
     /*----- board helper methods for setting up board and populating data structures -----*/
 
-    private ArrayList<Integer> generateChitList () {
+    public ArrayList<Integer> generateChitList () {
         Log.d(TAG, "generateChitList() called");
         ArrayList<Integer> chitList = new ArrayList<>();
 
@@ -694,7 +711,7 @@ public class Board {
     /**
      * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
      */
-    private boolean checkChitRule () {
+    public boolean checkChitRule () {
         Log.d(TAG, "checkChitRule() called");
         // checks if any 8's or 6's are adjacent to one another
 
