@@ -352,10 +352,19 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean robberSteal (int playerId, int stealingFromPlayerId) {
+        if(playerId == stealingFromPlayerId){
+            Log.e(TAG, "robberSteal: Trying to steal from self, error.");
+            return false;
+        }
+        if(playerId < 0 || playerId > 4 || stealingFromPlayerId < 0 || stealingFromPlayerId > 4){
+            return false;
+        }
+
         int randomStolenResourceId = this.playerList.get(stealingFromPlayerId).getRandomCard();
 
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
-            Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomDevCard method.");
+            Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomCard method.");
+            return false;
         }
 
         // remove resource card from players inventory
@@ -384,7 +393,7 @@ public class CatanGameState extends GameState {
      *
      * @return if the game is still in the setup phase
      */
-    boolean updateSetupPhase () {
+    public boolean updateSetupPhase () {
         Log.d(TAG, "updateSetupPhase() called " + this.toString());
         int buildingCount = 0;
         for (Building building : board.getBuildings()) {

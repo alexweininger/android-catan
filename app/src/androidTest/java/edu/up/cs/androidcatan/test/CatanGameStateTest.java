@@ -3,7 +3,12 @@ package edu.up.cs.androidcatan.test;
 import org.junit.Test;
 
 import edu.up.cs.androidcatan.catan.CatanGameState;
+
 import edu.up.cs.androidcatan.catan.Player;
+
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
+
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -122,7 +127,52 @@ public class CatanGameStateTest {
         CatanGameState state = new CatanGameState();
         assertNotNull(state.getCurrentPlayer());
         assertNotNull(state.getCurrentPlayer());
-
+      
         assertTrue(state.getCurrentPlayer() instanceof Player);
     }
+  
+    @Test
+    //by Niraj Mali
+    public void testRobberSteal(){
+        CatanGameState state = new CatanGameState();
+        assertFalse(state.robberSteal(0, 0));
+        assertFalse(state.robberSteal(-1, 0));
+        assertFalse(state.robberSteal(0, -1));
+        assertFalse(state.robberSteal(0, 5));
+        assertFalse(state.robberSteal(5, -1));
+        assertFalse(state.robberSteal(5, 0));
+        assertFalse(state.robberSteal(0, 0));
+        assertTrue(state.robberSteal(0, 1));
+        assertTrue(state.robberSteal(1, 0));
+        assertTrue(state.robberSteal(0, 4));
+    }
+
+    @Test
+    //by Niraj Mali
+    public void testUpdateSetupPhase () {
+        CatanGameState state = new CatanGameState();
+        assertFalse(state.updateSetupPhase());
+        state.getBoard().addBuilding(0, new Settlement(0));
+        state.getBoard().addBuilding(1, new Settlement(0));
+        state.getBoard().addBuilding(2, new Settlement(0));
+        state.getBoard().addBuilding(3, new Settlement(0));
+        state.getBoard().addBuilding(4, new Settlement(0));
+        state.getBoard().addBuilding(5, new Settlement(0));
+        state.getBoard().addBuilding(6, new Settlement(0));
+        state.getBoard().addBuilding(7, new Settlement(0));
+        assertFalse(state.updateSetupPhase());
+        state.getBoard().addBuilding(8, new Settlement(0));
+        assertFalse(state.updateSetupPhase());
+        state.getBoard().addRoad(0, 0, 1);
+        state.getBoard().addRoad(0, 1, 2);
+        state.getBoard().addRoad(0, 2, 3);
+        state.getBoard().addRoad(0, 3, 4);
+        state.getBoard().addRoad(0, 4, 5);
+        state.getBoard().addRoad(0, 5, 6);
+        state.getBoard().addRoad(0, 6, 7);
+        state.getBoard().addRoad(0, 7, 8);
+        assertTrue(state.updateSetupPhase());
+    }
+
+ 
 }
