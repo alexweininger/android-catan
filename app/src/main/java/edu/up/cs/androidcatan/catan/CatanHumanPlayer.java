@@ -866,7 +866,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param intersectionB Second intersection of the road. (order does not matter)
      * @return If success.
      */
-    private boolean tryBuildRoad (int intersectionA, int intersectionB) {
+    public boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         // check if user given intersections are valid
         if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {

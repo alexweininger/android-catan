@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import edu.up.cs.androidcatan.catan.CatanGameState;
 import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
@@ -133,4 +134,49 @@ public class BoardTest {
         assertFalse(board.hasRoad(-20));
     }
 
+    @Test
+    public void testGetPlayerWithLongestRoad(){
+        Board board = new Board();
+        CatanGameState gameState = new CatanGameState();
+
+        assertTrue(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == -1);
+
+        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 0);
+        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 1);
+        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 2);
+        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 3);
+    }
+
+    @Test
+    public void testValidBuildingLocation(){
+        Board board = new Board();
+        int playerId = -1;
+
+        assertFalse(board.validBuildingLocation(playerId, false, -1));
+        assertFalse(board.validBuildingLocation(1, false, 2));
+        assertFalse(board.validBuildingLocation(4, true, 2));
+
+
+        board.getBuildings()[0] = new Settlement(1);
+        board.addRoad(1,0,1);
+
+        assertTrue(board.validBuildingLocation(1, true, 20));
+        assertFalse(board.validBuildingLocation(1, true,0));
+    }
+
+    @Test
+    public void testValidCityLocation(){
+        Board board = new Board();
+
+        board.getBuildings()[0] = new Settlement(1);
+
+        assertFalse(board.validCityLocation(1,-3));
+        assertFalse(board.validCityLocation(-1, 3));
+        assertFalse(board.validCityLocation(-1,-4));
+        assertFalse(board.validCityLocation(1,-1));
+
+        assertTrue(board.validCityLocation(1, 0));
+    }
+
+    
 }
