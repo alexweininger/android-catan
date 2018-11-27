@@ -168,5 +168,11 @@ public class BoardTest {
     public void testValidCityLocation(){
         Board board = new Board();
 
+        assertFalse(board.validCityLocation(1,-3));
+        assertFalse(board.validCityLocation(-1, 3));
+        assertFalse(board.validCityLocation(-1,-4));
+
+        board.getBuildings()[0] = new Settlement(1);
+        assertTrue(board.validCityLocation(1, 0));
     }
 }
