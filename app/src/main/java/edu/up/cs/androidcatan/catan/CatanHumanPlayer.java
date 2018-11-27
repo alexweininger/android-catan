@@ -269,9 +269,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
-        if (state == null) {
+        if (this.state == null) {
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
+
+
 
         /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
         messageTextView.setTextColor(Color.WHITE);
@@ -396,6 +398,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode; // toggle debug mode
+
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
@@ -1405,7 +1413,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Name.setTextColor(HexagonGrid.playerColors[3]);
 
         /* ----- update misc. sidebar TextViews ----- */
-        this.playerNameSidebar.setText(getAllPlayerNames()[0]);
+        this.playerNameSidebar.setText(getAllPlayerNames()[this.playerNum]);
 
         // human player score (sidebar menu)
         int add = 0;
@@ -1834,7 +1842,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         for (int i = 0; i < state.getPlayerList().size(); i++) {
             int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
             int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
-            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + la + lr > 9) {
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + la + lr + this.state.getPlayerList().get(i).getVictoryPoints() > 9) {
                 super.gameIsOver(getAllPlayerNames()[i] + " wins!");
                 game.sendAction(new GameOverAckAction(this));
             }
