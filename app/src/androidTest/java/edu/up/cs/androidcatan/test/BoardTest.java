@@ -8,8 +8,10 @@ import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -82,4 +84,62 @@ public class BoardTest {
         assertTrue(hGraph[5][16]);
         assertTrue(hGraph[5][6]);
     }
+
+    @Test
+    public void testIsConnected(){
+        Board board = new Board();
+
+        board.getBuildings()[1] = new Settlement(1);
+
+        assertFalse(board.isConnected(1,30));
+        assertFalse(board.isConnected(1, -20));
+        assertFalse(board.isConnected(0,1)); //wrong playerId
+        assertFalse(board.isConnected(1,2));
+
+        assertTrue(board.isConnected(1,1));
+    }
+
+    @Test
+    public void testValidRoadPlacement(){
+        Board board = new Board();
+
+        board.getBuildings()[1] = new Settlement(1);
+
+        assertTrue(board.validRoadPlacement(1,false,1,2));
+        assertFalse(board.validRoadPlacement(1, false, 6,7));
+    }
+
+    @Test
+    public void testAddRoadArray(){
+        Board board = new Board();
+
+        board.addRoad(1,1,2);
+        if (board.getRoads().size() != 0){
+            assert true;
+        }
+        else {
+            assert false;
+        }
+    }
+
+    @Test
+    public void testAddRoadMatrix(){
+        Board board = new Board();
+
+        board.addRoad(1, 1,2);
+        assertEquals(board.getRoadMatrix()[1][2].getOwnerId(), 1);
+        assertFalse(board.getRoadMatrix()[1][2].getOwnerId() == 3);
+    }
+
+    @Test
+    public void testHasRoad(){
+        Board board = new Board();
+
+        board.getBuildings()[1] = new Settlement(1);
+        board.addRoad(1,1,2);
+
+        
+    }
+
+
 }
