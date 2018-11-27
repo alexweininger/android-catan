@@ -96,6 +96,7 @@ public class CatanGameStateTest {
         assertTrue(state.moveRobber(0, 0));
     }
 
+    // tests the method that returns a random dev card from the dev card deck
     @Test // by Alex Weininger
     public void testGetRandomResourceCard () {
         CatanGameState state = new CatanGameState();
@@ -107,6 +108,7 @@ public class CatanGameStateTest {
         }
     }
 
+    // tests the method that returns the current player id
     @Test // by Alex Weininger
     public void testGetCurrentPlayerId () {
         CatanGameState state = new CatanGameState();
@@ -114,6 +116,7 @@ public class CatanGameStateTest {
         assertTrue(state.getCurrentPlayerId() < 4);
     }
 
+    // tests the helper method that returns the player object of the player who is currently taking thier turn
     @Test // by Alex Weininger
     public void testGetCurrentPlayerObject () {
         CatanGameState state = new CatanGameState();

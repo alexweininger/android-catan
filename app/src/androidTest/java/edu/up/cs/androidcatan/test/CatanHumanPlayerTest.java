@@ -18,5 +18,4 @@ public class CatanHumanPlayerTest {
 
         assertTrue(state.isSetupPhase());
     }
-
 }
