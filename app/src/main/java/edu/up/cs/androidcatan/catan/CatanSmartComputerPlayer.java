@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
@@ -13,7 +14,10 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
@@ -21,7 +25,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         private static final String TAG = "CatanSmartComputerPlayer";
 
         private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
-        int hexId;
+        private int hexId;
 
         CatanSmartComputerPlayer (String name) {
             super(name);
@@ -172,164 +176,162 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
-            /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-            if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
-                game.sendAction(new CatanEndTurnAction(this));
-            }
-
             // not setup phase if statement END
 
+            /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
 
-        }// receiveInfo() END
-
-        private boolean tryMoveRobber(int hexId, CatanGameState gs){
-
-            if(hexId == -1){
-                Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
-                return false;
+        /******Looks to build another road*****/
+        if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
+            int settlementIntersection = getBuildingOfPlayer(gs);
+            Log.d(TAG, "receiveInfo: settlementIntersection = " + settlementIntersection);
+            if (settlementIntersection == -1) {
+                Log.d(TAG, "receiveInfo: There is no settlementIntersection");
+                return;
             }
 
-            if(hexId == gs.getBoard().getRobber().getHexagonId()){
-                Log.d(TAG, "tryMoveRobber: Same hexId as robber");
-                return false;
-            }
-
-            ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
-
-            for (Integer intersection : intersections) {
-                if(gs.getBoard().getBuildings()[intersection] != null){
-                    if(gs.getBoard().getBuildings()[intersection].getOwnerId() != playerNum){
-                        return true;
+            /*****Looks to build a city from a settlement****/
+            Building building = null;
+            //Build a city if proper amount of resources
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
+                for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
+                    if (gs.getBoard().getBuildings()[n] == null) {
+                        break;
+                    }
+                    if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                        building = gs.getBoard().getBuildings()[n];
+                        if (building instanceof Settlement) {
+                            game.sendAction(new CatanBuildCityAction(this, false, this.playerNum, n));
+                            Log.d(TAG, "receiveInfo: CatanBuildCityAction sent");
+                            game.sendAction(new CatanEndTurnAction(this));
+                            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                            return;
+                        }
                     }
                 }
             }
-            Log.d(TAG, "tryMoveRobber: ");
+
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
+
+                // get road endpoints for players roads
+                ArrayList<Integer> individualRoads = getPlayerRoadIntersection(getPlayerRoads(gs));
+                int randIntersection = random.nextInt(individualRoads.size());
+
+                // get random intersection from those road intersections
+                int roadCoordinate = individualRoads.get(randIntersection);
+
+                // get all adjacent intersections
+                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+
+                int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+
+                while (!gs.getBoard().validRoadPlacement(this.playerNum, true, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection))) {
+                    Log.d(TAG, "receiveInfo: validRoadPlacement while loop executed");
+                    randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                }
+
+                // roadCoordinate should be valid at this point
+
+                game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
+
+                game.sendAction(new CatanEndTurnAction(this));
+
+                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                return;
+            }
+
+            game.sendAction(new CatanEndTurnAction(this));
+            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent: Nothing was built");
+            return;
+            //not setup phase if statement END
+        }
+    }// receiveInfo() END
+
+    private boolean tryMoveRobber(int hexId, CatanGameState gs){
+
+        if(hexId == -1){
+            Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
             return false;
         }
-        private int getBuildingOfPlayer(CatanGameState gs){
-            for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
-                if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
-                    return n;
-                }
-            }
-            return -1;
+
+        if(hexId == gs.getBoard().getRobber().getHexagonId()){
+            Log.d(TAG, "tryMoveRobber: Same hexId as robber");
+            return false;
         }
-        private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
-            ArrayList<Road> playerRoads = new ArrayList<>();
-            for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
-                if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
-                    playerRoads.add(gs.getBoard().getRoads().get(n));
-                }
-            }
-            return playerRoads;
-        }
-        private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
-            ArrayList<Integer> intersections = new ArrayList<>();
-            for (int n = 0; n < playerRoads.size(); n++) {
-                intersections.add(playerRoads.get(n).getIntersectionAId());
-                intersections.add(playerRoads.get(n).getIntersectionBId());
-            }
-            ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
-            for (int n = 0; n < intersections.size(); n++){
-                for (int j = n+1; j < intersections.size(); j++){
-                    if (intersections.get(n) != intersections.get(j)){
-                        noRepeatIntersections.add(n);
-                    }
-                }
-                Log.d(TAG, "With repeat Intersections: " + intersections.toString());
-                Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
-            }
-            return intersections;
-        }
-        private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
-            Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
-            ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
-            for (Integer adjHexId : adjHexIds) {
-                if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
-                    Log.d(TAG, "checkIntersectionResource() returned: " + true);
+
+        ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
+
+        for (Integer intersection : intersections) {
+            if(gs.getBoard().getBuildings()[intersection] != null){
+                if(gs.getBoard().getBuildings()[intersection].getOwnerId() != playerNum){
                     return true;
                 }
             }
-            Log.d(TAG, "checkIntersectionResource() returned: " + false);
-            return false;
         }
+        Log.d(TAG, "tryMoveRobber: ");
+        return false;
+    }
+    private int getBuildingOfPlayer(CatanGameState gs){
+        for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
+            if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
+                return n;
+            }
+        }
+        return -1;
+    }
+    private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
+        ArrayList<Road> playerRoads = new ArrayList<>();
+        for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
+            if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
+                playerRoads.add(gs.getBoard().getRoads().get(n));
+            }
+        }
+        return playerRoads;
+    }
+    private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
+        ArrayList<Integer> intersections = new ArrayList<>();
+        for (int n = 0; n < playerRoads.size(); n++) {
+            intersections.add(playerRoads.get(n).getIntersectionAId());
+            intersections.add(playerRoads.get(n).getIntersectionBId());
+        }
+        ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
+        for (int n = 0; n < intersections.size(); n++){
+            for (int j = n+1; j < intersections.size(); j++){
+                if (intersections.get(n) != intersections.get(j)){
+                    noRepeatIntersections.add(n);
+                }
+            }
+            Log.d(TAG, "With repeat Intersections: " + intersections.toString());
+            Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
+        }
+        return intersections;
+    }
+    private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
+        Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
+        ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
+        for (Integer adjHexId : adjHexIds) {
+            if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
+                Log.d(TAG, "checkIntersectionResource() returned: " + true);
+                return true;
+            }
+        }
+        Log.d(TAG, "checkIntersectionResource() returned: " + false);
+        return false;
+    }
 } // CatanDumbComputerPlayer class END
 
 
 //-------------------------------------ANDREW'S SMART AI CODE-------------------------------------//
-//        /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-//        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
-//            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-//            game.sendAction(new CatanEndTurnAction(this));
-//        }
-////
-////        /******Looks to build another road*****/
-////        if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
-////            int settlementIntersection = getBuildingOfPlayer(gs);
-////            Log.d(TAG, "receiveInfo: settlementIntersection = " + settlementIntersection);
-////            if (settlementIntersection == -1) {
-////                Log.d(TAG, "receiveInfo: There is no settlementIntersection");
-////                return;
-////            }
-////
-////            /*****Looks to build a city from a settlement****/
-////            Building building = null;
-////            //Build a city if proper amount of resources
-////            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
-////                for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
-////                    if (gs.getBoard().getBuildings()[n] == null){
-////                        break;
-////                    }
-////                    if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
-////                        building = gs.getBoard().getBuildings()[n];
-////                        if (building instanceof Settlement) {
-////                            game.sendAction(new CatanBuildCityAction(this, false, this.playerNum, n));
-////                            Log.d(TAG, "receiveInfo: CatanBuildCityAction sent");
-////                            game.sendAction(new CatanEndTurnAction(this));
-////                            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-////                            return;
-////                        }
-////                    }
-////                }
-////            }
-////
-////            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
-////
-////                // get road endpoints for players roads
-////                ArrayList<Integer> individualRoads = getPlayerRoadIntersection(getPlayerRoads(gs));
-////                int randIntersection = random.nextInt(individualRoads.size());
-////
-////                // get random intersection from those road intersections
-////                int roadCoordinate = individualRoads.get(randIntersection);
-////
-////                // get all adjacent intersections
-////                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
-////
-////                int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-////
-////                while (!gs.getBoard().validRoadPlacement(this.playerNum, true, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection))) {
-////                    Log.d(TAG, "receiveInfo: validRoadPlacement while loop executed");
-////                    randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-////                }
-////
-////                // roadCoordinate should be valid at this point
-////
-////                game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
-////                Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
-////
-////                game.sendAction(new CatanEndTurnAction(this));
-////
-////                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-////                return;
-////            }
-////
-////            game.sendAction(new CatanEndTurnAction(this));
-////            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent: Nothing was built");
-////            return;
-////        }
-//        // not setup phase if statement END
-//    }// receiveInfo() END
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * @version November 9th, 2018
+ * https://github.com/alexweininger/android-catan
+ **/
+
+//
 //    CatanSmartComputerPlayer (String name) {
 //        super(name);
 //    }
