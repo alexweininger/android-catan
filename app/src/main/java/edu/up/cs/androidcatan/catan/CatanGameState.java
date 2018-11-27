@@ -434,7 +434,7 @@ public class CatanGameState extends GameState {
      *
      * @return if the game is still in the setup phase
      */
-    boolean updateSetupPhase () {
+    public boolean updateSetupPhase () {
         Log.d(TAG, "updateSetupPhase() called " + this.toString());
         int buildingCount = 0;
         for (Building building : board.getBuildings()) {
