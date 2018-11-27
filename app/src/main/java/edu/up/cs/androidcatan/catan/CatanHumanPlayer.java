@@ -417,14 +417,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if (state.getHasMovedRobber()) {
-                if (selectedIntersections.size() != 1) {
-                    robberHexMessage.setText("Please select only one intersection.");
+            if(state.getHasMovedRobber()){
+                if(selectedIntersections.size() != 1){
+                    //robberHexMessage.setText("Please select only one intersection.");
+                    messageTextView.setText("Please select only one intersection.");
                     return;
                 }
 
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
-                    robberHexMessage.setText(R.string.select_int_w_bldg_robber);
+                    //robberHexMessage.setText(R.string.select_int_w_bldg_robber);
                     messageTextView.setText(R.string.select_int_w_bldg_robber);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select another player's building", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -433,7 +434,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
 
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
-                    robberHexMessage.setText("Please select an intersection not owned by you.");
+                    //robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select an intersection not owned by you.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -444,13 +445,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
                 robberChooseHexGroup.setVisibility(View.GONE);
                 game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
-                robberHexMessage.setText("Please select a tile to place the robber on.");
+                //robberHexMessage.setText("Please select only one intersection.");
                 return;
             }
 
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
-                robberHexMessage.setText(R.string.invalid_tile);
+                //robberHexMessage.setText(R.string.invalid_tile);
                 shake(robberHexMessage);
                 messageTextView.setText(R.string.invalid_tile);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
@@ -462,7 +463,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.VISIBLE);
-            robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
+            //robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
+            messageTextView.setText("Please selected an intersection with a building adjacent to the robber");
             game.sendAction(new CatanRobberMoveAction(this, playerNum, selectedHexagonId));
             return;
         }
@@ -573,7 +575,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Development button located on the sidebar. Should only show/hide dev card menu.
         if (button.getId() == R.id.sidebar_button_devcards) {
-            toggleGroupVisibility(developmentGroup); // toggle menu vis.
+            toggleGroupVisibilityAllowTapping(developmentGroup); // toggle menu vis.
             return;
         }
 
@@ -1224,12 +1226,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
+                messageTextView.setText("Please select half of your resources to discard.");
             } else if (state.getCurrentPlayerId() == playerNum && state.allPlayersHaveDiscarded()) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
+                messageTextView.setText("Please tap a tile to move the Robber to (Must be adjacent to enemy building).");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
         }
-        if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
             this.messageTextView.setText(R.string.setup_phase); // set info message
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.setup_phase, Toast.LENGTH_SHORT);
             //            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -1326,6 +1330,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 //toast.show();
             }
             setAllButtonsToVisible();
+            this.rollButton.setAlpha(0.5f);
+            this.rollButton.setClickable(false);
         }
 
         //Not
@@ -1351,7 +1357,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.sidebarMenuButton.setClickable(true);
         }
 
-        if (this.debugMode) setAllButtonsToVisible();
+        //if (this.debugMode) setAllButtonsToVisible();
 
         /* ----- update resource value TextViews ----- */
 
@@ -1521,7 +1527,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         robberConfirmHex = activity.findViewById(R.id.robber_choosehex_confirm);
         robberHexMessage = activity.findViewById(R.id.robber_choosehex_message);
-        robberHexMessage.setText(R.string.choose_robber_tile);
+        //robberHexMessage.setText(R.string.choose_robber_tile);
         robberChooseHexGroup = activity.findViewById(R.id.robber_choosehex_menu);
 
         robberBrickPlus.setOnClickListener(this);
