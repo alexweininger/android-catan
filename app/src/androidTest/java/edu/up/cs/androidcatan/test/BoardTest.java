@@ -14,7 +14,7 @@ import static junit.framework.Assert.assertTrue;
 
 public class BoardTest {
 
-    @Test
+    @Test //Written By: Andrew
     public void testValidBuildingLocationSetupPhaseEmptyIntersection(){
         Board board = new Board();
         assertTrue(board.validBuildingLocation(0, true, 0));
@@ -26,7 +26,7 @@ public class BoardTest {
         assertTrue(board.validBuildingLocation(2, true, 24));
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testValidBuildingLocationSetupPhaseTakenIntersection(){
         Board board = new Board();
         board.addBuilding(0, new City(0));
@@ -40,7 +40,25 @@ public class BoardTest {
         assertTrue(board.validBuildingLocation(2, true, 24));
     }
 
-    @Test
+    @Test //Written By: Andrew
+    public void testAddBuilding(){
+        Board board = new Board();
+        Board boardTrue = new Board();
+        Building settlement = new Settlement(0);
+
+        board.addBuilding(3, settlement);
+    }
+
+    @Test //Written By: Andrew
+    public void testHasBuilding(){
+        Board board = new Board();
+        Building settlement = new Settlement(0);
+        board.addBuilding(0, settlement);
+        assertTrue(board.hasBuilding(0));
+        assertFalse(board.hasBuilding(53));
+    }
+
+    @Test //Written By: Andrew
     public void testHGraph() {
         Board board = new Board();
         boolean hGraph[][] = board.getHGraph();
@@ -52,7 +70,7 @@ public class BoardTest {
         assertTrue(hGraph[5][6]);
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testIsConnected(){
         Board board = new Board();
 
@@ -66,7 +84,7 @@ public class BoardTest {
         assertTrue(board.isConnected(1,1));
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testValidRoadPlacement(){
         Board board = new Board();
 
@@ -76,7 +94,7 @@ public class BoardTest {
         assertFalse(board.validRoadPlacement(1, false, 6,7));
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testAddRoadArray(){
         Board board = new Board();
 
@@ -89,7 +107,7 @@ public class BoardTest {
         }
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testAddRoadMatrix(){
         Board board = new Board();
 
@@ -98,7 +116,7 @@ public class BoardTest {
         assertFalse(board.getRoadMatrix()[1][2].getOwnerId() == 3);
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testHasRoad(){
         Board board = new Board();
 
@@ -112,7 +130,7 @@ public class BoardTest {
         assertFalse(board.hasRoad(-20));
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testGetPlayerWithLongestRoad(){
         Board board = new Board();
         CatanGameState gameState = new CatanGameState();
@@ -125,7 +143,7 @@ public class BoardTest {
         assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 3);
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testValidBuildingLocation(){
         Board board = new Board();
         int playerId = -1;
@@ -142,7 +160,7 @@ public class BoardTest {
         assertFalse(board.validBuildingLocation(1, true,0));
     }
 
-    @Test
+    @Test //Written By: Andrew
     public void testValidCityLocation(){
         Board board = new Board();
 

@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CityTest {
 
-    @Test
+    @Test //Written By: Niraj
     public void getVictoryPoints()
     {
         City city = new City(0);

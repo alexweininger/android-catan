@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class DiceTest {
 
-    @Test
+    @Test //Written By: Alex
     public void roll() {
         Dice dice = new Dice();
         for(int i = 0; i < 2000; i++) {

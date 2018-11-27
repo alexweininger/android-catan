@@ -179,6 +179,10 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             // not setup phase if statement END
 
             /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
+        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
+            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+            game.sendAction(new CatanEndTurnAction(this));
+        }
 
         /******Looks to build another road*****/
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {

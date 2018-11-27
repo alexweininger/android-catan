@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
 
-    @Test
+    @Test //Written By: Daniel
     public void testRemoveResourceCard() {
         Player p = new Player(0);
         assertFalse(p.removeResourceCard(0, 1));
@@ -37,7 +37,7 @@ public class PlayerTest {
         assertFalse(p.removeResourceCard(0, 10));
     }
 
-    @Test
+    @Test //Written By: Daniel
     public void testCheckResourceCard() {
         Player player = new Player(0);
         player.setResourceCards(new int[]{3, 3, 3, 3, 3});
@@ -47,7 +47,7 @@ public class PlayerTest {
         assertTrue(player.checkResourceCard(2, 2));
     }
 
-    @Test
+    @Test //Written By: Daniel
     public void testHasResourceBundle() {
         Player player = new Player(0);
         player.setResourceCards(new int[]{0, 0, 0, 0, 0});
@@ -60,7 +60,7 @@ public class PlayerTest {
         assertFalse(player.hasResourceBundle(new int[]{9, 15, 2, 2, 2}));
     }
 
-    @Test
+    @Test //Written By: Daniel
     public void testRemoveResourceBundle() {
         Player player = new Player(0);
         assertFalse(player.removeResourceBundle(new int[] {2,6,4,8,0}));
@@ -82,7 +82,7 @@ public class PlayerTest {
         assertFalse(p.removeResourceBundle(new int[] {0, 0, 0}));
     }
 
-    @Test
+    @Test //Written By: Daniel
     public void testUseDevCard()
     {
         Player player = new Player(0);

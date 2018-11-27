@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class DevelopmentCardTest {
 
-    @Test
+    @Test //Written By: Alex
     public void setPlayable()
     {
         DevelopmentCard developmentCard = new DevelopmentCard(2);
@@ -21,7 +21,7 @@ public class DevelopmentCardTest {
         assertEquals(false, developmentCard.isPlayable());
     }
 
-    @Test
+    @Test //Written By: Alex
     public void setDevCardId()
     {
         DevelopmentCard developmentCard = new DevelopmentCard(2);
