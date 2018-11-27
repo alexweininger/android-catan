@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
 
-    @Test //Written By: Daniel
+    @Test //Written By: Alex Weininger
     public void testRemoveResourceCard () {
         Player p = new Player(0);
         assertFalse(p.removeResourceCard(0, 1));
@@ -60,7 +60,7 @@ public class PlayerTest {
         assertFalse(player.hasResourceBundle(new int[]{9, 15, 2, 2, 2}));
     }
 
-    @Test //Written By: Daniel
+    @Test //Written By: Alex Weininger
     public void testRemoveResourceBundle () {
         Player player = new Player(0);
         assertFalse(player.removeResourceBundle(new int[]{2, 6, 4, 8, 0}));

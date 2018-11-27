@@ -65,7 +65,6 @@ public class CatanGameStateTest {
 
         state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
         assertTrue(state.discardResources(0, resourcesToRemove));
-        //TODO Further test cases needed
     }
 
     @Test
@@ -95,13 +94,6 @@ public class CatanGameStateTest {
         assertFalse(state.moveRobber(-1, 0));
         assertFalse(state.moveRobber(60, 0));
         assertTrue(state.moveRobber(0, 0));
-        //TODO May need some more cases
-    }
-
-    @Test
-    //by Niraj Mali
-    public void testRobberSteal () {
-
     }
 
     @Test // by Alex Weininger
@@ -115,14 +107,14 @@ public class CatanGameStateTest {
         }
     }
 
-    @Test
+    @Test // by Alex Weininger
     public void testGetCurrentPlayerId () {
         CatanGameState state = new CatanGameState();
         assertTrue(state.getCurrentPlayerId() > -1);
         assertTrue(state.getCurrentPlayerId() < 4);
     }
 
-    @Test
+    @Test // by Alex Weininger
     public void testGetCurrentPlayerObject () {
         CatanGameState state = new CatanGameState();
         assertNotNull(state.getCurrentPlayer());
@@ -130,9 +122,4 @@ public class CatanGameStateTest {
 
         assertTrue(state.getCurrentPlayer() instanceof Player);
     }
-
-    @Test
-    public void testProduceResources () {
-        CatanGameState state = new CatanGameState();
-        }
 }
