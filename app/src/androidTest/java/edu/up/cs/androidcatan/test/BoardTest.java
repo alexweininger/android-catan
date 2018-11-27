@@ -138,8 +138,11 @@ public class BoardTest {
         board.getBuildings()[1] = new Settlement(1);
         board.addRoad(1,1,2);
 
-        
-    }
+        assertTrue(board.hasRoad(1));
+        assertTrue(board.hasRoad(2));
 
+        assertFalse(board.hasRoad(45));
+        assertFalse(board.hasRoad(-20));
+    }
 
 }

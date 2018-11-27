@@ -145,6 +145,11 @@ public class Board {
     public boolean isConnected (int playerId, int intersectionId) {
         Log.d(TAG, "isConnected() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         // check if intersection has no building and no road
+        if (intersectionId < 0 || playerId < 0){
+            Log.d(TAG, "isConnected: invalid parameter" + false);
+            return false;
+        }
+
         if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
             Log.e(TAG, "isConnected: Not connected. Returned: " + false);
             return false;
@@ -207,6 +212,11 @@ public class Board {
      */
     public boolean hasRoad (int i) {
         Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
+        if (i < 0){
+            Log.d(TAG, "hasRoad: negative input returned " + false);
+            return false;
+        }
+
         for (Road road : roadMatrix[i]) {
             if (road.getOwnerId() != -1) {
                 Log.d(TAG, "hasRoad() returned: " + true);
