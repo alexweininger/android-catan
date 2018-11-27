@@ -27,7 +27,7 @@ public class CatanGameState extends GameState {
     private Dice dice; // dice object
     private static Board board; // board object
 
-    private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
+    private static ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
     private static ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
     private static int currentPlayerId; // id of player who is the current playing player
