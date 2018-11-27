@@ -326,7 +326,7 @@ public class Player {
      */
     int getRandomCard () {
         if (this.getTotalResourceCardCount() < 1) {
-            Log.e(TAG, "getRandomResourceCard: Player does not have any resources cards.");
+            Log.e(TAG, "getRandomDevCard: Player does not have any resources cards.");
             return -1;
         }
 
@@ -336,7 +336,7 @@ public class Player {
             randomResourceId = random.nextInt(5); // 0-4
         } while (!checkResourceCard(randomResourceId, 1));
 
-        Log.d(TAG, "getRandomResourceCard() returned: " + randomResourceId);
+        Log.d(TAG, "getRandomDevCard() returned: " + randomResourceId);
         return randomResourceId;
     }
 

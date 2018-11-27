@@ -103,6 +103,7 @@ public class CatanGameState extends GameState {
      */
     private void generateDevCardDeck () {
         int[] devCardCounts = {14, 5, 2, 2, 2};
+        developmentCards = new ArrayList<>();
         for (int i = 0; i < devCardCounts.length; i++) {
             for (int j = 0; j < devCardCounts[i]; j++) {
                 developmentCards.add(i);
@@ -113,7 +114,10 @@ public class CatanGameState extends GameState {
     /**
      * @return The id of the development card the player drew randomly.
      */
-    int getRandomResourceCard () {
+    public int getRandomDevCard () {
+        if (developmentCards.size() < 1)
+            generateDevCardDeck();
+
         // generate random number from 0 to the length of the dev card deck
         Random random = new Random();
         int randomDevCard = random.nextInt(developmentCards.size() - 1);
@@ -122,7 +126,7 @@ public class CatanGameState extends GameState {
         int drawnDevCard = developmentCards.get(randomDevCard);
         developmentCards.remove(randomDevCard);
 
-        Log.d(TAG, "getRandomResourceCard() returned: " + drawnDevCard);
+        Log.d(TAG, "getRandomDevCard() returned: " + drawnDevCard);
         return drawnDevCard;
     }
 
@@ -372,7 +376,7 @@ public class CatanGameState extends GameState {
         int randomStolenResourceId = this.playerList.get(stealingFromPlayerId).getRandomCard();
 
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
-            Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomResourceCard method.");
+            Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomDevCard method.");
         }
 
         // remove resource card from players inventory

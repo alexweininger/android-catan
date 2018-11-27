@@ -102,8 +102,15 @@ public class CatanGameStateTest {
 
     }
 
-    @Test
+    @Test // by Alex Weininger
     public void testGetRandomResourceCard() {
+        CatanGameState state =  new CatanGameState();
+        for (int i = 0; i < 25; i++) {
+            assertTrue(state.getRandomDevCard() > 0);
+            assertTrue(state.getRandomDevCard() < 5);
+        }
+
+        assertEquals(state.getRandomDevCard(), -1);
 
     }
 }
