@@ -117,7 +117,8 @@ public class CatanGameStateTest {
     @Test
     //by Niraj Mali
     public void testUpdateSetupPhase () {
-
+        CatanGameState state = new CatanGameState();
+        assertFalse(state.updateSetupPhase());
     }
 
 }
