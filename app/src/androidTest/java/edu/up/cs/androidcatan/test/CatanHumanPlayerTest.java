@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import edu.up.cs.androidcatan.catan.CatanHumanPlayer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
 public class CatanHumanPlayerTest {
 
@@ -13,12 +13,11 @@ public class CatanHumanPlayerTest {
     public void tryBuildRoad()
     {
         CatanHumanPlayer catanHumanPlayer = new CatanHumanPlayer("Name");
-        catanHumanPlayer.state.setSetupPhase(false);
-        catanHumanPlayer.state.setActionPhase(true);
-
+        catanHumanPlayer.state.setSetupPhase(true);;
+        catanHumanPlayer.state.setCurrentPlayerId(0);
         catanHumanPlayer.state.getPlayerList().get(0).addResourceCard(0, 1);
         catanHumanPlayer.state.getPlayerList().get(0).addResourceCard(2,1);
 
-        assertTrue(catanHumanPlayer.tryBuildRoad(1,2));
     }
+
 }
