@@ -3,8 +3,10 @@ package edu.up.cs.androidcatan.test;
 import org.junit.Test;
 
 import edu.up.cs.androidcatan.catan.CatanGameState;
+import edu.up.cs.androidcatan.catan.Player;
 
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +15,7 @@ public class CatanGameStateTest {
     /*----------------------------------------Robber Methods------------------------------------------*/
     @Test
     //by Niraj Mali
-    public void testSetRobberPhase() {
+    public void testSetRobberPhase () {
         CatanGameState state = new CatanGameState();
         state.setRobberPhase(true);
         assertTrue(state.getRobberPhase());
@@ -25,7 +27,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testCheckPlayerResources(){
+    public void testCheckPlayerResources () {
         CatanGameState state = new CatanGameState();
         assertFalse(state.checkPlayerResources(0));
         assertTrue(state.getRobberPlayerListHasDiscarded()[0]);
@@ -42,7 +44,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testValidDiscard(){
+    public void testValidDiscard () {
         CatanGameState state = new CatanGameState();
         int[] resourcesToRemove = new int[]{0, 0, 0, 0, 0};
         assertTrue(state.validDiscard(0, resourcesToRemove));
@@ -57,7 +59,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testDiscardResources(){
+    public void testDiscardResources () {
         CatanGameState state = new CatanGameState();
         int[] resourcesToRemove = new int[]{0, 0, 0, 0, 0};
 
@@ -68,7 +70,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testAllPlayersHaveDiscarded(){
+    public void testAllPlayersHaveDiscarded () {
         CatanGameState state = new CatanGameState();
         assertFalse(state.allPlayersHaveDiscarded());
         state.setRobberPlayerListHasDiscarded(new boolean[]{true, false, true, true});
@@ -85,7 +87,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testMoveRobber(){
+    public void testMoveRobber () {
         CatanGameState state = new CatanGameState();
         state.setCurrentPlayerId(0);
         assertFalse(state.moveRobber(0, -1));
@@ -98,19 +100,40 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testRobberSteal(){
+    public void testRobberSteal () {
 
     }
 
     @Test // by Alex Weininger
-    public void testGetRandomResourceCard() {
-        CatanGameState state =  new CatanGameState();
-        for (int i = 0; i < 25; i++) {
-            assertTrue(state.getRandomDevCard() > 0);
+    public void testGetRandomResourceCard () {
+        CatanGameState state = new CatanGameState();
+
+        // test drawing a random dev card 100 times, since this will make sure it 'reshuffles' the deck a few times
+        for (int i = 0; i < 100; i++) {
+            assertTrue(state.getRandomDevCard() > -1);
             assertTrue(state.getRandomDevCard() < 5);
         }
+    }
 
-        assertEquals(state.getRandomDevCard(), -1);
+    @Test
+    public void testGetCurrentPlayerId () {
+        CatanGameState state = new CatanGameState();
+        assertTrue(state.getCurrentPlayerId() > -1);
+        assertTrue(state.getCurrentPlayerId() < 4);
+    }
+
+    @Test
+    public void testGetCurrentPlayerObject () {
+        CatanGameState state = new CatanGameState();
+        assertNotNull(state.getCurrentPlayer());
+        assertNotNull(state.getCurrentPlayer());
+
+        assertTrue(state.getCurrentPlayer() instanceof Player);
+    }
+
+    @Test
+    public void testProduceResources () {
+        CatanGameState state = new CatanGameState();
 
     }
 }

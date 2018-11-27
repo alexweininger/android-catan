@@ -115,12 +115,12 @@ public class CatanGameState extends GameState {
      * @return The id of the development card the player drew randomly.
      */
     public int getRandomDevCard () {
-        if (developmentCards.size() < 1)
+        if (developmentCards.size() == 0)
             generateDevCardDeck();
 
         // generate random number from 0 to the length of the dev card deck
         Random random = new Random();
-        int randomDevCard = random.nextInt(developmentCards.size() - 1);
+        int randomDevCard = random.nextInt(developmentCards.size());
 
         // get the random dev card id, then remove the card from the deck
         int drawnDevCard = developmentCards.get(randomDevCard);
@@ -132,7 +132,7 @@ public class CatanGameState extends GameState {
 
     /*-------------------------------------Validation Methods------------------------------------------*/
 
-    Player getCurrentPlayer () {
+    public Player getCurrentPlayer () {
         return this.playerList.get(currentPlayerId);
     }
 
