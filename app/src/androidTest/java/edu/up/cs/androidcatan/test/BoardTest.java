@@ -145,4 +145,8 @@ public class BoardTest {
         assertFalse(board.hasRoad(-20));
     }
 
+    @Test
+    public void testValidBuildingLocation(){
+        Board board = new Board();
+    }
 }
