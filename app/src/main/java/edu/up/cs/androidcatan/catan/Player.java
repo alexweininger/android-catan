@@ -92,7 +92,7 @@ public class Player {
      * @param numToCheckFor - number of resources to make sure the player has
      * @return - whether they have at least that many resources of the given type
      */
-    boolean checkResourceCard (int resourceCardId, int numToCheckFor) {
+    public boolean checkResourceCard (int resourceCardId, int numToCheckFor) {
         Log.i(TAG, "checkResourceCard() called with: resourceCardId = [" + resourceCardId + "], numToCheckFor = [" + numToCheckFor + "]");
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
             Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
@@ -113,7 +113,7 @@ public class Player {
      * @param resourceCost - resourceCost array, e.g. Settlement.resourceCost
      * @return - true of false, does the player have all of these resources?
      */
-    boolean hasResourceBundle (int[] resourceCost) {
+    public boolean hasResourceBundle (int[] resourceCost) {
         Log.d(TAG, "hasResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.i(TAG, "hasResourceBundle: " + this.printResourceCards());
         for (int i = 0; i < resourceCost.length; i++) {
@@ -126,7 +126,7 @@ public class Player {
         return true;
     }
 
-    void removeDevCard (int removeCardNum) {
+    public void removeDevCard (int removeCardNum) {
         Log.i(TAG, "removeDevCard BEFORE REMOVING: " + this.developmentCards.toString());
         this.developmentCards.remove((Integer) removeCardNum);
         Log.i(TAG, "removeDevCard AFTER REMOVING: " + this.developmentCards.toString());
@@ -166,7 +166,15 @@ public class Player {
      * @param resourceCost Array of the amounts of each resource an action costs.
      * @return If the player has ALL of the resources.
      */
-    boolean removeResourceBundle (int[] resourceCost) {
+    public boolean removeResourceBundle (int[] resourceCost) {
+        if (resourceCost == null) {
+            return false;
+        }
+
+        if (resourceCost.length != 5) {
+            return false;
+        }
+
         Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
         Log.w(TAG, "removeResourceBundle: players resources: " + Arrays.toString(this.resourceCards));
         if (!hasResourceBundle(resourceCost)) {
@@ -183,7 +191,6 @@ public class Player {
         Log.d(TAG, "removeResourceBundle successfully removed resourceCost = [" + Arrays.toString(resourceCost) + "] from players inventory.");
         return true;
     }
-
 
     /**
      * @return String showing the number of each resource card the player has

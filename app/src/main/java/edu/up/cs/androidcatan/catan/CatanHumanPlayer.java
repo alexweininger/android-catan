@@ -52,6 +52,7 @@ import edu.up.cs.androidcatan.catan.graphics.HexagonDrawable;
 import edu.up.cs.androidcatan.catan.graphics.HexagonGrid;
 import edu.up.cs.androidcatan.game.GameHumanPlayer;
 import edu.up.cs.androidcatan.game.GameMainActivity;
+import edu.up.cs.androidcatan.game.actionMsg.GameOverAckAction;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 import edu.up.cs.androidcatan.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
@@ -1817,7 +1818,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
     }
 
-
     /**
      * @param message Game over message.
      */
@@ -1826,6 +1826,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             int add = (i == state.getCurrentLongestRoadPlayerId())? 2:0;
             if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + add > 9) {
                 super.gameIsOver(getAllPlayerNames()[i] + " wins!");
+                game.sendAction(new GameOverAckAction(this));
             }
         }
     } // gameIsOver END
