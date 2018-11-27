@@ -8,8 +8,10 @@ import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
+import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -125,8 +127,8 @@ public class BoardTest {
         Board board = new Board();
 
         board.addRoad(1, 1,2);
-
-
+        assertEquals(board.getRoadMatrix()[1][2].getOwnerId(), 1);
+        assertFalse(board.getRoadMatrix()[1][2].getOwnerId() == 3);
     }
 
     @Test
@@ -135,5 +137,9 @@ public class BoardTest {
 
         board.getBuildings()[1] = new Settlement(1);
         board.addRoad(1,1,2);
+
+        
     }
+
+
 }
