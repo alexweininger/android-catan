@@ -147,6 +147,10 @@ public class Player {
             Log.i(TAG, "removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
             return false; // did not remove resource cards to players inventory
         } else {
+            if (numToRemove < 0) {
+                Log.e(TAG, "removeResourceCard: numToRemove cannot be negative. numToRemove: " + numToRemove);
+                return false;
+            }
             if (this.resourceCards[resourceCardId] >= numToRemove) { // check to prevent negative card counts
                 Log.i(TAG, "removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
                 this.resourceCards[resourceCardId] -= numToRemove; // remove cards
