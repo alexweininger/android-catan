@@ -23,6 +23,10 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
         int hexId;
 
+        CatanSmartComputerPlayer (String name) {
+            super(name);
+        }
+
         /**
          * callback method--game's state has changed
          *
