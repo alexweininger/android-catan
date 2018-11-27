@@ -400,33 +400,26 @@ public class CatanGameState extends GameState {
      * @param playerId - player stealing resources
      * @return - action success
      */
-    public boolean robberSteal (int playerId, int stealId) {
-        // check if valid player if
-        if (!valPlId(playerId)) {
-            Log.e(TAG, "robberSteal: invalid player id: " + playerId);
-            return false;
-        }
-
-        // check if it is the players turn
-        if (!checkTurn(playerId)) {
-            Log.i(TAG, "robberSteal: it is not " + playerId + "'s turn.");
-            return false;
-        }
-
-        // As of now this selects a random player and then steals a random card from their inventory. TODO enable the player moving the robber to choose to steal a resource from the players who have buildings adjacent to the new robbers location
-        Random random = new Random();
-        int randomStolenResourceId = this.playerList.get(random.nextInt(3)).getRandomCard();
+    public boolean robberSteal (int playerId, int stealingFromPlayerId) {
+        int randomStolenResourceId = this.playerList.get(stealingFromPlayerId).getRandomCard();
 
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
             Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomCard method.");
         }
 
+        // remove resource card from players inventory
+        this.playerList.get(stealingFromPlayerId).removeResourceCard(randomStolenResourceId, 1);
+
+        // add resource card to the stealing players inventory
         this.playerList.get(playerId).addResourceCard(randomStolenResourceId, 1);
+
+
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
 
         isRobberPhase = false;
         hasMovedRobber = false;
 
+        // once they steal it is the end of the robber phase, so reset this array to false
         for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
             robberPlayerListHasDiscarded[i] = false;
         }
