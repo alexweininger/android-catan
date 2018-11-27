@@ -62,18 +62,6 @@ public class BoardTest {
     }
 
     @Test
-    public void testIGraph(){
-        Board board = new Board();
-        boolean[][] iGraph = board.getIGraph();
-        //TODO if assertFalse, it needs to be fixed as is currently wrong
-        assertTrue(iGraph[0][1]);
-        assertFalse(iGraph[4][18]); //wrong
-        assertFalse(iGraph[19][46]); //wrong
-        assertTrue(iGraph[49][50]);
-        assertTrue(iGraph[8][29]);
-    }
-
-    @Test
     public void testHGraph() {
         Board board = new Board();
         boolean hGraph[][] = board.getHGraph();
