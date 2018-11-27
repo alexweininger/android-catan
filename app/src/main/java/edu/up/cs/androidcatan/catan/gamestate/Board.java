@@ -611,7 +611,13 @@ public class Board {
      */
     public ArrayList<Integer> getAdjacentHexagons (int hexagonId) {
         Log.d(TAG, "getAdjacentHexagons() called with: hexagonId = [" + hexagonId + "]");
+
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
+
+        if (hexagonId < 0 || hexagonId > 18){
+            return adjacentHexagons;
+        }
+
         for (int i = 0; i < 19; i++) {
             if (adjacentHexagons.size() > 6) {
                 Log.d(TAG, "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");

@@ -254,5 +254,30 @@ public class BoardTest {
         assertFalse(board.hasBuilding(-20));
     }
 
-    
+    @Test
+    public void testGetBuildingAtIntersection(){
+        Board board = new Board();
+
+        board.getBuildings()[0] = new Settlement(1);
+
+        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[0]);
+
+        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[2]);
+        assertEquals(board.getBuildingAtIntersection(0), board.getBuildings()[5]);
+    }
+
+    @Test
+    public void testGetAdjacentHexagons(){
+        Board board = new Board();
+
+        assertTrue(board.getAdjacentHexagons(0).size() == 6);
+        assertTrue(board.getAdjacentHexagons(7).size() == 4);
+        assertTrue(board.getAdjacentHexagons(6).size() == 6);
+
+        assertFalse(board.getAdjacentHexagons(14).size() == 0);
+        assertFalse(board.getAdjacentHexagons(19).size() == 1);
+        assertFalse(board.getAdjacentHexagons(-1).size() == 1);
+        assertFalse(board.getAdjacentHexagons(0).size() == 7);
+
+    }
 }
