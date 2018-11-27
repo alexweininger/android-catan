@@ -1405,7 +1405,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player3Name.setTextColor(HexagonGrid.playerColors[3]);
 
         /* ----- update misc. sidebar TextViews ----- */
-        this.playerNameSidebar.setText(getAllPlayerNames()[0]);
+        this.playerNameSidebar.setText(getAllPlayerNames()[this.playerNum]);
 
         // human player score (sidebar menu)
         int add = 0;
