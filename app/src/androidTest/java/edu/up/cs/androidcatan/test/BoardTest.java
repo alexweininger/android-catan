@@ -22,7 +22,7 @@ public class BoardTest {
         assertFalse(board.validBuildingLocation(0, true, -1));
         assertFalse(board.validBuildingLocation(0, true, 90));
         assertFalse(board.validBuildingLocation(-3, true, -1));
-        assertFalse(board.validBuildingLocation(-1, true, 5));      //bug
+        assertFalse(board.validBuildingLocation(-1, true, 5));
         assertTrue(board.validBuildingLocation(3, true, 53));
         assertTrue(board.validBuildingLocation(2, true, 24));
     }
@@ -36,7 +36,7 @@ public class BoardTest {
         assertFalse(board.validBuildingLocation(0, true, -1));
         assertFalse(board.validBuildingLocation(0, true, 90));
         assertFalse(board.validBuildingLocation(-3, true, -1));
-        assertFalse(board.validBuildingLocation(-1, true, 5));      //bug
+        assertFalse(board.validBuildingLocation(-1, true, 5));
         assertTrue(board.validBuildingLocation(3, true, 53));
         assertTrue(board.validBuildingLocation(2, true, 24));
     }
@@ -292,7 +292,6 @@ public class BoardTest {
         assertEquals(10, board.getHexagonFromId(10).getHexagonId());
         assertNull(board.getHexagonFromId(19));
         assertNull(board.getHexagonFromId(-2));
-
         assertFalse(board.getHexagonFromId(5).getHexagonId() == 0);
     }
 
@@ -303,7 +302,6 @@ public class BoardTest {
         assertEquals(18, board.generateChitList().size());
         assertTrue(board.generateChitList().contains(2));
         assertTrue(board.generateChitList().contains(12));
-
         assertFalse(board.generateChitList().contains(1));
         assertFalse(board.generateChitList().contains(-1));
         assertFalse(board.generateChitList().contains(13));
