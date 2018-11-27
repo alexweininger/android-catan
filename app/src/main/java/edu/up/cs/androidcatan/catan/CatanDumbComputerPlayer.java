@@ -59,7 +59,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             Log.e(TAG, "receiveInfo: exiting settlement look for " + this.playerNum);
 
             // send the build settlement action to the game
-            Log.d(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game with intersection id: " +randSettlementIntersection + " " + this.playerNum);
+            Log.d(TAG, "receiveInfo: sending a CatanBuildSettlementAction to the game with intersection id: " + randSettlementIntersection + " " + this.playerNum);
             game.sendAction(new CatanBuildSettlementAction(this, true, this.playerNum, randSettlementIntersection)); // sending build settlement action
 
             // get adjacent intersections to what we just built
@@ -104,19 +104,18 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             return;
         }
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
-        if(gs.isRobberPhase()){
+        if (gs.isRobberPhase()) {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
             sleep(500);
             /*--------------------Discard Phase--------------------*/
 
-            if(!gs.getRobberPlayerListHasDiscarded()[playerNum]){
+            if (!gs.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.i(TAG, "receiveInfo: Computer player " + playerNum + " needs to discard!!!");
-                if(!gs.checkPlayerResources(playerNum)){
+                if (!gs.checkPlayerResources(playerNum)) {
                     Log.i(TAG, "receiveInfo: Computer " + playerNum + " does not need to discard, but still needs to send action.");
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
                     return;
-                }
-                else{
+                } else {
                     robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
                     for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
                         for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
@@ -139,7 +138,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 return;
             }
 
-            if(!gs.allPlayersHaveDiscarded() && gs.getCurrentPlayerId() == playerNum){
+            if (!gs.allPlayersHaveDiscarded() && gs.getCurrentPlayerId() == playerNum) {
                 Log.d(TAG, "receiveInfo: Not all players have discarded!!!!");
                 return;
             }
@@ -147,9 +146,9 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             Log.i(TAG, "receiveInfo: Robber Phase --> Move Robber Phase");
 
             /*----------------------Move Robber Phase----------------*/
-            if(gs.getCurrentPlayerId() == playerNum) {
+            if (gs.getCurrentPlayerId() == playerNum) {
                 Log.i(TAG, "receiveInfo: Computer is moving robber");
-                if(!gs.getHasMovedRobber()) {
+                if (!gs.getHasMovedRobber()) {
                     Log.i(TAG, "receiveInfo: Computer Player hasMovedRobber: " + gs.getHasMovedRobber());
                     Log.i(TAG, "receiveInfo: Computer is moving the robber");
                     sleep(2000);
@@ -168,12 +167,16 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 /*----------------Steal Resource Phase--------------*/
                 sleep(500);
+                // get adjacent intersections around the hexagon
                 ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
-                for (Integer intersection : intersections){
-                    if(gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum){
-                        Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() );
-                        CatanRobberStealAction action = new CatanRobberStealAction(this, playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
-                        game.sendAction(action);
+                // for each adjacent intersection
+                for (Integer intersection : intersections) {
+                    // if intersection has a building AND building isn't owned by the current player
+                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum) {
+                        Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
+
+                        // send CatanRobberStealAction to the game
+                        game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId()));
                         return;
                     }
                 }
@@ -181,13 +184,12 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         }
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
+        if (!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()) {
             Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
             game.sendAction(new CatanEndTurnAction(this));
         }
 
         // not setup phase if statement END
-
 
     }// receiveInfo() END
 
@@ -195,14 +197,14 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         super(name);
     }
 
-    private boolean tryMoveRobber(int hexId, CatanGameState gs){
+    private boolean tryMoveRobber (int hexId, CatanGameState gs) {
 
-        if(hexId == -1){
+        if (hexId == -1) {
             Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
             return false;
         }
 
-        if(hexId == gs.getBoard().getRobber().getHexagonId()){
+        if (hexId == gs.getBoard().getRobber().getHexagonId()) {
             Log.d(TAG, "tryMoveRobber: Same hexId as robber");
             return false;
         }
@@ -210,8 +212,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
 
         for (Integer intersection : intersections) {
-            if(gs.getBoard().getBuildings()[intersection] != null){
-                if(gs.getBoard().getBuildings()[intersection].getOwnerId() != playerNum){
+            if (gs.getBoard().getBuildings()[intersection] != null) {
+                if (gs.getBoard().getBuildings()[intersection].getOwnerId() != playerNum) {
                     return true;
                 }
             }

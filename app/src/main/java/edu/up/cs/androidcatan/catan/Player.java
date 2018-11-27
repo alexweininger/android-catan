@@ -317,8 +317,8 @@ public class Player {
         Random random = new Random();
         int randomResourceId;
         do {
-            randomResourceId = random.nextInt(4); // 0-4
-        } while (checkResourceCard(randomResourceId, 1));
+            randomResourceId = random.nextInt(5); // 0-4
+        } while (!checkResourceCard(randomResourceId, 1));
 
         Log.d(TAG, "getRandomCard() returned: " + randomResourceId);
         return randomResourceId;
