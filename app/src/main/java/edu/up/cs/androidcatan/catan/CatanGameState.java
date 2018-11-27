@@ -78,8 +78,8 @@ public class CatanGameState extends GameState {
         this.setDice(new Dice(cgs.getDice()));
         this.setBoard(new Board(cgs.getBoard()));
         this.currentDiceSum = cgs.currentDiceSum;
-        isActionPhase = cgs.isActionPhase;
-        isSetupPhase = cgs.isSetupPhase;
+        isActionPhase = isActionPhase;
+        isSetupPhase = isSetupPhase;
         hasMovedRobber = cgs.getHasMovedRobber();
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
@@ -181,7 +181,8 @@ public class CatanGameState extends GameState {
     }
 
     public void updateTrophies() {
-        this.currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(this.playerList);
+        this.setCurrentLongestRoadPlayerId(this.currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(this.playerList));
+        checkArmySize();
     }
 
     /**
@@ -222,7 +223,7 @@ public class CatanGameState extends GameState {
             return;
         }
 
-        if (this.isSetupPhase) {
+        if (isSetupPhase) {
             Log.e(TAG, "produceResources: not producing any resources since it is the setup phase.");
             return;
         }
@@ -279,11 +280,11 @@ public class CatanGameState extends GameState {
 
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
-        this.isRobberPhase = rp;
+        isRobberPhase = rp;
     }
 
     public boolean getRobberPhase () {
-        return this.isRobberPhase;
+        return isRobberPhase;
     }
 
     /**
@@ -384,7 +385,7 @@ public class CatanGameState extends GameState {
             Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
             return false;
         }
-        if (this.board.moveRobber(hexagonId)) {
+        if (board.moveRobber(hexagonId)) {
             Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
             hasMovedRobber = true;
             return true;
@@ -519,11 +520,11 @@ public class CatanGameState extends GameState {
     }
 
     public boolean isSetupPhase () {
-        return this.isSetupPhase;
+        return isSetupPhase;
     }
 
     public void setSetupPhase (boolean setupPhase) {
-        this.isSetupPhase = setupPhase;
+        isSetupPhase = setupPhase;
     }
 
     public boolean isRobberPhase () {
@@ -537,11 +538,11 @@ public class CatanGameState extends GameState {
     }
 
     public void setRobberPlayerListHasDiscarded(boolean[] robberPlayerListHasDiscarded) {
-        this.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
+        CatanGameState.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
     }
 
     public void playerHasDiscardedResources(int playerId){
-        this.robberPlayerListHasDiscarded[playerId] = true;
+        robberPlayerListHasDiscarded[playerId] = true;
     }
 
     public boolean isHasMovedRobber () {
@@ -549,7 +550,7 @@ public class CatanGameState extends GameState {
     }
 
     public void setHasMovedRobber (boolean hasMovedRobber) {
-        this.hasMovedRobber = hasMovedRobber;
+        CatanGameState.hasMovedRobber = hasMovedRobber;
     }
 
     public int[] getRobberDiscardedResources () {
@@ -578,12 +579,12 @@ public class CatanGameState extends GameState {
         result.append(" ----------- CatanGameState toString ---------- \n");
         result.append("current Player: ").append(currentPlayerId).append(", ");
         result.append("diceVal: ").append(this.currentDiceSum).append(", ");
-        result.append("actionPhase: ").append(this.isActionPhase).append(", ");
-        result.append("setupPhase: ").append(this.isSetupPhase).append(", ");
-        result.append("robberPhase: ").append(this.isRobberPhase).append(", ");
+        result.append("actionPhase: ").append(isActionPhase).append(", ");
+        result.append("setupPhase: ").append(isSetupPhase).append(", ");
+        result.append("robberPhase: ").append(isRobberPhase).append(", ");
         result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
-        result.append("Players that have discarded: ").append(Arrays.toString(this.robberPlayerListHasDiscarded)).append(", \n");
+        result.append("Players that have discarded: ").append(Arrays.toString(robberPlayerListHasDiscarded)).append(", \n");
         for (Player player : playerList) {
             result.append(player.toString()).append("\n");
         }

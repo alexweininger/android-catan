@@ -1778,6 +1778,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param playerNum - player who hold trophu
      */
     public void showLargestArmyTrophy (int playerNum) {
+        Log.d(TAG, "showLargestArmyTrophy() called with: playerNum = [" + playerNum + "]");
 
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the largest army trophy");
@@ -1790,7 +1791,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             largestArmyTrophies[i].setVisibility(View.GONE);
 
         }
-
         largestArmyTrophies[playerNum].setVisibility(View.VISIBLE);
     }
 
@@ -1801,6 +1801,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param playerNum - player who hold trophu
      */
     public void showLongestRoadTrophy (int playerNum) {
+        Log.d(TAG, "showLongestRoadTrophy() called with: playerNum = [" + playerNum + "]");
 
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the longest road trophy");
@@ -1811,7 +1812,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         for (int i = 0; i < 4; i++) {
             longestRoadTrophies[i].setVisibility(View.GONE);
-
         }
 
         longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
@@ -1823,7 +1823,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     protected void gameIsOver (String message) {
         for (int i = 0; i < state.getPlayerList().size(); i++) {
-            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() > 9) {
+            int add = (i == state.getCurrentLongestRoadPlayerId())? 2:0;
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + add > 9) {
                 super.gameIsOver(getAllPlayerNames()[i] + " wins!");
             }
         }

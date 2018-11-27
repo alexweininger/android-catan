@@ -119,7 +119,6 @@ public class CatanLocalGame extends LocalGame {
             }
 
             state.setActionPhase(false);
-
             state.updateTrophies();
 
             Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
@@ -216,6 +215,7 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(0);
             state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
+            state.updateTrophies();
             return true;
         }
 
