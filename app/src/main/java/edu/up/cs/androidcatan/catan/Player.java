@@ -313,7 +313,7 @@ public class Player {
     /**
      * @return The total amount of resourceCards a player has.
      */
-    int getTotalResourceCardCount () {
+    public int getTotalResourceCardCount () {
         int result = 0;
         for (int resourceCard : this.resourceCards)
             result += resourceCard;
