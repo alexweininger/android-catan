@@ -178,5 +178,55 @@ public class BoardTest {
         assertTrue(board.validCityLocation(1, 0));
     }
 
-    
+    @Test
+    public void testGetHexagonListForDrawing(){
+        Board board = new Board();
+
+        assertEquals(board.getHexagons().size(), 19);
+    }
+
+    @Test
+    public void testGetIntersectionOwners(){
+        Board board = new Board();
+        board.getBuildings()[0] = new Settlement(1);
+
+        assertTrue(board.getIntersectionOwners(0).get(0) == 1);
+        assertTrue(board.getIntersectionOwners(0).size() == 1);
+
+        assertFalse(board.getIntersectionOwners(0).get(0) == -3);
+    }
+
+    @Test
+    public void testGetRoadsAtIntersection(){
+        Board board = new Board();
+
+        board.addRoad(1,0,1);
+
+        assertTrue(board.getRoadsAtIntersection(0).get(0).getIntersectionAId() == 0);
+        assertTrue(board.getRoadsAtIntersection(1).get(0).getIntersectionBId() == 1);
+        assertTrue(board.getRoadsAtIntersection(0).get(0).getOppositeIntersection(0) == 1);
+        assertTrue(board.getRoadsAtIntersection(0).size() == 1);
+
+        assertFalse(board.getRoadsAtIntersection(0).get(0).getIntersectionAId() == -1);
+        assertFalse(board.getRoadsAtIntersection(1).get(0).getIntersectionBId() == -1);
+        assertFalse(board.getRoadsAtIntersection(0).get(0).getOppositeIntersection(0) == 0);
+    }
+
+    @Test
+    public void testGetHexagonsFromChitValue(){
+        Board board = new Board();
+
+        assertTrue(board.getHexagonsFromChitValue(2).size() == 1);
+        assertTrue(board.getHexagonsFromChitValue(12).size() == 1);
+        assertTrue(board.getHexagonsFromChitValue(8).size() == 2);
+        assertTrue(board.getHexagonsFromChitValue(4).size() == 2);
+
+        assertFalse(board.getHexagonsFromChitValue(7).size() == 3);
+        assertFalse(board.getHexagonsFromChitValue(9).size() == 0);
+    }
+
+    @Test
+    public void testMoveRobber(){
+        
+    }
 }
