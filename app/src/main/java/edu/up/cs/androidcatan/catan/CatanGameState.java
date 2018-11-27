@@ -92,7 +92,7 @@ public class CatanGameState extends GameState {
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
-            this.playerList.add(new Player(cgs.playerList.get(i)));
+            playerList.add(new Player(cgs.playerList.get(i)));
         }
     } // end deep copy constructor
 
