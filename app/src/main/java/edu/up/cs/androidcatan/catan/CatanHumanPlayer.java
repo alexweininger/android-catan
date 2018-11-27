@@ -1253,7 +1253,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText("Please select half of your resources to discard.");
             } else if (state.getCurrentPlayerId() == playerNum && state.allPlayersHaveDiscarded()) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
-                messageTextView.setText("Please tap a tile to move to Robber to (Must be adjacent to enemy building).");
+                messageTextView.setText("Please tap a tile to move the Robber to (Must be adjacent to enemy building).");
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             } else {
                 // todo
