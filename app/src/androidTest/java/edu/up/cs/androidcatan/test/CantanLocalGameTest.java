@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CantanLocalGameTest {
 
-    @Test
+    @Test //Written By: Daniel
     public void checkIfGameOver()
     {
         CatanGameState cantanGameState = new CatanGameState();
