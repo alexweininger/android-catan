@@ -66,6 +66,6 @@ class Graph {
         // Call the recursive helper function to print DFS traversal
         DFSUtil(v, visited);
         Log.e(TAG, "DFS: count=" + count);
-        return count - 1;
+        return count - 2;
     }
 }

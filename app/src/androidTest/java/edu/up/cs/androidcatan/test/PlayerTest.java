@@ -13,8 +13,8 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
 
-    @Test
-    public void testRemoveResourceCard() {
+    @Test //Written By: Daniel
+    public void testRemoveResourceCard () {
         Player p = new Player(0);
         assertFalse(p.removeResourceCard(0, 1));
         assertFalse(p.removeResourceCard(1, 1));
@@ -37,8 +37,8 @@ public class PlayerTest {
         assertFalse(p.removeResourceCard(0, 10));
     }
 
-    @Test
-    public void testCheckResourceCard() {
+    @Test //Written By: Daniel
+    public void testCheckResourceCard () {
         Player player = new Player(0);
         player.setResourceCards(new int[]{3, 3, 3, 3, 3});
         assertFalse(player.checkResourceCard(-1, 5));
@@ -47,8 +47,8 @@ public class PlayerTest {
         assertTrue(player.checkResourceCard(2, 2));
     }
 
-    @Test
-    public void testHasResourceBundle() {
+    @Test //Written By: Daniel
+    public void testHasResourceBundle () {
         Player player = new Player(0);
         player.setResourceCards(new int[]{0, 0, 0, 0, 0});
         assertFalse(player.hasResourceBundle(new int[]{3, 3, 3, 3, 3}));
@@ -60,31 +60,30 @@ public class PlayerTest {
         assertFalse(player.hasResourceBundle(new int[]{9, 15, 2, 2, 2}));
     }
 
-    @Test
-    public void testRemoveResourceBundle() {
+    @Test //Written By: Daniel
+    public void testRemoveResourceBundle () {
         Player player = new Player(0);
-        assertFalse(player.removeResourceBundle(new int[] {2,6,4,8,0}));
-        player.setResourceCards(new int[] {0,0,0,0,0});
-        assertFalse(player.removeResourceBundle(new int[] {2,0,0,0,0}));
+        assertFalse(player.removeResourceBundle(new int[]{2, 6, 4, 8, 0}));
+        player.setResourceCards(new int[]{0, 0, 0, 0, 0});
+        assertFalse(player.removeResourceBundle(new int[]{2, 0, 0, 0, 0}));
 
-        player.setResourceCards(new int[] {5,5,5,5,5});
-        assertTrue(player.removeResourceBundle(new int[] {0,0,0,0,0}));
-        assertTrue(player.removeResourceBundle(new int[] {2,2,2,0,0}));
+        player.setResourceCards(new int[]{5, 5, 5, 5, 5});
+        assertTrue(player.removeResourceBundle(new int[]{0, 0, 0, 0, 0}));
+        assertTrue(player.removeResourceBundle(new int[]{2, 2, 2, 0, 0}));
 
         Player p = new Player(0);
         assertFalse(p.removeResourceBundle(Settlement.resourceCost));
-        p.setResourceCards(new int[] {1, 0, 1, 0, 0});
+        p.setResourceCards(new int[]{1, 0, 1, 0, 0});
 
         assertTrue(p.removeResourceBundle(Road.resourceCost));
         assertFalse(p.removeResourceBundle(Road.resourceCost));
-        assertFalse(p.removeResourceBundle(new int[] {}));
+        assertFalse(p.removeResourceBundle(new int[]{}));
         assertTrue(p.removeResourceBundle(new int[5]));
-        assertFalse(p.removeResourceBundle(new int[] {0, 0, 0}));
+        assertFalse(p.removeResourceBundle(new int[]{0, 0, 0}));
     }
 
-    @Test
-    public void testUseDevCard()
-    {
+    @Test //Written By: Daniel
+    public void testUseDevCard () {
         Player player = new Player(0);
         assertFalse(player.useDevCard(9));
         assertFalse(player.useDevCard(-2));
@@ -99,6 +98,4 @@ public class PlayerTest {
         assertFalse(player.useDevCard(6));
         assertTrue(player.useDevCard(0));
     }
-
-
 }

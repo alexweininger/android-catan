@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PortTest {
 
-    @Test
+    @Test //Written By: Alex
     public void getIntersectionA()
     {
         Port port = new Port(5,2,2,2);
@@ -18,7 +18,7 @@ public class PortTest {
         assertEquals(8, port.getIntersectionA());
     }
 
-    @Test
+    @Test //Written By: Alex
     public void getIntersecionB()
     {
         Port port = new Port(5,9,2,2);
@@ -28,7 +28,7 @@ public class PortTest {
         assertEquals(4, port.getIntersectionB());
     }
 
-    @Test
+    @Test //Written By: Alex
     public void getResourceId()
     {
         Port port = new Port(8,2,3,4);

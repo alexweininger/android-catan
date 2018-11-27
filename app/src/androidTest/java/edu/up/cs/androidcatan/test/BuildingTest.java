@@ -9,13 +9,13 @@ import static org.junit.Assert.*;
 
 public class BuildingTest {
 
-    @Test
+    @Test //Written By: Daniel
     public void getOwnerId() {
         Building building = new City(1);
         assertEquals(1, building.getOwnerId());
     }
 
-    @Test
+    @Test //Written By: Daniel
     public void setOwnerId() {
         Building building = new City(0);
         building.setOwnerId(-1);
