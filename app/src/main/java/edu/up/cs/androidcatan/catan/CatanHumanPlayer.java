@@ -1408,7 +1408,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.playerNameSidebar.setText(getAllPlayerNames()[0]);
 
         // human player score (sidebar menu)
-        this.myScore.setText(String.format("VPs: %s", String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + state.getPlayerList().get(this.playerNum).getVictoryPoints())));
+        int add = 0;
+        if (this.playerNum == state.getCurrentLargestArmyPlayerId()) add += 2;
+        if (this.playerNum == state.getCurrentLongestRoadPlayerId()) add += 2;
+        this.myScore.setText(String.format("VPs: %s", String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + add + state.getPlayerList().get(this.playerNum).getVictoryPoints())));
 
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
@@ -1829,8 +1832,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     protected void gameIsOver (String message) {
         for (int i = 0; i < state.getPlayerList().size(); i++) {
-            int add = (i == state.getCurrentLongestRoadPlayerId())? 2:0;
-            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + add > 9) {
+            int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
+            int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + la + lr > 9) {
                 super.gameIsOver(getAllPlayerNames()[i] + " wins!");
                 game.sendAction(new GameOverAckAction(this));
             }
