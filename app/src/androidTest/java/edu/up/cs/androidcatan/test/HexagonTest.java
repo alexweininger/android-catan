@@ -9,9 +9,8 @@ import static org.junit.Assert.assertEquals;
 public class HexagonTest {
 
     @Test //Written By: Niraj
-    public void getResourceId()
-    {
-        Hexagon hexagon = new Hexagon(0,2,6);
+    public void getResourceId () {
+        Hexagon hexagon = new Hexagon(0, 2, 6);
         assertEquals(0, hexagon.getResourceId());
 
         hexagon.setResourceId(3);
@@ -19,9 +18,8 @@ public class HexagonTest {
     }
 
     @Test //Written By: Niraj
-    public void getChitValue()
-    {
-        Hexagon hexagon = new Hexagon(0,2,6);
+    public void getChitValue () {
+        Hexagon hexagon = new Hexagon(0, 2, 6);
         assertEquals(2, hexagon.getChitValue());
 
         hexagon.setChitValue(5);
@@ -29,9 +27,8 @@ public class HexagonTest {
     }
 
     @Test //Written By: NIraj
-    public void getHexagonId()
-    {
-        Hexagon hexagon = new Hexagon(0,2,6);
+    public void getHexagonId () {
+        Hexagon hexagon = new Hexagon(0, 2, 6);
         assertEquals(6, hexagon.getHexagonId());
 
         hexagon.setHexagonId(9);
