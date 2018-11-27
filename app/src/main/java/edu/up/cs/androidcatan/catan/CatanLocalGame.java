@@ -219,7 +219,7 @@ public class CatanLocalGame extends LocalGame {
             state.updateTrophies();
             state.setRobberPhase(true);
             for (int i = 0; i < state.getPlayerList().size(); i++) {
-                state.setRobberPlayerListHasDiscarded(true);
+                state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
             }
             return true;
         }
