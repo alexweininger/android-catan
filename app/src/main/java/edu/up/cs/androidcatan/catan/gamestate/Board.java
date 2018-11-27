@@ -711,7 +711,7 @@ public class Board {
     /**
      * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
      */
-    private boolean checkChitRule () {
+    public boolean checkChitRule () {
         Log.d(TAG, "checkChitRule() called");
         // checks if any 8's or 6's are adjacent to one another
 
