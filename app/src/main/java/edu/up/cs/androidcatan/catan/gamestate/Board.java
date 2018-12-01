@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -227,13 +228,67 @@ public class Board {
         return false;
     }
 
+    public void printMatrix () {
+        Log.d(TAG, "printMatrix: ------\n" + Arrays.deepToString(this.roadMatrix));
+
+        for (int i = 0; i < this.roadMatrix.length; i++) {
+            StringBuilder str = new StringBuilder();
+            for (int j = 0; j < this.roadMatrix[i].length; j++) {
+                str.append(i).append(":").append(j).append("=").append(this.roadMatrix[i][j].getOwnerId()).append("\t");
+            }
+            str.append("\n");
+            Log.i(TAG, str.toString());
+        }
+        generatePlayerRoadMatrix(0);
+    }
+
+    public void printPlayerMatrix (int[][] pMatrix) {
+
+        for (int i = 0; i < pMatrix.length; i++) {
+            StringBuilder str = new StringBuilder();
+            for (int j = 0; j < pMatrix[i].length; j++) {
+                str.append(pMatrix[i][j]).append(" ");
+            }
+            str.append("\n");
+            Log.i(TAG, str.toString());
+        }
+    }
+
+    private int[][] generatePlayerRoadMatrix(int playerId) {
+        int[][] result = new int[54][54];
+
+        for (int i = 0; i < roadMatrix.length; i++) {
+            for (int j = 0; j < roadMatrix[i].length; j++) {
+                if (roadMatrix[i][j].getOwnerId() == playerId) {
+                    result[i][j] = 1;
+                    Log.w(TAG, "generatePlayerRoadMatrix: added road to player's road matrix from " + i + " to " + j + " for player " + playerId);
+                } else {
+                    result[i][j] = 0;
+                }
+            }
+        }
+        printPlayerMatrix(result);
+        return result;
+    }
+
+    public int dfs (int ownerId) {
+        ArrayList<Road> pr = new ArrayList<>();
+        Graph rg = new Graph(54);
+        for (Road road : roads) {
+            if (road.getOwnerId() == ownerId) {
+                rg.addEdge(road.getIntersectionAId(), road.getIntersectionBId());
+                pr.add(road);
+            }
+        }
+        return rg.DFS(pr.get(0).getIntersectionAId());
+    }
+
     /**
      * Main method to calculate the longest road trophy holder. - AL
      *
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
-    //TODO properly implement this method and fix logic
     public int getPlayerWithLongestRoad (ArrayList<Player> playerList) {
         Log.i(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
@@ -254,9 +309,7 @@ public class Board {
                 longestRoadPerPlayer.add(player.getPlayerId(), 0);
                 break;
             } else {
-                for (int n = 0; n < playerRoads.size(); n++) {
-                    currentPlayerRoadLength.add(traverseRoads(roads.get(n).getIntersectionAId(), player.getPlayerId(), playerRoadList, 0));
-                }
+                currentPlayerRoadLength.add(dfs(player.getPlayerId()));
                 int max = 0;
                 for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
                     max = currentPlayerRoadLength.get(0);
@@ -281,77 +334,6 @@ public class Board {
         }
         Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
         return playerIdLongestRoad;
-    }
-
-    /**
-     * @param intersectionId intersection to check for a break
-     * @param playerId player we're checking for
-     * @return if there is a break
-     */
-    public boolean isBreakAtIntersection (int intersectionId, int playerId) {
-        Log.d(TAG, "isBreakAtIntersection() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "]");
-
-        // if null (means no building) return false
-        if (this.buildings[intersectionId] == null) return false;
-
-        // (if not null) check if the player owns the building
-        return this.buildings[intersectionId].getOwnerId() != playerId;
-    }
-
-    /**
-     * @param intersectionId IntersectionId to check (0-53).
-     * @param road Road adjacency matrix.
-     * @return If intersection is a dead end for the given road object.
-     */
-    public boolean checkDeadEnd (int intersectionId, Road[][] road) {
-        Log.d(TAG, "checkDeadEnd() called with: intersectionId = [" + intersectionId + "], road = [" + road + "]");
-        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
-            if (road[intersectionId][intersection] != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Recursive method that will call other helper methods within board
-     *
-     * @param intersectionId IntersectionId to start traversing.
-     * @param playerId Which players roads to traverse.
-     * @param road Adjacency matrix for roads ONLY the given player owns.
-     * @return Number of roads in a given section of continuous roads.
-     */
-    public int traverseRoads (int intersectionId, int playerId, Road[][] road, int stackCount) {
-        if (stackCount > 200) {
-            Log.e(TAG, "traverseRoads: reached a stackCount of 200. Returning 0.");
-            return 0;
-        }
-        Log.d(TAG, "traverseRoads() called with: intersectionId = [" + intersectionId + "], playerId = [" + playerId + "], road = [" + road + "]");
-        if (isBreakAtIntersection(intersectionId, playerId)) {
-            return 0;
-        }
-        if (checkDeadEnd(intersectionId, road)) {
-            return 0;
-        }
-        for (Integer intersection : this.intersectionGraph.get(intersectionId)) {
-            return 1 + traverseRoads(intersection, playerId, road, stackCount + 1);
-        }
-        return 0;
-    }
-
-    public int travelRoads (ArrayList<Player> playerList) {
-        for (Player player : playerList) {
-            ArrayList<Road> playerRoad = new ArrayList<>();
-            for (Road road : roads) {
-                if (road.getOwnerId() == player.getPlayerId()) {
-                    playerRoad.add(road);
-                }
-            }
-            for (int n = 0; n < playerRoad.size(); n++) {
-
-            }
-        }
-        return -1;
     }
 
     /* ----- validate building methods ----- */
@@ -558,6 +540,10 @@ public class Board {
     public boolean moveRobber (int hexagonId) {
         Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
+        if (hexagonId < 0 || hexagonId > 18){
+            return false;
+        }
+
         if (hexagonId == this.robber.getHexagonId()) return false;
 
         // change robber position
@@ -574,6 +560,10 @@ public class Board {
      */
     public boolean addBuilding (int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
+        if (intersectionId < 0 || intersectionId > 53){
+            Log.e(TAG, "addBuilding: IntersectionId was invalid");
+            return false;
+        }
 
         if (this.buildings[intersectionId] != null) {
             if (building instanceof City) {
@@ -597,6 +587,9 @@ public class Board {
      * @return whether there is a building at that given intersection
      */
     public boolean hasBuilding (int intersectionId) {
+        if (intersectionId < 0 || intersectionId > 53){
+            return false;
+        }
         return this.buildings[intersectionId] != null;
     }
 
@@ -618,7 +611,13 @@ public class Board {
      */
     public ArrayList<Integer> getAdjacentHexagons (int hexagonId) {
         Log.d(TAG, "getAdjacentHexagons() called with: hexagonId = [" + hexagonId + "]");
+
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
+
+        if (hexagonId < 0 || hexagonId > 18){
+            return adjacentHexagons;
+        }
+
         for (int i = 0; i < 19; i++) {
             if (adjacentHexagons.size() > 6) {
                 Log.d(TAG, "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
@@ -637,7 +636,7 @@ public class Board {
      * @param col - column within ring of intersection
      * @return - int intersection id
      */
-    private int getIntersectionId (int ring, int col) {
+    public int getIntersectionId (int ring, int col) {
         if (ring < 0 || ring > 2) {
             Log.e(TAG, "getIntersectionId: Invalid ring value received: " + ring);
             return -1;
@@ -682,11 +681,10 @@ public class Board {
 
     /*----- board helper methods for setting up board and populating data structures -----*/
 
-    private ArrayList<Integer> generateChitList () {
+    public ArrayList<Integer> generateChitList () {
         Log.d(TAG, "generateChitList() called");
         ArrayList<Integer> chitList = new ArrayList<>();
 
-        chitList.add(2);
         chitList.add(2);
         chitList.add(3);
         chitList.add(3);
@@ -713,7 +711,7 @@ public class Board {
     /**
      * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
      */
-    private boolean checkChitRule () {
+    public boolean checkChitRule () {
         Log.d(TAG, "checkChitRule() called");
         // checks if any 8's or 6's are adjacent to one another
 
@@ -736,7 +734,6 @@ public class Board {
                             Log.e(TAG, "generateHexagonTiles: Chits 6 adjacent, reshuffling the hexagon tiles...");
                             return false;
                         }
-
                         if (hexagons.get(integer).getChitValue() == 8) {
                             Log.e(TAG, "generateHexagonTiles: Chits 6 and 8 adjacent, reshuffling the hexagon tiles...");
                             return false;
@@ -768,8 +765,6 @@ public class Board {
         //iterates through the hexagons and assigns each individual one the information required
         while (this.hexagons.size() < 19) {
 
-            int randomChitValue = chitList.get(this.hexagons.size());
-
             int randomResourceType;
             do {
                 randomResourceType = random.nextInt(resourceTypeCount.length);
@@ -777,11 +772,14 @@ public class Board {
 
             if (randomResourceType == 5) {
                 Log.w(TAG, "generateHexagonTiles: randomResourceType = 5. Desert tile id = " + (hexagons.size()));
-                randomChitValue = 0;
+                hexagons.add(new Hexagon(resources[randomResourceType], 0, hexagons.size()));
+            } else {
+                Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
+                int randomChitValue = chitList.get(0);
+                chitList.remove(0);
+                hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             }
 
-            Log.e(TAG, "generateHexagonTiles: size(): " + hexagons.size());
-            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             resourceTypeCount[randomResourceType]--;
 
             if (resources[randomResourceType] == 5) {
@@ -1381,7 +1379,7 @@ public class Board {
     private void generateRoadMatrix () {
         for (int i = 0; i < iGraph.length; i++) {
             for (int j = 0; j < iGraph[i].length; j++) {
-                roadMatrix[i][j] = new Road(-1, j, j);
+                roadMatrix[i][j] = new Road(-1, i, j);
             }
         }
         for (int i = 0; i < roadMatrix.length; i++) {

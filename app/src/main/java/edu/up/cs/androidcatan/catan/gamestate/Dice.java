@@ -46,15 +46,6 @@ public class Dice {
         return this.diceValues[0] + this.diceValues[1];
     }
 
-    /**
-     * getSum
-     *
-     * @return the sum of the dice values
-     */
-    public int getSum() {
-        return this.diceValues[0] + this.diceValues[1];
-    }
-
     public int[] getDiceValues(){
         return this.diceValues;
     }

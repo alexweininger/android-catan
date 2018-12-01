@@ -81,6 +81,7 @@ public class CatanLocalGame extends LocalGame {
     protected boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
+
         /* --------------------------- Turn Actions --------------------------------------- */
 
         if (action instanceof CatanRollDiceAction) {
@@ -100,8 +101,6 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
-            state.updateVictoryPoints();
-            //            state.getBoard().getPlayerWithLongestRoad(state.getPlayerList());
 
             // update setup phase
             if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
@@ -119,6 +118,8 @@ public class CatanLocalGame extends LocalGame {
             }
 
             state.setActionPhase(false);
+            state.updateTrophies();
+
             Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
             Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
@@ -205,7 +206,7 @@ public class CatanLocalGame extends LocalGame {
             if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) return false;
 
             // add random dev card to players inventory
-            player.getDevelopmentCards().add(state.getRandomCard());
+            player.getDevelopmentCards().add(state.getRandomDevCard());
             return true;
         }
 
@@ -213,6 +214,11 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(0);
             state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
+            state.updateTrophies();
+            state.setRobberPhase(true);
+            for (int i = 0; i < state.getPlayerList().size(); i++) {
+                state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
+            }
             return true;
         }
 
@@ -271,7 +277,7 @@ public class CatanLocalGame extends LocalGame {
         }
         if (action instanceof CatanRobberStealAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            return state.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealId());
+            return state.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealingFromPlayerId());
         }
 
         /*---------------------------------- Trade Actions ---------------------------------------*/
@@ -343,30 +349,15 @@ public class CatanLocalGame extends LocalGame {
     @Override
     public String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
-        int winner = findWinner(this.state);
-        if( winner != -1)
-        {
-            return playerNames[winner] + "'s wins!";
-        }
-        return null;
-    }
+        for (int i = 0; i < this.state.getPlayerList().size(); i++) {
 
+            int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
+            int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
 
-    public int findWinner(CatanGameState catanGameState)
-    {
-        for (int i = 0; i < catanGameState.getPlayerList().size(); i++) {
-            int addRoadVP = 0;
-            int addArmyVP = 0;
-            if (catanGameState.getCurrentLongestRoadPlayerId() == i) {
-                addRoadVP = 2;
-            }
-            if (catanGameState.getCurrentLargestArmyPlayerId() == i) {
-                addArmyVP = 2;
-            }
-            if (catanGameState.getPlayerList().get(i).getVictoryPointsPrivate() +addRoadVP + addArmyVP> 9) {
-                return i;
+            if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + lr + la + this.state.getPlayerList().get(i).getVictoryPoints() > 9) {
+                return playerNames[i] + " wins!";
             }
         }
-        return -1; // return -1 if no winner, but the game is not over
+        return null; // return null if no winner, but the game is not over
     }
 }

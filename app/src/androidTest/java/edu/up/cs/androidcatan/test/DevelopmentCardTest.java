@@ -5,31 +5,29 @@ import org.junit.Test;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DevelopmentCardTest {
 
-    @Test
-    public void setPlayable()
-    {
+    @Test //Written By: Alex
+    public void setPlayable () {
         DevelopmentCard developmentCard = new DevelopmentCard(2);
-        assertEquals(false, developmentCard.isPlayable());
+        assertFalse(developmentCard.isPlayable());
 
         developmentCard.setPlayable(true);
-        assertEquals(true, developmentCard.isPlayable());
+        assertTrue(developmentCard.isPlayable());
 
         developmentCard.setPlayable(false);
-        assertEquals(false, developmentCard.isPlayable());
+        assertFalse(developmentCard.isPlayable());
     }
 
-    @Test
-    public void setDevCardId()
-    {
+    @Test //Written By: Alex
+    public void setDevCardId () {
         DevelopmentCard developmentCard = new DevelopmentCard(2);
         assertEquals(2, developmentCard.getDevCardId());
 
         developmentCard.setDevCardId(5);
         assertEquals(5, developmentCard.getDevCardId());
     }
-
-
 }
