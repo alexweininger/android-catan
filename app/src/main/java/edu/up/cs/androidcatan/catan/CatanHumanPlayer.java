@@ -399,11 +399,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode; // toggle debug mode
 
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
@@ -818,6 +818,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             HexagonGrid grid = boardSurfaceView.getGrid();
             Log.d("TAG", "onLongClick: x = " + x + ", y = " + y); // x, y position
 
+            if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
+                View decorView = myActivity.getWindow().getDecorView();
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
+
             for (int i = 0; i < grid.getIntersections().length; i++) {
                 int xPos = grid.getIntersections()[i].getXPos();
                 int yPos = grid.getIntersections()[i].getYPos();
@@ -834,6 +844,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         boardSurfaceView.getGrid().addHighlightedIntersection(i);
                         if (selectedIntersections.size() > 1) selectedIntersections.remove(0);
                         selectedIntersections.add(i);
+
                     }
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                     selectedHexagonId = -1;
@@ -1201,6 +1212,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private void updateTextViews () {
 
+        View decorView = myActivity.getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         // Check if the Game State is null. If it is return void.
         if (this.state == null) {
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
@@ -1232,7 +1251,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         ArrayAdapter<String> devCardSpinnerAdapter = new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
         devCardSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         devCardList.setAdapter(devCardSpinnerAdapter); // Apply the adapter to the spinner
-
 
         // array of dice image ids
         int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
@@ -1470,6 +1488,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo (GameInfo info) {
+
         if (debugMode)
             Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
 
@@ -1904,6 +1923,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return the top object in the GUI's view hierarchy
      */
     public View getTopView () {
+
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
