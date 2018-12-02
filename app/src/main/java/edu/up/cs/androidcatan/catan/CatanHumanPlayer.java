@@ -1293,6 +1293,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 messageTextView.setText(R.string.move_robber_to_hex);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
+            } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) {
+                Log.d(TAG, "updateTextViews: Now needs to steal Robber");
+                messageTextView.setText("");
+                robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
         } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
             this.messageTextView.setText(R.string.setup_phase); // set info message

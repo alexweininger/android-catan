@@ -165,6 +165,7 @@
     <string name="invalid_city_loc">Invalid city location: select a settlement to upgrade into a city.</string>
     <string name="select_half">Please select half of your resources to discard.</string>
     <string name="move_robber_to_hex">Please tap a tile to move the Robber to (Must be adjacent to enemy building).</string>
+    <string name="robber_select_intersection_tosteal">Please tap an intersection that has an enemy settlement/city on it to steal from that player.</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
