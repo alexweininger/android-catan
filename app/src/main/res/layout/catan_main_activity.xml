@@ -81,7 +81,7 @@
         android:id="@+id/robber_discard_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids=",robber_discard_lumberImgReceive,robber_discard_grainAmount,robber_discard_leftVerticalGuideLine,robber_discard_oreAmount,robber_discard_brickAmount,robber_discard_grainMinusImg,robber_discard_woolMinusImg,robber_discard_lumberAmount,robber_discard_oreImgReceive,robber_discard_grainImg,robber_discard_lumberMinusImg,robber_discard_oreAddImg,robber_discard_lumberAddImg,robber_discard_woolAddImg,robber_discard_woolImgReceive,robber_discard_brickMinusImg,robber_discard_confirm,robber_discard_brickImg,robber_discard_oreMinusImg,robber_discard_grainAddImg,robber_discard_topHorizontalGuideline,robber_discard_selectMoreResources,robber_discard_woolAmount,robber_discard_MenuHeaderText,robber_discard_brickAddImg,imageView2" />
 
     <android.support.constraint.Guideline
@@ -125,9 +125,9 @@
         android:id="@+id/robber_choosehex_message"
         android:layout_width="250dp"
         android:layout_height="39dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/robber_choosehex_confirm"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle_54"
         app:layout_constraintTop_toTopOf="@+id/top_buildmenu_alex" />
@@ -1185,7 +1185,7 @@
         android:layout_marginStart="24dp"
         android:background="@drawable/lumber_icon_25x25"
         android:contentDescription="@string/lumber"
-        app:layout_constraintStart_toEndOf="@+id/robber_discard_brickImg"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_grainImg"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_brickImg"
         app:srcCompat="@drawable/lumber_icon_25x25"
         tools:srcCompat="@drawable/lumber_icon_25x25" />
@@ -1197,7 +1197,7 @@
         android:layout_marginStart="24dp"
         android:background="@drawable/grain_icon_25x25"
         android:contentDescription="@string/grain"
-        app:layout_constraintStart_toEndOf="@+id/robber_discard_lumberImgReceive"
+        app:layout_constraintStart_toStartOf="@+id/guideline_right_68"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_lumberImgReceive"
         app:srcCompat="@drawable/grain_icon_25x25"
         tools:srcCompat="@drawable/grain_icon_25x25" />
@@ -1209,7 +1209,7 @@
         android:layout_marginStart="24dp"
         android:background="@drawable/ore_icon_25x25"
         android:contentDescription="@string/ore"
-        app:layout_constraintStart_toEndOf="@+id/robber_discard_grainImg"
+        app:layout_constraintStart_toEndOf="@+id/robber_discard_lumberImgReceive"
         app:layout_constraintTop_toTopOf="@+id/robber_discard_grainImg"
         app:srcCompat="@drawable/ore_icon_25x25"
         tools:srcCompat="@drawable/ore_icon_25x25" />
