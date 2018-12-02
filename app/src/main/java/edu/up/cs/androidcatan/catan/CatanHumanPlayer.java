@@ -75,6 +75,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private boolean debugMode = false;
     private boolean isMenuOpen = false;
 
+    private boolean readyToDraw = false;
+
     private int selectedHexagonId = -1;
     private ArrayList<Integer> selectedIntersections = new ArrayList<>();
 
@@ -370,6 +372,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     toast.show();
                     shake(messageTextView);
                     return;
+                } else {
+
                 }
             }
             // check if it is the action phase and not the setup phase
@@ -683,21 +687,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // trade button on sidebar
         if (button.getId() == R.id.sidebar_button_trade) {
-            toggleGroupVisibility(tradeGroup);  // toggle menu vis.
-
             Log.e(TAG, "onClick: selected intersections: " + this.selectedIntersections);
             //checks to see if the user has any intersections selected.
             if (selectedIntersections.size() == 1) {
                 // trading with port
                 messageTextView.setText("Trading with a port.");
+                toggleGroupVisibility(tradeGroup); // toggle menu vis.
             } else if (selectedIntersections.size() == 0) {
                 // trading with bank
                 messageTextView.setText("Trading with the bank.");
+                toggleGroupVisibility(tradeGroup); // toggle menu vis.
             } else {
-                selectedIntersections.size();
                 // not correct selections
                 Log.e(TAG, "onClick: user has selected too many intersections");
-                messageTextView.setText(R.string.less_than_2_res);
+                messageTextView.setText("Select intersection next to a port to trade with a port. Or don't select any to trade with the bank.");
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select less than 2 intersections.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 //toast.show();
@@ -752,6 +755,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with port");
                     selectedIntersections.clear();
+                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.e(TAG, "onClick: trade with port failed");
                 }
@@ -759,6 +763,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with bank");
                     selectedIntersections.clear();
+                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
@@ -774,7 +779,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // cancel button on the trade menu
         if (button.getId() == R.id.button_trade_menu_cancel) {
-            toggleGroupVisibilityAllowTapping(tradeGroup); // hide the trade menu
+            toggleGroupVisibility(tradeGroup); // hide the trade menu
             messageTextView.setText(R.string.action_phase); // set the info message back to the action phase
             selectedIntersections.clear(); // clear any selected intersections
             tradeReceiveSelection = -1; // reset selections
@@ -1829,8 +1834,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void drawGraphics () {
         Log.d(TAG, "drawGraphics() called");
 
+        if (!this.readyToDraw) {
+            Log.e(TAG, "drawGraphics: not ready to draw");
+            return;
+        }
+
         if (state == null) {
-            Log.d(TAG, "drawGraphics: state is null");
+            Log.e(TAG, "drawGraphics: state is null");
             return;
         }
 
@@ -1913,6 +1923,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     protected void initAfterReady () {
         Log.e(TAG, "initAfterReady() called");
+        this.readyToDraw = true;
+        drawGraphics();
     }
 
     /**
@@ -1921,7 +1933,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return the top object in the GUI's view hierarchy
      */
     public View getTopView () {
-
+        Log.d(TAG, "getTopView() called");
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 

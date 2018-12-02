@@ -54,7 +54,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         /*------------------------------------CPUs Setup Phase Actions-----------------------------------------*/
         if (gs.isSetupPhase() && this.playerNum == gs.getCurrentPlayerId()) {
             Log.d(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road." + " " + this.playerNum);
-
+            sleep(1000);
             int randSettlementIntersection = random.nextInt(53);
             // generate random intersection until we find a valid location to build our settlement
             while (!gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection)) {
@@ -88,7 +88,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 count++;
             }
 
-            sleep(1000); // sleep
+            sleep(2000); // sleep
             // send the game a build road action
             Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game." + " " + this.playerNum);
             game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection)));
@@ -101,18 +101,19 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
         /*------------------------------Setup Phase End------------------------------------------*/
 
+
         /*-------------------------------CPUs Roll Dice Action--------------------------------------*/
         if (!gs.isSetupPhase() && !gs.isActionPhase() && gs.getCurrentPlayerId() == playerNum) {
-            sleep(300);
+            sleep(1000);
             Log.i(TAG, "receiveInfo: RollDiceAction by DumbComputerPlayer " + this.playerNum);
             game.sendAction(new CatanRollDiceAction(this));
-            sleep(300);
+            sleep(500);
             return;
         }
 
         /*----------------------------------Build Actions------------------------------------------*/
-        if(!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase())
-        {
+        if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
+            sleep(1000);
             Building building = null;
             int action = random.nextInt(4);
             if (action == 0) //build  City
@@ -135,13 +136,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                         }
                     }
                 }
-            }
-            else if (action == 1) //build a settlement
+            } else if (action == 1) //build a settlement
             {
                 Log.d(TAG, "Dumb AI randomly tried to build a settlement");
 
-            }
-            else if(action == 2)// build a Road
+            } else if (action == 2)// build a Road
             {
                 Log.d(TAG, "Dumb AI randomly tried to build a road");
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
@@ -173,9 +172,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                     return;
                 }
-            }
-            else
-            {
+            } else {
                 Log.d(TAG, "Dumb AI randomly chose to do nothing");
             }
         }
@@ -301,26 +298,26 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         return false;
     }
 
-    private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
+    private ArrayList<Road> getPlayerRoads (CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
-        for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
-            if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
+        for (int n = 0; n < gs.getBoard().getRoads().size(); n++) {
+            if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum) {
                 playerRoads.add(gs.getBoard().getRoads().get(n));
             }
         }
         return playerRoads;
     }
 
-    private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
+    private ArrayList<Integer> getPlayerRoadIntersection (ArrayList<Road> playerRoads) {
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {
             intersections.add(playerRoads.get(n).getIntersectionAId());
             intersections.add(playerRoads.get(n).getIntersectionBId());
         }
         ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
-        for (int n = 0; n < intersections.size(); n++){
-            for (int j = n+1; j < intersections.size(); j++){
-                if (intersections.get(n) != intersections.get(j)){
+        for (int n = 0; n < intersections.size(); n++) {
+            for (int j = n + 1; j < intersections.size(); j++) {
+                if (intersections.get(n) != intersections.get(j)) {
                     noRepeatIntersections.add(n);
                 }
             }
