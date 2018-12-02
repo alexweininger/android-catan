@@ -273,8 +273,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
-
-
         /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
         messageTextView.setTextColor(Color.WHITE);
         // Road button on the sidebar.
@@ -307,7 +305,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Built a settlement.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     //toast.show();
-
+                    this.selectedIntersections.clear(); // clear the users selected intersections
                 } else {
                     // tell user location is invalid
                     messageTextView.setText(R.string.invalid_set_loc);
