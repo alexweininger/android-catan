@@ -364,7 +364,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // End turn button on the sidebar.
         if (button.getId() == R.id.sidebar_button_endturn) {
             Log.d(TAG, "onClick: End Turn button pressed.");
-
+            state.getCurrentPlayer().getDevCardsBuiltThisTurn().clear();
             if (state.isSetupPhase()) {
                 if (!buildingsBuiltOnThisTurn.contains(0) || !buildingsBuiltOnThisTurn.contains(1)) {
                     messageTextView.setText(R.string.build_road_and_set);
@@ -594,12 +594,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             Log.i(TAG, "onClick: Player is using dev card id: " + developmentCardId + " (" + devCardNames[developmentCardId] + ")");
 
-            if (!state.getCurrentPlayer().getDevelopmentCards().contains(developmentCardId)) {
+            Log.d(TAG, "onClick: playable dev cards returned: " + state.getCurrentPlayer().getPlayableDevCards());
+            if (state.getCurrentPlayer().getPlayableDevCards().contains(developmentCardId) == false){//  .getDevelopmentCards().contains(developmentCardId)) {
                 Log.e(TAG, "onClick: player does not have development card. Cannot use.");
                 messageTextView.setText(R.string.dont_have_card);
-                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "You don't have that card!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Can not use a Development Card you built this turn!", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                //toast.show();
+                toast.show();
                 return;
             } else {
                 Log.d(TAG, "onClick: Development Card was removed from hand");
@@ -670,6 +671,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.getCurrentPlayer().hasResourceBundle(DevelopmentCard.resourceCost)) {
                 // send action to the game
                 game.sendAction(new CatanBuyDevCardAction(this));
+                //devCardsBuiltThisTurn.add(state.getCurrentPlayer().getDevelopmentCards().get(state.getCurrentPlayer().getDevelopmentCards().size()-1));
                 messageTextView.setText(R.string.you_built_a_dev);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Development built", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -814,12 +816,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         @Override
         public void onClick (View v) {
             if (isMenuOpen) return;
+            if (state == null) return;
+
+            if (boardSurfaceView == null) return;
+
             boolean touchedIntersection = false;
             boolean touchedHexagon = false;
             // retrieve the stored coordinates
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
             HexagonGrid grid = boardSurfaceView.getGrid();
+            if (grid == null) return;
+            if (grid.getIntersections() == null) return;
             Log.d("TAG", "onLongClick: x = " + x + ", y = " + y); // x, y position
 
             if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
@@ -1866,6 +1874,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     public void showLargestArmyTrophy (int playerNum) {
         Log.d(TAG, "showLargestArmyTrophy() called with: playerNum = [" + playerNum + "]");
+        int largestArmyPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the largest army trophy");
@@ -1878,7 +1887,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             largestArmyTrophies[i].setVisibility(View.GONE);
 
         }
+
         largestArmyTrophies[playerNum].setVisibility(View.VISIBLE);
+
+        if(largestArmyPrevPlayer == -1)
+        {
+            return;
+        }
+
+        if(largestArmyPrevPlayer != playerNum)
+        {
+
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Largest Army Trophy was removed from, " + getAllPlayerNames()[largestArmyPrevPlayer]+
+                    " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
     }
 
     /**
@@ -1889,6 +1913,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     public void showLongestRoadTrophy (int playerNum) {
         Log.d(TAG, "showLongestRoadTrophy() called with: playerNum = [" + playerNum + "]");
+        int LongestRoadPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the longest road trophy");
@@ -1902,6 +1927,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
+
+        if(LongestRoadPrevPlayer == -1)
+        {
+            return;
+        }
+
+        if(LongestRoadPrevPlayer != playerNum)
+        {
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Longest Road Trophy was removed from, " + getAllPlayerNames()[LongestRoadPrevPlayer]+
+                    " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
     }
 
     /**
