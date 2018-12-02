@@ -241,7 +241,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                 // get all adjacent intersections
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
-                //Log.d(TAG, "There are " + intersectionsToChooseFrom.size() + " intersections to choose from");
+
                 int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
                     if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){

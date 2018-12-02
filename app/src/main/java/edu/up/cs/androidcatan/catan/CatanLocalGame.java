@@ -165,12 +165,6 @@ public class CatanLocalGame extends LocalGame {
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             } else {
-                //TODO: remove these addition of resources (for testing)
-                state.getCurrentPlayer().addResourceCard(0,1);
-                state.getCurrentPlayer().addResourceCard(1,1);
-                state.getCurrentPlayer().addResourceCard(2,1);
-                state.getCurrentPlayer().addResourceCard(4,1);
-
                 // remove resources from players inventory (also does checks)
                 if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
                     // add settlement to the board
