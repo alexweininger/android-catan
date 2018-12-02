@@ -70,6 +70,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // instance variables for logic
     private ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
+    private int intersectionOfSettlementSetupTurn;
     private float lastTouchDownXY[] = new float[2];
     private boolean debugMode = false;
     private boolean isMenuOpen = false;
@@ -273,8 +274,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "onClick: state is null.");
         } // check if state is null
 
-
-
         /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
         messageTextView.setTextColor(Color.WHITE);
         // Road button on the sidebar.
@@ -296,18 +295,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "onClick: sidebar_button_settlement listener");
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText(R.string.one_int_for_set);
-                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Selecy one intersection to build a settlememt.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select one intersection to build a settlement.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
 
                 shake(messageTextView);
             } else {
                 if (tryBuildSettlement(selectedIntersections.get(0))) {
+                    this.intersectionOfSettlementSetupTurn = selectedIntersections.get(0);
                     messageTextView.setText(R.string.built_settlement);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Built a settlement.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     //toast.show();
-
+                    this.selectedIntersections.clear(); // clear the users selected intersections
                 } else {
                     // tell user location is invalid
                     messageTextView.setText(R.string.invalid_set_loc);
@@ -399,11 +399,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode; // toggle debug mode
 
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-//            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
+            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
@@ -693,15 +693,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             } else if (selectedIntersections.size() == 0) {
                 // trading with bank
                 messageTextView.setText("Trading with the bank.");
-            } else if (selectedIntersections.size() > 1) {
+            } else {
+                selectedIntersections.size();
                 // not correct selections
                 Log.e(TAG, "onClick: user has selected too many intersections");
                 messageTextView.setText(R.string.less_than_2_res);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select less than 2 intersections.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 //toast.show();
-            } else {
-                Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
             }
             return;
         }
@@ -763,14 +762,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
-            } else if (selectedIntersections.size() > 1) {
+            } else {
+                selectedIntersections.size();
                 Log.e(TAG, "onClick: user has selected too many intersections");
                 messageTextView.setText(R.string.less_than_2_res);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select less than 2 intersections.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 //toast.show();
-            } else {
-                Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
             }
         }
 
@@ -818,6 +816,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             HexagonGrid grid = boardSurfaceView.getGrid();
             Log.d("TAG", "onLongClick: x = " + x + ", y = " + y); // x, y position
 
+            if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
+                View decorView = myActivity.getWindow().getDecorView();
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
+
             for (int i = 0; i < grid.getIntersections().length; i++) {
                 int xPos = grid.getIntersections()[i].getXPos();
                 int yPos = grid.getIntersections()[i].getYPos();
@@ -834,6 +842,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         boardSurfaceView.getGrid().addHighlightedIntersection(i);
                         if (selectedIntersections.size() > 1) selectedIntersections.remove(0);
                         selectedIntersections.add(i);
+
                     }
                     boardSurfaceView.getGrid().setHighlightedHexagon(-1);
                     selectedHexagonId = -1;
@@ -893,7 +902,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         // check if user given intersections are valid
-        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
+        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB, intersectionOfSettlementSetupTurn)) {
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
         } else {
             messageTextView.setText(R.string.invalid_road_placement);
@@ -956,7 +965,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
             game.sendAction(new CatanBuildSettlementAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
             this.buildingsBuiltOnThisTurn.add(1);
-            this.selectedIntersections.clear();
+
             Log.d(TAG, "tryBuildSettlement() returned: " + true);
             return true;
         } else {
@@ -1201,6 +1210,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private void updateTextViews () {
 
+        View decorView = myActivity.getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         // Check if the Game State is null. If it is return void.
         if (this.state == null) {
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
@@ -1232,7 +1249,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         ArrayAdapter<String> devCardSpinnerAdapter = new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
         devCardSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         devCardList.setAdapter(devCardSpinnerAdapter); // Apply the adapter to the spinner
-
 
         // array of dice image ids
         int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
@@ -1470,6 +1486,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo (GameInfo info) {
+
         if (debugMode)
             Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
 
@@ -1904,6 +1921,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return the top object in the GUI's view hierarchy
      */
     public View getTopView () {
+
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 

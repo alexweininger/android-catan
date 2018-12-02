@@ -42,10 +42,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo (GameInfo info) {
-        CatanGameState gs = (CatanGameState) info;
         Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
-        if (!(info instanceof CatanGameState)) return;
+        if (!(info instanceof CatanGameState)) return; // must do this check at start of method!
+
+        CatanGameState gs = (CatanGameState) info;
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
 
         Random random = new Random();

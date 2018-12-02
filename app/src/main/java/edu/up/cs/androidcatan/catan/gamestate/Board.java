@@ -146,7 +146,7 @@ public class Board {
     public boolean isConnected (int playerId, int intersectionId) {
         Log.d(TAG, "isConnected() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         // check if intersection has no building and no road
-        if (intersectionId < 0 || playerId < 0){
+        if (intersectionId < 0 || playerId < 0) {
             Log.d(TAG, "isConnected: invalid parameter" + false);
             return false;
         }
@@ -197,10 +197,48 @@ public class Board {
         }
     }
 
+    /**
+     * @param playerId - player building the road
+     * @param a - intersection
+     * @param b - intersection
+     * @return - if road can be placed
+     */
+    public boolean validRoadPlacement (int playerId, boolean isSetupPhase, int a, int b, int settlementIntersection) {
+        Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
+        // check if intersections are adjacent
+        if (!this.intersectionGraph.get(a).contains(b)) {
+            Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
+            Log.i(TAG, "validRoadPlacement: intersectionGraph: " + this.intersectionGraph.toString());
+            return false;
+        }
+
+        if (isSetupPhase)
+            if (a != settlementIntersection && b != settlementIntersection) return false;
+
+        // check if road is connected to players roads / buildings at either intersection
+        if (isConnected(playerId, a) || isConnected(playerId, b)) {
+            // check if 3 roads at either intersection
+            if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+                Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
+                return false;
+            }
+            // check if road is already built
+            Log.i(TAG, "validRoadPlacement: this.roadMatrix.getOwnerId: " + this.roadMatrix[a][b].getOwnerId());
+            if (this.roadMatrix[a][b].getOwnerId() != -1) {
+                Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
+                return false;
+            }
+            Log.d(TAG, "validRoadPlacement: Valid road placement.");
+            return true;
+        } else {
+            Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
+            return false;
+        }
+    }
+
     public void addRoad (int playerId, int intersectionA, int intersectionB) {
         Log.d(TAG, "addRoad() called with: playerId = [" + playerId + "], intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         Road road = new Road(playerId, intersectionA, intersectionB);
-
 
         this.roads.add(road);
         this.roadMatrix[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
@@ -213,7 +251,7 @@ public class Board {
      */
     public boolean hasRoad (int i) {
         Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
-        if (i < 0){
+        if (i < 0) {
             Log.d(TAG, "hasRoad: negative input returned " + false);
             return false;
         }
@@ -254,7 +292,7 @@ public class Board {
         }
     }
 
-    private int[][] generatePlayerRoadMatrix(int playerId) {
+    private int[][] generatePlayerRoadMatrix (int playerId) {
         int[][] result = new int[54][54];
 
         for (int i = 0; i < roadMatrix.length; i++) {
@@ -540,7 +578,7 @@ public class Board {
     public boolean moveRobber (int hexagonId) {
         Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
-        if (hexagonId < 0 || hexagonId > 18){
+        if (hexagonId < 0 || hexagonId > 18) {
             return false;
         }
 
@@ -560,7 +598,7 @@ public class Board {
      */
     public boolean addBuilding (int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
-        if (intersectionId < 0 || intersectionId > 53){
+        if (intersectionId < 0 || intersectionId > 53) {
             Log.e(TAG, "addBuilding: IntersectionId was invalid");
             return false;
         }
@@ -587,7 +625,7 @@ public class Board {
      * @return whether there is a building at that given intersection
      */
     public boolean hasBuilding (int intersectionId) {
-        if (intersectionId < 0 || intersectionId > 53){
+        if (intersectionId < 0 || intersectionId > 53) {
             return false;
         }
         return this.buildings[intersectionId] != null;
@@ -614,7 +652,7 @@ public class Board {
 
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
 
-        if (hexagonId < 0 || hexagonId > 18){
+        if (hexagonId < 0 || hexagonId > 18) {
             return adjacentHexagons;
         }
 
