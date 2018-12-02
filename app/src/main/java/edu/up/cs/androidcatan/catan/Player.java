@@ -397,7 +397,7 @@ public class Player {
     }
 
     public int getVictoryPointsPrivate() {
-        return victoryPointsPrivate;
+        return this.victoryPointsPrivate;
     }
 
     public void setVictoryPointsPrivate(int victoryPointsPrivate) {

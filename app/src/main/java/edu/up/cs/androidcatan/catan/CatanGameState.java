@@ -59,6 +59,7 @@ public class CatanGameState extends GameState {
         currentPlayerId = 0;
         this.currentDiceSum = 3;
         setupPhaseTurnCounter = 0;
+
         // add players to player list
         this.playerList.add(new Player(0));
         this.playerList.add(new Player(1));
@@ -66,7 +67,6 @@ public class CatanGameState extends GameState {
         this.playerList.add(new Player(3));
 
         Log.i(TAG, board.toString());
-
     } // end CatanGameState constructor
 
     /**
@@ -78,9 +78,7 @@ public class CatanGameState extends GameState {
         this.setDice(new Dice(cgs.getDice()));
         this.setBoard(new Board(cgs.getBoard()));
         this.currentDiceSum = cgs.currentDiceSum;
-        isActionPhase = isActionPhase;
-        isSetupPhase = isSetupPhase;
-        hasMovedRobber = cgs.getHasMovedRobber();
+        this.setHasMovedRobber(cgs.getHasMovedRobber());
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
 
@@ -352,11 +350,11 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean robberSteal (int playerId, int stealingFromPlayerId) {
-        if(playerId == stealingFromPlayerId){
+        if (playerId == stealingFromPlayerId) {
             Log.e(TAG, "robberSteal: Trying to steal from self, error.");
             return false;
         }
-        if(playerId < 0 || playerId > 3 || stealingFromPlayerId < 0 || stealingFromPlayerId > 3){
+        if (playerId < 0 || playerId > 3 || stealingFromPlayerId < 0 || stealingFromPlayerId > 3) {
             return false;
         }
 
