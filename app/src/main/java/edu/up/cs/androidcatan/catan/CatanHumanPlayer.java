@@ -1297,6 +1297,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 Log.d(TAG, "updateTextViews: Now needs to steal Robber");
                 messageTextView.setText(R.string.robber_select_intersection_tosteal);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
+
+            //TextViews when NOT HumanPlayer's Turn
+            } else if (state.getCurrentPlayerId() != playerNum && !state.allPlayersHaveDiscarded()) {
+                Log.d(TAG, "updateTextViews: Now needs to move Robber");
+                messageTextView.setText(R.string.move_robber_to_hex);
+            } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) {
+                Log.d(TAG, "updateTextViews: Now needs to steal Robber");
+                messageTextView.setText(R.string.robber_select_intersection_tosteal);
+                robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
         } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
             this.messageTextView.setText(R.string.setup_phase); // set info message
@@ -1512,11 +1521,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state = (CatanGameState) info;
 
             if (state.isRobberPhase()) {
+
                 messageTextView.setText(R.string.robber_phase);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
 
-                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum])
+                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum]) {
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0, 0, 0, 0, 0}));
+                }
             }
 
             updateTextViews();
