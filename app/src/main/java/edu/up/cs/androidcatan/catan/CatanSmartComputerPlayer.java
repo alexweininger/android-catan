@@ -184,7 +184,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 //            game.sendAction(new CatanEndTurnAction(this));
 //        }
 
-        /******Looks to build another road*****/
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
             int settlementIntersection = getBuildingOfPlayer(gs);
             Log.d(TAG, "receiveInfo: settlementIntersection = " + settlementIntersection);
@@ -193,7 +192,21 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 return;
             }
 
-            /*****Looks to build a city from a settlement****/
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
+                Log.d(TAG, "receiveInfo: Valid amount of resources to building");
+                for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
+                    if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)){
+                        Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
+                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n));
+                        Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                }
+            }
+
+            /*****Looks to build a city from a city****/
             Building building = null;
             //Build a city if proper amount of resources
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
@@ -215,6 +228,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
+            /******Looks to build another road*****/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
 
                 // get road endpoints for players roads
