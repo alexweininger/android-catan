@@ -426,8 +426,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-            if(state.getHasMovedRobber()){
-                if(selectedIntersections.size() != 1){
+            if (state.getHasMovedRobber()) {
+                if (selectedIntersections.size() != 1) {
                     //robberHexMessage.setText("Please select only one intersection.");
                     messageTextView.setText("Please select only one intersection.");
                     return;
@@ -499,7 +499,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
 
             String message = "Please select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
-//            robberDiscardMessage.setText(message);
+            //            robberDiscardMessage.setText(message);
             messageTextView.setText(message);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -752,7 +752,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (selectedIntersections.size() == 1) {
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with port");
-
+                    selectedIntersections.clear();
                 } else {
                     Log.e(TAG, "onClick: trade with port failed");
                 }
@@ -774,12 +774,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
 
+        // cancel button on the trade menu
         if (button.getId() == R.id.button_trade_menu_cancel) {
-            toggleGroupVisibility(tradeGroup);
-            messageTextView.setText(R.string.action_phase);
-            tradeReceiveSelection = -1;
+            toggleGroupVisibilityAllowTapping(tradeGroup); // hide the trade menu
+            messageTextView.setText(R.string.action_phase); // set the info message back to the action phase
+            selectedIntersections.clear(); // clear any selected intersections
+            tradeReceiveSelection = -1; // reset selections
             tradeGiveSelection = -1;
         }
+
     } // onClick END
 
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
@@ -1013,8 +1016,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // make sure they have a hexagon selected
         if (hexId == -1) {
             messageTextView.setText(R.string.hex_for_robber);
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select an intersection to move the robber.", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            // Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select an intersection to move the robber.", Toast.LENGTH_SHORT);
+            // toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             //toast.show();
             shake(messageTextView);
             return false;
@@ -1264,8 +1267,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText(R.string.move_robber_to_hex);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
-        }
-        else if (this.state.isSetupPhase()) { // IF SETUP PHASE
+        } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
             this.messageTextView.setText(R.string.setup_phase); // set info message
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.setup_phase, Toast.LENGTH_SHORT);
             //            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -1875,8 +1877,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     protected void gameIsOver (String message) {
         for (int i = 0; i < state.getPlayerList().size(); i++) {
-            int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
-            int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
+            int lr = (this.state.getCurrentLongestRoadPlayerId() == i) ? 2 : 0;
+            int la = (this.state.getCurrentLargestArmyPlayerId() == i) ? 2 : 0;
             if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + la + lr + this.state.getPlayerList().get(i).getVictoryPoints() > 9) {
                 super.gameIsOver(getAllPlayerNames()[i] + " wins!");
                 game.sendAction(new GameOverAckAction(this));
