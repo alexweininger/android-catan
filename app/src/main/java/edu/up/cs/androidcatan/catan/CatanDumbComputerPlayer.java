@@ -118,13 +118,14 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             int action = random.nextInt(4);
             if (action == 0) //build  City
             {
-                Log.d(TAG, "Dumb AI randomly tried to build a city ");
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
+                    Log.d(TAG, "receiveInfo: Valid amount of resources to build city");
                     for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
                         if (gs.getBoard().getBuildings()[n] == null) {
-                            break;
+                            Log.d(TAG, "receiveInfo: Nothing at this location on board");
                         }
-                        if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                        else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                            Log.d(TAG, "receiveInfo: valid owner id");
                             building = gs.getBoard().getBuildings()[n];
                             if (building instanceof Settlement) {
                                 game.sendAction(new CatanBuildCityAction(this, false, this.playerNum, n));
@@ -139,6 +140,19 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             } else if (action == 1) //build a settlement
             {
                 Log.d(TAG, "Dumb AI randomly tried to build a settlement");
+                if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
+                    Log.d(TAG, "receiveInfo: Valid amount of resources to building");
+                    for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
+                        if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)){
+                            Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
+                            game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n));
+                            Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
+                            game.sendAction(new CatanEndTurnAction(this));
+                            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                            return;
+                        }
+                    }
+                }
 
             } else if (action == 2)// build a Road
             {
@@ -156,21 +170,18 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
 
                     int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                    for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
+                        if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
+                            game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                            Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
 
-                    while (!gs.getBoard().validRoadPlacement(this.playerNum, true, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection))) {
-                        Log.d(TAG, "receiveInfo: validRoadPlacement while loop executed");
-                        randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                            game.sendAction(new CatanEndTurnAction(this));
+
+                            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                            return;
+                        }
                     }
-
-                    // roadCoordinate should be valid at this point
-
-                    game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
-                    Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
-
-                    game.sendAction(new CatanEndTurnAction(this));
-
-                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-                    return;
+                    Log.d(TAG, "receiveInfo: Problem with building a road");
                 }
             } else {
                 Log.d(TAG, "Dumb AI randomly chose to do nothing");
