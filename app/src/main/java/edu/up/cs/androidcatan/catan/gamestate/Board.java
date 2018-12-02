@@ -318,7 +318,16 @@ public class Board {
                 pr.add(road);
             }
         }
-        return rg.DFS(pr.get(0).getIntersectionAId());
+
+        if (pr.size() < 5) {
+            return -1;
+        }
+        rg.setPr(pr);
+        Thread roadCalcThread = new Thread(rg);
+        roadCalcThread.start();
+        int m = rg.getMaxRoadLength();
+        Log.d(TAG, "dfs() returned: " + ownerId);
+        return m;
     }
 
     /**
@@ -1700,4 +1709,6 @@ public class Board {
 
         return str;
     }
+
+
 } // end Class

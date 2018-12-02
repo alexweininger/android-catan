@@ -404,11 +404,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode; // toggle debug mode
 
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
@@ -422,10 +422,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityAllowTapping(scoreBoardGroup);
         }
 
-        // Trophy images on scoreboard
 
-        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
-        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
 
         /*--------------------------------- Robber onClick --------------------------------*/
 
@@ -1238,6 +1235,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        // Trophy images on scoreboard
+
+        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
+        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
+
         String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
 
         // if dev card list is not empty, clear it
@@ -1853,6 +1855,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
+        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
+
         Canvas canvas = new Canvas();
 
         int height = boardSurfaceView.getHeight();
@@ -1877,7 +1882,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         int largestArmyPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
         if (playerNum < 0) {
-            Log.w(TAG, "showLongestRoadTrophy: no player has the largest army trophy");
+            Log.w(TAG, "showLongestArmyTrophy: no player has the largest army trophy");
             return;
         }
 
