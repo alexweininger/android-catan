@@ -36,7 +36,7 @@
         android:id="@+id/group_trade_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectionBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,brickSelectionBoxGive,woolSelectionBoxReceive,image_trade_menu_rec_brick,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
 
     <android.support.constraint.Group
@@ -777,8 +777,7 @@
         app:layout_constraintHorizontal_bias="0.916"
         app:layout_constraintStart_toStartOf="@+id/resourceReceiveText"
         app:layout_constraintTop_toTopOf="@+id/resourceReceiveText"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@color/colorAccent" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline7"
@@ -1132,13 +1131,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.5"
-        android:background="@color/colorPrimary"
+        android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/robber_discard_MenuHeaderText"
-        app:srcCompat="@color/colorPrimary"
-        tools:srcCompat="@android:color/background_dark" />
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_MenuHeaderText" />
 
     <android.support.constraint.Guideline
         android:id="@+id/robber_discard_leftVerticalGuideLine"
