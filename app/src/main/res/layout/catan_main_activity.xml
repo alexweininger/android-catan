@@ -81,7 +81,7 @@
         android:id="@+id/robber_discard_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids=",robber_discard_lumberImgReceive,robber_discard_grainAmount,robber_discard_leftVerticalGuideLine,robber_discard_oreAmount,robber_discard_brickAmount,robber_discard_grainMinusImg,robber_discard_woolMinusImg,robber_discard_lumberAmount,robber_discard_oreImgReceive,robber_discard_grainImg,robber_discard_lumberMinusImg,robber_discard_oreAddImg,robber_discard_lumberAddImg,robber_discard_woolAddImg,robber_discard_woolImgReceive,robber_discard_brickMinusImg,robber_discard_confirm,robber_discard_brickImg,robber_discard_oreMinusImg,robber_discard_grainAddImg,robber_discard_topHorizontalGuideline,robber_discard_selectMoreResources,robber_discard_woolAmount,robber_discard_brickAddImg,imageView2" />
 
     <android.support.constraint.Guideline
@@ -1241,12 +1241,13 @@
         android:id="@+id/robber_discard_selectMoreResources"
         android:layout_width="283dp"
         android:layout_height="60dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:text="@string/select_more_resources"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        tools:layout_editor_absoluteX="649dp" />
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/robber_discard_brickAmount"
