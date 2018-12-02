@@ -488,7 +488,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (state.getCurrentPlayerId() == playerNum) {
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
-                robberDiscardGroup.setVisibility(View.GONE);
 
                 robberBrickAmount.setText(R.string.zero);
                 robberLumberAmount.setText(R.string.zero);
