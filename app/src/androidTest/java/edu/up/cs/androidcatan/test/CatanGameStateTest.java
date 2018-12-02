@@ -11,9 +11,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CatanGameStateTest {
 
@@ -56,7 +54,7 @@ public class CatanGameStateTest {
         resourcesToRemove[0] = 2;
         assertFalse(state.validDiscard(0, resourcesToRemove));
         state.getPlayerList().get(0).addResourceCard(0, 8);
-        resourcesToRemove[0] = 8;
+        resourcesToRemove[0] = 4;
         assertTrue(state.validDiscard(0, resourcesToRemove));
         resourcesToRemove[1] = 1;
         assertFalse(state.validDiscard(0, resourcesToRemove));
@@ -99,6 +97,10 @@ public class CatanGameStateTest {
         assertFalse(state.moveRobber(-1, 0));
         assertFalse(state.moveRobber(60, 0));
         assertTrue(state.moveRobber(0, 0));
+
+        state.getBoard().addBuilding(0, new Settlement(1));
+        assertTrue(state.moveRobber(5, 0));
+        //TODO May need some more cases
     }
 
     // tests the method that returns a random dev card from the dev card deck
@@ -127,10 +129,10 @@ public class CatanGameStateTest {
         CatanGameState state = new CatanGameState();
         assertNotNull(state.getCurrentPlayer());
         assertNotNull(state.getCurrentPlayer());
-      
+
         assertTrue(state.getCurrentPlayer() instanceof Player);
     }
-  
+
     @Test
     //by Niraj Mali
     public void testRobberSteal(){
@@ -142,16 +144,19 @@ public class CatanGameStateTest {
         assertFalse(state.robberSteal(5, -1));
         assertFalse(state.robberSteal(5, 0));
         assertFalse(state.robberSteal(0, 0));
+        assertFalse(state.robberSteal(0, 1));
+
+        state.getPlayerList().get(1).addResourceCard(0, 1);
         assertTrue(state.robberSteal(0, 1));
-        assertTrue(state.robberSteal(1, 0));
-        assertTrue(state.robberSteal(0, 4));
+        assertFalse(state.robberSteal(0, 4));
+        assertFalse(state.robberSteal(0, 3));
     }
 
     @Test
     //by Niraj Mali
     public void testUpdateSetupPhase () {
         CatanGameState state = new CatanGameState();
-        assertFalse(state.updateSetupPhase());
+        assertTrue(state.updateSetupPhase());
         state.getBoard().addBuilding(0, new Settlement(0));
         state.getBoard().addBuilding(1, new Settlement(0));
         state.getBoard().addBuilding(2, new Settlement(0));
@@ -160,9 +165,9 @@ public class CatanGameStateTest {
         state.getBoard().addBuilding(5, new Settlement(0));
         state.getBoard().addBuilding(6, new Settlement(0));
         state.getBoard().addBuilding(7, new Settlement(0));
-        assertFalse(state.updateSetupPhase());
+        assertTrue(state.updateSetupPhase());
         state.getBoard().addBuilding(8, new Settlement(0));
-        assertFalse(state.updateSetupPhase());
+        assertTrue(state.updateSetupPhase());
         state.getBoard().addRoad(0, 0, 1);
         state.getBoard().addRoad(0, 1, 2);
         state.getBoard().addRoad(0, 2, 3);
@@ -171,8 +176,7 @@ public class CatanGameStateTest {
         state.getBoard().addRoad(0, 5, 6);
         state.getBoard().addRoad(0, 6, 7);
         state.getBoard().addRoad(0, 7, 8);
-        assertTrue(state.updateSetupPhase());
+        assertFalse(state.updateSetupPhase());
     }
 
- 
 }
