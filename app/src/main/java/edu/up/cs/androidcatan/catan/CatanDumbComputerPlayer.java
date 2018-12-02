@@ -110,7 +110,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         }
 
         /*----------------------------------Build Actions------------------------------------------*/
-        if(!gs.isSetupPhase() && !gs.isActionPhase() && gs.getCurrentPlayerId() == playerNum)
+        if(!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase())
         {
             Building building = null;
             int action = random.nextInt(4);
