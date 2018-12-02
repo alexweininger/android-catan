@@ -118,6 +118,7 @@ class Graph implements Runnable{
         for (int i = 0; i < pr.size(); i++) {
             int l = DFS(pr.get(i).getIntersectionAId());
             if (l > maxRoadLength) maxRoadLength = l;
+            Log.d(TAG, "run: looping");
             if (maxRoadLength == pr.size()) {
                 Log.e(TAG, "run: Breaking because max size is equal to amount of roads.");
                 break;
@@ -125,6 +126,7 @@ class Graph implements Runnable{
         }
         for (int i = 0; i < pr.size(); i++) {
             int l = DFS(pr.get(i).getIntersectionBId());
+            Log.d(TAG, "run: looping 2");
             if (l > maxRoadLength) maxRoadLength = l;
             if (maxRoadLength == pr.size()) {
                 Log.e(TAG, "run: Breaking because max size is equal to amount of roads.");
