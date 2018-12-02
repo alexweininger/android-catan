@@ -70,6 +70,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // instance variables for logic
     private ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
+    private int intersectionOfSettlementSetupTurn;
     private float lastTouchDownXY[] = new float[2];
     private boolean debugMode = false;
     private boolean isMenuOpen = false;
@@ -301,6 +302,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 shake(messageTextView);
             } else {
                 if (tryBuildSettlement(selectedIntersections.get(0))) {
+                    this.intersectionOfSettlementSetupTurn = selectedIntersections.get(0);
                     messageTextView.setText(R.string.built_settlement);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Built a settlement.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -900,7 +902,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public boolean tryBuildRoad (int intersectionA, int intersectionB) {
         Log.d(TAG, "tryBuildRoad() called with: intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         // check if user given intersections are valid
-        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB)) {
+        if (state.getBoard().validRoadPlacement(state.getCurrentPlayerId(), state.isSetupPhase(), intersectionA, intersectionB, intersectionOfSettlementSetupTurn)) {
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
         } else {
             messageTextView.setText(R.string.invalid_road_placement);
@@ -963,7 +965,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "tryBuildSettlement: Sending a CatanBuildSettlementAction to the game.");
             game.sendAction(new CatanBuildSettlementAction(this, state.isSetupPhase(), state.getCurrentPlayerId(), intersection1));
             this.buildingsBuiltOnThisTurn.add(1);
-            this.selectedIntersections.clear();
+
             Log.d(TAG, "tryBuildSettlement() returned: " + true);
             return true;
         } else {
