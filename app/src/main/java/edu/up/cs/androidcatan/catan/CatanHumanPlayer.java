@@ -775,6 +775,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.button_trade_menu_cancel) {
             toggleGroupVisibility(tradeGroup);
+            messageTextView.setText(R.string.action_phase);
             tradeReceiveSelection = -1;
             tradeGiveSelection = -1;
         }
