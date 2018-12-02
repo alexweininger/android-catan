@@ -1295,7 +1295,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) {
                 Log.d(TAG, "updateTextViews: Now needs to steal Robber");
-                messageTextView.setText("");
+                messageTextView.setText(R.string.robber_select_intersection_tosteal);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
         } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
