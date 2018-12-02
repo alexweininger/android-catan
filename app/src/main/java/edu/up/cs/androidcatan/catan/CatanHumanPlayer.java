@@ -592,7 +592,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: Player is using dev card id: " + developmentCardId + " (" + devCardNames[developmentCardId] + ")");
 
             Log.d(TAG, "onClick: playable dev cards returned: " + state.getCurrentPlayer().getPlayableDevCards());
-            if (state.getCurrentPlayer().getPlayableDevCards().contains(developmentCardId) == false){//  .getDevelopmentCards().contains(developmentCardId)) {
+            if (state.getCurrentPlayer().getPlayableDevCards().contains(developmentCardId) == false) {//  .getDevelopmentCards().contains(developmentCardId)) {
                 Log.e(TAG, "onClick: player does not have development card. Cannot use.");
                 messageTextView.setText(R.string.dont_have_card);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Can not use a Development Card you built this turn!", Toast.LENGTH_SHORT);
@@ -794,9 +794,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch (View v, MotionEvent event) {
-            if (isMenuOpen) {
-                return false;
-            }
+            if (isMenuOpen) return false;
+            if (playerNum != state.getCurrentPlayerId()) return false;
+
             // save the X,Y coordinates
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 lastTouchDownXY[0] = event.getX();
@@ -814,7 +814,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         public void onClick (View v) {
             if (isMenuOpen) return;
             if (state == null) return;
-
+            if (playerNum != state.getCurrentPlayerId()) return;
             if (boardSurfaceView == null) return;
 
             boolean touchedIntersection = false;
@@ -1895,16 +1895,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         largestArmyTrophies[playerNum].setVisibility(View.VISIBLE);
 
-        if(largestArmyPrevPlayer == -1)
-        {
+        if (largestArmyPrevPlayer == -1) {
             return;
         }
 
-        if(largestArmyPrevPlayer != playerNum)
-        {
+        if (largestArmyPrevPlayer != playerNum) {
 
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Largest Army Trophy was removed from, " + getAllPlayerNames()[largestArmyPrevPlayer]+
-                    " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Largest Army Trophy was removed from, " + getAllPlayerNames()[largestArmyPrevPlayer] + " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
@@ -1933,15 +1930,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
 
-        if(LongestRoadPrevPlayer == -1)
-        {
+        if (LongestRoadPrevPlayer == -1) {
             return;
         }
 
-        if(LongestRoadPrevPlayer != playerNum)
-        {
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Longest Road Trophy was removed from, " + getAllPlayerNames()[LongestRoadPrevPlayer]+
-                    " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
+        if (LongestRoadPrevPlayer != playerNum) {
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Longest Road Trophy was removed from, " + getAllPlayerNames()[LongestRoadPrevPlayer] + " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
