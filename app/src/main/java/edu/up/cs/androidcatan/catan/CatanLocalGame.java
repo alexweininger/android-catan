@@ -206,7 +206,10 @@ public class CatanLocalGame extends LocalGame {
             if (!player.removeResourceBundle(DevelopmentCard.resourceCost)) return false;
 
             // add random dev card to players inventory
-            player.getDevelopmentCards().add(state.getRandomDevCard());
+            int devCard = state.getRandomDevCard();
+            player.getDevelopmentCards().add(devCard);
+            player.addDevCardsBuiltThisTurn(devCard);
+
             return true;
         }
 
