@@ -752,6 +752,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (selectedIntersections.size() == 1) {
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.d(TAG, "onClick: traded with port");
+
                 } else {
                     Log.e(TAG, "onClick: trade with port failed");
                 }
@@ -1180,6 +1181,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0) {
             Log.d(TAG, "tryTradeWithBank: sending CatanTradeWithBankAction to the game.");
             game.sendAction(new CatanTradeWithBankAction(this, resourceGiving, resourceReceiving));
+
+            toggleGroupVisibilityAllowTapping(tradeGroup);
+
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Traded with bank.", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+
             return true;
         }
         Log.d(TAG, "tryTradeWithBank: player " + state.getPlayerList().get(state.getCurrentPlayerId()) + " would have have enough " + resourceGiving + " to complete trade");
