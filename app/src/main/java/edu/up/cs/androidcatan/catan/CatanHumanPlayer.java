@@ -602,9 +602,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.getCurrentPlayer().getPlayableDevCards().contains(developmentCardId) == false){//  .getDevelopmentCards().contains(developmentCardId)) {
                 Log.e(TAG, "onClick: player does not have development card. Cannot use.");
                 messageTextView.setText(R.string.dont_have_card);
-                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "You don't have that card!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Can not use a Development Card you built this turn!", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                //toast.show();
+                toast.show();
                 return;
             } else {
                 Log.d(TAG, "onClick: Development Card was removed from hand");
