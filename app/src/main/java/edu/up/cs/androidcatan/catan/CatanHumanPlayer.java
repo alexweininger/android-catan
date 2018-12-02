@@ -480,13 +480,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_discard_confirm) {
             if (state.validDiscard(this.playerNum, this.robberDiscardedResources)) {
-                robberDiscardMessage.setText("Discarding..");
+                robberDiscardMessage.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
                 if (state.getCurrentPlayerId() == playerNum) {
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
                 robberDiscardGroup.setVisibility(View.GONE);
-
-                // todo
 
                 robberBrickAmount.setText(R.string.zero);
                 robberLumberAmount.setText(R.string.zero);
@@ -494,21 +492,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 robberOreAmount.setText(R.string.zero);
                 robberWoolAmount.setText(R.string.zero);
 
-                //                // putting the array into the arraylist todo fix lol this is not good
-                //                for (int i = 0; i < robberDiscardedResources.length; i++) {
-                //                    for (int j = 0; j < robberDiscardedResources[i]; j++) {
-                //
-                //                    }
-                //                }
-
                 game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 this.robberDiscardedResources = state.getRobberDiscardedResources();
                 robberDiscardedResources = new int[]{0, 0, 0, 0, 0};
                 return;
             }
 
-            String message = "" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources are needed.";
-            robberDiscardMessage.setText(message);
+            String message = "Please select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
+//            robberDiscardMessage.setText(message);
             messageTextView.setText(message);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -693,6 +684,25 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // trade button on sidebar
         if (button.getId() == R.id.sidebar_button_trade) {
             toggleGroupVisibility(tradeGroup);  // toggle menu vis.
+
+            Log.e(TAG, "onClick: selected intersections: " + this.selectedIntersections);
+            //checks to see if the user has any intersections selected.
+            if (selectedIntersections.size() == 1) {
+                // trading with port
+                messageTextView.setText("Trading with a port.");
+            } else if (selectedIntersections.size() == 0) {
+                // trading with bank
+                messageTextView.setText("Trading with the bank.");
+            } else if (selectedIntersections.size() > 1) {
+                // not correct selections
+                Log.e(TAG, "onClick: user has selected too many intersections");
+                messageTextView.setText(R.string.less_than_2_res);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select less than 2 intersections.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //toast.show();
+            } else {
+                Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
+            }
             return;
         }
 
@@ -704,11 +714,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // set all give selection boxes to transparent
         for (ImageView imageView : selectionBoxGive) {
-            imageView.setBackgroundColor(Color.TRANSPARENT);
+            imageView.setBackgroundColor(Color.argb(0, 0, 0, 0));
         }
         // set all receive selection boxes to transparent
         for (ImageView imageView : selectionBoxReceive) {
-            imageView.setBackgroundColor(Color.TRANSPARENT);
+            imageView.setBackgroundColor(Color.argb(0, 0, 0, 0));
         }
 
         // arrays of the buttons
@@ -765,6 +775,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.button_trade_menu_cancel) {
             toggleGroupVisibility(tradeGroup);
+            messageTextView.setText(R.string.action_phase);
             tradeReceiveSelection = -1;
             tradeGiveSelection = -1;
         }
@@ -1081,10 +1092,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
         // make sure a building is selected
         if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
+            messageTextView.setText("Please select a building that has access to a port.");
+            shake(messageTextView);
             return false;
         }
         // check if player owns selected building
         if (state.getBoard().getBuildings()[selectedIntersections.get(0)].getOwnerId() != state.getCurrentPlayerId()) {
+            messageTextView.setText("You do not have access to this port!");
+            shake(messageTextView);
             return false;
         }
         // if trading with a normal port
@@ -1235,10 +1250,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
-                messageTextView.setText("Please select half of your resources to discard.");
+                messageTextView.setText(R.string.select_half);
             } else if (state.getCurrentPlayerId() == playerNum && state.allPlayersHaveDiscarded()) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
-                messageTextView.setText("Please tap a tile to move the Robber to (Must be adjacent to enemy building).");
+                messageTextView.setText(R.string.move_robber_to_hex);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
         }
@@ -1694,6 +1709,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         image_trade_menu_rec_ore.setOnClickListener(this);
         image_trade_menu_rec_wool = activity.findViewById(R.id.image_trade_menu_rec_wool);
         image_trade_menu_rec_wool.setOnClickListener(this);
+
+        ImageView selectionBoxGive[] = {brickSelectionBoxGive, grainSelectionBoxGive, lumberSelectionBoxGive, oreSelectionBoxGive, woolSelectionBoxGive};
+        ImageView selectionBoxReceive[] = {brickSelectionBoxReceive, grainSelectionBoxReceive, lumberSelectionBoxReceive, oreSelectionBoxReceive, woolSelectionBoxReceive};
+
+        // set all give selection boxes to transparent
+        for (ImageView imageView : selectionBoxGive) {
+            imageView.setBackgroundColor(Color.argb(0, 0, 0, 0));
+        }
+        // set all receive selection boxes to transparent
+        for (ImageView imageView : selectionBoxReceive) {
+            imageView.setBackgroundColor(Color.argb(0, 0, 0, 0));
+        }
 
         /*--------------------Robber Buttons and Groups------------------------*/
 
