@@ -1290,7 +1290,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardMessage.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
-                toggleGroupVisibility(robberDiscardGroup);
+                robberDiscardGroup.setVisibility(View.VISIBLE);
+                isMenuOpen = true;
                 messageTextView.setText(R.string.select_half);
             }
 
