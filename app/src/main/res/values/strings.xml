@@ -142,7 +142,7 @@
     <string name="invalid_tile">Not a valid tile!</string>
     <string name="zero">00</string>
     <string name="dont_have_card">You don\'t have that card!</string>
-    <string name="you_built_a_dev">Development built.</string>
+    <string name="you_built_a_dev">Development Card built.</string>
     <string name="not_enough_for_dev_card">Not enough resources to build a development.</string>
     <string name="invalid_settlement_loc">Invalid settlement location.</string>
     <string name="roll_the_dice">Please roll the dice.</string>
