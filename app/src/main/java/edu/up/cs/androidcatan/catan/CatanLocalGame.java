@@ -81,7 +81,6 @@ public class CatanLocalGame extends LocalGame {
     protected boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
-
         /* --------------------------- Turn Actions --------------------------------------- */
 
         if (action instanceof CatanRollDiceAction) {
@@ -93,34 +92,36 @@ public class CatanLocalGame extends LocalGame {
                 Log.i(TAG, "rollDice: The robber has been activated.");
                 state.setRobberPhase(true);
             } else {
+                // produce resources for the roll
                 state.produceResources(state.getCurrentDiceSum());
             }
-            state.setActionPhase(true);
+            state.setActionPhase(true); // set the action phase to true
             return true;
         }
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
 
-            // update setup phase
-            if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
-
             // if it is still the setup phase
             if (this.state.isSetupPhase()) {
                 // increment setup phase turn counter
-                this.state.setSetupPhaseTurnCounter(this.state.getSetupPhaseTurnCounter() + 1);
-                this.state.setCurrentPlayerId(CatanGameState.setupPhaseTurnOrder[state.getSetupPhaseTurnCounter()]);
-
-            } else {
+                if (this.state.getSetupPhaseTurnCounter() < 7) {
+                    this.state.setSetupPhaseTurnCounter(this.state.getSetupPhaseTurnCounter() + 1);
+                    this.state.setCurrentPlayerId(CatanGameState.setupPhaseTurnOrder[state.getSetupPhaseTurnCounter()]);
+                } else {
+                    // if it is the last turn of the setup phase
+                    this.state.setCurrentPlayerId(this.state.getCurrentPlayerId());
+                }
+            } else { // if it is not the setup phase
                 // increment the current turn
                 if (this.state.getCurrentPlayerId() == 3) this.state.setCurrentPlayerId(0);
                 else this.state.setCurrentPlayerId(this.state.getCurrentPlayerId() + 1);
             }
+            // update the setup phase
+            if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
 
-            state.setActionPhase(false);
-            state.updateTrophies();
-
-            Log.e(TAG, "makeMove: -----------------------------------------------------------------------------------------------------------");
+            state.setActionPhase(false); // set action phase to false
+            state.updateTrophies(); // update the trophies
             Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
         }
@@ -351,15 +352,23 @@ public class CatanLocalGame extends LocalGame {
     @Override
     public String checkIfGameOver () {
         Log.d(TAG, "checkIfGameOver() called");
+        if (playerNames == null) {
+            Log.e(TAG, "checkIfGameOver: player names is null");
+            return null;
+        }
         for (int i = 0; i < this.state.getPlayerList().size(); i++) {
 
-            int lr = (this.state.getCurrentLongestRoadPlayerId() == i)? 2:0;
-            int la = (this.state.getCurrentLargestArmyPlayerId() == i)? 2:0;
+            int lr = (this.state.getCurrentLongestRoadPlayerId() == i) ? 2 : 0;
+            int la = (this.state.getCurrentLargestArmyPlayerId() == i) ? 2 : 0;
 
             if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + lr + la + this.state.getPlayerList().get(i).getVictoryPoints() > 9) {
                 return playerNames[i] + " wins!";
             }
         }
         return null; // return null if no winner, but the game is not over
+    }
+
+    public void setState (CatanGameState state) {
+        this.state = state;
     }
 }
