@@ -280,6 +280,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         messageTextView.setTextColor(Color.WHITE);
         // Road button on the sidebar.
         if (button.getId() == R.id.sidebar_button_road) {
+            if (!state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
+                messageTextView.setText(R.string.not_enough_for_road);
+                shake(messageTextView);
+                return;
+            }
             if (selectedIntersections.size() != 2) {
                 messageTextView.setText(R.string.need_2_ints_for_road);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select two intersections to build a road.", Toast.LENGTH_SHORT);
