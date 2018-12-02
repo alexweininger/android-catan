@@ -30,7 +30,7 @@
     <string name="dice">Dice</string>
     <string name="buildingCosts">Building Costs</string>
     <string name="longestRoad">Longest Road</string>
-    <string name="largegstArmy">Largest Army</string>
+    <string name="largestArmy">Largest Army</string>
 
     <string name="select_intersection_id">Select an intersectionA:</string>
     <string name="hint_00">00</string>
@@ -162,7 +162,7 @@
     <string name="build_road_and_set">Must build a road and a settlement!</string>
     <string name="cannot_end_turn_before_rolling">Cannot end turn before rolling!</string>
     <string name="less_than_2_res">Please select less than 2 intersections.</string>
-    <string name="invalid_city_loc">Invalid city location: select a settlement to updgrade into a city.</string>
+    <string name="invalid_city_loc">Invalid city location: select a settlement to upgrade into a city.</string>
     <string name="select_half">Please select half of your resources to discard.</string>
     <string name="move_robber_to_hex">Please tap a tile to move the Robber to (Must be adjacent to enemy building).</string>
     <string-array name="dev_Card">
