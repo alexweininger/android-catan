@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.game.config.GameConfig;
 import edu.up.cs.androidcatan.game.config.GamePlayerType;
+import edu.up.cs.androidcatan.game.util.IPCoder;
 import edu.up.cs.androidcatan.game.util.MessageBox;
 
 /**
@@ -460,11 +460,10 @@ View.OnClickListener {
 		v.setOnClickListener(this);
 
 
-//		String ipCode = IPCoder.encodeLocalIP();
-//		String ipAddress = IPCoder.getLocalIpAddress();
-//		TextView ipText = findViewById(R.id.ipCodeLabel);
-//		ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
-
+		String ipCode = IPCoder.encodeLocalIP();
+		String ipAddress = IPCoder.getLocalIpAddress();
+		TextView ipText = findViewById(R.id.ipCodeLabel);
+		ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
 	}// initStarterGui
 
 	@Override
