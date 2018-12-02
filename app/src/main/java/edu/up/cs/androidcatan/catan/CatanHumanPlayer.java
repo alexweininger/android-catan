@@ -357,6 +357,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.isActionPhase()) return;
             // send a CatanRollDiceAction to the game
             game.sendAction(new CatanRollDiceAction(this));
+            selectedIntersections.clear();
             return;
         }
 
@@ -1499,6 +1500,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
             return;
         }
+        selectedIntersections.clear();
 
         if (info instanceof CatanGameState) {
             // set resource count TextViews to the players resource inventory amounts
@@ -1516,7 +1518,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             updateTextViews();
             drawGraphics();
-
 
         } else if (info instanceof NotYourTurnInfo) {
             Log.i(TAG, "receiveInfo: Player tried to make action but it is not their turn.");
