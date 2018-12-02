@@ -1209,14 +1209,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
 
-        if (!devCards.isEmpty()) {
-            devCards.clear();
-        }
+        // if dev card list is not empty, clear it
+        if (!devCards.isEmpty()) devCards.clear();
+
+        // for each dev card the player owns, add it to the gui dev card list
         for (int i = 0; i < state.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); i++) {
             devCards.add(devCardNames[state.getPlayerList().get(this.playerNum).getDevelopmentCards().get(i)]);
         }
 
+        // dev card list for the spinner
         List<String> spinnerList = new ArrayList<>(devCards);
+
         if (spinnerList.size() == 0) {
             this.useDevCard.setAlpha(0.5f);
             this.useDevCard.setClickable(false);
@@ -1224,11 +1227,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.useDevCard.setAlpha(1f);
             this.useDevCard.setClickable(true);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        devCardList.setAdapter(adapter);
 
-        // Apply the adapter to the spinner
+        // dev card spinner adapter
+        ArrayAdapter<String> devCardSpinnerAdapter = new ArrayAdapter<>(myActivity, R.layout.support_simple_spinner_dropdown_item, spinnerList);
+        devCardSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        devCardList.setAdapter(devCardSpinnerAdapter); // Apply the adapter to the spinner
+
+
         // array of dice image ids
         int diceImageIds[] = {R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6};
 
