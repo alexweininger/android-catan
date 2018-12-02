@@ -192,7 +192,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 return;
             }
 
-            //if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
                 Log.d(TAG, "receiveInfo: Valid amount of resources to building");
                 for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
                     if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)){
@@ -204,7 +204,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         return;
                     }
                 }
-            //}
+            }
 
             /*****Looks to build a city from a settlement****/
             Building building = null;
@@ -241,25 +241,20 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                 // get all adjacent intersections
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
-
+                //Log.d(TAG, "There are " + intersectionsToChooseFrom.size() + " intersections to choose from");
                 int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
+                    if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
+                        game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                        Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
 
-                //changed from true setupPhase to false
-                while (!gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection))) {
-                    Log.d(TAG, "receiveInfo: validRoadPlacement while loop executed");
-                    randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                        game.sendAction(new CatanEndTurnAction(this));
+
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
                 }
-                //TODO: problem handling when there is already a road built, will need to fix
-
-                // roadCoordinate should be valid at this point
-
-                game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
-                Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
-
-                game.sendAction(new CatanEndTurnAction(this));
-
-                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-                return;
+                Log.d(TAG, "receiveInfo: Problem with building a road");
             }
 
             game.sendAction(new CatanEndTurnAction(this));
