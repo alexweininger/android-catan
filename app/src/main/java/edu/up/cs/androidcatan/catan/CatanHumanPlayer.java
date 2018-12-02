@@ -399,11 +399,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode; // toggle debug mode
 
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
+//            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+//            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+//            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+//            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
+//            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
