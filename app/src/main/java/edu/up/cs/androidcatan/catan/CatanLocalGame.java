@@ -183,6 +183,8 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
             // remove resources from players inventory (also does checks)
+//            state.getCurrentPlayer().addResourceCard(3,3);
+//            state.getCurrentPlayer().addResourceCard(1,1);
             if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
                 // add building to the board
                 state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));
