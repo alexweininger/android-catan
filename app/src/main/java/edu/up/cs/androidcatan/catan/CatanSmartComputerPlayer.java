@@ -179,10 +179,10 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             // not setup phase if statement END
 
             /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
-            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-            game.sendAction(new CatanEndTurnAction(this));
-        }
+//        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
+//            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
+//            game.sendAction(new CatanEndTurnAction(this));
+//        }
 
         /******Looks to build another road*****/
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
@@ -197,6 +197,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             Building building = null;
             //Build a city if proper amount of resources
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
+                Log.d(TAG, "receiveInfo: Valid amount of resources to build city");
                 for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
                     if (gs.getBoard().getBuildings()[n] == null) {
                         break;
