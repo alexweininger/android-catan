@@ -1838,7 +1838,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (!this.readyToDraw) {
             Log.e(TAG, "drawGraphics: not ready to draw");
-            return;
         }
 
         if (state == null) {
@@ -1847,7 +1846,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         Canvas canvas = new Canvas();
-        // boardSurfaceView.createHexagons(this.state.getBoard());
 
         int height = boardSurfaceView.getHeight();
         int width = boardSurfaceView.getWidth();
@@ -1926,7 +1924,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     protected void initAfterReady () {
         Log.e(TAG, "initAfterReady() called");
         this.readyToDraw = true;
-        drawGraphics();
+        View decorView = myActivity.getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
     /**
