@@ -296,7 +296,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "onClick: sidebar_button_settlement listener");
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText(R.string.one_int_for_set);
-                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Selecy one intersection to build a settlememt.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select one intersection to build a settlement.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
 
@@ -693,15 +693,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             } else if (selectedIntersections.size() == 0) {
                 // trading with bank
                 messageTextView.setText("Trading with the bank.");
-            } else if (selectedIntersections.size() > 1) {
+            } else {
+                selectedIntersections.size();
                 // not correct selections
                 Log.e(TAG, "onClick: user has selected too many intersections");
                 messageTextView.setText(R.string.less_than_2_res);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select less than 2 intersections.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 //toast.show();
-            } else {
-                Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
             }
             return;
         }
@@ -763,14 +762,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
-            } else if (selectedIntersections.size() > 1) {
+            } else {
+                selectedIntersections.size();
                 Log.e(TAG, "onClick: user has selected too many intersections");
                 messageTextView.setText(R.string.less_than_2_res);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select less than 2 intersections.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 //toast.show();
-            } else {
-                Log.e(TAG, "onClick: logic error, because selectedIntersections.size() is negative or null");
             }
         }
 
