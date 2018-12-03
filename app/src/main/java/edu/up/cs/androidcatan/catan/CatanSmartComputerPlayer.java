@@ -304,6 +304,10 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             Log.d(TAG, "tryMoveRobber: Same hexId as robber");
             return false;
         }
+        if(gs.getBoard().getHexagons().get(hexId).getResourceId() == 5){
+            Log.d(TAG, "tryMoveRobber: Desert tile selected; invalid.");
+            return false;
+        }
 
         ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
 
