@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/building_menu_background2"
+        android:layout_width="870dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".5"
+        android:background="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/trading_help_menu_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/building_menu_background2"
+        app:layout_constraintTop_toTopOf="@+id/building_menu_background2"
+        tools:text="Trading" />
+
+    <TextView
+        android:id="@+id/trading_help_menu_text"
+        android:layout_width="792dp"
+        android:layout_height="455dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/trading_help_menu_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/trading_help_menu_title_text_view"
+        tools:text="Trading can be done via either a Port or the Bank. Trading with a port can only be done if the user has a settlement or city on a
+port inersection. Ports can be specailzed and offer cheeper trading rates. Ports with a rsource icon on them are specialzed and offer 2:1 trading
+of that resource, while ports without a resource icon can trade any resouce 3:1. If the player wishes to trade, but does not have a city or settlement
+on a port intersection, then why can trade with the bank at a rate of 4:1.
+
+    How to Trade with the Bank:
+        1) Deselect any intersections
+        2) Press the Trade button on the left side bar
+        3) Click on the resource you wish to give on the bottom row
+        4) Click on the resource you wish to rexieve on the top row
+        5) Press the Confirm button to make the trade
+
+    How to trade with a Port:
+        1) Select the intersection with a port
+        2) Press the Trade button on the left side bar
+        3) Click on the resource specialzed resource to give
+             on the bottom row
+        4) Click on the resource you wish to rexieve on the top row
+        5) Press the Confirm button to make the trade" />
+
+    <ImageView
+        android:id="@+id/trading_help_men_img"
+        android:layout_width="375dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/building_menu_background2"
+        app:layout_constraintTop_toTopOf="@+id/trading_help_menu_text"
+        app:srcCompat="@drawable/trading" />
+
+    <Button
+        android:id="@+id/trading_help_menu_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="436dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/building_menu_background2"
+        app:layout_constraintTop_toBottomOf="@+id/trading_help_menu_title_text_view"
+        tools:text="Back" />
+
+</android.support.constraint.ConstraintLayout>
