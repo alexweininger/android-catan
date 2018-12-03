@@ -86,7 +86,7 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            this.state.setCurrentDiceSum(this.state.getDice().roll());
+            this.state.setCurrentDiceSum(7);//this.state.getDice().roll());
             Log.i(TAG, "rollDice: Player " + this.state.getCurrentPlayerId() + " rolled a " + this.state.getCurrentDiceSum());
 
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
