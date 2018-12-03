@@ -31,7 +31,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         int playerWithMostVPsIntersection;
         boolean foundBuilding;
 
-        public CatanSmartComputerPlayer (String name) {
+        CatanSmartComputerPlayer (String name) {
             super(name);
         }
 
@@ -237,7 +237,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             }
             if (grainCount >= 4) {
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
-                    Log.d(TAG, "receiveInfo: Trade happening: grain for brick");
+                    Log.d(TAG, "receiveInfo: Trade happening: player + " + this.playerNum + "traded grain for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 1,tradeResourceId));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
                     game.sendAction(new CatanEndTurnAction(this));
@@ -331,6 +331,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     }
                 }
                 Log.d(TAG, "receiveInfo: Problem with building a road");
+                game.sendAction(new CatanEndTurnAction(this));
+                return;
             }
 
             game.sendAction(new CatanEndTurnAction(this));
@@ -368,7 +370,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         Log.d(TAG, "tryMoveRobber: ");
         return false;
     }
-    public int getBuildingOfPlayer(CatanGameState gs){
+    private int getBuildingOfPlayer(CatanGameState gs){
         for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
             if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
                 return n;
@@ -376,7 +378,12 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         }
         return -1;
     }
-    public ArrayList<Road> getPlayerRoads(CatanGameState gs) {
+
+    /**
+     * @param gs CatanGameState object to get the roads on the board
+     * @return ArrayList of roads that that player owns
+     */
+    private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
         for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
             if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
@@ -385,7 +392,12 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         }
         return playerRoads;
     }
-    public ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
+
+    /**
+     * @param playerRoads takes a list of a players Road
+     * @return returns an arrayList of intersections along the player's roads
+     */
+    private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {
             intersections.add(playerRoads.get(n).getIntersectionAId());
@@ -402,8 +414,14 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
         }
         //might need to change to return intersections
-        return noRepeatIntersections;
+        return intersections;
     }
+
+    /**
+     * @param intersectionId intersection you are checking to see it's resource
+     * @param gs
+     * @return true if the id is for brick or lumber, false if it isn't
+     */
     private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
         Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
         ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
