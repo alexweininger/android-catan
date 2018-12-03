@@ -26,6 +26,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
         private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
         private int hexId;
+        int playerWithMostVPs;
+        int playerWithMostVPsIntersection;
+        boolean foundBuilding;
 
         CatanSmartComputerPlayer (String name) {
             super(name);
@@ -158,7 +161,34 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     if (!gs.getHasMovedRobber()) {
 
                         //8.Check Player who has most victory points and get player ID (Cannot be this player)
-                        int playerWithMostVPs;
+                        playerWithMostVPs = gs.getPlayerWithMostVPsExcludingCurrentPlayer(playerNum);
+
+                        //What intersection contains the building; also used as intersection to steal from
+                        playerWithMostVPsIntersection = 0;
+
+                        //A building has been found that contains the intersection of player with most VPs
+                        foundBuilding = false;
+
+                        //9. Iterate through each Hexagon and find one that has the playersId at one of the adjacent intersections
+                        for (Hexagon hex : gs.getBoard().getHexagons()) {
+                            for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
+                                if (gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
+                                    hexId = hex.getHexagonId();
+                                    playerWithMostVPsIntersection = intersection;
+                                    foundBuilding = true;
+                                }
+                            }
+                            //We've found our hex and building, stop iteration of loop
+                            if (foundBuilding) {
+                                break;
+                            }
+                        }
+
+                        //10. Send the action to move the robber; information has been saved to also steal with the robber
+
+                        game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
+                        return;
+
 //                        Log.i(TAG, "receiveInfo: Computer Player hasMovedRobber: " + gs.getHasMovedRobber());
 //                        Log.i(TAG, "receiveInfo: Computer is moving the robber");
 //                        sleep(2000);
@@ -179,6 +209,10 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     }
 
                     /*----------------Steal Resource Phase--------------*/
+
+                    //11. Now Steal from the selected intersection
+                    game.sendAction(new CatanRobberStealAction(this, playerNum, playerWithMostVPs));
+                    return;
 
 //                    //10. Computer chooses a random intersection to steal from
 //                    sleep(500);

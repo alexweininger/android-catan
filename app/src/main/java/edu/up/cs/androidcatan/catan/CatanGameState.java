@@ -338,8 +338,9 @@ public class CatanGameState extends GameState {
                     }
                 }
             }
-
         }
+
+        return playerInLead;
     }
 
     /**
