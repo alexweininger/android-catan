@@ -124,8 +124,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
                         if (gs.getBoard().getBuildings()[n] == null) {
                             Log.d(TAG, "receiveInfo: Nothing at this location on board");
-                        }
-                        else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                        } else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
                             Log.d(TAG, "receiveInfo: valid owner id");
                             building = gs.getBoard().getBuildings()[n];
                             if (building instanceof Settlement) {
@@ -141,10 +140,10 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             } else if (action == 1) //build a settlement
             {
                 Log.d(TAG, "Dumb AI randomly tried to build a settlement");
-                if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
+                if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)) {
                     Log.d(TAG, "receiveInfo: Valid amount of resources to building");
-                    for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
-                        if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)){
+                    for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++) {
+                        if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)) {
                             Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
                             game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n));
                             Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
@@ -171,8 +170,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
 
                     int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-                    for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
-                        if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
+                    for (int n = 0; n < intersectionsToChooseFrom.size(); n++) {
+                        if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))) {
                             game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
                             Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
 
