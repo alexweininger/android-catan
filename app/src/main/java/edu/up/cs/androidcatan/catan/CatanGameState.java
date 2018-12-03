@@ -159,7 +159,7 @@ public class CatanGameState extends GameState {
     /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
-    private void checkArmySize () {
+    public void checkArmySize () {
         Log.d(TAG, "checkArmySize() called");
         int max = -1;
         if (this.currentLargestArmyPlayerId != -1) {
@@ -181,7 +181,6 @@ public class CatanGameState extends GameState {
      * updates the current players with the longest road trophy and largest army trophy
      */
     public void updateTrophies () {
-        this.setCurrentLongestRoadPlayerId(this.currentLongestRoadPlayerId = board.getPlayerWithLongestRoad(this.playerList));
         checkArmySize();
     }
 
@@ -317,6 +316,32 @@ public class CatanGameState extends GameState {
         return true;
     }
 
+
+    public int getPlayerWithMostVPsExcludingCurrentPlayer(int excludedPlayerId) {
+
+        //Default Value so we can set the first player ID as player in lead for comparisons
+        int playerInLead = -1;
+        for (Player player : this.getPlayerList()) {
+
+            //Make sure we are not including the player we are excluding
+            if(player.getPlayerId() != excludedPlayerId){
+
+                //Default player to start with
+                if(playerInLead == -1){
+                    playerInLead = player.getPlayerId();
+                }
+
+                //Compare and change player with most victory points if needed
+                else{
+                    if(this.getPlayerList().get(playerInLead).getVictoryPoints() < this.getPlayerList().get(player.getPlayerId()).getVictoryPoints()){
+                        playerInLead = player.getPlayerId();
+                    }
+                }
+            }
+        }
+
+        return playerInLead;
+    }
 
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby

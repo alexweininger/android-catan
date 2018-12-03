@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/winning_menu_background"
+        android:layout_width="870dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".5"
+        android:background="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/winning_help_menu_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/winning_menu_background"
+        app:layout_constraintTop_toTopOf="@+id/winning_menu_background"
+        tools:text="Winning" />
+
+    <TextView
+        android:id="@+id/winning_help_menu_text"
+        android:layout_width="792dp"
+        android:layout_height="455dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/winning_help_menu_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/winning_help_menu_title_text_view"
+        tools:text="The goal of The Settlers of Catan is to reach 10 Victory Points (VP) first. You gain victory points by building, settlements, cities, and using development cards.
+
+Buildings:
+    Each settlement you place will grant you 1 victory point.
+
+    Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.
+
+    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This
+    trohpy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who
+    ever holds the trophy is granted 2 additional victory points.
+
+Development Cards:
+    A Victory Point development card grants one additional  victory point the player.
+
+    Once one player has played three Knight development cards, they are given the largest Armmy trophy, which awards two
+    additional victory points. If another player ends up use more Knight Cards, then the trophy switches hands. Whoever holds the
+    trophy is granted to addiotional victory points.
+
+Checking Player's Score:
+    Scores are broken up into public and private scores. Public score keeps track of vitory points from buildings. While private
+    scores keeps track of vitory points from buildings, trophies and develompent cards. Thought you cannot your oppenents true
+    victory point total, you are able to see if they hold either the longest road trophy, largest army trophy or both. When it
+    comes to winning, private vitory points is the only thing that matters
+" />
+
+    <Button
+        android:id="@+id/winning_help_menu_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="436dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/winning_menu_background"
+        app:layout_constraintTop_toBottomOf="@+id/winning_help_menu_title_text_view"
+        tools:text="Back" />
+
+</android.support.constraint.ConstraintLayout>

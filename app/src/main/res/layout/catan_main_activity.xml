@@ -82,7 +82,7 @@
         android:id="@+id/robber_discard_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids=",robber_discard_lumberImgReceive,robber_discard_grainAmount,robber_discard_leftVerticalGuideLine,robber_discard_oreAmount,robber_discard_brickAmount,robber_discard_grainMinusImg,robber_discard_woolMinusImg,robber_discard_lumberAmount,robber_discard_oreImgReceive,robber_discard_grainImg,robber_discard_lumberMinusImg,robber_discard_oreAddImg,robber_discard_lumberAddImg,robber_discard_woolAddImg,robber_discard_woolImgReceive,robber_discard_brickMinusImg,robber_discard_confirm,robber_discard_brickImg,robber_discard_oreMinusImg,robber_discard_grainAddImg,robber_discard_topHorizontalGuideline,robber_discard_selectMoreResources,robber_discard_woolAmount,robber_discard_brickAddImg,imageView2" />
 
     <android.support.constraint.Guideline
@@ -230,7 +230,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.64" />
+        app:layout_constraintGuide_percent="0.62" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_left_dc_border"
@@ -1143,14 +1143,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         android:alpha="0.5"
         android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/robber_discard_selectMoreResources" />
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_confirm" />
 
     <android.support.constraint.Guideline
         android:id="@+id/robber_discard_leftVerticalGuideLine"
@@ -1231,28 +1230,25 @@
         android:id="@+id/robber_discard_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="156dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/confirm"
-        app:layout_constraintBottom_toTopOf="@+id/guideline8"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/robber_discard_selectMoreResources"
-        app:layout_constraintTop_toTopOf="@+id/robber_discard_selectMoreResources"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toTopOf="@+id/robber_discard_woolAddImg"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info" />
 
     <TextView
         android:id="@+id/robber_discard_selectMoreResources"
-        android:layout_width="283dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/select_more_resources"
         android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/robber_discard_grainAddImg"
-        app:layout_constraintStart_toStartOf="@+id/guideline5" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/robber_discard_confirm"
+        app:layout_constraintEnd_toStartOf="@+id/robber_discard_confirm"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/robber_discard_confirm" />
 
     <TextView
         android:id="@+id/robber_discard_brickAmount"
@@ -1444,7 +1440,8 @@
         android:id="@+id/textview_game_message"
         android:layout_width="197dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/message_text"
         android:textAlignment="gravity"
         android:textColor="@android:color/background_light"

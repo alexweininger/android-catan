@@ -26,6 +26,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
         private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
         private int hexId;
+        int playerWithMostVPs;
+        int playerWithMostVPsIntersection;
+        boolean foundBuilding;
 
         CatanSmartComputerPlayer (String name) {
             super(name);
@@ -102,20 +105,29 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 sleep(500);
                 /*--------------------Discard Phase--------------------*/
 
+                //1. Check if this player has discarded
                 if (!gs.getRobberPlayerListHasDiscarded()[playerNum]) {
                     Log.i(TAG, "receiveInfo: Computer player " + playerNum + " needs to discard!!!");
+
+                    //2a. Check if the player needs to discard cards; if not, send discard action with empty resource list;
+                    //   GameState will handle logic.
                     if (!gs.checkPlayerResources(playerNum)) {
                         Log.i(TAG, "receiveInfo: Computer " + playerNum + " does not need to discard, but still needs to send action.");
                         game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
                         return;
-                    } else {
+                    }
+                    //2b. Player needs to discard cards; player will randomly choose resources until half of their cards have been discarded
+                    else {
                         robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
+                        //3. Loop until computer has chosen enough cards to discard
                         for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
                             for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
                                 robberResourcesDiscard[i]++;
                                 Log.i(TAG, "receiveInfo: Player " + playerNum + " is discarding resources: Wanted- " + robberResourcesDiscard[i] + ", Actual- " + gs.getPlayerList().get(playerNum).getResourceCards()[i]);
                                 if (gs.validDiscard(playerNum, robberResourcesDiscard)) {
                                     Log.i(TAG, "receiveInfo: Computer is now discarding resources");
+
+                                    //4. Send discard action
                                     CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
                                     game.sendAction(action);
                                     break;
@@ -129,8 +141,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     }
                     Log.i(TAG, "receiveInfo: Player is ending the discard phase!");
                     return;
-                }
+                }//End of discard phase
 
+                //5. Wait until all players have completed their discard phase
                 if (!gs.allPlayersHaveDiscarded() && gs.getCurrentPlayerId() == playerNum) {
                     Log.d(TAG, "receiveInfo: Not all players have discarded!!!!");
                     return;
@@ -139,42 +152,58 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 Log.i(TAG, "receiveInfo: Robber Phase --> Move Robber Phase");
 
                 /*----------------------Move Robber Phase----------------*/
+
+                //6. If it is this players turn, continue to rest of robber phase; otherwise player is done
                 if (gs.getCurrentPlayerId() == playerNum) {
                     Log.i(TAG, "receiveInfo: Computer is moving robber");
-                    if (!gs.getHasMovedRobber()) {
-                        Log.i(TAG, "receiveInfo: Computer Player hasMovedRobber: " + gs.getHasMovedRobber());
-                        Log.i(TAG, "receiveInfo: Computer is moving the robber");
-                        sleep(2000);
 
+                    //7. Check if player has move robber; if not move to random, VALID hexagon
+                    if (!gs.getHasMovedRobber()) {
+
+                        //8.Check Player who has most victory points and get player ID (Cannot be this player)
+                        playerWithMostVPs = gs.getPlayerWithMostVPsExcludingCurrentPlayer(playerNum);
+
+                        //What intersection contains the building; also used as intersection to steal from
+                        playerWithMostVPsIntersection = 0;
+
+                        //A building has been found that contains the intersection of player with most VPs
+                        foundBuilding = false;
+                        sleep(2000);
+                        //9. Iterate through each Hexagon and find one that has the playersId at one of the adjacent intersections
                         for (Hexagon hex : gs.getBoard().getHexagons()) {
-                            hexId = hex.getHexagonId();
-                            if (tryMoveRobber(hexId, gs)) {
-                                Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
-                                sleep(2000);
-                                CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
-                                game.sendAction(action);
-                                return;
+                            Log.i(TAG, "receiveInfo: Checking hexagon " + hex.getHexagonId() + " for player " + playerWithMostVPs);
+                            if (gs.getBoard().getRobber().getHexagonId() != hex.getHexagonId()) {
+                                for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
+                                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
+                                        Log.i(TAG, "receiveInfo: Found player at hex " + hex.getHexagonId() + ".");
+                                        hexId = hex.getHexagonId();
+                                        playerWithMostVPsIntersection = intersection;
+                                        foundBuilding = true;
+                                    }
+                                }
+                            }
+
+                            //We've found our hex and building, stop iteration of loop
+                            if (foundBuilding) {
+                                break;
                             }
                         }
-                    }
+
+                        //10. Send the action to move the robber; information has been saved to also steal with the robber
+
+                        sleep(2000);
+                        game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
+                        return;
+
+                    }//End of Move Robber Phase
 
                     /*----------------Steal Resource Phase--------------*/
-                    sleep(500);
-                    // get adjacent intersections around the hexagon
-                    ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
-                    // for each adjacent intersection
-                    for (Integer intersection : intersections) {
-                        // if intersection has a building AND building isn't owned by the current player
-                        if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum) {
-                            Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
 
-                            // send CatanRobberStealAction to the game
-                            game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId()));
-                            return;
-                        }
-                    }
-                }
-            }
+                    //11. Now Steal from the selected intersection
+                    game.sendAction(new CatanRobberStealAction(this, playerNum, playerWithMostVPs));
+                    return;
+                }//End of Robber Phases after Discard phase
+            }//End of Robber Phase
 
             // not setup phase if statement END
 

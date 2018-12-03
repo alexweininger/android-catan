@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/building_menu_background"
+        android:layout_width="870dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".5"
+        android:background="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/building_help_menu_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/building_menu_background"
+        app:layout_constraintTop_toTopOf="@+id/building_menu_background"
+        tools:text="Building" />
+
+    <TextView
+        android:id="@+id/building_help_menu_text"
+        android:layout_width="792dp"
+        android:layout_height="455dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@+id/building_help_menu_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/building_help_menu_title_text_view"
+        tools:text="There are three buildings that can be constucted; a City, a Settlement and a Road.
+
+    City:
+        Cost: 2 Grain and 3 Ore
+        Can Be Built: Can only be built on top of a settlement
+        Victory Points: 2
+        Resource Collection: 2x
+
+
+
+
+    Settlement:
+        Cost: 1 Brick, 1 Grain, 1 Lumber and 1 Wool
+        Can Be Built: Must be built two road lengths away from
+                                another settlement or city
+        Victory Points: 1
+        Resource Collection: 1x
+
+
+
+
+    Road:
+        Cost: 1 Brick and 1 Lumber
+        Can Be Built: Can only be built when connected to
+                                settlmeent or city
+        Victory Points: 0
+        Resource Collection: 0x" />
+
+    <Button
+        android:id="@+id/building_help_menu_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="436dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/building_menu_background"
+        app:layout_constraintTop_toBottomOf="@+id/building_help_menu_title_text_view"
+        tools:text="Back" />
+
+    <ImageView
+        android:id="@+id/builting_city_img"
+        android:layout_width="300dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="75dp"
+        app:layout_constraintEnd_toEndOf="@+id/building_help_menu_text"
+        app:layout_constraintTop_toTopOf="@+id/building_help_menu_text"
+        app:srcCompat="@drawable/build_city" />
+
+    <ImageView
+        android:id="@+id/builting_settlment_img"
+        android:layout_width="300dp"
+        android:layout_height="140dp"
+        app:layout_constraintEnd_toEndOf="@+id/builting_city_img"
+        app:layout_constraintTop_toBottomOf="@+id/builting_city_img"
+        app:srcCompat="@drawable/build_settlement" />
+
+    <ImageView
+        android:id="@+id/builting_road_img"
+        android:layout_width="300dp"
+        android:layout_height="140dp"
+        app:layout_constraintEnd_toEndOf="@+id/builting_settlment_img"
+        app:layout_constraintTop_toBottomOf="@+id/builting_settlment_img"
+        app:srcCompat="@drawable/build_road" />
+</android.support.constraint.ConstraintLayout>
