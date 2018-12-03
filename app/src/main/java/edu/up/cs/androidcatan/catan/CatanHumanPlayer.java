@@ -440,7 +440,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
-            toggleGroupVisibility(helpMenu);
+            if(buildingCosts.getVisibility() == View.GONE)
+            {
+                helpMenu.setVisibility(View.GONE);
+            }else
+            {
+                helpMenu.setVisibility(View.VISIBLE);
+            }
+            toggleGroupVisibilityGONE(winningHelpMenu);
+            toggleGroupVisibilityGONE(setUpPhaseHelpMenu);
+            toggleGroupVisibilityGONE(buildingHelpMenu);
+            toggleGroupVisibilityGONE(developmentCardHelpMenu);
+            toggleGroupVisibilityGONE(tradingHelpMenu);
+            toggleGroupVisibilityGONE(robberHelpMenu);
 
             //            setAllButtonsToVisible();
             Log.e(TAG, "onClick: toggled debug mode");
@@ -2195,6 +2207,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             group.setVisibility(View.GONE);
         }
     }
+
+    private void toggleGroupVisibilityGONE(Group group)
+    {
+        group.setVisibility(View.GONE);
+    }
+
+    private void toggleGroupVisibilityVISIBLE(Group group)
+    {
+        group.setVisibility(View.VISIBLE);
+    }
+
 
     /**
      * @param view View to toggle.
