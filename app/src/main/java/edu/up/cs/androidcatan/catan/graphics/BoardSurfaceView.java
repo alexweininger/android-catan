@@ -72,10 +72,6 @@ public class BoardSurfaceView extends SurfaceView {
         this.canvas = canvas;
     }
 
-    public boolean isReady () {
-        return ready;
-    }
-
     public void setReady (boolean ready) {
         this.ready = ready;
     }
