@@ -269,15 +269,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
-
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
         if (!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()) {
             Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
             game.sendAction(new CatanEndTurnAction(this));
         }
-
-        // not setup phase if statement END
-
     }// receiveInfo() END
 
     CatanDumbComputerPlayer (String name) {
@@ -285,7 +281,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     }
 
     private boolean tryMoveRobber (int hexId, CatanGameState gs) {
-
+        Log.d(TAG, "tryMoveRobber() called with: hexId = [" + hexId + "], gs = [" + gs + "]");
         if (hexId == -1) {
             Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
             return false;
@@ -305,7 +301,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
-        Log.d(TAG, "tryMoveRobber: ");
+        Log.d(TAG, "tryMoveRobber: returned " + false);
         return false;
     }
 
