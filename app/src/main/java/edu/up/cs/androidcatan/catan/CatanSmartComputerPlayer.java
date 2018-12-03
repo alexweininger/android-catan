@@ -13,6 +13,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
@@ -221,10 +222,36 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 return;
             }
 
+            /*****Looks to trade so they can potentially build a road******/
+            int grainCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[1];
+            int oreCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[3];
+            int woolCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[4];
+            if (grainCount >= 4) {
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
+                    Log.d(TAG, "receiveInfo: Trade happening: grain for brick");
+                    game.sendAction(new CatanTradeWithBankAction(this, 1,0));
+                }
+            }
+            if (oreCount >= 4){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
+                    Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
+                    game.sendAction(new CatanTradeWithBankAction(this, 3,0));
+                }
+            }
+            if (woolCount >= 4){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
+                    Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
+                    game.sendAction(new CatanTradeWithBankAction(this, 4,0));
+                }
+            }
+
+            /******Looks to build a settlement if possible****/
+            //TODO: not implemented properly
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
                 Log.d(TAG, "receiveInfo: Valid amount of resources to building");
                 for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
-                    if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)){
+                    //cycling through the amount, not the proper value at the intersection
+                    if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))){
                         Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
                         game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n));
                         Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
