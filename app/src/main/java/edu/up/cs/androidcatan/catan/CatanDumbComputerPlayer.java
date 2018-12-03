@@ -281,16 +281,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
                     game.sendAction(action);
                     return;
-//                    for (Hexagon hex : gs.getBoard().getHexagons()) {
-//                        hexId = hex.getHexagonId();
-//                        if (tryMoveRobber(hexId, gs)) {
-//                            Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
-//                            sleep(2000);
-//                            CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
-//                            game.sendAction(action);
-//                            return;
-//                        }
-//                    }
                 }
 
                 /*----------------Steal Resource Phase--------------*/
@@ -313,17 +303,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 // send CatanRobberStealAction to the game
                 game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersectionId).getOwnerId()));
                 return;
-                // for each adjacent intersection
-//                for (Integer intersection : intersections) {
-//                    // if intersection has a building AND building isn't owned by the current player
-//                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum) {
-//                        Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
-//
-//                        // send CatanRobberStealAction to the game
-//                        game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId()));
-//                        return;
-//                    }
-//                }
             }
         }
 
