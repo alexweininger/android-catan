@@ -370,6 +370,11 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         Log.d(TAG, "tryMoveRobber: ");
         return false;
     }
+
+    /**
+     * @param gs CatanGameState object to get the buildings on the board
+     * @return gets the first building wth the owner's id and returns its intersection location
+     */
     private int getBuildingOfPlayer(CatanGameState gs){
         for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
             if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
