@@ -1057,7 +1057,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryMoveRobber (int hexId) {
         //Checks if Desert tile is selected
-        if(state.getBoard().getHexagons().get(state.getBoard().getRobber().getHexagonId()).getResourceId() == 5){
+        if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
             messageTextView.setText("Desert Tile cannot longer be selected.");
             return false;
         }
