@@ -239,15 +239,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick (View button) {
-
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
         if (this.state == null) {
             Log.e(TAG, "onClick: state is null.");
+            return;
         } // check if state is null
 
-        /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
         messageTextView.setTextColor(Color.WHITE);
+
+        /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
+
         // Road button on the sidebar.
         if (button.getId() == R.id.sidebar_button_road) {
             if (!state.isSetupPhase() && !state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
@@ -321,7 +323,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        /* ----------------------------------- Turn Actions ------------------------------------- */
+        /* ---------------------------- Turn Actions onClick Handlers --------------------------- */
 
         // Roll button on the sidebar.
         if (button.getId() == R.id.sidebar_button_roll) {
@@ -386,20 +388,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
-
-            //            setAllButtonsToVisible();
-            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
         // Score button on the sidebar.
-        if (button.getId() == R.id.sidebar_button_score) {
+        if (button.getId() == R.id.sidebar_button_score)
             toggleGroupVisibilityAllowTapping(scoreBoardGroup);
-        }
 
 
-
-        /*--------------------------------- Robber onClick --------------------------------*/
+        /*--------------------------------- Robber onClick Handlers ------------------------------*/
 
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
@@ -491,18 +488,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         TextView robberAmounts[] = {robberBrickAmount, robberGrainAmount, robberLumberAmount, robberOreAmount, robberWoolAmount};
 
         for (int i = 0; i < robberDiscardAddButtonIds.length; i++) {
-            if (button.getId() == robberDiscardAddButtonIds[i]) {
-                robberDiscardedResources[i]++;
-            } else if (button.getId() == robberDiscardMinusButtonIds[i]) {
+            if (button.getId() == robberDiscardAddButtonIds[i]) robberDiscardedResources[i]++;
+            else if (button.getId() == robberDiscardMinusButtonIds[i])
                 robberDiscardedResources[i]--;
-            }
         }
 
         for (int i = 0; i < robberAmounts.length; i++) {
             robberAmounts[i].setText("" + robberDiscardedResources[i]);
         }
-
-        /*-------------------------End of Robber----------------------------------------*/
 
         /* ---------------- Pick Resource Card Menu ---------------------- */
 
@@ -1428,7 +1421,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
         /* ----- update scoreboard ----- */
 
-
         // set the other players score on the scoreboard to their public scores except for the user which shows their private score
         for (int i = 0; i < 4; i++) {
             this.playerScores[i].setTextColor(HexagonGrid.playerColors[i]);
@@ -1661,8 +1653,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         });
 
         scoreBoardGroup = activity.findViewById(R.id.group_scoreboard);
-        this.playerScores = new TextView[] {activity.findViewById(R.id.Player1_Score), activity.findViewById(R.id.Player2_Score), activity.findViewById(R.id.Player3_Score), activity.findViewById(R.id.Player4_Score)};
-        this.playerNameTextViews = new TextView[] {activity.findViewById(R.id.Player1_Name), activity.findViewById(R.id.Player2_Name), activity.findViewById(R.id.Player3_Name), activity.findViewById(R.id.Player4_Name)};
+        this.playerScores = new TextView[]{activity.findViewById(R.id.Player1_Score), activity.findViewById(R.id.Player2_Score), activity.findViewById(R.id.Player3_Score), activity.findViewById(R.id.Player4_Score)};
+        this.playerNameTextViews = new TextView[]{activity.findViewById(R.id.Player1_Name), activity.findViewById(R.id.Player2_Name), activity.findViewById(R.id.Player3_Name), activity.findViewById(R.id.Player4_Name)};
         /* -------------------------------------- MENUS ---------------------------------------- */
 
         /* ------------ Development Card Menu ------------- */
