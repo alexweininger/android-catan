@@ -34,16 +34,14 @@ public class Board implements Runnable {
      * information and the hexagons.
      */
 
+    private static final String TAG = "Board";
+
     /*
      * 'Rings' are used to organize the following ID 2D-ArrayLists. Rings in context mean ring of hexagons or intersections
      * on the board. So for hexagons, the first ring contains the very middle hexagon. Ring 2 are the hexagons around that one.
      * Hexagon 0 is the center, and hex 1 is directly right of hex 0, and then they are numbered by ring. So ring 0 has 1
      * hexagon. Ring 2 has 6, and ring 3 (outer ring) has 12 hexagons.
      */
-
-    private static final String TAG = "Board";
-    // Robber object.
-    private Robber robber;
 
     // hexagonIdRings holds the IDs of each hexagon on the board, organized into rings.
     private ArrayList<ArrayList<Integer>> hexagonIdRings = new ArrayList<>();
@@ -52,7 +50,7 @@ public class Board implements Runnable {
 
     /*  hGraph and iGraph are 2d arrays that hold adjacency information for hexagons and intersections. */
     private boolean[][] hGraph = new boolean[19][19];
-    private boolean[][] iGraph = new boolean[54][54];
+    //    private boolean[][] iGraph = new boolean[54][54];
 
     // Maps relating hex to intersection and intersection to hex ids
     private ArrayList<ArrayList<Integer>> hexToIntIdMap = new ArrayList<>(); // rows: hex id - col: int ids
@@ -76,7 +74,9 @@ public class Board implements Runnable {
 
     private ArrayList<ArrayList<Integer>> intersectionGraph = new ArrayList<>();
 
-    // new
+    // Robber object.
+    private Robber robber;
+
     private int highlightedHexagonId = -1;
     private int highlightedIntersectionId = -1;
 
@@ -89,19 +89,19 @@ public class Board implements Runnable {
         populateIntersectionIds();
 
         generateHexagonGraph(); // generate adj. graphs
-        generateIntersectionGraph();
         generateNewIntersectionGraphManually(); // new intersection graph
         generateRoadMatrix();
 
         generateIntToHexMap(); // generate maps
         generateHexToIntMap();
 
+        // while the chit rule is not followed, generate a new tile order
         do {
             this.hexagons.clear();
             generateHexagonTiles(); // generate hex tiles
         } while (!checkChitRule());
 
-        designatePorts();
+        generatePorts(); // create port objects
     } // end Board constructor
 
     /**
@@ -111,7 +111,6 @@ public class Board implements Runnable {
         this.setHexagonIdRings(b.getHexagonIdRings());
         this.setIntersectionIdRings(b.getIntersectionIdRings());
         this.sethGraph(b.getHGraph());
-        this.setiGraph(b.getIGraph());
         this.setHexToIntIdMap(b.getHexToIntIdMap());
         this.setIntToHexIdMap(b.getIntToHexIdMap());
         this.setBuildings(b.getBuildings());
@@ -310,7 +309,7 @@ public class Board implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run () {
 
     }
 
@@ -1173,67 +1172,6 @@ public class Board implements Runnable {
     }
 
     /**
-     * generates the intersection adjacency graph
-     */
-    private void generateIntersectionGraph () {
-        // set all values in the 2d array to false
-        for (int i = 0; i < 2; i++) { // rings
-            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) { // ids
-                this.iGraph[i][intersectionIdRings.get(i).get(j)] = false;
-            }
-        }
-        for (int i = 0; i < 3; i++) { //rings 0-2
-            boolean hasNextLink = true; // is it looking to the next ring or prev ring
-            int skipCount = 2; // # of intersections to skip to switch hasNext
-            for (int j = 0; j < intersectionIdRings.get(i).size(); j++) { //columns starts at 1 and ends at 0 (wrapped by 1)
-
-                int size = intersectionIdRings.get(i).size();
-                int col = j % size; // wrap if needs to be 0
-                int ringIndexDiff = -1;
-
-                if (i == 1) {
-                    if (skipCount == 0) {
-                        hasNextLink = false;
-                        skipCount = 2;
-                    } else {
-                        hasNextLink = true;
-                        skipCount--;
-                    }
-                    col = (j + 1) % size;
-                }
-
-                if (i == 2) hasNextLink = false;
-
-                int nextIntersection = (col + 1) % size;
-                iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
-
-                //Log.d(TAG, "skip: " + skipCount);
-                if (hasNextLink) {
-                    //hLog.d(TAG, "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
-                    if (col + ringIndexDiff == -1) {
-                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
-                    } else {
-                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, col + ringIndexDiff)] = true;
-                    }
-                }
-            }
-        }
-        //        StringBuilder str = new StringBuilder();
-        //        str.append("\n\n----------------\n");
-        //        for (int i = 0; i < iGraph.length; i++) {
-        //            StringBuilder strRow = new StringBuilder();
-        //            for (int j = 0; j < iGraph[i].length; j++) {
-        //                strRow.append(i).append("-").append(j).append("=");
-        //                if (iGraph[i][j]) strRow.append("t ");
-        //                else strRow.append("f ");
-        //            }
-        //            //str.append("\n");
-        //            Log.d("dev", "" + strRow.toString());
-        //        }
-        //        Log.d("dev", "" + str.toString());
-    } // end generateIntersectionGraph method
-
-    /**
      * generates the hexagon to integer map from the integer to hexagon map
      */
     private void generateHexToIntMap () {
@@ -1427,8 +1365,8 @@ public class Board implements Runnable {
      * generates an intersection adjacency matrix for the roads
      */
     private void generateRoadMatrix () {
-        for (int i = 0; i < iGraph.length; i++) {
-            for (int j = 0; j < iGraph[i].length; j++) {
+        for (int i = 0; i < 54; i++) {
+            for (int j = 0; j < 54; j++) {
                 roadMatrix[i][j] = new Road(-1, i, j);
             }
         }
@@ -1442,7 +1380,7 @@ public class Board implements Runnable {
     /**
      * Creates ports along the given intersection, and assigns them proper ge values
      */
-    private void designatePorts () {
+    private void generatePorts () {
         portList.add(new Port(25, 26, 3, 3)); //Ore
 
         portList.add(new Port(29, 30, 2, 1)); //Grain
@@ -1487,13 +1425,6 @@ public class Board implements Runnable {
      */
     public boolean[][] getHGraph () {
         return hGraph;
-    }
-
-    /**
-     * @return IntersectionDrawable adjacency graph.
-     */
-    public boolean[][] getIGraph () {
-        return iGraph;
     }
 
     /**
@@ -1570,13 +1501,6 @@ public class Board implements Runnable {
      */
     public void sethGraph (boolean[][] hGraph) {
         this.hGraph = hGraph;
-    }
-
-    /**
-     * @param iGraph A graph representing adjacency of intersections. E.g. iGraph[1][2] returns whether intersection 1 and intersection 2 are adjacent.
-     */
-    public void setiGraph (boolean[][] iGraph) {
-        this.iGraph = iGraph;
     }
 
     /**
@@ -1699,9 +1623,7 @@ public class Board implements Runnable {
                 str += "\n";
             }
         }
-
         str += "\nhexagons:\n";
-
         for (int i = 0; i < hexagons.size(); i++) {
             str += "\t  ";
             str += hexagons.get(i).toString();
@@ -1709,9 +1631,6 @@ public class Board implements Runnable {
                 str += "\n";
             }
         }
-
         return str;
     }
-
-
 } // end Class
