@@ -190,6 +190,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
 
         /*------------------------------Build Actions End------------------------------------------*/
+
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
         if (gs.isRobberPhase()) {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
