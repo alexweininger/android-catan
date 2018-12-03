@@ -189,13 +189,6 @@ public class CatanGameState extends GameState implements Runnable {
         }
     }
 
-    /**
-     * updates the current players with the longest road trophy and largest army trophy
-     */
-    public void updateTrophies () {
-        checkArmySize();
-    }
-
     /*-------------------------------------Resource Methods------------------------------------------*/
 
     /**
@@ -319,8 +312,8 @@ public class CatanGameState extends GameState implements Runnable {
     }
 
     public boolean allPlayersHaveDiscarded () {
-        for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
-            if (!robberPlayerListHasDiscarded[i]) {
+        for (boolean aRobberPlayerListHasDiscarded : robberPlayerListHasDiscarded) {
+            if (!aRobberPlayerListHasDiscarded) {
                 return false;
             }
         }
