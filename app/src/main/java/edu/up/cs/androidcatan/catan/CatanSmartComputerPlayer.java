@@ -141,7 +141,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     }
                     Log.i(TAG, "receiveInfo: Player is ending the discard phase!");
                     return;
-                }
+                }//End of discard phase
 
                 //5. Wait until all players have completed their discard phase
                 if (!gs.allPlayersHaveDiscarded() && gs.getCurrentPlayerId() == playerNum) {
@@ -195,15 +195,15 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
                         return;
 
-                    }
+                    }//End of Move Robber Phase
 
                     /*----------------Steal Resource Phase--------------*/
 
                     //11. Now Steal from the selected intersection
                     game.sendAction(new CatanRobberStealAction(this, playerNum, playerWithMostVPs));
                     return;
-                }
-            }
+                }//End of Robber Phases after Discard phase
+            }//End of Robber Phase
 
             // not setup phase if statement END
 
