@@ -133,7 +133,7 @@ public class HexagonDrawable extends BoardSurfaceView {
             } else {
                 Log.e(TAG, "drawHexagon: resourceDrawable is null", new NullPointerException());
             }
-        } else {
+        } else if (resourceId != 5) {
             Log.e(TAG, "drawHexagon: resourceId is out of bounds", new Exception());
         }
         Paint intersectionPaint = new Paint();

@@ -22,7 +22,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Board implements Runnable {
+public class Board {
     /**
      * External Citation
      * Date: 8 October 2018
@@ -308,12 +308,6 @@ public class Board implements Runnable {
         return result;
     }
 
-    @Override
-    public void run () {
-
-    }
-
-
     public int dfs (int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
         Graph rg = new Graph(54);
@@ -549,9 +543,7 @@ public class Board implements Runnable {
         ArrayList<Road> result = new ArrayList<>();
 
         for (Road r : this.roads) {
-            if (r.getIntersectionAId() == i || r.getIntersectionBId() == i) {
-                result.add(r);
-            }
+            if (r.getIntersectionAId() == i || r.getIntersectionBId() == i) result.add(r);
         }
         Log.d(TAG, "getRoadsAtIntersection() returned: " + result);
         return result;
@@ -568,16 +560,14 @@ public class Board implements Runnable {
             // check for chit value
             if (this.hexagons.get(i).getChitValue() == chitValue) {
                 // check if robber is on hexagon
-                if (this.robber.getHexagonId() != i) {
-                    hexagonIdList.add(i);
-                } else {
+                if (this.robber.getHexagonId() != i) hexagonIdList.add(i);
+                else
                     Log.i(TAG, "getHexagonsFromChitValue: robber was detected on hexagon, hexagon with id: " + i + " not producing resources chit values: " + chitValue);
-                }
             }
         }
-        if (hexagonIdList.size() > 2) { // error checking
+        if (hexagonIdList.size() > 2)  // error checking
             Log.e(TAG, "getHexagonsFromChitValue: returning a list with more than 2 hexagons with chit values of: " + chitValue);
-        }
+
         Log.d(TAG, "getHexagonsFromChitValue() returned: " + hexagonIdList);
         return hexagonIdList;
     }
@@ -589,9 +579,7 @@ public class Board implements Runnable {
     public boolean moveRobber (int hexagonId) {
         Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
-        if (hexagonId < 0 || hexagonId > 18) {
-            return false;
-        }
+        if (hexagonId < 0 || hexagonId > 18) return false;
 
         if (hexagonId == this.robber.getHexagonId()) return false;
 
@@ -610,7 +598,7 @@ public class Board implements Runnable {
     public boolean addBuilding (int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
         if (intersectionId < 0 || intersectionId > 53) {
-            Log.e(TAG, "addBuilding: IntersectionId was invalid");
+            Log.e(TAG, "addBuilding: IntersectionId is invalid and not within bounds");
             return false;
         }
 
@@ -636,9 +624,7 @@ public class Board implements Runnable {
      * @return whether there is a building at that given intersection
      */
     public boolean hasBuilding (int intersectionId) {
-        if (intersectionId < 0 || intersectionId > 53) {
-            return false;
-        }
+        if (intersectionId < 0 || intersectionId > 53) return false;
         return this.buildings[intersectionId] != null;
     }
 
@@ -660,21 +646,16 @@ public class Board implements Runnable {
      */
     public ArrayList<Integer> getAdjacentHexagons (int hexagonId) {
         Log.d(TAG, "getAdjacentHexagons() called with: hexagonId = [" + hexagonId + "]");
-
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
 
-        if (hexagonId < 0 || hexagonId > 18) {
-            return adjacentHexagons;
-        }
+        if (hexagonId < 0 || hexagonId > 18) return adjacentHexagons;
 
         for (int i = 0; i < 19; i++) {
             if (adjacentHexagons.size() > 6) {
                 Log.d(TAG, "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
                 break;
             }
-            if (hGraph[hexagonId][i] || hGraph[i][hexagonId]) {
-                adjacentHexagons.add(i);
-            }
+            if (hGraph[hexagonId][i] || hGraph[i][hexagonId]) adjacentHexagons.add(i);
         }
         Log.d(TAG, "getAdjacentHexagons() returned: " + adjacentHexagons);
         return adjacentHexagons;
@@ -694,7 +675,6 @@ public class Board implements Runnable {
             Log.e(TAG, "getIntersectionId: Invalid col value received: " + col);
             return -1;
         }
-
         return intersectionIdRings.get(ring).get(col);
     }
 
@@ -717,15 +697,6 @@ public class Board implements Runnable {
             return null;
         }
         return this.hexagons.get(hexagonId);
-    }
-
-    public boolean areIntersectionsAdjacent (int intA, int intB) {
-        if (intA < 0 || intB < 0 || intA > 53 || intB > 53) {
-            Log.e(TAG, "areIntersectionsAdjacent: Index out of bounds for checking intersection adjacency.");
-            return false;
-        }
-
-        return this.intersectionGraph.get(intA).contains(intB);
     }
 
     /*----- board helper methods for setting up board and populating data structures -----*/
@@ -804,11 +775,10 @@ public class Board implements Runnable {
 
         //arrays that contain information regarding what each hexagon will contain
         int[] resourceTypeCount = {3, 4, 4, 3, 4, 1};
-
+        final int[] resourceTypeCountsCorrect = {3, 4, 4, 3, 4, 1};
         int[] resources = {0, 1, 2, 3, 4, 5};
 
         Random random = new Random();
-
         ArrayList<Integer> chitList = generateChitList();
 
         //iterates through the hexagons and assigns each individual one the information required
@@ -828,19 +798,11 @@ public class Board implements Runnable {
                 chitList.remove(0);
                 hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue, hexagons.size()));
             }
-
             resourceTypeCount[randomResourceType]--;
-
-            if (resources[randomResourceType] == 5) {
-                robber.setHexagonId(this.hexagons.size() - 1);
-            }
+            if (resources[randomResourceType] == 5) robber.setHexagonId(this.hexagons.size() - 1);
 
             Log.i(TAG, "generateHexagonTiles: hexagonsSize: " + this.hexagons.size());
         }
-
-        Log.i(TAG, "generateHexagonTiles: exited loop");
-
-        Log.i(TAG, "generateHexagonTiles: hexagon list:");
 
         if (hexagons.size() < 19) {
             Log.e(TAG, "generateHexagonTiles: hexagons size less than 19");
@@ -856,10 +818,10 @@ public class Board implements Runnable {
             resourceCountChecks[hexagon.getResourceId()]++;
         }
 
+        // make sure there are exactly the correct amount of resource tiles on the board
         for (int i = 0; i < resourceCountChecks.length; i++) {
-            if (resourceTypeCount[i] < resourceCountChecks[i]) {
-                Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCount[i] + ".");
-                //generateHexagonTiles();
+            if (resourceCountChecks[i] < resourceTypeCountsCorrect[i]) {
+                Log.e(TAG, "generateHexagonTiles: Resource tile count check failed for resource " + i + ". There are " + resourceCountChecks[i] + " of this resources when there should only be " + resourceTypeCountsCorrect[i] + ".");
             }
         }
     }
@@ -1290,74 +1252,50 @@ public class Board implements Runnable {
 
         intToHexIdMap.get(24).add(7); // outer ring of intersections (ring 2)
         intToHexIdMap.get(24).add(8); // side 1
-
         intToHexIdMap.get(25).add(8);
-
         intToHexIdMap.get(26).add(8);
         intToHexIdMap.get(26).add(9);
-
         intToHexIdMap.get(27).add(9);
-
         intToHexIdMap.get(28).add(9);
 
         intToHexIdMap.get(29).add(9); // side 2
         intToHexIdMap.get(29).add(10);
-
         intToHexIdMap.get(30).add(10);
-
         intToHexIdMap.get(31).add(10);
         intToHexIdMap.get(31).add(11);
-
         intToHexIdMap.get(32).add(11);
-
         intToHexIdMap.get(33).add(11);
 
         intToHexIdMap.get(34).add(11); // side 3
         intToHexIdMap.get(34).add(12);
-
         intToHexIdMap.get(35).add(12);
-
         intToHexIdMap.get(36).add(12);
         intToHexIdMap.get(36).add(13);
-
         intToHexIdMap.get(37).add(13);
-
         intToHexIdMap.get(38).add(13);
 
         intToHexIdMap.get(39).add(13); // side 4
         intToHexIdMap.get(39).add(14);
-
         intToHexIdMap.get(40).add(14);
-
         intToHexIdMap.get(41).add(14);
         intToHexIdMap.get(41).add(15);
-
         intToHexIdMap.get(42).add(15);
-
         intToHexIdMap.get(43).add(15);
 
         intToHexIdMap.get(44).add(15); // side 5
         intToHexIdMap.get(44).add(16);
-
         intToHexIdMap.get(45).add(16);
-
         intToHexIdMap.get(46).add(16);
         intToHexIdMap.get(46).add(17);
-
         intToHexIdMap.get(47).add(17);
-
         intToHexIdMap.get(48).add(17);
 
         intToHexIdMap.get(49).add(17); // side 6
         intToHexIdMap.get(49).add(18);
-
         intToHexIdMap.get(50).add(18);
-
         intToHexIdMap.get(51).add(18);
         intToHexIdMap.get(51).add(7);
-
         intToHexIdMap.get(52).add(7);
-
         intToHexIdMap.get(53).add(7);
     }
 
@@ -1382,21 +1320,13 @@ public class Board implements Runnable {
      */
     private void generatePorts () {
         portList.add(new Port(25, 26, 3, 3)); //Ore
-
         portList.add(new Port(29, 30, 2, 1)); //Grain
-
         portList.add(new Port(32, 33, 3, -1)); //Anything
-
         portList.add(new Port(35, 36, 2, 2)); //Lumber
-
         portList.add(new Port(39, 40, 2, 0)); //Brick
-
         portList.add(new Port(42, 43, 3, -1)); //anything
-
         portList.add(new Port(45, 46, 3, -1)); //anything
-
         portList.add(new Port(52, 53, 3, -1)); //anything
-
         portList.add(new Port(49, 50, 2, 4));  //Wool
     }
 
