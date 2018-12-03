@@ -274,12 +274,13 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     while(!tryMoveRobber(hexId, gs)){
                         hexId = random.nextInt(gs.getBoard().getHexagons().size());
                     }
+
+                    //9. Send action to move the robber
                     Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
                     sleep(2000);
                     CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
                     game.sendAction(action);
                     return;
-                    //9. Send action to move the robber
 //                    for (Hexagon hex : gs.getBoard().getHexagons()) {
 //                        hexId = hex.getHexagonId();
 //                        if (tryMoveRobber(hexId, gs)) {
@@ -293,20 +294,36 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 }
 
                 /*----------------Steal Resource Phase--------------*/
+
+                //10. Computer chooses a random intersection to steal from
                 sleep(500);
                 // get adjacent intersections around the hexagon
                 ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
-                // for each adjacent intersection
-                for (Integer intersection : intersections) {
-                    // if intersection has a building AND building isn't owned by the current player
-                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum) {
-                        Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
 
-                        // send CatanRobberStealAction to the game
-                        game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId()));
-                        return;
-                    }
+                int randomIntersectionIdx = random.nextInt(intersections.size());
+                int intersectionId = intersections.get(randomIntersectionIdx);
+
+                while(!gs.getBoard().hasBuilding(intersectionId) || gs.getBoard().getBuildingAtIntersection(intersectionId).getOwnerId() == playerNum){
+                    randomIntersectionIdx = random.nextInt(intersections.size());
+                    intersectionId = intersections.get(randomIntersectionIdx);
                 }
+
+                //11. Valid intersection found, steal from this player
+                Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersectionId).getOwnerId());
+                // send CatanRobberStealAction to the game
+                game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersectionId).getOwnerId()));
+                return;
+                // for each adjacent intersection
+//                for (Integer intersection : intersections) {
+//                    // if intersection has a building AND building isn't owned by the current player
+//                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum) {
+//                        Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
+//
+//                        // send CatanRobberStealAction to the game
+//                        game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId()));
+//                        return;
+//                    }
+//                }
             }
         }
 
