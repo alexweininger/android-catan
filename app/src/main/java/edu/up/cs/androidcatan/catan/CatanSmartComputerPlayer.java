@@ -195,24 +195,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
                         return;
 
-//                        Log.i(TAG, "receiveInfo: Computer Player hasMovedRobber: " + gs.getHasMovedRobber());
-//                        Log.i(TAG, "receiveInfo: Computer is moving the robber");
-//                        sleep(2000);
-//
-//                        //8. Choose a random hex, then loop until valid
-//                        for (Hexagon hex : gs.getBoard().getHexagons()) {
-//                            hexId = hex.getHexagonId();
-//                            if (tryMoveRobber(hexId, gs)) {
-//                                Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
-//                                sleep(2000);
-//
-//                                //9. Send action to move the robber
-//                                CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
-//                                game.sendAction(action);
-//                                return;
-//                            }
-//                        }
-                    }
 
                     /*----------------Steal Resource Phase--------------*/
 
@@ -220,21 +202,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     game.sendAction(new CatanRobberStealAction(this, playerNum, playerWithMostVPs));
                     return;
 
-//                    //10. Computer chooses a random intersection to steal from
-//                    sleep(500);
-//                    // get adjacent intersections around the hexagon
-//                    ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
-//                    // for each adjacent intersection
-//                    for (Integer intersection : intersections) {
-//                        // if intersection has a building AND building isn't owned by the current player
-//                        if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum) {
-//                            Log.i(TAG, "receiveInfo: Computer is now stealing from player " + gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId());
-//
-//                            //11. Valid intersection found, steal from this player
-//                            game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId()));
-//                            return;
-//                        }
-//                    }
                 }
             }
 
