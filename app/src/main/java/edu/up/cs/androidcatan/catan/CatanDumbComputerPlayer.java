@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -33,7 +34,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
     private static final String TAG = "CatanDumbComputerPlayer";
 
     private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
-    int hexId;
+    private int hexId;
 
     /**
      * callback method--game's state has changed
@@ -114,7 +115,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         /*----------------------------------Build Actions------------------------------------------*/
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
             sleep(1000);
-            Building building = null;
+            Building building;
             int action = random.nextInt(4);
             if (action == 0) //build  City
             {
@@ -328,7 +329,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
         for (int n = 0; n < intersections.size(); n++) {
             for (int j = n + 1; j < intersections.size(); j++) {
-                if (intersections.get(n) != intersections.get(j)) {
+                if (!Objects.equals(intersections.get(n), intersections.get(j))) {
                     noRepeatIntersections.add(n);
                 }
             }
