@@ -172,7 +172,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         //9. Iterate through each Hexagon and find one that has the playersId at one of the adjacent intersections
                         for (Hexagon hex : gs.getBoard().getHexagons()) {
                             Log.i(TAG, "receiveInfo: Checking hexagon " + hex.getHexagonId() + " for player " + playerWithMostVPs);
-                            if(gs.getBoard().getRobber().getHexagonId() != hex.getHexagonId()) {
+                            if (gs.getBoard().getRobber().getHexagonId() != hex.getHexagonId()) {
                                 for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
                                     if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
                                         Log.i(TAG, "receiveInfo: Found player at hex " + hex.getHexagonId() + ".");
@@ -195,13 +195,13 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
                         return;
 
+                    }
 
                     /*----------------Steal Resource Phase--------------*/
 
                     //11. Now Steal from the selected intersection
                     game.sendAction(new CatanRobberStealAction(this, playerNum, playerWithMostVPs));
                     return;
-
                 }
             }
 
