@@ -85,9 +85,9 @@ public class CatanLocalGame extends LocalGame {
         /* --------------------------- Turn Actions --------------------------------------- */
 
         if (action instanceof CatanRollDiceAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            this.state.setCurrentDiceSum(7);//this.state.getDice().roll());
-            Log.i(TAG, "rollDice: Player " + this.state.getCurrentPlayerId() + " rolled a " + this.state.getCurrentDiceSum());
+            Log.d(TAG, "makeMove() called with: action = [" + action.getClass() + "]");
+            state.setCurrentDiceSum(state.getDice().roll());
+            Log.i(TAG, "rollDice: Player " + state.getCurrentPlayerId() + " rolled a " + state.getCurrentDiceSum());
 
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
                 Log.i(TAG, "rollDice: The robber has been activated.");
@@ -196,6 +196,8 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
             // remove resources from players inventory (also does checks)
+//            state.getCurrentPlayer().addResourceCard(3,3);
+//            state.getCurrentPlayer().addResourceCard(1,1);
             if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
                 // add building to the board
                 state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));

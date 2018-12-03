@@ -111,6 +111,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView buildingCosts = null;
     private Button sidebarScoreboardButton = (Button) null;
 
+    /*------------ Help Menu Buttons and Groups ----------------- */
+    private Button winningHelpButton = (Button) null;
+    private Button setUpPhaseHelpButton = (Button) null;
+    private Button buildingHelpButtonm = (Button) null;
+    private Button developmentCardHelpButon = (Button) null;
+    private Button tradingHelpButton = (Button) null;
+    private Button robberHelpButton = (Button) null;
+
+    private Button winningHelpBackButton = (Button) null;
+    private Button setUpPhaseHelpBackButton = (Button) null;
+    private Button buildingHelpBackButton = (Button) null;
+    private Button developmentCardHelpBackButton = (Button) null;
+    private Button tradingHelpBackButton = (Button) null;
+    private Button robberHelpBackButton = (Button) null;
+
+    private Group helpMenu = (Group) null;
+    private Group winningHelpMenu = (Group) null;
+    private Group setUpPhaseHelpMenu = (Group) null;
+    private Group buildingHelpMenu = (Group) null;
+    private Group developmentCardHelpMenu = (Group) null;
+    private Group tradingHelpMenu = (Group) null;
+    private Group robberHelpMenu = (Group) null;
+
+
     /* ------------- resource count text views -------------------- */
 
     private TextView[] resourceValues;
@@ -397,6 +421,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
+            toggleGroupVisibility(helpMenu);
+
+            //            setAllButtonsToVisible();
+            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -407,15 +435,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /*--------------------------------- Robber onClick Handlers ------------------------------*/
 
+        //Robber: Both Move and Steal Phase
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
+
+            //Checks if Robber needs to be moved
             if (state.getHasMovedRobber()) {
+                //Robber Steal Phase
+
+                //Checks if there is exactly on intersection selected
                 if (selectedIntersections.size() != 1) {
                     //robberHexMessage.setText("Please select only one intersection.");
                     messageTextView.setText("Please select only one intersection.");
                     return;
                 }
-
+                //Checks if intersection actually possesses a building
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
                     //robberHexMessage.setText(R.string.select_int_w_bldg_robber);
                     messageTextView.setText(R.string.select_int_w_bldg_robber);
@@ -424,23 +458,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     //toast.show();
                     return;
                 }
-
+                //Checks if building is owned by owner; if so, it rejects the users selection
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
                     //robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select an intersection not owned by you.", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building not owned by you.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     //toast.show();
                     return;
                 }
-
-                int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                robberChooseHexGroup.setVisibility(View.GONE);
-                game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
-                //robberHexMessage.setText("Please select only one intersection.");
+                //Finally checks if intersection is adjacent to the Hex; if so, send action
+                for (Integer intersection : state.getBoard().getHexToIntIdMap().get(state.getBoard().getRobber().getHexagonId())) {
+                    if(intersection == selectedIntersections.get(0)){
+                        int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
+                        robberChooseHexGroup.setVisibility(View.GONE);
+                        game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
+                        //robberHexMessage.setText("Please select only one intersection.");
+                        return;
+                    }
+                }
+                messageTextView.setText(R.string.select_adjacent_to_robber);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building adjacent to the Robber tile.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //toast.show();
                 return;
             }
 
+            //Robber Move Phase: check if we can move the robber to the selected hex
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 //robberHexMessage.setText(R.string.invalid_tile);
@@ -453,6 +497,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
 
+            //RobberMoveAction is sent
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.VISIBLE);
             //robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
@@ -751,6 +796,69 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             tradeGiveSelection = -1;
         }
 
+        /* ----------------------- Help Menus ---------------------------- */
+        if(button.getId() == R.id.winning_Help_Button)
+        {
+            toggleGroupVisibility(winningHelpMenu);
+        }
+
+        if(button.getId() == R.id.winning_help_menu_Back)
+        {
+            toggleGroupVisibility(winningHelpMenu);
+        }
+
+        if(button.getId() == R.id.set_Up_Phase_Help_Button)
+        {
+            toggleGroupVisibility(setUpPhaseHelpMenu);
+        }
+
+        if(button.getId() == R.id.set_up_phase_help_menu_Back)
+        {
+            toggleGroupVisibility(setUpPhaseHelpMenu);
+        }
+
+        if(button.getId() == R.id.building_Help_Button)
+        {
+            toggleGroupVisibility(buildingHelpMenu);
+        }
+
+        if(button.getId() == R.id.building_help_menu_Back)
+        {
+            toggleGroupVisibility(buildingHelpMenu);
+        }
+
+        if(button.getId() == R.id.development_Cards_Help_Button)
+        {
+            toggleGroupVisibility(developmentCardHelpMenu);
+        }
+
+        if(button.getId() == R.id.deleopment_card_help_menu_Back)
+        {
+            toggleGroupVisibility(developmentCardHelpMenu);
+        }
+
+        if(button.getId() == R.id.trading_Help_Button)
+        {
+            toggleGroupVisibility(tradingHelpMenu);
+        }
+
+        if(button.getId() == R.id.trading_help_menu_Back)
+        {
+            toggleGroupVisibility(tradingHelpMenu);
+        }
+
+        if(button.getId() == R.id.robber_Help_Button)
+        {
+            toggleGroupVisibility(robberHelpMenu);
+        }
+
+        if(button.getId() == R.id.robber_help_menu_Back);
+        {
+            toggleGroupVisibility(robberHelpMenu);
+        }
+
+
+
     } // onClick END
 
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
@@ -995,6 +1103,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return Success.
      */
     private boolean tryMoveRobber (int hexId) {
+        //Checks if Desert tile is selected
+        if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
+            messageTextView.setText("Desert Tile cannot longer be selected.");
+            return false;
+        }
         // make sure they have a hexagon selected
         if (hexId == -1) {
             messageTextView.setText(R.string.hex_for_robber);
@@ -1590,6 +1703,51 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
         this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
+
+        /* ------------------- Help Menu Buttons and Groups -------------------- */
+        this.winningHelpButton = activity.findViewById(R.id.winning_Help_Button);
+        this.winningHelpButton.setOnClickListener(this);
+
+        this.setUpPhaseHelpButton = activity.findViewById(R.id.set_Up_Phase_Help_Button);
+        this.setUpPhaseHelpButton.setOnClickListener(this);
+
+        this.buildingHelpButtonm = activity.findViewById(R.id.building_Help_Button);
+        this.buildingHelpButtonm.setOnClickListener(this);
+
+        this.developmentCardHelpButon = activity.findViewById(R.id.development_Cards_Help_Button);
+        this.developmentCardHelpButon.setOnClickListener(this);
+
+        this.tradingHelpButton = activity.findViewById(R.id.trading_Help_Button);
+        this.tradingHelpButton.setOnClickListener(this);
+
+        this.robberHelpButton = activity.findViewById(R.id.robber_Help_Button);
+        this.robberHelpButton.setOnClickListener(this);
+
+        this.winningHelpBackButton = activity.findViewById(R.id.winning_help_menu_Back);
+        this.winningHelpBackButton.setOnClickListener(this);
+
+        this.setUpPhaseHelpBackButton = activity.findViewById(R.id.set_up_phase_help_menu_Back);
+        this.setUpPhaseHelpBackButton.setOnClickListener(this);
+
+        this.buildingHelpBackButton = activity.findViewById(R.id.building_help_menu_Back);
+        this.buildingHelpBackButton.setOnClickListener(this);
+
+        this.developmentCardHelpBackButton = activity.findViewById(R.id.deleopment_card_help_menu_Back);
+        this.developmentCardHelpBackButton.setOnClickListener(this);
+
+        this.tradingHelpBackButton = activity.findViewById(R.id.trading_help_menu_Back);
+        this.tradingHelpBackButton.setOnClickListener(this);
+
+        this.robberHelpBackButton = activity.findViewById(R.id.robber_help_menu_Back);
+        this.robberHelpBackButton.setOnClickListener(this);
+
+        this.helpMenu = activity.findViewById(R.id.help_menu_group);
+        this.buildingHelpMenu = activity.findViewById(R.id.building_help_menu_group);
+        this.developmentCardHelpMenu  = activity.findViewById(R.id.development_card_help_menu_group);
+        this.winningHelpMenu = activity.findViewById(R.id.winning_help_menu_group);
+        this.setUpPhaseHelpMenu = activity.findViewById(R.id.set_up_phase_help_menu_group);
+        this.tradingHelpMenu = activity.findViewById(R.id.trading_help_menu_group);
+        this.robberHelpMenu = activity.findViewById(R.id.robber_help_menu_group);
 
         /* ------------ DEV CARD SPINNER ----------------- */
 

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/robber_menu_background"
+        android:layout_width="870dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".5"
+        android:background="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/robber_help_menu_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/robber_menu_background"
+        app:layout_constraintTop_toTopOf="@+id/robber_menu_background"
+        tools:text="Robber" />
+
+    <TextView
+        android:id="@+id/robber_help_menu_text"
+        android:layout_width="792dp"
+        android:layout_height="455dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintStart_toStartOf="@+id/robber_menu_background"
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view"
+        tools:text="The Robber is played whenever a seven is rolled. When this happens, any player in the game who has more than seven
+resources, must discard half of them. Which resources are how many of each is up to them. After all players who had to discard have done so, the player who rolled the seven must move the robber to a new tile. The new tile must not be the dessert tile, have at least one oppenent adjacent to it and cannot be the same tile is currently on. After having done so, the player then selects an oppenent whose settlement or city is adjacent to steal a random resource from.
+
+
+
+Discard Resource Cards:
+    1) Select the plus or minus to set how many of each
+         card to discard
+    2) Press the confirm button.
+
+
+
+
+
+
+
+
+
+Moving the Robber
+    1) Select a tile to move the robber to
+    2) Press the Confrim button in the bottom right
+    3) Select an openents settlement or city adjacent to the tile
+    4) Press the confirm button"/>
+
+    <Button
+        android:id="@+id/robber_help_menu_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="436dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/robber_menu_background"
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view"
+        tools:text="Back" />
+
+    <ImageView
+        android:id="@+id/robber_help_menu_discard_img"
+        android:layout_width="300dp"
+        android:layout_height="165dp"
+        android:layout_marginTop="83dp"
+        android:layout_marginEnd="47dp"
+        app:layout_constraintEnd_toEndOf="@+id/robber_help_menu_move_robber_img"
+        app:layout_constraintTop_toTopOf="@+id/robber_help_menu_text"
+        tools:srcCompat="@drawable/robber_discard" />
+
+    <ImageView
+        android:id="@+id/robber_help_menu_move_robber_img"
+        android:layout_width="394dp"
+        android:layout_height="243dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="77dp"
+        app:layout_constraintEnd_toEndOf="@+id/robber_menu_background"
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_discard_img"
+        tools:srcCompat="@drawable/robber_move_steal" />
+</android.support.constraint.ConstraintLayout>
