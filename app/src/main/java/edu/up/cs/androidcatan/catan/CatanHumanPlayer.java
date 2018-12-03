@@ -115,20 +115,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* ------------- resource count text views -------------------- */
 
     private TextView[] resourceValues;
-    private TextView oreValue = (TextView) null;
-    private TextView grainValue = (TextView) null;
-    private TextView lumberValue = (TextView) null;
-    private TextView woolValue = (TextView) null;
-    private TextView brickValue = (TextView) null;
 
     private TextView[] playerScores = new TextView[4];
     private TextView[] playerNameTextViews;
-
-    // scoreboard player name TextViews
-    private TextView player0Name = (TextView) null;
-    private TextView player1Name = (TextView) null;
-    private TextView player2Name = (TextView) null;
-    private TextView player3Name = (TextView) null;
 
     // misc sidebar TextViews
     private TextView myScore = (TextView) null;
@@ -1617,11 +1606,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ---------- Sidebar resource values ---------- */
         this.resourceValues = new TextView[]{activity.findViewById(R.id.sidebar_value_brick), activity.findViewById(R.id.sidebar_value_grain), activity.findViewById(R.id.sidebar_value_lumber), activity.findViewById(R.id.sidebar_value_ore), activity.findViewById(R.id.sidebar_value_wool)};
-        this.oreValue = activity.findViewById(R.id.sidebar_value_ore);
-        this.grainValue = activity.findViewById(R.id.sidebar_value_grain);
-        this.lumberValue = activity.findViewById(R.id.sidebar_value_lumber);
-        this.woolValue = activity.findViewById(R.id.sidebar_value_wool);
-        this.brickValue = activity.findViewById(R.id.sidebar_value_brick);
 
         /* ---------- misc sidebar buttons and text views ---------- */
 
