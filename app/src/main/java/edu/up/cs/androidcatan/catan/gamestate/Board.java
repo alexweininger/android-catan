@@ -277,23 +277,6 @@ public class Board {
         }
     }
 
-    private int[][] generatePlayerRoadMatrix (int playerId) {
-        int[][] result = new int[54][54];
-
-        for (int i = 0; i < roadMatrix.length; i++) {
-            for (int j = 0; j < roadMatrix[i].length; j++) {
-                if (roadMatrix[i][j].getOwnerId() == playerId) {
-                    result[i][j] = 1;
-                    Log.w(TAG, "generatePlayerRoadMatrix: added road to player's road matrix from " + i + " to " + j + " for player " + playerId);
-                } else {
-                    result[i][j] = 0;
-                }
-            }
-        }
-        printPlayerMatrix(result);
-        return result;
-    }
-
     public int dfs (int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
         Graph rg = new Graph(54);
