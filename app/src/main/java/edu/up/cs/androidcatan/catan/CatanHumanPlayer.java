@@ -85,13 +85,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int selectedDevCard = -1;
     private int selectedResourceId = -1;
     private TextView messageTextView = (TextView) null;
-    //private Toast popUpMessage = (Toast) null;
 
     private ArrayList<String> devCards = new ArrayList<>();
-    /* ------------------------------ Scoreboard trophy images ------------------------------------ */
-
-    private ImageView roadTrophyImages[] = new ImageView[4];
-    private ImageView armyTrophyImages[] = new ImageView[4];
 
     /* ------------- Building Buttons -------------------- */
     private Button buildCityButton = null;
@@ -230,17 +225,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group robberChooseHexGroup = (Group) null;
     private Group pickResourceGroup = (Group) null;
 
-    //Largest Army Image Views
-    private ImageView largestArmyPlayer0 = (ImageView) null;
-    private ImageView largestArmyPlayer1 = (ImageView) null;
-    private ImageView largestArmyPlayer2 = (ImageView) null;
-    private ImageView largestArmyPlayer3 = (ImageView) null;
+    /* ------------------------------ Scoreboard trophy images ------------------------------------ */
 
-    //Longest Road Image Views
-    private ImageView longestRoadPlayer0 = (ImageView) null;
-    private ImageView longestRoadPlayer1 = (ImageView) null;
-    private ImageView longestRoadPlayer2 = (ImageView) null;
-    private ImageView longestRoadPlayer3 = (ImageView) null;
+    private ImageView roadTrophyImages[] = new ImageView[4];
+    private ImageView armyTrophyImages[] = new ImageView[4];
+
 
     private GameMainActivity myActivity;  // the android activity that we are running
     public CatanGameState state = null; // game state
@@ -1728,13 +1717,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.player2Name = activity.findViewById(R.id.Player3_Name);
         this.player3Name = activity.findViewById(R.id.Player4_Name);
 
-        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player0);
-        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player1);
-        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player2);
-        this.roadTrophyImages[0] = activity.findViewById(R.id.longest_road_player3);
-
-
-
         /* -------------------------------------- MENUS ---------------------------------------- */
 
         /* ------------ Development Card Menu ------------- */
@@ -1855,16 +1837,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         monopolyConfirm = activity.findViewById(R.id.pickResMenu_ConfirmButton);
         monopolyConfirm.setOnClickListener(this);
 
-        /*-----------------------Torphies---------------------------------------*/
-        largestArmyPlayer0 = activity.findViewById(R.id.largest_army_player0);
-        largestArmyPlayer1 = activity.findViewById(R.id.largest_army_player1);
-        largestArmyPlayer2 = activity.findViewById(R.id.largest_army_player2);
-        largestArmyPlayer3 = activity.findViewById(R.id.largest_army_player3);
+        /*----------------------- Trophies ---------------------------------------*/
 
-        longestRoadPlayer0 = activity.findViewById(R.id.longest_road_player0);
-        longestRoadPlayer1 = activity.findViewById(R.id.longest_road_player1);
-        longestRoadPlayer2 = activity.findViewById(R.id.longest_road_player2);
-        longestRoadPlayer3 = activity.findViewById(R.id.longest_road_player3);
+        armyTrophyImages = new ImageView[]{activity.findViewById(R.id.largest_army_player0), activity.findViewById(R.id.largest_army_player1),  activity.findViewById(R.id.largest_army_player2), activity.findViewById(R.id.largest_army_player3)};
+
+        roadTrophyImages = new ImageView[]{activity.findViewById(R.id.longest_road_player0), activity.findViewById(R.id.longest_road_player1),  activity.findViewById(R.id.longest_road_player2), activity.findViewById(R.id.longest_road_player3)};
 
         // if we have state update the GUI based on the state
         if (this.state != null) receiveInfo(state);
@@ -1916,14 +1893,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        ImageView[] largestArmyTrophies = {largestArmyPlayer0, largestArmyPlayer1, largestArmyPlayer2, largestArmyPlayer3};
-
         for (int i = 0; i < 4; i++) {
-            largestArmyTrophies[i].setVisibility(View.GONE);
+            armyTrophyImages[i].setVisibility(View.GONE);
 
         }
 
-        largestArmyTrophies[playerNum].setVisibility(View.VISIBLE);
+        armyTrophyImages[playerNum].setVisibility(View.VISIBLE);
 
         if (largestArmyPrevPlayer == -1) {
             return;
@@ -1952,13 +1927,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        ImageView[] longestRoadTrophies = {longestRoadPlayer0, longestRoadPlayer1, longestRoadPlayer2, longestRoadPlayer3};
-
         for (int i = 0; i < 4; i++) {
-            longestRoadTrophies[i].setVisibility(View.GONE);
+            armyTrophyImages[i].setVisibility(View.GONE);
         }
 
-        longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
+        armyTrophyImages[playerNum].setVisibility(View.VISIBLE);
 
         if (LongestRoadPrevPlayer == -1) {
             return;
