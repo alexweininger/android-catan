@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/robber_help_menu_title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -32,14 +32,14 @@
         tools:text="Robber" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/robber_help_menu_text"
         android:layout_width="792dp"
         android:layout_height="455dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintStart_toStartOf="@+id/robber_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view"
         tools:text="The Robber is played whenever a seven is rolled. When this happens, any player in the game who has more than seven
 resources, must discard half of them. Which resources are how many of each is up to them. After all players who had to discard have done so, the player who rolled the seven must move the robber to a new tile. The new tile must not be the dessert tile, have at least one oppenent adjacent to it and cannot be the same tile is currently on. After having done so, the player then selects an oppenent whose settlement or city is adjacent to steal a random resource from.
 
@@ -71,7 +71,7 @@ Moving the Robber
         android:layout_marginTop="436dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="@+id/robber_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view"
         tools:text="Back" />
 
     <ImageView
@@ -81,7 +81,7 @@ Moving the Robber
         android:layout_marginTop="83dp"
         android:layout_marginEnd="47dp"
         app:layout_constraintEnd_toEndOf="@+id/robber_help_menu_move_robber_img"
-        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="@+id/robber_help_menu_text"
         tools:srcCompat="@drawable/robber_discard" />
 
     <ImageView
