@@ -289,9 +289,9 @@ public class Board {
      * Main method to calculate the longest road trophy holder. - AL
      *
      * @param playerList list of player objects
-     * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
+     * @return returns the playerId with the longest road for now (may need to change so that it returns the value instead)
      */
-    public int getPlayerWithLongestRoad (ArrayList<Player> playerList, ArrayList<Road> roads2) {
+    public int getPlayerWithLongestRoad (ArrayList<Player> playerList) {
         Log.i(TAG, "updatePlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
