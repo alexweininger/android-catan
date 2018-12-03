@@ -31,7 +31,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         int playerWithMostVPsIntersection;
         boolean foundBuilding;
 
-        CatanSmartComputerPlayer (String name) {
+        public CatanSmartComputerPlayer (String name) {
             super(name);
         }
 
@@ -273,7 +273,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     //cycling through the amount, not the proper value at the intersection
                     if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))){
                         Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
-                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))); //going to need to change n
+                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n)));
                         Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
                         game.sendAction(new CatanEndTurnAction(this));
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
@@ -368,7 +368,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         Log.d(TAG, "tryMoveRobber: ");
         return false;
     }
-    private int getBuildingOfPlayer(CatanGameState gs){
+    public int getBuildingOfPlayer(CatanGameState gs){
         for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
             if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
                 return n;
@@ -376,7 +376,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         }
         return -1;
     }
-    private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
+    public ArrayList<Road> getPlayerRoads(CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
         for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
             if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
@@ -385,7 +385,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         }
         return playerRoads;
     }
-    private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
+    public ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {
             intersections.add(playerRoads.get(n).getIntersectionAId());
