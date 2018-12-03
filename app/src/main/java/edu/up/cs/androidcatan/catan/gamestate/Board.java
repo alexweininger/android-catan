@@ -22,7 +22,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Board {
+public class Board implements Runnable {
     /**
      * External Citation
      * Date: 8 October 2018
@@ -309,6 +309,12 @@ public class Board {
         return result;
     }
 
+    @Override
+    public void run() {
+
+    }
+
+
     public int dfs (int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
         Graph rg = new Graph(54);
@@ -318,7 +324,16 @@ public class Board {
                 pr.add(road);
             }
         }
-        return rg.DFS(pr.get(0).getIntersectionAId());
+
+        if (pr.size() < 5) {
+            return -1;
+        }
+        rg.setPr(pr);
+        Thread roadCalcThread = new Thread(rg);
+        roadCalcThread.start();
+        int m = rg.getMaxRoadLength();
+        Log.d(TAG, "dfs() returned: " + ownerId);
+        return m;
     }
 
     /**
@@ -327,19 +342,16 @@ public class Board {
      * @param playerList list of player objects
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
-    public int getPlayerWithLongestRoad (ArrayList<Player> playerList) {
-        Log.i(TAG, "getPlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
+    public int getPlayerWithLongestRoad (ArrayList<Player> playerList, ArrayList<Road> roads2) {
+        Log.i(TAG, "updatePlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
             //for each player there is an adjacency map as well as a list
             ArrayList<Road> playerRoads = new ArrayList<>();
-            Road[][] playerRoadList = new Road[54][54];
             ArrayList<Integer> currentPlayerRoadLength = new ArrayList<>();
             for (Road road : roads) {
                 if (road.getOwnerId() == player.getPlayerId()) {
                     playerRoads.add(road);
-                    //check line below
-                    playerRoadList[road.getIntersectionAId()][road.getIntersectionBId()] = road;
                 }
             }
 
@@ -370,7 +382,7 @@ public class Board {
                 }
             }
         }
-        Log.d(TAG, "getPlayerWithLongestRoad() returned: " + playerIdLongestRoad);
+        Log.d(TAG, "updatePlayerWithLongestRoad() returned: " + playerIdLongestRoad);
         return playerIdLongestRoad;
     }
 
@@ -1700,4 +1712,6 @@ public class Board {
 
         return str;
     }
+
+
 } // end Class
