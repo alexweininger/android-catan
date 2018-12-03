@@ -5,9 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.graphics.IntersectionDrawable;
+
+import static android.content.ContentValues.TAG;
 
 public class Port {
     private int intersectionA, intersectionB, tradeRatio, resourceId;
@@ -31,8 +34,8 @@ public class Port {
         this.setResourceId(p.getResourceId());
         this.setIntersectionB(p.getIntersectionB());
         this.setSize(p.getSize());
-        this.setxPos(p.getxPos());
-        this.setyPos(p.getyPos());
+        this.setXPos(p.getXPos());
+        this.setYPos(p.getYPos());
     }
 
     /**
@@ -56,13 +59,14 @@ public class Port {
         }
 
         Drawable portPicture = context.getDrawable(R.drawable.port_boat);
-        portPicture.setBounds(xPos - size, yPos - size, xPos + size, yPos + size);
-        portPicture.draw(canvas);
+        if (portPicture != null) {
+            portPicture.setBounds(xPos - size, yPos - size, xPos + size, yPos + size);
+            portPicture.draw(canvas);
+        } else {
+            Log.e(TAG, "drawPort: portPicture is null", new NullPointerException());
+        }
 
-        size = size / 2;
-        if (size < 20)
-            size = 20;
-
+        size = (size / 2 < 20)? 20:(size / 2);
         int offset = 30;
 
         Paint ratioFont = new Paint();
@@ -71,8 +75,12 @@ public class Port {
 
         if (resourceId != -1) {
             Drawable resourcePicture = context.getDrawable(resourceDrawables[this.resourceId]);
-            resourcePicture.setBounds(xPos - size + offset, yPos - size + offset, xPos + size + offset, yPos + size + offset);
-            resourcePicture.draw(canvas);
+            if (resourcePicture != null) {
+                resourcePicture.setBounds(xPos - size + offset, yPos - size + offset, xPos + size + offset, yPos + size + offset);
+                resourcePicture.draw(canvas);
+            } else {
+                Log.e(TAG, "drawPort: portPicture is null", new NullPointerException());
+            }
             canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
         } else {
             canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
@@ -95,7 +103,7 @@ public class Port {
         this.intersectionA = intersectionA;
     }
 
-    public void setTradeRatio (int tradeRatio) {
+    private void setTradeRatio (int tradeRatio) {
         this.tradeRatio = tradeRatio;
     }
 
@@ -103,19 +111,19 @@ public class Port {
         this.resourceId = resourceId;
     }
 
-    public int getxPos () {
+    private int getXPos () {
         return xPos;
     }
 
-    public void setxPos (int xPos) {
+    private void setXPos (int xPos) {
         this.xPos = xPos;
     }
 
-    public int getyPos () {
+    private int getYPos () {
         return yPos;
     }
 
-    public void setyPos (int yPos) {
+    private void setYPos (int yPos) {
         this.yPos = yPos;
     }
 
