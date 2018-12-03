@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -29,7 +30,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanDumbComputerPlayer extends GameComputerPlayer {
+public class CatanDumbComputerPlayer extends GameComputerPlayer implements Serializable {
     private static final String TAG = "CatanDumbComputerPlayer";
 
     private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};

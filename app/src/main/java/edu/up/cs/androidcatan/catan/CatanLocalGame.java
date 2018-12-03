@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -40,7 +41,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class CatanLocalGame extends LocalGame {
+public class CatanLocalGame extends LocalGame implements Serializable {
 
     private final static String TAG = "CatanLocalGame";
 

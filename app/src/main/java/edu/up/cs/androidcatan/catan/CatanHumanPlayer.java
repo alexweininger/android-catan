@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,7 +66,7 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
  * @version October 31th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
+public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener, Serializable {
     private final String TAG = "CatanHumanPlayer";
 
     // instance variables for logic
@@ -906,6 +907,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         @Override
         public boolean onTouch (View v, MotionEvent event) {
             if (isMenuOpen) return false;
+            if (null == state) return false;
             if (playerNum != state.getCurrentPlayerId()) return false;
 
             // save the X,Y coordinates

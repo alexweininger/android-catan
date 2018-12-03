@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -15,7 +16,7 @@ import java.util.Random;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Player {
+public class Player  implements Serializable {
 
     private static final String TAG = "Player"; // TAG used for Logging
 

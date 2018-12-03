@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -20,7 +21,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  * @version November 15th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanGameState extends GameState {
+public class CatanGameState extends GameState implements Serializable {
 
     private static final String TAG = "CatanGameState";
 
