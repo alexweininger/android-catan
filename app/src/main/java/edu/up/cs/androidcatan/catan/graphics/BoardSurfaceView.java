@@ -14,11 +14,12 @@ import android.view.SurfaceView;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class BoardSurfaceView extends SurfaceView {
+public class BoardSurfaceView extends SurfaceView implements Runnable {
     private static final String TAG = "BoardSurfaceView";
 
     int size;
     HexagonGrid grid;
+    private Canvas canvas;
 
     // constructors
     public BoardSurfaceView (Context context) {
@@ -29,6 +30,20 @@ public class BoardSurfaceView extends SurfaceView {
     public BoardSurfaceView (Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
+    }
+
+    @Override
+    public void run () {
+        if (this.grid == null) {
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                Log.e(TAG, "run: Thread.sleep", e);
+            }
+        } else {
+            Log.d(TAG, "run: Drawing game board");
+            this.invalidate();
+        }
     }
 
     public void onDraw (Canvas canvas) {
@@ -55,5 +70,13 @@ public class BoardSurfaceView extends SurfaceView {
 
     public void setGrid (HexagonGrid grid) {
         this.grid = grid;
+    }
+
+    public Canvas getCanvas () {
+        return canvas;
+    }
+
+    public void setCanvas (Canvas canvas) {
+        this.canvas = canvas;
     }
 }
