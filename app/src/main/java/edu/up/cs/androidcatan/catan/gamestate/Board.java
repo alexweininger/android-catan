@@ -81,7 +81,7 @@ public class Board implements Runnable {
     private int highlightedIntersectionId = -1;
 
     public Board () {
-        Log.d(TAG, "Board() called");
+        Log.d(TAG, "Board() constructor called");
         this.roadMatrix = new Road[54][54];
         robber = new Robber(0);
 
@@ -117,11 +117,11 @@ public class Board implements Runnable {
         this.setRoads(b.getRoads());
         this.setRobber(new Robber(b.getRobber())); // class
         this.setRoadMatrix(b.getRoadMatrix());
-        this.setRoadMatrix(b.getRoadMatrix());
         this.setPortList(b.getPortList());
         this.setIntersectionGraph(b.getIntersectionGraph());
         this.setHighlightedHexagonId(b.getHighlightedHexagonId());
         this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
+        this.setRoadGraph(b.getRoadGraph());
 
         for (int i = 0; i < b.getBuildings().length; i++) {
             if (b.getBuildings()[i] instanceof Settlement) {
@@ -1476,7 +1476,15 @@ public class Board implements Runnable {
         return roadMatrix;
     }
 
+    public ArrayList<ArrayList<Road>> getRoadGraph () {
+        return roadGraph;
+    }
+
     /* ----- generic setter methods ----- */
+
+    public void setRoadGraph (ArrayList<ArrayList<Road>> roadGraph) {
+        this.roadGraph = roadGraph;
+    }
 
     public void setIntersectionGraph (ArrayList<ArrayList<Integer>> intersectionGraph) {
         this.intersectionGraph = intersectionGraph;

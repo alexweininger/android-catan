@@ -82,7 +82,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
-    private /*ArrayList<Integer>*/ int[] resourceIdsToDiscard = new int[]{0, 0, 0, 0, 0};
     private int selectedDevCard = -1;
     private int selectedResourceId = -1;
     private TextView messageTextView = (TextView) null;
@@ -101,12 +100,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /* ------------- Action Buttons -------------------- */
     private Button sidebarOpenDevCardMenuButton = null;
-    private Button robberDiscard = null;
-    private Button robberMove = null;
-    private Button robberSteal = null;
     private Button tradeButton = null;
-    private Button tradeCustomPort = null;
-    private Button tradePort = null;
     private Button useDevCard = null;
     private Button buildDevCard = null;
     private Spinner devCardList = null;
@@ -219,7 +213,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView monopolyOreSelectionBox = (ImageView) null;
     private ImageView monopolyWoolSelectionBox = (ImageView) null;
 
-    //Monopoly Menu - Confrim
+    //Monopoly Menu - Confirm
     private TextView monopolyConfirm = (TextView) null;
     private int monopolyResourceChoice = -1;
 
