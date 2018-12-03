@@ -223,31 +223,46 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             }
 
             /*****Looks to trade so they can potentially build a road******/
+            int brickCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[0];
+
             int grainCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[1];
             int oreCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[3];
             int woolCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[4];
+            int tradeResourceId;
+            if (brickCount == 0){
+                tradeResourceId = 0;
+            }
+            else {
+                tradeResourceId = 2;
+            }
             if (grainCount >= 4) {
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: grain for brick");
-                    game.sendAction(new CatanTradeWithBankAction(this, 1,0));
+                    game.sendAction(new CatanTradeWithBankAction(this, 1,tradeResourceId));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
                     game.sendAction(new CatanEndTurnAction(this));
+                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                    return;
                 }
             }
             if (oreCount >= 4){
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
-                    game.sendAction(new CatanTradeWithBankAction(this, 3,0));
+                    game.sendAction(new CatanTradeWithBankAction(this, 3,tradeResourceId));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
                     game.sendAction(new CatanEndTurnAction(this));
+                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                    return;
                 }
             }
             if (woolCount >= 4){
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
-                    game.sendAction(new CatanTradeWithBankAction(this, 4,0));
+                    game.sendAction(new CatanTradeWithBankAction(this, 4,tradeResourceId));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
                     game.sendAction(new CatanEndTurnAction(this));
+                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                    return;
                 }
             }
 
