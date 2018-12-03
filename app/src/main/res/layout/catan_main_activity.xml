@@ -77,14 +77,14 @@
         android:id="@+id/help_menu_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="menu_background, winning_Help_Button, set_Up_Phase_Help_Button, building_Help_Button,development_Cards_Help_Button, trading_Help_Button, robber_Help_Button" />
 
     <android.support.constraint.Group
         android:id="@+id/winning_help_menu_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="winning_menu_background, winning_help_menu_title_text_view, winning_help_menu_text, winning_help_menu_Back" />
 
     <android.support.constraint.Group
@@ -1829,13 +1829,14 @@
         android:id="@+id/winning_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleopment_card_help_menu_Back"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -1902,13 +1903,15 @@ Checking Player's Score:
         android:id="@+id/set_up_phase_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:alpha="1"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleopment_card_help_menu_Back"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -1980,13 +1983,14 @@ Ending Turn:
         android:id="@+id/building_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleopment_card_help_menu_Back"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -2079,14 +2083,15 @@ Ending Turn:
         android:id="@+id/trading_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
+        android:background="@color/catanRed"
         android:visibility="invisible"
-        android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_wall_dc_info"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -2154,13 +2159,14 @@ on a port intersection, then why can trade with the bank at a rate of 4:1.
         android:id="@+id/robber_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleopment_card_help_menu_Back"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -2243,13 +2249,15 @@ Moving the Robber
         android:id="@+id/development_card_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:alpha=".5"
         android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/robber_Help_Button"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
