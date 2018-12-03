@@ -317,6 +317,31 @@ public class CatanGameState extends GameState {
     }
 
 
+    public int getPlayerWithMostVPsExcludingCurrentPlayer(int excludedPlayerId) {
+
+        //Default Value so we can set the first player ID as player in lead for comparisons
+        int playerInLead = -1;
+        for (Player player : this.getPlayerList()) {
+
+            //Make sure we are not including the player we are excluding
+            if(player.getPlayerId() != excludedPlayerId){
+
+                //Default player to start with
+                if(playerInLead == -1){
+                    playerInLead = player.getPlayerId();
+                }
+
+                //Compare and change player with most victory points if needed
+                else{
+                    if(this.getPlayerList().get(playerInLead).getVictoryPoints() < this.getPlayerList().get(player.getPlayerId()).getVictoryPoints()){
+                        playerInLead = player.getPlayerId();
+                    }
+                }
+            }
+
+        }
+    }
+
     /**
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
