@@ -1771,26 +1771,26 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "drawGraphics() called");
 
         if (!this.readyToDraw) {
-            Log.e(TAG, "drawGraphics: not ready to draw");
+            Log.e(TAG, "drawGraphics: not ready to draw, not drawing");
+            return;
         }
 
         if (state == null) {
-            Log.e(TAG, "drawGraphics: state is null");
+            Log.e(TAG, "drawGraphics: state is null, not drawing");
             return;
         }
 
         showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
         showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
 
-        Canvas canvas = new Canvas();
+        boardSurfaceView.setReady(this.readyToDraw);
 
-        int height = boardSurfaceView.getHeight();
-        int width = boardSurfaceView.getWidth();
+        boardSurfaceView.setCanvas(new Canvas());
 
-        Log.i(TAG, "drawGraphics: boardSurfaceView height: " + height + " width: " + width);
+        Log.i(TAG, "drawGraphics: boardSurfaceView height: " + boardSurfaceView.getHeight() + " width: " + boardSurfaceView.getWidth());
 
         this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20, this.debugMode));
-        this.boardSurfaceView.draw(canvas);
+        this.boardSurfaceView.draw(boardSurfaceView.getCanvas());
 
         boardSurfaceView.invalidate();
     } // drawGraphics END

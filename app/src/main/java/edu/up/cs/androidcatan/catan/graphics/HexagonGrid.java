@@ -38,6 +38,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
     int[] hexagonsInEachRow = {3, 4, 5, 4, 3}; // hexagons in each row
 
+    // colors of the resources
     protected int[] colors = {Color.argb(255, 165, 63, 4), Color.argb(255, 255, 225, 0), Color.argb(255, 0, 102, 25), Color.argb(255, 68, 86, 85), Color.argb(255, 123, 206, 107), Color.argb(255, 192, 193, 141)};
 
     // colors for each player, the last color is for no player (highlighting)
@@ -49,7 +50,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
     private Board board;
     private IntersectionDrawable[] intersections = new IntersectionDrawable[54]; // list of IntersectionDrawable objects
-    ArrayList<RoadDrawable> roads = new ArrayList<>(); // list of Road objects
     ArrayList<HexagonDrawable> drawingHexagons = new ArrayList<>(); // list of HexagonDrawable objects
 
     private int highlightedHexagon = -1;
@@ -58,7 +58,7 @@ public class HexagonGrid extends BoardSurfaceView {
 
     private boolean debugMode = false;
 
-    /* ---------- Constructors ------------ */
+    /* ---------- Constructor ------------ */
 
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin, boolean debugMode) {
         super(context);
@@ -72,14 +72,6 @@ public class HexagonGrid extends BoardSurfaceView {
         this.board = new Board(board);
         this.debugMode = debugMode;
         generateIntersections();
-    }
-
-    public HexagonGrid (Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public HexagonGrid (Context context) {
-        super(context);
     }
 
     /* ---------- Drawing methods ------------ */
@@ -115,7 +107,7 @@ public class HexagonGrid extends BoardSurfaceView {
      * @param canvas Canvas to draw on.
      */
     public void drawRoads (Canvas canvas) {
-        Log.d(TAG, "drawRoads() called with: canvas = [" + canvas + "]");
+        Log.i(TAG, "drawRoads() called");
 
         Paint roadPaint = new Paint(); // paint for drawing the roads
         roadPaint.setStyle(Paint.Style.STROKE);
@@ -133,17 +125,16 @@ public class HexagonGrid extends BoardSurfaceView {
      * @param canvas Canvas object to draw the buildings on.
      */
     public void drawBuildings (Canvas canvas) {
-        Paint bldgPaint = new Paint();
         Paint highlightPaint = new Paint();
         highlightPaint.setColor(Color.CYAN);
         highlightPaint.setStyle(Paint.Style.STROKE);
         highlightPaint.setStrokeWidth(5);
 
+        // get all buildings on the board
         Building[] buildings = this.board.getBuildings();
 
         // go through each building
         for (int i = 0; i < buildings.length; i++) {
-
             if (buildings[i] != null) { // if we need to draw a building at this intersection
 
                 // get center of intersection
@@ -161,9 +152,12 @@ public class HexagonGrid extends BoardSurfaceView {
                         buildingPicture = this.getContext().getDrawable(settlementPictures[buildings[i].getOwnerId()]);
                     }
 
-                    buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
-                    buildingPicture.draw(canvas);
-
+                    if (buildingPicture != null) {
+                        buildingPicture.setBounds(xPos - 50, yPos - 50, xPos + 50, yPos + 40);
+                        buildingPicture.draw(canvas);
+                    } else {
+                        Log.e(TAG, "drawBuildings: building picture is null", new NullPointerException());
+                    }
                 } else if (buildings[i] instanceof City) {
 
                     if (this.highlightedIntersections.contains(i)) {
@@ -173,43 +167,22 @@ public class HexagonGrid extends BoardSurfaceView {
                         Log.i(TAG, "drawBuildings: drawing a city.");
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
                     }
-                    buildingPicture.setBounds(xPos - 50, yPos - 60, xPos + 50, yPos + 60);
-                    buildingPicture.draw(canvas);
+                    if (buildingPicture != null) {
+                        buildingPicture.setBounds(xPos - 50, yPos - 60, xPos + 50, yPos + 60);
+                        buildingPicture.draw(canvas);
+                    } else {
+                        Log.e(TAG, "drawBuildings: building picture is null", new NullPointerException());
+                    }
                 }
             } else {
                 if (this.highlightedIntersections.contains(i)) {
-                    Log.e(TAG, "drawBuildings: drawing highlighted intersection at " + i);
+                    Log.i(TAG, "drawBuildings: drawing highlighted intersection at " + i);
                     int xPos = this.intersections[i].getXPos();
                     int yPos = this.intersections[i].getYPos();
                     canvas.drawCircle(xPos, yPos, 30, highlightPaint);
                 }
             }
         }
-    }
-
-    /**
-     * @param canvas Canvas to draw ports on.
-     */
-    private void drawPorts (Canvas canvas) {
-        ArrayList<Port> ports = this.board.getPortList();
-
-        ports.get(0).drawPort(canvas, this.intersections[ports.get(0).getIntersectionA()].getXPos(), this.intersections[ports.get(0).getIntersectionA()].getYPos() - 100, 40, this.getContext(), this.intersections[ports.get(0).getIntersectionA()], this.intersections[ports.get(0).getIntersectionB()], debugMode);
-
-        ports.get(1).drawPort(canvas, this.intersections[ports.get(1).getIntersectionB()].getXPos() + 100, this.intersections[ports.get(1).getIntersectionB()].getYPos() + 10, 25, this.getContext(), this.intersections[ports.get(1).getIntersectionA()], this.intersections[ports.get(1).getIntersectionB()], debugMode);
-
-        ports.get(2).drawPort(canvas, this.intersections[ports.get(2).getIntersectionA()].getXPos() - 100, this.intersections[ports.get(2).getIntersectionA()].getYPos() + 10, 25, this.getContext(), this.intersections[ports.get(2).getIntersectionA()], this.intersections[ports.get(2).getIntersectionB()], debugMode);
-
-        ports.get(3).drawPort(canvas, this.intersections[ports.get(3).getIntersectionA()].getXPos() - 100, this.intersections[ports.get(3).getIntersectionA()].getYPos() + 100, 40, this.getContext(), this.intersections[ports.get(3).getIntersectionA()], this.intersections[ports.get(3).getIntersectionB()], debugMode);
-
-        ports.get(4).drawPort(canvas, this.intersections[ports.get(4).getIntersectionA()].getXPos() - 100, this.intersections[ports.get(4).getIntersectionA()].getYPos() + 100, 40, this.getContext(), this.intersections[ports.get(4).getIntersectionA()], this.intersections[ports.get(4).getIntersectionB()], debugMode);
-
-        ports.get(5).drawPort(canvas, this.intersections[ports.get(5).getIntersectionA()].getXPos() + 50, this.intersections[ports.get(5).getIntersectionA()].getYPos() + 90, 35, this.getContext(), this.intersections[ports.get(5).getIntersectionA()], this.intersections[ports.get(5).getIntersectionB()], debugMode);
-
-        ports.get(6).drawPort(canvas, this.intersections[ports.get(6).getIntersectionA()].getXPos() + 100, this.intersections[ports.get(6).getIntersectionA()].getYPos(), 40, this.getContext(), this.intersections[ports.get(6).getIntersectionA()], this.intersections[ports.get(6).getIntersectionB()], debugMode);
-
-        ports.get(7).drawPort(canvas, this.intersections[ports.get(7).getIntersectionB()].getXPos() + 30, this.intersections[ports.get(7).getIntersectionB()].getYPos() + 100, 25, this.getContext(), this.intersections[ports.get(7).getIntersectionA()], this.intersections[ports.get(7).getIntersectionB()], debugMode);
-
-        ports.get(8).drawPort(canvas, this.intersections[ports.get(8).getIntersectionA()].getXPos() + 150, this.intersections[ports.get(8).getIntersectionA()].getYPos(), 40, this.getContext(), this.intersections[ports.get(8).getIntersectionA()], this.intersections[ports.get(8).getIntersectionB()], debugMode);
     }
 
     /**
@@ -248,13 +221,6 @@ public class HexagonGrid extends BoardSurfaceView {
                 boolean highlightedHexagon = this.highlightedHexagon == dataHexagons.get(dataHexagonsIndex).getHexagonId();
                 boolean isDesertHexagon = dataHexagons.get(dataHexagonsIndex).getResourceId() == 5;
 
-//                if (highlightedHexagon)
-//                    Log.e(TAG, "generateDrawableHexagons: highlighted hexagon is: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
-//                if (isRobberHexagon)
-//                    Log.w(TAG, "generateDrawableHexagons: Robber is at hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
-//                if (isDesertHexagon)
-//                    Log.w(TAG, "generateDrawableHexagons: desert tile found to be at drawing hexagon id: " + dataHexagonsIndex + " and data hex id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
-
                 int hexagonColor = this.colors[dataHexagons.get(dataHexagonsIndex).getResourceId()];
                 int offsetX = (i % 2 == 0) ? (int) this.width / 2 + margin / 2 : 0;
                 int xPos = offsetX + x + (int) ((this.width + this.margin) * (j + rows[i]));
@@ -262,11 +228,28 @@ public class HexagonGrid extends BoardSurfaceView {
 
                 HexagonDrawable hexagon = new HexagonDrawable(this.getContext(), xPos, yPos, size, hexagonColor, isRobberHexagon, isDesertHexagon, dataHexagons.get(dataHexagonsIndex).getChitValue(), dataHexagons.get(dataHexagonsIndex).getHexagonId(), highlightedHexagon, dataHexagons.get(dataHexagonsIndex).getResourceId());
                 drawingHexagons.add(hexagon);
-
-//                Log.d(TAG, "generateDrawableHexagons: dataHexagonsIndex: " + dataHexagonsIndex + " current hexagon id: " + dataHexagons.get(dataHexagonsIndex).getHexagonId());
                 dataHexagonsIndex++;
             }
         }
+    }
+
+    /**
+     * draws the ports at specific locations on the canvas
+     *
+     * @param canvas Canvas to draw ports on.
+     */
+    private void drawPorts (Canvas canvas) {
+        ArrayList<Port> ports = this.board.getPortList();
+
+        ports.get(0).drawPort(canvas, this.intersections[ports.get(0).getIntersectionA()].getXPos(), this.intersections[ports.get(0).getIntersectionA()].getYPos() - 100, 40, this.getContext(), this.intersections[ports.get(0).getIntersectionA()], this.intersections[ports.get(0).getIntersectionB()], debugMode);
+        ports.get(1).drawPort(canvas, this.intersections[ports.get(1).getIntersectionB()].getXPos() + 100, this.intersections[ports.get(1).getIntersectionB()].getYPos() + 10, 25, this.getContext(), this.intersections[ports.get(1).getIntersectionA()], this.intersections[ports.get(1).getIntersectionB()], debugMode);
+        ports.get(2).drawPort(canvas, this.intersections[ports.get(2).getIntersectionA()].getXPos() - 100, this.intersections[ports.get(2).getIntersectionA()].getYPos() + 10, 25, this.getContext(), this.intersections[ports.get(2).getIntersectionA()], this.intersections[ports.get(2).getIntersectionB()], debugMode);
+        ports.get(3).drawPort(canvas, this.intersections[ports.get(3).getIntersectionA()].getXPos() - 100, this.intersections[ports.get(3).getIntersectionA()].getYPos() + 100, 40, this.getContext(), this.intersections[ports.get(3).getIntersectionA()], this.intersections[ports.get(3).getIntersectionB()], debugMode);
+        ports.get(4).drawPort(canvas, this.intersections[ports.get(4).getIntersectionA()].getXPos() - 100, this.intersections[ports.get(4).getIntersectionA()].getYPos() + 100, 40, this.getContext(), this.intersections[ports.get(4).getIntersectionA()], this.intersections[ports.get(4).getIntersectionB()], debugMode);
+        ports.get(5).drawPort(canvas, this.intersections[ports.get(5).getIntersectionA()].getXPos() + 50, this.intersections[ports.get(5).getIntersectionA()].getYPos() + 90, 35, this.getContext(), this.intersections[ports.get(5).getIntersectionA()], this.intersections[ports.get(5).getIntersectionB()], debugMode);
+        ports.get(6).drawPort(canvas, this.intersections[ports.get(6).getIntersectionA()].getXPos() + 100, this.intersections[ports.get(6).getIntersectionA()].getYPos(), 40, this.getContext(), this.intersections[ports.get(6).getIntersectionA()], this.intersections[ports.get(6).getIntersectionB()], debugMode);
+        ports.get(7).drawPort(canvas, this.intersections[ports.get(7).getIntersectionB()].getXPos() + 30, this.intersections[ports.get(7).getIntersectionB()].getYPos() + 100, 25, this.getContext(), this.intersections[ports.get(7).getIntersectionA()], this.intersections[ports.get(7).getIntersectionB()], debugMode);
+        ports.get(8).drawPort(canvas, this.intersections[ports.get(8).getIntersectionA()].getXPos() + 150, this.intersections[ports.get(8).getIntersectionA()].getYPos(), 40, this.getContext(), this.intersections[ports.get(8).getIntersectionA()], this.intersections[ports.get(8).getIntersectionB()], debugMode);
     }
 
     /**
@@ -331,30 +314,6 @@ public class HexagonGrid extends BoardSurfaceView {
 
     /* ---------- getters and setters ------------ */
 
-    public int getXPos () {
-        return x;
-    }
-
-    public void setXPos (int x) {
-        this.x = x;
-    }
-
-    public int getYPos () {
-        return y;
-    }
-
-    public void setYPos (int y) {
-        this.y = y;
-    }
-
-    public static int[] getPlayerColors () {
-        return playerColors;
-    }
-
-    public static void setPlayerColors (int[] playerColors) {
-        HexagonGrid.playerColors = playerColors;
-    }
-
     public Board getBoard () {
         return board;
     }
@@ -367,37 +326,19 @@ public class HexagonGrid extends BoardSurfaceView {
         return intersections;
     }
 
-    public int[] getColors () {
-        return colors;
-    }
-
-    public void setColors (int[] colors) {
-        this.colors = colors;
-    }
-
-    public ArrayList<RoadDrawable> getRoads () {
-        return roads;
-    }
-
     public ArrayList<HexagonDrawable> getDrawingHexagons () {
         return drawingHexagons;
     }
 
-    public int getHighlightedHexagon () {
-        return highlightedHexagon;
-    }
+    public int getHighlightedHexagon () { return highlightedHexagon;}
 
-    public void setHighlightedHexagon (int highlightedHexagon) {
-        this.highlightedHexagon = highlightedHexagon;
-    }
+    public void setHighlightedHexagon (int highlightedHexagon) { this.highlightedHexagon = highlightedHexagon; }
 
-    public void toggleDebugMode () {
-        this.debugMode = !this.debugMode;
-    }
+    public void toggleDebugMode () { this.debugMode = !this.debugMode; }
 
-    public ArrayList<Integer> getHighlightedIntersections () {
-        return highlightedIntersections;
-    }
+    public ArrayList<Integer> getHighlightedIntersections () { return highlightedIntersections; }
+
+    public void clearHighLightedIntersections () { this.highlightedIntersections = new ArrayList<>(); }
 
     public void addHighlightedIntersection (int intersection) {
         if (highlightedIntersections.size() > 1) {
@@ -408,12 +349,11 @@ public class HexagonGrid extends BoardSurfaceView {
             this.highlightedIntersections.add(intersection);
         }
     }
-
-    public void clearHighLightedIntersections () {
-        this.highlightedIntersections = new ArrayList<>();
+    public HexagonGrid (Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    public void setHighlightedIntersections (ArrayList<Integer> highlightedIntersections) {
-        this.highlightedIntersections = highlightedIntersections;
+    public HexagonGrid (Context context) {
+        super(context);
     }
 }
