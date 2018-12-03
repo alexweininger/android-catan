@@ -230,18 +230,24 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: grain for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 1,0));
+                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
+                    game.sendAction(new CatanEndTurnAction(this));
                 }
             }
             if (oreCount >= 4){
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 3,0));
+                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
+                    game.sendAction(new CatanEndTurnAction(this));
                 }
             }
             if (woolCount >= 4){
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 4,0));
+                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
+                    game.sendAction(new CatanEndTurnAction(this));
                 }
             }
 
