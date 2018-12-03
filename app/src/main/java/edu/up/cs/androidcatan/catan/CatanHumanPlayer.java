@@ -457,7 +457,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
                     //robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select an intersection not owned by you.", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building not owned by you.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     //toast.show();
                     return;
@@ -473,7 +473,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     }
                 }
                 messageTextView.setText(R.string.select_adjacent_to_robber);
-                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select an intersection adjacent to the Robber tile.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building adjacent to the Robber tile.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 //toast.show();
                 return;
