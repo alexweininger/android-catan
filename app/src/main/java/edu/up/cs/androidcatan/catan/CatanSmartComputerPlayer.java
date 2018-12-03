@@ -236,7 +236,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 tradeResourceId = 2;
             }
             if (grainCount >= 4) {
-                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: grain for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 1,tradeResourceId));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
@@ -246,7 +246,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
             if (oreCount >= 4){
-                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 3,tradeResourceId));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
@@ -256,7 +256,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
             if (woolCount >= 4){
-                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 4,tradeResourceId));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
