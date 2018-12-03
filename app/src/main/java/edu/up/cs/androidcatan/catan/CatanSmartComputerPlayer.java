@@ -274,7 +274,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     //cycling through the amount, not the proper value at the intersection
                     if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))){
                         Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
-                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n));
+                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n)); //going to need to change n
                         Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
                         game.sendAction(new CatanEndTurnAction(this));
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
@@ -402,7 +402,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             Log.d(TAG, "With repeat Intersections: " + intersections.toString());
             Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
         }
-        return intersections;
+        //might need to change to return intersections
+        return noRepeatIntersections;
     }
     private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
         Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
