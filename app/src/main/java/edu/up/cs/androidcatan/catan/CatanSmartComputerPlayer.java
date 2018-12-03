@@ -266,15 +266,14 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
-            /******Looks to build a settlement if possible****/
-            //TODO: not implemented properly
+            /******Looks to build a settlement****/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
                 Log.d(TAG, "receiveInfo: Valid amount of resources to building");
                 for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
                     //cycling through the amount, not the proper value at the intersection
                     if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))){
                         Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
-                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n)); //going to need to change n
+                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))); //going to need to change n
                         Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
                         game.sendAction(new CatanEndTurnAction(this));
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");

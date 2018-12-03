@@ -178,12 +178,13 @@ public class CatanLocalGame extends LocalGame {
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             } else {
-                // remove resources from players inventory (also does checks)
+                //TODO: remove cheat
                 state.getCurrentPlayer().addResourceCard(0,1);
                 state.getCurrentPlayer().addResourceCard(1,1);
                 state.getCurrentPlayer().addResourceCard(2,1);
                 state.getCurrentPlayer().addResourceCard(4,1);
 
+                // remove resources from players inventory (also does checks)
                 if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
                     // add settlement to the board
                     state.getBoard().addBuilding(((CatanBuildSettlementAction) action).getIntersectionId(), new Settlement(((CatanBuildSettlementAction) action).getOwnerId()));
