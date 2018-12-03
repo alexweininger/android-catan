@@ -3,7 +3,6 @@ package edu.up.cs.androidcatan.catan.gamestate;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -263,18 +262,6 @@ public class Board {
         }
         Log.d(TAG, "hasRoad() returned: " + false);
         return false;
-    }
-
-    public void printPlayerMatrix (int[][] pMatrix) {
-
-        for (int i = 0; i < pMatrix.length; i++) {
-            StringBuilder str = new StringBuilder();
-            for (int j = 0; j < pMatrix[i].length; j++) {
-                str.append(pMatrix[i][j]).append(" ");
-            }
-            str.append("\n");
-            Log.i(TAG, str.toString());
-        }
     }
 
     public int dfs (int ownerId) {
