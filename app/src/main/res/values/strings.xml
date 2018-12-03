@@ -169,6 +169,7 @@
     <string name="waiting_for_discard">Waiting for other players to finish discarding...</string>
     <string name="cpu_move_robber_to_hex">The current player is moving the robber.</string>
     <string name="cpu_robber_steal_phase">The current player is choosing who to steal from.</string>
+    <string name="select_n_cards_to_discard">Select %d cards to discard.</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>
