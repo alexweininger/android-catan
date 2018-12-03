@@ -123,7 +123,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView buildingCosts = null;
     private Button sidebarScoreboardButton = (Button) null;
 
-    /*------------ Help Menu Buttons ----------------- */
+    /*------------ Help Menu Buttons and Groups ----------------- */
     private Button winningHelpButton = (Button) null;
     private Button setUpPhaseHelpButton = (Button) null;
     private Button buildingHelpButtonm = (Button) null;
@@ -137,6 +137,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button developmentCardHelpBackButton = (Button) null;
     private Button tradingHelpBackButton = (Button) null;
     private Button robberHelpBackButton = (Button) null;
+
+    private Group helpMenu = (Group) null;
+    private Group winningHelpMenu = (Group) null;
+    private Group setUpPhaseHelpMenu = (Group) null;
+    private Group buildingHelpMenu = (Group) null;
+    private Group developmentCardHelpMenu = (Group) null;
+    private Group tradingHelpMenu = (Group) null;
+    private Group robberHelpMenu = (Group) null;
+
 
     /* ------------- resource count text views -------------------- */
 
@@ -431,6 +440,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
+            toggleGroupVisibility(helpMenu);
 
             //            setAllButtonsToVisible();
             Log.e(TAG, "onClick: toggled debug mode");
@@ -823,6 +833,69 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             tradeReceiveSelection = -1; // reset selections
             tradeGiveSelection = -1;
         }
+
+        /* ----------------------- Help Menus ---------------------------- */
+        if(button.getId() == R.id.winning_Help_Button)
+        {
+            toggleGroupVisibility(winningHelpMenu);
+        }
+
+        if(button.getId() == R.id.winning_help_menu_Back)
+        {
+            toggleGroupVisibility(winningHelpMenu);
+        }
+
+        if(button.getId() == R.id.set_Up_Phase_Help_Button)
+        {
+            toggleGroupVisibility(setUpPhaseHelpMenu);
+        }
+
+        if(button.getId() == R.id.set_up_phase_help_menu_Back)
+        {
+            toggleGroupVisibility(setUpPhaseHelpMenu);
+        }
+
+        if(button.getId() == R.id.building_Help_Button)
+        {
+            toggleGroupVisibility(buildingHelpMenu);
+        }
+
+        if(button.getId() == R.id.building_help_menu_Back)
+        {
+            toggleGroupVisibility(buildingHelpMenu);
+        }
+
+        if(button.getId() == R.id.development_Cards_Help_Button)
+        {
+            toggleGroupVisibility(developmentCardHelpMenu);
+        }
+
+        if(button.getId() == R.id.deleopment_card_help_menu_Back)
+        {
+            toggleGroupVisibility(developmentCardHelpMenu);
+        }
+
+        if(button.getId() == R.id.trading_Help_Button)
+        {
+            toggleGroupVisibility(tradingHelpMenu);
+        }
+
+        if(button.getId() == R.id.trading_help_menu_Back)
+        {
+            toggleGroupVisibility(tradingHelpMenu);
+        }
+
+        if(button.getId() == R.id.robber_Help_Button)
+        {
+            toggleGroupVisibility(robberHelpMenu);
+        }
+
+        if(button.getId() == R.id.robber_help_menu_Back);
+        {
+            toggleGroupVisibility(robberHelpMenu);
+        }
+
+
 
     } // onClick END
 
@@ -1720,7 +1793,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
         this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
 
-        /* ------------------- Help Menu Buttons -------------------- */
+        /* ------------------- Help Menu Buttons and Groups -------------------- */
         this.winningHelpButton = activity.findViewById(R.id.winning_Help_Button);
         this.winningHelpButton.setOnClickListener(this);
 
@@ -1756,6 +1829,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.robberHelpBackButton = activity.findViewById(R.id.robber_help_menu_Back);
         this.robberHelpBackButton.setOnClickListener(this);
+
+        this.helpMenu = activity.findViewById(R.id.help_menu_group);
+        this.buildingHelpMenu = activity.findViewById(R.id.building_help_menu_group);
+        this.developmentCardHelpMenu  = activity.findViewById(R.id.development_card_help_menu_group);
+        this.winningHelpMenu = activity.findViewById(R.id.winning_help_menu_group);
+        this.setUpPhaseHelpMenu = activity.findViewById(R.id.set_up_phase_help_menu_group);
+        this.tradingHelpMenu = activity.findViewById(R.id.trading_help_menu_group);
+        this.robberHelpMenu = activity.findViewById(R.id.robber_help_menu_group);
 
         /* ------------ DEV CARD SPINNER ----------------- */
 
