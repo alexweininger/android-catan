@@ -39,6 +39,6 @@ public class Robber {
     // toString
     @Override
     public String toString() {
-        return " The robber is at " + this.hexagonId;
+        return "Robber toString(): the robber is at " + this.hexagonId;
     } // end robber toString
 }
