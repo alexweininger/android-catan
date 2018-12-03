@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/set_up_phase_menu_background"
+        android:layout_width="870dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".5"
+        android:background="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/set_up_phase_help_menu_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/set_up_phase_menu_background"
+        app:layout_constraintTop_toTopOf="@+id/set_up_phase_menu_background"
+        tools:text="Set-Up Phase" />
+
+    <TextView
+        android:id="@+id/set_up_phase_help_menu_text"
+        android:layout_width="792dp"
+        android:layout_height="455dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@+id/set_up_phase_help_menu_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/set_up_phase_help_menu_title_text_view"
+        tools:text="During the Set-Up Phase each player will get a chance to place one building and one road, two times. The order for which the
+Set-Up Phase is played is Player 1 > Player2 Player 3 Player 4 then Player 4 > Player 3 > Player 2 > Player 1.
+
+Placing a Settlement:
+    1) Select the intersection you wish to place a settlement.
+    2) Press the Settlement button on the left side bar.
+
+Placing a Raod:
+    1) Select two adjacent intersections build a road.
+    2) Press the Road button on the left side bar.
+
+Ending Turn:
+    1) Press the End Turn button on the left side bar." />
+
+    <Button
+        android:id="@+id/set_up-phase_help_menu_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="436dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/set_up_phase_menu_background"
+        app:layout_constraintTop_toBottomOf="@+id/set_up_phase_help_menu_title_text_view"
+        tools:text="Back" />
+
+    <ImageView
+        android:id="@+id/set_up_phase_settlment_img"
+        android:layout_width="325dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/set_up_phase_help_menu_text"
+        app:layout_constraintTop_toTopOf="@+id/set_up_phase_help_menu_text"
+        app:srcCompat="@drawable/build_settlement" />
+
+    <ImageView
+        android:id="@+id/set_up_phase_road_img"
+        android:layout_width="325dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/set_up_phase_settlment_img"
+        app:layout_constraintTop_toBottomOf="@+id/set_up_phase_settlment_img"
+        app:srcCompat="@drawable/build_road" />
+</android.support.constraint.ConstraintLayout>
