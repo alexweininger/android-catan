@@ -77,8 +77,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     private boolean readyToDraw = false; // is the game ready to draw
 
-    private int selectedHexagonId = -1;
-    private ArrayList<Integer> selectedIntersections = new ArrayList<>();
+    private int selectedHexagonId = -1; // currently selected hexagon id
+    private ArrayList<Integer> selectedIntersections = new ArrayList<>(); // currently selected intersections
 
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
     private int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //How many resources the player would like to discard
@@ -114,7 +114,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     /* ------------- resource count text views -------------------- */
 
     private TextView[] resourceValues;
-
     private TextView[] playerScores;
     private TextView[] playerNameTextViews;
 
@@ -124,6 +123,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView playerNameSidebar = (TextView) null;
 
     //Robber Buttons
+
+    private ImageView[] robberPlusImages;
+    private ImageView[] robberMinusImages;
+    private TextView[] robberDiscardResourceValues;
+
     private ImageView robberBrickPlus = (ImageView) null;
     private ImageView robberBrickMinus = (ImageView) null;
     private ImageView robberLumberPlus = (ImageView) null;
@@ -134,8 +138,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView robberOreMinus = (ImageView) null;
     private ImageView robberWoolPlus = (ImageView) null;
     private ImageView robberWoolMinus = (ImageView) null;
-    private TextView robberDiscardMessage = (TextView) null;
-    private Button robberConfirmDiscard = (Button) null;
+
 
     private TextView robberBrickAmount = (TextView) null;
     private TextView robberLumberAmount = (TextView) null;
@@ -143,7 +146,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView robberOreAmount = (TextView) null;
     private TextView robberWoolAmount = (TextView) null;
 
+    private TextView robberDiscardMessage = (TextView) null;
+    private Button robberConfirmDiscard = (Button) null;
     private TextView robberHexMessage = (TextView) null;
+
+    private ImageView[] tradeReceiveSelectionBoxes;
+    private ImageView[] tradeGiveSelectionBoxes;
+
+    private ImageView[] tradeReceiveImages;
+    private ImageView[] tradeGiveImages;
 
     //Trade Buttons - Receive
     private ImageView brickSelectionBoxReceive = (ImageView) null;
@@ -180,6 +191,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int tradeReceiveSelection = -1;
 
     //Monopoly Menu - Resource Icons
+
+    private ImageView[] pickResourceIcons;
+
     private ImageView monopolyBrickIcon = (ImageView) null;
     private ImageView monopolyGrainIcon = (ImageView) null;
     private ImageView monopolyLumberIcon = (ImageView) null;
@@ -187,6 +201,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView monopolyWoolIcon = (ImageView) null;
 
     //Monopoly Menu - SelectionBoxes
+
+    private ImageView[] pickResourceSelectionBoxes;
+
     private ImageView monopolyBrickSelectionBox = (ImageView) null;
     private ImageView monopolyGrainSelectionBox = (ImageView) null;
     private ImageView monopolyLumberSelectionBox = (ImageView) null;
