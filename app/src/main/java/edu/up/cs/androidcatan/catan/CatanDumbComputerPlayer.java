@@ -196,30 +196,51 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             sleep(500);
             /*--------------------Discard Phase--------------------*/
 
+            //1. Check if this player has discarded
             if (!gs.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.i(TAG, "receiveInfo: Computer player " + playerNum + " needs to discard!!!");
+
+                //2a. Check if the player needs to discard cards; if not, send discard action with empty resource list;
+                //   GameState will handle logic.
                 if (!gs.checkPlayerResources(playerNum)) {
                     Log.i(TAG, "receiveInfo: Computer " + playerNum + " does not need to discard, but still needs to send action.");
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
                     return;
-                } else {
+                }
+
+                //2b. Player needs to discard cards; player will randomly choose resources until half of their cards have been discarded
+                else {
+                    int randomResource = random.nextInt(5);
                     robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
-                    for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
-                        for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
-                            robberResourcesDiscard[i]++;
-                            Log.i(TAG, "receiveInfo: Player " + playerNum + " is discarding resources: Wanted- " + robberResourcesDiscard[i] + ", Actual- " + gs.getPlayerList().get(playerNum).getResourceCards()[i]);
-                            if (gs.validDiscard(playerNum, robberResourcesDiscard)) {
-                                Log.i(TAG, "receiveInfo: Computer is now discarding resources");
-                                CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
-                                game.sendAction(action);
-                                break;
-                            }
+
+                    while(!gs.validDiscard(playerNum, robberResourcesDiscard)){
+                        if(gs.getPlayerList().get(playerNum).getResourceCards()[randomResource] <= 0){
+                            robberResourcesDiscard[playerNum]++;
                         }
-                        if (gs.getRobberPlayerListHasDiscarded()[playerNum]) {
-                            Log.i(TAG, "receiveInfo: Computer discarded cards!");
-                            break;
+                        else{
+                            randomResource = random.nextInt(5);
                         }
                     }
+                    Log.i(TAG, "receiveInfo: Computer is now discarding resources");
+                    CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
+                    game.sendAction(action);
+
+//                    for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
+//                        for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
+//                            robberResourcesDiscard[i]++;
+//                            Log.i(TAG, "receiveInfo: Player " + playerNum + " is discarding resources: Wanted- " + robberResourcesDiscard[i] + ", Actual- " + gs.getPlayerList().get(playerNum).getResourceCards()[i]);
+//                            if (gs.validDiscard(playerNum, robberResourcesDiscard)) {
+//                                Log.i(TAG, "receiveInfo: Computer is now discarding resources");
+//                                CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
+//                                game.sendAction(action);
+//                                break;
+//                            }
+//                        }
+//                        if (gs.getRobberPlayerListHasDiscarded()[playerNum]) {
+//                            Log.i(TAG, "receiveInfo: Computer discarded cards!");
+//                            break;
+//                        }
+//                    }
                 }
                 Log.i(TAG, "receiveInfo: Player is ending the discard phase!");
                 return;
