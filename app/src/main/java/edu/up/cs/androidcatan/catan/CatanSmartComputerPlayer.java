@@ -184,7 +184,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 //            game.sendAction(new CatanEndTurnAction(this));
 //        }
 
-        /******Looks to build another road*****/
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
             int settlementIntersection = getBuildingOfPlayer(gs);
             Log.d(TAG, "receiveInfo: settlementIntersection = " + settlementIntersection);
@@ -193,15 +192,31 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 return;
             }
 
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
+                Log.d(TAG, "receiveInfo: Valid amount of resources to building");
+                for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
+                    if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)){
+                        Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
+                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n));
+                        Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                }
+            }
+
             /*****Looks to build a city from a settlement****/
             Building building = null;
             //Build a city if proper amount of resources
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
+                Log.d(TAG, "receiveInfo: Valid amount of resources to build city");
                 for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
                     if (gs.getBoard().getBuildings()[n] == null) {
-                        break;
+                        Log.d(TAG, "receiveInfo: Nothing at this location on board");
                     }
-                    if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                    else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                        Log.d(TAG, "receiveInfo: valid owner id");
                         building = gs.getBoard().getBuildings()[n];
                         if (building instanceof Settlement) {
                             game.sendAction(new CatanBuildCityAction(this, false, this.playerNum, n));
@@ -214,6 +229,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
+            /******Looks to build another road*****/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
 
                 // get road endpoints for players roads
@@ -227,21 +243,18 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
 
                 int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
+                    if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
+                        game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                        Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
 
-                while (!gs.getBoard().validRoadPlacement(this.playerNum, true, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection))) {
-                    Log.d(TAG, "receiveInfo: validRoadPlacement while loop executed");
-                    randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                        game.sendAction(new CatanEndTurnAction(this));
+
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
                 }
-
-                // roadCoordinate should be valid at this point
-
-                game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
-                Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
-
-                game.sendAction(new CatanEndTurnAction(this));
-
-                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-                return;
+                Log.d(TAG, "receiveInfo: Problem with building a road");
             }
 
             game.sendAction(new CatanEndTurnAction(this));
@@ -314,6 +327,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
         ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
         for (Integer adjHexId : adjHexIds) {
+            //change back to 0 and 2 for building a road
             if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
                 Log.d(TAG, "checkIntersectionResource() returned: " + true);
                 return true;
