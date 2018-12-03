@@ -20,7 +20,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  * @version November 15th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanGameState extends GameState {
+public class CatanGameState extends GameState implements Runnable {
 
     private static final String TAG = "CatanGameState";
 
@@ -53,9 +53,16 @@ public class CatanGameState extends GameState {
 
     public CatanGameState () {
         this.dice = new Dice();
-        board = new Board();
-        generateDevCardDeck();
 
+        generateDevCardDeck();
+        Thread t = new Thread(this);
+        t.setPriority(Thread.MAX_PRIORITY);
+        t.start();
+        try {
+            t.join();
+        } catch(Exception e) {
+            Log.e(TAG, "CatanGameState: thread.sleep", e);
+        }
         currentPlayerId = 0;
         this.currentDiceSum = 3;
         setupPhaseTurnCounter = 0;
@@ -68,6 +75,11 @@ public class CatanGameState extends GameState {
 
         Log.i(TAG, board.toString());
     } // end CatanGameState constructor
+
+    @Override
+    public void run () {
+        board = new Board();
+    }
 
     /**
      * CatanGameState deep copy constructor
@@ -536,4 +548,6 @@ public class CatanGameState extends GameState {
         result.append(board.toString()).append("\n");
         return result.toString();
     }
+
+
 }
