@@ -77,14 +77,14 @@
         android:id="@+id/help_menu_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="menu_background, winning_Help_Button, set_Up_Phase_Help_Button, building_Help_Button,development_Cards_Help_Button, trading_Help_Button, robber_Help_Button" />
 
     <android.support.constraint.Group
         android:id="@+id/winning_help_menu_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="winning_menu_background, winning_help_menu_title_text_view, winning_help_menu_text, winning_help_menu_Back" />
 
     <android.support.constraint.Group
@@ -1869,7 +1869,7 @@ Buildings:
     Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.
 
     Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This
-    trohpy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who
+    trophy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who
     ever holds the trophy is granted 2 additional victory points.
 
 Development Cards:
