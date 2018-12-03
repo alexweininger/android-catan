@@ -222,6 +222,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                             randomResource = random.nextInt(5);
                         }
                     }
+
+                    //4. Send discard action
                     Log.i(TAG, "receiveInfo: Computer is now discarding resources");
                     CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
                     game.sendAction(action);
@@ -247,6 +249,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 return;
             }
 
+            //5. Wait until all players have completed their discard phase
             if (!gs.allPlayersHaveDiscarded() && gs.getCurrentPlayerId() == playerNum) {
                 Log.d(TAG, "receiveInfo: Not all players have discarded!!!!");
                 return;
@@ -255,23 +258,38 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             Log.i(TAG, "receiveInfo: Robber Phase --> Move Robber Phase");
 
             /*----------------------Move Robber Phase----------------*/
+
+            //6. If it is this players turn, continue to rest of robber phase; otherwise player is done
             if (gs.getCurrentPlayerId() == playerNum) {
                 Log.i(TAG, "receiveInfo: Computer is moving robber");
+
+                //7. Check if player has move robber; if not move to random, VALID hexagon
                 if (!gs.getHasMovedRobber()) {
                     Log.i(TAG, "receiveInfo: Computer Player hasMovedRobber: " + gs.getHasMovedRobber());
                     Log.i(TAG, "receiveInfo: Computer is moving the robber");
                     sleep(2000);
 
-                    for (Hexagon hex : gs.getBoard().getHexagons()) {
-                        hexId = hex.getHexagonId();
-                        if (tryMoveRobber(hexId, gs)) {
-                            Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
-                            sleep(2000);
-                            CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
-                            game.sendAction(action);
-                            return;
-                        }
+                    //8. Choose a random hex, then loop until valid
+                    hexId = random.nextInt(gs.getBoard().getHexagons().size());
+                    while(!tryMoveRobber(hexId, gs)){
+                        hexId = random.nextInt(gs.getBoard().getHexagons().size());
                     }
+                    Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
+                    sleep(2000);
+                    CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
+                    game.sendAction(action);
+                    return;
+                    //9. Send action to move the robber
+//                    for (Hexagon hex : gs.getBoard().getHexagons()) {
+//                        hexId = hex.getHexagonId();
+//                        if (tryMoveRobber(hexId, gs)) {
+//                            Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
+//                            sleep(2000);
+//                            CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
+//                            game.sendAction(action);
+//                            return;
+//                        }
+//                    }
                 }
 
                 /*----------------Steal Resource Phase--------------*/
