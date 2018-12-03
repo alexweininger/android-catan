@@ -168,18 +168,21 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                         //A building has been found that contains the intersection of player with most VPs
                         foundBuilding = false;
-
+                        sleep(2000);
                         //9. Iterate through each Hexagon and find one that has the playersId at one of the adjacent intersections
                         for (Hexagon hex : gs.getBoard().getHexagons()) {
-                            if(gs.getBoard().moveRobber(hexId)) {
+                            Log.i(TAG, "receiveInfo: Checking hexagon " + hex.getHexagonId() + " for player " + playerWithMostVPs);
+                            if(gs.getBoard().getRobber().getHexagonId() != hex.getHexagonId()) {
                                 for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
                                     if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
+                                        Log.i(TAG, "receiveInfo: Found player at hex " + hex.getHexagonId() + ".");
                                         hexId = hex.getHexagonId();
                                         playerWithMostVPsIntersection = intersection;
                                         foundBuilding = true;
                                     }
                                 }
                             }
+
                             //We've found our hex and building, stop iteration of loop
                             if (foundBuilding) {
                                 break;
@@ -188,6 +191,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                         //10. Send the action to move the robber; information has been saved to also steal with the robber
 
+                        sleep(2000);
                         game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
                         return;
 
