@@ -2243,8 +2243,7 @@ Moving the Robber\n
         android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
