@@ -174,7 +174,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                             Log.i(TAG, "receiveInfo: Checking hexagon " + hex.getHexagonId() + " for player " + playerWithMostVPs);
                             if (gs.getBoard().getRobber().getHexagonId() != hex.getHexagonId()) {
                                 for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
-                                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
+                                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs && tryMoveRobber(hex.getHexagonId(), gs)) {
                                         Log.i(TAG, "receiveInfo: Found player at hex " + hex.getHexagonId() + ".");
                                         hexId = hex.getHexagonId();
                                         playerWithMostVPsIntersection = intersection;
@@ -302,6 +302,10 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
         if(hexId == gs.getBoard().getRobber().getHexagonId()){
             Log.d(TAG, "tryMoveRobber: Same hexId as robber");
+            return false;
+        }
+        if(gs.getBoard().getHexagons().get(hexId).getResourceId() == 5){
+            Log.d(TAG, "tryMoveRobber: Desert tile selected; invalid.");
             return false;
         }
 
