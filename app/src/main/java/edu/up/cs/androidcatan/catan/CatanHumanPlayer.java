@@ -431,15 +431,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /*--------------------------------- Robber onClick --------------------------------*/
 
+        //Robber: Both Move and Steal Phase
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
+
+            //Checks if Robber needs to be moved
             if (state.getHasMovedRobber()) {
+                //Robber Steal Phase
+                //Checks if there is exactly on intersection selected
                 if (selectedIntersections.size() != 1) {
                     //robberHexMessage.setText("Please select only one intersection.");
                     messageTextView.setText("Please select only one intersection.");
                     return;
                 }
-
+                //Checks if intersection actually possesses a building
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
                     //robberHexMessage.setText(R.string.select_int_w_bldg_robber);
                     messageTextView.setText(R.string.select_int_w_bldg_robber);
@@ -448,23 +453,33 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     //toast.show();
                     return;
                 }
-
+                //Checks if building is owned by owner; if so, it rejects the users selection
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
                     //robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select an intersection not owned by you.", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building not owned by you.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     //toast.show();
                     return;
                 }
-
-                int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                robberChooseHexGroup.setVisibility(View.GONE);
-                game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
-                //robberHexMessage.setText("Please select only one intersection.");
+                //Finally checks if intersection is adjacent to the Hex; if so, send action
+                for (Integer intersection : state.getBoard().getHexToIntIdMap().get(state.getBoard().getRobber().getHexagonId())) {
+                    if(intersection == selectedIntersections.get(0)){
+                        int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
+                        robberChooseHexGroup.setVisibility(View.GONE);
+                        game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
+                        //robberHexMessage.setText("Please select only one intersection.");
+                        return;
+                    }
+                }
+                messageTextView.setText(R.string.select_adjacent_to_robber);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building adjacent to the Robber tile.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //toast.show();
                 return;
             }
 
+            //Robber Move Phase: check if we can move the robber to the selected hex
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 //robberHexMessage.setText(R.string.invalid_tile);
@@ -477,6 +492,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
 
+            //RobberMoveAction is sent
             Log.i(TAG, "onClick: Successful Hex chosen for Robber, now making group visible");
             robberChooseHexGroup.setVisibility(View.VISIBLE);
             //robberHexMessage.setText("Please selected an intersection with a building adjacent to the robber");
