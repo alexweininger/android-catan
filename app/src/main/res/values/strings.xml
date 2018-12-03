@@ -139,6 +139,7 @@
     <string name="select_one_intersection">Please select only one intersection.</string>
     <string name="select_int_w_bldg_robber">Please select another player\'s building.</string>
     <string name="select_int_not_owned_by_you">Please select an intersection not owned by you.</string>
+    <string name="select_adjacent_to_robber">Please select an intersection adjacent to the Robber tile.</string>
     <string name="invalid_tile">Not a valid tile!</string>
     <string name="zero">00</string>
     <string name="dont_have_card">You don\'t have that card!</string>

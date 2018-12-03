@@ -458,10 +458,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     return;
                 }
 
-                int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                robberChooseHexGroup.setVisibility(View.GONE);
-                game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
-                //robberHexMessage.setText("Please select only one intersection.");
+                for (Integer intersection : state.getBoard().getHexToIntIdMap().get(state.getBoard().getRobber().getHexagonId())) {
+                    if(intersection == selectedIntersections.get(0)){
+                        int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
+                        robberChooseHexGroup.setVisibility(View.GONE);
+                        game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
+                        //robberHexMessage.setText("Please select only one intersection.");
+                        return;
+                    }
+                }
+                messageTextView.setText(R.string.select_adjacent_to_robber);
+                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select an intersection adjacent to the Robber tile.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //toast.show();
                 return;
             }
 
