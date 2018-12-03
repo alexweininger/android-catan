@@ -265,20 +265,6 @@ public class Board {
         return false;
     }
 
-    public void printMatrix () {
-        Log.d(TAG, "printMatrix: ------\n" + Arrays.deepToString(this.roadMatrix));
-
-        for (int i = 0; i < this.roadMatrix.length; i++) {
-            StringBuilder str = new StringBuilder();
-            for (int j = 0; j < this.roadMatrix[i].length; j++) {
-                str.append(i).append(":").append(j).append("=").append(this.roadMatrix[i][j].getOwnerId()).append("\t");
-            }
-            str.append("\n");
-            Log.i(TAG, str.toString());
-        }
-        generatePlayerRoadMatrix(0);
-    }
-
     public void printPlayerMatrix (int[][] pMatrix) {
 
         for (int i = 0; i < pMatrix.length; i++) {
