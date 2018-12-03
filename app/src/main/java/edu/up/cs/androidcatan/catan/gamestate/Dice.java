@@ -11,12 +11,13 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * dice class - done for now 10/10
  */
-public class Dice {
+public class Dice implements Serializable {
     private static String TAG = "Dice";
 
     private int[] diceValues; // array of dice values

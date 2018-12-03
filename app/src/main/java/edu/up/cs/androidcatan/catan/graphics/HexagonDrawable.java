@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import java.io.Serializable;
+
 import edu.up.cs.androidcatan.R;
 
 /**
@@ -20,7 +22,7 @@ import edu.up.cs.androidcatan.R;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class HexagonDrawable extends BoardSurfaceView {
+public class HexagonDrawable extends BoardSurfaceView implements Serializable {
 
     private static final String TAG = "HexagonDrawable"; // log tag
 

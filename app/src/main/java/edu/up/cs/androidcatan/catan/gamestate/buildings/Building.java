@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
+import java.io.Serializable;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -8,7 +10,7 @@ package edu.up.cs.androidcatan.catan.gamestate.buildings;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public abstract class Building {
+public abstract class Building implements Serializable {
 
     private int ownerId = -1;
 

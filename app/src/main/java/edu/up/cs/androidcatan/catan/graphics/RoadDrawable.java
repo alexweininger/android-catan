@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.io.Serializable;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -12,7 +14,7 @@ import android.graphics.Paint;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class RoadDrawable {
+public class RoadDrawable implements Serializable {
 
     private int[][] points;
     int position;

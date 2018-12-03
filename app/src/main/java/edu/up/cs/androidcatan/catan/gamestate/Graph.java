@@ -4,6 +4,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,7 +13,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
 // This class represents a directed graph using adjacency list
 // representation
-public class Graph implements Runnable {
+public class Graph implements Runnable, Serializable{
     private static final String TAG = "Graph";
     private int V;   // No. of vertices
     public int count = 0;

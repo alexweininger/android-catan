@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs.androidcatan.R;
@@ -27,7 +28,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class HexagonGrid extends BoardSurfaceView {
+public class HexagonGrid extends BoardSurfaceView implements Serializable {
 
     private static final String TAG = "HexagonGrid";
 

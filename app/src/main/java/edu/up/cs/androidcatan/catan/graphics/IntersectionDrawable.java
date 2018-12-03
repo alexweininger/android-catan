@@ -4,7 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class IntersectionDrawable {
+import java.io.Serializable;
+
+public class IntersectionDrawable implements Serializable {
     private int intersectionId, xPos, yPos;
 
     IntersectionDrawable (int id, int x, int y) {

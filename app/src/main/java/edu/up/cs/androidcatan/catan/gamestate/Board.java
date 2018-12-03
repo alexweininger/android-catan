@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,7 +23,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Board implements Runnable {
+public class Board implements Runnable, Serializable {
     /**
      * External Citation
      * Date: 8 October 2018

@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
+import java.io.Serializable;
+
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.graphics.IntersectionDrawable;
 
-public class Port {
+public class Port  implements Serializable {
     private int intersectionA, intersectionB, tradeRatio, resourceId;
     private int xPos, yPos, size;
 

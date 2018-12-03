@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
+import java.io.Serializable;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -8,7 +10,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class Robber {
+public class Robber implements Serializable{
 
     private int hexagonId; // hexagon where the robber is located
 
