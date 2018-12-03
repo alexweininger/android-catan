@@ -280,6 +280,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         messageTextView.setTextColor(Color.WHITE);
         // Road button on the sidebar.
         if (button.getId() == R.id.sidebar_button_road) {
+            if (!state.isSetupPhase() && !state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
+                messageTextView.setText(R.string.not_enough_for_road);
+                shake(messageTextView);
+                return;
+            }
             if (selectedIntersections.size() != 2) {
                 messageTextView.setText(R.string.need_2_ints_for_road);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select two intersections to build a road.", Toast.LENGTH_SHORT);
@@ -404,11 +409,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.boardSurfaceView.invalidate();
             this.debugMode = !this.debugMode; // toggle debug mode
 
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-            //            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
+            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
 
@@ -422,10 +427,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityAllowTapping(scoreBoardGroup);
         }
 
-        // Trophy images on scoreboard
 
-        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
-        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
 
         /*--------------------------------- Robber onClick --------------------------------*/
 
@@ -596,7 +598,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "onClick: Player is using dev card id: " + developmentCardId + " (" + devCardNames[developmentCardId] + ")");
 
             Log.d(TAG, "onClick: playable dev cards returned: " + state.getCurrentPlayer().getPlayableDevCards());
-            if (state.getCurrentPlayer().getPlayableDevCards().contains(developmentCardId) == false){//  .getDevelopmentCards().contains(developmentCardId)) {
+            if (state.getCurrentPlayer().getPlayableDevCards().contains(developmentCardId) == false) {//  .getDevelopmentCards().contains(developmentCardId)) {
                 Log.e(TAG, "onClick: player does not have development card. Cannot use.");
                 messageTextView.setText(R.string.dont_have_card);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Can not use a Development Card you built this turn!", Toast.LENGTH_SHORT);
@@ -798,9 +800,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch (View v, MotionEvent event) {
-            if (isMenuOpen) {
-                return false;
-            }
+            if (isMenuOpen) return false;
+            if (playerNum != state.getCurrentPlayerId()) return false;
+
             // save the X,Y coordinates
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 lastTouchDownXY[0] = event.getX();
@@ -818,7 +820,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         public void onClick (View v) {
             if (isMenuOpen) return;
             if (state == null) return;
-
+            if (playerNum != state.getCurrentPlayerId()) return;
             if (boardSurfaceView == null) return;
 
             boolean touchedIntersection = false;
@@ -1238,6 +1240,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "updateTextViews: state is null. Returning void.");
             return;
         }
+
+        // Trophy images on scoreboard
+
+        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
+        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
 
         String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
 
@@ -1884,6 +1891,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
+        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
+
         Canvas canvas = new Canvas();
 
         int height = boardSurfaceView.getHeight();
@@ -1908,7 +1918,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         int largestArmyPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
         if (playerNum < 0) {
-            Log.w(TAG, "showLongestRoadTrophy: no player has the largest army trophy");
+            Log.w(TAG, "showLongestArmyTrophy: no player has the largest army trophy");
             return;
         }
 
@@ -1921,16 +1931,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         largestArmyTrophies[playerNum].setVisibility(View.VISIBLE);
 
-        if(largestArmyPrevPlayer == -1)
-        {
+        if (largestArmyPrevPlayer == -1) {
             return;
         }
 
-        if(largestArmyPrevPlayer != playerNum)
-        {
+        if (largestArmyPrevPlayer != playerNum) {
 
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Largest Army Trophy was removed from, " + getAllPlayerNames()[largestArmyPrevPlayer]+
-                    " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Largest Army Trophy was removed from, " + getAllPlayerNames()[largestArmyPrevPlayer] + " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
@@ -1959,15 +1966,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         longestRoadTrophies[playerNum].setVisibility(View.VISIBLE);
 
-        if(LongestRoadPrevPlayer == -1)
-        {
+        if (LongestRoadPrevPlayer == -1) {
             return;
         }
 
-        if(LongestRoadPrevPlayer != playerNum)
-        {
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Longest Road Trophy was removed from, " + getAllPlayerNames()[LongestRoadPrevPlayer]+
-                    " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
+        if (LongestRoadPrevPlayer != playerNum) {
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Longest Road Trophy was removed from, " + getAllPlayerNames()[LongestRoadPrevPlayer] + " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }

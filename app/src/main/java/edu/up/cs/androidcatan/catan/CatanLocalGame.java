@@ -23,6 +23,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
+import edu.up.cs.androidcatan.catan.gamestate.Graph;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
@@ -121,7 +122,6 @@ public class CatanLocalGame extends LocalGame {
             if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
 
             state.setActionPhase(false); // set action phase to false
-            state.updateTrophies(); // update the trophies
             Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
         }
@@ -142,6 +142,18 @@ public class CatanLocalGame extends LocalGame {
             if (state.getCurrentPlayer().removeResourceBundle(Road.resourceCost)) {
                 // add the road to the board
                 state.getBoard().addRoad(((CatanBuildRoadAction) action).getOwnerId(), ((CatanBuildRoadAction) action).getIntAId(), ((CatanBuildRoadAction) action).getIntBid());
+
+                Graph rg = new Graph(54);
+                rg.setAllRoads(state.getBoard().getRoads());
+                Thread t = new Thread(rg);
+                t.start();
+                try {
+                    t.join();
+                } catch (Exception e) {
+                    Log.e(TAG, "makeMove: t.join()", e);
+                }
+
+                state.setCurrentLongestRoadPlayerId(rg.getPlayerIdWithLongestRoad());
                 return true;
             }
             Log.e(TAG, "makeMove: Player sent a CatanBuildRoadAction but removeResourceBundle returned false.");
@@ -218,11 +230,12 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(0);
             state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
-            state.updateTrophies();
+
             state.setRobberPhase(true);
             for (int i = 0; i < state.getPlayerList().size(); i++) {
                 state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
             }
+            state.checkArmySize();
             return true;
         }
 
