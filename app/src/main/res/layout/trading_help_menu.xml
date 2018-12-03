@@ -60,7 +60,7 @@ on a port intersection, then why can trade with the bank at a rate of 4:1.
         5) Press the Confirm button to make the trade" />
 
     <ImageView
-        android:id="@+id/trading_help_men_img"
+        android:id="@+id/trading_help_menu_img"
         android:layout_width="375dp"
         android:layout_height="200dp"
         android:layout_marginTop="200dp"
