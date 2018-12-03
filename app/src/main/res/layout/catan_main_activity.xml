@@ -1861,29 +1861,31 @@
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/winning_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/winning_help_menu_title_text_view"
-        android:text="The goal of The Settlers of Catan is to reach 10 Victory Points (VP) first. You gain victory points by building, settlements, cities, and using development cards.
-
-Buildings:
-    Each settlement you place will grant you 1 victory point.
-
-    Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.
-
-    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This
-    trophy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who
-    ever holds the trophy is granted 2 additional victory points.
-
-Development Cards:
-    A Victory Point development card grants one additional  victory point the player.
-
-    Once one player has played three Knight development cards, they are given the largest Armmy trophy, which awards two
-    additional victory points. If another player ends up use more Knight Cards, then the trophy switches hands. Whoever holds the
-    trophy is granted to addiotional victory points.
-
-Checking Player's Score:
-    Scores are broken up into public and private scores. Public score keeps track of vitory points from buildings. While private
-    scores keeps track of vitory points from buildings, trophies and develompent cards. Thought you cannot your oppenents true
-    victory point total, you are able to see if they hold either the longest road trophy, largest army trophy or both. When it
-    comes to winning, private vitory points is the only thing that matters
+        android:singleLine="false"
+        android:text=
+           "The goal of The Settlers of Catan is to reach 10 Victory Points (VP) first. You gain victory points by building, settlements, cities, and using development cards.\n
+\n
+Buildings:\n
+    Each settlement you place will grant you 1 victory point.\n
+\n
+    Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.\n
+\n
+    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This\n
+    trophy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who\n
+    ever holds the trophy is granted 2 additional victory points.\n
+\n
+Development Cards:\n
+    A Victory Point development card grants one additional  victory point the player.\n
+\n
+    Once one player has played three Knight development cards, they are given the largest Armmy trophy, which awards two\n
+    additional victory points. If another player ends up use more Knight Cards, then the trophy switches hands. Whoever holds the\n
+    trophy is granted to addiotional victory points.\n
+\n
+Checking Player's Score:\n
+    Scores are broken up into public and private scores. Public score keeps track of vitory points from buildings. While private\n
+    scores keeps track of vitory points from buildings, trophies and develompent cards. Thought you cannot your oppenents true\n
+    victory point total, you are able to see if they hold either the longest road trophy, largest army trophy or both. When it\n
+    comes to winning, private vitory points is the only thing that matters\n
 " />
 
     <Button
