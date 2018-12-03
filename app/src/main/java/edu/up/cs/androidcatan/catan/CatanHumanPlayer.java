@@ -438,6 +438,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             //Checks if Robber needs to be moved
             if (state.getHasMovedRobber()) {
                 //Robber Steal Phase
+
                 //Checks if there is exactly on intersection selected
                 if (selectedIntersections.size() != 1) {
                     //robberHexMessage.setText("Please select only one intersection.");
@@ -1055,6 +1056,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return Success.
      */
     private boolean tryMoveRobber (int hexId) {
+        //Checks if Desert tile is selected
+        if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
+            messageTextView.setText("Desert Tile cannot longer be selected.");
+            return false;
+        }
         // make sure they have a hexagon selected
         if (hexId == -1) {
             messageTextView.setText(R.string.hex_for_robber);
