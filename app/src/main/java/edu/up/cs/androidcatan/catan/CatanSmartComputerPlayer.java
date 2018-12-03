@@ -174,7 +174,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                             Log.i(TAG, "receiveInfo: Checking hexagon " + hex.getHexagonId() + " for player " + playerWithMostVPs);
                             if (gs.getBoard().getRobber().getHexagonId() != hex.getHexagonId()) {
                                 for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
-                                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
+                                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs && tryMoveRobber(hex.getHexagonId(), gs)) {
                                         Log.i(TAG, "receiveInfo: Found player at hex " + hex.getHexagonId() + ".");
                                         hexId = hex.getHexagonId();
                                         playerWithMostVPsIntersection = intersection;
