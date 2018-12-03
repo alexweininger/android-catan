@@ -837,61 +837,73 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         /* ----------------------- Help Menus ---------------------------- */
         if(button.getId() == R.id.winning_Help_Button)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(winningHelpMenu);
         }
 
         if(button.getId() == R.id.winning_help_menu_Back)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(winningHelpMenu);
         }
 
         if(button.getId() == R.id.set_Up_Phase_Help_Button)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(setUpPhaseHelpMenu);
         }
 
         if(button.getId() == R.id.set_up_phase_help_menu_Back)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(setUpPhaseHelpMenu);
         }
 
         if(button.getId() == R.id.building_Help_Button)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(buildingHelpMenu);
         }
 
         if(button.getId() == R.id.building_help_menu_Back)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(buildingHelpMenu);
         }
 
         if(button.getId() == R.id.development_Cards_Help_Button)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(developmentCardHelpMenu);
         }
 
         if(button.getId() == R.id.deleopment_card_help_menu_Back)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(developmentCardHelpMenu);
         }
 
         if(button.getId() == R.id.trading_Help_Button)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(tradingHelpMenu);
         }
 
         if(button.getId() == R.id.trading_help_menu_Back)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(tradingHelpMenu);
         }
 
         if(button.getId() == R.id.robber_Help_Button)
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(robberHelpMenu);
         }
 
         if(button.getId() == R.id.robber_help_menu_Back);
         {
+            toggleGroupVisibility(helpMenu);
             toggleGroupVisibility(robberHelpMenu);
         }
 
