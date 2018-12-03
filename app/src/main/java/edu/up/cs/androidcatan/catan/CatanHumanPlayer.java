@@ -491,7 +491,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (state.getCurrentPlayerId() == playerNum) {
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
-                robberDiscardGroup.setVisibility(View.GONE);
 
                 robberBrickAmount.setText(R.string.zero);
                 robberLumberAmount.setText(R.string.zero);
@@ -502,6 +501,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 this.robberDiscardedResources = state.getRobberDiscardedResources();
                 robberDiscardedResources = new int[]{0, 0, 0, 0, 0};
+
+                toggleGroupVisibility(robberDiscardGroup);
                 return;
             }
 
@@ -1300,16 +1301,44 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.endTurnButton.setAlpha(0.5f);
             this.endTurnButton.setClickable(false);
 
+            //Player Discard Phase
             if (!state.getRobberPlayerListHasDiscarded()[playerNum]) {
                 Log.d(TAG, "updateTextViews: Has not discarded cards");
                 robberDiscardMessage.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
                 robberDiscardGroup.setVisibility(View.VISIBLE);
+                isMenuOpen = true;
                 messageTextView.setText(R.string.select_half);
-            } else if (state.getCurrentPlayerId() == playerNum && state.allPlayersHaveDiscarded()) {
+            }
+
+            //TextView for when HumanPlayer's turn
+            //Move Robber
+            else if (state.getCurrentPlayerId() == playerNum && state.allPlayersHaveDiscarded() && !state.getHasMovedRobber()) {
                 Log.d(TAG, "updateTextViews: Now needs to move Robber");
                 messageTextView.setText(R.string.move_robber_to_hex);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
+            //Robber Steal Phase
+            } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) {
+                Log.d(TAG, "updateTextViews: Now needs to steal Robber");
+                messageTextView.setText(R.string.robber_select_intersection_tosteal);
+                robberChooseHexGroup.setVisibility(View.VISIBLE);
             }
+
+            //TextViews when NOT HumanPlayer's Turn
+            else if (state.getCurrentPlayerId() != playerNum && !state.allPlayersHaveDiscarded()) {
+                Log.d(TAG, "updateTextViews: Waiting for players to discard cards");
+                messageTextView.setText(R.string.waiting_for_discard);
+            }
+            //Other Player Moving Robber
+            else if (state.getCurrentPlayerId() != playerNum && state.allPlayersHaveDiscarded() && !state.getHasMovedRobber()) {
+                Log.d(TAG, "updateTextViews: Other player needs to move Robber");
+                messageTextView.setText(R.string.cpu_move_robber_to_hex);
+            }
+            //Other Player Stealing
+            else if (state.getCurrentPlayerId() != playerNum && state.getHasMovedRobber()) {
+                Log.d(TAG, "updateTextViews: Now needs to steal Robber");
+                messageTextView.setText(R.string.cpu_robber_steal_phase);
+            }
+
         } else if (this.state.isSetupPhase()) { // IF SETUP PHASE
             this.messageTextView.setText(R.string.setup_phase); // set info message
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.setup_phase, Toast.LENGTH_SHORT);
@@ -1525,11 +1554,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state = (CatanGameState) info;
 
             if (state.isRobberPhase()) {
+
                 messageTextView.setText(R.string.robber_phase);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.robber_phase, Toast.LENGTH_SHORT);
 
-                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum])
+                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum]) {
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0, 0, 0, 0, 0}));
+                }
             }
 
             updateTextViews();
