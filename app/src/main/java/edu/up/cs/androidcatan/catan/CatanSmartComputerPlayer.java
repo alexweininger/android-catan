@@ -317,11 +317,12 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                 // get all adjacent intersections
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+                Log.d(TAG, "IntersectionsToChooseFrom for coordinate: " + roadCoordinate + " for the following cords: " + intersectionsToChooseFrom.toString());
 
-                int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                //int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
                     if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
-                        game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                        game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(n))); //was random road intersection
                         Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
 
                         game.sendAction(new CatanEndTurnAction(this));
@@ -408,16 +409,16 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             intersections.add(playerRoads.get(n).getIntersectionAId());
             intersections.add(playerRoads.get(n).getIntersectionBId());
         }
-        ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
-        for (int n = 0; n < intersections.size(); n++){
-            for (int j = n+1; j < intersections.size(); j++){
-                if (intersections.get(n) != intersections.get(j)){
-                    noRepeatIntersections.add(n);
-                }
-            }
+//        ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
+//        for (int n = 0; n < intersections.size(); n++){
+//            for (int j = n+1; j < intersections.size(); j++){
+//                if (intersections.get(n) != intersections.get(j)){
+//                    noRepeatIntersections.add(n);
+//                }
+//            }
             Log.d(TAG, "With repeat Intersections: " + intersections.toString());
-            Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
-        }
+            //Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
+        //}
         //might need to change to return intersections
         return intersections;
     }
