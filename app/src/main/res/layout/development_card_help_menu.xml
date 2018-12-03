@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/development_card_menu_background"
+        android:layout_width="870dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".5"
+        android:background="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/development_card_help_menu_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/development_card_menu_background"
+        app:layout_constraintTop_toTopOf="@+id/development_card_menu_background"
+        tools:text="Development Cards" />
+
+    <TextView
+        android:id="@+id/development_card_help_menu_text"
+        android:layout_width="792dp"
+        android:layout_height="455dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@+id/development_card_help_menu_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view"
+        tools:text="Development Cards can bought for; 1 Grain, 1 Ore and 1 Wool. Once purchsed, the player is given a random Delvelopment Card from the deck.
+
+    Knight:
+        Use: Allows the player to move the robber without needing to roll a 7. After moving the robber the player selects another
+                 player around the title to steal from
+
+    Victory Points:
+        Use: Grants the player 1 victory point to be added to their private score
+
+    Monopoly:
+        Use: The player selects a resource and all other player must give up all their cards of the selected resource to the player
+                who used Monopoly
+
+    Road Builing:
+        Use: Grants the user 2 Brick and 2 Lumber which is required to build two roads
+
+    Year of Plenty:
+        Use: THe player selects a resource and then recieves two of that resource from the bank" />
+
+    <Button
+        android:id="@+id/deleopment_card_help_menu_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="436dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/development_card_menu_background"
+        app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view"
+        tools:text="Back" />
+</android.support.constraint.ConstraintLayout>
