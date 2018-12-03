@@ -123,6 +123,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private ImageView buildingCosts = null;
     private Button sidebarScoreboardButton = (Button) null;
 
+    /*------------ Help Menu Buttons ----------------- */
+    private Button winningHelpButton = (Button) null;
+    private Button setUpPhaseHelpButton = (Button) null;
+    private Button buildingHelpButtonm = (Button) null;
+    private Button developmentCardHelpButon = (Button) null;
+    private Button tradingHelpButton = (Button) null;
+    private Button robberHelpButton = (Button) null;
+
+    private Button winningHelpBackButton = (Button) null;
+    private Button setUpPhaseHelpBackButton = (Button) null;
+    private Button buildingHelpBackButton = (Button) null;
+    private Button developmentCardHelpBackButton = (Button) null;
+    private Button tradingHelpBackButton = (Button) null;
+    private Button robberHelpBackButton = (Button) null;
+
     /* ------------- resource count text views -------------------- */
 
     private TextView oreValue = (TextView) null;
@@ -1698,6 +1713,43 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.myScore = activity.findViewById(R.id.sidebar_heading_vp);
         this.currentTurnIdTextView = activity.findViewById(R.id.sidebar_heading_current_turn);
         this.playerNameSidebar = activity.findViewById(R.id.sidebar_heading_playername);
+
+        /* ------------------- Help Menu Buttons -------------------- */
+        this.winningHelpButton = activity.findViewById(R.id.winning_Help_Button);
+        this.winningHelpButton.setOnClickListener(this);
+
+        this.setUpPhaseHelpButton = activity.findViewById(R.id.set_Up_Phase_Help_Button);
+        this.setUpPhaseHelpButton.setOnClickListener(this);
+
+        this.buildingHelpButtonm = activity.findViewById(R.id.building_Help_Button);
+        this.buildingHelpButtonm.setOnClickListener(this);
+
+        this.developmentCardHelpButon = activity.findViewById(R.id.development_Cards_Help_Button);
+        this.developmentCardHelpButon.setOnClickListener(this);
+
+        this.tradingHelpButton = activity.findViewById(R.id.trading_Help_Button);
+        this.tradingHelpButton.setOnClickListener(this);
+
+        this.robberHelpButton = activity.findViewById(R.id.robber_Help_Button);
+        this.robberHelpButton.setOnClickListener(this);
+
+        this.winningHelpBackButton = activity.findViewById(R.id.winning_help_menu_Back);
+        this.winningHelpBackButton.setOnClickListener(this);
+
+        this.setUpPhaseHelpBackButton = activity.findViewById(R.id.set_up_phase_help_menu_Back);
+        this.setUpPhaseHelpBackButton.setOnClickListener(this);
+
+        this.buildingHelpBackButton = activity.findViewById(R.id.building_help_menu_Back);
+        this.buildingHelpBackButton.setOnClickListener(this);
+
+        this.developmentCardHelpBackButton = activity.findViewById(R.id.deleopment_card_help_menu_Back);
+        this.developmentCardHelpBackButton.setOnClickListener(this);
+
+        this.tradingHelpBackButton = activity.findViewById(R.id.trading_help_menu_Back);
+        this.tradingHelpBackButton.setOnClickListener(this);
+
+        this.robberHelpBackButton = activity.findViewById(R.id.robber_help_menu_Back);
+        this.robberHelpBackButton.setOnClickListener(this);
 
         /* ------------ DEV CARD SPINNER ----------------- */
 
