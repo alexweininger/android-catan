@@ -171,11 +171,13 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                         //9. Iterate through each Hexagon and find one that has the playersId at one of the adjacent intersections
                         for (Hexagon hex : gs.getBoard().getHexagons()) {
-                            for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
-                                if (gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
-                                    hexId = hex.getHexagonId();
-                                    playerWithMostVPsIntersection = intersection;
-                                    foundBuilding = true;
+                            if(gs.getBoard().moveRobber(hexId)) {
+                                for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
+                                    if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs) {
+                                        hexId = hex.getHexagonId();
+                                        playerWithMostVPsIntersection = intersection;
+                                        foundBuilding = true;
+                                    }
                                 }
                             }
                             //We've found our hex and building, stop iteration of loop
