@@ -433,6 +433,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         //Robber: Both Move and Steal Phase
         if (button.getId() == R.id.robber_choosehex_confirm) {
+
+
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
 
             //Checks if Robber needs to be moved
@@ -479,17 +481,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 //toast.show();
                 return;
             }
-
             //Robber Move Phase: check if we can move the robber to the selected hex
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 //robberHexMessage.setText(R.string.invalid_tile);
-                shake(robberHexMessage);
-                messageTextView.setText(R.string.invalid_tile);
-                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                //toast.show();
-                shake(messageTextView);
+
                 return;
             }
 
@@ -1056,16 +1052,30 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return Success.
      */
     private boolean tryMoveRobber (int hexId) {
+        //Checks if a hexagon is selected
+        if(selectedHexagonId == -1){
+            messageTextView.setText("Please select a valid hexagon or intersection");
+            shake(messageTextView);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            //toast.show();
+            shake(messageTextView);
+            return false;
+        }
         //Checks if Desert tile is selected
         if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
-            messageTextView.setText("Desert Tile cannot longer be selected.");
+            messageTextView.setText("Desert Tile can no longer be selected.");
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            //toast.show();
+            shake(messageTextView);
             return false;
         }
         // make sure they have a hexagon selected
         if (hexId == -1) {
             messageTextView.setText(R.string.hex_for_robber);
-            // Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select an intersection to move the robber.", Toast.LENGTH_SHORT);
-            // toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             //toast.show();
             shake(messageTextView);
             return false;
