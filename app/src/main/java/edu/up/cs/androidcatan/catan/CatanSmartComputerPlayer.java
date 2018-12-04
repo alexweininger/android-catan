@@ -315,36 +315,56 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
             /******Looks to buy a dev card*******/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)){
+                Log.d(TAG, "receiveInfo: Player purchased dev card");
                 game.sendAction(new CatanBuyDevCardAction(this));
                 game.sendAction(new CatanEndTurnAction(this));
+                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                return;
             }
 
             /*****Looks to use a dev card*******/
             if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size() > 1) {
                 for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++){
-                    //if they have a knight card
-                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0){
-                        game.sendAction(new CatanUseKnightCardAction(this));
-                        game.sendAction(new CatanEndTurnAction(this));
-                    }
                     //if they have a victory points card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1 && gs.getPlayerList().get(this.playerNum).getVictoryPoints() == 8){
+                        Log.d(TAG, "receiveInfo: Player using vp card");
                         game.sendAction(new CatanUseVictoryPointCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a knight card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0){
+                        Log.d(TAG, "receiveInfo: Player using knight card");
+                        game.sendAction(new CatanUseKnightCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
                     }
                     //if they have a year of plenty card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2){
-                        game.sendAction(new CatanUseYearOfPlentyCardAction(this, random.nextInt(4))); //change chosenResource
+                        Log.d(TAG, "receiveInfo: Player using year of plenty card");
+                        game.sendAction(new CatanUseYearOfPlentyCardAction(this, tradeResourceId)); //change chosenResource
+                        Log.d(TAG, "receiveInfo: Used year of plenty card");
                         game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
                     }
                     //if they have a monopoly card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3){
-                        game.sendAction(new CatanUseMonopolyCardAction(this, random.nextInt(4))); //change chosenResource
+                        Log.d(TAG, "receiveInfo: Player using monopoly card");
+                        game.sendAction(new CatanUseMonopolyCardAction(this, tradeResourceId)); //change chosenResource
                         game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
                     }
                     //if they have a road card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 4){
+                        Log.d(TAG, "receiveInfo: Player using road dev card");
                         game.sendAction(new CatanUseRoadBuildingCardAction(this));
                         game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
                     }
                 }
 
