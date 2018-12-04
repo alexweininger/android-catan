@@ -916,30 +916,28 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick (View v) {
-            if (isMenuOpen) return;
-            if (state == null) return;
-            if (playerNum != state.getCurrentPlayerId()) return;
-            if (boardSurfaceView == null) return;
-
-            boolean touchedIntersection = false;
-            boolean touchedHexagon = false;
             // retrieve the stored coordinates
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
+            if (boardSurfaceView == null) return;
+            if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
+                View decorView = myActivity.getWindow().getDecorView();
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
+            if (isMenuOpen) return;
+            if (state == null) return;
+            if (playerNum != state.getCurrentPlayerId()) return;
+
+
+            boolean touchedIntersection = false;
+            boolean touchedHexagon = false;
+
             HexagonGrid grid = boardSurfaceView.getGrid();
             if (grid == null) return;
             if (grid.getIntersections() == null) return;
             Log.d("TAG", "onLongClick: x = " + x + ", y = " + y); // x, y position
-
-            if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
-                View decorView = myActivity.getWindow().getDecorView();
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
-            }
 
             for (int i = 0; i < grid.getIntersections().length; i++) {
                 int xPos = grid.getIntersections()[i].getXPos();
