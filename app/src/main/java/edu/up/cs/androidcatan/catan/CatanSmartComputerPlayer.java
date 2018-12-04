@@ -13,6 +13,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
+import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
@@ -221,12 +222,58 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 return;
             }
 
+            /*****Looks to trade so they can potentially build a road******/
+            int brickCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[0];
+
+            int grainCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[1];
+            int oreCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[3];
+            int woolCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[4];
+            int tradeResourceId;
+            if (brickCount == 0){
+                tradeResourceId = 0;
+            }
+            else {
+                tradeResourceId = 2;
+            }
+            if (grainCount >= 4) {
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
+                    Log.d(TAG, "receiveInfo: Trade happening: player + " + this.playerNum + "traded grain for brick");
+                    game.sendAction(new CatanTradeWithBankAction(this, 1,tradeResourceId));
+                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
+                    game.sendAction(new CatanEndTurnAction(this));
+                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                    return;
+                }
+            }
+            if (oreCount >= 4){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
+                    Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
+                    game.sendAction(new CatanTradeWithBankAction(this, 3,tradeResourceId));
+                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
+                    game.sendAction(new CatanEndTurnAction(this));
+                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                    return;
+                }
+            }
+            if (woolCount >= 4){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
+                    Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
+                    game.sendAction(new CatanTradeWithBankAction(this, 4,tradeResourceId));
+                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
+                    game.sendAction(new CatanEndTurnAction(this));
+                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                    return;
+                }
+            }
+
+            /******Looks to build a settlement****/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)){
                 Log.d(TAG, "receiveInfo: Valid amount of resources to building");
                 for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
-                    if (gs.getBoard().validBuildingLocation(this.playerNum, false, n)){
+                    //cycling through the amount, not the proper value at the intersection
+                    if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))){
                         Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
-                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, n));
+                        game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n)));
                         Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
                         game.sendAction(new CatanEndTurnAction(this));
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
@@ -270,11 +317,12 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                 // get all adjacent intersections
                 ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+                Log.d(TAG, "IntersectionsToChooseFrom for coordinate: " + roadCoordinate + " for the following cords: " + intersectionsToChooseFrom.toString());
 
-                int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                //int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
                     if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
-                        game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(randomRoadIntersection)));
+                        game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(n))); //was random road intersection
                         Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
 
                         game.sendAction(new CatanEndTurnAction(this));
@@ -284,6 +332,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     }
                 }
                 Log.d(TAG, "receiveInfo: Problem with building a road");
+                game.sendAction(new CatanEndTurnAction(this));
+                return;
             }
 
             game.sendAction(new CatanEndTurnAction(this));
@@ -321,6 +371,11 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         Log.d(TAG, "tryMoveRobber: ");
         return false;
     }
+
+    /**
+     * @param gs CatanGameState object to get the buildings on the board
+     * @return gets the first building wth the owner's id and returns its intersection location
+     */
     private int getBuildingOfPlayer(CatanGameState gs){
         for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
             if (gs.getBoard().getBuildings()[n] != null && gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
@@ -329,6 +384,11 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         }
         return -1;
     }
+
+    /**
+     * @param gs CatanGameState object to get the roads on the board
+     * @return ArrayList of roads that that player owns
+     */
     private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
         for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
@@ -338,24 +398,36 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         }
         return playerRoads;
     }
+
+    /**
+     * @param playerRoads takes a list of a players Road
+     * @return returns an arrayList of intersections along the player's roads
+     */
     private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads){
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {
             intersections.add(playerRoads.get(n).getIntersectionAId());
             intersections.add(playerRoads.get(n).getIntersectionBId());
         }
-        ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
-        for (int n = 0; n < intersections.size(); n++){
-            for (int j = n+1; j < intersections.size(); j++){
-                if (intersections.get(n) != intersections.get(j)){
-                    noRepeatIntersections.add(n);
-                }
-            }
+//        ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
+//        for (int n = 0; n < intersections.size(); n++){
+//            for (int j = n+1; j < intersections.size(); j++){
+//                if (intersections.get(n) != intersections.get(j)){
+//                    noRepeatIntersections.add(n);
+//                }
+//            }
             Log.d(TAG, "With repeat Intersections: " + intersections.toString());
-            Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
-        }
+            //Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
+        //}
+        //might need to change to return intersections
         return intersections;
     }
+
+    /**
+     * @param intersectionId intersection you are checking to see it's resource
+     * @param gs
+     * @return true if the id is for brick or lumber, false if it isn't
+     */
     private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
         Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
         ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
