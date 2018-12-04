@@ -819,7 +819,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityAllowTapping(winningHelpMenu);
             mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.settlers_of_catan_official_theme_song);
             mediaPlayer.setLooping(false);
-            mediaPlayer.setVolume(0.5f,0.5f);
+            mediaPlayer.setVolume(1f,1f);
             mediaPlayer.seekTo(0);
             mediaPlayer.start();
         }
@@ -1655,6 +1655,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         myActivity = activity; // remember the activity
         activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
         messageTextView = activity.findViewById(R.id.textview_game_message);
+        mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.the_score_of_catan_full_song);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(1f,1f);
+        mediaPlayer.start();
 
 
         /* ---------- Surface View for drawing the graphics ----------- */
