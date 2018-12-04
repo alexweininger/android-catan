@@ -410,9 +410,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
-            this.boardSurfaceView.getGrid().toggleDebugMode();
+//            this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
-            this.debugMode = !this.debugMode; // toggle debug mode
+//            this.debugMode = !this.debugMode; // toggle debug mode
 
             this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
             this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
@@ -421,10 +421,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
-            toggleGroupVisibility(helpMenu);
+            toggleGroupVisibility(this.helpMenu);
+
+            toggleGroupVisibilityGONE(winningHelpMenu);
+            toggleGroupVisibilityGONE(setUpPhaseHelpMenu);
+            toggleGroupVisibilityGONE(buildingHelpMenu);
+            toggleGroupVisibilityGONE(developmentCardHelpMenu);
+            toggleGroupVisibilityGONE(tradingHelpMenu);
+            toggleGroupVisibilityGONE(robberHelpMenu);
 
             //            setAllButtonsToVisible();
-            Log.e(TAG, "onClick: toggled debug mode");
+//            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -469,7 +476,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 }
                 //Finally checks if intersection is adjacent to the Hex; if so, send action
                 for (Integer intersection : state.getBoard().getHexToIntIdMap().get(state.getBoard().getRobber().getHexagonId())) {
-                    if(intersection == selectedIntersections.get(0)){
+                    if (intersection == selectedIntersections.get(0)) {
                         int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
                         robberChooseHexGroup.setVisibility(View.GONE);
                         game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
@@ -797,68 +804,91 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         /* ----------------------- Help Menus ---------------------------- */
-        if(button.getId() == R.id.winning_Help_Button)
-        {
-            toggleGroupVisibility(winningHelpMenu);
+        if (button.getId() == R.id.winning_Help_Button) {
+            sidebarMenuButton.setClickable(false);
+            sidebarMenuButton.setAlpha(0.5f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(winningHelpMenu);
         }
 
-        if(button.getId() == R.id.winning_help_menu_Back)
-        {
-            toggleGroupVisibility(winningHelpMenu);
+        if (button.getId() == R.id.winning_help_menu_Back) {
+            sidebarMenuButton.setClickable(true);
+            sidebarMenuButton.setAlpha(1f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(winningHelpMenu);
         }
 
-        if(button.getId() == R.id.set_Up_Phase_Help_Button)
-        {
-            toggleGroupVisibility(setUpPhaseHelpMenu);
+        if (button.getId() == R.id.set_Up_Phase_Help_Button) {
+            sidebarMenuButton.setClickable(false);
+            sidebarMenuButton.setAlpha(0.5f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
         }
 
-        if(button.getId() == R.id.set_up_phase_help_menu_Back)
-        {
-            toggleGroupVisibility(setUpPhaseHelpMenu);
+        if (button.getId() == R.id.set_up_phase_help_menu_Back) {
+            sidebarMenuButton.setClickable(true);
+            sidebarMenuButton.setAlpha(1f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
         }
 
-        if(button.getId() == R.id.building_Help_Button)
-        {
-            toggleGroupVisibility(buildingHelpMenu);
+        if (button.getId() == R.id.building_Help_Button) {
+            sidebarMenuButton.setClickable(false);
+            sidebarMenuButton.setAlpha(0.5f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
         }
 
-        if(button.getId() == R.id.building_help_menu_Back)
-        {
-            toggleGroupVisibility(buildingHelpMenu);
+        if (button.getId() == R.id.building_help_menu_Back) {
+            sidebarMenuButton.setClickable(true);
+            sidebarMenuButton.setAlpha(1f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
         }
 
-        if(button.getId() == R.id.development_Cards_Help_Button)
-        {
-            toggleGroupVisibility(developmentCardHelpMenu);
+        if (button.getId() == R.id.development_Cards_Help_Button) {
+            sidebarMenuButton.setClickable(false);
+            sidebarMenuButton.setAlpha(0.5f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
         }
 
-        if(button.getId() == R.id.deleopment_card_help_menu_Back)
-        {
-            toggleGroupVisibility(developmentCardHelpMenu);
+        if (button.getId() == R.id.deleopment_card_help_menu_Back) {
+            sidebarMenuButton.setClickable(true);
+            sidebarMenuButton.setAlpha(1f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
         }
 
-        if(button.getId() == R.id.trading_Help_Button)
-        {
-            toggleGroupVisibility(tradingHelpMenu);
+        if (button.getId() == R.id.trading_Help_Button) {
+            sidebarMenuButton.setClickable(false);
+            sidebarMenuButton.setAlpha(0.5f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
         }
 
-        if(button.getId() == R.id.trading_help_menu_Back)
-        {
-            toggleGroupVisibility(tradingHelpMenu);
+        if (button.getId() == R.id.trading_help_menu_Back) {
+            sidebarMenuButton.setClickable(true);
+            sidebarMenuButton.setAlpha(1f);
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
         }
 
-        if(button.getId() == R.id.robber_Help_Button)
-        {
-            toggleGroupVisibility(robberHelpMenu);
+        if (button.getId() == R.id.robber_Help_Button) {
+            sidebarMenuButton.setClickable(false);
+            sidebarMenuButton.setAlpha(0.5f);
+            Log.d(TAG, "onClick: robber help button pressed");
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(robberHelpMenu);
         }
 
-        if(button.getId() == R.id.robber_help_menu_Back);
-        {
-            toggleGroupVisibility(robberHelpMenu);
+        if (button.getId() == R.id.robber_help_menu_Back) {
+            sidebarMenuButton.setClickable(true);
+            sidebarMenuButton.setAlpha(1f);
+            Log.d(TAG, "onClick: robber help button pressed");
+            toggleGroupVisibilityAllowTapping(helpMenu);
+            toggleGroupVisibilityAllowTapping(robberHelpMenu);
         }
-
-
-
     } // onClick END
 
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
@@ -867,6 +897,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch (View v, MotionEvent event) {
+            if (null == state) return false;
             if (isMenuOpen) return false;
             if (playerNum != state.getCurrentPlayerId()) return false;
 
@@ -1104,7 +1135,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryMoveRobber (int hexId) {
         //Checks if Desert tile is selected
-        if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
+        if (state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5) {
             messageTextView.setText("Desert Tile cannot longer be selected.");
             return false;
         }
@@ -1291,9 +1322,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private void updateTextViews () {
 
         View decorView = myActivity.getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
 
         // Check if the Game State is null. If it is return void.
         if (this.state == null) {
@@ -1743,7 +1772,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         this.helpMenu = activity.findViewById(R.id.help_menu_group);
         this.buildingHelpMenu = activity.findViewById(R.id.building_help_menu_group);
-        this.developmentCardHelpMenu  = activity.findViewById(R.id.development_card_help_menu_group);
+        this.developmentCardHelpMenu = activity.findViewById(R.id.development_card_help_menu_group);
         this.winningHelpMenu = activity.findViewById(R.id.winning_help_menu_group);
         this.setUpPhaseHelpMenu = activity.findViewById(R.id.set_up_phase_help_menu_group);
         this.tradingHelpMenu = activity.findViewById(R.id.trading_help_menu_group);
@@ -2078,6 +2107,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             group.setVisibility(View.GONE);
         }
     }
+
+    private void toggleGroupVisibilityGONE (Group group) {
+        group.setVisibility(View.GONE);
+    }
+
+    private void toggleGroupVisibilityVISIBLE (Group group) {
+        group.setVisibility(View.VISIBLE);
+    }
+
 
     /**
      * @param view View to toggle.

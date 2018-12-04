@@ -70,7 +70,19 @@
 
 
     <!--Robber Discard Menu START-->
+    <android.support.constraint.Group
+        android:id="@+id/robber_choosehex_menu"
+        android:layout_width="0dp"
+        android:layout_height="156dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="robber_choosehex_message, robber_choosehex_confirm" />
 
+    <android.support.constraint.Group
+        android:id="@+id/robber_discard_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids=",robber_discard_lumberImgReceive,robber_discard_grainAmount,robber_discard_leftVerticalGuideLine,robber_discard_oreAmount,robber_discard_brickAmount,robber_discard_grainMinusImg,robber_discard_woolMinusImg,robber_discard_lumberAmount,robber_discard_oreImgReceive,robber_discard_grainImg,robber_discard_lumberMinusImg,robber_discard_oreAddImg,robber_discard_lumberAddImg,robber_discard_woolAddImg,robber_discard_woolImgReceive,robber_discard_brickMinusImg,robber_discard_confirm,robber_discard_brickImg,robber_discard_oreMinusImg,robber_discard_grainAddImg,robber_discard_topHorizontalGuideline,robber_discard_selectMoreResources,robber_discard_woolAmount,robber_discard_brickAddImg,imageView2" />
 
     <!--Help Menus START -->
     <android.support.constraint.Group
@@ -124,20 +136,6 @@
         app:constraint_referenced_ids="development_card_menu_background, development_card_help_menu_title_text_view, development_card_help_menu_text, deleopment_card_help_menu_Back" />
 
     <!--Help Menus END -->
-
-    <android.support.constraint.Group
-        android:id="@+id/robber_choosehex_menu"
-        android:layout_width="0dp"
-        android:layout_height="156dp"
-        android:visibility="gone"
-        app:constraint_referenced_ids="robber_choosehex_message, robber_choosehex_confirm" />
-
-    <android.support.constraint.Group
-        android:id="@+id/robber_discard_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids=",robber_discard_lumberImgReceive,robber_discard_grainAmount,robber_discard_leftVerticalGuideLine,robber_discard_oreAmount,robber_discard_brickAmount,robber_discard_grainMinusImg,robber_discard_woolMinusImg,robber_discard_lumberAmount,robber_discard_oreImgReceive,robber_discard_grainImg,robber_discard_lumberMinusImg,robber_discard_oreAddImg,robber_discard_lumberAddImg,robber_discard_woolAddImg,robber_discard_woolImgReceive,robber_discard_brickMinusImg,robber_discard_confirm,robber_discard_brickImg,robber_discard_oreMinusImg,robber_discard_grainAddImg,robber_discard_topHorizontalGuideline,robber_discard_selectMoreResources,robber_discard_woolAmount,robber_discard_brickAddImg,imageView2" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_right_68"
@@ -1758,6 +1756,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="362dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -1768,74 +1767,74 @@
         android:layout_width="226dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:text="Winning"
         app:layout_constraintEnd_toEndOf="@+id/menu_background"
         app:layout_constraintStart_toStartOf="@+id/menu_background"
-        app:layout_constraintTop_toTopOf="@+id/menu_background"
-        tools:text="Winning" />
+        app:layout_constraintTop_toTopOf="@+id/menu_background" />
 
     <Button
         android:id="@+id/set_Up_Phase_Help_Button"
         android:layout_width="226dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="99dp"
+        android:text="Set-Up Phase"
         app:layout_constraintEnd_toEndOf="@+id/menu_background"
         app:layout_constraintStart_toStartOf="@+id/menu_background"
-        app:layout_constraintTop_toTopOf="@+id/menu_background"
-        tools:text="Set-Up Phase" />
+        app:layout_constraintTop_toTopOf="@+id/menu_background" />
 
     <Button
         android:id="@+id/building_Help_Button"
         android:layout_width="226dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="148dp"
+        android:text="Building"
         app:layout_constraintEnd_toEndOf="@+id/menu_background"
         app:layout_constraintStart_toStartOf="@+id/menu_background"
-        app:layout_constraintTop_toTopOf="@+id/menu_background"
-        tools:text="Building" />
+        app:layout_constraintTop_toTopOf="@+id/menu_background" />
 
     <Button
         android:id="@+id/development_Cards_Help_Button"
         android:layout_width="226dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="197dp"
+        android:text="Development Cards"
         app:layout_constraintEnd_toEndOf="@+id/menu_background"
         app:layout_constraintStart_toStartOf="@+id/menu_background"
-        app:layout_constraintTop_toTopOf="@+id/menu_background"
-        tools:text="Development Cards" />
+        app:layout_constraintTop_toTopOf="@+id/menu_background" />
 
     <Button
         android:id="@+id/trading_Help_Button"
         android:layout_width="226dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="246dp"
+        android:text="Trading"
         app:layout_constraintEnd_toEndOf="@+id/menu_background"
         app:layout_constraintStart_toStartOf="@+id/menu_background"
-        app:layout_constraintTop_toTopOf="@+id/menu_background"
-        tools:text="Trading" />
+        app:layout_constraintTop_toTopOf="@+id/menu_background" />
 
     <Button
         android:id="@+id/robber_Help_Button"
         android:layout_width="226dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="295dp"
+        android:text="Robber"
         app:layout_constraintEnd_toEndOf="@+id/menu_background"
         app:layout_constraintStart_toStartOf="@+id/menu_background"
-        app:layout_constraintTop_toTopOf="@+id/menu_background"
-        tools:text="Robber" />
+        app:layout_constraintTop_toTopOf="@+id/menu_background" />
     <!-- -->
 
     <ImageView
         android:id="@+id/winning_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39999998" />
 
     <TextView
         android:id="@+id/winning_help_menu_title_text_view"
@@ -1843,12 +1842,12 @@
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:text="Winning"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/winning_menu_background"
-        app:layout_constraintTop_toTopOf="@+id/winning_menu_background"
-        tools:text="Winning" />
+        app:layout_constraintTop_toTopOf="@+id/winning_menu_background" />
 
     <TextView
         android:id="@+id/winning_help_menu_text"
@@ -1860,29 +1859,31 @@
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/winning_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/winning_help_menu_title_text_view"
-        tools:text="The goal of The Settlers of Catan is to reach 10 Victory Points (VP) first. You gain victory points by building, settlements, cities, and using development cards.
-
-Buildings:
-    Each settlement you place will grant you 1 victory point.
-
-    Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.
-
-    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This
-    trohpy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who
-    ever holds the trophy is granted 2 additional victory points.
-
-Development Cards:
-    A Victory Point development card grants one additional  victory point the player.
-
-    Once one player has played three Knight development cards, they are given the largest Armmy trophy, which awards two
-    additional victory points. If another player ends up use more Knight Cards, then the trophy switches hands. Whoever holds the
-    trophy is granted to addiotional victory points.
-
-Checking Player's Score:
-    Scores are broken up into public and private scores. Public score keeps track of vitory points from buildings. While private
-    scores keeps track of vitory points from buildings, trophies and develompent cards. Thought you cannot your oppenents true
-    victory point total, you are able to see if they hold either the longest road trophy, largest army trophy or both. When it
-    comes to winning, private vitory points is the only thing that matters
+        android:singleLine="false"
+        android:text=
+           "The goal of The Settlers of Catan is to reach 10 Victory Points (VP) first. You gain victory points by building, settlements, cities, and using development cards.\n
+\n
+Buildings:\n
+    Each settlement you place will grant you 1 victory point.\n
+\n
+    Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.\n
+\n
+    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This\n
+    trophy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who\n
+    ever holds the trophy is granted 2 additional victory points.\n
+\n
+Development Cards:\n
+    A Victory Point development card grants one additional  victory point the player.\n
+\n
+    Once one player has played three Knight development cards, they are given the largest Armmy trophy, which awards two\n
+    additional victory points. If another player ends up use more Knight Cards, then the trophy switches hands. Whoever holds the\n
+    trophy is granted to addiotional victory points.\n
+\n
+Checking Player's Score:\n
+    Scores are broken up into public and private scores. Public score keeps track of vitory points from buildings. While private\n
+    scores keeps track of vitory points from buildings, trophies and develompent cards. Thought you cannot your oppenents true\n
+    victory point total, you are able to see if they hold either the longest road trophy, largest army trophy or both. When it\n
+    comes to winning, private vitory points is the only thing that matters\n
 " />
 
     <Button
@@ -1891,23 +1892,23 @@ Checking Player's Score:
         android:layout_height="wrap_content"
         android:layout_marginTop="436dp"
         android:layout_marginEnd="8dp"
+        android:text="Back"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/winning_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/winning_help_menu_title_text_view"
-        tools:text="Back" />
+        app:layout_constraintTop_toBottomOf="@+id/winning_help_menu_title_text_view" />
     <!-- -->
 
     <ImageView
         android:id="@+id/set_up_phase_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:alpha="1"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -1920,7 +1921,7 @@ Checking Player's Score:
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/set_up_phase_menu_background"
         app:layout_constraintTop_toTopOf="@+id/set_up_phase_menu_background"
-        tools:text="Set-Up Phase" />
+        android:text="Set-Up Phase" />
 
     <TextView
         android:id="@+id/set_up_phase_help_menu_text"
@@ -1928,22 +1929,21 @@ Checking Player's Score:
         android:layout_height="455dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
-        android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="@+id/set_up_phase_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/set_up_phase_help_menu_title_text_view"
-        tools:text="During the Set-Up Phase each player will get a chance to place one building and one road, two times. The order for which the
-Set-Up Phase is played is Player 1 > Player2 Player 3 Player 4 then Player 4 > Player 3 > Player 2 > Player 1.
-
-Placing a Settlement:
-    1) Select the intersection you wish to place a settlement.
-    2) Press the Settlement button on the left side bar.
-
-Placing a Raod:
-    1) Select two adjacent intersections build a road.
-    2) Press the Road button on the left side bar.
-
-Ending Turn:
+        android:text="During the Set-Up Phase each player will get a chance to place one building and one road, two times. The order for which the\n
+Set-Up Phase is played is Player 1 > Player2 Player 3 Player 4 then Player 4 > Player 3 > Player 2 > Player 1.\n
+\n
+Placing a Settlement:\n
+    1) Select the intersection you wish to place a settlement.\n
+    2) Press the Settlement button on the left side bar.\n
+\n
+Placing a Raod:\n
+    1) Select two adjacent intersections build a road.\n
+    2) Press the Road button on the left side bar.\n
+\n
+Ending Turn:\n
     1) Press the End Turn button on the left side bar." />
 
     <Button
@@ -1952,9 +1952,9 @@ Ending Turn:
         android:layout_height="wrap_content"
         android:layout_marginTop="436dp"
         android:layout_marginEnd="8dp"
+        android:text="Back"
         app:layout_constraintEnd_toEndOf="@+id/set_up_phase_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/set_up_phase_help_menu_title_text_view"
-        tools:text="Back" />
+        app:layout_constraintTop_toBottomOf="@+id/set_up_phase_help_menu_title_text_view" />
 
     <ImageView
         android:id="@+id/set_up_phase_settlment_img"
@@ -1962,31 +1962,30 @@ Ending Turn:
         android:layout_height="175dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
+        android:src="@drawable/build_settlement"
         app:layout_constraintEnd_toEndOf="@+id/set_up_phase_help_menu_text"
-        app:layout_constraintTop_toTopOf="@+id/set_up_phase_help_menu_text"
-        app:srcCompat="@drawable/build_settlement" />
+        app:layout_constraintTop_toTopOf="@+id/set_up_phase_help_menu_text" />
 
     <ImageView
         android:id="@+id/set_up_phase_road_img"
         android:layout_width="325dp"
         android:layout_height="175dp"
         android:layout_marginTop="10dp"
+        android:src="@drawable/build_settlement"
         app:layout_constraintStart_toStartOf="@+id/set_up_phase_settlment_img"
-        app:layout_constraintTop_toBottomOf="@+id/set_up_phase_settlment_img"
-        app:srcCompat="@drawable/build_road" />
+        app:layout_constraintTop_toBottomOf="@+id/set_up_phase_settlment_img" />
     <!-- -->
 
     <ImageView
         android:id="@+id/building_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -1995,6 +1994,7 @@ Ending Turn:
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:text="Building"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/building_menu_background"
@@ -2010,32 +2010,32 @@ Ending Turn:
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="@+id/building_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/building_help_menu_title_text_view"
-        tools:text="There are three buildings that can be constucted; a City, a Settlement and a Road.
-
-    City:
-        Cost: 2 Grain and 3 Ore
-        Can Be Built: Can only be built on top of a settlement
-        Victory Points: 2
-        Resource Collection: 2x
-
-
-
-
-    Settlement:
-        Cost: 1 Brick, 1 Grain, 1 Lumber and 1 Wool
-        Can Be Built: Must be built two road lengths away from
-                                another settlement or city
-        Victory Points: 1
-        Resource Collection: 1x
-
-
-
-
-    Road:
-        Cost: 1 Brick and 1 Lumber
-        Can Be Built: Can only be built when connected to
-                                settlmeent or city
-        Victory Points: 0
+        android:text="There are three buildings that can be constucted; a City, a Settlement and a Road.\n
+\n
+    City:\n
+        Cost: 2 Grain and 3 Ore\n
+        Can Be Built: Can only be built on top of a settlement\n
+        Victory Points: 2\n
+        Resource Collection: 2x\n
+\n
+\n
+\n
+\n
+    Settlement:\n
+        Cost: 1 Brick, 1 Grain, 1 Lumber and 1 Wool\n
+        Can Be Built: Must be built two road lengths away from\n
+                                another settlement or city\n
+        Victory Points: 1\n
+        Resource Collection: 1x\n
+\n
+\n
+\n
+\n
+    Road:\n
+        Cost: 1 Brick and 1 Lumber\n
+        Can Be Built: Can only be built when connected to\n
+                                settlmeent or city\n
+        Victory Points: 0\n
         Resource Collection: 0x" />
 
     <ImageView
@@ -2044,25 +2044,25 @@ Ending Turn:
         android:layout_height="140dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="75dp"
+        android:src="@drawable/build_city"
         app:layout_constraintEnd_toEndOf="@+id/building_help_menu_text"
-        app:layout_constraintTop_toTopOf="@+id/building_help_menu_text"
-        app:srcCompat="@drawable/build_city" />
+        app:layout_constraintTop_toTopOf="@+id/building_help_menu_text" />
 
     <ImageView
         android:id="@+id/builting_settlment_img"
         android:layout_width="300dp"
         android:layout_height="140dp"
+        android:src="@drawable/build_settlement"
         app:layout_constraintEnd_toEndOf="@+id/builting_city_img"
-        app:layout_constraintTop_toBottomOf="@+id/builting_city_img"
-        app:srcCompat="@drawable/build_settlement" />
+        app:layout_constraintTop_toBottomOf="@+id/builting_city_img" />
 
     <ImageView
         android:id="@+id/builting_road_img"
         android:layout_width="300dp"
         android:layout_height="140dp"
+        android:src="@drawable/build_road"
         app:layout_constraintEnd_toEndOf="@+id/builting_settlment_img"
-        app:layout_constraintTop_toBottomOf="@+id/builting_settlment_img"
-        app:srcCompat="@drawable/build_road" />
+        app:layout_constraintTop_toBottomOf="@+id/builting_settlment_img" />
 
     <Button
         android:id="@+id/building_help_menu_Back"
@@ -2070,22 +2070,21 @@ Ending Turn:
         android:layout_height="wrap_content"
         android:layout_marginTop="436dp"
         android:layout_marginEnd="8dp"
+        android:text="Back"
         app:layout_constraintEnd_toEndOf="@+id/building_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/building_help_menu_title_text_view"
-        tools:text="Back" />
+        app:layout_constraintTop_toBottomOf="@+id/building_help_menu_title_text_view" />
     <!-- -->
     <ImageView
         android:id="@+id/trading_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
+        android:background="@color/catanRed"
         android:visibility="invisible"
-        android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -2094,11 +2093,11 @@ Ending Turn:
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:text="Trading"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/trading_menu_background"
-        app:layout_constraintTop_toTopOf="@+id/trading_menu_background"
-        tools:text="Trading" />
+        app:layout_constraintTop_toTopOf="@+id/trading_menu_background" />
 
     <TextView
         android:id="@+id/trading_help_menu_text"
@@ -2106,27 +2105,27 @@ Ending Turn:
         android:layout_height="455dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
+        android:text="Trading can be done via either a Port or the Bank. Trading with a port can only be done if the user has a settlement or city on a\n
+port inersection. Ports can be specailzed and offer cheeper trading rates. Ports with a rsource icon on them are specialzed and offer 2:1 trading\n
+of that resource, while ports without a resource icon can trade any resouce 3:1. If the player wishes to trade, but does not have a city or settlement\n
+on a port intersection, then why can trade with the bank at a rate of 4:1.\n
+\n
+    How to Trade with the Bank:\n
+        1) Deselect any intersections\n
+        2) Press the Trade button on the left side bar\n
+        3) Click on the resource you wish to give on the bottom row\n
+        4) Click on the resource you wish to rexieve on the top row\n
+        5) Press the Confirm button to make the trade\n
+\n
+    How to trade with a Port:\n
+        1) Select the intersection with a port\n
+        2) Press the Trade button on the left side bar\n
+        3) Click on the resource specialzed resource to give\n
+             on the bottom row\n
+        4) Click on the resource you wish to rexieve on the top row\n
+        5) Press the Confirm button to make the trade"
         app:layout_constraintStart_toStartOf="@+id/trading_help_menu_title_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/trading_help_menu_title_text_view"
-        tools:text="Trading can be done via either a Port or the Bank. Trading with a port can only be done if the user has a settlement or city on a
-port inersection. Ports can be specailzed and offer cheeper trading rates. Ports with a rsource icon on them are specialzed and offer 2:1 trading
-of that resource, while ports without a resource icon can trade any resouce 3:1. If the player wishes to trade, but does not have a city or settlement
-on a port intersection, then why can trade with the bank at a rate of 4:1.
-
-    How to Trade with the Bank:
-        1) Deselect any intersections
-        2) Press the Trade button on the left side bar
-        3) Click on the resource you wish to give on the bottom row
-        4) Click on the resource you wish to rexieve on the top row
-        5) Press the Confirm button to make the trade
-
-    How to trade with a Port:
-        1) Select the intersection with a port
-        2) Press the Trade button on the left side bar
-        3) Click on the resource specialzed resource to give
-             on the bottom row
-        4) Click on the resource you wish to rexieve on the top row
-        5) Press the Confirm button to make the trade" />
+        app:layout_constraintTop_toBottomOf="@+id/trading_help_menu_title_text_view" />
 
     <ImageView
         android:id="@+id/trading_help_menu_img"
@@ -2134,9 +2133,9 @@ on a port intersection, then why can trade with the bank at a rate of 4:1.
         android:layout_height="200dp"
         android:layout_marginTop="200dp"
         android:layout_marginEnd="50dp"
+        android:src="@drawable/trading"
         app:layout_constraintEnd_toEndOf="@+id/trading_menu_background"
-        app:layout_constraintTop_toTopOf="@+id/trading_help_menu_text"
-        app:srcCompat="@drawable/trading" />
+        app:layout_constraintTop_toTopOf="@+id/trading_help_menu_text" />
 
     <Button
         android:id="@+id/trading_help_menu_Back"
@@ -2144,22 +2143,21 @@ on a port intersection, then why can trade with the bank at a rate of 4:1.
         android:layout_height="wrap_content"
         android:layout_marginTop="436dp"
         android:layout_marginEnd="8dp"
+        android:text="Back"
         app:layout_constraintEnd_toEndOf="@+id/trading_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/trading_help_menu_title_text_view"
-        tools:text="Back" />
+        app:layout_constraintTop_toBottomOf="@+id/trading_help_menu_title_text_view" />
     <!-- -->
 
     <ImageView
         android:id="@+id/robber_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -2168,11 +2166,11 @@ on a port intersection, then why can trade with the bank at a rate of 4:1.
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:text="Robber"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/robber_menu_background"
-        app:layout_constraintTop_toTopOf="@+id/robber_menu_background"
-        tools:text="Robber" />
+        app:layout_constraintTop_toTopOf="@+id/robber_menu_background" />
 
     <TextView
         android:id="@+id/robber_help_menu_text"
@@ -2181,31 +2179,29 @@ on a port intersection, then why can trade with the bank at a rate of 4:1.
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat"
+        android:text="The Robber is played whenever a seven is rolled. When this happens, any player in the game who has more than sevenresources, must discard half of them. Which resources are how many of each is up to them. After all players who had to discard have done so, the player who rolled the seven must move the robber to a new tile. The new tile must not be the dessert tile, have at least one oppenent adjacent to it and cannot be the same tile is currently on. After having done so, the player then selects an oppenent whose settlement or city is adjacent to steal a random resource from.\n
+\n
+\n
+\n
+Discard Resource Cards:\n
+    1) Select the plus or minus to set how many of each\n
+    2) Press the confirm button.\n
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+\n
+Moving the Robber\n
+    1) Select a tile to move the robber to\n
+    2) Press the Confrim button in the bottom right\n
+    3) Select an openents settlement or city adjacent to the tile\n
+    4) Press the confirm button"
         app:layout_constraintStart_toStartOf="@+id/robber_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view"
-        tools:text="The Robber is played whenever a seven is rolled. When this happens, any player in the game who has more than seven
-resources, must discard half of them. Which resources are how many of each is up to them. After all players who had to discard have done so, the player who rolled the seven must move the robber to a new tile. The new tile must not be the dessert tile, have at least one oppenent adjacent to it and cannot be the same tile is currently on. After having done so, the player then selects an oppenent whose settlement or city is adjacent to steal a random resource from.
-
-
-
-Discard Resource Cards:
-    1) Select the plus or minus to set how many of each
-         card to discard
-    2) Press the confirm button.
-
-
-
-
-
-
-
-
-
-Moving the Robber
-    1) Select a tile to move the robber to
-    2) Press the Confrim button in the bottom right
-    3) Select an openents settlement or city adjacent to the tile
-    4) Press the confirm button"/>
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view" />
 
     <Button
         android:id="@+id/robber_help_menu_Back"
@@ -2213,9 +2209,9 @@ Moving the Robber
         android:layout_height="wrap_content"
         android:layout_marginTop="436dp"
         android:layout_marginEnd="8dp"
+        android:text="Back"
         app:layout_constraintEnd_toEndOf="@+id/robber_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view"
-        tools:text="Back" />
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view" />
 
     <ImageView
         android:id="@+id/robber_help_menu_discard_img"
@@ -2223,9 +2219,9 @@ Moving the Robber
         android:layout_height="165dp"
         android:layout_marginTop="83dp"
         android:layout_marginEnd="47dp"
+        android:src="@drawable/robber_discard"
         app:layout_constraintEnd_toEndOf="@+id/robber_help_menu_move_robber_img"
-        app:layout_constraintTop_toTopOf="@+id/robber_help_menu_text"
-        tools:srcCompat="@drawable/robber_discard" />
+        app:layout_constraintTop_toTopOf="@+id/robber_help_menu_text" />
 
     <ImageView
         android:id="@+id/robber_help_menu_move_robber_img"
@@ -2233,22 +2229,21 @@ Moving the Robber
         android:layout_height="243dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="77dp"
+        android:src="@drawable/robber_move_steal"
         app:layout_constraintEnd_toEndOf="@+id/robber_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_discard_img"
-        tools:srcCompat="@drawable/robber_move_steal" />
+        app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_discard_img" />
     <!-- -->
 
     <ImageView
         android:id="@+id/development_card_menu_background"
         android:layout_width="870dp"
         android:layout_height="550dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="77dp"
         android:layout_marginBottom="8dp"
-        android:alpha=".5"
-        android:background="@android:color/background_light"
+        android:background="@color/catanRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -2257,11 +2252,11 @@ Moving the Robber
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:text="Development Cards"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/development_card_menu_background"
-        app:layout_constraintTop_toTopOf="@+id/development_card_menu_background"
-        tools:text="Development Cards" />
+        app:layout_constraintTop_toTopOf="@+id/development_card_menu_background" />
 
     <TextView
         android:id="@+id/development_card_help_menu_text"
@@ -2270,26 +2265,26 @@ Moving the Robber
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="Development Cards can bought for; 1 Grain, 1 Ore and 1 Wool. Once purchsed, the player is given a random Delvelopment Card from the deck.\n
+\n
+    Knight:\n
+        Use: Allows the player to move the robber without needing to roll a 7. After moving the robber the player selects another\n
+                 player around the title to steal from\n
+\n
+    Victory Points:\n
+        Use: Grants the player 1 victory point to be added to their private score\n
+\n
+    Monopoly:\n
+        Use: The player selects a resource and all other player must give up all their cards of the selected resource to the player\n
+                who used Monopoly\n
+\n
+    Road Builing:\n
+        Use: Grants the user 2 Brick and 2 Lumber which is required to build two roads\n
+\n
+    Year of Plenty:\n
+        Use: THe player selects a resource and then recieves two of that resource from the bank"
         app:layout_constraintStart_toStartOf="@+id/development_card_help_menu_title_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view"
-        tools:text="Development Cards can bought for; 1 Grain, 1 Ore and 1 Wool. Once purchsed, the player is given a random Delvelopment Card from the deck.
-
-    Knight:
-        Use: Allows the player to move the robber without needing to roll a 7. After moving the robber the player selects another
-                 player around the title to steal from
-
-    Victory Points:
-        Use: Grants the player 1 victory point to be added to their private score
-
-    Monopoly:
-        Use: The player selects a resource and all other player must give up all their cards of the selected resource to the player
-                who used Monopoly
-
-    Road Builing:
-        Use: Grants the user 2 Brick and 2 Lumber which is required to build two roads
-
-    Year of Plenty:
-        Use: THe player selects a resource and then recieves two of that resource from the bank" />
+        app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view"/>
 
     <Button
         android:id="@+id/deleopment_card_help_menu_Back"
@@ -2297,9 +2292,9 @@ Moving the Robber
         android:layout_height="wrap_content"
         android:layout_marginTop="436dp"
         android:layout_marginEnd="8dp"
+        android:text="Back"
         app:layout_constraintEnd_toEndOf="@+id/development_card_menu_background"
-        app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view"
-        tools:text="Back" />
+        app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view" />
 
     <!--help menus END-->
 </android.support.constraint.ConstraintLayout>
