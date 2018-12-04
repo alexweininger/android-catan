@@ -37,6 +37,7 @@ public class CatanGameState extends GameState implements Runnable {
     private static boolean isSetupPhase = true; // is it the setup phase
     private static boolean isActionPhase = false; // has the current player rolled the dice
     private static boolean isRobberPhase = false; // is the robber phase
+    private static int playerStealingFrom = 0; // playerNum of who is getting a resource taken during Robber Steal Phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
     private static int setupPhaseTurnCounter;
@@ -370,7 +371,17 @@ public class CatanGameState extends GameState implements Runnable {
             return true;
         }
         Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
+
+        playerStealingFrom = playerId;
         return false;
+    }
+
+    /**
+     * Getter to see who is getting their resources taken
+     * @return
+     */
+    public static int getPlayerStealingFrom() {
+        return playerStealingFrom;
     }
 
     /**
