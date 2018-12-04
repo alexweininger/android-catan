@@ -14,6 +14,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanRobberMoveAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = -3677845305432070761L;
     private int hexagonId;
     private int playerId;
 

@@ -12,6 +12,7 @@ import java.io.Serializable;
  **/
 public class Road extends Building implements Serializable {
 
+    private static final long serialVersionUID = -2163345533367819700L;
     private int intersectionAId, intersectionBId;
     public static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
 

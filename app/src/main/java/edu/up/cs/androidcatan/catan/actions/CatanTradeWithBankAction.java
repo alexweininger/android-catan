@@ -14,6 +14,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanTradeWithBankAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = 5086307496325687953L;
     private int resourceIdGiving;
     private int resourceIdRec;
 

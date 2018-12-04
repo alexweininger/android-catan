@@ -9,6 +9,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanUseRoadBuildingCardAction extends GameAction implements Serializable {
     private static final String TAG = "CatanUseRoadBuildingCardAction";
+    private static final long serialVersionUID = 999657364598380655L;
 
     public CatanUseRoadBuildingCardAction(GamePlayer player){
         super(player);

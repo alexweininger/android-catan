@@ -12,6 +12,7 @@ import java.io.Serializable;
  **/
 public class Hexagon implements Serializable {
 
+    private static final long serialVersionUID = 675408522730573292L;
     // instance variables
     private int resourceId, chitValue, hexagonId;
 

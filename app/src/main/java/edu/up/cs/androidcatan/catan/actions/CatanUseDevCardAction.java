@@ -16,6 +16,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanUseDevCardAction extends GameAction implements Serializable {
     private static final String TAG = "CatanUseDevCardAction";
+    private static final long serialVersionUID = 6552057080959641246L;
     private int devCardId;
 
     public CatanUseDevCardAction(GamePlayer player, int devCardId){

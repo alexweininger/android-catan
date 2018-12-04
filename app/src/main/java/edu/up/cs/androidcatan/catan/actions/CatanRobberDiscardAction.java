@@ -14,6 +14,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanRobberDiscardAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = -6036756557172908598L;
     private int playerId;
     private int[] robberDiscardedResources;
 

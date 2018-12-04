@@ -12,8 +12,8 @@ import java.io.Serializable;
  **/
 public abstract class Building implements Serializable {
 
+    private static final long serialVersionUID = 5405656877589675668L;
     private int ownerId = -1;
-
     /**
      * Building constructor
      *

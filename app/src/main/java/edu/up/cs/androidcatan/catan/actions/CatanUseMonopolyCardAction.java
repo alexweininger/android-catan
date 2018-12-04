@@ -9,6 +9,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanUseMonopolyCardAction extends GameAction implements Serializable {
     private static final String TAG = "CatanUseMonopolyCardAction";
+    private static final long serialVersionUID = 6395440562725742066L;
     private int chosenResource;
 
     public CatanUseMonopolyCardAction(GamePlayer player, int chosenResource){

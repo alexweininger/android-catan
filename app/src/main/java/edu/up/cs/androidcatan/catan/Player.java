@@ -23,6 +23,7 @@ public class Player  implements Serializable {
     /* ----- Player instance variables ----- */
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
+    private static final long serialVersionUID = 1235142098074598148L;
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
     private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
     // ArrayList of the development cards the player owns
@@ -60,11 +61,12 @@ public class Player  implements Serializable {
         this.setArmySize(p.getArmySize());
         this.setDevelopmentCards(p.getDevelopmentCards());
         this.setBuildingInventory(p.getBuildingInventory());
-        this.setResourceCards(p.getResourceCards());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
-        this.setVictoryPoints(p.getVictoryPoints());
-        this.setVictoryPointsPrivate(p.getVictoryPointsPrivate());
         this.setDevCardsBuiltThisTurn(p.getDevCardsBuiltThisTurn());
+        this.victoryPointsPrivate = p.victoryPointsPrivate;
+        this.victoryPoints = p.victoryPoints;
+        this.resourceCards = p.resourceCards;
+
     }
 
     public static String[] getResourceCardIds () {

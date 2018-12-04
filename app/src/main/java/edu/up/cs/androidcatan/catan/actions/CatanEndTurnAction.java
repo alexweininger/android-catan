@@ -13,6 +13,8 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanEndTurnAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = -7515825710272678466L;
+
     public CatanEndTurnAction(GamePlayer player){
         super(player);
     }

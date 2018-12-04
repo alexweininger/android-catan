@@ -14,6 +14,8 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanConfirmAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = -6209535461622400857L;
+
     public CatanConfirmAction(GamePlayer player){
         super(player);
     }

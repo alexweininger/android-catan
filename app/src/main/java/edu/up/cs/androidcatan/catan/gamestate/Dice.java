@@ -18,6 +18,7 @@ import java.util.Random;
  * dice class - done for now 10/10
  */
 public class Dice implements Serializable {
+    private static final long serialVersionUID = 2944606999369377855L;
     private static String TAG = "Dice";
 
     private int[] diceValues; // array of dice values

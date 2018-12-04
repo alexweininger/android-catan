@@ -15,6 +15,7 @@ import edu.up.cs.androidcatan.catan.graphics.IntersectionDrawable;
 import static android.content.ContentValues.TAG;
 
 public class Port  implements Serializable {
+    private static final long serialVersionUID = 6074407408138083737L;
     private int intersectionA, intersectionB, tradeRatio, resourceId;
     private int xPos, yPos, size;
 

@@ -15,6 +15,8 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanBuyDevCardAction extends GameAction implements Serializable {
 
+    private static final long serialVersionUID = 7781038413765585192L;
+
     public CatanBuyDevCardAction (GamePlayer player) {
         super(player);
     }

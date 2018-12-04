@@ -17,6 +17,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanBuildCityAction extends GameAction implements Serializable {
 
+    private static final long serialVersionUID = -1248336799340810807L;
     // instance variables
     private final String TAG = "CatanBuildCityAction";
 

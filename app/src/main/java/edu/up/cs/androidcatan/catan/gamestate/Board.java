@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -22,7 +23,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Board implements Runnable, Serializable {
+public class Board implements Serializable, Runnable {
     /**
      * External Citation
      * Date: 8 October 2018
@@ -35,6 +36,7 @@ public class Board implements Runnable, Serializable {
      */
 
     private static final String TAG = "Board";
+    private static final long serialVersionUID = -4950803135763998136L;
 
     /*
      * 'Rings' are used to organize the following ID 2D-ArrayLists. Rings in context mean ring of hexagons or intersections
@@ -63,7 +65,7 @@ public class Board implements Runnable, Serializable {
     private ArrayList<Road> roads = new ArrayList<>();
 
     // Adjacency graph identical to iGraph, however only contains Road objects and null.
-    private Road[][] roadMatrix;
+    private Road[][] roadMatrix = new Road[54][54];
 
     private ArrayList<ArrayList<Road>> roadGraph = new ArrayList<>(54);
 
@@ -82,7 +84,7 @@ public class Board implements Runnable, Serializable {
 
     public Board () {
         Log.d(TAG, "Board() constructor called");
-        this.roadMatrix = new Road[54][54];
+
         robber = new Robber(0);
 
         populateHexagonIds(); // populate ids
@@ -104,35 +106,65 @@ public class Board implements Runnable, Serializable {
         generatePorts(); // create port objects
     } // end Board constructor
 
+    @Override
+    public void run () {
+
+    }
+
     /**
      * @param b - board to copy
      */
     public Board (Board b) {
-        this.setHexagonIdRings(b.getHexagonIdRings());
-        this.setIntersectionIdRings(b.getIntersectionIdRings());
-        this.sethGraph(b.getHGraph());
-        this.setHexToIntIdMap(b.getHexToIntIdMap());
-        this.setIntToHexIdMap(b.getIntToHexIdMap());
-        this.setBuildings(b.getBuildings());
-        this.setRoads(b.getRoads());
+        if (b == null) {
+            Log.e(TAG, "Board: board is null in board copy constructor");
+            return;
+        }
+        if (b.getRobber() == null) {
+            Log.e(TAG, "Board: board is null in board copy constructor");
+            return;
+        }
+        populateHexagonIds(); // populate ids
+        populateIntersectionIds();
+        generateHexagonGraph();
+        generateHexToIntMap();
+        generateIntToHexMap();
         this.setRobber(new Robber(b.getRobber())); // class
-        this.setRoadMatrix(b.getRoadMatrix());
-        this.setPortList(b.getPortList());
-        this.setIntersectionGraph(b.getIntersectionGraph());
-        this.setHighlightedHexagonId(b.getHighlightedHexagonId());
-        this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
-        this.setRoadGraph(b.getRoadGraph());
-
-        for (int i = 0; i < b.getBuildings().length; i++) {
-            if (b.getBuildings()[i] instanceof Settlement) {
-                this.buildings[i] = new Settlement(b.getBuildings()[i].getOwnerId());
-            } else if (b.getBuildings()[i] instanceof City) {
-                this.buildings[i] = new City(b.getBuildings()[i].getOwnerId());
+        generateNewIntersectionGraphManually();
+        this.setHighlightedHexagonId(b.highlightedHexagonId);
+        this.setHighlightedIntersectionId(b.highlightedIntersectionId);
+        this.setRoadGraph(b.roadGraph);
+        generateRoadMatrix();
+        synchronized (this) {
+            for (Road road : b.getRoads()) {
+                roads.add(new Road(road.getOwnerId(), road.getIntersectionAId(), road.getIntersectionBId()));
+            }
+            for (int i = 0; i < b.roadMatrix.length; i++) {
+                for (int i1 = 0; i1 < b.roadMatrix[i].length; i1++) {
+                    this.roadMatrix[i][i1] = new Road(b.roadMatrix[i][i1].getOwnerId(), b.roadMatrix[i][i1].getIntersectionAId(), b.roadMatrix[i][i1].getIntersectionBId());
+                }
             }
         }
-        for (Hexagon hexagon : b.getHexagons()) {
+
+        Log.i(TAG, "Board: b.buildings=" + Arrays.toString(this.buildings));
+
+        synchronized (this) {
+            for (int i = 0; i < b.buildings.length; i++) {
+                if (b.buildings[i] == null) this.buildings[i] = null;
+                if (b.buildings[i] instanceof Settlement) {
+                    Log.d(TAG, "Board: copying settlement");
+                    this.buildings[i] = new Settlement(b.buildings[i].getOwnerId());
+                } else if (b.buildings[i] instanceof City) {
+                    this.buildings[i] = new City(b.buildings[i].getOwnerId());
+                }
+            }
+        }
+
+        for (Hexagon hexagon : b.hexagons) {
             this.hexagons.add(new Hexagon(hexagon));
         }
+
+        generatePorts();
+
     } // end Board deep copy constructor
 
     /* ----- helper / checking methods ----- */
@@ -256,9 +288,11 @@ public class Board implements Runnable, Serializable {
         }
 
         for (Road road : roadMatrix[i]) {
-            if (road.getOwnerId() != -1) {
-                Log.d(TAG, "hasRoad() returned: " + true);
-                return true;
+            if (road != null) {
+                if (road.getOwnerId() != -1) {
+                    Log.d(TAG, "hasRoad() returned: " + true);
+                    return true;
+                }
             }
         }
         Log.d(TAG, "hasRoad() returned: " + false);

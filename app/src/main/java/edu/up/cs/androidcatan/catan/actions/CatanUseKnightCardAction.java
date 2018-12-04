@@ -9,6 +9,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
 public class CatanUseKnightCardAction extends GameAction implements Serializable {
     private static final String TAG = "CatanUseKnightCardAction";
+    private static final long serialVersionUID = -1028980973911587150L;
 
     public CatanUseKnightCardAction(GamePlayer player){
         super(player);

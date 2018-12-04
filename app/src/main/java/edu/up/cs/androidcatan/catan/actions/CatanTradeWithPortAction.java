@@ -16,6 +16,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanTradeWithPortAction extends GameAction implements Serializable {
 
+    private static final long serialVersionUID = -5933779297120945954L;
     private Port port;
     private int resourceRecId;
 

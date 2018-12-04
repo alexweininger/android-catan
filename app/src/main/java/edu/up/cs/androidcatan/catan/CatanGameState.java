@@ -2,7 +2,6 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -21,32 +20,33 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  * @version November 15th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanGameState extends GameState implements Serializable {
+public class CatanGameState extends GameState {
 
     private static final String TAG = "CatanGameState";
+    private static final long serialVersionUID = -5201889928776982853L;
 
     private Dice dice; // dice object
-    private static Board board; // board object
+    private Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
     private static ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
-    private static int currentPlayerId; // id of player who is the current playing player
+    private int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
 
     // game phases
-    private static boolean isSetupPhase = true; // is it the setup phase
-    private static boolean isActionPhase = false; // has the current player rolled the dice
-    private static boolean isRobberPhase = false; // is the robber phase
+    private  boolean isSetupPhase = true; // is it the setup phase
+    private  boolean isActionPhase = false; // has the current player rolled the dice
+    private  boolean isRobberPhase = false; // is the robber phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
-    private static int setupPhaseTurnCounter;
+    private int setupPhaseTurnCounter;
 
     // robber
-    private static boolean hasMovedRobber = false;
+    private boolean hasMovedRobber = false;
     // resourceCard index values: 0 = Brick, 1 = Lumber, 2 = Grain, 3 = Ore, 4 = Wool
-    private static final int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //Resets amount of discarded resources
-    private static boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
+    private final int[] robberDiscardedResources = new int[]{0, 0, 0, 0, 0};  //Resets amount of discarded resources
+    private boolean[] robberPlayerListHasDiscarded = new boolean[]{false, false, false, false};
 
     // trophies
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
@@ -55,15 +55,8 @@ public class CatanGameState extends GameState implements Serializable {
     public CatanGameState () {
         this.dice = new Dice();
 
+        board = new Board();
         generateDevCardDeck();
-        Thread t = new Thread(this);
-        t.setPriority(Thread.MAX_PRIORITY);
-        t.start();
-        try {
-            t.join();
-        } catch(Exception e) {
-            Log.e(TAG, "CatanGameState: thread.sleep", e);
-        }
         currentPlayerId = 0;
         this.currentDiceSum = 3;
         setupPhaseTurnCounter = 0;
@@ -77,11 +70,6 @@ public class CatanGameState extends GameState implements Serializable {
         Log.i(TAG, board.toString());
     } // end CatanGameState constructor
 
-    @Override
-    public void run () {
-        board = new Board();
-    }
-
     /**
      * CatanGameState deep copy constructor
      *
@@ -89,17 +77,21 @@ public class CatanGameState extends GameState implements Serializable {
      */
     public CatanGameState (CatanGameState cgs) {
         this.setDice(new Dice(cgs.getDice()));
+        if (cgs.getBoard() == null) {
+            Log.e(TAG, "CatanGameState: cgs.getBoard() is null");
+        }
         this.setBoard(new Board(cgs.getBoard()));
         this.currentDiceSum = cgs.currentDiceSum;
         this.setHasMovedRobber(cgs.getHasMovedRobber());
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
-
-        setRobberPhase(cgs.getRobberPhase());
+        this.isSetupPhase = cgs.isSetupPhase;
+        this.isRobberPhase = cgs.isRobberPhase;
         this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
         this.setDevelopmentCards(cgs.getDevelopmentCards());
-        this.setCurrentPlayerId(cgs.getCurrentPlayerId());
-        this.setSetupPhaseTurnCounter(cgs.getSetupPhaseTurnCounter());
+        this.currentPlayerId = cgs.currentPlayerId;
+        this.setupPhaseTurnCounter = cgs.setupPhaseTurnCounter;
+        this.isActionPhase = cgs.isActionPhase;
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
@@ -323,23 +315,23 @@ public class CatanGameState extends GameState implements Serializable {
     }
 
 
-    public int getPlayerWithMostVPsExcludingCurrentPlayer(int excludedPlayerId) {
+    public int getPlayerWithMostVPsExcludingCurrentPlayer (int excludedPlayerId) {
 
         //Default Value so we can set the first player ID as player in lead for comparisons
         int playerInLead = -1;
         for (Player player : this.getPlayerList()) {
 
             //Make sure we are not including the player we are excluding
-            if(player.getPlayerId() != excludedPlayerId){
+            if (player.getPlayerId() != excludedPlayerId) {
 
                 //Default player to start with
-                if(playerInLead == -1){
+                if (playerInLead == -1) {
                     playerInLead = player.getPlayerId();
                 }
 
                 //Compare and change player with most victory points if needed
-                else{
-                    if(this.getPlayerList().get(playerInLead).getVictoryPoints() < this.getPlayerList().get(player.getPlayerId()).getVictoryPoints()){
+                else {
+                    if (this.getPlayerList().get(playerInLead).getVictoryPoints() < this.getPlayerList().get(player.getPlayerId()).getVictoryPoints()) {
                         playerInLead = player.getPlayerId();
                     }
                 }
@@ -444,7 +436,7 @@ public class CatanGameState extends GameState implements Serializable {
 
     public Board getBoard () { return board; }
 
-    public void setBoard (Board board) { CatanGameState.board = board; }
+    public void setBoard (Board board) { this.board = board; }
 
     public ArrayList<Player> getPlayerList () { return playerList; }
 
@@ -473,7 +465,7 @@ public class CatanGameState extends GameState implements Serializable {
     }
 
     public void setCurrentPlayerId (int currentPlayerId) {
-        CatanGameState.currentPlayerId = currentPlayerId;
+        this.currentPlayerId = currentPlayerId;
     }
 
     public boolean isActionPhase () {
@@ -519,7 +511,7 @@ public class CatanGameState extends GameState implements Serializable {
     }
 
     public void setRobberPlayerListHasDiscarded (boolean[] robberPlayerListHasDiscarded) {
-        CatanGameState.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
+        this.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
     }
 
     public boolean isHasMovedRobber () {
@@ -527,7 +519,7 @@ public class CatanGameState extends GameState implements Serializable {
     }
 
     public void setHasMovedRobber (boolean hasMovedRobber) {
-        CatanGameState.hasMovedRobber = hasMovedRobber;
+        this.hasMovedRobber = hasMovedRobber;
     }
 
     public int[] getRobberDiscardedResources () {
@@ -540,7 +532,7 @@ public class CatanGameState extends GameState implements Serializable {
     }
 
     public void setSetupPhaseTurnCounter (int setupPhaseTurnCounter) {
-        CatanGameState.setupPhaseTurnCounter = setupPhaseTurnCounter;
+        this.setupPhaseTurnCounter = setupPhaseTurnCounter;
     }
 
     /*------------------------------------- toString ------------------------------------------*/
@@ -568,6 +560,5 @@ public class CatanGameState extends GameState implements Serializable {
         result.append(board.toString()).append("\n");
         return result.toString();
     }
-
 
 }

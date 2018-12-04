@@ -14,6 +14,8 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanCancelAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = 3385017032374067088L;
+
     public CatanCancelAction(GamePlayer player){
         super(player);
     }

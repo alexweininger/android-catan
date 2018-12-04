@@ -3,7 +3,6 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -41,7 +40,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class CatanLocalGame extends LocalGame implements Serializable {
+public class CatanLocalGame extends LocalGame  {
 
     private final static String TAG = "CatanLocalGame";
 
@@ -80,7 +79,7 @@ public class CatanLocalGame extends LocalGame implements Serializable {
      * @return Tells whether the move was a legal one.
      */
     @Override
-    protected boolean makeMove (GameAction action) {
+    protected synchronized boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
         /* --------------------------- Turn Actions --------------------------------------- */
@@ -363,7 +362,12 @@ public class CatanLocalGame extends LocalGame implements Serializable {
     @Override
     protected void sendUpdatedStateTo (GamePlayer p) {
         Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
-        p.sendInfo(new CatanGameState(this.state));
+        Log.i(TAG, "sendUpdatedStateTo: state.toSting():" + this.state.toString());
+        Log.i(TAG, "sendUpdatedStateTo: board.toString(): " + this.state.getBoard().toString());
+        CatanGameState copy = new CatanGameState(state);
+        Log.i(TAG, "sendUpdatedStateTo: board.toString(): " + copy.getBoard().toString());
+
+        p.sendInfo(copy);
     }
 
     /**
@@ -392,7 +396,18 @@ public class CatanLocalGame extends LocalGame implements Serializable {
         return null; // return null if no winner, but the game is not over
     }
 
+    /**
+     * Starts the game. Creates initial game state.
+     * @param players The list of players in the game.
+     */
+    @Override
+    public void start(GamePlayer[] players) {
+        super.start(players);
+        state = new CatanGameState(state);
+    }
+
     public void setState (CatanGameState state) {
         this.state = state;
     }
+
 }

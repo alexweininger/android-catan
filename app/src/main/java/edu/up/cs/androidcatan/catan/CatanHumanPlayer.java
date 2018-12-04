@@ -20,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +42,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
@@ -66,7 +66,7 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
  * @version December 2nd, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener, Serializable {
+public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
     private final String TAG = "CatanHumanPlayer"; // log tag
 
     // instance variables for logic
@@ -1603,10 +1603,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         selectedIntersections.clear();
 
         if (info instanceof CatanGameState) {
+
+            this.state = new CatanGameState((CatanGameState) info);
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-            this.state = (CatanGameState) info;
+
+            Log.i(TAG, "receiveInfo: info.toString " + state.toString());
+
+
+
+
 
             if (state.isRobberPhase()) {
 
@@ -1966,6 +1973,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        if (state.getBoard() == null) {
+            Log.e(TAG, "drawGraphics: board is null returning void and not drawing");
+            return;
+        }
+
         showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
         showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
 
@@ -1975,7 +1987,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.i(TAG, "drawGraphics: boardSurfaceView height: " + boardSurfaceView.getHeight() + " width: " + boardSurfaceView.getWidth());
 
-        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20, this.debugMode));
+        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), new Board(state.getBoard()), 80, 185, 175, 20, this.debugMode));
         this.boardSurfaceView.draw(boardSurfaceView.getCanvas());
 
         boardSurfaceView.invalidate();
@@ -2189,6 +2201,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private String[] getAllPlayerNames () {
         return super.allPlayerNames;
+    }
+
+    /**
+     * Invoked whenever the player's timer has ticked. It is expected
+     * that this will be overridden in many games.
+     */
+    @Override
+    protected void timerTicked() {
+        // by default, do nothing
+        Log.e(TAG, "timerTicked: timer ticked");
     }
 
 }// class CatanHumanPlayer END

@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs.androidcatan.R;
@@ -28,7 +27,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class HexagonGrid extends BoardSurfaceView implements Serializable {
+public class HexagonGrid extends BoardSurfaceView {
 
     private static final String TAG = "HexagonGrid";
 
@@ -70,7 +69,7 @@ public class HexagonGrid extends BoardSurfaceView implements Serializable {
         this.height = size * 2;
         this.width = size * Math.sqrt(3);
         this.margin = margin;
-        this.board = new Board(board);
+        this.board = board;
         this.debugMode = debugMode;
         generateIntersections();
     }
@@ -115,6 +114,7 @@ public class HexagonGrid extends BoardSurfaceView implements Serializable {
         roadPaint.setStrokeWidth(30);
 
         ArrayList<Road> dataRoads = this.board.getRoads(); // get list of all roads on the board
+        Log.d(TAG, "drawRoads: roads: " + this.board.getRoads().toString());
 
         for (Road r : dataRoads) {
             roadPaint.setColor(playerColors[r.getOwnerId()]);

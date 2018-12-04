@@ -18,6 +18,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanBuildRoadAction extends GameAction implements Serializable {
     private static final String TAG = "CatanBuildRoadAction";
+    private static final long serialVersionUID = 6154724297447188137L;
     private int intersectionAId, intersectionBid, ownerId;
     private boolean isSetupPhase;
 

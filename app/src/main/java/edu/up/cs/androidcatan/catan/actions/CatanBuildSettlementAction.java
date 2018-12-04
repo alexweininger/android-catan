@@ -16,6 +16,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanBuildSettlementAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = -6528636163217483199L;
     private final String TAG = "CatanBuildSettlementAction";
 
     private int intersectionId, ownerId;

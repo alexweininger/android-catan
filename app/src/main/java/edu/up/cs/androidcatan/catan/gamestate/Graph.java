@@ -15,6 +15,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 // representation
 public class Graph implements Runnable, Serializable{
     private static final String TAG = "Graph";
+    private static final long serialVersionUID = -8879389794133273667L;
     private int V;   // No. of vertices
     public int count = 0;
     private ArrayList<Road> pr;
