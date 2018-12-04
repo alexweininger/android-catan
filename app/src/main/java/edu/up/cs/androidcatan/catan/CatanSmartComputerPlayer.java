@@ -8,12 +8,19 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
@@ -305,6 +312,36 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
+            /******Looks to buy a dev card*******/
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)){
+                game.sendAction(new CatanBuyDevCardAction(this));
+                game.sendAction(new CatanEndTurnAction(this));
+            }
+
+            /*****Looks to use a dev card*******/
+            if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size() > 1) {
+                for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++){
+                    //if they have a knight card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0){
+                        game.sendAction(new CatanUseKnightCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                    }
+                    //if they have a victory points card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1 && gs.getPlayerList().get(this.playerNum).getVictoryPoints() == 8){
+                        game.sendAction(new CatanUseVictoryPointCardAction(this));
+                    }
+                    //if they have a year of plenty card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2){
+                        game.sendAction(new CatanUseYearOfPlentyCardAction(this, -1)); //change chosenResource
+                        game.sendAction(new CatanEndTurnAction(this));
+                    }
+                    //if they have a monopoly card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3){
+                        game.sendAction(new CatanUseMonopolyCardAction(this, -1)); //change chosenResource
+                    }
+                }
+
+            }
             /******Looks to build another road*****/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
 
