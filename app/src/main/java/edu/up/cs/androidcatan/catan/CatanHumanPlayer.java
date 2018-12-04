@@ -930,7 +930,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state == null) return;
             if (playerNum != state.getCurrentPlayerId()) return;
 
-
             boolean touchedIntersection = false;
             boolean touchedHexagon = false;
 
