@@ -1,8 +1,10 @@
 package edu.up.cs.androidcatan.catan;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.support.constraint.Group;
 import android.util.Log;
 import android.view.Gravity;
@@ -249,6 +251,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group robberChooseHexGroup = (Group) null;
     private Group pickResourceGroup = (Group) null;
 
+    //Music
+    private Context context;
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+    
+
     /* ------------------------------ Scoreboard trophy images ------------------------------------ */
 
     private ImageView roadTrophyImages[] = new ImageView[4];
@@ -390,6 +397,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // check if it is the action phase and not the setup phase
             if (!state.isActionPhase() && !state.isSetupPhase()) {
                 messageTextView.setText(R.string.cannot_end_turn_before_rolling);
+
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Cannot end turn before rolling!", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
@@ -809,6 +817,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             sidebarMenuButton.setAlpha(0.5f);
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(winningHelpMenu);
+            mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.settlers_of_catan_official_theme_song);
+            mediaPlayer.setLooping(false);
+            mediaPlayer.setVolume(0.5f,0.5f);
+            mediaPlayer.seekTo(0);
+            mediaPlayer.start();
         }
 
         if (button.getId() == R.id.winning_help_menu_Back) {
