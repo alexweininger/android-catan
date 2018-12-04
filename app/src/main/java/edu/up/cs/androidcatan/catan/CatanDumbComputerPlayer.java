@@ -14,7 +14,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
-import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
@@ -31,8 +30,11 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanDumbComputerPlayer extends GameComputerPlayer {
+
+    //Class Variables
     private static final String TAG = "CatanDumbComputerPlayer";
 
+    //Variables for Robber Phase
     private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
     private int hexId;
 
@@ -42,7 +44,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
      * @param info the information (presumably containing the game's state)
      */
     @Override
-    protected void receiveInfo (GameInfo info) {
+    protected void receiveInfo(GameInfo info) {
         Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
         if (!(info instanceof CatanGameState)) return; // must do this check at start of method!
@@ -57,6 +59,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             Log.d(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road." + " " + this.playerNum);
             sleep(1000);
             int randSettlementIntersection = random.nextInt(53);
+
             // generate random intersection until we find a valid location to build our settlement
             while (!gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection)) {
                 sleep(1000); // sleep
@@ -77,6 +80,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             // choose a random intersection from those intersections
             int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
             int count = 0;
+
             // generate random intersection until we find a valid location to build our settlement
             while (!gs.getBoard().validRoadPlacement(this.playerNum, true, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection))) {
                 if (count > 5) {
@@ -88,8 +92,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 count++;
             }
-
             sleep(2000); // sleep
+
             // send the game a build road action
             Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game." + " " + this.playerNum);
             game.sendAction(new CatanBuildRoadAction(this, true, this.playerNum, randSettlementIntersection, intersectionsToChooseFrom.get(randomRoadIntersection)));
@@ -154,8 +158,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     }
                 }
 
-            } else if (action == 2)// build a Road
-            {
+            } else if (action == 2) {// build a Road
                 Log.d(TAG, "Dumb AI randomly tried to build a road");
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
 
@@ -203,7 +206,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                 //2a. Check if the player needs to discard cards; if not, send discard action with empty resource list;
                 //   GameState will handle logic.
-                if (!gs.checkPlayerResources(playerNum)) {
+                if (!gs.checkIfPlayerNeedsToDiscard(playerNum)) {
                     Log.i(TAG, "receiveInfo: Computer " + playerNum + " does not need to discard, but still needs to send action.");
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
                     return;
@@ -215,8 +218,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
 
                     //3. Loop until computer has chosen enough cards to discard
-                    while(!gs.validDiscard(playerNum, robberResourcesDiscard)){
-                        if(robberResourcesDiscard[randomResource] < gs.getPlayerList().get(this.playerNum).getResourceCards()[randomResource]){
+                    while (!gs.validDiscard(playerNum, robberResourcesDiscard)) {
+                        if (robberResourcesDiscard[randomResource] < gs.getPlayerList().get(this.playerNum).getResourceCards()[randomResource]) {
                             robberResourcesDiscard[randomResource]++;
                         }
 
@@ -254,7 +257,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                     //8. Choose a random hex, then loop until valid
                     hexId = random.nextInt(gs.getBoard().getHexagons().size());
-                    while(!tryMoveRobber(hexId, gs)){
+                    while (!tryMoveRobber(hexId, gs)) {
                         hexId = random.nextInt(gs.getBoard().getHexagons().size());
                     }
 
@@ -276,7 +279,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                 int randomIntersectionIdx = random.nextInt(intersections.size());
                 int intersectionId = intersections.get(randomIntersectionIdx);
 
-                while(!gs.getBoard().hasBuilding(intersectionId) || gs.getBoard().getBuildingAtIntersection(intersectionId).getOwnerId() == playerNum){
+                while (!gs.getBoard().hasBuilding(intersectionId) || gs.getBoard().getBuildingAtIntersection(intersectionId).getOwnerId() == playerNum) {
                     randomIntersectionIdx = random.nextInt(intersections.size());
                     intersectionId = intersections.get(randomIntersectionIdx);
                 }
@@ -295,11 +298,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         }
     }// receiveInfo() END
 
-    CatanDumbComputerPlayer (String name) {
+    CatanDumbComputerPlayer(String name) {
         super(name);
     }
 
-    private boolean tryMoveRobber (int hexId, CatanGameState gs) {
+    private boolean tryMoveRobber(int hexId, CatanGameState gs) {
         Log.d(TAG, "tryMoveRobber() called with: hexId = [" + hexId + "], gs = [" + gs + "]");
         if (hexId == -1) {
             Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
@@ -310,7 +313,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
             Log.d(TAG, "tryMoveRobber: Same hexId as robber");
             return false;
         }
-        if(gs.getBoard().getHexagons().get(hexId).getResourceId() == 5){
+        if (gs.getBoard().getHexagons().get(hexId).getResourceId() == 5) {
             Log.d(TAG, "tryMoveRobber: Desert tile selected; invalid.");
             return false;
         }
@@ -328,7 +331,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         return false;
     }
 
-    private ArrayList<Road> getPlayerRoads (CatanGameState gs) {
+    private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
         for (int n = 0; n < gs.getBoard().getRoads().size(); n++) {
             if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum) {
@@ -338,7 +341,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         return playerRoads;
     }
 
-    private ArrayList<Integer> getPlayerRoadIntersection (ArrayList<Road> playerRoads) {
+    private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads) {
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {
             intersections.add(playerRoads.get(n).getIntersectionAId());

@@ -52,7 +52,7 @@ public class CatanGameState extends GameState implements Runnable {
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
-    public CatanGameState () {
+    public CatanGameState() {
         this.dice = new Dice();
 
         generateDevCardDeck();
@@ -61,7 +61,7 @@ public class CatanGameState extends GameState implements Runnable {
         t.start();
         try {
             t.join();
-        } catch(Exception e) {
+        } catch (Exception e) {
             Log.e(TAG, "CatanGameState: thread.sleep", e);
         }
         currentPlayerId = 0;
@@ -78,7 +78,7 @@ public class CatanGameState extends GameState implements Runnable {
     } // end CatanGameState constructor
 
     @Override
-    public void run () {
+    public void run() {
         board = new Board();
     }
 
@@ -87,7 +87,7 @@ public class CatanGameState extends GameState implements Runnable {
      *
      * @param cgs - CatanGameState object to make a copy of
      */
-    public CatanGameState (CatanGameState cgs) {
+    public CatanGameState(CatanGameState cgs) {
         this.setDice(new Dice(cgs.getDice()));
         this.setBoard(new Board(cgs.getBoard()));
         this.currentDiceSum = cgs.currentDiceSum;
@@ -114,7 +114,7 @@ public class CatanGameState extends GameState implements Runnable {
     /**
      * Creates a 'deck' of int representing the exact number each type of card. This allows us to accurately select a card at random.
      */
-    private void generateDevCardDeck () {
+    private void generateDevCardDeck() {
         int[] devCardCounts = {14, 5, 2, 2, 2};
         developmentCards = new ArrayList<>();
         for (int i = 0; i < devCardCounts.length; i++) {
@@ -127,7 +127,7 @@ public class CatanGameState extends GameState implements Runnable {
     /**
      * @return The id of the development card the player drew randomly.
      */
-    public int getRandomDevCard () {
+    public int getRandomDevCard() {
         if (developmentCards.size() == 0) generateDevCardDeck();
 
         // generate random number from 0 to the length of the dev card deck
@@ -147,7 +147,7 @@ public class CatanGameState extends GameState implements Runnable {
     /**
      * @return Player object
      */
-    public Player getCurrentPlayer () {
+    public Player getCurrentPlayer() {
         return this.playerList.get(currentPlayerId);
     }
 
@@ -155,7 +155,7 @@ public class CatanGameState extends GameState implements Runnable {
      * @param playerId Player id
      * @return If id is valid.
      */
-    private boolean valPlId (int playerId) {
+    private boolean valPlId(int playerId) {
         return playerId > -1 && playerId < 4;
     }
 
@@ -163,7 +163,7 @@ public class CatanGameState extends GameState implements Runnable {
      * @param playerId - id to check
      * @return - if it is that players turn or not
      */
-    private boolean checkTurn (int playerId) {
+    private boolean checkTurn(int playerId) {
         if (valPlId(playerId)) {
             return playerId == currentPlayerId;
         }
@@ -174,7 +174,7 @@ public class CatanGameState extends GameState implements Runnable {
     /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
-    public void checkArmySize () {
+    public void checkArmySize() {
         Log.d(TAG, "checkArmySize() called");
         int max = -1;
         if (this.currentLargestArmyPlayerId != -1) {
@@ -199,7 +199,7 @@ public class CatanGameState extends GameState implements Runnable {
      *
      * @param diceSum - dice sum
      */
-    void produceResources (int diceSum) {
+    void produceResources(int diceSum) {
         Log.d(TAG, "produceResources() called with: diceSum = [" + diceSum + "]");
         if (isActionPhase) {
             Log.e(TAG, "produceResources: It is the action phase. Returned false.");
@@ -235,34 +235,36 @@ public class CatanGameState extends GameState implements Runnable {
     }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
-    public void setRobberPhase (boolean rp) {
+    public void setRobberPhase(boolean rp) {
         isRobberPhase = rp;
     }
 
-    public boolean getRobberPhase () {
+    public boolean getRobberPhase() {
         return isRobberPhase;
     }
 
     /**
-     * TODO implement
+     *
      * Check to see if resources need to be discarded
      *
      * @return - action success
      */
-    public boolean checkPlayerResources (int playerId) {
+    public boolean checkIfPlayerNeedsToDiscard(int playerId) {
         if (robberPlayerListHasDiscarded[playerId]) {
             //Returns false since player has already discarded cards
-            Log.i(TAG, "checkPlayerResources: PLAYER HAS DISCARDED ALREADY");
+            Log.i(TAG, "checkIfPlayerNeedsToDiscard: PLAYER HAS DISCARDED ALREADY");
             return false;
         }
+
         if (playerList.get(playerId).getTotalResourceCardCount() > 7) {
             //Returns true since player has more than 7 cards and has not discarded yet
-            Log.i(TAG, "checkPlayerResources: PLAYER NEEDS TO DISCARD CARDS");
+            Log.i(TAG, "checkIfPlayerNeedsToDiscard: PLAYER NEEDS TO DISCARD CARDS");
             return true;
         }
-        Log.i(TAG, "checkPlayerResources: PLAYER DOES NOT NEED TO DISCARD");
-        robberPlayerListHasDiscarded[playerId] = true;
 
+        //Player has less 7 or less card
+        Log.i(TAG, "checkIfPlayerNeedsToDiscard: PLAYER DOES NOT NEED TO DISCARD");
+        robberPlayerListHasDiscarded[playerId] = true;
         return false;
     }
 
@@ -273,7 +275,7 @@ public class CatanGameState extends GameState implements Runnable {
      * @param resourcesDiscarded
      * @return
      */
-    public boolean validDiscard (int playerId, int[] resourcesDiscarded) {
+    public boolean validDiscard(int playerId, int[] resourcesDiscarded) {
         int totalDiscarded = 0;
         Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
         for (int i = 0; i < resourcesDiscarded.length; i++) {
@@ -294,7 +296,7 @@ public class CatanGameState extends GameState implements Runnable {
      * @param resourcesDiscarded
      * @return
      */
-    public boolean discardResources (int playerId, int[] resourcesDiscarded) {
+    public boolean discardResources(int playerId, int[] resourcesDiscarded) {
         Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
         if (robberPlayerListHasDiscarded[playerId]) {
             Log.i(TAG, "discardResources: Player is not required to discard at this time");
@@ -314,7 +316,7 @@ public class CatanGameState extends GameState implements Runnable {
         return true;
     }
 
-    public boolean allPlayersHaveDiscarded () {
+    public boolean allPlayersHaveDiscarded() {
         for (boolean aRobberPlayerListHasDiscarded : robberPlayerListHasDiscarded) {
             if (!aRobberPlayerListHasDiscarded) {
                 return false;
@@ -332,16 +334,16 @@ public class CatanGameState extends GameState implements Runnable {
         for (Player player : this.getPlayerList()) {
 
             //Make sure we are not including the player we are excluding
-            if(player.getPlayerId() != excludedPlayerId){
+            if (player.getPlayerId() != excludedPlayerId) {
 
                 //Default player to start with
-                if(playerInLead == -1){
+                if (playerInLead == -1) {
                     playerInLead = player.getPlayerId();
                 }
 
                 //Compare and change player with most victory points if needed
-                else{
-                    if(this.getPlayerList().get(playerInLead).getVictoryPoints() < this.getPlayerList().get(player.getPlayerId()).getVictoryPoints()){
+                else {
+                    if (this.getPlayerList().get(playerInLead).getVictoryPoints() < this.getPlayerList().get(player.getPlayerId()).getVictoryPoints()) {
                         playerInLead = player.getPlayerId();
                     }
                 }
@@ -355,10 +357,10 @@ public class CatanGameState extends GameState implements Runnable {
      * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
      * @param hexagonId Hexagon the robber is going to move to.
-     * @param playerId Player who is moving the robber.
+     * @param playerId  Player who is moving the robber.
      * @return action success.
      */
-    public boolean moveRobber (int hexagonId, int playerId) {
+    public boolean moveRobber(int hexagonId, int playerId) {
         if (!valPlId(playerId)) {
             Log.d(TAG, "moveRobber: invalid player id: " + playerId);
             return false;
@@ -380,6 +382,7 @@ public class CatanGameState extends GameState implements Runnable {
 
     /**
      * Getter to see who is getting their resources taken
+     *
      * @return
      */
     public int getPlayerStealingFrom() {
@@ -392,7 +395,7 @@ public class CatanGameState extends GameState implements Runnable {
      * @param playerId - player stealing resources
      * @return - action success
      */
-    public boolean robberSteal (int playerId, int stealingFromPlayerId) {
+    public boolean robberSteal(int playerId, int stealingFromPlayerId) {
         if (playerId == stealingFromPlayerId) {
             Log.e(TAG, "robberSteal: Trying to steal from self, error.");
             return false;
@@ -434,7 +437,7 @@ public class CatanGameState extends GameState implements Runnable {
      *
      * @return if the game is still in the setup phase
      */
-    public boolean updateSetupPhase () {
+    public boolean updateSetupPhase() {
         Log.d(TAG, "updateSetupPhase() called " + this.toString());
         int buildingCount = 0;
         for (Building building : board.getBuildings()) {
@@ -450,108 +453,120 @@ public class CatanGameState extends GameState implements Runnable {
 
     /*-------------------------------------Getter/Setter Methods------------------------------------------*/
 
-    public Dice getDice () { return dice; }
+    public Dice getDice() {
+        return dice;
+    }
 
-    public void setDice (Dice dice) { this.dice = dice; }
+    public void setDice(Dice dice) {
+        this.dice = dice;
+    }
 
-    public Board getBoard () { return board; }
+    public Board getBoard() {
+        return board;
+    }
 
-    public void setBoard (Board board) { CatanGameState.board = board; }
+    public void setBoard(Board board) {
+        CatanGameState.board = board;
+    }
 
-    public ArrayList<Player> getPlayerList () { return playerList; }
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
 
-    public void setPlayerList (ArrayList<Player> playerList) {
+    public void setPlayerList(ArrayList<Player> playerList) {
         this.playerList = playerList;
     }
 
-    public ArrayList<Integer> getDevelopmentCards () {
+    public ArrayList<Integer> getDevelopmentCards() {
         return developmentCards;
     }
 
-    public void setDevelopmentCards (ArrayList<Integer> developmentCards) {
+    public void setDevelopmentCards(ArrayList<Integer> developmentCards) {
         CatanGameState.developmentCards = developmentCards;
     }
 
-    public int getCurrentDiceSum () {
+    public int getCurrentDiceSum() {
         return currentDiceSum;
     }
 
-    public void setCurrentDiceSum (int currentDiceSum) {
+    public void setCurrentDiceSum(int currentDiceSum) {
         this.currentDiceSum = currentDiceSum;
     }
 
-    public int getCurrentPlayerId () {
+    public int getCurrentPlayerId() {
         return currentPlayerId;
     }
 
-    public void setCurrentPlayerId (int currentPlayerId) {
+    public void setCurrentPlayerId(int currentPlayerId) {
         CatanGameState.currentPlayerId = currentPlayerId;
     }
 
-    public boolean isActionPhase () {
+    public boolean isActionPhase() {
         return isActionPhase;
     }
 
-    public void setActionPhase (boolean actionPhase) {
+    public void setActionPhase(boolean actionPhase) {
         isActionPhase = actionPhase;
     }
 
-    public int getCurrentLargestArmyPlayerId () {
+    public int getCurrentLargestArmyPlayerId() {
         return currentLargestArmyPlayerId;
     }
 
-    public void setCurrentLargestArmyPlayerId (int currentLargestArmyPlayerId) {
+    public void setCurrentLargestArmyPlayerId(int currentLargestArmyPlayerId) {
         this.currentLargestArmyPlayerId = currentLargestArmyPlayerId;
     }
 
-    public int getCurrentLongestRoadPlayerId () {
+    public int getCurrentLongestRoadPlayerId() {
         return currentLongestRoadPlayerId;
     }
 
-    public void setCurrentLongestRoadPlayerId (int currentLongestRoadPlayerId) {
+    public void setCurrentLongestRoadPlayerId(int currentLongestRoadPlayerId) {
         this.currentLongestRoadPlayerId = currentLongestRoadPlayerId;
     }
 
-    public boolean isSetupPhase () {
+    public boolean isSetupPhase() {
         return isSetupPhase;
     }
 
-    public void setSetupPhase (boolean setupPhase) {
+    public void setSetupPhase(boolean setupPhase) {
         isSetupPhase = setupPhase;
     }
 
-    public boolean isRobberPhase () {
+    public boolean isRobberPhase() {
         return isRobberPhase;
     }
 
-    public boolean getHasMovedRobber () { return hasMovedRobber; }
-
-    public boolean[] getRobberPlayerListHasDiscarded () {
-        return robberPlayerListHasDiscarded;
-    }
-
-    public void setRobberPlayerListHasDiscarded (boolean[] robberPlayerListHasDiscarded) {
-        CatanGameState.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
-    }
-
-    public boolean isHasMovedRobber () {
+    public boolean getHasMovedRobber() {
         return hasMovedRobber;
     }
 
-    public void setHasMovedRobber (boolean hasMovedRobber) {
+    public boolean[] getRobberPlayerListHasDiscarded() {
+        return robberPlayerListHasDiscarded;
+    }
+
+    public void setRobberPlayerListHasDiscarded(boolean[] robberPlayerListHasDiscarded) {
+        CatanGameState.robberPlayerListHasDiscarded = robberPlayerListHasDiscarded;
+    }
+
+    public boolean isHasMovedRobber() {
+        return hasMovedRobber;
+    }
+
+    public void setHasMovedRobber(boolean hasMovedRobber) {
         CatanGameState.hasMovedRobber = hasMovedRobber;
     }
 
-    public int[] getRobberDiscardedResources () {
+    public int[] getRobberDiscardedResources() {
         return robberDiscardedResources;
     }
 
 
-    public int getSetupPhaseTurnCounter () {
+    public int getSetupPhaseTurnCounter() {
         return setupPhaseTurnCounter;
     }
 
-    public void setSetupPhaseTurnCounter (int setupPhaseTurnCounter) {
+    public void setSetupPhaseTurnCounter(int setupPhaseTurnCounter) {
         CatanGameState.setupPhaseTurnCounter = setupPhaseTurnCounter;
     }
 
@@ -563,7 +578,7 @@ public class CatanGameState extends GameState implements Runnable {
      * @return String
      */
     @Override
-    public String toString () {
+    public String toString() {
         StringBuilder result = new StringBuilder();
         result.append(" ----------- CatanGameState toString ---------- \n");
         result.append("current Player: ").append(currentPlayerId).append(", ");

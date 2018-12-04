@@ -1653,7 +1653,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (state.isRobberPhase()) {
 
                 messageTextView.setText(R.string.robber_phase);
-                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum]) {
+                if (!state.checkIfPlayerNeedsToDiscard(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum]) {
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0, 0, 0, 0, 0}));
                 }
             }
