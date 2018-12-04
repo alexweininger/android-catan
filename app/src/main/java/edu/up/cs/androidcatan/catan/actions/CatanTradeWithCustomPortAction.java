@@ -1,9 +1,11 @@
 package edu.up.cs.androidcatan.catan.actions;
 
+import java.io.Serializable;
+
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
-public class CatanTradeWithCustomPortAction extends GameAction {
+public class CatanTradeWithCustomPortAction extends GameAction implements Serializable {
 
     private int resourceGiveId;
     private int resourceRecId;

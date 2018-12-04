@@ -1649,7 +1649,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo (GameInfo info) {
-
+        Log.d(TAG, "receiveInfo() called");
         if (debugMode)
             Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
 
