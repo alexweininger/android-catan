@@ -1132,7 +1132,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private boolean tryMoveRobber (int hexId) {
         //Checks if a hexagon is selected
         if(selectedHexagonId == -1){
-            messageTextView.setText("Please select a valid hexagon or intersection");
+            messageTextView.setText("Please select a valid hexagon to place the robber on.");
             shake(messageTextView);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
