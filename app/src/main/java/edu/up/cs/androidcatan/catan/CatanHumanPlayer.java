@@ -511,7 +511,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_discard_confirm) {
             if (state.validDiscard(this.playerNum, this.robberDiscardedResources)) {
-                robberDiscardMessage.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
+                messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
                 if (state.getCurrentPlayerId() == playerNum) {
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
@@ -559,6 +559,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     toast.show();
                     shake(messageTextView);
                 }
+                messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
             } else if (button.getId() == robberDiscardMinusButtonIds[i]) {
                 if (robberDiscardedResources[i] > 0) {
                     robberDiscardedResources[i]--;
@@ -569,6 +570,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     toast.show();
                     shake(messageTextView);
                 }
+                messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
             }
         }
 
