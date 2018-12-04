@@ -38,6 +38,7 @@ public class CatanGameState extends GameState {
     private  boolean isSetupPhase = true; // is it the setup phase
     private  boolean isActionPhase = false; // has the current player rolled the dice
     private  boolean isRobberPhase = false; // is the robber phase
+    private int playerStealingFrom = 0; // playerNum of who is getting a resource taken during Robber Steal Phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
     private int setupPhaseTurnCounter;
@@ -92,6 +93,8 @@ public class CatanGameState extends GameState {
         this.currentPlayerId = cgs.currentPlayerId;
         this.setupPhaseTurnCounter = cgs.setupPhaseTurnCounter;
         this.isActionPhase = cgs.isActionPhase;
+
+        this.playerStealingFrom = cgs.getPlayerStealingFrom();
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
@@ -265,6 +268,7 @@ public class CatanGameState extends GameState {
      */
     public boolean validDiscard (int playerId, int[] resourcesDiscarded) {
         int totalDiscarded = 0;
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
         for (int i = 0; i < resourcesDiscarded.length; i++) {
             if (resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]) {
                 Log.i(TAG, "validDiscard: Invalid due to not having enough resources, returning false");
@@ -272,7 +276,6 @@ public class CatanGameState extends GameState {
             }
             totalDiscarded += resourcesDiscarded[i];
         }
-        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
         return totalDiscarded == playerList.get(playerId).getTotalResourceCardCount() / 2;
     }
 
@@ -363,7 +366,17 @@ public class CatanGameState extends GameState {
             return true;
         }
         Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
+
+        playerStealingFrom = playerId;
         return false;
+    }
+
+    /**
+     * Getter to see who is getting their resources taken
+     * @return
+     */
+    public int getPlayerStealingFrom() {
+        return playerStealingFrom;
     }
 
     /**

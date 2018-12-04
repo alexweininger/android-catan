@@ -137,7 +137,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
     /* ------------- resource count text views -------------------- */
-
     private TextView[] resourceValues;
     private TextView[] playerScores;
     private TextView[] playerNameTextViews;
@@ -147,8 +146,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView currentTurnIdTextView = (TextView) null;
     private TextView playerNameSidebar = (TextView) null;
 
-    //Robber Buttons
-
+    /*-------------------- Robber Buttons ---------------------------*/
     private ImageView[] robberPlusImages;
     private ImageView[] robberMinusImages;
     private TextView[] robberDiscardResourceValues;
@@ -175,6 +173,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button robberConfirmDiscard = (Button) null;
     private TextView robberHexMessage = (TextView) null;
 
+    /*---------------------Trade Items------------------------*/
     private ImageView[] tradeReceiveSelectionBoxes;
     private ImageView[] tradeGiveSelectionBoxes;
 
@@ -215,8 +214,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int tradeGiveSelection = -1;
     private int tradeReceiveSelection = -1;
 
-    //Monopoly Menu - Resource Icons
+    /*------------Monopoly Menu - Resource Icons---------------------*/
 
+    //Monopoly Menu - Resource Icons
     private ImageView[] pickResourceIcons;
 
     private ImageView monopolyBrickIcon = (ImageView) null;
@@ -441,7 +441,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityAllowTapping(scoreBoardGroup);
 
 
-        /*--------------------------------- Robber onClick Handlers ------------------------------*/
+
+        /*--------------------------------- Robber onClick --------------------------------*/
 
         //Robber: Both Move and Steal Phase
         if (button.getId() == R.id.robber_choosehex_confirm) {
@@ -481,7 +482,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                         int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
                         robberChooseHexGroup.setVisibility(View.GONE);
                         game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
-                        //robberHexMessage.setText("Please select only one intersection.");
+
+                        Toast toast = Toast.makeText(myActivity.getApplicationContext(), "You stole from " + state.getPlayerStealingFrom() + "!", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
                         return;
                     }
                 }
@@ -496,12 +500,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (!tryMoveRobber(selectedHexagonId)) {
                 Log.e(TAG, "onClick: Error, Not valid Hexagon chosen");
                 //robberHexMessage.setText(R.string.invalid_tile);
-                shake(robberHexMessage);
-                messageTextView.setText(R.string.invalid_tile);
-                Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                //toast.show();
-                shake(messageTextView);
+
                 return;
             }
 
@@ -516,7 +515,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (button.getId() == R.id.robber_discard_confirm) {
             if (state.validDiscard(this.playerNum, this.robberDiscardedResources)) {
-                robberDiscardMessage.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
+                messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
                 if (state.getCurrentPlayerId() == playerNum) {
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
@@ -535,8 +534,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
 
-            String message = "Please select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
+            int total = 0;
+            for (int i = 0; i < this.robberDiscardedResources.length; i++) {
+                total += this.robberDiscardedResources[i];
+            }
+            String message = "You've selected " + total + "/"+ state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
             messageTextView.setText(message);
+
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
@@ -549,9 +553,29 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         TextView robberAmounts[] = {robberBrickAmount, robberGrainAmount, robberLumberAmount, robberOreAmount, robberWoolAmount};
 
         for (int i = 0; i < robberDiscardAddButtonIds.length; i++) {
-            if (button.getId() == robberDiscardAddButtonIds[i]) robberDiscardedResources[i]++;
-            else if (button.getId() == robberDiscardMinusButtonIds[i])
-                robberDiscardedResources[i]--;
+            if (button.getId() == robberDiscardAddButtonIds[i]) {
+                if (robberDiscardedResources[i] < state.getPlayerList().get(this.playerNum).getResourceCards()[i]) {
+                    robberDiscardedResources[i]++;
+                } else {
+                    String warning = "You have don't have any more of that resource!";
+                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), warning, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                    shake(messageTextView);
+                }
+                messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
+            } else if (button.getId() == robberDiscardMinusButtonIds[i]) {
+                if (robberDiscardedResources[i] > 0) {
+                    robberDiscardedResources[i]--;
+                } else {
+                    String warning = "Can't go any lower!";
+                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), warning, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                    shake(messageTextView);
+                }
+                messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
+            }
         }
 
         for (int i = 0; i < robberAmounts.length; i++) {
@@ -1133,14 +1157,31 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return Success.
      */
     private boolean tryMoveRobber (int hexId) {
+        //Checks if a hexagon is selected
+        if(selectedHexagonId == -1){
+            messageTextView.setText("Please select a valid hexagon to place the robber on.");
+            shake(messageTextView);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            //toast.show();
+            shake(messageTextView);
+            return false;
+        }
         //Checks if Desert tile is selected
-        if (state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5) {
-            messageTextView.setText("Desert Tile cannot longer be selected.");
+        if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
+            messageTextView.setText("Desert Tile can no longer be selected.");
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            //toast.show();
+            shake(messageTextView);
             return false;
         }
         // make sure they have a hexagon selected
         if (hexId == -1) {
             messageTextView.setText(R.string.hex_for_robber);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            //toast.show();
             shake(messageTextView);
             return false;
         }
