@@ -41,7 +41,7 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
     protected int chitValue;
     protected boolean isRobber, isDesert;
 
-    int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
+    static int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
 
     public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight, int resourceId) {
         super(context);
@@ -92,9 +92,7 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
         Path hexagonPath = createHexagonPath(points);
         canvas.drawPath(hexagonPath, hexagonPaint);
 
-        if (this.highlight) {
-            canvas.drawPath(hexagonPath, highlightPaint);
-        }
+        if (this.highlight) canvas.drawPath(hexagonPath, highlightPaint);
 
         Paint robberPaint = new Paint();
         robberPaint.setColor(Color.DKGRAY);
@@ -108,14 +106,12 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
         }
 
         if (!this.isDesert) {
-            if (this.chitValue == 6 || this.chitValue == 8) {
+            if (this.chitValue == 6 || this.chitValue == 8)
                 blackFont.setColor(Color.argb(255, 255, 0, 0));
-            }
-            if (this.chitValue < 10) {
+            if (this.chitValue < 10)
                 canvas.drawText("" + this.chitValue, points[5][0] - 15, points[5][1] + this.size / 2 + 50, blackFont);
-            } else {
+            else
                 canvas.drawText("" + this.chitValue, points[5][0] - 25, points[5][1] + this.size / 2 + 50, blackFont);
-            }
         }
 
         int cx = points[5][0];
@@ -124,16 +120,25 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
         if (this.isRobber) {
             Log.d(TAG, "drawHexagon: Drawing the robber at hexagon: " + this.hexagonId);
             Drawable robberDrawable = context.getDrawable(R.drawable.robber);
-            robberDrawable.setBounds(cx - 60, cy - 60, cx + 60, cy + 60);
-            robberDrawable.draw(canvas);
-        }
+            if (robberDrawable != null) {
+                robberDrawable.setBounds(cx - 60, cy - 60, cx + 60, cy + 60);
+                robberDrawable.draw(canvas);
+            } else {
+                Log.e(TAG, "drawHexagon: resourceDrawable is null", new NullPointerException());
+            }
 
+        }
         if (this.resourceId < 5 && this.resourceId >= 0) {
             Drawable resourceDrawable = context.getDrawable(resourceDrawables[this.resourceId]);
-            resourceDrawable.setBounds(cx - 30, cy - 30 + 100, cx + 30, cy + 30 + 100);
-            resourceDrawable.draw(canvas);
+            if (resourceDrawable != null) {
+                resourceDrawable.setBounds(cx - 30, cy - 30 + 100, cx + 30, cy + 30 + 100);
+                resourceDrawable.draw(canvas);
+            } else {
+                Log.e(TAG, "drawHexagon: resourceDrawable is null", new NullPointerException());
+            }
+        } else if (resourceId != 5) {
+            Log.e(TAG, "drawHexagon: resourceId is out of bounds", new Exception());
         }
-
         Paint intersectionPaint = new Paint();
         intersectionPaint.setColor(Color.DKGRAY);
         intersectionPaint.setStyle(Paint.Style.STROKE);

@@ -54,9 +54,16 @@ public class CatanGameState extends GameState implements Serializable {
 
     public CatanGameState () {
         this.dice = new Dice();
-        board = new Board();
-        generateDevCardDeck();
 
+        generateDevCardDeck();
+        Thread t = new Thread(this);
+        t.setPriority(Thread.MAX_PRIORITY);
+        t.start();
+        try {
+            t.join();
+        } catch(Exception e) {
+            Log.e(TAG, "CatanGameState: thread.sleep", e);
+        }
         currentPlayerId = 0;
         this.currentDiceSum = 3;
         setupPhaseTurnCounter = 0;
@@ -69,6 +76,11 @@ public class CatanGameState extends GameState implements Serializable {
 
         Log.i(TAG, board.toString());
     } // end CatanGameState constructor
+
+    @Override
+    public void run () {
+        board = new Board();
+    }
 
     /**
      * CatanGameState deep copy constructor
@@ -176,13 +188,6 @@ public class CatanGameState extends GameState implements Serializable {
         if (max > 2) {
             this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
         }
-    }
-
-    /**
-     * updates the current players with the longest road trophy and largest army trophy
-     */
-    public void updateTrophies () {
-        checkArmySize();
     }
 
     /*-------------------------------------Resource Methods------------------------------------------*/
@@ -308,8 +313,8 @@ public class CatanGameState extends GameState implements Serializable {
     }
 
     public boolean allPlayersHaveDiscarded () {
-        for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
-            if (!robberPlayerListHasDiscarded[i]) {
+        for (boolean aRobberPlayerListHasDiscarded : robberPlayerListHasDiscarded) {
+            if (!aRobberPlayerListHasDiscarded) {
                 return false;
             }
         }
@@ -563,4 +568,6 @@ public class CatanGameState extends GameState implements Serializable {
         result.append(board.toString()).append("\n");
         return result.toString();
     }
+
+
 }

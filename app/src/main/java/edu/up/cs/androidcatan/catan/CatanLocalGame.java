@@ -87,7 +87,7 @@ public class CatanLocalGame extends LocalGame implements Serializable {
 
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-            this.state.setCurrentDiceSum(7);//this.state.getDice().roll());
+            this.state.setCurrentDiceSum(this.state.getDice().roll());
             Log.i(TAG, "rollDice: Player " + this.state.getCurrentPlayerId() + " rolled a " + this.state.getCurrentDiceSum());
 
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
@@ -103,6 +103,7 @@ public class CatanLocalGame extends LocalGame implements Serializable {
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
+
 
             // if it is still the setup phase
             if (this.state.isSetupPhase()) {
@@ -179,6 +180,12 @@ public class CatanLocalGame extends LocalGame implements Serializable {
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             } else {
+                //TODO: remove cheat
+//                state.getCurrentPlayer().addResourceCard(0,1);
+//                state.getCurrentPlayer().addResourceCard(1,1);
+//                state.getCurrentPlayer().addResourceCard(2,1);
+//                state.getCurrentPlayer().addResourceCard(4,1);
+
                 // remove resources from players inventory (also does checks)
                 if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
                     // add settlement to the board

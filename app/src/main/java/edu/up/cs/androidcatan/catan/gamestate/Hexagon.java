@@ -13,9 +13,7 @@ import java.io.Serializable;
 public class Hexagon implements Serializable {
 
     // instance variables
-    private int resourceId;
-    private int chitValue;
-    private int hexagonId;
+    private int resourceId, chitValue, hexagonId;
 
     /**
      * Hexagon constructor AW
