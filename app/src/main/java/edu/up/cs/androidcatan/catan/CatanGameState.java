@@ -272,14 +272,14 @@ public class CatanGameState extends GameState implements Runnable {
      */
     public boolean validDiscard (int playerId, int[] resourcesDiscarded) {
         int totalDiscarded = 0;
+        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
         for (int i = 0; i < resourcesDiscarded.length; i++) {
-            if (resourcesDiscarded[i] >= playerList.get(playerId).getResourceCards()[i]) {
+            if (resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]) {
                 Log.i(TAG, "validDiscard: Invalid due to not having enough resources, returning false");
                 return false;
             }
             totalDiscarded += resourcesDiscarded[i];
         }
-        Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
         return totalDiscarded == playerList.get(playerId).getTotalResourceCardCount() / 2;
     }
 

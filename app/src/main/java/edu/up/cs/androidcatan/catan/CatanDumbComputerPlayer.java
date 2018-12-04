@@ -216,12 +216,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
 
                     //3. Loop until computer has chosen enough cards to discard
                     while(!gs.validDiscard(playerNum, robberResourcesDiscard)){
-                        if(robberResourcesDiscard[randomResource] < gs.getPlayerList().get(playerNum).getResourceCards()[randomResource]){
-                            robberResourcesDiscard[playerNum]++;
+                        if(robberResourcesDiscard[randomResource] < gs.getPlayerList().get(this.playerNum).getResourceCards()[randomResource]){
+                            robberResourcesDiscard[randomResource]++;
                         }
-                        else{
-                            randomResource = random.nextInt(5);
-                        }
+
+                        randomResource = random.nextInt(5);
                     }
 
                     //4. Send discard action
