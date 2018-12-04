@@ -536,6 +536,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             String message = "You've selected " + total + "/"+ state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
             messageTextView.setText(message);
+
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
@@ -548,9 +549,27 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         TextView robberAmounts[] = {robberBrickAmount, robberGrainAmount, robberLumberAmount, robberOreAmount, robberWoolAmount};
 
         for (int i = 0; i < robberDiscardAddButtonIds.length; i++) {
-            if (button.getId() == robberDiscardAddButtonIds[i]) robberDiscardedResources[i]++;
-            else if (button.getId() == robberDiscardMinusButtonIds[i])
-                robberDiscardedResources[i]--;
+            if (button.getId() == robberDiscardAddButtonIds[i]) {
+                if (robberDiscardedResources[i] < state.getPlayerList().get(this.playerNum).getResourceCards()[i]) {
+                    robberDiscardedResources[i]++;
+                } else {
+                    String warning = "You have don't have any more of that resource!";
+                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), warning, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                    shake(messageTextView);
+                }
+            } else if (button.getId() == robberDiscardMinusButtonIds[i]) {
+                if (robberDiscardedResources[i] > 0) {
+                    robberDiscardedResources[i]--;
+                } else {
+                    String warning = "Can't go any lower!";
+                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), warning, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                    shake(messageTextView);
+                }
+            }
         }
 
         for (int i = 0; i < robberAmounts.length; i++) {
