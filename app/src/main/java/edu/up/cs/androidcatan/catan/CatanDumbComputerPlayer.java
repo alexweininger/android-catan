@@ -227,23 +227,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
                     Log.i(TAG, "receiveInfo: Computer is now discarding resources");
                     CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
                     game.sendAction(action);
-
-//                    for (int i = 0; i < gs.getPlayerList().get(playerNum).getResourceCards().length; i++) {
-//                        for (int j = 0; j < gs.getPlayerList().get(playerNum).getResourceCards()[i]; j++) {
-//                            robberResourcesDiscard[i]++;
-//                            Log.i(TAG, "receiveInfo: Player " + playerNum + " is discarding resources: Wanted- " + robberResourcesDiscard[i] + ", Actual- " + gs.getPlayerList().get(playerNum).getResourceCards()[i]);
-//                            if (gs.validDiscard(playerNum, robberResourcesDiscard)) {
-//                                Log.i(TAG, "receiveInfo: Computer is now discarding resources");
-//                                CatanRobberDiscardAction action = new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard);
-//                                game.sendAction(action);
-//                                break;
-//                            }
-//                        }
-//                        if (gs.getRobberPlayerListHasDiscarded()[playerNum]) {
-//                            Log.i(TAG, "receiveInfo: Computer discarded cards!");
-//                            break;
-//                        }
-//                    }
                 }
                 Log.i(TAG, "receiveInfo: Player is ending the discard phase!");
                 return;

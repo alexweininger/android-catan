@@ -136,7 +136,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
 
     /* ------------- resource count text views -------------------- */
-
     private TextView[] resourceValues;
     private TextView[] playerScores;
     private TextView[] playerNameTextViews;
@@ -146,8 +145,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private TextView currentTurnIdTextView = (TextView) null;
     private TextView playerNameSidebar = (TextView) null;
 
-    //Robber Buttons
-
+    /*-------------------- Robber Buttons ---------------------------*/
     private ImageView[] robberPlusImages;
     private ImageView[] robberMinusImages;
     private TextView[] robberDiscardResourceValues;
@@ -174,6 +172,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Button robberConfirmDiscard = (Button) null;
     private TextView robberHexMessage = (TextView) null;
 
+    /*---------------------Trade Items------------------------*/
     private ImageView[] tradeReceiveSelectionBoxes;
     private ImageView[] tradeGiveSelectionBoxes;
 
@@ -214,8 +213,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int tradeGiveSelection = -1;
     private int tradeReceiveSelection = -1;
 
-    //Monopoly Menu - Resource Icons
+    /*------------Monopoly Menu - Resource Icons---------------------*/
 
+    //Monopoly Menu - Resource Icons
     private ImageView[] pickResourceIcons;
 
     private ImageView monopolyBrickIcon = (ImageView) null;
