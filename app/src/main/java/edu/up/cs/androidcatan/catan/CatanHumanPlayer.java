@@ -530,7 +530,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 return;
             }
 
-            String message = "Please select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
+            int total = 0;
+            for (int i = 0; i < this.robberDiscardedResources.length; i++) {
+                total += this.robberDiscardedResources[i];
+            }
+            String message = "You've selected " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
             messageTextView.setText(message);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
