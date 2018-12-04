@@ -103,6 +103,7 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
 
+
             // if it is still the setup phase
             if (this.state.isSetupPhase()) {
                 // increment setup phase turn counter
