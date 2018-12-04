@@ -19,11 +19,14 @@ public class BoardSurfaceView extends SurfaceView {
 
     int size;
     HexagonGrid grid;
+    private Canvas canvas;
+    private boolean ready;
 
     // constructors
     public BoardSurfaceView (Context context) {
         super(context);
         setWillNotDraw(false);
+        ready = false;
     }
 
     public BoardSurfaceView (Context context, AttributeSet attrs) {
@@ -32,6 +35,10 @@ public class BoardSurfaceView extends SurfaceView {
     }
 
     public void onDraw (Canvas canvas) {
+        if (!ready) {
+            Log.e(TAG, "onDraw: not ready");
+            return;
+        }
         if (grid == null) {
             Log.e(TAG, "onDraw: grid is null");
             this.invalidate();
@@ -55,5 +62,17 @@ public class BoardSurfaceView extends SurfaceView {
 
     public void setGrid (HexagonGrid grid) {
         this.grid = grid;
+    }
+
+    public Canvas getCanvas () {
+        return canvas;
+    }
+
+    public void setCanvas (Canvas canvas) {
+        this.canvas = canvas;
+    }
+
+    public void setReady (boolean ready) {
+        this.ready = ready;
     }
 }
