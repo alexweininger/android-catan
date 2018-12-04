@@ -11,9 +11,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 public class Hexagon {
 
     // instance variables
-    private int resourceId;
-    private int chitValue;
-    private int hexagonId;
+    private int resourceId, chitValue, hexagonId;
 
     /**
      * Hexagon constructor AW
