@@ -37,7 +37,7 @@ public class CatanGameState extends GameState implements Runnable {
     private static boolean isSetupPhase = true; // is it the setup phase
     private static boolean isActionPhase = false; // has the current player rolled the dice
     private static boolean isRobberPhase = false; // is the robber phase
-    private static int playerStealingFrom = 0; // playerNum of who is getting a resource taken during Robber Steal Phase
+    private int playerStealingFrom = 0; // playerNum of who is getting a resource taken during Robber Steal Phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
     private static int setupPhaseTurnCounter;
@@ -100,6 +100,8 @@ public class CatanGameState extends GameState implements Runnable {
         this.setDevelopmentCards(cgs.getDevelopmentCards());
         this.setCurrentPlayerId(cgs.getCurrentPlayerId());
         this.setSetupPhaseTurnCounter(cgs.getSetupPhaseTurnCounter());
+
+        this.playerStealingFrom = cgs.getPlayerStealingFrom();
 
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
@@ -380,7 +382,7 @@ public class CatanGameState extends GameState implements Runnable {
      * Getter to see who is getting their resources taken
      * @return
      */
-    public static int getPlayerStealingFrom() {
+    public int getPlayerStealingFrom() {
         return playerStealingFrom;
     }
 
