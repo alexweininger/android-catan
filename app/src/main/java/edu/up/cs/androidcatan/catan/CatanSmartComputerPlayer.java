@@ -18,6 +18,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
@@ -332,12 +333,18 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     }
                     //if they have a year of plenty card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2){
-                        game.sendAction(new CatanUseYearOfPlentyCardAction(this, -1)); //change chosenResource
+                        game.sendAction(new CatanUseYearOfPlentyCardAction(this, random.nextInt(4))); //change chosenResource
                         game.sendAction(new CatanEndTurnAction(this));
                     }
                     //if they have a monopoly card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3){
-                        game.sendAction(new CatanUseMonopolyCardAction(this, -1)); //change chosenResource
+                        game.sendAction(new CatanUseMonopolyCardAction(this, random.nextInt(4))); //change chosenResource
+                        game.sendAction(new CatanEndTurnAction(this));
+                    }
+                    //if they have a road card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 4){
+                        game.sendAction(new CatanUseRoadBuildingCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
                     }
                 }
 
