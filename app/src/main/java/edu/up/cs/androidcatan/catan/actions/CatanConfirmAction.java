@@ -12,6 +12,11 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanConfirmAction extends GameAction {
+
+    /**
+     * CatanConfirmAction constructor
+     * @param player the player who is calling the action
+     */
     public CatanConfirmAction(GamePlayer player){
         super(player);
     }
