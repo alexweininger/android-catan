@@ -440,7 +440,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             /******Looks to build another road*****/
             int chance = random.nextInt(2);
             Log.d(TAG, "receiveInfo: Chance returned: " + chance);
-            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && playerRoadCount(gs)) {
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) { //took out playerRoadCount method, can add back in later if necessary
 
                 // get road endpoints for players roads
                 ArrayList<Integer> individualRoads = getPlayerRoadIntersection(getPlayerRoads(gs));
