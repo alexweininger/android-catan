@@ -4,6 +4,7 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,8 +13,9 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
 // This class represents a directed graph using adjacency list
 // representation
-public class Graph implements Runnable {
+public class Graph implements Runnable, Serializable {
     private static final String TAG = "Graph";
+    private static final long serialVersionUID = -8879389794133273667L;
     private int V;   // No. of vertices
     public int count = 0;
     private ArrayList<Road> pr;
@@ -130,13 +132,13 @@ public class Graph implements Runnable {
                 return maxRoadLength;
             }
         }
-//        for (int i = 0; i < pr.size(); i++) {
-//            int l = DFS(pr.get(i).getIntersectionBId());
-//            if (l > maxRoadLength) maxRoadLength = l;
-//            if (maxRoadLength == pr.size()) {
-//                return maxRoadLength;
-//            }
-//        }
+        //        for (int i = 0; i < pr.size(); i++) {
+        //            int l = DFS(pr.get(i).getIntersectionBId());
+        //            if (l > maxRoadLength) maxRoadLength = l;
+        //            if (maxRoadLength == pr.size()) {
+        //                return maxRoadLength;
+        //            }
+        //        }
         Log.e(TAG, "getMaxRoadLength returning " + maxRoadLength);
         return maxRoadLength;
     }
@@ -147,7 +149,6 @@ public class Graph implements Runnable {
     }
 
     /**
-     *
      * @param ownerId owner id
      * @return dfs
      */
@@ -195,7 +196,7 @@ public class Graph implements Runnable {
             } else {
                 Log.w(TAG, "updatePlayerWithLongestRoad: Started dfs on " + i);
                 int l = dfs(i);
-                if (hasCycle) l++;
+//                if (hasCycle) l++;
                 currentPlayerRoadLength.add(l);
                 int max = 0;
                 for (int n = 0; n < currentPlayerRoadLength.size(); n++) {

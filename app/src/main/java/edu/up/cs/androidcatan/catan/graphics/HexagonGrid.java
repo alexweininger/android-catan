@@ -60,6 +60,16 @@ public class HexagonGrid extends BoardSurfaceView {
 
     /* ---------- Constructor ------------ */
 
+    /**
+     * the board represented as a grid
+     * @param context the app context
+     * @param board the board being drawn on
+     * @param x the x position
+     * @param y the y position
+     * @param size the size of the hexagon
+     * @param margin the marin between the tiles
+     * @param debugMode true or false for if the debugMode should be shown
+     */
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin, boolean debugMode) {
         super(context);
         setWillNotDraw(false);
@@ -69,9 +79,10 @@ public class HexagonGrid extends BoardSurfaceView {
         this.height = size * 2;
         this.width = size * Math.sqrt(3);
         this.margin = margin;
-        this.board = new Board(board);
+        this.board = board;
         this.debugMode = debugMode;
         generateIntersections();
+        this.board = board;
     }
 
     /* ---------- Drawing methods ------------ */
@@ -114,6 +125,7 @@ public class HexagonGrid extends BoardSurfaceView {
         roadPaint.setStrokeWidth(30);
 
         ArrayList<Road> dataRoads = this.board.getRoads(); // get list of all roads on the board
+        Log.d(TAG, "drawRoads: roads: " + this.board.getRoads().toString());
 
         for (Road r : dataRoads) {
             roadPaint.setColor(playerColors[r.getOwnerId()]);
@@ -168,6 +180,7 @@ public class HexagonGrid extends BoardSurfaceView {
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
                     }
                     if (buildingPicture != null) {
+                        yPos -= 15;
                         buildingPicture.setBounds(xPos - 50, yPos - 60, xPos + 50, yPos + 60);
                         buildingPicture.draw(canvas);
                     } else {
@@ -349,6 +362,7 @@ public class HexagonGrid extends BoardSurfaceView {
             this.highlightedIntersections.add(intersection);
         }
     }
+
     public HexagonGrid (Context context, AttributeSet attrs) {
         super(context, attrs);
     }

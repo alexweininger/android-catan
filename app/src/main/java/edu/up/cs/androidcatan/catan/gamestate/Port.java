@@ -7,12 +7,15 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import java.io.Serializable;
+
 import edu.up.cs.androidcatan.R;
 import edu.up.cs.androidcatan.catan.graphics.IntersectionDrawable;
 
 import static android.content.ContentValues.TAG;
 
-public class Port {
+public class Port  implements Serializable {
+    private static final long serialVersionUID = 6074407408138083737L;
     private int intersectionA, intersectionB, tradeRatio, resourceId;
     private int xPos, yPos, size;
 

@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -15,13 +16,14 @@ import java.util.Random;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Player {
+public class Player  implements Serializable {
 
     private static final String TAG = "Player"; // TAG used for Logging
 
     /* ----- Player instance variables ----- */
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
+    private static final long serialVersionUID = 1235142098074598148L;
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
     private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
     // ArrayList of the development cards the player owns
@@ -55,15 +57,15 @@ public class Player {
      * @param p - Player object to copy
      */
     Player (Player p) {
-        this.setPlayerId(p.getPlayerId());
-        this.setArmySize(p.getArmySize());
-        this.setDevelopmentCards(p.getDevelopmentCards());
+        this.playerId = p.playerId;
+        this.armySize = p.armySize;
         this.setBuildingInventory(p.getBuildingInventory());
-        this.setResourceCards(p.getResourceCards());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
-        this.setVictoryPoints(p.getVictoryPoints());
-        this.setVictoryPointsPrivate(p.getVictoryPointsPrivate());
         this.setDevCardsBuiltThisTurn(p.getDevCardsBuiltThisTurn());
+        this.victoryPointsPrivate = p.victoryPointsPrivate;
+        this.victoryPoints = p.victoryPoints;
+        this.developmentCards.addAll(p.developmentCards);
+        System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length);
     }
 
     public static String[] getResourceCardIds () {
@@ -129,16 +131,28 @@ public class Player {
         return true;
     }
 
+    /**
+     * removes a dev card from the players hand
+     * @param removeCardNum the number of the dev card to remove
+     */
     public void removeDevCard (int removeCardNum) {
         Log.i(TAG, "removeDevCard BEFORE REMOVING: " + this.developmentCards.toString());
         this.developmentCards.remove((Integer) removeCardNum);
         Log.i(TAG, "removeDevCard AFTER REMOVING: " + this.developmentCards.toString());
     }
 
+    /**
+     * adds a dev card to list of dev cards that were built this turn
+     * @param devCard the number of the dev card
+     */
     public void addDevCardsBuiltThisTurn (int devCard) {
         devCardsBuiltThisTurn.add(devCard);
     }
 
+    /**
+     * gets the list of Integer of dev card numbers
+     * @return arrayList of Integer objects
+     */
     public ArrayList<Integer> getDevCardsBuiltThisTurn () {
         return devCardsBuiltThisTurn;
     }
@@ -147,6 +161,10 @@ public class Player {
         this.devCardsBuiltThisTurn = devCardsBuiltThisTurn;
     }
 
+    /**
+     * gets the player compare the players hand of dev cards and the ones that have been built this turn
+     * @return arrayList of Integers that correspond to dev cards that can be played this turn
+     */
     public ArrayList<Integer> getPlayableDevCards () {
         ArrayList<Integer> playableDevCards = new ArrayList<>(developmentCards);
 
@@ -308,11 +326,11 @@ public class Player {
         return false;
     }
 
-    public void decrementBuildingInventory (int buildingId) { // TODO
+    public void decrementBuildingInventory (int buildingId) {
         this.buildingInventory[buildingId]--;
     }
 
-    // use to allow the player to use the dev card they built the turn prior TODO
+    // use to allow the player to use the dev card they built the turn prior
     public void setDevelopmentCardsAsPlayable () {
         for (int i = 0; i < developmentCards.size(); i++) {
             //developmentCards.get(i).setPlayable(true);

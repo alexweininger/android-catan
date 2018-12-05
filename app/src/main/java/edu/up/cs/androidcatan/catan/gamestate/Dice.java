@@ -11,24 +11,29 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * dice class - done for now 10/10
  */
-public class Dice {
+public class Dice implements Serializable {
+    private static final long serialVersionUID = 2944606999369377855L;
     private static String TAG = "Dice";
 
-    private int[] diceValues; // array of dice values
+    private int[] diceValues = new int[2]; // array of dice values
 
+    /**
+     * Dice constructor
+     */
     public Dice() {
-        this.diceValues = new int[2];
         this.diceValues[0] = 1;
         this.diceValues[1] = 1;
     }
 
+    //deep copy constructor for the dice
     public Dice(Dice d) {
-        this.setDiceValues(d.getDiceValues());
+        System.arraycopy(d.diceValues, 0, this.diceValues, 0, d.diceValues.length);
     }
 
     /**
@@ -56,7 +61,7 @@ public class Dice {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str.append("Dice roll: ").append(diceValues[0]).append(", ").append(diceValues[1]);
+        str.append("Dice roll: ").append(diceValues[0]).append(", ").append(diceValues[1]).append(". ");
         return str.toString();
     }
 

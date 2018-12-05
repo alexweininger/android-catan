@@ -2,6 +2,8 @@ package edu.up.cs.androidcatan.catan.actions;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
@@ -14,11 +16,20 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanBuildRoadAction extends GameAction {
+public class CatanBuildRoadAction extends GameAction implements Serializable {
     private static final String TAG = "CatanBuildRoadAction";
+    private static final long serialVersionUID = 6154724297447188137L;
     private int intersectionAId, intersectionBid, ownerId;
     private boolean isSetupPhase;
 
+    /**
+     * CatanBuildAcation constructor
+     * @param player the player calling the action
+     * @param isSetupPhase true or flase for if its the setup phase
+     * @param ownerId the id of the owner
+     * @param intersectionAId the first intersection of the road
+     * @param intersectionBid the second intersectio of the road
+     */
     public CatanBuildRoadAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionAId, int intersectionBid) {
         super(player);
         if (player instanceof Player) {
