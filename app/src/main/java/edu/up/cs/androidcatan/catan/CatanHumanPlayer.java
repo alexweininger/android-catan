@@ -1,7 +1,6 @@
 package edu.up.cs.androidcatan.catan;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -807,6 +806,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.i(TAG, "onClick: traded with port");
                     selectedIntersections.clear();
+                    tradeGiveSelection = -1;
+                    tradeReceiveSelection = -1;
 //                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.w(TAG, "onClick: trade with port failed");
@@ -815,6 +816,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.i(TAG, "onClick: traded with bank");
                     selectedIntersections.clear();
+                    tradeGiveSelection = -1;
+                    tradeReceiveSelection = -1;
 //                    toggleGroupVisibility(tradeGroup); // todo see if we need to take out
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
