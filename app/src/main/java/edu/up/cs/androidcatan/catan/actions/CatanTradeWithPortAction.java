@@ -17,6 +17,12 @@ public class CatanTradeWithPortAction extends GameAction {
     private Port port;
     private int resourceRecId;
 
+    /**
+     * CatanTraeWithPortAction
+     * @param player the player who is calling the action
+     * @param port the port being traded with
+     * @param resourceRecId the resource that is being received
+     */
     public CatanTradeWithPortAction (GamePlayer player, Port port, int resourceRecId) {
         super(player);
         this.port = new Port(port);
