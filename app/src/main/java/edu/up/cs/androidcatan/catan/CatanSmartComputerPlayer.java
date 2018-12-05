@@ -408,6 +408,12 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         }
     }// receiveInfo() END
 
+    /**
+     * Attempts the move the robber if possible
+     * @param hexId the ID of the tile to attempt the move the robber to
+     * @param gs the ame state
+     * @return true or false depending on if the move was possible
+     */
     private boolean tryMoveRobber(int hexId, CatanGameState gs){
 
         if(hexId == -1){
