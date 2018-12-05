@@ -1603,7 +1603,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase())
             this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar);
+        armyTrophyImages = new ImageView[]{myActivity.findViewById(R.id.largest_army_player0), myActivity.findViewById(R.id.largest_army_player1), myActivity.findViewById(R.id.largest_army_player2), myActivity.findViewById(R.id.largest_army_player3)};
 
+        roadTrophyImages = new ImageView[]{myActivity.findViewById(R.id.longest_road_player0), myActivity.findViewById(R.id.longest_road_player1), myActivity.findViewById(R.id.longest_road_player2), myActivity.findViewById(R.id.longest_road_player3)};
+        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
+        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
     } // updateTextViews END
 
     /**
@@ -1644,8 +1648,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0, 0, 0, 0, 0}));
                 }
             }
-            showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
-            showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
+
             updateTextViews();
             drawGraphics();
 
@@ -2000,8 +2003,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "drawGraphics: board is null returning void and not drawing");
             return;
         }
-        showLongestRoadTrophy(state.getCurrentPlayerId());
-        showLongestRoadTrophy(state.getCurrentPlayerId());
+
         boardSurfaceView.setReady(this.readyToDraw);
 
         boardSurfaceView.setCanvas(new Canvas());
@@ -2026,6 +2028,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         for (int i = 0; i < 4; i++) {
             armyTrophyImages[i].setVisibility(View.INVISIBLE);
+            armyTrophyImages[i].setImageAlpha(0);
 
         }
         if (playerNum < 0) {
