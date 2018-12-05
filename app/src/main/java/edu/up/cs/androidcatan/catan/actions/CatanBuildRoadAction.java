@@ -19,6 +19,14 @@ public class CatanBuildRoadAction extends GameAction {
     private int intersectionAId, intersectionBid, ownerId;
     private boolean isSetupPhase;
 
+    /**
+     * CatanBuildAcation constructor
+     * @param player the player calling the action
+     * @param isSetupPhase true or flase for if its the setup phase
+     * @param ownerId the id of the owner
+     * @param intersectionAId the first intersection of the road
+     * @param intersectionBid the second intersectio of the road
+     */
     public CatanBuildRoadAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionAId, int intersectionBid) {
         super(player);
         if (player instanceof Player) {
