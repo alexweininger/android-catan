@@ -102,7 +102,7 @@ public class CatanLocalGame extends LocalGame {
     @Override
     protected synchronized boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+        Log.d(TAG, "makeMove: state: " + state.toString());
         /* --------------------------- Turn Actions --------------------------------------- */
 
         if (action instanceof CatanRollDiceAction) {
