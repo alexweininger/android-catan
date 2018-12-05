@@ -300,10 +300,20 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         }
     }// receiveInfo() END
 
+    /**
+     * Constructor for the computer player
+     * @param name name of the player to be used on the soreboard anf whenever the player is referenced
+     */
     CatanDumbComputerPlayer (String name) {
         super(name);
     }
 
+    /**
+     * The method that attempts to move the robber
+     * @param hexId the ID of the tile to move attempt moving the robber to
+     * @param gs the current game state
+     * @return either true or false depending if moving the robber was valid
+     */
     private boolean tryMoveRobber (int hexId, CatanGameState gs) {
         Log.d(TAG, "tryMoveRobber() called with: hexId = [" + hexId + "], gs = [" + gs + "]");
         if (hexId == -1) {
@@ -333,6 +343,12 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         return false;
     }
 
+    /**
+     * looks through the list of buildings that have been built then find which ones are own by
+     * the player add adds them to an arrayList
+     * @param gs the current game state
+     * @return arraylist of Road objects that the player owns
+     */
     private ArrayList<Road> getPlayerRoads (CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
         for (int n = 0; n < gs.getBoard().getRoads().size(); n++) {
@@ -343,6 +359,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer {
         return playerRoads;
     }
 
+    /**
+     * finds the intersections that the roads the player owns
+     * @param playerRoads arrayList of Road Objects that the player owns
+     * @return and arrayList of Integers of the intersections that the roads the player owns are on
+     */
     private ArrayList<Integer> getPlayerRoadIntersection (ArrayList<Road> playerRoads) {
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {
