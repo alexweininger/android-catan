@@ -1350,10 +1350,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        // update trophy images on scoreboard
-        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
-        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
-
         // array of dev card names
         String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
         // if dev card list is not empty, clear it
@@ -2027,8 +2023,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         int largestArmyPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
         for (int i = 0; i < 4; i++) {
-            armyTrophyImages[i].setVisibility(View.INVISIBLE);
-            armyTrophyImages[i].setImageAlpha(0);
+            armyTrophyImages[i].setVisibility(View.GONE);
 
         }
         if (playerNum < 0) {
@@ -2061,7 +2056,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         for (int i = 0; i < 4; i++) {
             Log.i(TAG, "showLongestRoadTrophy: setting to gone");
-            roadTrophyImages[i].setVisibility(View.INVISIBLE);
+            roadTrophyImages[i].setVisibility(View.GONE);
         }
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the longest road trophy");
