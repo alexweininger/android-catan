@@ -496,13 +496,30 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
     private boolean checkIntersectionResource(int intersectionId, CatanGameState gs){
         Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
         ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
+        int buildIntersection = -1;
         for (Integer adjHexId : adjHexIds) {
+            for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
+                if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
+                    buildIntersection = n;
+                }
+            }
+            if (buildIntersection != -1){
+                if (gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 && gs.getBoard().getHexagonFromId(buildIntersection).getResourceId() == 2){
+                    Log.d(TAG, "checkIntersectionResource: Player already had lumber, found one with brick");
+                    return true;
+                }
+                if (gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2 && gs.getBoard().getHexagonFromId(buildIntersection).getResourceId() == 0){
+                    Log.d(TAG, "checkIntersectionResource: Player already had brick, found one with lumber");
+                    return true;
+                }
+            }
             //change back to 0 and 2 for building a road
-            if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
+            else if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
                 Log.d(TAG, "checkIntersectionResource() returned: " + true);
                 return true;
             }
         }
+
         Log.d(TAG, "checkIntersectionResource() returned: " + false);
         return false;
     }
