@@ -306,35 +306,59 @@ public class CatanGameState extends GameState implements Runnable {
      */
     public boolean discardResources(int playerId, int[] resourcesDiscarded) {
         Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
+
+        //Player doesn't need to discard
         if (robberPlayerListHasDiscarded[playerId]) {
             Log.i(TAG, "discardResources: Player is not required to discard at this time");
             return true;
         }
+
+        //Find the total amount of resources being discarded
         int totalDiscarded = 0;
         for (int i = 0; i < resourcesDiscarded.length; i++) {
             totalDiscarded += resourcesDiscarded[i];
         }
         Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
         Log.i(TAG, "discardResources: Discarded resources");
+
+        //Discard specified resources
         for (int i = 0; i < resourcesDiscarded.length; i++) {
             this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
         }
 
+        //Set that this player has discarded
         robberPlayerListHasDiscarded[playerId] = true;
         return true;
     }
 
+    /**
+     * Method that checks if all players have discarded(i.e. they've discarded half their cards OR
+     * they have less than 7 so they don't need to)
+     *
+     * @return Whether or not all players have discarded
+     */
     public boolean allPlayersHaveDiscarded() {
+
+        //Runs through array of players that have discarded; if even one is false, return false
         for (boolean aRobberPlayerListHasDiscarded : robberPlayerListHasDiscarded) {
             if (!aRobberPlayerListHasDiscarded) {
                 return false;
             }
         }
+
+        //We are through the array, so all players must have discarded
         Log.i(TAG, "Removed half of all resources from players with more than 7 cards\n");
         return true;
     }
 
 
+    /**
+     * For the stealing purposes for the smart AI, it finds the player with the most victory points
+     * BUT excluded the player who called this method
+     *
+     * @param excludedPlayerId
+     * @return Player Number with the most victory points that is not the excluded player
+     */
     public int getPlayerWithMostVPsExcludingCurrentPlayer(int excludedPlayerId) {
 
         //Default Value so we can set the first player ID as player in lead for comparisons
@@ -369,22 +393,26 @@ public class CatanGameState extends GameState implements Runnable {
      * @return action success.
      */
     public boolean moveRobber(int hexagonId, int playerId) {
+
+        //Make sure they are a valid player
         if (!valPlId(playerId)) {
             Log.d(TAG, "moveRobber: invalid player id: " + playerId);
             return false;
         }
+
+        //Make sure it is their turn
         if (!checkTurn(playerId)) {
             Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
             return false;
         }
+
+        //Check if they can move the robber to that hex and if so, move the robber there
         if (board.moveRobber(hexagonId)) {
             Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
             hasMovedRobber = true;
             return true;
         }
         Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
-
-        playerStealingFrom = playerId;
         return false;
     }
 
@@ -404,14 +432,19 @@ public class CatanGameState extends GameState implements Runnable {
      * @return - action success
      */
     public boolean robberSteal(int playerId, int stealingFromPlayerId) {
+
+        //Checks to see if the player is trying to steal from themselves
         if (playerId == stealingFromPlayerId) {
             Log.e(TAG, "robberSteal: Trying to steal from self, error.");
             return false;
         }
-        if (playerId < 0 || playerId > 3 || stealingFromPlayerId < 0 || stealingFromPlayerId > 3) {
+
+        //Make sure both players are valid players
+        if (!valPlId(playerId) || !valPlId(stealingFromPlayerId)) {
             return false;
         }
 
+        //Choose a random resource to steal from the player
         int randomStolenResourceId = this.playerList.get(stealingFromPlayerId).getRandomCard();
 
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
@@ -427,6 +460,7 @@ public class CatanGameState extends GameState implements Runnable {
 
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
 
+        //End of robber phase, so reset all values
         isRobberPhase = false;
         hasMovedRobber = false;
 
@@ -434,6 +468,9 @@ public class CatanGameState extends GameState implements Runnable {
         for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
             robberPlayerListHasDiscarded[i] = false;
         }
+
+        //Stealing from player
+        playerStealingFrom = stealingFromPlayerId;
         return true;
     }
 
