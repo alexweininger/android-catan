@@ -411,15 +411,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
-//            this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
-//            this.debugMode = !this.debugMode; // toggle debug mode
-
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
             toggleGroupVisibility(this.helpMenu);
@@ -430,9 +422,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityGONE(developmentCardHelpMenu);
             toggleGroupVisibilityGONE(tradingHelpMenu);
             toggleGroupVisibilityGONE(robberHelpMenu);
-
-            //            setAllButtonsToVisible();
-//            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -440,48 +429,41 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_score)
             toggleGroupVisibilityAllowTapping(scoreBoardGroup);
 
-
-
         /*--------------------------------- Robber onClick --------------------------------*/
 
         //Robber: Both Move and Steal Phase
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-
             //Checks if Robber needs to be moved
             if (state.getHasMovedRobber()) {
                 //Robber Steal Phase
 
                 //Checks if there is exactly on intersection selected
                 if (selectedIntersections.size() != 1) {
-                    //robberHexMessage.setText("Please select only one intersection.");
                     messageTextView.setText("Please select only one intersection.");
                     return;
                 }
                 //Checks if intersection actually possesses a building
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
-                    //robberHexMessage.setText(R.string.select_int_w_bldg_robber);
                     messageTextView.setText(R.string.select_int_w_bldg_robber);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select another player's building", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    //toast.show();
                     return;
                 }
                 //Checks if building is owned by owner; if so, it rejects the users selection
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
-                    //robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building not owned by you.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    //toast.show();
                     return;
                 }
                 //Finally checks if intersection is adjacent to the Hex; if so, send action
                 for (Integer intersection : state.getBoard().getHexToIntIdMap().get(state.getBoard().getRobber().getHexagonId())) {
                     if (intersection == selectedIntersections.get(0)) {
+
                         int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                        robberChooseHexGroup.setVisibility(View.GONE);
+                        if (state.getPlayerList().get(stealId).getTotalResourceCardCount() < 1) {
+                            messageTextView.setText(R.string.no_resources);
+
+                        }
                         game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
+                        robberChooseHexGroup.setVisibility(View.GONE);
 
                         Toast toast = Toast.makeText(myActivity.getApplicationContext(), "You stole from " + state.getPlayerStealingFrom() + "!", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -538,7 +520,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             for (int i = 0; i < this.robberDiscardedResources.length; i++) {
                 total += this.robberDiscardedResources[i];
             }
-            String message = "You've selected " + total + "/"+ state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
+            String message = "You've selected " + total + "/" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
             messageTextView.setText(message);
 
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
@@ -948,9 +930,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (boardSurfaceView == null) return;
             if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
                 View decorView = myActivity.getWindow().getDecorView();
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
             }
             if (isMenuOpen) return;
             if (state == null) return;
@@ -1158,7 +1138,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryMoveRobber (int hexId) {
         //Checks if a hexagon is selected
-        if(selectedHexagonId == -1){
+        if (selectedHexagonId == -1) {
             messageTextView.setText("Please select a valid hexagon to place the robber on.");
             shake(messageTextView);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
@@ -1168,7 +1148,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return false;
         }
         //Checks if Desert tile is selected
-        if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
+        if (state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5) {
             messageTextView.setText("Desert Tile can no longer be selected.");
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -1443,7 +1423,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText(R.string.move_robber_to_hex);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
                 //Robber Steal Phase
-            } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) {
+            } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) { // todo
                 Log.d(TAG, "updateTextViews: Now needs to steal Robber");
                 messageTextView.setText(R.string.robber_select_intersection_tosteal);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
@@ -1649,21 +1629,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-
             Log.i(TAG, "receiveInfo: info.toString " + state.toString());
 
-
-
-
-
             if (state.isRobberPhase()) {
-
+                Log.i(TAG, "receiveInfo: it is the robber phase");
                 messageTextView.setText(R.string.robber_phase);
-                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum]) {
+                if (state.checkIfPlayerHasDiscarded(playerNum)) {
+                    //The player either needs to discard OR they've already finished their discard phase
+                    Log.i(TAG, "receiveInfo: Player " + playerNum + " discard status: " + state.getRobberPlayerListHasDiscarded()[playerNum]);
+                } else {
+                    //Player has not yet gone through discard phase BUT does not need to discard
+                    Log.i(TAG, "receiveInfo: Player " + playerNum + " does not need to discard; now sending action");
+                    Log.i(TAG, "receiveInfo: sending a CatanRobberDiscardAction to the game playerNum=" + this.playerNum);
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0, 0, 0, 0, 0}));
                 }
             }
-
+            showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
+            showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
             updateTextViews();
             drawGraphics();
 
@@ -2019,8 +2001,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
-        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
+
 
         boardSurfaceView.setReady(this.readyToDraw);
 
@@ -2044,16 +2025,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "showLargestArmyTrophy() called with: playerNum = [" + playerNum + "]");
         int largestArmyPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
+        for (int i = 0; i < 4; i++) {
+            armyTrophyImages[i].setVisibility(View.INVISIBLE);
+
+        }
         if (playerNum < 0) {
             Log.w(TAG, "showLongestArmyTrophy: no player has the largest army trophy");
             return;
         }
-
-        for (int i = 0; i < 4; i++) {
-            armyTrophyImages[i].setVisibility(View.GONE);
-
-        }
-
         armyTrophyImages[playerNum].setVisibility(View.VISIBLE);
 
         if (largestArmyPrevPlayer == -1) {
@@ -2078,15 +2057,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "showLongestRoadTrophy() called with: playerNum = [" + playerNum + "]");
         int LongestRoadPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
+        for (int i = 0; i < 4; i++) {
+            Log.i(TAG, "showLongestRoadTrophy: setting to gone");
+            roadTrophyImages[i].setVisibility(View.INVISIBLE);
+        }
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the longest road trophy");
             return;
         }
-
-        for (int i = 0; i < 4; i++) {
-            roadTrophyImages[i].setVisibility(View.GONE);
-        }
-
         roadTrophyImages[playerNum].setVisibility(View.VISIBLE);
 
         if (LongestRoadPrevPlayer == -1) {
@@ -2249,7 +2227,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * that this will be overridden in many games.
      */
     @Override
-    protected void timerTicked() {
+    protected void timerTicked () {
         // by default, do nothing
         Log.e(TAG, "timerTicked: timer ticked");
     }

@@ -35,9 +35,9 @@ public class CatanGameState extends GameState {
     private int currentDiceSum; // the sum of the dice at this very moment
 
     // game phases
-    private  boolean isSetupPhase = true; // is it the setup phase
-    private  boolean isActionPhase = false; // has the current player rolled the dice
-    private  boolean isRobberPhase = false; // is the robber phase
+    private boolean isSetupPhase = true; // is it the setup phase
+    private boolean isActionPhase = false; // has the current player rolled the dice
+    private boolean isRobberPhase = false; // is the robber phase
     private int playerStealingFrom = 0; // playerNum of who is getting a resource taken during Robber Steal Phase
 
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
@@ -83,6 +83,7 @@ public class CatanGameState extends GameState {
         }
         this.setBoard(new Board(cgs.board));
         this.currentDiceSum = cgs.currentDiceSum;
+        Log.d(TAG, "CatanGameState: cgs.hasMovedRobber=" + cgs.hasMovedRobber);
         this.hasMovedRobber = cgs.hasMovedRobber;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
@@ -229,7 +230,7 @@ public class CatanGameState extends GameState {
 
     /*----------------------------------------Robber Methods------------------------------------------*/
     public void setRobberPhase (boolean rp) {
-        isRobberPhase = rp;
+        this.isRobberPhase = rp;
     }
 
     public boolean getRobberPhase () {
@@ -242,20 +243,19 @@ public class CatanGameState extends GameState {
      *
      * @return - action success
      */
-    public boolean checkPlayerResources (int playerId) {
+    public boolean checkIfPlayerHasDiscarded (int playerId) {
         if (robberPlayerListHasDiscarded[playerId]) {
             //Returns false since player has already discarded cards
-            Log.i(TAG, "checkPlayerResources: PLAYER HAS DISCARDED ALREADY");
-            return false;
+            Log.i(TAG, "checkIfPlayerHasDiscarded: PLAYER HAS DISCARDED ALREADY playerId=" + playerId);
+            return true;
         }
         if (playerList.get(playerId).getTotalResourceCardCount() > 7) {
             //Returns true since player has more than 7 cards and has not discarded yet
-            Log.i(TAG, "checkPlayerResources: PLAYER NEEDS TO DISCARD CARDS");
+            Log.i(TAG, "checkIfPlayerHasDiscarded: PLAYER NEEDS TO DISCARD CARDS playerId=" + playerId);
             return true;
         }
-        Log.i(TAG, "checkPlayerResources: PLAYER DOES NOT NEED TO DISCARD");
+        Log.i(TAG, "checkIfPlayerHasDiscarded: PLAYER DOES NOT NEED TO DISCARD playerId=" + playerId);
         robberPlayerListHasDiscarded[playerId] = true;
-
         return false;
     }
 
@@ -373,9 +373,10 @@ public class CatanGameState extends GameState {
 
     /**
      * Getter to see who is getting their resources taken
+     *
      * @return
      */
-    public int getPlayerStealingFrom() {
+    public int getPlayerStealingFrom () {
         return playerStealingFrom;
     }
 
@@ -395,6 +396,16 @@ public class CatanGameState extends GameState {
         }
 
         int randomStolenResourceId = this.playerList.get(stealingFromPlayerId).getRandomCard();
+
+        if (randomStolenResourceId == -1) {
+            isRobberPhase = false;
+            hasMovedRobber = false;
+            // once they steal it is the end of the robber phase, so reset this array to false
+            for (int i = 0; i < robberPlayerListHasDiscarded.length; i++) {
+                robberPlayerListHasDiscarded[i] = false;
+            }
+            return true;
+        }
 
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
             Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomCard method.");
@@ -565,6 +576,7 @@ public class CatanGameState extends GameState {
         result.append("actionPhase: ").append(isActionPhase).append(", ");
         result.append("setupPhase: ").append(isSetupPhase).append(", ");
         result.append("robberPhase: ").append(isRobberPhase).append(", ");
+        result.append("hasMovedRobber: ").append(hasMovedRobber).append(", ");
         result.append("largestArmy: ").append(this.currentLargestArmyPlayerId).append(", ");
         result.append("longestRoad: ").append(this.currentLongestRoadPlayerId).append("\n");
         result.append("Players that have discarded: ").append(Arrays.toString(robberPlayerListHasDiscarded)).append(", \n");

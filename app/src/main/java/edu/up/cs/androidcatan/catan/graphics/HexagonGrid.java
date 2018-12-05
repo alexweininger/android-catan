@@ -170,6 +170,7 @@ public class HexagonGrid extends BoardSurfaceView {
                         buildingPicture = this.getContext().getDrawable(cityPictures[buildings[i].getOwnerId()]);
                     }
                     if (buildingPicture != null) {
+                        yPos -= 15;
                         buildingPicture.setBounds(xPos - 50, yPos - 60, xPos + 50, yPos + 60);
                         buildingPicture.draw(canvas);
                     } else {

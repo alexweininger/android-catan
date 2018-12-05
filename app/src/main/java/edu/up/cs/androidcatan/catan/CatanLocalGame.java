@@ -168,11 +168,11 @@ public class CatanLocalGame extends LocalGame  {
                 Thread t = new Thread(rg);
                 t.start();
                 try {
+                    Log.i(TAG, "makeMove: thread joined");
                     t.join();
                 } catch (Exception e) {
                     Log.e(TAG, "makeMove: t.join()", e);
                 }
-
                 state.setCurrentLongestRoadPlayerId(rg.getPlayerIdWithLongestRoad());
                 return true;
             }
@@ -310,11 +310,14 @@ public class CatanLocalGame extends LocalGame  {
             return state.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getRobberDiscardedResources());
         }
         if (action instanceof CatanRobberMoveAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]. playerId=" + ((CatanRobberMoveAction) action).getPlayerId());
+            if (state.getHasMovedRobber()) {
+                Log.d(TAG, "makeMove: the robber has already been moved");
+                return false;
+            }
             if (state.getBoard().moveRobber(((CatanRobberMoveAction) action).getHexagonId())) {
                 Log.e(TAG, "makeMove() move robber: Player " + ((CatanRobberMoveAction) action).getPlayerId() + " moved the Robber to Hexagon " + ((CatanRobberMoveAction) action).getHexagonId());
-                state.setHasMovedRobber(true);
+                this.state.setHasMovedRobber(true);
                 return true;
             }
             Log.e(TAG, "makeMove: moving the robber failed returning false.");

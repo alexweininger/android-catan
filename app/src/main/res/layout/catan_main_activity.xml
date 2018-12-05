@@ -1660,11 +1660,12 @@
         android:layout_height="30dp"
         android:layout_marginStart="151dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/trophy_largest_army"
+        android:alpha="255"
         android:contentDescription="@string/largestArmy"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/guideline_top_border_dc_layout"
+        tools:src="@drawable/trophy_largest_army"
         tools:srcCompat="@drawable/trophy_largest_army" />
 
     <ImageView
@@ -1673,7 +1674,7 @@
         android:layout_height="30dp"
         android:background="@drawable/trophy_largest_army"
         android:contentDescription="@string/largestArmy"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/largest_army_player0"
         app:layout_constraintTop_toBottomOf="@+id/largest_army_player0"
         tools:srcCompat="@drawable/trophy_largest_army" />
@@ -1684,7 +1685,7 @@
         android:layout_height="30dp"
         android:background="@drawable/trophy_largest_army"
         android:contentDescription="@string/largestArmy"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/largest_army_player1"
         app:layout_constraintTop_toBottomOf="@+id/largest_army_player1"
         tools:srcCompat="@drawable/trophy_largest_army" />
@@ -1695,7 +1696,7 @@
         android:layout_height="30dp"
         android:background="@drawable/trophy_largest_army"
         android:contentDescription="@string/largestArmy"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/largest_army_player2"
         app:layout_constraintTop_toBottomOf="@+id/largest_army_player2"
         tools:srcCompat="@drawable/trophy_largest_army" />
@@ -1706,12 +1707,11 @@
         android:layout_height="30dp"
         android:layout_marginStart="179dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/trophy_longest_road"
         android:contentDescription="@string/longestRoad"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/robber_discard_leftVerticalGuideLine"
         app:layout_constraintTop_toBottomOf="@+id/guideline_top_border_dc_layout"
-        tools:srcCompat="@drawable/trophy_longest_road" />
+        tools:src="@drawable/trophy_longest_road" />
 
     <ImageView
         android:id="@+id/longest_road_player1"
@@ -1719,7 +1719,7 @@
         android:layout_height="30dp"
         android:background="@drawable/trophy_longest_road"
         android:contentDescription="@string/longestRoad"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/longest_road_player0"
         app:layout_constraintTop_toBottomOf="@+id/longest_road_player0"
         tools:srcCompat="@drawable/trophy_longest_road" />
@@ -1730,7 +1730,7 @@
         android:layout_height="30dp"
         android:background="@drawable/trophy_longest_road"
         android:contentDescription="@string/longestRoad"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/longest_road_player1"
         app:layout_constraintTop_toBottomOf="@+id/longest_road_player1"
         tools:srcCompat="@drawable/trophy_longest_road" />
@@ -1741,7 +1741,7 @@
         android:layout_height="30dp"
         android:background="@drawable/trophy_longest_road"
         android:contentDescription="@string/longestRoad"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/longest_road_player2"
         app:layout_constraintTop_toBottomOf="@+id/longest_road_player2"
         tools:srcCompat="@drawable/trophy_longest_road" />

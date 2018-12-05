@@ -186,9 +186,15 @@ public class Board implements Serializable, Runnable {
             return false;
         }
 
-        if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
-            Log.e(TAG, "isConnected: Not connected. Returned: " + false);
-            return false;
+        if (!hasRoad(intersectionId)) {
+            if (this.buildings[intersectionId] == null) {
+                Log.e(TAG, "isConnected: Not connected. Returned: " + false);
+                return false;
+            } else {
+                Log.d(TAG, "isConnected: this.buildings[intersectionsId] is not null, intersectionId=" + intersectionId);
+            }
+        } else {
+            Log.d(TAG, "isConnected: returned false");
         }
         // check if player is an owner of intersection
         Log.d(TAG, "isConnected() returned: " + getIntersectionOwners(intersectionId).contains(playerId));
@@ -274,10 +280,9 @@ public class Board implements Serializable, Runnable {
     public void addRoad (int playerId, int intersectionA, int intersectionB) {
         Log.d(TAG, "addRoad() called with: playerId = [" + playerId + "], intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         Road road = new Road(playerId, intersectionA, intersectionB);
-
         this.roads.add(road);
         this.roadMatrix[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
-        this.roadMatrix[road.getIntersectionBId()][road.getIntersectionAId()] = road;
+        this.roadMatrix[road.getIntersectionBId()][road.getIntersectionAId()].setOwnerId(road.getOwnerId());
     }
 
     /**
@@ -290,12 +295,14 @@ public class Board implements Serializable, Runnable {
             Log.d(TAG, "hasRoad: negative input returned " + false);
             return false;
         }
-
-        for (Road road : roadMatrix[i]) {
-            if (road != null) {
-                if (road.getOwnerId() != -1) {
-                    Log.d(TAG, "hasRoad() returned: " + true);
-                    return true;
+        for (int i1 = 0; i1 < roadMatrix.length; i1++) {
+            for (int j = 0; j < roadMatrix[i1].length; j++) {
+                Road road = roadMatrix[i1][j];
+                if (road != null) {
+                    if (road.getOwnerId() != -1) {
+                        Log.d(TAG, "hasRoad() returned: " + true);
+                        return true;
+                    }
                 }
             }
         }
@@ -303,6 +310,11 @@ public class Board implements Serializable, Runnable {
         return false;
     }
 
+    /**
+     *
+     * @param ownerId player id
+     * @return longest road the player owns
+     */
     public int dfs (int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
         Graph rg = new Graph(54);

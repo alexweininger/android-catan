@@ -172,6 +172,7 @@
     <string name="cpu_robber_steal_phase">The current player is choosing who to steal from.</string>
     <string name="select_n_cards_to_discard">Select %d cards to discard.</string>
     <string name="port_access">Please select a building that has access to a port.</string>
+    <string name="no_resources">Player has no resources! Sorry!</string>
     <string-array name="dev_Card">
         <item>Knights</item>
         <item>Victory Points</item>

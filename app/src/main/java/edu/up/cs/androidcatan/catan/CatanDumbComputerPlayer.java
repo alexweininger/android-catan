@@ -37,6 +37,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
     private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
     private int hexId;
     ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
+    private boolean movedRobber;
 
     /**
      * callback method--game's state has changed
@@ -179,7 +180,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
                 //2a. Check if the player needs to discard cards; if not, send discard action with empty resource list;
                 //   GameState will handle logic.
-                if (!gs.checkPlayerResources(playerNum)) {
+                if (!gs.checkIfPlayerHasDiscarded(playerNum)) {
                     Log.i(TAG, "receiveInfo: Computer " + playerNum + " does not need to discard, but still needs to send action.");
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
                     return;
@@ -220,11 +221,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
             //6. If it is this players turn, continue to rest of robber phase; otherwise player is done
             if (gs.getCurrentPlayerId() == playerNum) {
-                Log.i(TAG, "receiveInfo: Computer is moving robber");
+                Log.i(TAG, "receiveInfo: Computer is moving robber playerNum=" + playerNum);
 
                 //7. Check if player has move robber; if not move to random, VALID hexagon
                 if (!gs.getHasMovedRobber()) {
-                    Log.i(TAG, "receiveInfo: Computer Player hasMovedRobber: " + gs.getHasMovedRobber());
+                    Log.i(TAG, "receiveInfo: Computer Player playerId=" + playerNum + " hasMovedRobber: " + gs.getHasMovedRobber());
                     Log.i(TAG, "receiveInfo: Computer is moving the robber");
                     sleep(2000);
 
@@ -233,17 +234,13 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                     while (!tryMoveRobber(hexId, gs)) {
                         hexId = random.nextInt(gs.getBoard().getHexagons().size());
                     }
-
-                    //9. Send action to move the robber
-                    Log.d(TAG, "receiveInfo: Computer is placing robber on hex " + hexId);
-                    sleep(2000);
-                    CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
-                    game.sendAction(action);
                     return;
+                } else {
+                    Log.i(TAG, "receiveInfo: gs.hasMovedRobber = " + true);
                 }
 
                 /*----------------Steal Resource Phase--------------*/
-
+                Log.d(TAG, "receiveInfo: player has reached the stealing phase playerId=" + playerNum);
                 //10. Computer chooses a random intersection to steal from
                 sleep(500);
                 // get adjacent intersections around the hexagon
@@ -262,6 +259,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                 // send CatanRobberStealAction to the game
                 game.sendAction(new CatanRobberStealAction(this, this.playerNum, gs.getBoard().getBuildingAtIntersection(intersectionId).getOwnerId()));
                 return;
+            } else {
+                Log.d(TAG, "receiveInfo: it is the robber phase and not my turn playerId=" + playerNum);
             }
         }
 
@@ -331,16 +330,15 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                 return;
             }
         }
-        game.sendAction(new CatanEndTurnAction(this));
-
 
         /*------------------------------Build Actions End------------------------------------------*/
 
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
         if (!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()) {
-            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-
+            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction because it is not the robber phase and it is my turn playerId=" + playerNum);
+            game.sendAction(new CatanEndTurnAction(this));
+            return;
         }
     }// receiveInfo() END
 
@@ -350,6 +348,10 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
     private boolean tryMoveRobber (int hexId, CatanGameState gs) {
         Log.d(TAG, "tryMoveRobber() called with: hexId = [" + hexId + "], gs = [" + gs + "]");
+        if (gs.getHasMovedRobber()) {
+            Log.d(TAG, "tryMoveRobber() returned: " + false + " because the robber has already been moved.");
+            return false;
+        }
         if (hexId == -1) {
             Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
             return false;
@@ -369,6 +371,9 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
         for (Integer intersection : intersections) {
             if (gs.getBoard().getBuildings()[intersection] != null) {
                 if (gs.getBoard().getBuildings()[intersection].getOwnerId() != playerNum) {
+                    CatanRobberMoveAction action = new CatanRobberMoveAction(this, playerNum, hexId);
+                    game.sendAction(action);
+                    gs.setHasMovedRobber(true);
                     return true;
                 }
             }
