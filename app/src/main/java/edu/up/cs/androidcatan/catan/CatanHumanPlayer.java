@@ -275,6 +275,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /*--------------------- Constructors ------------------------*/
 
+    /**
+     * constructor for the CatanHumanPlayer
+     * @param name the name of the player
+     */
     public CatanHumanPlayer (String name) {
         super(name);
     }
