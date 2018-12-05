@@ -504,6 +504,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
             if (buildIntersection != -1){
+                Log.d(TAG, "checkIntersectionResource: Player has already built through first part of setup phase");
                 if (gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 && gs.getBoard().getHexagonFromId(buildIntersection).getResourceId() == 2){
                     Log.d(TAG, "checkIntersectionResource: Player already had lumber, found one with brick");
                     return true;
