@@ -29,7 +29,7 @@ public class CatanGameState extends GameState {
     private Board board; // board object
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
-    private static ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
+    private ArrayList<Integer> developmentCards = new ArrayList<>(); // ArrayList of the development card in the deck
 
     private int currentPlayerId; // id of player who is the current playing player
     private int currentDiceSum; // the sum of the dice at this very moment
@@ -81,21 +81,21 @@ public class CatanGameState extends GameState {
         if (cgs.getBoard() == null) {
             Log.e(TAG, "CatanGameState: cgs.getBoard() is null");
         }
-        this.setBoard(new Board(cgs.getBoard()));
+        this.setBoard(new Board(cgs.board));
         this.currentDiceSum = cgs.currentDiceSum;
-        this.setHasMovedRobber(cgs.getHasMovedRobber());
+        this.hasMovedRobber = cgs.hasMovedRobber;
         this.currentLongestRoadPlayerId = cgs.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = cgs.currentLargestArmyPlayerId;
         this.isSetupPhase = cgs.isSetupPhase;
         this.isRobberPhase = cgs.isRobberPhase;
-        this.setRobberPlayerListHasDiscarded(cgs.getRobberPlayerListHasDiscarded());
-        this.setDevelopmentCards(cgs.getDevelopmentCards());
+        System.arraycopy(cgs.robberPlayerListHasDiscarded, 0, this.robberPlayerListHasDiscarded, 0, cgs.robberPlayerListHasDiscarded.length);
+        this.developmentCards.addAll(cgs.getDevelopmentCards());
         this.currentPlayerId = cgs.currentPlayerId;
         this.setupPhaseTurnCounter = cgs.setupPhaseTurnCounter;
         this.isActionPhase = cgs.isActionPhase;
-
-        this.playerStealingFrom = cgs.getPlayerStealingFrom();
-
+        this.playerStealingFrom = cgs.playerStealingFrom;
+        System.arraycopy(cgs.robberPlayerListHasDiscarded, 0, this.robberPlayerListHasDiscarded, 0, cgs.robberPlayerListHasDiscarded.length);
+        this.robberPlayerListHasDiscarded = Arrays.copyOf(cgs.robberPlayerListHasDiscarded, cgs.robberPlayerListHasDiscarded.length);
         // copy player list (using player deep copy const.)
         for (int i = 0; i < cgs.playerList.size(); i++) {
             this.playerList.add(new Player(cgs.playerList.get(i)));
@@ -462,7 +462,7 @@ public class CatanGameState extends GameState {
     }
 
     public void setDevelopmentCards (ArrayList<Integer> developmentCards) {
-        CatanGameState.developmentCards = developmentCards;
+        this.developmentCards = developmentCards;
     }
 
     public int getCurrentDiceSum () {
@@ -559,6 +559,7 @@ public class CatanGameState extends GameState {
     public String toString () {
         StringBuilder result = new StringBuilder();
         result.append(" ----------- CatanGameState toString ---------- \n");
+        result.append(this.dice.toString());
         result.append("current Player: ").append(currentPlayerId).append(", ");
         result.append("diceVal: ").append(this.currentDiceSum).append(", ");
         result.append("actionPhase: ").append(isActionPhase).append(", ");

@@ -57,16 +57,15 @@ public class Player  implements Serializable {
      * @param p - Player object to copy
      */
     Player (Player p) {
-        this.setPlayerId(p.getPlayerId());
-        this.setArmySize(p.getArmySize());
-        this.setDevelopmentCards(p.getDevelopmentCards());
+        this.playerId = p.playerId;
+        this.armySize = p.armySize;
         this.setBuildingInventory(p.getBuildingInventory());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
         this.setDevCardsBuiltThisTurn(p.getDevCardsBuiltThisTurn());
         this.victoryPointsPrivate = p.victoryPointsPrivate;
         this.victoryPoints = p.victoryPoints;
-        this.resourceCards = p.resourceCards;
-
+        this.developmentCards.addAll(p.developmentCards);
+        System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length);
     }
 
     public static String[] getResourceCardIds () {

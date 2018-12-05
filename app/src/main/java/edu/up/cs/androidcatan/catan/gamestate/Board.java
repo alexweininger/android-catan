@@ -126,8 +126,8 @@ public class Board implements Serializable, Runnable {
         populateHexagonIds(); // populate ids
         populateIntersectionIds();
         generateHexagonGraph();
-        generateHexToIntMap();
         generateIntToHexMap();
+        generateHexToIntMap();
         this.setRobber(new Robber(b.getRobber())); // class
         generateNewIntersectionGraphManually();
         this.setHighlightedHexagonId(b.highlightedHexagonId);
@@ -143,9 +143,12 @@ public class Board implements Serializable, Runnable {
                     this.roadMatrix[i][i1] = new Road(b.roadMatrix[i][i1].getOwnerId(), b.roadMatrix[i][i1].getIntersectionAId(), b.roadMatrix[i][i1].getIntersectionBId());
                 }
             }
-        }
 
-        Log.i(TAG, "Board: b.buildings=" + Arrays.toString(this.buildings));
+            System.arraycopy(b.roadMatrix, 0, this.roadMatrix, 0, b.roadMatrix.length);
+            for (int i = 0; i < b.roadMatrix.length; i++) {
+                this.roadMatrix[i] = Arrays.copyOf(b.roadMatrix[i], b.roadMatrix[i].length);
+            }
+        }
 
         synchronized (this) {
             for (int i = 0; i < b.buildings.length; i++) {
@@ -158,6 +161,7 @@ public class Board implements Serializable, Runnable {
                 }
             }
         }
+        Log.i(TAG, "Board: b.buildings=" + Arrays.toString(this.buildings));
 
         for (Hexagon hexagon : b.hexagons) {
             this.hexagons.add(new Hexagon(hexagon));

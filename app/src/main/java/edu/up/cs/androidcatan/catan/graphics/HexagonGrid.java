@@ -72,6 +72,7 @@ public class HexagonGrid extends BoardSurfaceView {
         this.board = board;
         this.debugMode = debugMode;
         generateIntersections();
+        this.board = board;
     }
 
     /* ---------- Drawing methods ------------ */

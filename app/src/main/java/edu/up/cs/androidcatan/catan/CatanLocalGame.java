@@ -64,7 +64,25 @@ public class CatanLocalGame extends LocalGame  {
     public boolean canMove (int playerIdx) {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + this.state.getCurrentPlayerId());
 
-        if (state.isRobberPhase()) return true; // todo fix this iffy logic
+        // if it is the robber phase
+        if (state.isRobberPhase())  {
+            // if the player has discarded already
+            if (state.getRobberPlayerListHasDiscarded()[playerIdx]) {
+                if (state.getCurrentPlayerId() == playerIdx) {
+                    // if the player has discarded, and it is their turn, return true
+                    Log.d(TAG, "canMove() the player has discarded, and it is their turn, returned " + true);
+                    return true;
+                } else {
+                    // return false if it is the robber phase and they have discarded, and it is not their turn
+                    Log.d(TAG, "canMove() it is the robber phase and they have discarded, and it is not their turn returned " + false);
+                    return false;
+                }
+            } else {
+                // return true if it is the robber phase and they have not discarded
+                Log.d(TAG, "canMove() it is the robber phase and they have not discarded returned " + true);
+                return true;
+            }
+        }
 
         if (playerIdx < 0 || playerIdx > 3) Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
 
@@ -94,6 +112,7 @@ public class CatanLocalGame extends LocalGame  {
                 state.setRobberPhase(true);
             } else {
                 // produce resources for the roll
+                Log.d(TAG, "makeMove: calling produce resources");
                 state.produceResources(state.getCurrentDiceSum());
             }
             state.setActionPhase(true); // set the action phase to true
@@ -287,7 +306,7 @@ public class CatanLocalGame extends LocalGame  {
         /*---------------------------------- Robber Actions --------------------------------------*/
 
         if (action instanceof CatanRobberDiscardAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            Log.d(TAG, "makeMove() called with: action = [" + action + "], playerId=" + ((CatanRobberDiscardAction) action).getPlayerId());
             return state.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getRobberDiscardedResources());
         }
         if (action instanceof CatanRobberMoveAction) {
