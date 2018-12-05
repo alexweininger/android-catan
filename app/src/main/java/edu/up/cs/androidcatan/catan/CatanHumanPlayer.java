@@ -1720,6 +1720,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         buildCityButton = activity.findViewById(R.id.sidebar_button_city);
         buildCityButton.setOnClickListener(this);
 
+
         // action buttons
         sidebarOpenDevCardMenuButton = activity.findViewById(R.id.sidebar_button_devcards); // buy dev card
         sidebarOpenDevCardMenuButton.setOnClickListener(this);
