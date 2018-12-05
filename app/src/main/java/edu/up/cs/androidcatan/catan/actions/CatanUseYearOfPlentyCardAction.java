@@ -12,6 +12,11 @@ public class CatanUseYearOfPlentyCardAction extends GameAction implements Serial
     private static final long serialVersionUID = 6394504060565561132L;
     private int chosenResource;
 
+    /**
+     * CatanUseYearOfPlentyCardAction constuctor
+     * @param player player who is calling the action
+     * @param chosenResource
+     */
     public CatanUseYearOfPlentyCardAction(GamePlayer player, int chosenResource){
         super(player);
         this.chosenResource = chosenResource;

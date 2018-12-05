@@ -11,6 +11,10 @@ public class CatanUseVictoryPointCardAction extends GameAction implements Serial
     private static final String TAG = "CatanUseVictoryPointCardAction";
     private static final long serialVersionUID = -1682414277459896713L;
 
+    /**
+     * CatanUseVictoryPointCardAction constructor
+     * @param player player who is calling the action
+     */
     public CatanUseVictoryPointCardAction(GamePlayer player){
         super(player);
         Log.d(TAG, "CatanUseVictoryPointCardAction called");

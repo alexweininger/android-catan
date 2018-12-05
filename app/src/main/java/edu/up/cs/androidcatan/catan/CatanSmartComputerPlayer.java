@@ -8,12 +8,20 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
@@ -367,6 +375,63 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 }
             }
 
+            /******Looks to buy a dev card*******/
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)){
+                Log.d(TAG, "receiveInfo: Player " + this.playerNum + " purchased dev card");
+                game.sendAction(new CatanBuyDevCardAction(this));
+                game.sendAction(new CatanEndTurnAction(this));
+                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                return;
+            }
+
+            /*****Looks to use a dev card*******/
+            if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size() > 0) {
+                Log.d(TAG, "receiveInfo: Player " + this.playerNum + " has a playable development card");
+                for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++){
+                    //if they have a victory points card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1 && gs.getPlayerList().get(this.playerNum).getVictoryPoints() == 8){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using vp card");
+                        game.sendAction(new CatanUseVictoryPointCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a knight card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using knight card");
+                        game.sendAction(new CatanUseKnightCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a year of plenty card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using year of plenty card");
+                        game.sendAction(new CatanUseYearOfPlentyCardAction(this, tradeResourceId)); //change chosenResource
+                        Log.d(TAG, "receiveInfo: Used year of plenty card");
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a monopoly card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using monopoly card");
+                        game.sendAction(new CatanUseMonopolyCardAction(this, tradeResourceId)); //change chosenResource
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a road card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 4){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using road dev card");
+                        game.sendAction(new CatanUseRoadBuildingCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                }
+
+            }
             /******Looks to build another road*****/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
 
@@ -405,6 +470,12 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
         }
     }// receiveInfo() END
 
+    /**
+     * Attempts the move the robber if possible
+     * @param hexId the ID of the tile to attempt the move the robber to
+     * @param gs the ame state
+     * @return true or false depending on if the move was possible
+     */
     private boolean tryMoveRobber(int hexId, CatanGameState gs) {
 
         if (hexId == -1) {

@@ -82,6 +82,9 @@ public class Board implements Serializable, Runnable {
     private int highlightedHexagonId = -1;
     private int highlightedIntersectionId = -1;
 
+    /**
+     * Board constructor
+     */
     public Board () {
         Log.d(TAG, "Board() constructor called");
 
@@ -277,6 +280,12 @@ public class Board implements Serializable, Runnable {
         }
     }
 
+    /**
+     * adds a road to the matrix
+     * @param playerId the id the player who owns it
+     * @param intersectionA the starting intersection
+     * @param intersectionB the ending intersection
+     */
     public void addRoad (int playerId, int intersectionA, int intersectionB) {
         Log.d(TAG, "addRoad() called with: playerId = [" + playerId + "], intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         Road road = new Road(playerId, intersectionA, intersectionB);
@@ -308,8 +317,9 @@ public class Board implements Serializable, Runnable {
     }
 
     /**
-     * @param ownerId player id
-     * @return longest road the player owns
+     * Depth-First-Search for looking for the longest road
+     * @param ownerId the ID of the player
+     * @return
      */
     public int dfs (int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
@@ -431,6 +441,12 @@ public class Board implements Serializable, Runnable {
         return true;
     }
 
+    /**
+     * checks to see is the location is valid playce to build a city
+     * @param playerId the ID of the player who will own it
+     * @param intersectionId the location on the board
+     * @return
+     */
     public boolean validCityLocation (int playerId, int intersectionId) {
         Log.d(TAG, "validCityLocation() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
 
@@ -642,7 +658,6 @@ public class Board implements Serializable, Runnable {
     /* ----- adjacency checking methods -----*/
 
     /**
-     * TODO TEST
      *
      * @param hexagonId - hexagon id that you want to get adjacency of
      * @return ArrayList<Integer> - list of adj. hex id's

@@ -43,6 +43,20 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
 
     static int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
 
+    /**
+     *  the method for drawing the hexagon shaped tiles on the board
+     * @param context the app context
+     * @param x the x position
+     * @param y the y position
+     * @param size how big the hexagon is
+     * @param color the colour of the tile
+     * @param isRobber true or false for showing the robber or not
+     * @param isDesert true or false for if it is the desert tile or now
+     * @param chitValue the value of the tile
+     * @param hexagonId the id of where it is on the board
+     * @param highlight the selection box around the hexagon
+     * @param resourceId which resource it provides
+     */
     public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight, int resourceId) {
         super(context);
         setWillNotDraw(false);

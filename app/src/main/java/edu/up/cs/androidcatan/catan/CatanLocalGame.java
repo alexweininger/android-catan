@@ -46,6 +46,9 @@ public class CatanLocalGame extends LocalGame {
 
     private CatanGameState state;
 
+    /**
+     * constructor for CatanLocalGame
+     */
     public CatanLocalGame () {
         super();
         state = new CatanGameState();
@@ -198,11 +201,10 @@ public class CatanLocalGame extends LocalGame {
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             } else {
-                //TODO: remove cheat
                 //                state.getCurrentPlayer().addResourceCard(0,1);
-                //                state.getCurrentPlayer().addResourceCard(1,1);
-                //                state.getCurrentPlayer().addResourceCard(2,1);
-                //                state.getCurrentPlayer().addResourceCard(4,1);
+//                state.getCurrentPlayer().addResourceCard(1,1);
+//                state.getCurrentPlayer().addResourceCard(2,1);
+//                state.getCurrentPlayer().addResourceCard(4,1);
 
                 // remove resources from players inventory (also does checks)
                 if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {

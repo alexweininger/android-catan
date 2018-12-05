@@ -23,11 +23,15 @@ public class Dice implements Serializable {
 
     private int[] diceValues = new int[2]; // array of dice values
 
+    /**
+     * Dice constructor
+     */
     public Dice() {
         this.diceValues[0] = 1;
         this.diceValues[1] = 1;
     }
 
+    //deep copy constructor for the dice
     public Dice(Dice d) {
         System.arraycopy(d.diceValues, 0, this.diceValues, 0, d.diceValues.length);
     }

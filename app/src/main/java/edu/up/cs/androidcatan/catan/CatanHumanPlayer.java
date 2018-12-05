@@ -1,8 +1,10 @@
 package edu.up.cs.androidcatan.catan;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.support.constraint.Group;
 import android.util.Log;
 import android.view.Gravity;
@@ -250,6 +252,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group robberChooseHexGroup = (Group) null;
     private Group pickResourceGroup = (Group) null;
 
+    //Music
+    /**
+     External Citation
+     Date: 3 December 2018
+     Problem: Needed to be able to play music files
+     Resource: https://www.androidhive.info/2012/03/android-building-audio-player-tutorial/
+     Solution:  I used parts of the example code provided.
+     Code Line: 264
+     */
+
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+
+
     /* ------------------------------ Scoreboard trophy images ------------------------------------ */
 
     private ImageView roadTrophyImages[] = new ImageView[4];
@@ -261,6 +276,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
     /*--------------------- Constructors ------------------------*/
 
+    /**
+     * constructor for the CatanHumanPlayer
+     * @param name the name of the player
+     */
     public CatanHumanPlayer (String name) {
         super(name);
     }
@@ -294,6 +313,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             if (selectedIntersections.size() != 2) {
                 messageTextView.setText(R.string.need_2_ints_for_road);
+                /**
+                 External Citation
+                 Date: 2 November 2018
+                 Problem: Needed a way to display short error messages to the user that looked nicer than TextViews
+                 Resource:https://developer.android.com/reference/android/widget/Toast
+                 Solution: I used parts of the example code provided.
+                 Code Line: 320
+                 */
+
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select two intersections to build a road.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
@@ -325,9 +353,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else {
                     // tell user location is invalid
                     messageTextView.setText(R.string.invalid_set_loc);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invalid settlement location.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
                 }
             }
             return;
@@ -350,9 +375,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     //toast.show();
                 } else {
                     messageTextView.setText(R.string.invalid_city_loc);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invalid city location: select a settlement to updgrade into a city.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
+
                 }
             }
             return;
@@ -392,6 +415,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // check if it is the action phase and not the setup phase
             if (!state.isActionPhase() && !state.isSetupPhase()) {
                 messageTextView.setText(R.string.cannot_end_turn_before_rolling);
+
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Cannot end turn before rolling!", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
@@ -818,6 +842,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             sidebarMenuButton.setAlpha(0.5f);
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(winningHelpMenu);
+
+            /**
+             External Citation
+             Date: 3 December 2018
+             Problem: Need music for the app that somewhat explains the game in a fun way.
+             Resource: https://www.youtube.com/watch?v=rAJ17ZhmF8M
+             Solution: I downloaded the audio from the video.
+
+             Code Line: 850
+             */
+
+            mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.settlers_of_catan_official_theme_song);
+            mediaPlayer.setLooping(false);
+            mediaPlayer.setVolume(1f,1f);
+            mediaPlayer.seekTo(0);
+            mediaPlayer.start();
         }
 
         if (button.getId() == R.id.winning_help_menu_Back) {
@@ -1676,7 +1716,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public void setAsGui (GameMainActivity activity) {
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
 
+        /**
+         External Citation
+         Data: 3 December 2018
+         Problem: Needed background music for the app from the Catan game
+         Resource: https://www.youtube.com/watch?v=Ms3xkkcReuE
+         Solution: I downloaded the audio from the video.
+
+         Code Line: 1714
+         */
+
         myActivity = activity; // remember the activity
+        activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
+        mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.the_score_of_catan_full_song);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(1f,1f);
+        mediaPlayer.start();
+
         if (readyToDraw) {
             myActivity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
             messageTextView = activity.findViewById(R.id.textview_game_message);
@@ -1703,6 +1759,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         buildCityButton = activity.findViewById(R.id.sidebar_button_city);
         buildCityButton.setOnClickListener(this);
+
 
         // action buttons
         sidebarOpenDevCardMenuButton = activity.findViewById(R.id.sidebar_button_devcards); // buy dev card

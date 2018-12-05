@@ -18,6 +18,12 @@ public class CatanRobberMoveAction extends GameAction implements Serializable {
     private int hexagonId;
     private int playerId;
 
+    /**
+     *  CatanRobberMoveAction constructor
+     * @param player the player who is calling the action
+     * @param playerId the ID for the player who is calling the action
+     * @param hexagonId the ID of the tile to move the robber to
+     */
     public CatanRobberMoveAction(GamePlayer player, int playerId, int hexagonId) {
         super(player);
         this.hexagonId = hexagonId;

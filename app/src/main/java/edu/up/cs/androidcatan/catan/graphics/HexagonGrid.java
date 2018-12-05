@@ -60,6 +60,16 @@ public class HexagonGrid extends BoardSurfaceView {
 
     /* ---------- Constructor ------------ */
 
+    /**
+     * the board represented as a grid
+     * @param context the app context
+     * @param board the board being drawn on
+     * @param x the x position
+     * @param y the y position
+     * @param size the size of the hexagon
+     * @param margin the marin between the tiles
+     * @param debugMode true or false for if the debugMode should be shown
+     */
     public HexagonGrid (Context context, Board board, int x, int y, int size, int margin, boolean debugMode) {
         super(context);
         setWillNotDraw(false);
