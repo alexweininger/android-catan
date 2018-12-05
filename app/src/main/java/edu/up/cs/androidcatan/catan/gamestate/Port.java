@@ -81,9 +81,9 @@ public class Port {
             } else {
                 Log.e(TAG, "drawPort: portPicture is null", new NullPointerException());
             }
-            canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
+            canvas.drawText("" + tradeRatio + ":1", xPos + offset, yPos, ratioFont);
         } else {
-            canvas.drawText("" + tradeRatio, xPos + offset, yPos, ratioFont);
+            canvas.drawText("" + tradeRatio + ":1", xPos + offset, yPos, ratioFont);
         }
     }
 

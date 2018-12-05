@@ -214,6 +214,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int tradeGiveSelection = -1;
     private int tradeReceiveSelection = -1;
 
+    private TextView tradingWithBankOrPort = (TextView) null;
+
     //Monopoly Menu - Resource Icons
 
     private ImageView[] pickResourceIcons;
@@ -715,14 +717,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (selectedIntersections.size() == 1) {
                 // trading with port
                 messageTextView.setText("Trading with a port.");
+                tradingWithBankOrPort.setTextSize(12);
+                tradingWithBankOrPort.setText("Port\nSpecial:1");
+
                 toggleGroupVisibility(tradeGroup); // toggle menu vis.
             } else if (selectedIntersections.size() == 0) {
                 // trading with bank
                 messageTextView.setText("Trading with the bank.");
+                tradingWithBankOrPort.setTextSize(18);
+                tradingWithBankOrPort.setText("Bank 4:1");
                 toggleGroupVisibility(tradeGroup); // toggle menu vis.
             } else {
                 // not correct selections
                 Log.e(TAG, "onClick: user has selected too many intersections");
+                tradingWithBankOrPort.setText("2 Intersections Selected");
                 messageTextView.setText("Select intersection next to a port to trade with a port. Or don't select any to trade with the bank.");
             }
             return;
@@ -1840,6 +1848,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         button_trade_menu_confirm.setOnClickListener(this);
         button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
         button_trade_menu_cancel.setOnClickListener(this);
+        tradingWithBankOrPort = activity.findViewById(R.id.trade_with_bank_or_port);
         //Trade Menu Background - Receive
         brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
         grainSelectionBoxReceive = activity.findViewById(R.id.grainSelectionBoxReceive);
