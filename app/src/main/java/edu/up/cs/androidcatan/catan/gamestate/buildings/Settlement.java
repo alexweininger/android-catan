@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
+import java.io.Serializable;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -8,9 +10,10 @@ package edu.up.cs.androidcatan.catan.gamestate.buildings;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class Settlement extends Building {
+public class Settlement extends Building implements Serializable {
 
     public final static int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
+    private static final long serialVersionUID = 71517631622057343L;
 
     /**
      * @param ownerId - player id of who owns the settlement

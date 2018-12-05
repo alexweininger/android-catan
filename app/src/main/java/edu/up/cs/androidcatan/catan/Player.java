@@ -2,6 +2,7 @@ package edu.up.cs.androidcatan.catan;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -15,13 +16,14 @@ import java.util.Random;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Player {
+public class Player  implements Serializable {
 
     private static final String TAG = "Player"; // TAG used for Logging
 
     /* ----- Player instance variables ----- */
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
+    private static final long serialVersionUID = 1235142098074598148L;
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
     private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
     // ArrayList of the development cards the player owns
@@ -55,15 +57,15 @@ public class Player {
      * @param p - Player object to copy
      */
     Player (Player p) {
-        this.setPlayerId(p.getPlayerId());
-        this.setArmySize(p.getArmySize());
-        this.setDevelopmentCards(p.getDevelopmentCards());
+        this.playerId = p.playerId;
+        this.armySize = p.armySize;
         this.setBuildingInventory(p.getBuildingInventory());
-        this.setResourceCards(p.getResourceCards());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
-        this.setVictoryPoints(p.getVictoryPoints());
-        this.setVictoryPointsPrivate(p.getVictoryPointsPrivate());
         this.setDevCardsBuiltThisTurn(p.getDevCardsBuiltThisTurn());
+        this.victoryPointsPrivate = p.victoryPointsPrivate;
+        this.victoryPoints = p.victoryPoints;
+        this.developmentCards.addAll(p.developmentCards);
+        System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length);
     }
 
     public static String[] getResourceCardIds () {

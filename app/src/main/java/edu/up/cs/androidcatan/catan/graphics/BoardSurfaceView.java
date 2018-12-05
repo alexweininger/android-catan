@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
 
+import java.io.Serializable;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -14,7 +16,7 @@ import android.view.SurfaceView;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class BoardSurfaceView extends SurfaceView {
+public class BoardSurfaceView extends SurfaceView implements Serializable {
     private static final String TAG = "BoardSurfaceView";
 
     int size;

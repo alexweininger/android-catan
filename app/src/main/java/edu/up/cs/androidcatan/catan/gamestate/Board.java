@@ -2,7 +2,9 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -21,7 +23,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Board {
+public class Board implements Serializable, Runnable {
     /**
      * External Citation
      * Date: 8 October 2018
@@ -34,6 +36,7 @@ public class Board {
      */
 
     private static final String TAG = "Board";
+    private static final long serialVersionUID = -4950803135763998136L;
 
     /*
      * 'Rings' are used to organize the following ID 2D-ArrayLists. Rings in context mean ring of hexagons or intersections
@@ -62,7 +65,7 @@ public class Board {
     private ArrayList<Road> roads = new ArrayList<>();
 
     // Adjacency graph identical to iGraph, however only contains Road objects and null.
-    private Road[][] roadMatrix;
+    private Road[][] roadMatrix = new Road[54][54];
 
     private ArrayList<ArrayList<Road>> roadGraph = new ArrayList<>(54);
 
@@ -81,7 +84,7 @@ public class Board {
 
     public Board () {
         Log.d(TAG, "Board() constructor called");
-        this.roadMatrix = new Road[54][54];
+
         robber = new Robber(0);
 
         populateHexagonIds(); // populate ids
@@ -103,35 +106,69 @@ public class Board {
         generatePorts(); // create port objects
     } // end Board constructor
 
+    @Override
+    public void run () {
+
+    }
+
     /**
      * @param b - board to copy
      */
     public Board (Board b) {
-        this.setHexagonIdRings(b.getHexagonIdRings());
-        this.setIntersectionIdRings(b.getIntersectionIdRings());
-        this.sethGraph(b.getHGraph());
-        this.setHexToIntIdMap(b.getHexToIntIdMap());
-        this.setIntToHexIdMap(b.getIntToHexIdMap());
-        this.setBuildings(b.getBuildings());
-        this.setRoads(b.getRoads());
+        if (b == null) {
+            Log.e(TAG, "Board: board is null in board copy constructor");
+            return;
+        }
+        if (b.getRobber() == null) {
+            Log.e(TAG, "Board: board is null in board copy constructor");
+            return;
+        }
+        populateHexagonIds(); // populate ids
+        populateIntersectionIds();
+        generateHexagonGraph();
+        generateIntToHexMap();
+        generateHexToIntMap();
         this.setRobber(new Robber(b.getRobber())); // class
-        this.setRoadMatrix(b.getRoadMatrix());
-        this.setPortList(b.getPortList());
-        this.setIntersectionGraph(b.getIntersectionGraph());
-        this.setHighlightedHexagonId(b.getHighlightedHexagonId());
-        this.setHighlightedIntersectionId(b.getHighlightedIntersectionId());
-        this.setRoadGraph(b.getRoadGraph());
+        generateNewIntersectionGraphManually();
+        this.setHighlightedHexagonId(b.highlightedHexagonId);
+        this.setHighlightedIntersectionId(b.highlightedIntersectionId);
+        this.setRoadGraph(b.roadGraph);
+        generateRoadMatrix();
+        synchronized (this) {
+            for (Road road : b.getRoads()) {
+                roads.add(new Road(road.getOwnerId(), road.getIntersectionAId(), road.getIntersectionBId()));
+            }
+            for (int i = 0; i < b.roadMatrix.length; i++) {
+                for (int i1 = 0; i1 < b.roadMatrix[i].length; i1++) {
+                    this.roadMatrix[i][i1] = new Road(b.roadMatrix[i][i1].getOwnerId(), b.roadMatrix[i][i1].getIntersectionAId(), b.roadMatrix[i][i1].getIntersectionBId());
+                }
+            }
 
-        for (int i = 0; i < b.getBuildings().length; i++) {
-            if (b.getBuildings()[i] instanceof Settlement) {
-                this.buildings[i] = new Settlement(b.getBuildings()[i].getOwnerId());
-            } else if (b.getBuildings()[i] instanceof City) {
-                this.buildings[i] = new City(b.getBuildings()[i].getOwnerId());
+            System.arraycopy(b.roadMatrix, 0, this.roadMatrix, 0, b.roadMatrix.length);
+            for (int i = 0; i < b.roadMatrix.length; i++) {
+                this.roadMatrix[i] = Arrays.copyOf(b.roadMatrix[i], b.roadMatrix[i].length);
             }
         }
-        for (Hexagon hexagon : b.getHexagons()) {
+
+        synchronized (this) {
+            for (int i = 0; i < b.buildings.length; i++) {
+                if (b.buildings[i] == null) this.buildings[i] = null;
+                if (b.buildings[i] instanceof Settlement) {
+                    Log.d(TAG, "Board: copying settlement");
+                    this.buildings[i] = new Settlement(b.buildings[i].getOwnerId());
+                } else if (b.buildings[i] instanceof City) {
+                    this.buildings[i] = new City(b.buildings[i].getOwnerId());
+                }
+            }
+        }
+        Log.i(TAG, "Board: b.buildings=" + Arrays.toString(this.buildings));
+
+        for (Hexagon hexagon : b.hexagons) {
             this.hexagons.add(new Hexagon(hexagon));
         }
+
+        generatePorts();
+
     } // end Board deep copy constructor
 
     /* ----- helper / checking methods ----- */
@@ -149,9 +186,15 @@ public class Board {
             return false;
         }
 
-        if (!hasRoad(intersectionId) && this.buildings[intersectionId] == null) {
-            Log.e(TAG, "isConnected: Not connected. Returned: " + false);
-            return false;
+        if (!hasRoad(intersectionId)) {
+            if (this.buildings[intersectionId] == null) {
+                Log.e(TAG, "isConnected: Not connected. Returned: " + false);
+                return false;
+            } else {
+                Log.d(TAG, "isConnected: this.buildings[intersectionsId] is not null, intersectionId=" + intersectionId);
+            }
+        } else {
+            Log.d(TAG, "isConnected: returned false");
         }
         // check if player is an owner of intersection
         Log.d(TAG, "isConnected() returned: " + getIntersectionOwners(intersectionId).contains(playerId));
@@ -237,10 +280,9 @@ public class Board {
     public void addRoad (int playerId, int intersectionA, int intersectionB) {
         Log.d(TAG, "addRoad() called with: playerId = [" + playerId + "], intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         Road road = new Road(playerId, intersectionA, intersectionB);
-
         this.roads.add(road);
         this.roadMatrix[road.getIntersectionAId()][road.getIntersectionBId()].setOwnerId(road.getOwnerId());
-        this.roadMatrix[road.getIntersectionBId()][road.getIntersectionAId()] = road;
+        this.roadMatrix[road.getIntersectionBId()][road.getIntersectionAId()].setOwnerId(road.getOwnerId());
     }
 
     /**
@@ -248,22 +290,41 @@ public class Board {
      * @return returns if road is connected to given intersection
      */
     public boolean hasRoad (int i) {
+        Log.i(TAG, "hasRoad: " + this.toString() + "");
         Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
         if (i < 0) {
             Log.d(TAG, "hasRoad: negative input returned " + false);
             return false;
         }
 
-        for (Road road : roadMatrix[i]) {
-            if (road.getOwnerId() != -1) {
-                Log.d(TAG, "hasRoad() returned: " + true);
+        for (Road road : roads) {
+            if (road.getIntersectionAId() == i || road.getIntersectionBId() == i) {
                 return true;
             }
         }
+
+//        for (int i1 = 0; i1 < roadMatrix.length; i1++) {
+//            Log.i(TAG, "hasRoad: here");
+//            for (int j = 0; j < roadMatrix[i1].length; j++) {
+//                Road road = roadMatrix[i1][j];
+//                if (road != null) {
+//                    if (road.getOwnerId() != -1) {
+//                        Log.d(TAG, "hasRoad() returned: " + true);
+//                        return true;
+//                    }
+//                } else {
+//                    Log.d(TAG, "hasRoad: road is null at intersection: " + i);
+//                }
+//            }
+//        }
         Log.d(TAG, "hasRoad() returned: " + false);
         return false;
     }
 
+    /**
+     * @param ownerId player id
+     * @return longest road the player owns
+     */
     public int dfs (int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
         Graph rg = new Graph(54);
