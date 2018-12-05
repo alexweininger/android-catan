@@ -209,32 +209,32 @@ public class Board implements Serializable, Runnable {
      * @return - if road can be placed
      */
     public boolean validRoadPlacement (int playerId, boolean isSetupPhase, int a, int b) {
-//        Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
-//        // check if intersections are adjacent
-//        if (!this.intersectionGraph.get(a).contains(b)) {
-//            Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
-//            Log.i(TAG, "validRoadPlacement: intersectionGraph: " + this.intersectionGraph.toString());
-//            return false;
-//        }
-//        // check if road is connected to players roads / buildings at either intersection
-//        if (isConnected(playerId, a) || isConnected(playerId, b)) {
-//            // check if 3 roads at either intersection
-//            if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
-//                Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
-//                return false;
-//            }
-//            // check if road is already built
-//            Log.i(TAG, "validRoadPlacement: this.roadMatrix.getOwnerId: " + this.roadMatrix[a][b].getOwnerId());
-//            if (this.roadMatrix[a][b].getOwnerId() != -1) {
-//                Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
-//                return false;
-//            }
-//            Log.d(TAG, "validRoadPlacement: Valid road placement.");
-//            return true;
-//        } else {
-//            Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
-//            return false;
-//        }
+        //        Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
+        //        // check if intersections are adjacent
+        //        if (!this.intersectionGraph.get(a).contains(b)) {
+        //            Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
+        //            Log.i(TAG, "validRoadPlacement: intersectionGraph: " + this.intersectionGraph.toString());
+        //            return false;
+        //        }
+        //        // check if road is connected to players roads / buildings at either intersection
+        //        if (isConnected(playerId, a) || isConnected(playerId, b)) {
+        //            // check if 3 roads at either intersection
+        //            if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+        //                Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
+        //                return false;
+        //            }
+        //            // check if road is already built
+        //            Log.i(TAG, "validRoadPlacement: this.roadMatrix.getOwnerId: " + this.roadMatrix[a][b].getOwnerId());
+        //            if (this.roadMatrix[a][b].getOwnerId() != -1) {
+        //                Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
+        //                return false;
+        //            }
+        //            Log.d(TAG, "validRoadPlacement: Valid road placement.");
+        //            return true;
+        //        } else {
+        //            Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
+        //            return false;
+        //        }
         return validRoadPlacement(playerId, isSetupPhase, a, b, -1);
     }
 
@@ -303,20 +303,6 @@ public class Board implements Serializable, Runnable {
             }
         }
 
-//        for (int i1 = 0; i1 < roadMatrix.length; i1++) {
-//            Log.i(TAG, "hasRoad: here");
-//            for (int j = 0; j < roadMatrix[i1].length; j++) {
-//                Road road = roadMatrix[i1][j];
-//                if (road != null) {
-//                    if (road.getOwnerId() != -1) {
-//                        Log.d(TAG, "hasRoad() returned: " + true);
-//                        return true;
-//                    }
-//                } else {
-//                    Log.d(TAG, "hasRoad: road is null at intersection: " + i);
-//                }
-//            }
-//        }
         Log.d(TAG, "hasRoad() returned: " + false);
         return false;
     }

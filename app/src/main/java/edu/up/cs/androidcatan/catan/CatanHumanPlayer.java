@@ -1683,6 +1683,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } else {
             Log.i(TAG, "setAsGui: Loading screen...");
             activity.setContentView(R.layout.catan_loading_screen);
+            return;
         }
 
         /* ---------- Surface View for drawing the graphics ----------- */
