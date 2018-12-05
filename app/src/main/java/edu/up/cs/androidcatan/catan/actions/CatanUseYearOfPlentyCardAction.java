@@ -9,6 +9,11 @@ public class CatanUseYearOfPlentyCardAction extends GameAction {
     private static final String TAG = "CatanUseYearOfPlentyCardAction";
     private int chosenResource;
 
+    /**
+     * CatanUseYearOfPlentyCardAction constuctor
+     * @param player player who is calling the action
+     * @param chosenResource
+     */
     public CatanUseYearOfPlentyCardAction(GamePlayer player, int chosenResource){
         super(player);
         this.chosenResource = chosenResource;
