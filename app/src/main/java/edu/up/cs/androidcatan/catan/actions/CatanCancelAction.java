@@ -12,6 +12,11 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanCancelAction extends GameAction {
+
+    /**
+     * CaatanCancelAcation constructor
+     * @param player player calling the action
+     */
     public CatanCancelAction(GamePlayer player){
         super(player);
     }
