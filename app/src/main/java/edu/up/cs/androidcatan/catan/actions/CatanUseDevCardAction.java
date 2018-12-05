@@ -19,6 +19,11 @@ public class CatanUseDevCardAction extends GameAction implements Serializable {
     private static final long serialVersionUID = 6552057080959641246L;
     private int devCardId;
 
+    /**
+     * CatanUseDevCardAction constructor
+     * @param player the player calling the action
+     * @param devCardId the id of the dev card being used
+     */
     public CatanUseDevCardAction(GamePlayer player, int devCardId){
         super(player);
         Log.d(TAG, "CatanUseDevCardAction: called with player = [" + player + "], devCardId = [" + devCardId + "]");

@@ -167,6 +167,90 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
             return;
         }
 
+        /*----------------------------------Build Actions------------------------------------------*/
+        if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
+            sleep(1000);
+            Building building;
+            int action = random.nextInt(4);
+            if (action == 0) //build  City
+            {
+                if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
+                    Log.d(TAG, "receiveInfo: Valid amount of resources to build city");
+                    for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
+                        if (gs.getBoard().getBuildings()[n] == null) {
+                            Log.d(TAG, "receiveInfo: Nothing at this location on board");
+                        }
+                        else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                            Log.d(TAG, "receiveInfo: valid owner id");
+                            building = gs.getBoard().getBuildings()[n];
+                            if (building instanceof Settlement) {
+                                game.sendAction(new CatanBuildCityAction(this, false, this.playerNum, n));
+                                Log.d(TAG, "receiveInfo: CatanBuildCityAction sent");
+                                game.sendAction(new CatanEndTurnAction(this));
+                                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                                return;
+                            }
+                        }
+                    }
+                }
+            } else if (action == 1) //build a settlement
+            {
+                Log.d(TAG, "Dumb AI randomly tried to build a settlement");
+                if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)) {
+                    for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
+                        //cycling through the amount, not the proper value at the intersection
+                        if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))){
+                            Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
+                            game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n)));
+                            Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
+                            game.sendAction(new CatanEndTurnAction(this));
+                            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                            return;
+                        }
+                    }
+                }
+
+            } else if (action == 2)// build a Road
+            {
+                Log.d(TAG, "Dumb AI randomly tried to build a road");
+                if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
+
+                    // get road endpoints for players roads
+                    ArrayList<Integer> individualRoads = getPlayerRoadIntersection(getPlayerRoads(gs));
+                    int randIntersection = random.nextInt(individualRoads.size());
+
+                    // get random intersection from those road intersections
+                    int roadCoordinate = individualRoads.get(randIntersection);
+
+                    // get all adjacent intersections
+                    ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+                    Log.d(TAG, "IntersectionsToChooseFrom for coordinate: " + roadCoordinate + " for the following cords: " + intersectionsToChooseFrom.toString());
+
+                    //int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
+                    for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
+                        if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
+                            game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(n)));
+                            //was random road intersection
+                            Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
+
+                            game.sendAction(new CatanEndTurnAction(this));
+
+                            Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                            return;
+                        }
+                    }
+                    Log.d(TAG, "receiveInfo: Problem with building a road");
+                    game.sendAction(new CatanEndTurnAction(this));
+                    return;
+                }
+            } else {
+                Log.d(TAG, "Dumb AI randomly chose to do nothing");
+            }
+        }
+
+
+        /*------------------------------Build Actions End------------------------------------------*/
+
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
         if (gs.isRobberPhase()) {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
@@ -341,10 +425,20 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
         }
     }// receiveInfo() END
 
+    /**
+     * Constructor for the computer player
+     * @param name name of the player to be used on the soreboard anf whenever the player is referenced
+     */
     CatanDumbComputerPlayer (String name) {
         super(name);
     }
 
+    /**
+     * The method that attempts to move the robber
+     * @param hexId the ID of the tile to move attempt moving the robber to
+     * @param gs the current game state
+     * @return either true or false depending if moving the robber was valid
+     */
     private boolean tryMoveRobber (int hexId, CatanGameState gs) {
         Log.d(TAG, "tryMoveRobber() called with: hexId = [" + hexId + "], gs = [" + gs + "]");
         if (gs.getHasMovedRobber()) {
@@ -381,6 +475,12 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
         return false;
     }
 
+    /**
+     * looks through the list of buildings that have been built then find which ones are own by
+     * the player add adds them to an arrayList
+     * @param gs the current game state
+     * @return arraylist of Road objects that the player owns
+     */
     private ArrayList<Road> getPlayerRoads (CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
         for (int n = 0; n < gs.getBoard().getRoads().size(); n++) {
@@ -391,6 +491,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
         return playerRoads;
     }
 
+    /**
+     * finds the intersections that the roads the player owns
+     * @param playerRoads arrayList of Road Objects that the player owns
+     * @return and arrayList of Integers of the intersections that the roads the player owns are on
+     */
     private ArrayList<Integer> getPlayerRoadIntersection (ArrayList<Road> playerRoads) {
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {

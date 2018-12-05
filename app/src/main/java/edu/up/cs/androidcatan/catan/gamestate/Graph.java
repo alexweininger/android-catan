@@ -196,7 +196,7 @@ public class Graph implements Runnable, Serializable {
             } else {
                 Log.w(TAG, "updatePlayerWithLongestRoad: Started dfs on " + i);
                 int l = dfs(i);
-                if (hasCycle) l++;
+//                if (hasCycle) l++;
                 currentPlayerRoadLength.add(l);
                 int max = 0;
                 for (int n = 0; n < currentPlayerRoadLength.size(); n++) {

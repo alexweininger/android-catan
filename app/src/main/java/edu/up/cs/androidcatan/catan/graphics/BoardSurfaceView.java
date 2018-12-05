@@ -19,6 +19,7 @@ import java.io.Serializable;
 public class BoardSurfaceView extends SurfaceView implements Serializable {
     private static final String TAG = "BoardSurfaceView";
 
+
     int size;
     HexagonGrid grid;
     private Canvas canvas;
@@ -36,6 +37,10 @@ public class BoardSurfaceView extends SurfaceView implements Serializable {
         setWillNotDraw(false);
     }
 
+    /**
+     * draws the board on the screen
+     * @param canvas canvas of where to draw
+     */
     public void onDraw (Canvas canvas) {
         if (!ready) {
             Log.e(TAG, "onDraw: not ready");

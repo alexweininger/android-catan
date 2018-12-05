@@ -12,6 +12,11 @@ public class CatanUseMonopolyCardAction extends GameAction implements Serializab
     private static final long serialVersionUID = 6395440562725742066L;
     private int chosenResource;
 
+    /**
+     * CatanUseMonopolyCardAction constructor
+     * @param player the player calling the action
+     * @param chosenResource the resource that the player chose
+     */
     public CatanUseMonopolyCardAction(GamePlayer player, int chosenResource){
         super(player);
         this.chosenResource = chosenResource;

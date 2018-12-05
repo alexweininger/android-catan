@@ -11,6 +11,10 @@ public class CatanUseRoadBuildingCardAction extends GameAction implements Serial
     private static final String TAG = "CatanUseRoadBuildingCardAction";
     private static final long serialVersionUID = 999657364598380655L;
 
+    /**
+     * CatanUSeRoaduildingCardAction constructor
+     * @param player player who is calling the action
+     */
     public CatanUseRoadBuildingCardAction(GamePlayer player){
         super(player);
         Log.d(TAG, "CatanUseRoadBuildingCardAction called");

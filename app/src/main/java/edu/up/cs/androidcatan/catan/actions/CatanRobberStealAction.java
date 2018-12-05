@@ -18,7 +18,13 @@ public class CatanRobberStealAction extends GameAction implements Serializable {
     private int playerId;
     private int stealingFromPlayerId;
 
-    public CatanRobberStealAction (GamePlayer player, int playerId, int stealingFromPlayerId) {
+    /**
+     * CaatanRobberStealAction constructor
+     * @param player the player calling the action
+     * @param playerId the ID of the player who is calling the action
+     * @param stealingFromPlayerId the id of the player to steal from
+     */
+    public CatanRobberStealAction(GamePlayer player, int playerId, int stealingFromPlayerId) {
         super(player);
         this.playerId = playerId;
         this.stealingFromPlayerId = stealingFromPlayerId;

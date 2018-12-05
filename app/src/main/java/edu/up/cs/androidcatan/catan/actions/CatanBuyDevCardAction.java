@@ -17,6 +17,10 @@ public class CatanBuyDevCardAction extends GameAction implements Serializable {
 
     private static final long serialVersionUID = 7781038413765585192L;
 
+    /**
+     * CaranBuyDevCardAcation constructor
+     * @param player the player who is buying the devCard
+     */
     public CatanBuyDevCardAction (GamePlayer player) {
         super(player);
     }
