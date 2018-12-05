@@ -17,6 +17,12 @@ public class CatanRobberDiscardAction extends GameAction {
     private int playerId;
     private int[] robberDiscardedResources;
 
+    /**
+     * CatanRobberDiscardAction
+     * @param player player who is calling the action
+     * @param playerId plauer ID for who is calling the action
+     * @param robberDiscardedResources array of ints for how much of each resource to discard
+     */
     public CatanRobberDiscardAction (GamePlayer player, int playerId, int[] robberDiscardedResources) {
         super(player);
         this.playerId = playerId;
