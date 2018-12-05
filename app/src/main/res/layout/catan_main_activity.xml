@@ -1866,24 +1866,24 @@
 Buildings:\n
     Each settlement you place will grant you 1 victory point.\n
 \n
-    Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.\n
+    Each settlement you upgrade into a city will grant you one addition victory point, totaling to 2 victory points.\n
 \n
-    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This\n
-    trophy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who\n
+    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a trophy. This\n
+    trophy is for having the longest road. If another player builds a road that is longer, then there trophy switches players. Who\n
     ever holds the trophy is granted 2 additional victory points.\n
 \n
 Development Cards:\n
     A Victory Point development card grants one additional  victory point the player.\n
 \n
-    Once one player has played three Knight development cards, they are given the largest Armmy trophy, which awards two\n
+    Once one player has played three Knight development cards, they are given the largest Army trophy, which awards two\n
     additional victory points. If another player ends up use more Knight Cards, then the trophy switches hands. Whoever holds the\n
-    trophy is granted to addiotional victory points.\n
+    trophy is granted to additional victory points.\n
 \n
 Checking Player's Score:\n
     Scores are broken up into public and private scores. Public score keeps track of vitory points from buildings. While private\n
-    scores keeps track of vitory points from buildings, trophies and develompent cards. Thought you cannot your oppenents true\n
+    scores keeps track of vitory points from buildings, trophies and development cards. Though you cannot see your opponents true\n
     victory point total, you are able to see if they hold either the longest road trophy, largest army trophy or both. When it\n
-    comes to winning, private vitory points is the only thing that matters\n
+    comes to winning, private victory points is the only thing that matters\n
 " />
 
     <Button
@@ -1933,7 +1933,7 @@ Checking Player's Score:\n
         app:layout_constraintStart_toStartOf="@+id/set_up_phase_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/set_up_phase_help_menu_title_text_view"
         android:text="During the Set-Up Phase each player will get a chance to place one building and one road, two times. The order for which the\n
-Set-Up Phase is played is Player 1 > Player2 Player 3 Player 4 then Player 4 > Player 3 > Player 2 > Player 1.\n
+Set-Up Phase is played is Player 1 > Player2 Player > 3 Player > 4 then Player 4 > Player 3 > Player 2 > Player 1.\n
 \n
 Placing a Settlement:\n
     1) Select the intersection you wish to place a settlement.\n
@@ -2010,7 +2010,7 @@ Ending Turn:\n
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="@+id/building_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/building_help_menu_title_text_view"
-        android:text="There are three buildings that can be constucted; a City, a Settlement and a Road.\n
+        android:text="There are three buildings that can be constructed; a City, a Settlement and a Road.\n
 \n
     City:\n
         Cost: 2 Grain and 3 Ore\n
@@ -2106,23 +2106,23 @@ Ending Turn:\n
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
         android:text="Trading can be done via either a Port or the Bank. Trading with a port can only be done if the user has a settlement or city on a\n
-port inersection. Ports can be specailzed and offer cheeper trading rates. Ports with a rsource icon on them are specialzed and offer 2:1 trading\n
-of that resource, while ports without a resource icon can trade any resouce 3:1. If the player wishes to trade, but does not have a city or settlement\n
+port intersection. Ports can be specialized and offer cheaper trading rates. Ports with a resource icon on them are specialized and offer 2:1 trading\n
+of that resource, while ports without a resource icon can trade any resource 3:1. If the player wishes to trade, but does not have a city or settlement\n
 on a port intersection, then why can trade with the bank at a rate of 4:1.\n
 \n
     How to Trade with the Bank:\n
         1) Deselect any intersections\n
         2) Press the Trade button on the left side bar\n
         3) Click on the resource you wish to give on the bottom row\n
-        4) Click on the resource you wish to rexieve on the top row\n
+        4) Click on the resource you wish to receive on the top row\n
         5) Press the Confirm button to make the trade\n
 \n
     How to trade with a Port:\n
         1) Select the intersection with a port\n
         2) Press the Trade button on the left side bar\n
-        3) Click on the resource specialzed resource to give\n
+        3) Click on the resource specialized resource to give\n
              on the bottom row\n
-        4) Click on the resource you wish to rexieve on the top row\n
+        4) Click on the resource you wish to receive on the top row\n
         5) Press the Confirm button to make the trade"
         app:layout_constraintStart_toStartOf="@+id/trading_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/trading_help_menu_title_text_view" />
@@ -2179,12 +2179,12 @@ on a port intersection, then why can trade with the bank at a rate of 4:1.\n
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:text="The Robber is played whenever a seven is rolled. When this happens, any player in the game who has more than sevenresources, must discard half of them. Which resources are how many of each is up to them. After all players who had to discard have done so, the player who rolled the seven must move the robber to a new tile. The new tile must not be the dessert tile, have at least one oppenent adjacent to it and cannot be the same tile is currently on. After having done so, the player then selects an oppenent whose settlement or city is adjacent to steal a random resource from.\n
+        android:text="The Robber is played whenever a seven is rolled. When this happens, any player in the game who has more than seven resources, must discard half of them. Which resources are how many of each is up to them. After all players who had to discard have done so, the player who rolled the seven must move the robber to a new tile. The new tile must not be the dessert tile, have at least one oppenent adjacent to it and cannot be the same tile is currently on. After having done so, the player then selects an oppenent whose settlement or city is adjacent to steal a random resource from.\n
 \n
 \n
 \n
-Discard Resource Cards:\n
-    1) Select the plus or minus to set how many of each\n
+Discard Resource Cards:\n\n
+    1) Select the plus or minus to set how many of each\n\n
     2) Press the confirm button.\n
 \n
 \n
@@ -2196,9 +2196,9 @@ Discard Resource Cards:\n
 \n
 \n
 Moving the Robber\n
-    1) Select a tile to move the robber to\n
-    2) Press the Confrim button in the bottom right\n
-    3) Select an openents settlement or city adjacent to the tile\n
+    1) Select a tile to move the robber to\n\n
+    2) Press the Confirm button in the bottom right\n\n
+    3) Select an opponent's settlement or city adjacent to the tile\n\n
     4) Press the confirm button"
         app:layout_constraintStart_toStartOf="@+id/robber_menu_background"
         app:layout_constraintTop_toBottomOf="@+id/robber_help_menu_title_text_view" />
@@ -2265,7 +2265,7 @@ Moving the Robber\n
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:text="Development Cards can bought for; 1 Grain, 1 Ore and 1 Wool. Once purchsed, the player is given a random Delvelopment Card from the deck.\n
+        android:text="Development Cards can bought for; 1 Grain, 1 Ore and 1 Wool. Once purchased, the player is given a random Delvelopment Card from the deck.\n
 \n
     Knight:\n
         Use: Allows the player to move the robber without needing to roll a 7. After moving the robber the player selects another\n
@@ -2282,7 +2282,7 @@ Moving the Robber\n
         Use: Grants the user 2 Brick and 2 Lumber which is required to build two roads\n
 \n
     Year of Plenty:\n
-        Use: THe player selects a resource and then recieves two of that resource from the bank"
+        Use: The player selects a resource and then recieves two of that resource from the bank"
         app:layout_constraintStart_toStartOf="@+id/development_card_help_menu_title_text_view"
         app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view"/>
 
