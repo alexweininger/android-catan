@@ -1866,24 +1866,24 @@
 Buildings:\n
     Each settlement you place will grant you 1 victory point.\n
 \n
-    Each settlement you upgrad into a city will grant you one addition victory point, totaling to 2 victory points.\n
+    Each settlement you upgrade into a city will grant you one addition victory point, totaling to 2 victory points.\n
 \n
-    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a torphy. This\n
-    trophy is for having the longest road. If another player builds a road that is longer, then there trophy swithes plaeyrs. Who\n
+    Roads themselves do not give any victory points but once one player places five consecutive roads, they earn a trophy. This\n
+    trophy is for having the longest road. If another player builds a road that is longer, then there trophy switches players. Who\n
     ever holds the trophy is granted 2 additional victory points.\n
 \n
 Development Cards:\n
     A Victory Point development card grants one additional  victory point the player.\n
 \n
-    Once one player has played three Knight development cards, they are given the largest Armmy trophy, which awards two\n
+    Once one player has played three Knight development cards, they are given the largest Army trophy, which awards two\n
     additional victory points. If another player ends up use more Knight Cards, then the trophy switches hands. Whoever holds the\n
-    trophy is granted to addiotional victory points.\n
+    trophy is granted to additional victory points.\n
 \n
 Checking Player's Score:\n
-    Scores are broken up into public and private scores. Public score keeps track of vitory points from buildings. While private\n
-    scores keeps track of vitory points from buildings, trophies and develompent cards. Thought you cannot your oppenents true\n
+    Scores are broken up into public and private scores. Public score keeps track of victory points from buildings. While private\n
+    scores keeps track of victory points from buildings, trophies and development cards. Thought you cannot your opponents true\n
     victory point total, you are able to see if they hold either the longest road trophy, largest army trophy or both. When it\n
-    comes to winning, private vitory points is the only thing that matters\n
+    comes to winning, private victory points is the only thing that matters\n
 " />
 
     <Button
@@ -1939,7 +1939,7 @@ Placing a Settlement:\n
     1) Select the intersection you wish to place a settlement.\n
     2) Press the Settlement button on the left side bar.\n
 \n
-Placing a Raod:\n
+Placing a Road:\n
     1) Select two adjacent intersections build a road.\n
     2) Press the Road button on the left side bar.\n
 \n

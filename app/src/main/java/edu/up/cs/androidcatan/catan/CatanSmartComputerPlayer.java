@@ -8,12 +8,20 @@ import java.util.Random;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildRoadAction;
 import edu.up.cs.androidcatan.catan.actions.CatanBuildSettlementAction;
+import edu.up.cs.androidcatan.catan.actions.CatanBuyDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanEndTurnAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberDiscardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
+import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
@@ -226,7 +234,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             int brickCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[0];
 
             int grainCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[1];
-            int oreCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[3];
+            //int oreCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[3];
             int woolCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[4];
             int tradeResourceId;
             if (brickCount == 0){
@@ -245,16 +253,16 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     return;
                 }
             }
-            if (oreCount >= 4){
-                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
-                    Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
-                    game.sendAction(new CatanTradeWithBankAction(this, 3,tradeResourceId));
-                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
-                    game.sendAction(new CatanEndTurnAction(this));
-                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-                    return;
-                }
-            }
+//            if (oreCount >= 4){
+//                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
+//                    Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
+//                    game.sendAction(new CatanTradeWithBankAction(this, 3,tradeResourceId));
+//                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
+//                    game.sendAction(new CatanEndTurnAction(this));
+//                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+//                    return;
+//                }
+//            }
             if (woolCount >= 4){
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
@@ -305,6 +313,63 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
+            /******Looks to buy a dev card*******/
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)){
+                Log.d(TAG, "receiveInfo: Player " + this.playerNum + " purchased dev card");
+                game.sendAction(new CatanBuyDevCardAction(this));
+                game.sendAction(new CatanEndTurnAction(this));
+                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                return;
+            }
+
+            /*****Looks to use a dev card*******/
+            if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size() > 0) {
+                Log.d(TAG, "receiveInfo: Player " + this.playerNum + " has a playable development card");
+                for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++){
+                    //if they have a victory points card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1 && gs.getPlayerList().get(this.playerNum).getVictoryPoints() == 8){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using vp card");
+                        game.sendAction(new CatanUseVictoryPointCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a knight card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using knight card");
+                        game.sendAction(new CatanUseKnightCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a year of plenty card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using year of plenty card");
+                        game.sendAction(new CatanUseYearOfPlentyCardAction(this, tradeResourceId)); //change chosenResource
+                        Log.d(TAG, "receiveInfo: Used year of plenty card");
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a monopoly card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using monopoly card");
+                        game.sendAction(new CatanUseMonopolyCardAction(this, tradeResourceId)); //change chosenResource
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                    //if they have a road card
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 4){
+                        Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using road dev card");
+                        game.sendAction(new CatanUseRoadBuildingCardAction(this));
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
+                        return;
+                    }
+                }
+
+            }
             /******Looks to build another road*****/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
 
@@ -432,12 +497,37 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         Log.d(TAG, "checkIntersectionResource() called with: intersectionId = [" + intersectionId + "], gs = [" + gs + "]");
         ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
         for (Integer adjHexId : adjHexIds) {
+            Log.d(TAG, "checkIntersectionResource: the length of getBuildings is: " + gs.getBoard().getBuildings().length);
+//            for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
+//                if (gs.getBoard().getBuildings()[n] == null){
+//                    buildIntersection = -1;
+//                }
+//                else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
+//                    buildIntersection = n;
+//                    break;
+//                }
+//                else {
+//                    buildIntersection = -1;
+//                }
+//            }
+//            if (buildIntersection != -1){
+//                Log.d(TAG, "checkIntersectionResource: Player has already built through first part of setup phase");
+//                if (gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 && gs.getBoard().getHexagonFromId(buildIntersection).getResourceId() == 2){
+//                    Log.d(TAG, "checkIntersectionResource: Player already had lumber, found one with brick");
+//                    return true;
+//                }
+//                if (gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2 && gs.getBoard().getHexagonFromId(buildIntersection).getResourceId() == 0){
+//                    Log.d(TAG, "checkIntersectionResource: Player already had brick, found one with lumber");
+//                    return true;
+//                }
+
             //change back to 0 and 2 for building a road
             if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
                 Log.d(TAG, "checkIntersectionResource() returned: " + true);
                 return true;
             }
         }
+
         Log.d(TAG, "checkIntersectionResource() returned: " + false);
         return false;
     }
