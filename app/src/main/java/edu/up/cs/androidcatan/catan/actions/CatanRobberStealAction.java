@@ -13,6 +13,13 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 public class CatanRobberStealAction extends GameAction {
     private int playerId;
     private int stealingFromPlayerId;
+
+    /**
+     * CaatanRobberStealAction constructor
+     * @param player the player calling the action
+     * @param playerId the ID of the player who is calling the action
+     * @param stealingFromPlayerId the id of the player to steal from
+     */
     public CatanRobberStealAction(GamePlayer player, int playerId, int stealingFromPlayerId) {
         super(player);
         this.playerId = playerId;
