@@ -34,6 +34,10 @@ public class BoardSurfaceView extends SurfaceView {
         setWillNotDraw(false);
     }
 
+    /**
+     * draws the board on the screen
+     * @param canvas canvas of where to draw
+     */
     public void onDraw (Canvas canvas) {
         if (!ready) {
             Log.e(TAG, "onDraw: not ready");
