@@ -19,6 +19,13 @@ public class CatanBuildSettlementAction extends GameAction {
     private int intersectionId, ownerId;
     private boolean isSetupPhase;
 
+    /**
+     * CantanBuildSettlementAcation constructor
+     * @param player the player calling the action
+     * @param isSetupPhase true or false for if it is the setUp phase
+     * @param ownerId id of who owns the building
+     * @param intersectionId the intersection ID of where the settlement is located on the board
+     */
     public CatanBuildSettlementAction (GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionId) {
         super(player);
         Log.d(TAG, "CatanBuildSettlementAction() called with: player = [" + player + "], ownerId = [" + ownerId + "], intersectionId = [" + intersectionId + "]");
