@@ -12,5 +12,10 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanRollDiceAction extends GameAction {
+
+    /**
+     * CatanRollDiceAction
+     * @param player the player who is calling the action
+     */
     public CatanRollDiceAction (GamePlayer player) { super(player); }
 }
