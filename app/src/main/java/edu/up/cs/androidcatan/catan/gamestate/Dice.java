@@ -21,12 +21,16 @@ public class Dice {
 
     private int[] diceValues; // array of dice values
 
+    /**
+     * Dice constructor
+     */
     public Dice() {
         this.diceValues = new int[2];
         this.diceValues[0] = 1;
         this.diceValues[1] = 1;
     }
 
+    //deep copy constructor for the dice
     public Dice(Dice d) {
         this.setDiceValues(d.getDiceValues());
     }
