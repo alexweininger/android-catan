@@ -65,7 +65,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 Log.d(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road." + " " + this.playerNum);
                 int randSettlementIntersection = random.nextInt(53);
                 // generate random intersection until we find a valid location to build our settlement
-                while (!(gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection) && checkIntersectionResource(randSettlementIntersection, gs) && checkSetupPhaseIntersection(gs, randSettlementIntersection))) {
+                while (!(gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection) && checkIntersectionResource(randSettlementIntersection, gs) && checkSetupPhaseIntersection(randSettlementIntersection))) {
                     sleep(1000); // sleep
                     Log.d(TAG, "receiveInfo: generating new building location" + " " + this.playerNum);
                     randSettlementIntersection = random.nextInt(53);
@@ -282,14 +282,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     }
                 }
             }
-
-            //hack to give resources
-//            if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size() == 0) {
-//                Log.d(TAG, "receiveInfo: Player had no development cards so giving them required resources");
-//                gs.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-//                gs.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-//                gs.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
-//            }
+            
             /******Looks to buy a dev card*******/
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)){
                 Log.d(TAG, "receiveInfo: Player " + this.playerNum + " purchased dev card");
@@ -304,7 +297,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 Log.d(TAG, "receiveInfo: Player " + this.playerNum + " has a playable development card");
                 for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++){
                     //if they have a victory points card
-                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1 && gs.getPlayerList().get(this.playerNum).getVictoryPoints() == 8){
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1){
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using vp card");
                         game.sendAction(new CatanUseVictoryPointCardAction(this));
                         game.sendAction(new CatanEndTurnAction(this));
@@ -370,16 +363,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     return;
                 }
             }
-//            if (oreCount >= 4){
-//                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
-//                    Log.d(TAG, "receiveInfo: Trade happening: ore for brick");
-//                    game.sendAction(new CatanTradeWithBankAction(this, 3,tradeResourceId));
-//                    Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
-//                    game.sendAction(new CatanEndTurnAction(this));
-//                    Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-//                    return;
-//                }
-//            }
+
             if (woolCount >= 4){
                 if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
                     Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
@@ -503,17 +487,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             intersections.add(playerRoads.get(n).getIntersectionAId());
             intersections.add(playerRoads.get(n).getIntersectionBId());
         }
-//        ArrayList<Integer> noRepeatIntersections = new ArrayList<>();
-//        for (int n = 0; n < intersections.size(); n++){
-//            for (int j = n+1; j < intersections.size(); j++){
-//                if (intersections.get(n) != intersections.get(j)){
-//                    noRepeatIntersections.add(n);
-//                }
-//            }
-            Log.d(TAG, "With repeat Intersections: " + intersections.toString());
-            //Log.d(TAG, "No repeat Intersections: " + noRepeatIntersections.toString());
-        //}
-        //might need to change to return intersections
+        Log.d(TAG, "With repeat Intersections: " + intersections.toString());
         return intersections;
     }
 
@@ -571,17 +545,13 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
     }
 
     /**
-     *
-     * @param gs
      * @param intersection to check how many roads it has coming off of it
-     * @return true if it has a valid amount of roads to build a settlement(3), otherwise false (road count is 2)
+     * @return true if road intersection is less than 24, false otherwise
      */
-    private boolean checkSetupPhaseIntersection(CatanGameState gs, int intersection){
-        if (gs.getBoard().getRoadsAtIntersection(intersection).size() == 2){
-            Log.d(TAG, "checkSetupPhaseIntersection: intersection " + intersection + " returning " + false);
+    private boolean checkSetupPhaseIntersection(int intersection){
+        if (intersection > 23){
             return false;
         }
-        Log.d(TAG, "checkSetupPhaseIntersection: intersection " + intersection + " returning " + true);
         return true;
     }
 } // CatanDumbComputerPlayer class END
