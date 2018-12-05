@@ -15,6 +15,12 @@ public class CatanTradeWithBankAction extends GameAction {
     private int resourceIdGiving;
     private int resourceIdRec;
 
+    /**
+     * CatanTradeWithBankAction constructor
+     * @param player the player who is calling the action
+     * @param resourceIdGiving the resource to give up
+     * @param resourceIdRec the resource to receive
+     */
     public CatanTradeWithBankAction (GamePlayer player, int resourceIdGiving, int resourceIdRec) {
         super(player);
         this.resourceIdGiving = resourceIdGiving;
