@@ -22,6 +22,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
  **/
 public class CatanGameState extends GameState implements Runnable {
 
+
     private static final String TAG = "CatanGameState";
 
     private Dice dice; // dice object
