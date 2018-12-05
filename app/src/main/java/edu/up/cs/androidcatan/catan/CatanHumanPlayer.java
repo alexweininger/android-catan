@@ -1024,7 +1024,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
         } else {
             messageTextView.setText(R.string.invalid_road_placement);
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invlid road placement.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invalid road placement.", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
             Log.d(TAG, "tryBuildRoad() returned: " + false);
@@ -1477,7 +1477,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.buildSettlementButton.setAlpha(1f);
                 this.buildSettlementButton.setClickable(true);
             }
-            // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
@@ -1668,8 +1667,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
 
         myActivity = activity; // remember the activity
-        activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
-        messageTextView = activity.findViewById(R.id.textview_game_message);
+        if (readyToDraw) {
+            activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
+            messageTextView = activity.findViewById(R.id.textview_game_message);
+        } else {
+            Log.i(TAG, "setAsGui: Loading screen...");
+            activity.setContentView(R.layout.catan_loading_screen);
+        }
 
 
         /* ---------- Surface View for drawing the graphics ----------- */

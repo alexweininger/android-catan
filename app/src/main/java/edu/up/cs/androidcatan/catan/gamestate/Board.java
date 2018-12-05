@@ -134,20 +134,19 @@ public class Board implements Serializable, Runnable {
         this.setHighlightedIntersectionId(b.highlightedIntersectionId);
         this.setRoadGraph(b.roadGraph);
         generateRoadMatrix();
-        synchronized (this) {
-            for (Road road : b.getRoads()) {
-                roads.add(new Road(road.getOwnerId(), road.getIntersectionAId(), road.getIntersectionBId()));
-            }
-            for (int i = 0; i < b.roadMatrix.length; i++) {
-                for (int i1 = 0; i1 < b.roadMatrix[i].length; i1++) {
-                    this.roadMatrix[i][i1] = new Road(b.roadMatrix[i][i1].getOwnerId(), b.roadMatrix[i][i1].getIntersectionAId(), b.roadMatrix[i][i1].getIntersectionBId());
-                }
-            }
 
-            System.arraycopy(b.roadMatrix, 0, this.roadMatrix, 0, b.roadMatrix.length);
-            for (int i = 0; i < b.roadMatrix.length; i++) {
-                this.roadMatrix[i] = Arrays.copyOf(b.roadMatrix[i], b.roadMatrix[i].length);
+        for (Road road : b.getRoads()) {
+            roads.add(new Road(road.getOwnerId(), road.getIntersectionAId(), road.getIntersectionBId()));
+        }
+        for (int i = 0; i < b.roadMatrix.length; i++) {
+            for (int i1 = 0; i1 < b.roadMatrix[i].length; i1++) {
+                this.roadMatrix[i][i1] = new Road(b.roadMatrix[i][i1].getOwnerId(), b.roadMatrix[i][i1].getIntersectionAId(), b.roadMatrix[i][i1].getIntersectionBId());
             }
+        }
+
+        System.arraycopy(b.roadMatrix, 0, this.roadMatrix, 0, b.roadMatrix.length);
+        for (int i = 0; i < b.roadMatrix.length; i++) {
+            this.roadMatrix[i] = Arrays.copyOf(b.roadMatrix[i], b.roadMatrix[i].length);
         }
 
         synchronized (this) {
@@ -210,32 +209,33 @@ public class Board implements Serializable, Runnable {
      * @return - if road can be placed
      */
     public boolean validRoadPlacement (int playerId, boolean isSetupPhase, int a, int b) {
-        Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
-        // check if intersections are adjacent
-        if (!this.intersectionGraph.get(a).contains(b)) {
-            Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
-            Log.i(TAG, "validRoadPlacement: intersectionGraph: " + this.intersectionGraph.toString());
-            return false;
-        }
-        // check if road is connected to players roads / buildings at either intersection
-        if (isConnected(playerId, a) || isConnected(playerId, b)) {
-            // check if 3 roads at either intersection
-            if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
-                Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
-                return false;
-            }
-            // check if road is already built
-            Log.i(TAG, "validRoadPlacement: this.roadMatrix.getOwnerId: " + this.roadMatrix[a][b].getOwnerId());
-            if (this.roadMatrix[a][b].getOwnerId() != -1) {
-                Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
-                return false;
-            }
-            Log.d(TAG, "validRoadPlacement: Valid road placement.");
-            return true;
-        } else {
-            Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
-            return false;
-        }
+//        Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
+//        // check if intersections are adjacent
+//        if (!this.intersectionGraph.get(a).contains(b)) {
+//            Log.e(TAG, "validRoadPlacement: Invalid road placement. Intersections are not adjacent.");
+//            Log.i(TAG, "validRoadPlacement: intersectionGraph: " + this.intersectionGraph.toString());
+//            return false;
+//        }
+//        // check if road is connected to players roads / buildings at either intersection
+//        if (isConnected(playerId, a) || isConnected(playerId, b)) {
+//            // check if 3 roads at either intersection
+//            if (getRoadsAtIntersection(a).size() > 2 || getRoadsAtIntersection(b).size() > 2) {
+//                Log.e(TAG, "validRoadPlacement: Invalid road placement. Roads are already built at this intersection.");
+//                return false;
+//            }
+//            // check if road is already built
+//            Log.i(TAG, "validRoadPlacement: this.roadMatrix.getOwnerId: " + this.roadMatrix[a][b].getOwnerId());
+//            if (this.roadMatrix[a][b].getOwnerId() != -1) {
+//                Log.e(TAG, "validRoadPlacement: Invalid road placement. A road is already built here. Returning false.");
+//                return false;
+//            }
+//            Log.d(TAG, "validRoadPlacement: Valid road placement.");
+//            return true;
+//        } else {
+//            Log.e(TAG, "validRoadPlacement: Invalid road placement. IntersectionDrawable(s) are not connected to players buildings or roads.");
+//            return false;
+//        }
+        return validRoadPlacement(playerId, isSetupPhase, a, b, -1);
     }
 
     /**
