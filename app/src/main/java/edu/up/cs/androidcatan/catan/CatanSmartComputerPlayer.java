@@ -65,7 +65,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 Log.d(TAG, "receiveInfo: It is the setup phase. Computer player will now attempt to build a settlement and a road." + " " + this.playerNum);
                 int randSettlementIntersection = random.nextInt(53);
                 // generate random intersection until we find a valid location to build our settlement
-                while (!(gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection) && checkIntersectionResource(randSettlementIntersection, gs))) {
+                while (!(gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection) && checkIntersectionResource(randSettlementIntersection, gs) && checkSetupPhaseIntersection(gs, randSettlementIntersection))) {
                     sleep(1000); // sleep
                     Log.d(TAG, "receiveInfo: generating new building location" + " " + this.playerNum);
                     randSettlementIntersection = random.nextInt(53);
@@ -527,28 +527,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(intersectionId);
         for (Integer adjHexId : adjHexIds) {
             Log.d(TAG, "checkIntersectionResource: the length of getBuildings is: " + gs.getBoard().getBuildings().length);
-//            for (int n = 0; n < gs.getBoard().getBuildings().length; n++){
-//                if (gs.getBoard().getBuildings()[n] == null){
-//                    buildIntersection = -1;
-//                }
-//                else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum){
-//                    buildIntersection = n;
-//                    break;
-//                }
-//                else {
-//                    buildIntersection = -1;
-//                }
-//            }
-//            if (buildIntersection != -1){
-//                Log.d(TAG, "checkIntersectionResource: Player has already built through first part of setup phase");
-//                if (gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 && gs.getBoard().getHexagonFromId(buildIntersection).getResourceId() == 2){
-//                    Log.d(TAG, "checkIntersectionResource: Player already had lumber, found one with brick");
-//                    return true;
-//                }
-//                if (gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2 && gs.getBoard().getHexagonFromId(buildIntersection).getResourceId() == 0){
-//                    Log.d(TAG, "checkIntersectionResource: Player already had brick, found one with lumber");
-//                    return true;
-//                }
 
             //change back to 0 and 2 for building a road
             if(gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 0 || gs.getBoard().getHexagonFromId(adjHexId).getResourceId() == 2) {
@@ -589,6 +567,21 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         if (count >= 10){
             return false;
         }
+        return true;
+    }
+
+    /**
+     *
+     * @param gs
+     * @param intersection to check how many roads it has coming off of it
+     * @return true if it has a valid amount of roads to build a settlement(3), otherwise false (road count is 2)
+     */
+    private boolean checkSetupPhaseIntersection(CatanGameState gs, int intersection){
+        if (gs.getBoard().getRoadsAtIntersection(intersection).size() == 2){
+            Log.d(TAG, "checkSetupPhaseIntersection: intersection " + intersection + " returning " + false);
+            return false;
+        }
+        Log.d(TAG, "checkSetupPhaseIntersection: intersection " + intersection + " returning " + true);
         return true;
     }
 } // CatanDumbComputerPlayer class END
