@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
+import java.io.Serializable;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -8,8 +10,9 @@ package edu.up.cs.androidcatan.catan.gamestate;
  * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class Hexagon {
+public class Hexagon implements Serializable {
 
+    private static final long serialVersionUID = 675408522730573292L;
     // instance variables
     private int resourceId, chitValue, hexagonId;
 

@@ -67,7 +67,25 @@ public class CatanLocalGame extends LocalGame {
     public boolean canMove (int playerIdx) {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + this.state.getCurrentPlayerId());
 
-        if (state.isRobberPhase()) return true; // todo fix this iffy logic
+        // if it is the robber phase
+        if (state.isRobberPhase()) {
+            // if the player has discarded already
+            if (state.getRobberPlayerListHasDiscarded()[playerIdx]) {
+                if (state.getCurrentPlayerId() == playerIdx) {
+                    // if the player has discarded, and it is their turn, return true
+                    Log.d(TAG, "canMove() the player has discarded, and it is their turn, returned " + true);
+                    return true;
+                } else {
+                    // return false if it is the robber phase and they have discarded, and it is not their turn
+                    Log.d(TAG, "canMove() it is the robber phase and they have discarded, and it is not their turn returned " + false);
+                    return false;
+                }
+            } else {
+                // return true if it is the robber phase and they have not discarded
+                Log.d(TAG, "canMove() it is the robber phase and they have not discarded returned " + true);
+                return true;
+            }
+        }
 
         if (playerIdx < 0 || playerIdx > 3) Log.e(TAG, "canMove: Invalid playerIds: " + playerIdx);
 
@@ -82,7 +100,7 @@ public class CatanLocalGame extends LocalGame {
      * @return Tells whether the move was a legal one.
      */
     @Override
-    protected boolean makeMove (GameAction action) {
+    protected synchronized boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
         /* --------------------------- Turn Actions --------------------------------------- */
@@ -97,6 +115,7 @@ public class CatanLocalGame extends LocalGame {
                 state.setRobberPhase(true);
             } else {
                 // produce resources for the roll
+                Log.d(TAG, "makeMove: calling produce resources");
                 state.produceResources(state.getCurrentDiceSum());
             }
             state.setActionPhase(true); // set the action phase to true
@@ -105,7 +124,6 @@ public class CatanLocalGame extends LocalGame {
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
-
 
             // if it is still the setup phase
             if (this.state.isSetupPhase()) {
@@ -152,11 +170,11 @@ public class CatanLocalGame extends LocalGame {
                 Thread t = new Thread(rg);
                 t.start();
                 try {
+                    Log.i(TAG, "makeMove: thread joined");
                     t.join();
                 } catch (Exception e) {
                     Log.e(TAG, "makeMove: t.join()", e);
                 }
-
                 state.setCurrentLongestRoadPlayerId(rg.getPlayerIdWithLongestRoad());
                 return true;
             }
@@ -182,7 +200,7 @@ public class CatanLocalGame extends LocalGame {
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             } else {
-//                state.getCurrentPlayer().addResourceCard(0,1);
+                //                state.getCurrentPlayer().addResourceCard(0,1);
 //                state.getCurrentPlayer().addResourceCard(1,1);
 //                state.getCurrentPlayer().addResourceCard(2,1);
 //                state.getCurrentPlayer().addResourceCard(4,1);
@@ -205,8 +223,8 @@ public class CatanLocalGame extends LocalGame {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
             // remove resources from players inventory (also does checks)
-//            state.getCurrentPlayer().addResourceCard(3,3);
-//            state.getCurrentPlayer().addResourceCard(1,1);
+            //            state.getCurrentPlayer().addResourceCard(3,3);
+            //            state.getCurrentPlayer().addResourceCard(1,1);
             if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
                 // add building to the board
                 state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));
@@ -289,15 +307,18 @@ public class CatanLocalGame extends LocalGame {
         /*---------------------------------- Robber Actions --------------------------------------*/
 
         if (action instanceof CatanRobberDiscardAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+            Log.d(TAG, "makeMove() called with: action = [" + action + "], playerId=" + ((CatanRobberDiscardAction) action).getPlayerId());
             return state.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getRobberDiscardedResources());
         }
         if (action instanceof CatanRobberMoveAction) {
-            Log.d(TAG, "makeMove() called with: action = [" + action + "]");
-
+            Log.d(TAG, "makeMove() called with: action = [" + action + "]. playerId=" + ((CatanRobberMoveAction) action).getPlayerId());
+            if (state.getHasMovedRobber()) {
+                Log.d(TAG, "makeMove: the robber has already been moved");
+                return false;
+            }
             if (state.getBoard().moveRobber(((CatanRobberMoveAction) action).getHexagonId())) {
                 Log.e(TAG, "makeMove() move robber: Player " + ((CatanRobberMoveAction) action).getPlayerId() + " moved the Robber to Hexagon " + ((CatanRobberMoveAction) action).getHexagonId());
-                state.setHasMovedRobber(true);
+                this.state.setHasMovedRobber(true);
                 return true;
             }
             Log.e(TAG, "makeMove: moving the robber failed returning false.");
@@ -364,7 +385,12 @@ public class CatanLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo (GamePlayer p) {
         Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
-        p.sendInfo(new CatanGameState(this.state));
+        Log.i(TAG, "sendUpdatedStateTo: state.toSting():" + this.state.toString());
+        Log.i(TAG, "sendUpdatedStateTo: board.toString(): " + this.state.getBoard().toString());
+        CatanGameState copy = new CatanGameState(state);
+        Log.i(TAG, "sendUpdatedStateTo: board.toString(): " + copy.getBoard().toString());
+
+        p.sendInfo(copy);
     }
 
     /**
@@ -393,7 +419,19 @@ public class CatanLocalGame extends LocalGame {
         return null; // return null if no winner, but the game is not over
     }
 
+    /**
+     * Starts the game. Creates initial game state.
+     *
+     * @param players The list of players in the game.
+     */
+    @Override
+    public void start (GamePlayer[] players) {
+        super.start(players);
+        state = new CatanGameState(state);
+    }
+
     public void setState (CatanGameState state) {
         this.state = state;
     }
+
 }

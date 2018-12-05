@@ -16,7 +16,7 @@ import edu.up.cs.androidcatan.game.config.GamePlayerType;
  * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class MainActivity extends GameMainActivity {
+public class MainActivity extends GameMainActivity  {
 
     // the port number that this game will use when playing over the network
     private static final int PORT_NUMBER = 2278;

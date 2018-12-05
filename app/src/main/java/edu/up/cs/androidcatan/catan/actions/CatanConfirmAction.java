@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.actions;
 
+import java.io.Serializable;
+
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
@@ -11,7 +13,8 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class CatanConfirmAction extends GameAction {
+public class CatanConfirmAction extends GameAction implements Serializable {
+    private static final long serialVersionUID = -6209535461622400857L;
 
     /**
      * CatanConfirmAction constructor

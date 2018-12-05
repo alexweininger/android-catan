@@ -6,7 +6,6 @@ import edu.up.cs.androidcatan.catan.CatanGameState;
 
 import edu.up.cs.androidcatan.catan.Player;
 
-import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 
@@ -32,17 +31,17 @@ public class CatanGameStateTest {
     //by Niraj Mali
     public void testCheckPlayerResources () {
         CatanGameState state = new CatanGameState();
-        assertFalse(state.checkPlayerResources(0));
+        assertFalse(state.checkIfPlayerHasDiscarded(0));
         assertTrue(state.getRobberPlayerListHasDiscarded()[0]);
         state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
-        assertFalse(state.checkPlayerResources(0));
+        assertFalse(state.checkIfPlayerHasDiscarded(0));
 
         state.getPlayerList().get(0).addResourceCard(0, 7);
-        assertFalse(state.checkPlayerResources(0));
+        assertFalse(state.checkIfPlayerHasDiscarded(0));
         state.setRobberPlayerListHasDiscarded(new boolean[]{false, false, false, false});
         state.getPlayerList().get(0).addResourceCard(0, 1);
         assertEquals(8, state.getPlayerList().get(0).getTotalResourceCardCount());
-        assertTrue(state.checkPlayerResources(0));
+        assertTrue(state.checkIfPlayerHasDiscarded(0));
     }
 
     @Test

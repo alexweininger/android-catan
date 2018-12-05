@@ -30,7 +30,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
-public class CatanSmartComputerPlayer extends GameComputerPlayer{
+public class CatanSmartComputerPlayer extends GameComputerPlayer  {
         private static final String TAG = "CatanSmartComputerPlayer";
 
         private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
@@ -120,7 +120,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                     //2a. Check if the player needs to discard cards; if not, send discard action with empty resource list;
                     //   GameState will handle logic.
-                    if (!gs.checkPlayerResources(playerNum)) {
+                    if (!gs.checkIfPlayerHasDiscarded(playerNum)) {
                         Log.i(TAG, "receiveInfo: Computer " + playerNum + " does not need to discard, but still needs to send action.");
                         game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberResourcesDiscard));
                         return;

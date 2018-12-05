@@ -2,11 +2,14 @@ package edu.up.cs.androidcatan.catan.actions;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 import edu.up.cs.androidcatan.game.GamePlayer;
 import edu.up.cs.androidcatan.game.actionMsg.GameAction;
 
-public class CatanUseRoadBuildingCardAction extends GameAction {
+public class CatanUseRoadBuildingCardAction extends GameAction implements Serializable {
     private static final String TAG = "CatanUseRoadBuildingCardAction";
+    private static final long serialVersionUID = 999657364598380655L;
 
     /**
      * CatanUSeRoaduildingCardAction constructor

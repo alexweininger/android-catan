@@ -1,5 +1,7 @@
 package edu.up.cs.androidcatan.catan.gamestate.buildings;
 
+import java.io.Serializable;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
@@ -8,8 +10,9 @@ package edu.up.cs.androidcatan.catan.gamestate.buildings;
  * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class Road extends Building {
+public class Road extends Building implements Serializable {
 
+    private static final long serialVersionUID = -2163345533367819700L;
     private int intersectionAId, intersectionBId;
     public static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
 

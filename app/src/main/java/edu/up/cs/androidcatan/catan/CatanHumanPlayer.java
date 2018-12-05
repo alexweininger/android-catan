@@ -44,6 +44,7 @@ import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseVictoryPointCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseYearOfPlentyCardAction;
+import edu.up.cs.androidcatan.catan.gamestate.Board;
 import edu.up.cs.androidcatan.catan.gamestate.DevelopmentCard;
 import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.Port;
@@ -434,15 +435,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
-//            this.boardSurfaceView.getGrid().toggleDebugMode();
             this.boardSurfaceView.invalidate();
-//            this.debugMode = !this.debugMode; // toggle debug mode
-
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(0, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(1, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(2, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(3, 1);
-            this.state.getPlayerList().get(this.playerNum).addResourceCard(4, 1);
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
             toggleGroupVisibility(this.helpMenu);
@@ -453,9 +446,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityGONE(developmentCardHelpMenu);
             toggleGroupVisibilityGONE(tradingHelpMenu);
             toggleGroupVisibilityGONE(robberHelpMenu);
-
-            //            setAllButtonsToVisible();
-//            Log.e(TAG, "onClick: toggled debug mode");
             Log.d(TAG, state.toString());
             return;
         }
@@ -463,48 +453,41 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_score)
             toggleGroupVisibilityAllowTapping(scoreBoardGroup);
 
-
-
         /*--------------------------------- Robber onClick --------------------------------*/
 
         //Robber: Both Move and Steal Phase
         if (button.getId() == R.id.robber_choosehex_confirm) {
             Log.i(TAG, "onClick: Checking if good Hex to place Robber on");
-
             //Checks if Robber needs to be moved
             if (state.getHasMovedRobber()) {
                 //Robber Steal Phase
 
                 //Checks if there is exactly on intersection selected
                 if (selectedIntersections.size() != 1) {
-                    //robberHexMessage.setText("Please select only one intersection.");
                     messageTextView.setText("Please select only one intersection.");
                     return;
                 }
                 //Checks if intersection actually possesses a building
                 if (!state.getBoard().hasBuilding(selectedIntersections.get(0))) {
-                    //robberHexMessage.setText(R.string.select_int_w_bldg_robber);
                     messageTextView.setText(R.string.select_int_w_bldg_robber);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select another player's building", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    //toast.show();
                     return;
                 }
                 //Checks if building is owned by owner; if so, it rejects the users selection
                 if (state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId() == playerNum) {
-                    //robberHexMessage.setText("Please select an intersection not owned by you.");
                     messageTextView.setText(R.string.select_int_not_owned_by_you);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Please select a building not owned by you.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    //toast.show();
                     return;
                 }
                 //Finally checks if intersection is adjacent to the Hex; if so, send action
                 for (Integer intersection : state.getBoard().getHexToIntIdMap().get(state.getBoard().getRobber().getHexagonId())) {
                     if (intersection == selectedIntersections.get(0)) {
+
                         int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
-                        robberChooseHexGroup.setVisibility(View.GONE);
+                        if (state.getPlayerList().get(stealId).getTotalResourceCardCount() < 1) {
+                            messageTextView.setText(R.string.no_resources);
+
+                        }
                         game.sendAction(new CatanRobberStealAction(this, playerNum, stealId));
+                        robberChooseHexGroup.setVisibility(View.GONE);
 
                         Toast toast = Toast.makeText(myActivity.getApplicationContext(), "You stole from " + state.getPlayerStealingFrom() + "!", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -561,7 +544,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             for (int i = 0; i < this.robberDiscardedResources.length; i++) {
                 total += this.robberDiscardedResources[i];
             }
-            String message = "You've selected " + total + "/"+ state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
+            String message = "You've selected " + total + "/" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
             messageTextView.setText(message);
 
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
@@ -963,6 +946,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         public boolean onTouch (View v, MotionEvent event) {
             if (null == state) return false;
             if (isMenuOpen) return false;
+            if (null == state) return false;
             if (playerNum != state.getCurrentPlayerId()) return false;
 
             // save the X,Y coordinates
@@ -980,30 +964,25 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick (View v) {
-            if (isMenuOpen) return;
-            if (state == null) return;
-            if (playerNum != state.getCurrentPlayerId()) return;
-            if (boardSurfaceView == null) return;
-
-            boolean touchedIntersection = false;
-            boolean touchedHexagon = false;
             // retrieve the stored coordinates
             float x = lastTouchDownXY[0];
             float y = lastTouchDownXY[1];
+            if (boardSurfaceView == null) return;
+            if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
+                View decorView = myActivity.getWindow().getDecorView();
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
+            if (isMenuOpen) return;
+            if (state == null) return;
+            if (playerNum != state.getCurrentPlayerId()) return;
+
+            boolean touchedIntersection = false;
+            boolean touchedHexagon = false;
+
             HexagonGrid grid = boardSurfaceView.getGrid();
             if (grid == null) return;
             if (grid.getIntersections() == null) return;
             Log.d("TAG", "onLongClick: x = " + x + ", y = " + y); // x, y position
-
-            if (y > 100 && y < boardSurfaceView.getHeight() - 100) {
-                View decorView = myActivity.getWindow().getDecorView();
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
-            }
 
             for (int i = 0; i < grid.getIntersections().length; i++) {
                 int xPos = grid.getIntersections()[i].getXPos();
@@ -1199,7 +1178,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryMoveRobber (int hexId) {
         //Checks if a hexagon is selected
-        if(selectedHexagonId == -1){
+        if (selectedHexagonId == -1) {
             messageTextView.setText("Please select a valid hexagon to place the robber on.");
             shake(messageTextView);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
@@ -1209,7 +1188,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return false;
         }
         //Checks if Desert tile is selected
-        if(state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5){
+        if (state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5) {
             messageTextView.setText("Desert Tile can no longer be selected.");
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -1411,10 +1390,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        // update trophy images on scoreboard
-        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
-        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
-
         // array of dev card names
         String devCardNames[] = {"Knight Development", "Victory Points Development", "Year of Plenty", "Monopoly", "Road Development"};
         // if dev card list is not empty, clear it
@@ -1484,7 +1459,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 messageTextView.setText(R.string.move_robber_to_hex);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
                 //Robber Steal Phase
-            } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) {
+            } else if (state.getCurrentPlayerId() == playerNum && state.getHasMovedRobber()) { // todo
                 Log.d(TAG, "updateTextViews: Now needs to steal Robber");
                 messageTextView.setText(R.string.robber_select_intersection_tosteal);
                 robberChooseHexGroup.setVisibility(View.VISIBLE);
@@ -1664,7 +1639,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase())
             this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar);
+        armyTrophyImages = new ImageView[]{myActivity.findViewById(R.id.largest_army_player0), myActivity.findViewById(R.id.largest_army_player1), myActivity.findViewById(R.id.largest_army_player2), myActivity.findViewById(R.id.largest_army_player3)};
 
+        roadTrophyImages = new ImageView[]{myActivity.findViewById(R.id.longest_road_player0), myActivity.findViewById(R.id.longest_road_player1), myActivity.findViewById(R.id.longest_road_player2), myActivity.findViewById(R.id.longest_road_player3)};
+        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
+        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
     } // updateTextViews END
 
     /**
@@ -1674,7 +1653,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     @Override
     public void receiveInfo (GameInfo info) {
-
+        Log.d(TAG, "receiveInfo() called");
         if (debugMode)
             Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
 
@@ -1685,15 +1664,23 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         selectedIntersections.clear();
 
         if (info instanceof CatanGameState) {
+
+            this.state = new CatanGameState((CatanGameState) info);
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
 
-            this.state = (CatanGameState) info;
+            Log.i(TAG, "receiveInfo: info.toString " + state.toString());
 
             if (state.isRobberPhase()) {
-
+                Log.i(TAG, "receiveInfo: it is the robber phase");
                 messageTextView.setText(R.string.robber_phase);
-                if (!state.checkPlayerResources(playerNum) && !state.getRobberPlayerListHasDiscarded()[playerNum]) {
+                if (state.checkIfPlayerHasDiscarded(playerNum)) {
+                    //The player either needs to discard OR they've already finished their discard phase
+                    Log.i(TAG, "receiveInfo: Player " + playerNum + " discard status: " + state.getRobberPlayerListHasDiscarded()[playerNum]);
+                } else {
+                    //Player has not yet gone through discard phase BUT does not need to discard
+                    Log.i(TAG, "receiveInfo: Player " + playerNum + " does not need to discard; now sending action");
+                    Log.i(TAG, "receiveInfo: sending a CatanRobberDiscardAction to the game playerNum=" + this.playerNum);
                     game.sendAction(new CatanRobberDiscardAction(this, playerNum, new int[]{0, 0, 0, 0, 0}));
                 }
             }
@@ -2063,8 +2050,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-        showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
-        showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
+        if (state.getBoard() == null) {
+            Log.e(TAG, "drawGraphics: board is null returning void and not drawing");
+            return;
+        }
 
         boardSurfaceView.setReady(this.readyToDraw);
 
@@ -2072,7 +2061,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         Log.i(TAG, "drawGraphics: boardSurfaceView height: " + boardSurfaceView.getHeight() + " width: " + boardSurfaceView.getWidth());
 
-        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), state.getBoard(), 80, 185, 175, 20, this.debugMode));
+        this.boardSurfaceView.setGrid(new HexagonGrid(myActivity.getApplicationContext(), new Board(state.getBoard()), 80, 185, 175, 20, this.debugMode));
         this.boardSurfaceView.draw(boardSurfaceView.getCanvas());
 
         boardSurfaceView.invalidate();
@@ -2088,16 +2077,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "showLargestArmyTrophy() called with: playerNum = [" + playerNum + "]");
         int largestArmyPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
-        if (playerNum < 0) {
-            Log.w(TAG, "showLongestArmyTrophy: no player has the largest army trophy");
-            return;
-        }
-
         for (int i = 0; i < 4; i++) {
             armyTrophyImages[i].setVisibility(View.GONE);
 
         }
-
+        if (playerNum < 0) {
+            Log.w(TAG, "showLongestArmyTrophy: no player has the largest army trophy");
+            return;
+        }
         armyTrophyImages[playerNum].setVisibility(View.VISIBLE);
 
         if (largestArmyPrevPlayer == -1) {
@@ -2122,15 +2109,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "showLongestRoadTrophy() called with: playerNum = [" + playerNum + "]");
         int LongestRoadPrevPlayer = state.getCurrentLongestRoadPlayerId();
 
+        for (int i = 0; i < 4; i++) {
+            Log.i(TAG, "showLongestRoadTrophy: setting to gone");
+            roadTrophyImages[i].setVisibility(View.GONE);
+        }
         if (playerNum < 0) {
             Log.w(TAG, "showLongestRoadTrophy: no player has the longest road trophy");
             return;
         }
-
-        for (int i = 0; i < 4; i++) {
-            roadTrophyImages[i].setVisibility(View.GONE);
-        }
-
         roadTrophyImages[playerNum].setVisibility(View.VISIBLE);
 
         if (LongestRoadPrevPlayer == -1) {
@@ -2286,6 +2272,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private String[] getAllPlayerNames () {
         return super.allPlayerNames;
+    }
+
+    /**
+     * Invoked whenever the player's timer has ticked. It is expected
+     * that this will be overridden in many games.
+     */
+    @Override
+    protected void timerTicked () {
+        // by default, do nothing
+        Log.e(TAG, "timerTicked: timer ticked");
     }
 
 }// class CatanHumanPlayer END

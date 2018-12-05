@@ -29,11 +29,10 @@ public class IntersectionDrawable {
         paint.setColor(Color.BLACK);
         paint.setTextSize(42);
 
-        if (debugMode)
-            canvas.drawText("" + intersectionId, xPos, yPos, paint);
+        if (debugMode) canvas.drawText("" + intersectionId, xPos, yPos, paint);
     }
 
-    public int getIntersectionId() {
+    public int getIntersectionId () {
         return this.intersectionId;
     }
 
