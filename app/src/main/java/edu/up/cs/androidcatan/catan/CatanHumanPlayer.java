@@ -252,7 +252,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private Group pickResourceGroup = (Group) null;
 
     //Music
-    private Context context;
+    /**
+     External Citation
+     Date: 3 December 2018
+     Problem: Needed to be able to play music files
+     Resource: https://www.androidhive.info/2012/03/android-building-audio-player-tutorial/
+     Solution:  I used parts of the example code provided.
+     Code Line: 264
+     */
+
     private MediaPlayer mediaPlayer = new MediaPlayer();
     
 
@@ -299,6 +307,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             if (selectedIntersections.size() != 2) {
                 messageTextView.setText(R.string.need_2_ints_for_road);
+                /**
+                 External Citation
+                 Date: 2 November 2018
+                 Problem: Needed a way to display short error messages to the user that looked nicer than TextViews
+                 Resource:https://developer.android.com/reference/android/widget/Toast
+                 Solution: I used parts of the example code provided.
+                 Code Line: 320
+                 */
+
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select two intersections to build a road.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
@@ -836,6 +853,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             sidebarMenuButton.setAlpha(0.5f);
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(winningHelpMenu);
+
+            /**
+             External Citation
+             Date: 3 December 2018
+             Problem: Need music for the app that somewhat explains the game in a fun way.
+             Resource: https://www.youtube.com/watch?v=rAJ17ZhmF8M
+             Solution: I downloaded the audio from the video.
+
+             Code Line: 850
+             */
+
             mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.settlers_of_catan_official_theme_song);
             mediaPlayer.setLooping(false);
             mediaPlayer.setVolume(1f,1f);
@@ -1687,6 +1715,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     @SuppressLint("ClickableViewAccessibility")
     public void setAsGui (GameMainActivity activity) {
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
+
+        /**
+         External Citation
+         Data: 3 December 2018
+         Problem: Needed background music for the app from the Catan game
+         Resource: https://www.youtube.com/watch?v=Ms3xkkcReuE
+         Solution: I downloaded the audio from the video.
+
+         Code Line: 1714
+         */
 
         myActivity = activity; // remember the activity
         activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
