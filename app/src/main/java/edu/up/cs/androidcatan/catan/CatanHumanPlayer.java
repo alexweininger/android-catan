@@ -1678,11 +1678,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         myActivity = activity; // remember the activity
         if (readyToDraw) {
-            activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
+            myActivity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
             messageTextView = activity.findViewById(R.id.textview_game_message);
         } else {
             Log.i(TAG, "setAsGui: Loading screen...");
-            activity.setContentView(R.layout.catan_loading_screen);
+            myActivity.setContentView(R.layout.catan_loading_screen);
             return;
         }
 
@@ -2112,6 +2112,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.readyToDraw = true;
         View decorView = myActivity.getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        setAsGui(myActivity);
     }
 
     /**
