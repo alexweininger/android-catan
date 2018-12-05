@@ -19,6 +19,7 @@ import java.io.Serializable;
 public class BoardSurfaceView extends SurfaceView implements Serializable {
     private static final String TAG = "BoardSurfaceView";
 
+
     int size;
     HexagonGrid grid;
     private Canvas canvas;
