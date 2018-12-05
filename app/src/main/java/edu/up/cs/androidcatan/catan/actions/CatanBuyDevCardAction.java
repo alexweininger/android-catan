@@ -13,6 +13,10 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  **/
 public class CatanBuyDevCardAction extends GameAction {
 
+    /**
+     * CaranBuyDevCardAcation constructor
+     * @param player the player who is buying the devCard
+     */
     public CatanBuyDevCardAction (GamePlayer player) {
         super(player);
     }
