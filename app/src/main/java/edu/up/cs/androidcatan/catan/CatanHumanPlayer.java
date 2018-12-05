@@ -783,7 +783,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.i(TAG, "onClick: traded with port");
                     selectedIntersections.clear();
-                    toggleGroupVisibility(tradeGroup);
+//                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.w(TAG, "onClick: trade with port failed");
                 }
@@ -791,7 +791,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
                     Log.i(TAG, "onClick: traded with bank");
                     selectedIntersections.clear();
-                    toggleGroupVisibility(tradeGroup); // todo see if we need to take out
+//                    toggleGroupVisibility(tradeGroup); // todo see if we need to take out
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
@@ -908,6 +908,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 sidebarMenuButton.setAlpha(0.5f);
                 toggleGroupVisibilityAllowTapping(helpMenu);
                 toggleGroupVisibilityAllowTapping(helpMenuGroups[i]);
+                break;
             }
         }
 
@@ -1261,7 +1262,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // send action to the game
                 game.sendAction(new CatanTradeWithPortAction(this, tradingWith, resourceReceiving));
                 messageTextView.setText(R.string.traded_with_port);
-                toggleGroupVisibilityAllowTapping(tradeGroup);
+                toggleGroupVisibility(tradeGroup);
                 return true;
             } else {
                 messageTextView.setText(R.string.not_enough_for_trade);
@@ -1278,7 +1279,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 // send action to the game
                 game.sendAction(new CatanTradeWithCustomPortAction(this, resourceGiving, resourceReceiving));
                 messageTextView.setText(R.string.traded_with_port);
-                toggleGroupVisibilityAllowTapping(tradeGroup);
+                toggleGroupVisibility(tradeGroup);
                 return true;
             } else {
                 messageTextView.setText(R.string.not_enough_for_trade);
@@ -1326,8 +1327,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (state.getPlayerList().get(state.getCurrentPlayerId()).getResourceCards()[resourceGiving] - 4 >= 0) {
             Log.d(TAG, "tryTradeWithBank: sending CatanTradeWithBankAction to the game.");
             game.sendAction(new CatanTradeWithBankAction(this, resourceGiving, resourceReceiving));
-
-            toggleGroupVisibilityAllowTapping(tradeGroup); // show/hide trade menu
+            toggleGroupVisibility(tradeGroup); // show/hide trade menu
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Traded with bank.", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
