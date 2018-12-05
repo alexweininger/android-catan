@@ -11,6 +11,11 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanEndTurnAction extends GameAction {
+
+    /**
+     * CstanEndTurnAction constuctor
+     * @param player player who is calling the acation
+     */
     public CatanEndTurnAction(GamePlayer player){
         super(player);
     }
