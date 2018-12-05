@@ -776,22 +776,22 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // confirm trade logic
         if (button.getId() == R.id.button_trade_menu_confirm) {
-            Log.d(TAG, "onClick: Player tried to confirm trade");
-            Log.e(TAG, "onClick: selected intersections: " + this.selectedIntersections);
+            Log.i(TAG, "onClick: Player tried to confirm trade");
+            Log.i(TAG, "onClick: selected intersections: " + this.selectedIntersections);
             //checks to see if the user has any intersections selected.
             if (selectedIntersections.size() == 1) {
                 if (tryTradeWithPort(tradeGiveSelection, tradeReceiveSelection)) {
-                    Log.d(TAG, "onClick: traded with port");
+                    Log.i(TAG, "onClick: traded with port");
                     selectedIntersections.clear();
                     toggleGroupVisibility(tradeGroup);
                 } else {
-                    Log.e(TAG, "onClick: trade with port failed");
+                    Log.w(TAG, "onClick: trade with port failed");
                 }
             } else if (selectedIntersections.size() == 0) {
                 if (tryTradeWithBank(tradeGiveSelection, tradeReceiveSelection)) {
-                    Log.d(TAG, "onClick: traded with bank");
+                    Log.i(TAG, "onClick: traded with bank");
                     selectedIntersections.clear();
-                    toggleGroupVisibility(tradeGroup);
+                    toggleGroupVisibility(tradeGroup); // todo see if we need to take out
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
@@ -810,6 +810,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             tradeReceiveSelection = -1; // reset selections
             tradeGiveSelection = -1;
         }
+
 
         /* ----------------------- Help Menus ---------------------------- */
         if (button.getId() == R.id.winning_Help_Button) {
@@ -867,21 +868,21 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
         }
-
+        // button for trading help menu
         if (button.getId() == R.id.trading_Help_Button) {
             sidebarMenuButton.setClickable(false);
             sidebarMenuButton.setAlpha(0.5f);
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(tradingHelpMenu);
         }
-
+        // back button for trading menu
         if (button.getId() == R.id.trading_help_menu_Back) {
             sidebarMenuButton.setClickable(true);
             sidebarMenuButton.setAlpha(1f);
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(tradingHelpMenu);
         }
-
+        // button for robber help menu
         if (button.getId() == R.id.robber_Help_Button) {
             sidebarMenuButton.setClickable(false);
             sidebarMenuButton.setAlpha(0.5f);
@@ -889,7 +890,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(robberHelpMenu);
         }
-
+        // back button for robber help menu
         if (button.getId() == R.id.robber_help_menu_Back) {
             sidebarMenuButton.setClickable(true);
             sidebarMenuButton.setAlpha(1f);
@@ -897,6 +898,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             toggleGroupVisibilityAllowTapping(helpMenu);
             toggleGroupVisibilityAllowTapping(robberHelpMenu);
         }
+
+        int[] buttonIds = new int[]{R.id.winning_Help_Button, R.id.set_Up_Phase_Help_Button, R.id.building_Help_Button, R.id.development_Cards_Help_Button, R.id.trading_Help_Button, R.id.robber_Help_Button};
+        Group[] helpMenuGroups = new Group[]{winningHelpMenu, setUpPhaseHelpMenu, buildingHelpMenu, developmentGroup, tradingHelpMenu, robberHelpMenu};
+
+        for (int i = 0; i < buttonIds.length; i++) {
+            if (button.getId() == buttonIds[i]) {
+                sidebarMenuButton.setClickable(false);
+                sidebarMenuButton.setAlpha(0.5f);
+                toggleGroupVisibilityAllowTapping(helpMenu);
+                toggleGroupVisibilityAllowTapping(helpMenuGroups[i]);
+            }
+        }
+
     } // onClick END
 
     /* ----------------------- BoardSurfaceView Touch Listeners --------------------------------- */
@@ -1011,7 +1025,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
     }; // clickListener END
 
-    /*--------------------------------------- Validation Methods ---------------------------------*/
+    /*--------------------------------------- Action Validation Methods ---------------------------------*/
 
     /**
      * @param intersectionA First intersection of the road.
@@ -1025,7 +1039,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.i(TAG, "tryBuildRoad: Valid road placement received.");
         } else {
             messageTextView.setText(R.string.invalid_road_placement);
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invlid road placement.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invalid road placement.", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
             Log.d(TAG, "tryBuildRoad() returned: " + false);
@@ -1142,27 +1156,17 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (selectedHexagonId == -1) {
             messageTextView.setText("Please select a valid hexagon to place the robber on.");
             shake(messageTextView);
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-            //toast.show();
-            shake(messageTextView);
             return false;
         }
         //Checks if Desert tile is selected
         if (state.getBoard().getHexagons().get(selectedHexagonId).getResourceId() == 5) {
             messageTextView.setText("Desert Tile can no longer be selected.");
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-            //toast.show();
             shake(messageTextView);
             return false;
         }
         // make sure they have a hexagon selected
         if (hexId == -1) {
             messageTextView.setText(R.string.hex_for_robber);
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Not a valid title!", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-            //toast.show();
             shake(messageTextView);
             return false;
         }
@@ -1294,7 +1298,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      */
     private boolean tryTradeWithBank (int resourceGiving, int resourceReceiving) {
         Log.d(TAG, "tryTradeWithBank() called with: resourceGiving = [" + resourceGiving + "], resourceReceiving = [" + resourceReceiving + "]");
-        if (resourceGiving < 0) {
+        if (resourceGiving < 0) { // if resource is not selected
             messageTextView.setText(R.string.give_res_not_sel);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.give_res_not_sel, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -1302,7 +1306,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             shake(messageTextView);
             return false;
         }
-        if (resourceReceiving < 0) {
+        if (resourceReceiving < 0) { // if resource is not selected
             messageTextView.setText(R.string.rec_res_not_sel);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.rec_res_not_sel, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -1323,15 +1327,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.d(TAG, "tryTradeWithBank: sending CatanTradeWithBankAction to the game.");
             game.sendAction(new CatanTradeWithBankAction(this, resourceGiving, resourceReceiving));
 
-            toggleGroupVisibilityAllowTapping(tradeGroup);
-
+            toggleGroupVisibilityAllowTapping(tradeGroup); // show/hide trade menu
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Traded with bank.", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
-
+            Log.i(TAG, "tryTradeWithBank() returned: " + true);
             return true;
         }
-        Log.d(TAG, "tryTradeWithBank: player " + state.getPlayerList().get(state.getCurrentPlayerId()) + " would have have enough " + resourceGiving + " to complete trade");
+        Log.i(TAG, "tryTradeWithBank: player " + state.getPlayerList().get(state.getCurrentPlayerId()) + " does have have enough " + resourceGiving + " to complete trade");
         return false;
     }
 
@@ -1385,6 +1388,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         diceImageLeft.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[0] - 1]);
         diceImageRight.setBackgroundResource(diceImageIds[state.getDice().getDiceValues()[1] - 1]);
 
+        // if it is the robber phase
         if (this.state.getRobberPhase()) {
 
             this.messageTextView.setText(R.string.robber_phase);
@@ -1478,7 +1482,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.buildSettlementButton.setAlpha(1f);
                 this.buildSettlementButton.setClickable(true);
             }
-            // if it is the setup phase, grey out some buttons and make them un clickable
             this.buildCityButton.setAlpha(0.5f);
             this.buildCityButton.setClickable(false);
             this.rollButton.setAlpha(0.5f);
@@ -1554,11 +1557,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----- update resource value TextViews ----- */
 
+        // get the players resources
         int[] resourceCards = this.state.getPlayerList().get(this.playerNum).getResourceCards();
-
+        // go through resources and set corresponding values on the gui
         for (int i = 0; i < resourceCards.length; i++) {
             this.resourceValues[i].setText(String.valueOf(resourceCards[i]));
         }
+
         /* ----- update scoreboard ----- */
 
         // set the other players score on the scoreboard to their public scores except for the user which shows their private score
@@ -1570,9 +1575,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 this.playerScores[this.playerNum].setText(String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + state.getPlayerList().get(this.playerNum).getVictoryPoints()));
         }
 
+        // go through each player name
         for (int i = 0; i < this.playerNameTextViews.length; i++) {
-            this.playerNameTextViews[i].setText(getAllPlayerNames()[i]);
-            this.playerNameTextViews[i].setTextColor(HexagonGrid.playerColors[i]);
+            this.playerNameTextViews[i].setText(getAllPlayerNames()[i]); // set text to name
+            this.playerNameTextViews[i].setTextColor(HexagonGrid.playerColors[i]); // set color of player
             if (i == state.getCurrentPlayerId()) {
                 this.playerNameTextViews[i].setBackgroundColor(Color.argb(120, 255, 255, 255));
                 this.playerScores[i].setBackgroundColor(Color.argb(120, 255, 255, 255));
@@ -1583,6 +1589,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         }
 
         /* ----- update misc. sidebar TextViews ----- */
+
         this.playerNameSidebar.setText(getAllPlayerNames()[this.playerNum]);
 
         // human player score (sidebar menu)
@@ -1594,14 +1601,16 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
         this.currentTurnIdTextView.setTextColor(HexagonGrid.playerColors[state.getCurrentPlayerId()]);
+        this.playerNameSidebar.setTextColor(HexagonGrid.playerColors[this.playerNum]);
 
         /* -------- animations ----------- */
-        this.playerNameSidebar.setTextColor(HexagonGrid.playerColors[this.playerNum]);
 
         if (this.state.getCurrentPlayerId() == this.playerNum && !this.state.isActionPhase())
             this.playerNameSidebar = (TextView) blinkAnimation(this.playerNameSidebar);
-        armyTrophyImages = new ImageView[]{myActivity.findViewById(R.id.largest_army_player0), myActivity.findViewById(R.id.largest_army_player1), myActivity.findViewById(R.id.largest_army_player2), myActivity.findViewById(R.id.largest_army_player3)};
 
+        /* ------------- trophies ------------- */
+
+        armyTrophyImages = new ImageView[]{myActivity.findViewById(R.id.largest_army_player0), myActivity.findViewById(R.id.largest_army_player1), myActivity.findViewById(R.id.largest_army_player2), myActivity.findViewById(R.id.largest_army_player3)};
         roadTrophyImages = new ImageView[]{myActivity.findViewById(R.id.longest_road_player0), myActivity.findViewById(R.id.longest_road_player1), myActivity.findViewById(R.id.longest_road_player2), myActivity.findViewById(R.id.longest_road_player3)};
         showLongestRoadTrophy(state.getCurrentLongestRoadPlayerId());
         showLargestArmyTrophy(state.getCurrentLargestArmyPlayerId());
@@ -1616,7 +1625,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public void receiveInfo (GameInfo info) {
         Log.d(TAG, "receiveInfo() called");
         if (debugMode)
-            Log.d(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
+            Log.i(TAG, "receiveInfo() called with: info: \n" + info.toString() + "----------------------------");
 
         if (this.boardSurfaceView == null) {
             Log.e(TAG, "receiveInfo: boardSurfaceView is null.");
@@ -1629,7 +1638,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             this.state = new CatanGameState((CatanGameState) info);
             // set resource count TextViews to the players resource inventory amounts
             Log.i(TAG, "receiveInfo: player list: " + ((CatanGameState) info).getPlayerList());
-
             Log.i(TAG, "receiveInfo: info.toString " + state.toString());
 
             if (state.isRobberPhase()) {
@@ -1669,9 +1677,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
 
         myActivity = activity; // remember the activity
-        activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
-        messageTextView = activity.findViewById(R.id.textview_game_message);
-
+        if (readyToDraw) {
+            activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
+            messageTextView = activity.findViewById(R.id.textview_game_message);
+        } else {
+            Log.i(TAG, "setAsGui: Loading screen...");
+            activity.setContentView(R.layout.catan_loading_screen);
+        }
 
         /* ---------- Surface View for drawing the graphics ----------- */
 
