@@ -330,9 +330,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 } else {
                     // tell user location is invalid
                     messageTextView.setText(R.string.invalid_set_loc);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invalid settlement location.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
                 }
             }
             return;
@@ -355,9 +352,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     //toast.show();
                 } else {
                     messageTextView.setText(R.string.invalid_city_loc);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Invalid city location: select a settlement to updgrade into a city.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
+
                 }
             }
             return;
