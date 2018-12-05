@@ -129,16 +129,28 @@ public class Player {
         return true;
     }
 
+    /**
+     * removes a dev card from the players hand
+     * @param removeCardNum the number of the dev card to remove
+     */
     public void removeDevCard (int removeCardNum) {
         Log.i(TAG, "removeDevCard BEFORE REMOVING: " + this.developmentCards.toString());
         this.developmentCards.remove((Integer) removeCardNum);
         Log.i(TAG, "removeDevCard AFTER REMOVING: " + this.developmentCards.toString());
     }
 
+    /**
+     * adds a dev card to list of dev cards that were built this turn
+     * @param devCard the number of the dev card
+     */
     public void addDevCardsBuiltThisTurn (int devCard) {
         devCardsBuiltThisTurn.add(devCard);
     }
 
+    /**
+     * gets the list of Integer of dev card numbers
+     * @return arrayList of Integer objects
+     */
     public ArrayList<Integer> getDevCardsBuiltThisTurn () {
         return devCardsBuiltThisTurn;
     }
@@ -147,6 +159,10 @@ public class Player {
         this.devCardsBuiltThisTurn = devCardsBuiltThisTurn;
     }
 
+    /**
+     * gets the player compare the players hand of dev cards and the ones that have been built this turn
+     * @return arrayList of Integers that correspond to dev cards that can be played this turn
+     */
     public ArrayList<Integer> getPlayableDevCards () {
         ArrayList<Integer> playableDevCards = new ArrayList<>(developmentCards);
 
@@ -308,11 +324,11 @@ public class Player {
         return false;
     }
 
-    public void decrementBuildingInventory (int buildingId) { // TODO
+    public void decrementBuildingInventory (int buildingId) {
         this.buildingInventory[buildingId]--;
     }
 
-    // use to allow the player to use the dev card they built the turn prior TODO
+    // use to allow the player to use the dev card they built the turn prior
     public void setDevelopmentCardsAsPlayable () {
         for (int i = 0; i < developmentCards.size(); i++) {
             //developmentCards.get(i).setPlayable(true);
