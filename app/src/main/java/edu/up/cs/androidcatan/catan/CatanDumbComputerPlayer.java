@@ -167,7 +167,6 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
             return;
         }
 
-
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
         if (gs.isRobberPhase()) {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");

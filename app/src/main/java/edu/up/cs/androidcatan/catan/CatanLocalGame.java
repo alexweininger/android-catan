@@ -172,6 +172,7 @@ public class CatanLocalGame extends LocalGame {
                 } catch (Exception e) {
                     Log.e(TAG, "makeMove: t.join()", e);
                 }
+                state.setCurrentLongestRoadPlayerId(rg.updatePlayerWithLongestRoad());
                 state.setCurrentLongestRoadPlayerId(rg.getPlayerIdWithLongestRoad());
                 return true;
             }

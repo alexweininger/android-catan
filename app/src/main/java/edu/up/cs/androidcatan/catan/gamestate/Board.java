@@ -290,22 +290,33 @@ public class Board implements Serializable, Runnable {
      * @return returns if road is connected to given intersection
      */
     public boolean hasRoad (int i) {
+        Log.i(TAG, "hasRoad: " + this.toString() + "");
         Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
         if (i < 0) {
             Log.d(TAG, "hasRoad: negative input returned " + false);
             return false;
         }
-        for (int i1 = 0; i1 < roadMatrix.length; i1++) {
-            for (int j = 0; j < roadMatrix[i1].length; j++) {
-                Road road = roadMatrix[i1][j];
-                if (road != null) {
-                    if (road.getOwnerId() != -1) {
-                        Log.d(TAG, "hasRoad() returned: " + true);
-                        return true;
-                    }
-                }
+
+        for (Road road : roads) {
+            if (road.getIntersectionAId() == i || road.getIntersectionBId() == i) {
+                return true;
             }
         }
+
+//        for (int i1 = 0; i1 < roadMatrix.length; i1++) {
+//            Log.i(TAG, "hasRoad: here");
+//            for (int j = 0; j < roadMatrix[i1].length; j++) {
+//                Road road = roadMatrix[i1][j];
+//                if (road != null) {
+//                    if (road.getOwnerId() != -1) {
+//                        Log.d(TAG, "hasRoad() returned: " + true);
+//                        return true;
+//                    }
+//                } else {
+//                    Log.d(TAG, "hasRoad: road is null at intersection: " + i);
+//                }
+//            }
+//        }
         Log.d(TAG, "hasRoad() returned: " + false);
         return false;
     }

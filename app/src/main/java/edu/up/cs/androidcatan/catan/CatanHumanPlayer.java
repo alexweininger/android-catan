@@ -286,6 +286,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Road button on the sidebar.
         if (button.getId() == R.id.sidebar_button_road) {
+            Log.i(TAG, "onClick: " + state.getBoard().toString() + "");
             if (!state.isSetupPhase() && !state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
                 messageTextView.setText(R.string.not_enough_for_road);
                 shake(messageTextView);
