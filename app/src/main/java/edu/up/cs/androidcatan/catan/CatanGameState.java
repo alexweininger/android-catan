@@ -509,7 +509,7 @@ public class CatanGameState extends GameState {
     }
 
     public int getCurrentLongestRoadPlayerId () {
-        return currentLongestRoadPlayerId;
+        return this.currentLongestRoadPlayerId;
     }
 
     public void setCurrentLongestRoadPlayerId (int currentLongestRoadPlayerId) {

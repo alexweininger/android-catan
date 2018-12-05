@@ -99,6 +99,8 @@ public class CatanLocalGame extends LocalGame {
     @Override
     protected synchronized boolean makeMove (GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+        state.getCurrentPlayer().addResourceCard(0, 5);
+        state.getCurrentPlayer().addResourceCard(2, 5);
 
         /* --------------------------- Turn Actions --------------------------------------- */
 

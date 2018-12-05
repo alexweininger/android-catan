@@ -2000,7 +2000,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             Log.e(TAG, "drawGraphics: board is null returning void and not drawing");
             return;
         }
-
+        showLongestRoadTrophy(state.getCurrentPlayerId());
+        showLongestRoadTrophy(state.getCurrentPlayerId());
         boardSurfaceView.setReady(this.readyToDraw);
 
         boardSurfaceView.setCanvas(new Canvas());
