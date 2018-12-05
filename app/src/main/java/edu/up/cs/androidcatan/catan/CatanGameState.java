@@ -52,6 +52,9 @@ public class CatanGameState extends GameState implements Runnable {
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
 
+    /**
+     * constructor for CatanGameState
+     */
     public CatanGameState () {
         this.dice = new Dice();
 
@@ -235,16 +238,24 @@ public class CatanGameState extends GameState implements Runnable {
     }
 
     /*----------------------------------------Robber Methods------------------------------------------*/
+
+    /**
+     *  sets if the robberPhase is true or false
+     * @param rp true or false
+     */
     public void setRobberPhase (boolean rp) {
         isRobberPhase = rp;
     }
 
+    /**
+     *
+     * @return true or false for if the robberPhase is happening
+     */
     public boolean getRobberPhase () {
         return isRobberPhase;
     }
 
     /**
-     * TODO implement
      * Check to see if resources need to be discarded
      *
      * @return - action success
@@ -314,6 +325,10 @@ public class CatanGameState extends GameState implements Runnable {
         return true;
     }
 
+    /**
+     *  for everyplayer in the game, checks if they need to discards cards
+     * @return true or false
+     */
     public boolean allPlayersHaveDiscarded () {
         for (boolean aRobberPlayerListHasDiscarded : robberPlayerListHasDiscarded) {
             if (!aRobberPlayerListHasDiscarded) {
@@ -325,6 +340,11 @@ public class CatanGameState extends GameState implements Runnable {
     }
 
 
+    /**
+     *  find which player is doing the best in terms of victory points
+     * @param excludedPlayerId the player whose turn it is so they can be excluded
+     * @return
+     */
     public int getPlayerWithMostVPsExcludingCurrentPlayer(int excludedPlayerId) {
 
         //Default Value so we can set the first player ID as player in lead for comparisons
@@ -558,7 +578,6 @@ public class CatanGameState extends GameState implements Runnable {
     /*------------------------------------- toString ------------------------------------------*/
 
     /**
-     * TODO update???
      *
      * @return String
      */
