@@ -13,7 +13,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
 // This class represents a directed graph using adjacency list
 // representation
-public class Graph implements Runnable, Serializable{
+public class Graph implements Runnable, Serializable {
     private static final String TAG = "Graph";
     private static final long serialVersionUID = -8879389794133273667L;
     private int V;   // No. of vertices
@@ -132,13 +132,13 @@ public class Graph implements Runnable, Serializable{
                 return maxRoadLength;
             }
         }
-//        for (int i = 0; i < pr.size(); i++) {
-//            int l = DFS(pr.get(i).getIntersectionBId());
-//            if (l > maxRoadLength) maxRoadLength = l;
-//            if (maxRoadLength == pr.size()) {
-//                return maxRoadLength;
-//            }
-//        }
+        //        for (int i = 0; i < pr.size(); i++) {
+        //            int l = DFS(pr.get(i).getIntersectionBId());
+        //            if (l > maxRoadLength) maxRoadLength = l;
+        //            if (maxRoadLength == pr.size()) {
+        //                return maxRoadLength;
+        //            }
+        //        }
         Log.e(TAG, "getMaxRoadLength returning " + maxRoadLength);
         return maxRoadLength;
     }
@@ -149,7 +149,6 @@ public class Graph implements Runnable, Serializable{
     }
 
     /**
-     *
      * @param ownerId owner id
      * @return dfs
      */

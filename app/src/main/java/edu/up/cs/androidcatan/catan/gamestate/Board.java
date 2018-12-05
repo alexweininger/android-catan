@@ -311,7 +311,6 @@ public class Board implements Serializable, Runnable {
     }
 
     /**
-     *
      * @param ownerId player id
      * @return longest road the player owns
      */

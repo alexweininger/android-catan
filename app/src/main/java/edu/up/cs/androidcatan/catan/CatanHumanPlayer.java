@@ -2001,8 +2001,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
-
-
         boardSurfaceView.setReady(this.readyToDraw);
 
         boardSurfaceView.setCanvas(new Canvas());

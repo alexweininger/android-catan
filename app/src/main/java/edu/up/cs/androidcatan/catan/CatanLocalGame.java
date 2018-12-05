@@ -40,7 +40,7 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class CatanLocalGame extends LocalGame  {
+public class CatanLocalGame extends LocalGame {
 
     private final static String TAG = "CatanLocalGame";
 
@@ -65,7 +65,7 @@ public class CatanLocalGame extends LocalGame  {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + this.state.getCurrentPlayerId());
 
         // if it is the robber phase
-        if (state.isRobberPhase())  {
+        if (state.isRobberPhase()) {
             // if the player has discarded already
             if (state.getRobberPlayerListHasDiscarded()[playerIdx]) {
                 if (state.getCurrentPlayerId() == playerIdx) {
@@ -121,7 +121,6 @@ public class CatanLocalGame extends LocalGame  {
 
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
-
 
             // if it is still the setup phase
             if (this.state.isSetupPhase()) {
@@ -199,10 +198,10 @@ public class CatanLocalGame extends LocalGame  {
                 return true;
             } else {
                 //TODO: remove cheat
-//                state.getCurrentPlayer().addResourceCard(0,1);
-//                state.getCurrentPlayer().addResourceCard(1,1);
-//                state.getCurrentPlayer().addResourceCard(2,1);
-//                state.getCurrentPlayer().addResourceCard(4,1);
+                //                state.getCurrentPlayer().addResourceCard(0,1);
+                //                state.getCurrentPlayer().addResourceCard(1,1);
+                //                state.getCurrentPlayer().addResourceCard(2,1);
+                //                state.getCurrentPlayer().addResourceCard(4,1);
 
                 // remove resources from players inventory (also does checks)
                 if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
@@ -222,8 +221,8 @@ public class CatanLocalGame extends LocalGame  {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
             // remove resources from players inventory (also does checks)
-//            state.getCurrentPlayer().addResourceCard(3,3);
-//            state.getCurrentPlayer().addResourceCard(1,1);
+            //            state.getCurrentPlayer().addResourceCard(3,3);
+            //            state.getCurrentPlayer().addResourceCard(1,1);
             if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
                 // add building to the board
                 state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));
@@ -420,10 +419,11 @@ public class CatanLocalGame extends LocalGame  {
 
     /**
      * Starts the game. Creates initial game state.
+     *
      * @param players The list of players in the game.
      */
     @Override
-    public void start(GamePlayer[] players) {
+    public void start (GamePlayer[] players) {
         super.start(players);
         state = new CatanGameState(state);
     }

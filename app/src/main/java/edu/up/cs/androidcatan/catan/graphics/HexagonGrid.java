@@ -352,6 +352,7 @@ public class HexagonGrid extends BoardSurfaceView {
             this.highlightedIntersections.add(intersection);
         }
     }
+
     public HexagonGrid (Context context, AttributeSet attrs) {
         super(context, attrs);
     }
