@@ -14,7 +14,7 @@ public class CatanEndTurnAction extends GameAction {
 
     /**
      * CstanEndTurnAction constuctor
-     * @param player player who is calling the acation
+     * @param player player who is calling the action
      */
     public CatanEndTurnAction(GamePlayer player){
         super(player);
