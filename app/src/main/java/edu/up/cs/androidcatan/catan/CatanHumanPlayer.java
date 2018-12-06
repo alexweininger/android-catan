@@ -64,7 +64,7 @@ import edu.up.cs.androidcatan.game.infoMsg.NotYourTurnInfo;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version December 2nd, 2018
+ * @version December 5th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener {
