@@ -4,7 +4,6 @@ package edu.up.cs.androidcatan.catan.gamestate;
 
 import android.util.Log;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,9 +12,8 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
 // This class represents a directed graph using adjacency list
 // representation
-public class Graph implements Runnable, Serializable {
+public class Graph implements Runnable {
     private static final String TAG = "Graph";
-    private static final long serialVersionUID = -8879389794133273667L;
     private int V;   // No. of vertices
     public int count = 0;
     private ArrayList<Road> pr;
@@ -119,7 +117,6 @@ public class Graph implements Runnable, Serializable {
 
     public int getMaxRoadLength (ArrayList<Road> pr) {
         maxRoadLength = -1;
-
         for (int i = 0; i < pr.size(); i++) {
             int l = DFS(pr.get(i).getIntersectionAId());
             if (l == maxRoadLength && maxRoadLength > 4) {
@@ -132,13 +129,6 @@ public class Graph implements Runnable, Serializable {
                 return maxRoadLength;
             }
         }
-        //        for (int i = 0; i < pr.size(); i++) {
-        //            int l = DFS(pr.get(i).getIntersectionBId());
-        //            if (l > maxRoadLength) maxRoadLength = l;
-        //            if (maxRoadLength == pr.size()) {
-        //                return maxRoadLength;
-        //            }
-        //        }
         Log.e(TAG, "getMaxRoadLength returning " + maxRoadLength);
         return maxRoadLength;
     }
@@ -149,14 +139,18 @@ public class Graph implements Runnable, Serializable {
     }
 
     /**
+     *
      * @param ownerId owner id
      * @return dfs
      */
     public int dfs (int ownerId) {
+        Log.d(TAG, "dfs() called with: ownerId = [" + ownerId + "]");
         ArrayList<Road> pr = new ArrayList<>();
 
+        Log.i(TAG, "dfs: allRoads=" + this.allRoads.toString());
         for (Road road : this.allRoads) {
             if (road.getOwnerId() == ownerId) {
+                Log.d(TAG, "dfs: adding edge");
                 this.addEdge(road.getIntersectionAId(), road.getIntersectionBId());
                 pr.add(road);
             }
@@ -176,11 +170,12 @@ public class Graph implements Runnable, Serializable {
      *
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
-    public synchronized int updatePlayerWithLongestRoad () {
+    public int updatePlayerWithLongestRoad () {
         Log.d(TAG, "updatePlayerWithLongestRoad() called");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
+            Log.i(TAG, "updatePlayerWithLongestRoad: looping");
             //for each player there is an adjacency map as well as a list
             ArrayList<Road> playerRoads = new ArrayList<>();
             ArrayList<Integer> currentPlayerRoadLength = new ArrayList<>();
@@ -191,12 +186,12 @@ public class Graph implements Runnable, Serializable {
             }
 
             if (playerRoads.size() < 5) {
+                Log.i(TAG, "updatePlayerWithLongestRoad: player has less than 5 roads");
                 longestRoadPerPlayer.add(i, 0);
-                break;
             } else {
                 Log.w(TAG, "updatePlayerWithLongestRoad: Started dfs on " + i);
                 int l = dfs(i);
-//                if (hasCycle) l++;
+                if (hasCycle) l++;
                 currentPlayerRoadLength.add(l);
                 int max = 0;
                 for (int n = 0; n < currentPlayerRoadLength.size(); n++) {

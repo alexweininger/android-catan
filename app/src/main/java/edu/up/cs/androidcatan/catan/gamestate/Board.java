@@ -332,6 +332,7 @@ public class Board implements Serializable, Runnable {
         }
 
         if (pr.size() < 5) {
+            Log.d(TAG, "dfs: returning -1 because road count is less than 5");
             return -1;
         }
         rg.setPr(pr);
