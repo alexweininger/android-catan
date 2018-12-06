@@ -40,7 +40,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
     boolean foundBuilding;
     ArrayList<Integer> buildingsBuiltOnThisTurn = new ArrayList<>();
     private int lastSettlementIntersectionId = -1;
-    private int checkRobberMove = 0;
 
     CatanSmartComputerPlayer(String name) {
         super(name);
@@ -295,12 +294,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 return;
             }
 
-            if (checkRobberMove == 1){
-                Log.d(TAG, "receiveInfo: Player has already moved robber this turn");
-                game.sendAction(new CatanEndTurnAction(this));
-                Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
-                return;
-            }
             /*****Looks to trade so they can potentially build a road******/
             int brickCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[0];
             int grainCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[1];
@@ -378,7 +371,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using knight card");
                         game.sendAction(new CatanUseKnightCardAction(this));
                         Log.d(TAG, "receiveInfo: CatanUseKnightCardAction sent");
-                        checkRobberMove = 1;
+                        game.sendAction(new CatanEndTurnAction(this));
+                        Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
                     //if they have a year of plenty card
