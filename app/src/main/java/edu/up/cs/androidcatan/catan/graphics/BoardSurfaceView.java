@@ -17,6 +17,16 @@ import java.io.Serializable;
  **/
 
 public class BoardSurfaceView extends SurfaceView implements Serializable {
+    /**
+     External Citation
+     Date: 12/1/2018
+     Problem:
+     We did not know where to even start when it came to creating data structures to represent the board, road adjacency and the hexagons. It was particularly difficult because
+     Resource:
+     https://www.academia.edu/9699475/Settlers_of_Catan_Developing_an_Implementation_of_an_Emerging_Classic_Board_Game_in_Java
+     Solution: We read this entire 50+ page PDF, we did not follow any of the data structures, but this paper gave us confidence in our own data structures, which were already similar to the ones used in the research paper.
+     */
+
     private static final String TAG = "BoardSurfaceView";
 
 
