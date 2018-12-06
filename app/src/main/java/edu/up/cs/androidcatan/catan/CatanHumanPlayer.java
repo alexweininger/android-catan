@@ -215,6 +215,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     private int tradeGiveSelection = -1;
     private int tradeReceiveSelection = -1;
 
+    private TextView tradingWithBankOrPort = (TextView) null;
+
     /*------------Monopoly Menu - Resource Icons---------------------*/
 
     //Monopoly Menu - Resource Icons
@@ -292,8 +294,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick (View button) {
-
-
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
         if (this.state == null) {
@@ -429,7 +429,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             // check if it is the action phase and not the setup phase
             if (!state.isActionPhase() && !state.isSetupPhase()) {
                 messageTextView.setText(R.string.cannot_end_turn_before_rolling);
-
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Cannot end turn before rolling!", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
@@ -497,7 +496,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 //Finally checks if intersection is adjacent to the Hex; if so, send action
                 for (Integer intersection : state.getBoard().getHexToIntIdMap().get(state.getBoard().getRobber().getHexagonId())) {
                     if (intersection == selectedIntersections.get(0)) {
-
                         int stealId = state.getBoard().getBuildingAtIntersection(selectedIntersections.get(0)).getOwnerId();
                         if (state.getPlayerList().get(stealId).getTotalResourceCardCount() < 1) {
                             messageTextView.setText(R.string.no_resources);
@@ -563,7 +561,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
             String message = "You've selected " + total + "/" + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " resources to discard.";
             messageTextView.setText(message);
-
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
@@ -763,14 +760,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             if (selectedIntersections.size() == 1) {
                 // trading with port
                 messageTextView.setText("Trading with a port.");
+                tradingWithBankOrPort.setTextSize(12);
+                tradingWithBankOrPort.setText("Port\nSpecial:1");
+
                 toggleGroupVisibility(tradeGroup); // toggle menu vis.
             } else if (selectedIntersections.size() == 0) {
                 // trading with bank
                 messageTextView.setText("Trading with the bank.");
+                tradingWithBankOrPort.setTextSize(18);
+                tradingWithBankOrPort.setText("Bank 4:1");
                 toggleGroupVisibility(tradeGroup); // toggle menu vis.
             } else {
                 // not correct selections
                 Log.e(TAG, "onClick: user has selected too many intersections");
+                tradingWithBankOrPort.setText("2 Intersections Selected");
                 messageTextView.setText("Select intersection next to a port to trade with a port. Or don't select any to trade with the bank.");
             }
             return;
@@ -1901,6 +1904,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         button_trade_menu_confirm.setOnClickListener(this);
         button_trade_menu_cancel = activity.findViewById(R.id.button_trade_menu_cancel);
         button_trade_menu_cancel.setOnClickListener(this);
+        tradingWithBankOrPort = activity.findViewById(R.id.trade_with_bank_or_port);
         //Trade Menu Background - Receive
         brickSelectionBoxReceive = activity.findViewById(R.id.brickSelectionBoxReceive);
         grainSelectionBoxReceive = activity.findViewById(R.id.grainSelectionBoxReceive);
