@@ -37,7 +37,7 @@ public class CatanGameStateTest {
         assertTrue(state.checkIfPlayerHasDiscarded(0));
 
         state.getPlayerList().get(0).addResourceCard(0, 7);
-        assertFalse(state.checkIfPlayerHasDiscarded(0));
+        assertTrue(state.checkIfPlayerHasDiscarded(0));
         state.setRobberPlayerListHasDiscarded(new boolean[]{false, false, false, false});
         state.getPlayerList().get(0).addResourceCard(0, 1);
         assertEquals(8, state.getPlayerList().get(0).getTotalResourceCardCount());
@@ -148,7 +148,7 @@ public class CatanGameStateTest {
         state.getPlayerList().get(1).addResourceCard(0, 1);
         assertTrue(state.robberSteal(0, 1));
         assertFalse(state.robberSteal(0, 4));
-        assertFalse(state.robberSteal(0, 3));
+        assertTrue(state.robberSteal(0, 3));
     }
 
     @Test
