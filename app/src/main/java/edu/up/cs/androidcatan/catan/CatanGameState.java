@@ -181,6 +181,9 @@ public class CatanGameState extends GameState {
             return;
         }
 
+        if(currentLargestArmyPlayerId == -1){
+            return;
+        }
         if(this.playerList.get(playerId).getArmySize() > this.playerList.get(currentLargestArmyPlayerId).getArmySize()) {
              currentLargestArmyPlayerId = playerId;
              return;
