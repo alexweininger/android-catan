@@ -948,7 +948,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 //        }
 
         int[] buttonIds = new int[]{R.id.winning_Help_Button, R.id.set_Up_Phase_Help_Button, R.id.building_Help_Button, R.id.development_Cards_Help_Button, R.id.trading_Help_Button, R.id.robber_Help_Button};
-        Group[] helpMenuGroups = new Group[]{winningHelpMenu, setUpPhaseHelpMenu, buildingHelpMenu, developmentGroup, tradingHelpMenu, robberHelpMenu};
+        Group[] helpMenuGroups = new Group[]{winningHelpMenu, setUpPhaseHelpMenu, buildingHelpMenu, developmentCardHelpMenu, tradingHelpMenu, robberHelpMenu};
         int[] backButtonIds = new int[]{R.id.winning_help_menu_Back, R.id.set_up_phase_help_menu_Back, R.id.building_help_menu_Back, R.id.deleopment_card_help_menu_Back, R.id.trading_help_menu_Back, R.id.robber_help_menu_Back};
 
         for (int i = 0; i < buttonIds.length; i++) {
