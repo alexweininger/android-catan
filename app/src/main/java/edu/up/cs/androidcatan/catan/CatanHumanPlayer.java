@@ -846,11 +846,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         /* ----------------------- Help Menus ---------------------------- */
         if (button.getId() == R.id.winning_Help_Button) {
-            sidebarMenuButton.setClickable(false);
-            sidebarMenuButton.setAlpha(0.5f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(winningHelpMenu);
-
             /**
              External Citation
              Date: 3 December 2018
