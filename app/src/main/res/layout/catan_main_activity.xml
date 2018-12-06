@@ -291,6 +291,16 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.65" />
 
+
+    <!--External Citation-->
+    <!--Date: 9 November 2018-->
+    <!--Problem: Tried to find a way to use an arrayList of Strings for an Array Spinner-->
+    <!--with the Development Cards-->
+    <!--Resource:-->
+    <!--https://stackoverflow.com/questions/19820803/android-spinner-using-arrayliststring-->
+    <!--Solution: I used the example posted to include the arrayList into the spinner-->
+    <!---->
+
     <Spinner
         android:id="@+id/development_Card_Spinner"
         style="@android:style/Widget.Material.DropDownItem.Spinner"
