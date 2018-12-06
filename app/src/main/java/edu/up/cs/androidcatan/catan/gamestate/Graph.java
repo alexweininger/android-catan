@@ -11,6 +11,13 @@ import java.util.LinkedList;
 
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * https://github.com/alexweininger/android-catan
+ **/
 // This class represents a directed graph using adjacency list
 // representation
 public class Graph implements Runnable, Serializable {

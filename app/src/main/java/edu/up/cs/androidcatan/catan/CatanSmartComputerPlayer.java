@@ -30,8 +30,16 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 import edu.up.cs.androidcatan.game.GameComputerPlayer;
 import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
 
-public class CatanSmartComputerPlayer extends GameComputerPlayer{
-        private static final String TAG = "CatanSmartComputerPlayer";
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * https://github.com/alexweininger/android-catan
+ **/
+
+public class CatanSmartComputerPlayer extends GameComputerPlayer {
+    private static final String TAG = "CatanSmartComputerPlayer";
 
     private int[] robberResourcesDiscard = new int[]{0, 0, 0, 0, 0};
     private int hexId;
@@ -348,7 +356,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             }
 
             /******Looks to buy a dev card*******/
-            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)){
+            if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)) {
                 Log.d(TAG, "receiveInfo: Player " + this.playerNum + " purchased dev card");
                 game.sendAction(new CatanBuyDevCardAction(this));
                 Log.d(TAG, "receiveInfo: CatanBuyDevCardAction sent");
@@ -361,9 +369,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             /*****Looks to use a dev card*******/
             if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size() > 0) {
                 Log.d(TAG, "receiveInfo: Player " + this.playerNum + " has a playable development card");
-                for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++){
+                for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++) {
                     //if they have a victory points card
-                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1){
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using vp card");
                         game.sendAction(new CatanUseVictoryPointCardAction(this));
                         Log.d(TAG, "receiveInfo: CatanUseVictoryPointCardAction sent");
@@ -373,7 +381,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         return;
                     }
                     //if they have a knight card
-                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0){
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using knight card");
                         game.sendAction(new CatanUseKnightCardAction(this));
                         Log.d(TAG, "receiveInfo: CatanUseKnightCardAction sent");
@@ -383,7 +391,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         return;
                     }
                     //if they have a year of plenty card
-                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2){
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using year of plenty card");
                         game.sendAction(new CatanUseYearOfPlentyCardAction(this, playerLeastResource(gs))); //change chosenResource
                         Log.d(TAG, "receiveInfo: Used year of plenty card");
@@ -393,7 +401,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         return;
                     }
                     //if they have a monopoly card
-                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3){
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using monopoly card");
                         game.sendAction(new CatanUseMonopolyCardAction(this, playerLeastResource(gs))); //change chosenResource
                         game.sendAction(new CatanEndTurnAction(this));
@@ -402,7 +410,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         return;
                     }
                     //if they have a road card
-                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 4){
+                    if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 4) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using road dev card");
                         game.sendAction(new CatanUseRoadBuildingCardAction(this));
                         game.sendAction(new CatanEndTurnAction(this));
@@ -413,14 +421,14 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
-            if (brickCount >= 5 && lumberCount == 0){
+            if (brickCount >= 5 && lumberCount == 0) {
                 Log.d(TAG, "receiveInfo: Brick count: " + brickCount + " and lumberCount: " + lumberCount + " caused a trade");
-                game.sendAction(new CatanTradeWithBankAction(this, 0,2));
+                game.sendAction(new CatanTradeWithBankAction(this, 0, 2));
                 game.sendAction(new CatanEndTurnAction(this));
                 sleep(2000);
                 return;
             }
-            if (lumberCount >= 5 && brickCount == 0){
+            if (lumberCount >= 5 && brickCount == 0) {
                 Log.d(TAG, "receiveInfo: Lumber count: " + lumberCount + " and brickCount: " + brickCount + " caused a trade");
                 game.sendAction(new CatanTradeWithBankAction(this, 2, 0));
                 game.sendAction(new CatanEndTurnAction(this));
@@ -429,7 +437,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             }
 
             if (grainCount >= 4) {
-                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
                     Log.d(TAG, "receiveInfo: Trade happening: player + " + this.playerNum + "traded grain for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 1, playerLeastResource(gs)));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
@@ -440,8 +448,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
             }
 
-            if (woolCount >= 4){
-                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)){
+            if (woolCount >= 4) {
+                if (!gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost) && !gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
                     Log.d(TAG, "receiveInfo: Trade happening: wool for brick");
                     game.sendAction(new CatanTradeWithBankAction(this, 4, playerLeastResource(gs)));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
@@ -496,8 +504,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
     /**
      * Attempts the move the robber if possible
+     *
      * @param hexId the ID of the tile to attempt the move the robber to
-     * @param gs the ame state
+     * @param gs    the ame state
      * @return true or false depending on if the move was possible
      */
     private boolean tryMoveRobber(int hexId, CatanGameState gs) {
@@ -567,7 +576,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             intersections.add(playerRoads.get(n).getIntersectionBId());
         }
 
-            Log.d(TAG, "With repeat Intersections: " + intersections.toString());
+        Log.d(TAG, "With repeat Intersections: " + intersections.toString());
 
         return intersections;
     }
@@ -594,14 +603,14 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
         return false;
     }
 
-    private int playerLeastResource(CatanGameState gs){
+    private int playerLeastResource(CatanGameState gs) {
         int minPosition = 999;
-        for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getResourceCards().length; n++){
-            if (gs.getPlayerList().get(this.playerNum).getResourceCards()[n] < minPosition){
+        for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getResourceCards().length; n++) {
+            if (gs.getPlayerList().get(this.playerNum).getResourceCards()[n] < minPosition) {
                 minPosition = n;
             }
         }
-        if (minPosition == 999){
+        if (minPosition == 999) {
             minPosition = 0;
         }
         return minPosition;
@@ -611,15 +620,15 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
      * @param gs
      * @return true if below 10 roads built, false otherwise
      */
-    private boolean playerRoadCount(CatanGameState gs){
+    private boolean playerRoadCount(CatanGameState gs) {
         int count = 0;
-        for (int n = 0; n < gs.getBoard().getRoads().size(); n++){
-            if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum){
+        for (int n = 0; n < gs.getBoard().getRoads().size(); n++) {
+            if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum) {
                 count++;
             }
         }
         Log.d(TAG, "playerRoadCount: Count of player " + this.playerNum + " roads is at " + count);
-        if (count >= 10){
+        if (count >= 10) {
             return false;
         }
         return true;
@@ -629,8 +638,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
      * @param intersection to check how many roads it has coming off of it
      * @return true if road intersection is less than 24, false otherwise
      */
-    private boolean checkSetupPhaseIntersection(int intersection){
-        if (intersection > 23){
+    private boolean checkSetupPhaseIntersection(int intersection) {
+        if (intersection > 23) {
             return false;
         }
         return true;

@@ -19,7 +19,6 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 
@@ -85,7 +84,7 @@ public class Board implements Serializable, Runnable {
     /**
      * Board constructor
      */
-    public Board () {
+    public Board() {
         Log.d(TAG, "Board() constructor called");
 
         robber = new Robber(0);
@@ -110,14 +109,14 @@ public class Board implements Serializable, Runnable {
     } // end Board constructor
 
     @Override
-    public void run () {
+    public void run() {
 
     }
 
     /**
      * @param b - board to copy
      */
-    public Board (Board b) {
+    public Board(Board b) {
         if (b == null) {
             Log.e(TAG, "Board: board is null in board copy constructor");
             return;
@@ -176,11 +175,11 @@ public class Board implements Serializable, Runnable {
     /* ----- helper / checking methods ----- */
 
     /**
-     * @param playerId - player to test if the intersection is connected
+     * @param playerId       - player to test if the intersection is connected
      * @param intersectionId - intersection to test
      * @return - is the intersection connected to the players buildings or roads?
      */
-    public boolean isConnected (int playerId, int intersectionId) {
+    public boolean isConnected(int playerId, int intersectionId) {
         Log.d(TAG, "isConnected() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
         // check if intersection has no building and no road
         if (intersectionId < 0 || playerId < 0) {
@@ -207,11 +206,11 @@ public class Board implements Serializable, Runnable {
 
     /**
      * @param playerId - player building the road
-     * @param a - intersection
-     * @param b - intersection
+     * @param a        - intersection
+     * @param b        - intersection
      * @return - if road can be placed
      */
-    public boolean validRoadPlacement (int playerId, boolean isSetupPhase, int a, int b) {
+    public boolean validRoadPlacement(int playerId, boolean isSetupPhase, int a, int b) {
         //        Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
         //        // check if intersections are adjacent
         //        if (!this.intersectionGraph.get(a).contains(b)) {
@@ -243,11 +242,11 @@ public class Board implements Serializable, Runnable {
 
     /**
      * @param playerId - player building the road
-     * @param a - intersection
-     * @param b - intersection
+     * @param a        - intersection
+     * @param b        - intersection
      * @return - if road can be placed
      */
-    public boolean validRoadPlacement (int playerId, boolean isSetupPhase, int a, int b, int settlementIntersection) {
+    public boolean validRoadPlacement(int playerId, boolean isSetupPhase, int a, int b, int settlementIntersection) {
         Log.d(TAG, "validRoadPlacement() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], a = [" + a + "], b = [" + b + "]");
         // check if intersections are adjacent
         if (!this.intersectionGraph.get(a).contains(b)) {
@@ -282,11 +281,12 @@ public class Board implements Serializable, Runnable {
 
     /**
      * adds a road to the matrix
-     * @param playerId the id the player who owns it
+     *
+     * @param playerId      the id the player who owns it
      * @param intersectionA the starting intersection
      * @param intersectionB the ending intersection
      */
-    public void addRoad (int playerId, int intersectionA, int intersectionB) {
+    public void addRoad(int playerId, int intersectionA, int intersectionB) {
         Log.d(TAG, "addRoad() called with: playerId = [" + playerId + "], intersectionA = [" + intersectionA + "], intersectionB = [" + intersectionB + "]");
         Road road = new Road(playerId, intersectionA, intersectionB);
         this.roads.add(road);
@@ -298,7 +298,7 @@ public class Board implements Serializable, Runnable {
      * @param i - intersection to check
      * @return returns if road is connected to given intersection
      */
-    public boolean hasRoad (int i) {
+    public boolean hasRoad(int i) {
         Log.i(TAG, "hasRoad: " + this.toString() + "");
         Log.d(TAG, "hasRoad() called with: i = [" + i + "]");
         if (i < 0) {
@@ -318,10 +318,11 @@ public class Board implements Serializable, Runnable {
 
     /**
      * Depth-First-Search for looking for the longest road
+     *
      * @param ownerId the ID of the player
      * @return
      */
-    public int dfs (int ownerId) {
+    public int dfs(int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
         Graph rg = new Graph(54);
         for (Road road : roads) {
@@ -348,7 +349,7 @@ public class Board implements Serializable, Runnable {
      * @param playerList list of player objects
      * @return returns the playerId with the longest road for now (may need to change so that it returns the value instead)
      */
-    public int getPlayerWithLongestRoad (ArrayList<Player> playerList) {
+    public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
         Log.i(TAG, "updatePlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
         for (Player player : playerList) {
@@ -395,11 +396,11 @@ public class Board implements Serializable, Runnable {
     /* ----- validate building methods ----- */
 
     /**
-     * @param playerId - player building the building
+     * @param playerId       - player building the building
      * @param intersectionId - intersection of building
      * @return - is the building location valid
      */
-    public boolean validBuildingLocation (int playerId, boolean isSetupPhase, int intersectionId) {
+    public boolean validBuildingLocation(int playerId, boolean isSetupPhase, int intersectionId) {
         Log.d(TAG, "validBuildingLocation() called with: playerId = [" + playerId + "], isSetupPhase = [" + isSetupPhase + "], intersectionId = [" + intersectionId + "]");
 
         // check if the player id is within bounds
@@ -443,11 +444,12 @@ public class Board implements Serializable, Runnable {
 
     /**
      * checks to see is the location is valid playce to build a city
-     * @param playerId the ID of the player who will own it
+     *
+     * @param playerId       the ID of the player who will own it
      * @param intersectionId the location on the board
      * @return
      */
-    public boolean validCityLocation (int playerId, int intersectionId) {
+    public boolean validCityLocation(int playerId, int intersectionId) {
         Log.d(TAG, "validCityLocation() called with: playerId = [" + playerId + "], intersectionId = [" + intersectionId + "]");
 
         // check if intersection is within bounds
@@ -495,7 +497,7 @@ public class Board implements Serializable, Runnable {
      *
      * @return An array list of reorganized hexagons
      */
-    public ArrayList<Hexagon> getHexagonListForDrawing () {
+    public ArrayList<Hexagon> getHexagonListForDrawing() {
         ArrayList<Hexagon> result = new ArrayList<>();
 
         // row 1
@@ -534,7 +536,7 @@ public class Board implements Serializable, Runnable {
      * @param intersectionId - to check for owners
      * @return - ArrayList of playerIds who either own a road that is connected to intersection, or have a building that is on this intersection
      */
-    public ArrayList<Integer> getIntersectionOwners (int intersectionId) {
+    public ArrayList<Integer> getIntersectionOwners(int intersectionId) {
         Log.d(TAG, "getIntersectionOwners() called with: intersectionId = [" + intersectionId + "]");
         ArrayList<Integer> result = new ArrayList<>();
 
@@ -557,7 +559,7 @@ public class Board implements Serializable, Runnable {
      * @param i - intersection id
      * @return ArrayList of roads connected to that intersection
      */
-    public ArrayList<Road> getRoadsAtIntersection (int i) {
+    public ArrayList<Road> getRoadsAtIntersection(int i) {
         Log.d(TAG, "getRoadsAtIntersection() called with: i = [" + i + "]");
         ArrayList<Road> result = new ArrayList<>();
 
@@ -572,7 +574,7 @@ public class Board implements Serializable, Runnable {
      * @param chitValue - value of dice sum and tile chit value that will produce resources
      * @return list of hexagons with chitValue AND DO NOT HAVE ROBBER - AW
      */
-    public ArrayList<Integer> getHexagonsFromChitValue (int chitValue) {
+    public ArrayList<Integer> getHexagonsFromChitValue(int chitValue) {
         Log.d(TAG, "getHexagonsFromChitValue() called with: chitValue = [" + chitValue + "]");
         ArrayList<Integer> hexagonIdList = new ArrayList<>();
         for (int i = 0; i < this.hexagons.size(); i++) {
@@ -595,7 +597,7 @@ public class Board implements Serializable, Runnable {
      * @param hexagonId - hexagonId to move the robber to
      * @return - true robber is moved, false if robber cannot be moved (trying to move to same hex) - AW
      */
-    public boolean moveRobber (int hexagonId) {
+    public boolean moveRobber(int hexagonId) {
         Log.d(TAG, "moveRobber() called with: hexagonId = [" + hexagonId + "]");
         // check if moving to same hexagon
         if (hexagonId < 0 || hexagonId > 18) return false;
@@ -612,9 +614,9 @@ public class Board implements Serializable, Runnable {
      * adds the building to the building array - AW
      *
      * @param intersectionId - intersection id of the building location
-     * @param building - building object
+     * @param building       - building object
      */
-    public boolean addBuilding (int intersectionId, Building building) {
+    public boolean addBuilding(int intersectionId, Building building) {
         Log.d(TAG, "addBuilding() called with: intersectionId = [" + intersectionId + "], building = [" + building + "]");
         if (intersectionId < 0 || intersectionId > 53) {
             Log.e(TAG, "addBuilding: IntersectionId is invalid and not within bounds");
@@ -642,7 +644,7 @@ public class Board implements Serializable, Runnable {
      * @param intersectionId - intersection id
      * @return whether there is a building at that given intersection
      */
-    public boolean hasBuilding (int intersectionId) {
+    public boolean hasBuilding(int intersectionId) {
         if (intersectionId < 0 || intersectionId > 53) return false;
         return this.buildings[intersectionId] != null;
     }
@@ -651,18 +653,17 @@ public class Board implements Serializable, Runnable {
      * @param intersectionId - intersection id
      * @return - the building located at given intersection
      */
-    public Building getBuildingAtIntersection (int intersectionId) {
+    public Building getBuildingAtIntersection(int intersectionId) {
         return this.buildings[intersectionId];
     }
 
     /* ----- adjacency checking methods -----*/
 
     /**
-     *
      * @param hexagonId - hexagon id that you want to get adjacency of
      * @return ArrayList<Integer> - list of adj. hex id's
      */
-    public ArrayList<Integer> getAdjacentHexagons (int hexagonId) {
+    public ArrayList<Integer> getAdjacentHexagons(int hexagonId) {
         Log.d(TAG, "getAdjacentHexagons() called with: hexagonId = [" + hexagonId + "]");
         ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
 
@@ -681,10 +682,10 @@ public class Board implements Serializable, Runnable {
 
     /**
      * @param ring - ring of intersection
-     * @param col - column within ring of intersection
+     * @param col  - column within ring of intersection
      * @return - int intersection id
      */
-    public int getIntersectionId (int ring, int col) {
+    public int getIntersectionId(int ring, int col) {
         if (ring < 0 || ring > 2) {
             Log.e(TAG, "getIntersectionId: Invalid ring value received: " + ring);
             return -1;
@@ -698,10 +699,10 @@ public class Board implements Serializable, Runnable {
 
     /**
      * @param ring - hexagon ring (0-2)
-     * @param col - column within hexagon ring
+     * @param col  - column within hexagon ring
      * @return - int hexagon id
      */
-    public int getHexagonId (int ring, int col) {
+    public int getHexagonId(int ring, int col) {
         return hexagonIdRings.get(ring).get(col);
     }
 
@@ -709,7 +710,7 @@ public class Board implements Serializable, Runnable {
      * @param hexagonId - hexagon id - AW
      * @return Hexagon
      */
-    public Hexagon getHexagonFromId (int hexagonId) {
+    public Hexagon getHexagonFromId(int hexagonId) {
         if (hexagonId < 0 || hexagonId >= this.hexagons.size()) { // error checking
             Log.d(TAG, "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
             return null;
@@ -719,7 +720,7 @@ public class Board implements Serializable, Runnable {
 
     /*----- board helper methods for setting up board and populating data structures -----*/
 
-    public ArrayList<Integer> generateChitList () {
+    public ArrayList<Integer> generateChitList() {
         Log.d(TAG, "generateChitList() called");
         ArrayList<Integer> chitList = new ArrayList<>();
 
@@ -749,7 +750,7 @@ public class Board implements Serializable, Runnable {
     /**
      * @return If hexagon tiles follow the rule stating that no 6/8 chit can be adjacent to one another.
      */
-    public boolean checkChitRule () {
+    public boolean checkChitRule() {
         Log.d(TAG, "checkChitRule() called");
         // checks if any 8's or 6's are adjacent to one another
 
@@ -788,7 +789,7 @@ public class Board implements Serializable, Runnable {
      * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
      * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
      */
-    private void generateHexagonTiles () {
+    private void generateHexagonTiles() {
         Log.i(TAG, "generateHexagonTiles() called");
 
         //arrays that contain information regarding what each hexagon will contain
@@ -847,7 +848,7 @@ public class Board implements Serializable, Runnable {
     /**
      * populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
      */
-    private void populateHexagonIds () {
+    private void populateHexagonIds() {
         int id = 0;
         for (int i = 0; i < 3; i++) {
             this.hexagonIdRings.add(new ArrayList<Integer>());
@@ -866,7 +867,7 @@ public class Board implements Serializable, Runnable {
     /**
      * populating intersectionIdRings with intersection IDs (0-53, 54 intersections)
      */
-    private void populateIntersectionIds () {
+    private void populateIntersectionIds() {
         int id = 0;
         for (int i = 0; i < 3; i++) {
             this.intersectionIdRings.add(new ArrayList<Integer>());
@@ -880,7 +881,7 @@ public class Board implements Serializable, Runnable {
     /**
      * generateHexagonGraph
      */
-    private void generateHexagonGraph () {
+    private void generateHexagonGraph() {
         // set all values in the 2d array to false
         for (int i = 0; i < 2; i++) { // rings
             for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
@@ -946,7 +947,7 @@ public class Board implements Serializable, Runnable {
         }
     } // end generateHexagonGraph
 
-    public void generateNewIntersectionGraphManually () {
+    public void generateNewIntersectionGraphManually() {
 
         for (int i = 0; i < 54; i++) {
             this.intersectionGraph.add(new ArrayList<Integer>());
@@ -1154,7 +1155,7 @@ public class Board implements Serializable, Runnable {
     /**
      * generates the hexagon to integer map from the integer to hexagon map
      */
-    private void generateHexToIntMap () {
+    private void generateHexToIntMap() {
         for (int i = 0; i < 19; i++) {
             this.hexToIntIdMap.add(new ArrayList<Integer>(6));
         }
@@ -1168,7 +1169,7 @@ public class Board implements Serializable, Runnable {
     /**
      * manually generates the integer to hexagon map
      */
-    private void generateIntToHexMap () {
+    private void generateIntToHexMap() {
         for (int i = 0; i < 54; i++) {
             intToHexIdMap.add(new ArrayList<Integer>(3));
         }
@@ -1320,7 +1321,7 @@ public class Board implements Serializable, Runnable {
     /**
      * generates an intersection adjacency matrix for the roads
      */
-    private void generateRoadMatrix () {
+    private void generateRoadMatrix() {
         for (int i = 0; i < 54; i++) {
             for (int j = 0; j < 54; j++) {
                 roadMatrix[i][j] = new Road(-1, i, j);
@@ -1336,7 +1337,7 @@ public class Board implements Serializable, Runnable {
     /**
      * Creates ports along the given intersection, and assigns them proper ge values
      */
-    private void generatePorts () {
+    private void generatePorts() {
         portList.add(new Port(25, 26, 3, 3)); //Ore
         portList.add(new Port(29, 30, 2, 1)); //Grain
         portList.add(new Port(32, 33, 3, -1)); //Anything
@@ -1350,192 +1351,192 @@ public class Board implements Serializable, Runnable {
 
     /* ----- generic getter methods ----- */
 
-    public ArrayList<ArrayList<Integer>> getIntersectionGraph () {
+    public ArrayList<ArrayList<Integer>> getIntersectionGraph() {
         return intersectionGraph;
     }
 
     /**
      * @return Hexagons organized into 2D ArrayList by rings.
      */
-    private ArrayList<ArrayList<Integer>> getHexagonIdRings () {
+    private ArrayList<ArrayList<Integer>> getHexagonIdRings() {
         return hexagonIdRings;
     }
 
     /**
      * @return Intersections organized into a 2D ArrayList by rings.
      */
-    private ArrayList<ArrayList<Integer>> getIntersectionIdRings () {
+    private ArrayList<ArrayList<Integer>> getIntersectionIdRings() {
         return intersectionIdRings;
     }
 
     /**
      * @return Hexagon adjacency graph.
      */
-    public boolean[][] getHGraph () {
+    public boolean[][] getHGraph() {
         return hGraph;
     }
 
     /**
      * @return Map of hexagons to intersections.
      */
-    public ArrayList<ArrayList<Integer>> getHexToIntIdMap () {
+    public ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
     }
 
     /**
      * @return Map of intersections to hexagons.
      */
-    public ArrayList<ArrayList<Integer>> getIntToHexIdMap () {
+    public ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
         return intToHexIdMap;
     }
 
     /**
      * @return Array List of Road objects.
      */
-    public ArrayList<Road> getRoads () {
+    public ArrayList<Road> getRoads() {
         return this.roads;
     }
 
     /**
      * @return Array List of hexagons.
      */
-    public ArrayList<Hexagon> getHexagons () {
+    public ArrayList<Hexagon> getHexagons() {
         return this.hexagons;
     }
 
     /**
      * @return Robber object.
      */
-    public Robber getRobber () {
+    public Robber getRobber() {
         return this.robber;
     }
 
     /**
      * @return Array of Building objects. Indexed by intersection.
      */
-    public Building[] getBuildings () {
+    public Building[] getBuildings() {
         return this.buildings;
     }
 
     /**
      * @return Road adjacency graph.
      */
-    public Road[][] getRoadMatrix () {
+    public Road[][] getRoadMatrix() {
         return roadMatrix;
     }
 
-    public ArrayList<ArrayList<Road>> getRoadGraph () {
+    public ArrayList<ArrayList<Road>> getRoadGraph() {
         return roadGraph;
     }
 
     /* ----- generic setter methods ----- */
 
-    public void setRoadGraph (ArrayList<ArrayList<Road>> roadGraph) {
+    public void setRoadGraph(ArrayList<ArrayList<Road>> roadGraph) {
         this.roadGraph = roadGraph;
     }
 
-    public void setIntersectionGraph (ArrayList<ArrayList<Integer>> intersectionGraph) {
+    public void setIntersectionGraph(ArrayList<ArrayList<Integer>> intersectionGraph) {
         this.intersectionGraph = intersectionGraph;
     }
 
     /**
      * @param hexagonIdRings 2d Array List of hexagons ids by rings.
      */
-    public void setHexagonIdRings (ArrayList<ArrayList<Integer>> hexagonIdRings) {
+    public void setHexagonIdRings(ArrayList<ArrayList<Integer>> hexagonIdRings) {
         this.hexagonIdRings = hexagonIdRings;
     }
 
     /**
      * @param intersectionIdRings 2d Array List of intersection ids by rings.
      */
-    public void setIntersectionIdRings (ArrayList<ArrayList<Integer>> intersectionIdRings) {
+    public void setIntersectionIdRings(ArrayList<ArrayList<Integer>> intersectionIdRings) {
         this.intersectionIdRings = intersectionIdRings;
     }
 
     /**
      * @param hGraph A graph representing adjacency of intersections. E.g. iGraph[1][2] returns whether intersection 1 and intersection 2 are adjacent.
      */
-    public void sethGraph (boolean[][] hGraph) {
+    public void sethGraph(boolean[][] hGraph) {
         this.hGraph = hGraph;
     }
 
     /**
      * @param hexToIntIdMap A map relating a hexagon to 6 adjacent intersections.
      */
-    public void setHexToIntIdMap (ArrayList<ArrayList<Integer>> hexToIntIdMap) {
+    public void setHexToIntIdMap(ArrayList<ArrayList<Integer>> hexToIntIdMap) {
         this.hexToIntIdMap = hexToIntIdMap;
     }
 
     /**
      * @param intToHexIdMap A map relating an intersection to 3 adjacent hexagons.
      */
-    public void setIntToHexIdMap (ArrayList<ArrayList<Integer>> intToHexIdMap) {
+    public void setIntToHexIdMap(ArrayList<ArrayList<Integer>> intToHexIdMap) {
         this.intToHexIdMap = intToHexIdMap;
     }
 
     /**
      * @param buildings Array of all buildings on the board, indexed by intersection id.
      */
-    public void setBuildings (Building[] buildings) {
+    public void setBuildings(Building[] buildings) {
         this.buildings = buildings;
     }
 
     /**
      * @param roads list of all roads on the board
      */
-    public void setRoads (ArrayList<Road> roads) {
+    public void setRoads(ArrayList<Road> roads) {
         this.roads = roads;
     }
 
     /**
      * @param roadMatrix adjacency graph for roads
      */
-    public void setRoadMatrix (Road[][] roadMatrix) {
+    public void setRoadMatrix(Road[][] roadMatrix) {
         this.roadMatrix = roadMatrix;
     }
 
     /**
      * @param hexagons list of hexagons
      */
-    public void setHexagons (ArrayList<Hexagon> hexagons) {
+    public void setHexagons(ArrayList<Hexagon> hexagons) {
         this.hexagons = hexagons;
     }
 
     /**
      * @param robber Robber object
      */
-    public void setRobber (Robber robber) {
+    public void setRobber(Robber robber) {
         this.robber = new Robber(robber);
     }
 
-    public ArrayList<Port> getPortList () {
+    public ArrayList<Port> getPortList() {
         return portList;
     }
 
-    public void setPortList (ArrayList<Port> portList) {
+    public void setPortList(ArrayList<Port> portList) {
         this.portList = portList;
     }
 
-    public int getHighlightedHexagonId () {
+    public int getHighlightedHexagonId() {
         return highlightedHexagonId;
     }
 
-    public void setHighlightedHexagonId (int highlightedHexagonId) {
+    public void setHighlightedHexagonId(int highlightedHexagonId) {
         this.highlightedHexagonId = highlightedHexagonId;
     }
 
-    public int getHighlightedIntersectionId () {
+    public int getHighlightedIntersectionId() {
         return highlightedIntersectionId;
     }
 
-    public void setHighlightedIntersectionId (int highlightedIntersectionId) {
+    public void setHighlightedIntersectionId(int highlightedIntersectionId) {
         this.highlightedIntersectionId = highlightedIntersectionId;
     }
 
     /**
      * @param arr - graph array 2d boolean array
      */
-    private void printGraph (boolean arr[][]) {
+    private void printGraph(boolean arr[][]) {
         Log.d(TAG, "printGraph() called with: arr = [" + arr + "]");
         StringBuilder str = new StringBuilder();
         str.append("\n\n----------------\n");
@@ -1550,7 +1551,7 @@ public class Board implements Serializable, Runnable {
      * @param list - list to convert
      * @return - String
      */
-    private String listToString (ArrayList<ArrayList<Integer>> list) {
+    private String listToString(ArrayList<ArrayList<Integer>> list) {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             str.append(i).append(": ");
@@ -1566,7 +1567,7 @@ public class Board implements Serializable, Runnable {
      * @return String
      */
     @Override
-    public String toString () {
+    public String toString() {
         String str = "\n ---------- Board toString ---------- \n" + "robber=" + robber + "\nroads=" + roads + "\nbuildings: \n";
         for (int i = 0; i < buildings.length; i++) {
             str += "\t" + i + "=";

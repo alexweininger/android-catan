@@ -27,7 +27,6 @@ import edu.up.cs.androidcatan.game.infoMsg.GameInfo;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 public class CatanDumbComputerPlayer extends GameComputerPlayer implements Serializable {
@@ -45,7 +44,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
      * @param info the information (presumably containing the game's state)
      */
     @Override
-    protected void receiveInfo (GameInfo info) {
+    protected void receiveInfo(GameInfo info) {
         Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
         if (!(info instanceof CatanGameState)) return; // must do this check at start of method!
@@ -179,8 +178,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                     for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
                         if (gs.getBoard().getBuildings()[n] == null) {
                             Log.d(TAG, "receiveInfo: Nothing at this location on board");
-                        }
-                        else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
+                        } else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
                             Log.d(TAG, "receiveInfo: valid owner id");
                             building = gs.getBoard().getBuildings()[n];
                             if (building instanceof Settlement) {
@@ -197,9 +195,9 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
             {
                 Log.d(TAG, "Dumb AI randomly tried to build a settlement");
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)) {
-                    for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++){
+                    for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++) {
                         //cycling through the amount, not the proper value at the intersection
-                        if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))){
+                        if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))) {
                             Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
                             game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n)));
                             Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
@@ -227,8 +225,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                     Log.d(TAG, "IntersectionsToChooseFrom for coordinate: " + roadCoordinate + " for the following cords: " + intersectionsToChooseFrom.toString());
 
                     //int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
-                    for (int n = 0; n < intersectionsToChooseFrom.size(); n++){
-                        if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))){
+                    for (int n = 0; n < intersectionsToChooseFrom.size(); n++) {
+                        if (gs.getBoard().validRoadPlacement(this.playerNum, false, roadCoordinate, intersectionsToChooseFrom.get(n))) {
                             game.sendAction(new CatanBuildRoadAction(this, false, this.playerNum, roadCoordinate, intersectionsToChooseFrom.get(n)));
                             //was random road intersection
                             Log.d(TAG, "receiveInfo: CatanBuildRoadAction sent");
@@ -427,19 +425,21 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
     /**
      * Constructor for the computer player
+     *
      * @param name name of the player to be used on the soreboard anf whenever the player is referenced
      */
-    CatanDumbComputerPlayer (String name) {
+    CatanDumbComputerPlayer(String name) {
         super(name);
     }
 
     /**
      * The method that attempts to move the robber
+     *
      * @param hexId the ID of the tile to move attempt moving the robber to
-     * @param gs the current game state
+     * @param gs    the current game state
      * @return either true or false depending if moving the robber was valid
      */
-    private boolean tryMoveRobber (int hexId, CatanGameState gs) {
+    private boolean tryMoveRobber(int hexId, CatanGameState gs) {
         Log.d(TAG, "tryMoveRobber() called with: hexId = [" + hexId + "], gs = [" + gs + "]");
         if (gs.getHasMovedRobber()) {
             Log.d(TAG, "tryMoveRobber() returned: " + false + " because the robber has already been moved.");
@@ -478,10 +478,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
     /**
      * looks through the list of buildings that have been built then find which ones are own by
      * the player add adds them to an arrayList
+     *
      * @param gs the current game state
      * @return arraylist of Road objects that the player owns
      */
-    private ArrayList<Road> getPlayerRoads (CatanGameState gs) {
+    private ArrayList<Road> getPlayerRoads(CatanGameState gs) {
         ArrayList<Road> playerRoads = new ArrayList<>();
         for (int n = 0; n < gs.getBoard().getRoads().size(); n++) {
             if (gs.getBoard().getRoads().get(n).getOwnerId() == this.playerNum) {
@@ -493,10 +494,11 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
     /**
      * finds the intersections that the roads the player owns
+     *
      * @param playerRoads arrayList of Road Objects that the player owns
      * @return and arrayList of Integers of the intersections that the roads the player owns are on
      */
-    private ArrayList<Integer> getPlayerRoadIntersection (ArrayList<Road> playerRoads) {
+    private ArrayList<Integer> getPlayerRoadIntersection(ArrayList<Road> playerRoads) {
         ArrayList<Integer> intersections = new ArrayList<>();
         for (int n = 0; n < playerRoads.size(); n++) {
             intersections.add(playerRoads.get(n).getIntersectionAId());

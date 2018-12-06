@@ -10,17 +10,18 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class CatanConfirmAction extends GameAction implements Serializable {
     private static final long serialVersionUID = -6209535461622400857L;
 
     /**
      * CatanConfirmAction constructor
+     *
      * @param player the player who is calling the action
      */
-    public CatanConfirmAction(GamePlayer player){
+    public CatanConfirmAction(GamePlayer player) {
         super(player);
     }
 }
