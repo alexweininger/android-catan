@@ -114,7 +114,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 int randSettlementIntersection = random.nextInt(53);
                 // generate random intersection until we find a valid location to build our settlement
                 while (!(gs.getBoard().validBuildingLocation(this.playerNum, true, randSettlementIntersection) && checkIntersectionResource(randSettlementIntersection, gs) && checkSetupPhaseIntersection(randSettlementIntersection))) {
-                    sleep(1000); // sleep
                     Log.d(TAG, "receiveInfo: generating new building location" + " " + this.playerNum);
                     randSettlementIntersection = random.nextInt(53);
                 }
@@ -125,6 +124,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 game.sendAction(new CatanBuildSettlementAction(this, gs.isSetupPhase(), this.playerNum, randSettlementIntersection)); // sending build settlement action
                 this.lastSettlementIntersectionId = randSettlementIntersection;
                 buildingsBuiltOnThisTurn.add(1);
+                sleep(1000);
                 return;
                 // else if the player has not built a road on this turn
             } else if (!buildingsBuiltOnThisTurn.contains(0)) {
@@ -137,6 +137,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 // choose a random intersection from those intersections
                 int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                 int count = 0;
+                sleep(1000);
                 // generate random intersection until we find a valid location to build our settlement
                 while (!gs.getBoard().validRoadPlacement(this.playerNum, gs.isSetupPhase(), lastSettlementIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection))) {
                     if (count > 5) {
@@ -144,16 +145,14 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         break;
                     }
                     Log.e(TAG, "receiveInfo: generating new road intersection" + " " + this.playerNum);
-                    sleep(1000); // sleep
                     randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                     count++;
                 }
-
-                sleep(2000); // sleep
                 // send the game a build road action
                 Log.i(TAG, "receiveInfo: sending a CatanBuildRoadAction to the game." + " " + this.playerNum);
                 game.sendAction(new CatanBuildRoadAction(this, gs.isSetupPhase(), this.playerNum, lastSettlementIntersectionId, intersectionsToChooseFrom.get(randomRoadIntersection)));
                 buildingsBuiltOnThisTurn.add(0);
+                sleep(1000); // sleep
                 Log.i(TAG, "receiveInfo() returned: void");
                 return;
             }
@@ -241,7 +240,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                     //A building has been found that contains the intersection of player with most VPs
                     foundBuilding = false;
-                    sleep(2000);
                     //9. Iterate through each Hexagon and find one that has the playersId at one of the adjacent intersections
                     for (Hexagon hex : gs.getBoard().getHexagons()) {
                         Log.i(TAG, "receiveInfo: Checking hexagon " + hex.getHexagonId() + " for player " + playerWithMostVPs);
@@ -264,7 +262,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
 
                     //10. Send the action to move the robber; information has been saved to also steal with the robber
 
-                    sleep(2000);
+                    sleep(4000);
                     game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
                     return;
 
@@ -294,6 +292,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 return;
             }
 
+            sleep(1000);
+
             /*****Looks to trade so they can potentially build a road******/
             int brickCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[0];
             int grainCount = gs.getPlayerList().get(this.playerNum).getResourceCards()[1];
@@ -317,6 +317,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         game.sendAction(new CatanBuildSettlementAction(this, false, this.playerNum, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n)));
                         Log.d(TAG, "receiveInfo: CatanBuildSettlementAction sent");
                         game.sendAction(new CatanEndTurnAction(this));
+                        sleep(2000);
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
@@ -338,6 +339,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                             game.sendAction(new CatanBuildCityAction(this, false, this.playerNum, n));
                             Log.d(TAG, "receiveInfo: CatanBuildCityAction sent");
                             game.sendAction(new CatanEndTurnAction(this));
+                            sleep(2000);
                             Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                             return;
                         }
@@ -349,7 +351,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(DevelopmentCard.resourceCost)){
                 Log.d(TAG, "receiveInfo: Player " + this.playerNum + " purchased dev card");
                 game.sendAction(new CatanBuyDevCardAction(this));
+                Log.d(TAG, "receiveInfo: CatanBuyDevCardAction sent");
                 game.sendAction(new CatanEndTurnAction(this));
+                sleep(2000);
                 Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                 return;
             }
@@ -362,7 +366,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1){
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using vp card");
                         game.sendAction(new CatanUseVictoryPointCardAction(this));
+                        Log.d(TAG, "receiveInfo: CatanUseVictoryPointCardAction sent");
                         game.sendAction(new CatanEndTurnAction(this));
+                        sleep(2000);
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
@@ -372,6 +378,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         game.sendAction(new CatanUseKnightCardAction(this));
                         Log.d(TAG, "receiveInfo: CatanUseKnightCardAction sent");
                         game.sendAction(new CatanEndTurnAction(this));
+                        sleep(2000);
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
@@ -381,6 +388,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         game.sendAction(new CatanUseYearOfPlentyCardAction(this, playerLeastResource(gs))); //change chosenResource
                         Log.d(TAG, "receiveInfo: Used year of plenty card");
                         game.sendAction(new CatanEndTurnAction(this));
+                        sleep(2000);
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
@@ -389,6 +397,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using monopoly card");
                         game.sendAction(new CatanUseMonopolyCardAction(this, playerLeastResource(gs))); //change chosenResource
                         game.sendAction(new CatanEndTurnAction(this));
+                        sleep(2000);
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
@@ -397,6 +406,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using road dev card");
                         game.sendAction(new CatanUseRoadBuildingCardAction(this));
                         game.sendAction(new CatanEndTurnAction(this));
+                        sleep(2000);
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
@@ -407,12 +417,14 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 Log.d(TAG, "receiveInfo: Brick count: " + brickCount + " and lumberCount: " + lumberCount + " caused a trade");
                 game.sendAction(new CatanTradeWithBankAction(this, 0,2));
                 game.sendAction(new CatanEndTurnAction(this));
+                sleep(2000);
                 return;
             }
             if (lumberCount >= 5 && brickCount == 0){
                 Log.d(TAG, "receiveInfo: Lumber count: " + lumberCount + " and brickCount: " + brickCount + " caused a trade");
                 game.sendAction(new CatanTradeWithBankAction(this, 2, 0));
                 game.sendAction(new CatanEndTurnAction(this));
+                sleep(2000);
                 return;
             }
 
@@ -422,6 +434,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     game.sendAction(new CatanTradeWithBankAction(this, 1, playerLeastResource(gs)));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
                     game.sendAction(new CatanEndTurnAction(this));
+                    sleep(2000);
                     Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                     return;
                 }
@@ -433,6 +446,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                     game.sendAction(new CatanTradeWithBankAction(this, 4, playerLeastResource(gs)));
                     Log.d(TAG, "receiveInfo: CatanTradeWithBankAction sent");
                     game.sendAction(new CatanEndTurnAction(this));
+                    sleep(2000);
                     Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                     return;
                 }
@@ -468,11 +482,13 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer{
                 }
                 Log.d(TAG, "receiveInfo: Problem with building a road");
                 game.sendAction(new CatanEndTurnAction(this));
+                sleep(2000);
                 return;
             }
 
             game.sendAction(new CatanEndTurnAction(this));
             Log.d(TAG, "receiveInfo: CatanEndTurnAction sent: Nothing was built");
+            sleep(2000);
             return;
             //not setup phase if statement END
         }
