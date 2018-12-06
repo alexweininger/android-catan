@@ -440,6 +440,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
+
+
             this.boardSurfaceView.invalidate();
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
@@ -862,85 +864,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             mediaPlayer.seekTo(0);
             mediaPlayer.start();
         }
-
-//        if (button.getId() == R.id.winning_help_menu_Back) {
-//            sidebarMenuButton.setClickable(true);
-//            sidebarMenuButton.setAlpha(1f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(winningHelpMenu);
-//        }
-//
-//        if (button.getId() == R.id.set_Up_Phase_Help_Button) {
-//            sidebarMenuButton.setClickable(false);
-//            sidebarMenuButton.setAlpha(0.5f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
-//        }
-//
-//        if (button.getId() == R.id.set_up_phase_help_menu_Back) {
-//            sidebarMenuButton.setClickable(true);
-//            sidebarMenuButton.setAlpha(1f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
-//        }
-//
-//        if (button.getId() == R.id.building_Help_Button) {
-//            sidebarMenuButton.setClickable(false);
-//            sidebarMenuButton.setAlpha(0.5f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
-//        }
-//
-//        if (button.getId() == R.id.building_help_menu_Back) {
-//            sidebarMenuButton.setClickable(true);
-//            sidebarMenuButton.setAlpha(1f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
-//        }
-//
-//        if (button.getId() == R.id.development_Cards_Help_Button) {
-//            sidebarMenuButton.setClickable(false);
-//            sidebarMenuButton.setAlpha(0.5f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
-//        }
-//
-//        if (button.getId() == R.id.deleopment_card_help_menu_Back) {
-//            sidebarMenuButton.setClickable(true);
-//            sidebarMenuButton.setAlpha(1f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
-//        }
-//        // button for trading help menu
-//        if (button.getId() == R.id.trading_Help_Button) {
-//            sidebarMenuButton.setClickable(false);
-//            sidebarMenuButton.setAlpha(0.5f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
-//        }
-//        // back button for trading menu
-//        if (button.getId() == R.id.trading_help_menu_Back) {
-//            sidebarMenuButton.setClickable(true);
-//            sidebarMenuButton.setAlpha(1f);
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
-//        }
-//        // button for robber help menu
-//        if (button.getId() == R.id.robber_Help_Button) {
-//            sidebarMenuButton.setClickable(false);
-//            sidebarMenuButton.setAlpha(0.5f);
-//            Log.d(TAG, "onClick: robber help button pressed");
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(robberHelpMenu);
-//        }
-//        // back button for robber help menu
-//        if (button.getId() == R.id.robber_help_menu_Back) {
-//            sidebarMenuButton.setClickable(true);
-//            sidebarMenuButton.setAlpha(1f);
-//            Log.d(TAG, "onClick: robber help button pressed");
-//            toggleGroupVisibilityAllowTapping(helpMenu);
-//            toggleGroupVisibilityAllowTapping(robberHelpMenu);
-//        }
 
         int[] buttonIds = new int[]{R.id.winning_Help_Button, R.id.set_Up_Phase_Help_Button, R.id.building_Help_Button, R.id.development_Cards_Help_Button, R.id.trading_Help_Button, R.id.robber_Help_Button};
         Group[] helpMenuGroups = new Group[]{winningHelpMenu, setUpPhaseHelpMenu, buildingHelpMenu, developmentCardHelpMenu, tradingHelpMenu, robberHelpMenu};
