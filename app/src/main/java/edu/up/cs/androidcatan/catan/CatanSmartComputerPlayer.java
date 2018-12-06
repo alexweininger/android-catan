@@ -3,6 +3,7 @@ package edu.up.cs.androidcatan.catan;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import edu.up.cs.androidcatan.catan.actions.CatanBuildCityAction;
@@ -15,7 +16,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
@@ -240,14 +240,36 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                     playerWithMostVPsIntersection = 0;
 
                     //A building has been found that contains the intersection of player with most VPs
-                    foundBuilding = false;
+
                     sleep(2000);
+                    Building[] buildingsOfPlayerWinning = gs.getBoard().getBuildings();
+                    for (int i = 0; i < buildingsOfPlayerWinning.length; i++) {
+                        if (buildingsOfPlayerWinning[i] != null && buildingsOfPlayerWinning[i].getOwnerId() != playerWithMostVPs) {
+                            buildingsOfPlayerWinning[i] = null;
+                        }
+                    }
+                    for (int i = 0; i < buildingsOfPlayerWinning.length; i++) {
+                        if (null != buildingsOfPlayerWinning[i]) {
+                            if (buildingsOfPlayerWinning[i].getOwnerId() == playerWithMostVPs) {
+                                ArrayList<Integer> adjHexIds = gs.getBoard().getIntToHexIdMap().get(i);
+                                Collections.shuffle(adjHexIds);
+                                for (Integer adjHexId : adjHexIds) {
+                                    Hexagon hex = gs.getBoard().getHexagonFromId(adjHexId);
+                                    if (hex.getResourceId() != 5) {
+                                        game.sendAction(new CatanRobberMoveAction(this, playerNum, hex.getHexagonId()));
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    foundBuilding = false;
                     //9. Iterate through each Hexagon and find one that has the playersId at one of the adjacent intersections
                     for (Hexagon hex : gs.getBoard().getHexagons()) {
                         Log.i(TAG, "receiveInfo: Checking hexagon " + hex.getHexagonId() + " for player " + playerWithMostVPs);
                         if (gs.getBoard().getRobber().getHexagonId() != hex.getHexagonId()) {
                             for (Integer intersection : gs.getBoard().getHexToIntIdMap().get(hex.getHexagonId())) {
-                                if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() == playerWithMostVPs && tryMoveRobber(hex.getHexagonId(), gs)) {
+                                if (gs.getBoard().hasBuilding(intersection) && gs.getBoard().getBuildingAtIntersection(intersection).getOwnerId() != playerNum && tryMoveRobber(hex.getHexagonId(), gs)) {
                                     Log.i(TAG, "receiveInfo: Found player at hex " + hex.getHexagonId() + ".");
                                     hexId = hex.getHexagonId();
                                     playerWithMostVPsIntersection = intersection;

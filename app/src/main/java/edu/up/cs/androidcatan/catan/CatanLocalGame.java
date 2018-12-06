@@ -167,16 +167,7 @@ public class CatanLocalGame extends LocalGame {
 
                 Graph rg = new Graph(54);
                 rg.setAllRoads(state.getBoard().getRoads());
-                Thread t = new Thread(rg);
-                t.start();
-                try {
-                    Log.i(TAG, "makeMove: thread joined");
-                    t.join();
-                } catch (Exception e) {
-                    Log.e(TAG, "makeMove: t.join()", e);
-                }
                 state.setCurrentLongestRoadPlayerId(rg.updatePlayerWithLongestRoad());
-                state.setCurrentLongestRoadPlayerId(rg.getPlayerIdWithLongestRoad());
                 return true;
             }
             Log.e(TAG, "makeMove: Player sent a CatanBuildRoadAction but removeResourceBundle returned false.");
