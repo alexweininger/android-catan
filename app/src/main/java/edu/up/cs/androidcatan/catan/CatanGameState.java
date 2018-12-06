@@ -171,22 +171,22 @@ public class CatanGameState extends GameState {
     /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
-    public void checkArmySize() {
+    public void checkArmySize(int playerId) {
         Log.d(TAG, "checkArmySize() called");
-        int max = -1;
-        if (this.currentLargestArmyPlayerId != -1) {
-            max = this.playerList.get(this.currentLargestArmyPlayerId).getArmySize();
+
+        this.playerList.get(playerId).setArmySize(this.playerList.get(playerId).getArmySize() + 1);
+
+        if(currentPlayerId == -1 && this.playerList.get(playerId).getArmySize() >= 3){
+            currentLargestArmyPlayerId = playerId;
+            return;
         }
-        int playerIdWithLargestArmy = -1;
-        for (int i = 0; i < 4; i++) {
-            if (this.playerList.get(i).getArmySize() > max) {
-                max = this.playerList.get(i).getArmySize();
-                playerIdWithLargestArmy = i;
-            }
+
+        if(this.playerList.get(playerId).getArmySize() > this.playerList.get(currentLargestArmyPlayerId).getArmySize()) {
+             currentLargestArmyPlayerId = playerId;
+             return;
         }
-        if (max > 2) {
-            this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
-        }
+
+        return;
     }
 
     /*-------------------------------------Resource Methods------------------------------------------*/
@@ -473,6 +473,10 @@ public class CatanGameState extends GameState {
         Log.d(TAG, "updateSetupPhase() returned: " + false);
         return false;
     }
+
+    /*-------------------------------------Largest Army methods------------------------------------------*/
+
+
 
     /*-------------------------------------Getter/Setter Methods------------------------------------------*/
 
