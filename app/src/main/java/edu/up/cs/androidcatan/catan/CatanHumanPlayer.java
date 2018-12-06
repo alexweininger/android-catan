@@ -302,6 +302,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } // check if state is null
 
         messageTextView.setTextColor(Color.WHITE);
+
+        /**
+         External Citation
+         Date: 5 December 2018
+         Problem: Needed to disable the navigation button bar and notification bar; enable fullscreen mode
+         Resource: https://developer.android.com/training/system-ui/immersive
+
+         Solution: Remove the visibility of various UI features using the code below
+         */
         View decorView = myActivity.getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
 
@@ -2117,6 +2126,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     protected void initAfterReady () {
         Log.e(TAG, "initAfterReady() called");
         this.readyToDraw = true;
+
+        /**
+         External Citation
+         Date: 2 November 2018
+         Problem: Needed to disable the navigation button bar and notification bar; enable fullscreen mode
+         Resource: https://developer.android.com/training/system-ui/immersive
+
+         Solution: Remove the visibility of various UI features using the code below
+         */
         View decorView = myActivity.getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
         setAsGui(myActivity);
