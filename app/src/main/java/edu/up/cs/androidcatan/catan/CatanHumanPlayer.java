@@ -2068,13 +2068,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (largestArmyPrevPlayer == -1) {
             return;
         }
-
-        if (largestArmyPrevPlayer != playerNum) {
-
-            Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Largest Army Trophy was removed from, " + getAllPlayerNames()[largestArmyPrevPlayer] + " and was given to, " + getAllPlayerNames()[playerNum], Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }
     }
 
     /**
