@@ -10,9 +10,9 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class CatanTradeWithBankAction extends GameAction implements Serializable {
     private static final long serialVersionUID = 5086307496325687953L;
     private int resourceIdGiving;
@@ -20,21 +20,22 @@ public class CatanTradeWithBankAction extends GameAction implements Serializable
 
     /**
      * CatanTradeWithBankAction constructor
-     * @param player the player who is calling the action
+     *
+     * @param player           the player who is calling the action
      * @param resourceIdGiving the resource to give up
-     * @param resourceIdRec the resource to receive
+     * @param resourceIdRec    the resource to receive
      */
-    public CatanTradeWithBankAction (GamePlayer player, int resourceIdGiving, int resourceIdRec) {
+    public CatanTradeWithBankAction(GamePlayer player, int resourceIdGiving, int resourceIdRec) {
         super(player);
         this.resourceIdGiving = resourceIdGiving;
         this.resourceIdRec = resourceIdRec;
     }
 
-    public int getResourceIdGiving () {
+    public int getResourceIdGiving() {
         return resourceIdGiving;
     }
 
-    public int getResourceIdRec () {
+    public int getResourceIdRec() {
         return resourceIdRec;
     }
 }

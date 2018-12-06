@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class PortTest {
 
     @Test //Written By: Alex Weininger
-    public void getIntersectionA () {
+    public void getIntersectionA() {
         Port port = new Port(5, 2, 2, 2);
         assertEquals(5, port.getIntersectionA());
 
@@ -18,7 +18,7 @@ public class PortTest {
     }
 
     @Test //Written By: Alex Weininger
-    public void getIntersecionB () {
+    public void getIntersecionB() {
         Port port = new Port(5, 9, 2, 2);
         assertEquals(9, port.getIntersectionB());
 
@@ -27,7 +27,7 @@ public class PortTest {
     }
 
     @Test //Written By: Alex Weininger
-    public void getResourceId () {
+    public void getResourceId() {
         Port port = new Port(8, 2, 3, 4);
         assertEquals(4, port.getResourceId());
 

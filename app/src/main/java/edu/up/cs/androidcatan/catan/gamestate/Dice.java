@@ -1,18 +1,17 @@
 package edu.up.cs.androidcatan.catan.gamestate;
 
+import android.util.Log;
+
+import java.io.Serializable;
+import java.util.Random;
+
 /**
  * @author Alex Weininger
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-
-import android.util.Log;
-
-import java.io.Serializable;
-import java.util.Random;
 
 /**
  * dice class - done for now 10/10
@@ -51,13 +50,14 @@ public class Dice implements Serializable {
         return this.diceValues[0] + this.diceValues[1];
     }
 
-    public int[] getDiceValues(){
+    public int[] getDiceValues() {
         return this.diceValues;
     }
 
     public void setDiceValues(int[] diceValues) {
         this.diceValues = diceValues;
     }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

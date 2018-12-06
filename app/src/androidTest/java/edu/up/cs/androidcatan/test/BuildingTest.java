@@ -10,13 +10,13 @@ import static org.junit.Assert.assertEquals;
 public class BuildingTest {
 
     @Test //Written By: Daniel
-    public void getOwnerId () {
+    public void getOwnerId() {
         Building building = new City(1);
         assertEquals(1, building.getOwnerId());
     }
 
     @Test //Written By: Daniel
-    public void setOwnerId () {
+    public void setOwnerId() {
         Building building = new City(0);
         building.setOwnerId(-1);
 

@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertTrue;
 public class CatanHumanPlayerTest {
 
     @Test //Written By: Niraj
-    public void tryBuildRoad () {
+    public void tryBuildRoad() {
         CatanGameState state = new CatanGameState();
         state.setSetupPhase(true);
         state.setCurrentPlayerId(0);
