@@ -261,8 +261,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      Code Line: 264
      */
 
-    private MediaPlayer mediaPlayer = new MediaPlayer();
-
+    private MediaPlayer menuMusic = new MediaPlayer();
+    private MediaPlayer generalMusic = new MediaPlayer();
+    private Boolean newGame = true;
 
     /* ------------------------------ Scoreboard trophy images ------------------------------------ */
 
@@ -858,11 +859,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
              Code Line: 850
              */
 
-            mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.settlers_of_catan_official_theme_song);
-            mediaPlayer.setLooping(false);
-            mediaPlayer.setVolume(1f,1f);
-            mediaPlayer.seekTo(0);
-            mediaPlayer.start();
+                menuMusic.setLooping(false);
+                menuMusic.setVolume(1f, 1f);
+                menuMusic.seekTo(0);
+                generalMusic.setVolume(0, 0);
+                menuMusic.start();
         }
 
         int[] buttonIds = new int[]{R.id.winning_Help_Button, R.id.set_Up_Phase_Help_Button, R.id.building_Help_Button, R.id.development_Cards_Help_Button, R.id.trading_Help_Button, R.id.robber_Help_Button};
@@ -884,6 +885,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 sidebarMenuButton.setAlpha(1.0f);
                 toggleGroupVisibilityAllowTapping(helpMenu);
                 toggleGroupVisibilityAllowTapping(helpMenuGroups[i]);
+                if(i == 0)
+                {
+                    menuMusic.pause();
+                    generalMusic.setVolume(1,1);
+                }
                 break;
             }
         }
@@ -1652,6 +1658,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
     public void setAsGui (GameMainActivity activity) {
         Log.d(TAG, "setAsGui() called with: activity = [" + activity + "]");
 
+
+
+
+        myActivity = activity; // remember the activity
+
+        activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
+
         /**
          External Citation
          Data: 3 December 2018
@@ -1661,13 +1674,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
          Code Line: 1714
          */
-
-        myActivity = activity; // remember the activity
-        activity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
-        mediaPlayer = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.the_score_of_catan_full_song);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(1f,1f);
-        mediaPlayer.start();
+        if(newGame) {
+            menuMusic = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.settlers_of_catan_official_theme_song);
+            generalMusic = MediaPlayer.create(myActivity.getApplicationContext(), R.raw.the_score_of_catan_full_song);
+            generalMusic.setLooping(true);
+            generalMusic.setVolume(1, 1);
+            generalMusic.start();
+            newGame = false;
+        }
 
         if (readyToDraw) {
             myActivity.setContentView(R.layout.catan_main_activity); // Load the layout resource for our GUI
