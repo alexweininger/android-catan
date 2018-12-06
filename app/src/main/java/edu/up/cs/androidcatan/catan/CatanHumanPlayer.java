@@ -291,6 +291,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @param button the button that was clicked
      */
     public void onClick (View button) {
+
+
         Log.d(TAG, "onClick() called with: button = [" + button + "]");
 
         if (this.state == null) {
@@ -299,6 +301,9 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         } // check if state is null
 
         messageTextView.setTextColor(Color.WHITE);
+        View decorView = myActivity.getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
 
         /* ---------------------------- Building Sidebar Button OnClick() Handlers --------------------- */
 
@@ -863,92 +868,102 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             mediaPlayer.start();
         }
 
-        if (button.getId() == R.id.winning_help_menu_Back) {
-            sidebarMenuButton.setClickable(true);
-            sidebarMenuButton.setAlpha(1f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(winningHelpMenu);
-        }
-
-        if (button.getId() == R.id.set_Up_Phase_Help_Button) {
-            sidebarMenuButton.setClickable(false);
-            sidebarMenuButton.setAlpha(0.5f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
-        }
-
-        if (button.getId() == R.id.set_up_phase_help_menu_Back) {
-            sidebarMenuButton.setClickable(true);
-            sidebarMenuButton.setAlpha(1f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
-        }
-
-        if (button.getId() == R.id.building_Help_Button) {
-            sidebarMenuButton.setClickable(false);
-            sidebarMenuButton.setAlpha(0.5f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
-        }
-
-        if (button.getId() == R.id.building_help_menu_Back) {
-            sidebarMenuButton.setClickable(true);
-            sidebarMenuButton.setAlpha(1f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
-        }
-
-        if (button.getId() == R.id.development_Cards_Help_Button) {
-            sidebarMenuButton.setClickable(false);
-            sidebarMenuButton.setAlpha(0.5f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
-        }
-
-        if (button.getId() == R.id.deleopment_card_help_menu_Back) {
-            sidebarMenuButton.setClickable(true);
-            sidebarMenuButton.setAlpha(1f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
-        }
-        // button for trading help menu
-        if (button.getId() == R.id.trading_Help_Button) {
-            sidebarMenuButton.setClickable(false);
-            sidebarMenuButton.setAlpha(0.5f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
-        }
-        // back button for trading menu
-        if (button.getId() == R.id.trading_help_menu_Back) {
-            sidebarMenuButton.setClickable(true);
-            sidebarMenuButton.setAlpha(1f);
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
-        }
-        // button for robber help menu
-        if (button.getId() == R.id.robber_Help_Button) {
-            sidebarMenuButton.setClickable(false);
-            sidebarMenuButton.setAlpha(0.5f);
-            Log.d(TAG, "onClick: robber help button pressed");
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(robberHelpMenu);
-        }
-        // back button for robber help menu
-        if (button.getId() == R.id.robber_help_menu_Back) {
-            sidebarMenuButton.setClickable(true);
-            sidebarMenuButton.setAlpha(1f);
-            Log.d(TAG, "onClick: robber help button pressed");
-            toggleGroupVisibilityAllowTapping(helpMenu);
-            toggleGroupVisibilityAllowTapping(robberHelpMenu);
-        }
+//        if (button.getId() == R.id.winning_help_menu_Back) {
+//            sidebarMenuButton.setClickable(true);
+//            sidebarMenuButton.setAlpha(1f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(winningHelpMenu);
+//        }
+//
+//        if (button.getId() == R.id.set_Up_Phase_Help_Button) {
+//            sidebarMenuButton.setClickable(false);
+//            sidebarMenuButton.setAlpha(0.5f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
+//        }
+//
+//        if (button.getId() == R.id.set_up_phase_help_menu_Back) {
+//            sidebarMenuButton.setClickable(true);
+//            sidebarMenuButton.setAlpha(1f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(setUpPhaseHelpMenu);
+//        }
+//
+//        if (button.getId() == R.id.building_Help_Button) {
+//            sidebarMenuButton.setClickable(false);
+//            sidebarMenuButton.setAlpha(0.5f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
+//        }
+//
+//        if (button.getId() == R.id.building_help_menu_Back) {
+//            sidebarMenuButton.setClickable(true);
+//            sidebarMenuButton.setAlpha(1f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(buildingHelpMenu);
+//        }
+//
+//        if (button.getId() == R.id.development_Cards_Help_Button) {
+//            sidebarMenuButton.setClickable(false);
+//            sidebarMenuButton.setAlpha(0.5f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
+//        }
+//
+//        if (button.getId() == R.id.deleopment_card_help_menu_Back) {
+//            sidebarMenuButton.setClickable(true);
+//            sidebarMenuButton.setAlpha(1f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(developmentCardHelpMenu);
+//        }
+//        // button for trading help menu
+//        if (button.getId() == R.id.trading_Help_Button) {
+//            sidebarMenuButton.setClickable(false);
+//            sidebarMenuButton.setAlpha(0.5f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
+//        }
+//        // back button for trading menu
+//        if (button.getId() == R.id.trading_help_menu_Back) {
+//            sidebarMenuButton.setClickable(true);
+//            sidebarMenuButton.setAlpha(1f);
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(tradingHelpMenu);
+//        }
+//        // button for robber help menu
+//        if (button.getId() == R.id.robber_Help_Button) {
+//            sidebarMenuButton.setClickable(false);
+//            sidebarMenuButton.setAlpha(0.5f);
+//            Log.d(TAG, "onClick: robber help button pressed");
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(robberHelpMenu);
+//        }
+//        // back button for robber help menu
+//        if (button.getId() == R.id.robber_help_menu_Back) {
+//            sidebarMenuButton.setClickable(true);
+//            sidebarMenuButton.setAlpha(1f);
+//            Log.d(TAG, "onClick: robber help button pressed");
+//            toggleGroupVisibilityAllowTapping(helpMenu);
+//            toggleGroupVisibilityAllowTapping(robberHelpMenu);
+//        }
 
         int[] buttonIds = new int[]{R.id.winning_Help_Button, R.id.set_Up_Phase_Help_Button, R.id.building_Help_Button, R.id.development_Cards_Help_Button, R.id.trading_Help_Button, R.id.robber_Help_Button};
         Group[] helpMenuGroups = new Group[]{winningHelpMenu, setUpPhaseHelpMenu, buildingHelpMenu, developmentGroup, tradingHelpMenu, robberHelpMenu};
+        int[] backButtonIds = new int[]{R.id.winning_help_menu_Back, R.id.set_up_phase_help_menu_Back, R.id.building_help_menu_Back, R.id.deleopment_card_help_menu_Back, R.id.trading_help_menu_Back, R.id.robber_help_menu_Back};
 
         for (int i = 0; i < buttonIds.length; i++) {
             if (button.getId() == buttonIds[i]) {
                 sidebarMenuButton.setClickable(false);
                 sidebarMenuButton.setAlpha(0.5f);
+                toggleGroupVisibilityAllowTapping(helpMenu);
+                toggleGroupVisibilityAllowTapping(helpMenuGroups[i]);
+                break;
+            }
+        }
+        for (int i = 0; i < backButtonIds.length; i++) {
+            if (button.getId() == backButtonIds[i]) {
+                sidebarMenuButton.setClickable(true);
+                sidebarMenuButton.setAlpha(1.0f);
                 toggleGroupVisibilityAllowTapping(helpMenu);
                 toggleGroupVisibilityAllowTapping(helpMenuGroups[i]);
                 break;
