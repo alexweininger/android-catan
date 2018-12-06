@@ -29,7 +29,7 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
-    public void testCheckPlayerResources() {
+    public void testCheckIfPlayerHasDiscarded() {
         CatanGameState state = new CatanGameState();
         assertFalse(state.checkIfPlayerHasDiscarded(0));
         assertTrue(state.getRobberPlayerListHasDiscarded()[0]);
@@ -99,7 +99,6 @@ public class CatanGameStateTest {
 
         state.getBoard().addBuilding(0, new Settlement(1));
         assertTrue(state.moveRobber(5, 0));
-        //TODO May need some more cases
     }
 
     // tests the method that returns a random dev card from the dev card deck
