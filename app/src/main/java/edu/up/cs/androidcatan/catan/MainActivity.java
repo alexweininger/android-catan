@@ -13,33 +13,33 @@ import edu.up.cs.androidcatan.game.config.GamePlayerType;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
-public class MainActivity extends GameMainActivity  {
+
+public class MainActivity extends GameMainActivity {
 
     // the port number that this game will use when playing over the network
     private static final int PORT_NUMBER = 2278;
 
     // default game configuration
     @Override
-    public GameConfig createDefaultConfig () {
+    public GameConfig createDefaultConfig() {
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 
         // Pig has two player types:  human and computer
         playerTypes.add(new GamePlayerType("Local Human Player") {
-            public GamePlayer createPlayer (String name) {
+            public GamePlayer createPlayer(String name) {
                 return new CatanHumanPlayer(name);
             }
         });
         playerTypes.add(new GamePlayerType("Dumb Computer") {
-            public GamePlayer createPlayer (String name) {
+            public GamePlayer createPlayer(String name) {
                 return new CatanDumbComputerPlayer(name);
             }
         });
         playerTypes.add(new GamePlayerType("Smart Computer") {
-            public GamePlayer createPlayer (String name) {
+            public GamePlayer createPlayer(String name) {
                 return new CatanSmartComputerPlayer(name);
             }
         });
@@ -55,7 +55,7 @@ public class MainActivity extends GameMainActivity  {
     }
 
     @Override
-    public LocalGame createLocalGame () {
+    public LocalGame createLocalGame() {
         return new CatanLocalGame();
     }
 }

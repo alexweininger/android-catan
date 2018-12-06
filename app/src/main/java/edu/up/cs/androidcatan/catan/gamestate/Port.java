@@ -14,12 +14,20 @@ import edu.up.cs.androidcatan.catan.graphics.IntersectionDrawable;
 
 import static android.content.ContentValues.TAG;
 
-public class Port  implements Serializable {
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * https://github.com/alexweininger/android-catan
+ **/
+
+public class Port implements Serializable {
     private static final long serialVersionUID = 6074407408138083737L;
     private int intersectionA, intersectionB, tradeRatio, resourceId;
     private int xPos, yPos, size;
 
-    public Port (int intersectionA, int intersectionB, int tradeRatio, int resourceId) {
+    public Port(int intersectionA, int intersectionB, int tradeRatio, int resourceId) {
         this.intersectionA = intersectionA;
         this.intersectionB = intersectionB;
         this.tradeRatio = tradeRatio;
@@ -31,7 +39,7 @@ public class Port  implements Serializable {
      *
      * @param p Port to copy
      */
-    public Port (Port p) {
+    public Port(Port p) {
         this.setIntersectionA(p.getIntersectionA());
         this.setTradeRatio(p.getTradeRatio());
         this.setResourceId(p.getResourceId());
@@ -44,7 +52,7 @@ public class Port  implements Serializable {
     /**
      * @param canvas Canvas to draw the port on.
      */
-    public void drawPort (Canvas canvas, int xPos, int yPos, int size, Context context, IntersectionDrawable a, IntersectionDrawable b, boolean debugMode) {
+    public void drawPort(Canvas canvas, int xPos, int yPos, int size, Context context, IntersectionDrawable a, IntersectionDrawable b, boolean debugMode) {
 
         int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
 
@@ -69,7 +77,7 @@ public class Port  implements Serializable {
             Log.e(TAG, "drawPort: portPicture is null", new NullPointerException());
         }
 
-        size = (size / 2 < 20)? 20:(size / 2);
+        size = (size / 2 < 20) ? 20 : (size / 2);
         int offset = 30;
 
         Paint ratioFont = new Paint();
@@ -90,64 +98,64 @@ public class Port  implements Serializable {
         }
     }
 
-    public int getIntersectionA () {
+    public int getIntersectionA() {
         return intersectionA;
     }
 
-    public int getTradeRatio () {
+    public int getTradeRatio() {
         return tradeRatio;
     }
 
-    public int getResourceId () {
+    public int getResourceId() {
         return resourceId;
     }
 
-    public void setIntersectionA (int intersectionA) {
+    public void setIntersectionA(int intersectionA) {
         this.intersectionA = intersectionA;
     }
 
-    private void setTradeRatio (int tradeRatio) {
+    private void setTradeRatio(int tradeRatio) {
         this.tradeRatio = tradeRatio;
     }
 
-    public void setResourceId (int resourceId) {
+    public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
     }
 
-    private int getXPos () {
+    private int getXPos() {
         return xPos;
     }
 
-    private void setXPos (int xPos) {
+    private void setXPos(int xPos) {
         this.xPos = xPos;
     }
 
-    private int getYPos () {
+    private int getYPos() {
         return yPos;
     }
 
-    private void setYPos (int yPos) {
+    private void setYPos(int yPos) {
         this.yPos = yPos;
     }
 
-    public int getSize () {
+    public int getSize() {
         return size;
     }
 
-    public void setSize (int size) {
+    public void setSize(int size) {
         this.size = size;
     }
 
-    public int getIntersectionB () {
+    public int getIntersectionB() {
         return intersectionB;
     }
 
-    public void setIntersectionB (int intersectionB) {
+    public void setIntersectionB(int intersectionB) {
         this.intersectionB = intersectionB;
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return "{" + "intersectionA=" + intersectionA + " rate=" + tradeRatio + " res=" + resourceId + '}';
     }
 }

@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class HexagonTest {
 
     @Test //Written By: Alex and Niraj
-    public void getResourceId () {
+    public void getResourceId() {
         Hexagon hexagon = new Hexagon(0, 2, 6);
         assertEquals(0, hexagon.getResourceId());
 
@@ -18,7 +18,7 @@ public class HexagonTest {
     }
 
     @Test //Written By: Alex and Niraj
-    public void getChitValue () {
+    public void getChitValue() {
         Hexagon hexagon = new Hexagon(0, 2, 6);
         assertEquals(2, hexagon.getChitValue());
 
@@ -27,7 +27,7 @@ public class HexagonTest {
     }
 
     @Test //Written By: Niraj and Alex
-    public void getHexagonId () {
+    public void getHexagonId() {
         Hexagon hexagon = new Hexagon(0, 2, 6);
         assertEquals(6, hexagon.getHexagonId());
 

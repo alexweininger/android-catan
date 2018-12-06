@@ -10,17 +10,18 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class CatanCancelAction extends GameAction implements Serializable {
     private static final long serialVersionUID = 3385017032374067088L;
 
     /**
      * CaatanCancelAcation constructor
+     *
      * @param player player calling the action
      */
-    public CatanCancelAction(GamePlayer player){
+    public CatanCancelAction(GamePlayer player) {
         super(player);
     }
 }

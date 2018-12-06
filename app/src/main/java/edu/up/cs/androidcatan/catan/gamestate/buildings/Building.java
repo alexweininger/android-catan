@@ -7,13 +7,14 @@ import java.io.Serializable;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public abstract class Building implements Serializable {
 
     private static final long serialVersionUID = 5405656877589675668L;
     private int ownerId = -1;
+
     /**
      * Building constructor
      *
@@ -26,6 +27,7 @@ public abstract class Building implements Serializable {
     public int getOwnerId() {
         return this.ownerId;
     }
+
     public void setOwnerId(int ownerId) {
         if (ownerId < 0 || ownerId > 3) {
             return;
@@ -34,5 +36,6 @@ public abstract class Building implements Serializable {
     }
 
     abstract public int getVictoryPoints();
+
     abstract public String toString();
 }
