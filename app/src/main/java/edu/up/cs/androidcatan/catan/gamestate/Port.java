@@ -50,24 +50,18 @@ public class Port implements Serializable {
     }
 
     /**
+     * Draws a port on the canvas.
+     *
      * @param canvas Canvas to draw the port on.
      */
     public void drawPort(Canvas canvas, int xPos, int yPos, int size, Context context, IntersectionDrawable a, IntersectionDrawable b, boolean debugMode) {
 
         int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
 
+        // x, y, and size variables
         this.xPos = xPos;
         this.yPos = yPos;
         this.size = size;
-
-        Paint portLinePaint = new Paint();
-        portLinePaint.setColor(Color.BLUE);
-        portLinePaint.setStrokeWidth(10);
-
-        if (debugMode) {
-            canvas.drawLine(xPos, yPos, b.getXPos(), b.getYPos(), portLinePaint);
-            canvas.drawLine(xPos, yPos, a.getXPos(), a.getYPos(), portLinePaint);
-        }
 
         Drawable portPicture = context.getDrawable(R.drawable.port_boat);
         if (portPicture != null) {
