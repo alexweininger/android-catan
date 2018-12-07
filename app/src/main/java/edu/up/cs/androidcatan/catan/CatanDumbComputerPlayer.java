@@ -120,7 +120,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
             } else if (!buildingsBuiltOnThisTurn.contains(0)) {
                 Log.i(TAG, "receiveInfo: Player has not built a road, will attempt now. playerNum=" + this.playerNum);
                 // get adjacent intersections to what we just built
-                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(lastSettlementIntersectionId);
+                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionAdjacencyList().get(lastSettlementIntersectionId);
 
                 Log.d(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom + " " + this.playerNum);
 
@@ -221,7 +221,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                     int roadCoordinate = individualRoads.get(randIntersection);
 
                     // get all adjacent intersections
-                    ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+                    ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionAdjacencyList().get(roadCoordinate);
                     Log.d(TAG, "IntersectionsToChooseFrom for coordinate: " + roadCoordinate + " for the following cords: " + intersectionsToChooseFrom.toString());
 
                     //int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
@@ -392,7 +392,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                     int roadCoordinate = individualRoads.get(randIntersection);
 
                     // get all adjacent intersections
-                    ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+                    ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionAdjacencyList().get(roadCoordinate);
 
                     int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
                     for (int n = 0; n < intersectionsToChooseFrom.size(); n++) {
