@@ -62,19 +62,25 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
         Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
+        //Make sure we are dealing with Catan game
         if (!(info instanceof CatanGameState)) return;
         CatanGameState gs = (CatanGameState) info;
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
 
+        //Random initialized player
         Random random = new Random();
 
         Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
+
+        //Prevents computer from playing if it is not their turn OR if the robber has been played for discard purposes
         if (this.playerNum != gs.getCurrentPlayerId() && !gs.isRobberPhase()) {
             Log.w(TAG, "receiveInfo: not my turn and not the robber phase, returning playerNum=" + this.playerNum + " current player=" + gs.getCurrentPlayerId());
             return;
         }
+
+        //Keep count of settlements and buildings
         int settlementCount = 0;
         int roadCount = 0;
 
@@ -98,6 +104,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
 
         // if it is the setup phase and the players turn
         if (gs.isSetupPhase() && this.playerNum == gs.getCurrentPlayerId()) {
+
+            //Player has already built needed buildings
             if (roadCount + settlementCount >= 8) {
                 Log.e(TAG, "receiveInfo: It is the setup phase, but player has already built 4 things. Ending turn.");
                 Log.i(TAG, "receiveInfo: sending CatanEndTurnAction to the game. playerNum=" + this.playerNum);
@@ -106,9 +114,13 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 game.sendAction(new CatanEndTurnAction(this));
                 return;
             }
+
+            //End Turn if the player has already built
             if (buildingsBuiltOnThisTurn.size() > 1) {
                 Log.i(TAG, "receiveInfo: built 2 or more things ending turn.");
                 game.sendAction(new CatanEndTurnAction(this));
+
+                //Reset values
                 buildingsBuiltOnThisTurn.clear();
                 lastSettlementIntersectionId = -1;
                 return;
@@ -172,7 +184,11 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
         } // setup phase if statement END
 
         /*------------------------------Setup Phase End------------------------------------------*/
+
+
         /*-------------------------------CPUs Roll Dice Action--------------------------------------*/
+
+        //If the player has not yet rolled yet AND it is this players turn, make them roll the dice
         if (!gs.isSetupPhase() && !gs.isActionPhase() && gs.getCurrentPlayerId() == playerNum) {
             sleep(300);
             game.sendAction(new CatanRollDiceAction(this));
@@ -180,6 +196,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             return;
         }
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
+
+        //Robber phase accessible for any turn, due to them possibly needing to discard
         if (gs.isRobberPhase()) {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
             sleep(500);
@@ -287,10 +305,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
         // not setup phase if statement END
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-//        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
-//            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-//            game.sendAction(new CatanEndTurnAction(this));
-//        }
 
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
             int settlementIntersection = getBuildingOfPlayer(gs);
