@@ -1563,17 +1563,19 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // set the other players score on the scoreboard to their public scores except for the user which shows their private score
 
-        //First check if player has any trophies
-        int add = 0;
-        if (this.playerNum == state.getCurrentLargestArmyPlayerId()) add += 2;
-        if (this.playerNum == state.getCurrentLongestRoadPlayerId()) add += 2;
+
 
         for (int i = 0; i < 4; i++) {
+            //First check if player has any trophies
+            int addToThisPlayer = 0;
+            if (i == state.getCurrentLargestArmyPlayerId()) addToThisPlayer += 2;
+            if (i == state.getCurrentLongestRoadPlayerId()) addToThisPlayer += 2;
+
             this.playerScores[i].setTextColor(HexagonGrid.playerColors[i]);
             if (i != this.playerNum)
-                this.playerScores[i].setText(String.valueOf(state.getPlayerList().get(i).getVictoryPoints()));
+                this.playerScores[i].setText(String.valueOf(state.getPlayerList().get(i).getVictoryPoints()+ addToThisPlayer));
             else
-                this.playerScores[this.playerNum].setText(String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + add + state.getPlayerList().get(this.playerNum).getVictoryPoints()));
+                this.playerScores[this.playerNum].setText(String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + addToThisPlayer + state.getPlayerList().get(this.playerNum).getVictoryPoints()));
         }
 
         // go through each player name
@@ -1594,7 +1596,14 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         this.playerNameSidebar.setText(getAllPlayerNames()[this.playerNum]);
 
         // human player score (sidebar menu)
-        this.myScore.setText(String.format("VPs: %s", String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + add + state.getPlayerList().get(this.playerNum).getVictoryPoints())));
+
+        //First check if player has any trophies
+        int addToThisPlayer = 0;
+        if (this.playerNum == state.getCurrentLargestArmyPlayerId()) addToThisPlayer += 2;
+        if (this.playerNum == state.getCurrentLongestRoadPlayerId()) addToThisPlayer += 2;
+
+        //Personal Score with Private VPs
+        this.myScore.setText(String.format("VPs: %s", String.valueOf(state.getPlayerList().get(this.playerNum).getVictoryPointsPrivate() + addToThisPlayer + state.getPlayerList().get(this.playerNum).getVictoryPoints())));
 
         // current turn indicator (sidebar menu)
         this.currentTurnIdTextView.setText(String.valueOf(getAllPlayerNames()[state.getCurrentPlayerId()]));
