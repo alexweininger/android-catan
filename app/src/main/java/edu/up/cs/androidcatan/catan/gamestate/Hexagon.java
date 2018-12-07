@@ -17,7 +17,7 @@ public class Hexagon implements Serializable {
     private int resourceId, chitValue, hexagonId;
 
     /**
-     * Hexagon constructor AW
+     * Hexagon constructor
      *
      * @param resourceType - resourceType type of hexagon
      * @param chitValue    - dice value of hexagon
@@ -33,15 +33,12 @@ public class Hexagon implements Serializable {
      *
      * @param h Hexagon object to create a copy from.
      */
-    public Hexagon(Hexagon h) {
+    Hexagon(Hexagon h) {
         this.setHexagonId(h.getHexagonId());
         this.setChitValue(h.getChitValue());
         this.setResourceId(h.getResourceId());
     }
 
-    /**
-     * @return - hexagon resource id, [0-4]
-     */
     public int getResourceId() {
         return resourceId;
     }
@@ -50,9 +47,6 @@ public class Hexagon implements Serializable {
         this.hexagonId = hexagonId;
     }
 
-    /**
-     * @return chit value of the hexagon
-     */
     public int getChitValue() {
         return chitValue;
     }
