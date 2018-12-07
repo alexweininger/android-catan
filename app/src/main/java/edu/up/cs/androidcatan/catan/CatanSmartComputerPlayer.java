@@ -682,6 +682,6 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
         }
         return true;
     }
-} // CatanDumbComputerPlayer class END
+} // CatanSmartComputerPlayer class END
 
 
