@@ -64,7 +64,7 @@ public class BoardTest {
 
         assertFalse(board.isConnected(1, 30));
         assertFalse(board.isConnected(1, -20));
-        assertFalse(board.isConnected(0, 1)); //wrong playerId
+        assertFalse(board.isConnected(0, 1));
         assertFalse(board.isConnected(1, 2));
 
         assertTrue(board.isConnected(1, 1));
