@@ -81,7 +81,7 @@ public class Player implements Serializable {
      * - checks for valid resourceCardId
      *
      * @param resourceCardId - index value of resource to add (0-4) defined above
-     * @param numToAdd       - number of resource cards of this type to add to the players inventory AW
+     * @param numToAdd - number of resource cards of this type to add to the players inventory AW
      */
     public void addResourceCard(int resourceCardId, int numToAdd) {
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for a valid resourceCardId
@@ -94,7 +94,7 @@ public class Player implements Serializable {
 
     /**
      * @param resourceCardId - resource to check
-     * @param numToCheckFor  - number of resources to make sure the player has
+     * @param numToCheckFor - number of resources to make sure the player has
      * @return - whether they have at least that many resources of the given type
      */
     public boolean checkResourceCard(int resourceCardId, int numToCheckFor) {
@@ -193,7 +193,7 @@ public class Player implements Serializable {
      * - error checks for preventing negative resource card counts
      *
      * @param resourceCardId - id of resource card to remove from players inventory
-     * @param numToRemove    - number of resource cards of this type to remove
+     * @param numToRemove - number of resource cards of this type to remove
      * @return - if numToRemove resource card(s) have been removed from the players inventory
      */
     public boolean removeResourceCard(int resourceCardId, int numToRemove) {
