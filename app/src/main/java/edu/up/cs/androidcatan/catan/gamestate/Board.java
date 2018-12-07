@@ -934,7 +934,7 @@ public class Board implements Serializable {
         return this.buildings[intersectionId];
     }
 
-    public void generateNewIntersectionGraphManually() {
+    private void generateNewIntersectionGraphManually() {
 
         for (int i = 0; i < 54; i++) {
             this.intersectionAdjacencyList.add(new ArrayList<Integer>());
@@ -1400,7 +1400,7 @@ public class Board implements Serializable {
 
     /* ----- generic setter methods ----- */
 
-    public void setRoadGraph(ArrayList<ArrayList<Road>> roadGraph) {
+    private void setRoadGraph(ArrayList<ArrayList<Road>> roadGraph) {
         this.roadGraph = roadGraph;
     }
 
@@ -1429,11 +1429,11 @@ public class Board implements Serializable {
         return portList;
     }
 
-    public void setHighlightedHexagonId(int highlightedHexagonId) {
+    private void setHighlightedHexagonId(int highlightedHexagonId) {
         this.highlightedHexagonId = highlightedHexagonId;
     }
 
-    public void setHighlightedIntersectionId(int highlightedIntersectionId) {
+    private void setHighlightedIntersectionId(int highlightedIntersectionId) {
         this.highlightedIntersectionId = highlightedIntersectionId;
     }
 
