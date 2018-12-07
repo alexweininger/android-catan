@@ -10,6 +10,7 @@ import java.io.Serializable;
  * https://github.com/alexweininger/android-catan
  **/
 
+// this
 public class DevelopmentCard implements Serializable {
     private static final long serialVersionUID = 1714495690590122983L;
     public static int[] resourceCost = {0, 1, 0, 1, 1};

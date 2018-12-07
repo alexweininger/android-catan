@@ -24,8 +24,8 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
 
 public class Board implements Serializable {
 
-    private static final String TAG = "Board";
     private static final long serialVersionUID = -4950803135763998136L;
+    private static final String TAG = "Board";
 
     /**
      * External Citation
