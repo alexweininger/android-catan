@@ -60,11 +60,11 @@ public class Player implements Serializable {
         this.armySize = p.armySize;
         this.setBuildingInventory(p.getBuildingInventory());
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
-        this.setDevCardsBuiltThisTurn(p.getDevCardsBuiltThisTurn());
         this.victoryPointsPrivate = p.victoryPointsPrivate;
         this.victoryPoints = p.victoryPoints;
         this.developmentCards.addAll(p.developmentCards);
         System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length);
+        this.devCardsBuiltThisTurn.addAll(p.devCardsBuiltThisTurn);
     }
 
     public static String[] getResourceCardIds() {
