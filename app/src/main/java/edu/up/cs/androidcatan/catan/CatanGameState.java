@@ -325,21 +325,24 @@ public class CatanGameState extends GameState {
             return true;
         }
 
+        //Iterate through and discard specified resources
         Log.i(TAG, "discardResources: Discarded resources");
         for (int i = 0; i < resourcesDiscarded.length; i++) {
             this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
         }
 
+        //Mark that the player specified has now completed the discard phase
         robberPlayerListHasDiscarded[playerId] = true;
         return true;
     }
 
     /**
-     * for everyplayer in the game, checks if they need to discards cards
+     * For every player in the game, checks if they need to discards cards
      *
      * @return true or false
      */
     public boolean allPlayersHaveDiscarded() {
+        //Iterate through each player that has discarded; if anyone has not, return false
         for (boolean aRobberPlayerListHasDiscarded : robberPlayerListHasDiscarded) {
             if (!aRobberPlayerListHasDiscarded) {
                 return false;
@@ -390,22 +393,26 @@ public class CatanGameState extends GameState {
      * @return action success.
      */
     public boolean moveRobber(int hexagonId, int playerId) {
+
+        //Valid player id
         if (!valPlId(playerId)) {
             Log.d(TAG, "moveRobber: invalid player id: " + playerId);
             return false;
         }
+
+        //It is their turn
         if (!checkTurn(playerId)) {
             Log.i(TAG, "moveRobber: it is not " + playerId + "'s turn.");
             return false;
         }
+
+        //Move the robber and mark that phase is done
         if (board.moveRobber(hexagonId)) {
             Log.i(TAG, "moveRobber: Player " + playerId + " moved the Robber to Hexagon " + hexagonId);
             hasMovedRobber = true;
             return true;
         }
-        Log.i(TAG, "moveRobber: Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId);
 
-        playerStealingFrom = playerId;
         return false;
     }
 
@@ -425,16 +432,22 @@ public class CatanGameState extends GameState {
      * @return - action success
      */
     public boolean robberSteal(int playerId, int stealingFromPlayerId) {
+
+        //Make sure they are not trying to steal from themselves
         if (playerId == stealingFromPlayerId) {
             Log.e(TAG, "robberSteal: Trying to steal from self, error.");
             return false;
         }
+
+        //Make sure it's a valid player id
         if (playerId < 0 || playerId > 3 || stealingFromPlayerId < 0 || stealingFromPlayerId > 3) {
             return false;
         }
 
+        //Pick random resource from player
         int randomStolenResourceId = this.playerList.get(stealingFromPlayerId).getRandomCard();
 
+        //Specified player has no resources; don't steal anything; end of robber phase, reset values
         if (randomStolenResourceId == -1) {
             isRobberPhase = false;
             hasMovedRobber = false;
@@ -445,6 +458,7 @@ public class CatanGameState extends GameState {
             return true;
         }
 
+        //Invalid steal ID
         if (randomStolenResourceId < 0 || randomStolenResourceId > 4) {
             Log.e(TAG, "robberSteal: Received invalid resource card id: " + randomStolenResourceId + " from Player.getRandomCard method.");
             return false;
@@ -458,6 +472,7 @@ public class CatanGameState extends GameState {
 
         Log.i(TAG, "robberSteal: Stolen card " + randomStolenResourceId + " added to player: " + this.playerList.get(playerId));
 
+        //Robber phase complete, reset values
         isRobberPhase = false;
         hasMovedRobber = false;
 
