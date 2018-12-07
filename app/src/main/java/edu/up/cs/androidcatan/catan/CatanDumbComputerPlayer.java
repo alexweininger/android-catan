@@ -167,15 +167,20 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
         }
 
         /*----------------------------------Build Actions------------------------------------------*/
+
+        //Check if player can actually build
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
             sleep(1000);
             Building building;
             int action = random.nextInt(4);
             if (action == 0) //build  City
             {
+                //Check if player has resources to build
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
                     Log.d(TAG, "receiveInfo: Valid amount of resources to build city");
                     for (int n = 0; n < gs.getBoard().getBuildings().length; n++) {
+
+                        //Check if location is valid to build a city on
                         if (gs.getBoard().getBuildings()[n] == null) {
                             Log.d(TAG, "receiveInfo: Nothing at this location on board");
                         } else if (gs.getBoard().getBuildings()[n].getOwnerId() == this.playerNum) {
@@ -250,6 +255,8 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
         /*------------------------------Build Actions End------------------------------------------*/
 
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
+
+        //Carry out robber phase
         if (gs.isRobberPhase()) {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
             sleep(500);
@@ -346,10 +353,14 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
         }
 
         /*----------------------------------Build Actions------------------------------------------*/
+
+        //Check if it is valid to try and take action to build
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
             sleep(1000);
             Building building;
             int action = random.nextInt(4);
+
+            //Build a city
             if (action == 0) {
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(City.resourceCost)) {
                     Log.d(TAG, "receiveInfo: Valid amount of resources to build city");
@@ -367,7 +378,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                         }
                     }
                 }
-            } else if (action == 1) {
+            } else if (action == 1) { //Build a settlement
                 Log.d(TAG, "Dumb AI randomly tried to build a settlement");
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)) {
                     Log.d(TAG, "receiveInfo: Valid amount of resources to building");
@@ -380,7 +391,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                     }
                 }
 
-            } else if (action == 2) {
+            } else if (action == 2) { //Build a road
                 Log.d(TAG, "Dumb AI randomly tried to build a road");
                 if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Road.resourceCost)) {
 
@@ -404,7 +415,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
                     }
                     Log.d(TAG, "receiveInfo: Problem with building a road");
                 }
-            } else {
+            } else { //Do nothing and end turn
                 Log.d(TAG, "Dumb AI randomly chose to do nothing");
                 game.sendAction(new CatanEndTurnAction(this));
                 Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
@@ -416,6 +427,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
+        //End turn if action taken
         if (!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()) {
             Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction because it is not the robber phase and it is my turn playerId=" + playerNum);
             game.sendAction(new CatanEndTurnAction(this));
@@ -441,19 +453,26 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
      */
     private boolean tryMoveRobber(int hexId, CatanGameState gs) {
         Log.d(TAG, "tryMoveRobber() called with: hexId = [" + hexId + "], gs = [" + gs + "]");
+
+        //Robber already moved
         if (gs.getHasMovedRobber()) {
             Log.d(TAG, "tryMoveRobber() returned: " + false + " because the robber has already been moved.");
             return false;
         }
+
+        //Hex not selected
         if (hexId == -1) {
             Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
             return false;
         }
 
+        //HexId not different from Robber's current position
         if (hexId == gs.getBoard().getRobber().getHexagonId()) {
             Log.d(TAG, "tryMoveRobber: Same hexId as robber");
             return false;
         }
+
+        //Robber cannot be moved to desert tile
         if (gs.getBoard().getHexagons().get(hexId).getResourceId() == 5) {
             Log.d(TAG, "tryMoveRobber: Desert tile selected; invalid.");
             return false;
@@ -461,6 +480,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
         ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
 
+        //Make sure hex has enemy buildings adjacent to it; if not, then it's not a valid hex
         for (Integer intersection : intersections) {
             if (gs.getBoard().getBuildings()[intersection] != null) {
                 if (gs.getBoard().getBuildings()[intersection].getOwnerId() != playerNum) {
