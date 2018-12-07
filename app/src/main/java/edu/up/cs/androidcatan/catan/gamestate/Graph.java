@@ -140,13 +140,6 @@ public class Graph implements Runnable, Serializable {
                 return maxRoadLength;
             }
         }
-        //        for (int i = 0; i < pr.size(); i++) {
-        //            int l = DFS(pr.get(i).getIntersectionBId());
-        //            if (l > maxRoadLength) maxRoadLength = l;
-        //            if (maxRoadLength == pr.size()) {
-        //                return maxRoadLength;
-        //            }
-        //        }
         Log.e(TAG, "getMaxRoadLength returning " + maxRoadLength);
         return maxRoadLength;
     }
