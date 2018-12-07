@@ -104,23 +104,30 @@ public class CatanLocalGame extends LocalGame {
         Log.d(TAG, "makeMove: state: " + state.toString());
         /* --------------------------- Turn Actions --------------------------------------- */
 
+        //Player is rolling the dice
         if (action instanceof CatanRollDiceAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+            //Set the gamestates dice value to what the player rolled
             this.state.setCurrentDiceSum(this.state.getDice().roll());
             Log.i(TAG, "rollDice: Player " + this.state.getCurrentPlayerId() + " rolled a " + this.state.getCurrentDiceSum());
 
+            //If Robber is rolled, activate robber phase
             if (state.getCurrentDiceSum() == 7) { // if the robber is rolled
                 Log.i(TAG, "rollDice: The robber has been activated.");
                 state.setRobberPhase(true);
-            } else {
+            } else { //Produce Resources for any other roll
                 // produce resources for the roll
                 Log.d(TAG, "makeMove: calling produce resources");
                 state.produceResources(state.getCurrentDiceSum());
             }
+
+            //Action Phase: Player can now do any action other than roll
             state.setActionPhase(true); // set the action phase to true
             return true;
         }
 
+        //Player is ending their turn
         if (action instanceof CatanEndTurnAction) {
             Log.d(TAG, "makeMove() Player " + state.getCurrentPlayerId() + " is ending their turn.");
 
@@ -150,6 +157,7 @@ public class CatanLocalGame extends LocalGame {
 
         /* --------------------------- Build Actions --------------------------------------- */
 
+        //Player is building a road
         if (action instanceof CatanBuildRoadAction) {
             Log.d(TAG, "makeMove() receiving a CatanBuildRoadAction: " + action.toString());
 
@@ -165,8 +173,11 @@ public class CatanLocalGame extends LocalGame {
                 // add the road to the board
                 state.getBoard().addRoad(((CatanBuildRoadAction) action).getOwnerId(), ((CatanBuildRoadAction) action).getIntAId(), ((CatanBuildRoadAction) action).getIntBid());
 
+                //New graph to add roads to board
                 Graph rg = new Graph(54);
                 rg.setAllRoads(state.getBoard().getRoads());
+
+                //Thread to update the player with the longest road
                 Thread t = new Thread(rg);
                 t.start();
                 try {
@@ -179,10 +190,13 @@ public class CatanLocalGame extends LocalGame {
                 state.setCurrentLongestRoadPlayerId(rg.getPlayerIdWithLongestRoad());
                 return true;
             }
+
+            //removeResourceBundle failed
             Log.e(TAG, "makeMove: Player sent a CatanBuildRoadAction but removeResourceBundle returned false.");
             return false;
         }
 
+        //Player is building a settlement
         if (action instanceof CatanBuildSettlementAction) {
             Log.i(TAG, "makeMove: received an CatanBuildSettlementAction.");
 
@@ -201,10 +215,6 @@ public class CatanLocalGame extends LocalGame {
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             } else {
-                //                state.getCurrentPlayer().addResourceCard(0,1);
-//                state.getCurrentPlayer().addResourceCard(1,1);
-//                state.getCurrentPlayer().addResourceCard(2,1);
-//                state.getCurrentPlayer().addResourceCard(4,1);
 
                 // remove resources from players inventory (also does checks)
                 if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
