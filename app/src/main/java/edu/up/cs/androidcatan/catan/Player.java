@@ -16,30 +16,33 @@ import java.util.Random;
  **/
 
 public class Player implements Serializable {
-
+    private static final long serialVersionUID = 1235142098074598148L;
     private static final String TAG = "Player"; // TAG used for Logging
 
-    /* ----- Player instance variables ----- */
+    /* ------------------------- Player instance variables ----------------------- */
+
+    private int playerId;  // player id (0-1)
+
     // array for relating resource card names to resource card ids in the resourceCards array above
     private static final String[] resourceCardIds = {"Brick", "Grain", "Lumber", "Ore", "Wool"};
-    private static final long serialVersionUID = 1235142098074598148L;
+
     // resourceCard index values: 0 = Brick, 1 = Grain, 2 = Lumber, 3 = Ore, 4 = Wool
     private int[] resourceCards = {0, 0, 0, 0, 0}; // array for number of each resource card a player has
+
     // ArrayList of the development cards the player owns
     private ArrayList<Integer> developmentCards = new ArrayList<>();
+    // list of dev cards the player has built on their turn
     private ArrayList<Integer> devCardsBuiltThisTurn = new ArrayList<>();
 
     // number of buildings the player has to build {roads, settlements, cities}
     private int[] buildingInventory = {15, 5, 4};
 
-    // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
+    // how many knight dev cards the player has played, used for  the largest army trophy
     private int armySize;
 
-    private int playerId;  // player
-
-    private int victoryPoints;
-    private int victoryPointsPrivate;
-    private int victoryPointsFromDevCard;
+    private int victoryPoints; // victory points that will be shown to other players
+    private int victoryPointsPrivate; // victory points including dev cards
+    private int victoryPointsFromDevCard; // victory points from dev cards
 
     /**
      * Player constructor
@@ -62,18 +65,10 @@ public class Player implements Serializable {
         this.setVictoryPointsFromDevCard(p.getVictoryPointsFromDevCard());
         this.victoryPointsPrivate = p.victoryPointsPrivate;
         this.victoryPoints = p.victoryPoints;
-        this.developmentCards.addAll(p.developmentCards);
-        System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length);
-        this.devCardsBuiltThisTurn = new ArrayList<>();
-        this.devCardsBuiltThisTurn.addAll(p.devCardsBuiltThisTurn);
-    }
-
-    public static String[] getResourceCardIds() {
-        return resourceCardIds;
-    }
-
-    void addVictoryPointsDevCard() {
-        this.victoryPointsFromDevCard += 1;
+        this.developmentCards.addAll(p.developmentCards); //copy dev cards
+        System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length); // copy resource cards
+        this.devCardsBuiltThisTurn = new ArrayList<>(); // reset the array list
+        this.devCardsBuiltThisTurn.addAll(p.devCardsBuiltThisTurn); // add all the items
     }
 
     /**
@@ -81,7 +76,7 @@ public class Player implements Serializable {
      * - checks for valid resourceCardId
      *
      * @param resourceCardId - index value of resource to add (0-4) defined above
-     * @param numToAdd       - number of resource cards of this type to add to the players inventory AW
+     * @param numToAdd - number of resource cards of this type to add to the players inventory AW
      */
     public void addResourceCard(int resourceCardId, int numToAdd) {
         if (resourceCardId < 0 || resourceCardId >= 5) { // check for a valid resourceCardId
@@ -94,7 +89,7 @@ public class Player implements Serializable {
 
     /**
      * @param resourceCardId - resource to check
-     * @param numToCheckFor  - number of resources to make sure the player has
+     * @param numToCheckFor - number of resources to make sure the player has
      * @return - whether they have at least that many resources of the given type
      */
     public boolean checkResourceCard(int resourceCardId, int numToCheckFor) {
@@ -132,6 +127,18 @@ public class Player implements Serializable {
     }
 
     /**
+     * @param devCard dev card to remove
+     * @return if action was possible
+     */
+    public boolean useDevCard(int devCard) {
+        if (developmentCards.contains(devCard)) {
+            developmentCards.remove(devCard);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * removes a dev card from the players hand
      *
      * @param removeCardNum the number of the dev card to remove
@@ -143,31 +150,10 @@ public class Player implements Serializable {
     }
 
     /**
-     * adds a dev card to list of dev cards that were built this turn
-     *
-     * @param devCard the number of the dev card
-     */
-    public void addDevCardsBuiltThisTurn(int devCard) {
-        devCardsBuiltThisTurn.add(devCard);
-    }
-
-    /**
-     * gets the list of Integer of dev card numbers
-     *
-     * @return arrayList of Integer objects
-     */
-    public ArrayList<Integer> getDevCardsBuiltThisTurn() {
-        return devCardsBuiltThisTurn;
-    }
-
-    public void setDevCardsBuiltThisTurn(ArrayList<Integer> devCardsBuiltThisTurn) {
-        this.devCardsBuiltThisTurn = devCardsBuiltThisTurn;
-    }
-
-    /**
      * gets the player compare the players hand of dev cards and the ones that have been built this turn
      *
      * @return arrayList of Integers that correspond to dev cards that can be played this turn
+     * which is total dev cards difference the dev cards built on this turn
      */
     public ArrayList<Integer> getPlayableDevCards() {
         ArrayList<Integer> playableDevCards = new ArrayList<>(developmentCards);
@@ -184,6 +170,7 @@ public class Player implements Serializable {
             }
         }
 
+        // return the players total dev cards difference the dev cards built on this turn
         return playableDevCards;
     }
 
@@ -193,7 +180,7 @@ public class Player implements Serializable {
      * - error checks for preventing negative resource card counts
      *
      * @param resourceCardId - id of resource card to remove from players inventory
-     * @param numToRemove    - number of resource cards of this type to remove
+     * @param numToRemove - number of resource cards of this type to remove
      * @return - if numToRemove resource card(s) have been removed from the players inventory
      */
     public boolean removeResourceCard(int resourceCardId, int numToRemove) {
@@ -222,22 +209,22 @@ public class Player implements Serializable {
      * @return If the player has ALL of the resources.
      */
     public boolean removeResourceBundle(int[] resourceCost) {
-        if (resourceCost == null) {
-            return false;
-        }
+        if (resourceCost == null) return false; // check if null
+        if (resourceCost.length != 5) return false; // check if the length is somehow less than 5
 
-        if (resourceCost.length != 5) {
-            return false;
-        }
-        Log.d(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
-        Log.w(TAG, "removeResourceBundle: players resources: " + Arrays.toString(this.resourceCards));
+        Log.i(TAG, "removeResourceBundle() called with: resourceCost = [" + Arrays.toString(resourceCost) + "]");
+        Log.i(TAG, "removeResourceBundle: players resources: " + Arrays.toString(this.resourceCards));
+
+        // check if they have the resources to remove
         if (!hasResourceBundle(resourceCost)) {
             Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Insufficient resources. Must do error checking before calling this method!");
             return false;
         }
+
+        // remove the resources in the resourceCost array from the players resources
         for (int i = 0; i < resourceCost.length; i++) {
             Log.w(TAG, "removeResourceBundle: attempting to remove " + resourceCost[i] + " of resource type " + i + " from player.");
-            if (!this.removeResourceCard(i, resourceCost[i])) {
+            if (!this.removeResourceCard(i, resourceCost[i])) { // if this returns false, we have an issue
                 Log.e(TAG, "removeResourceBundle: Cannot remove resource bundle from player " + this.playerId + ". Player.removeResourceCard method returned false.");
                 return false;
             }
@@ -265,12 +252,12 @@ public class Player implements Serializable {
     /**
      * @return -
      */
-    public int[] getBuildingInventory() {
+    private int[] getBuildingInventory() {
         return buildingInventory;
     }
 
     /**
-     * @param buildingInventory
+     * @param buildingInventory building inventory of the player
      */
     private void setBuildingInventory(int[] buildingInventory) {
         this.buildingInventory = buildingInventory;
@@ -279,7 +266,7 @@ public class Player implements Serializable {
     /**
      * @return - resource card array
      */
-    public int[] getResourceCards() {
+    int[] getResourceCards() {
         return this.resourceCards;
     }
 
@@ -293,52 +280,29 @@ public class Player implements Serializable {
     /**
      * @return the size of the player's army
      */
-    public int getArmySize() {
+    int getArmySize() {
         return armySize;
     }
 
     /**
      * @param armySize the size of the player's army
      */
-    public void setArmySize(int armySize) {
+    void setArmySize(int armySize) {
         this.armySize = armySize;
     }
 
     /**
      * @return victory points from dev cards
      */
-    public int getVictoryPointsFromDevCard() {
+    private int getVictoryPointsFromDevCard() {
         return victoryPointsFromDevCard;
     }
 
     /**
      * @param victoryPointsFromDevCard the amount of points from dev cards they have
      */
-    public void setVictoryPointsFromDevCard(int victoryPointsFromDevCard) {
+    private void setVictoryPointsFromDevCard(int victoryPointsFromDevCard) {
         this.victoryPointsFromDevCard = victoryPointsFromDevCard;
-    }
-
-    /**
-     * @param devCard dev card to remove
-     * @return if action was possible
-     */
-    public boolean useDevCard(int devCard) {
-        if (developmentCards.contains(devCard)) {
-            developmentCards.remove(devCard);
-            return true;
-        }
-        return false;
-    }
-
-    public void decrementBuildingInventory(int buildingId) {
-        this.buildingInventory[buildingId]--;
-    }
-
-    // use to allow the player to use the dev card they built the turn prior
-    public void setDevelopmentCardsAsPlayable() {
-        for (int i = 0; i < developmentCards.size(); i++) {
-            //developmentCards.get(i).setPlayable(true);
-        }
     }
 
     /**
@@ -346,13 +310,6 @@ public class Player implements Serializable {
      */
     public int getPlayerId() {
         return this.playerId;
-    }
-
-    /**
-     * @param playerId
-     */
-    private void setPlayerId(int playerId) {
-        this.playerId = playerId;
     }
 
     /**
@@ -408,20 +365,38 @@ public class Player implements Serializable {
         this.victoryPoints = victoryPoints;
     }
 
-    public void addVictoryPoints(int number) {
+    void addVictoryPoints(int number) {
         this.victoryPoints += number;
     }
 
-    public void addPrivateVictoryPoints(int number) {
+    void addPrivateVictoryPoints(int number) {
         this.victoryPointsPrivate += number;
     }
 
-    public int getVictoryPointsPrivate() {
+    int getVictoryPointsPrivate() {
         return this.victoryPointsPrivate;
     }
 
-    public void setVictoryPointsPrivate(int victoryPointsPrivate) {
-        this.victoryPointsPrivate = victoryPointsPrivate;
+    /**
+     * adds a dev card to list of dev cards that were built this turn
+     *
+     * @param devCard the number of the dev card
+     */
+    void addDevCardsBuiltThisTurn(int devCard) {
+        devCardsBuiltThisTurn.add(devCard);
+    }
+
+    /**
+     * gets the list of Integer of dev card numbers
+     *
+     * @return arrayList of Integer objects
+     */
+    ArrayList<Integer> getDevCardsBuiltThisTurn() {
+        return devCardsBuiltThisTurn;
+    }
+
+    void setDevCardsBuiltThisTurn(ArrayList<Integer> devCardsBuiltThisTurn) {
+        this.devCardsBuiltThisTurn = devCardsBuiltThisTurn;
     }
 
 

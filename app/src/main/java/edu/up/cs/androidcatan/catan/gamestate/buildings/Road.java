@@ -13,16 +13,16 @@ import java.io.Serializable;
 public class Road extends Building implements Serializable {
 
     private static final long serialVersionUID = -2163345533367819700L;
-    private int intersectionAId, intersectionBId;
+
+    private int intersectionAId, intersectionBId; // intersections the road is located
     public static final int[] resourceCost = {1, 0, 1, 0, 0}; // Brick, Grain, Lumber, Ore, Wool
 
     /**
-     * @param intersectionAId -
-     * @param intersectionBId -
+     * @param intersectionAId 1st intersection of road
+     * @param intersectionBId 2nd intersection of road
      */
     public Road(int playerId, int intersectionAId, int intersectionBId) {
         super(playerId);
-
         this.intersectionAId = intersectionAId;
         this.intersectionBId = intersectionBId;
     }
@@ -40,7 +40,6 @@ public class Road extends Building implements Serializable {
     }
 
     // getters
-
     public int getIntersectionAId() {
         return this.intersectionAId;
     }

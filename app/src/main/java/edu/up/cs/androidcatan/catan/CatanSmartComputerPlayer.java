@@ -15,7 +15,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
@@ -62,19 +61,25 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
         Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
+        //Make sure we are dealing with Catan game
         if (!(info instanceof CatanGameState)) return;
         CatanGameState gs = (CatanGameState) info;
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
 
+        //Random initialized player
         Random random = new Random();
 
         Log.i(TAG, "receiveInfo() of player " + this.playerNum + " called.");
 
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
+
+        //Prevents computer from playing if it is not their turn OR if the robber has been played for discard purposes
         if (this.playerNum != gs.getCurrentPlayerId() && !gs.isRobberPhase()) {
             Log.w(TAG, "receiveInfo: not my turn and not the robber phase, returning playerNum=" + this.playerNum + " current player=" + gs.getCurrentPlayerId());
             return;
         }
+
+        //Keep count of settlements and buildings
         int settlementCount = 0;
         int roadCount = 0;
 
@@ -98,6 +103,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
 
         // if it is the setup phase and the players turn
         if (gs.isSetupPhase() && this.playerNum == gs.getCurrentPlayerId()) {
+
+            //Player has already built needed buildings
             if (roadCount + settlementCount >= 8) {
                 Log.e(TAG, "receiveInfo: It is the setup phase, but player has already built 4 things. Ending turn.");
                 Log.i(TAG, "receiveInfo: sending CatanEndTurnAction to the game. playerNum=" + this.playerNum);
@@ -106,9 +113,13 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 game.sendAction(new CatanEndTurnAction(this));
                 return;
             }
+
+            //End Turn if the player has already built
             if (buildingsBuiltOnThisTurn.size() > 1) {
                 Log.i(TAG, "receiveInfo: built 2 or more things ending turn.");
                 game.sendAction(new CatanEndTurnAction(this));
+
+                //Reset values
                 buildingsBuiltOnThisTurn.clear();
                 lastSettlementIntersectionId = -1;
                 return;
@@ -138,7 +149,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             } else if (!buildingsBuiltOnThisTurn.contains(0)) {
                 Log.i(TAG, "receiveInfo: Player has not built a road, will attempt now. playerNum=" + this.playerNum);
                 // get adjacent intersections to what we just built
-                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(lastSettlementIntersectionId);
+                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionAdjacencyList().get(lastSettlementIntersectionId);
 
                 Log.d(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom + " " + this.playerNum);
 
@@ -172,7 +183,11 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
         } // setup phase if statement END
 
         /*------------------------------Setup Phase End------------------------------------------*/
+
+
         /*-------------------------------CPUs Roll Dice Action--------------------------------------*/
+
+        //If the player has not yet rolled yet AND it is this players turn, make them roll the dice
         if (!gs.isSetupPhase() && !gs.isActionPhase() && gs.getCurrentPlayerId() == playerNum) {
             sleep(300);
             game.sendAction(new CatanRollDiceAction(this));
@@ -180,6 +195,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             return;
         }
         /*-------------------------------CPUs Robber Actions--------------------------------------*/
+
+        //Robber phase accessible for any turn, due to them possibly needing to discard
         if (gs.isRobberPhase()) {
             Log.i(TAG, "receiveInfo: Computer has reached the Robber Phase");
             sleep(500);
@@ -270,7 +287,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
 
                     //10. Send the action to move the robber; information has been saved to also steal with the robber
 
-                    sleep(4000);
+                    sleep(3000);
                     game.sendAction(new CatanRobberMoveAction(this, playerNum, hexId));
                     return;
 
@@ -279,7 +296,9 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 /*----------------Steal Resource Phase--------------*/
 
                 //11. Now Steal from the selected intersection
+                sleep(1000);
                 game.sendAction(new CatanRobberStealAction(this, playerNum, playerWithMostVPs));
+                sleep(3000);
                 return;
             }//End of Robber Phases after Discard phase
         }//End of Robber Phase
@@ -287,12 +306,11 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
         // not setup phase if statement END
 
         /* ----------------------------------- CPUs Normal Action Phase ------------------------------------ */
-//        if(!gs.isRobberPhase() && this.playerNum == gs.getCurrentPlayerId()){
-//            Log.e(TAG, "receiveInfo: returning a CatanEndTurnAction");
-//            game.sendAction(new CatanEndTurnAction(this));
-//        }
 
+        //Player can take calculated actions
         if (!gs.isSetupPhase() && gs.isActionPhase() && gs.getCurrentPlayerId() == this.playerNum && !gs.isRobberPhase()) {
+
+            //Checking if they have actual buildings
             int settlementIntersection = getBuildingOfPlayer(gs);
             Log.d(TAG, "receiveInfo: settlementIntersection = " + settlementIntersection);
             if (settlementIntersection == -1) {
@@ -319,6 +337,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             if (gs.getPlayerList().get(this.playerNum).hasResourceBundle(Settlement.resourceCost)) {
                 Log.d(TAG, "receiveInfo: Valid amount of resources to building");
                 for (int n = 0; n < getPlayerRoadIntersection(getPlayerRoads(gs)).size(); n++) {
+
                     //cycling through the amount, not the proper value at the intersection
                     if (gs.getBoard().validBuildingLocation(this.playerNum, false, getPlayerRoadIntersection(getPlayerRoads(gs)).get(n))) {
                         Log.d(TAG, "receiveInfo: validBuildingLocation for a settlement");
@@ -370,6 +389,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size() > 0) {
                 Log.d(TAG, "receiveInfo: Player " + this.playerNum + " has a playable development card");
                 for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getDevelopmentCards().size(); n++) {
+
                     //if they have a victory points card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 1) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using vp card");
@@ -380,6 +400,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
+
                     //if they have a knight card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 0) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using knight card");
@@ -390,6 +411,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
+
                     //if they have a year of plenty card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 2) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using year of plenty card");
@@ -400,6 +422,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
+
                     //if they have a monopoly card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 3) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using monopoly card");
@@ -409,6 +432,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                         Log.d(TAG, "receiveInfo: CatanEndTurnAction sent");
                         return;
                     }
+
                     //if they have a road card
                     if (gs.getPlayerList().get(this.playerNum).getDevelopmentCards().get(n) == 4) {
                         Log.d(TAG, "receiveInfo: Player " + this.playerNum + " using road dev card");
@@ -421,6 +445,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 }
             }
 
+            /*****Looks to trade so they can potentially build a road******/
             if (brickCount >= 5 && lumberCount == 0) {
                 Log.d(TAG, "receiveInfo: Brick count: " + brickCount + " and lumberCount: " + lumberCount + " caused a trade");
                 game.sendAction(new CatanTradeWithBankAction(this, 0, 2));
@@ -473,7 +498,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 int roadCoordinate = individualRoads.get(randIntersection);
 
                 // get all adjacent intersections
-                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionAdjacencyList().get(roadCoordinate);
                 Log.d(TAG, "IntersectionsToChooseFrom for coordinate: " + roadCoordinate + " for the following cords: " + intersectionsToChooseFrom.toString());
 
                 //int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
@@ -488,12 +513,15 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                         return;
                     }
                 }
+
+                //End turn after building
                 Log.d(TAG, "receiveInfo: Problem with building a road");
                 game.sendAction(new CatanEndTurnAction(this));
                 sleep(2000);
                 return;
             }
 
+            //End turn if no other action can be taken
             game.sendAction(new CatanEndTurnAction(this));
             Log.d(TAG, "receiveInfo: CatanEndTurnAction sent: Nothing was built");
             sleep(2000);
@@ -511,20 +539,25 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
      */
     private boolean tryMoveRobber(int hexId, CatanGameState gs) {
 
+        //Checks hex has been selected
         if (hexId == -1) {
             Log.d(TAG, "tryMoveRobber: Invalid hex ID from CPU");
             return false;
         }
 
+        //Checks if it is a different hex from the same spot
         if (hexId == gs.getBoard().getRobber().getHexagonId()) {
             Log.d(TAG, "tryMoveRobber: Same hexId as robber");
             return false;
         }
+
+        //Checks if player has selected the desert tile
         if (gs.getBoard().getHexagons().get(hexId).getResourceId() == 5) {
             Log.d(TAG, "tryMoveRobber: Desert tile selected; invalid.");
             return false;
         }
 
+        //Checking to make sure there is an opponent building adjacent to the selected hex
         ArrayList<Integer> intersections = gs.getBoard().getHexToIntIdMap().get(hexId);
 
         for (Integer intersection : intersections) {
@@ -534,6 +567,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
+
+        //Invalid Hex
         Log.d(TAG, "tryMoveRobber: ");
         return false;
     }
@@ -605,6 +640,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
 
     private int playerLeastResource(CatanGameState gs) {
         int minPosition = 999;
+
+        //Iterate through players and see who has the least resources
         for (int n = 0; n < gs.getPlayerList().get(this.playerNum).getResourceCards().length; n++) {
             if (gs.getPlayerList().get(this.playerNum).getResourceCards()[n] < minPosition) {
                 minPosition = n;
@@ -628,10 +665,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             }
         }
         Log.d(TAG, "playerRoadCount: Count of player " + this.playerNum + " roads is at " + count);
-        if (count >= 10) {
-            return false;
-        }
-        return true;
+        return count < 10;
     }
 
     /**
@@ -639,11 +673,8 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
      * @return true if road intersection is less than 24, false otherwise
      */
     private boolean checkSetupPhaseIntersection(int intersection) {
-        if (intersection > 23) {
-            return false;
-        }
-        return true;
+        return intersection <= 23;
     }
-} // CatanDumbComputerPlayer class END
+} // CatanSmartComputerPlayer class END
 
 

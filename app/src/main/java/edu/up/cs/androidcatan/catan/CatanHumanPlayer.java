@@ -321,11 +321,15 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Road button on the sidebar.
         if (button.getId() == R.id.sidebar_button_road) {
             Log.i(TAG, "onClick: " + state.getBoard().toString() + "");
+
+            //Player does not have enough resources to build the road
             if (!state.isSetupPhase() && !state.getPlayerList().get(state.getCurrentPlayerId()).hasResourceBundle(Road.resourceCost)) {
                 messageTextView.setText(R.string.not_enough_for_road);
                 shake(messageTextView);
                 return;
             }
+
+            //Player has not selected enough intersections build a road (2 needed)
             if (selectedIntersections.size() != 2) {
                 messageTextView.setText(R.string.need_2_ints_for_road);
                 /**
@@ -343,6 +347,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 return;
             }
+
+            //Try to build the road
             tryBuildRoad(selectedIntersections.get(0), selectedIntersections.get(1));
             return;
         }
@@ -350,6 +356,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Settlement button on the sidebar.
         if (button.getId() == R.id.sidebar_button_settlement) {
             Log.d(TAG, "onClick: sidebar_button_settlement listener");
+
+            //Make sure an intersection has been selected to build on(Just 1)
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText(R.string.one_int_for_set);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select one intersection to build a settlement.", Toast.LENGTH_SHORT);
@@ -358,12 +366,10 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
                 shake(messageTextView);
             } else {
+                //Build the settlement
                 if (tryBuildSettlement(selectedIntersections.get(0))) {
                     this.intersectionOfSettlementSetupTurn = selectedIntersections.get(0);
                     messageTextView.setText(R.string.built_settlement);
-                    Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Built a settlement.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    //toast.show();
                     this.selectedIntersections.clear(); // clear the users selected intersections
                 } else {
                     // tell user location is invalid
@@ -375,6 +381,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
         // City button on the sidebar.
         if (button.getId() == R.id.sidebar_button_city) {
+
+            //Make sure an intersection has been selected to build on(Just 1)
             if (selectedIntersections.size() != 1) {
                 messageTextView.setText(R.string.select_one_int_for_city);
                 Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Select one intersection to build a city.", Toast.LENGTH_SHORT);
@@ -383,11 +391,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
 
             } else {
                 Log.e(TAG, "onClick: build city selected intersection: " + selectedIntersections.get(0));
+
+                //Build the city
                 if (tryBuildCity(selectedIntersections.get(0))) {
                     messageTextView.setText(R.string.built_city);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), "Built a city.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    //toast.show();
                 } else {
                     messageTextView.setText(R.string.invalid_city_loc);
 
@@ -415,7 +424,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         if (button.getId() == R.id.sidebar_button_endturn) {
             Log.d(TAG, "onClick: End Turn button pressed.");
             state.getCurrentPlayer().getDevCardsBuiltThisTurn().clear();
+
+            //Check if it is setup phase
             if (state.isSetupPhase()) {
+
+                //Make sure player has built enough buildings to end their turn
                 if (!buildingsBuiltOnThisTurn.contains(0) || !buildingsBuiltOnThisTurn.contains(1)) {
                     messageTextView.setText(R.string.build_road_and_set);
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.build_road_and_set, Toast.LENGTH_SHORT);
@@ -423,8 +436,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     toast.show();
                     shake(messageTextView);
                     return;
-                } else {
-
                 }
             }
             // check if it is the action phase and not the setup phase
@@ -451,12 +462,13 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         // Menu button on the sidebar.
         if (button.getId() == R.id.sidebar_button_menu) {
 
-
+            //Make menu visible
             this.boardSurfaceView.invalidate();
 
             toggleViewVisibility(this.buildingCosts); // toggle help image
             toggleGroupVisibility(this.helpMenu);
 
+            //Make sure to make all menus disappear if they're open
             toggleGroupVisibilityGONE(winningHelpMenu);
             toggleGroupVisibilityGONE(setUpPhaseHelpMenu);
             toggleGroupVisibilityGONE(buildingHelpMenu);
@@ -535,27 +547,36 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        //Robber Discard Phase action
         if (button.getId() == R.id.robber_discard_confirm) {
+
+            //Make sure they have the correct number of cards to discard
             if (state.validDiscard(this.playerNum, this.robberDiscardedResources)) {
                 messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
+
+                //Activate robber move phase
                 if (state.getCurrentPlayerId() == playerNum) {
                     robberChooseHexGroup.setVisibility(View.VISIBLE);
                 }
 
+                //Reset values on GUI
                 robberBrickAmount.setText(R.string.zero);
                 robberLumberAmount.setText(R.string.zero);
                 robberGrainAmount.setText(R.string.zero);
                 robberOreAmount.setText(R.string.zero);
                 robberWoolAmount.setText(R.string.zero);
 
+                //Discard cards
                 game.sendAction(new CatanRobberDiscardAction(this, playerNum, robberDiscardedResources));
                 this.robberDiscardedResources = state.getRobberDiscardedResources();
                 robberDiscardedResources = new int[]{0, 0, 0, 0, 0};
 
+                //Make discard menu disappear
                 toggleGroupVisibility(robberDiscardGroup);
                 return;
             }
 
+            //Invalid discard, update GUI with needed resources
             int total = 0;
             for (int i = 0; i < this.robberDiscardedResources.length; i++) {
                 total += this.robberDiscardedResources[i];
@@ -569,15 +590,20 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             return;
         }
 
+        //Buttons IDs for Discard Menu
         int robberDiscardAddButtonIds[] = {R.id.robber_discard_brickAddImg, R.id.robber_discard_grainAddImg, R.id.robber_discard_lumberAddImg, R.id.robber_discard_oreAddImg, R.id.robber_discard_woolAddImg};
         int robberDiscardMinusButtonIds[] = {R.id.robber_discard_brickMinusImg, R.id.robber_discard_grainMinusImg, R.id.robber_discard_lumberMinusImg, R.id.robber_discard_oreMinusImg, R.id.robber_discard_woolMinusImg};
         TextView robberAmounts[] = {robberBrickAmount, robberGrainAmount, robberLumberAmount, robberOreAmount, robberWoolAmount};
 
+        //Iterate through add resource buttons to discard
         for (int i = 0; i < robberDiscardAddButtonIds.length; i++) {
+
+            //Found button for specific resource
             if (button.getId() == robberDiscardAddButtonIds[i]) {
+                //Player has enough of the specified resource
                 if (robberDiscardedResources[i] < state.getPlayerList().get(this.playerNum).getResourceCards()[i]) {
                     robberDiscardedResources[i]++;
-                } else {
+                } else { //Player doesn't have enough of specified resource
                     String warning = "You have don't have any more of that resource!";
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), warning, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -585,10 +611,11 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     shake(messageTextView);
                 }
                 messageTextView.setText("Select " + state.getPlayerList().get(this.playerNum).getTotalResourceCardCount() / 2 + " cards to discard.");
-            } else if (button.getId() == robberDiscardMinusButtonIds[i]) {
+            } else if (button.getId() == robberDiscardMinusButtonIds[i]) { //Check minus button IDs next
+                //Remove from count if we're above 0
                 if (robberDiscardedResources[i] > 0) {
                     robberDiscardedResources[i]--;
-                } else {
+                } else {//Don't let user choose negative resources
                     String warning = "Can't go any lower!";
                     Toast toast = Toast.makeText(myActivity.getApplicationContext(), warning, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -599,15 +626,18 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             }
         }
 
+        //Update the resource amounts for discarding
         for (int i = 0; i < robberAmounts.length; i++) {
             robberAmounts[i].setText(String.valueOf(robberDiscardedResources[i]));
         }
 
         /* ---------------- Pick Resource Card Menu ---------------------- */
 
+        //Monopoly dev card vars
         int monopolyResourceIds[] = {R.id.pickResMenu_brickIcon, R.id.pickResMenu_grainIcon, R.id.pickResMenu_lumberIcon, R.id.pickResMenu_oreIcon, R.id.pickResMenu_woolIcon};
         ImageView monopolySelectionBox[] = {monopolyBrickSelectionBox, monopolyGrainSelectionBox, monopolyLumberSelectionBox, monopolyOreSelectionBox, monopolyWoolSelectionBox};
 
+        //Get selected resource when monopoly/year of plenty is played
         if (selectedDevCard == 2 || selectedDevCard == 3) {
             for (int i = 0; i < monopolyResourceIds.length; i++) {
                 if (button.getId() == monopolyResourceIds[i]) selectedResourceId = i;
@@ -799,6 +829,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
         int giveButtonIds[] = {R.id.image_trade_menu_give_brick, R.id.image_trade_menu_give_grain, R.id.image_trade_menu_give_lumber, R.id.image_trade_menu_give_ore, R.id.image_trade_menu_give_wool};
         int recButtonIds[] = {R.id.image_trade_menu_rec_brick, R.id.image_trade_menu_rec_grain, R.id.image_trade_menu_rec_lumber, R.id.image_trade_menu_rec_ore, R.id.image_trade_menu_rec_wool};
 
+        //Iterate through trade buttons
         for (int i = 0; i < 5; i++) {
             if (button.getId() == giveButtonIds[i]) {
                 tradeGiveSelection = i;
@@ -829,7 +860,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     selectedIntersections.clear();
                     tradeGiveSelection = -1;
                     tradeReceiveSelection = -1;
-//                    toggleGroupVisibility(tradeGroup);
                 } else {
                     Log.w(TAG, "onClick: trade with port failed");
                 }
@@ -839,7 +869,6 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                     selectedIntersections.clear();
                     tradeGiveSelection = -1;
                     tradeReceiveSelection = -1;
-//                    toggleGroupVisibility(tradeGroup); // todo see if we need to take out
                 } else {
                     Log.e(TAG, "onClick: trade with bank failed");
                 }
@@ -879,10 +908,12 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 menuMusic.start();
         }
 
+        //Help Menu Buttons
         int[] buttonIds = new int[]{R.id.winning_Help_Button, R.id.set_Up_Phase_Help_Button, R.id.building_Help_Button, R.id.development_Cards_Help_Button, R.id.trading_Help_Button, R.id.robber_Help_Button};
         Group[] helpMenuGroups = new Group[]{winningHelpMenu, setUpPhaseHelpMenu, buildingHelpMenu, developmentCardHelpMenu, tradingHelpMenu, robberHelpMenu};
         int[] backButtonIds = new int[]{R.id.winning_help_menu_Back, R.id.set_up_phase_help_menu_Back, R.id.building_help_menu_Back, R.id.deleopment_card_help_menu_Back, R.id.trading_help_menu_Back, R.id.robber_help_menu_Back};
 
+        //Iterate through opening menu buttons; open specified menu
         for (int i = 0; i < buttonIds.length; i++) {
             if (button.getId() == buttonIds[i]) {
                 sidebarMenuButton.setClickable(false);
@@ -892,6 +923,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
                 break;
             }
         }
+
+        //Iterate through back buttons for each menu; close menu when pressed
         for (int i = 0; i < backButtonIds.length; i++) {
             if (button.getId() == backButtonIds[i]) {
                 sidebarMenuButton.setClickable(true);
@@ -1199,6 +1232,7 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
      * @return Trade success.
      */
     private boolean tryTradeWithPort(int resourceGiving, int resourceReceiving) {
+        //Check if given resource is selected
         if (resourceGiving < 0) {
             messageTextView.setText(R.string.give_res_not_sel);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.give_res_not_sel, Toast.LENGTH_SHORT);
@@ -1207,6 +1241,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             shake(messageTextView);
             return false;
         }
+
+        //Check if received resource is selected
         if (resourceReceiving < 0) {
             messageTextView.setText(R.string.rec_res_not_sel);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.rec_res_not_sel, Toast.LENGTH_SHORT);
@@ -1215,6 +1251,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             shake(messageTextView);
             return false;
         }
+
+        //Check if resources are the same; return false if they are
         if (resourceGiving == resourceReceiving) {
             messageTextView.setText(R.string.unique_res_trading);
             Toast toast = Toast.makeText(myActivity.getApplicationContext(), R.string.unique_res_trading, Toast.LENGTH_SHORT);
@@ -1223,6 +1261,8 @@ public class CatanHumanPlayer extends GameHumanPlayer implements OnClickListener
             shake(messageTextView);
             return false;
         }
+
+        //Check if port is being traded with
         ArrayList<Port> ports = state.getBoard().getPortList();
         Port tradingWith = null;
         for (Port port : ports) {
