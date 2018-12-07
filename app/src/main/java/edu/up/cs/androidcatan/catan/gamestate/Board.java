@@ -22,7 +22,7 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * https://github.com/alexweininger/android-catan
  **/
 
-public class Board implements Serializable, Runnable {
+public class Board implements Serializable {
 
     private static final String TAG = "Board";
     private static final long serialVersionUID = -4950803135763998136L;
@@ -66,12 +66,12 @@ public class Board implements Serializable, Runnable {
     // Adjacency graph identical to iGraph, however only contains Road objects and null.
     private Road[][] roadMatrix = new Road[54][54];
 
+    // adjancency list representing all roads that can be built on the board
     private ArrayList<ArrayList<Road>> roadGraph = new ArrayList<>(54);
 
-    // List of all hexagons on board.
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
 
-    private ArrayList<Port> portList = new ArrayList<>();
+    private ArrayList<Port> portList = new ArrayList<>(); // list of ports on the board
 
     // adjacency list for intersections on the board
     private ArrayList<ArrayList<Integer>> intersectionAdjacencyList = new ArrayList<>();
@@ -87,7 +87,8 @@ public class Board implements Serializable, Runnable {
     public Board() {
         Log.d(TAG, "Board() constructor called");
 
-        robber = new Robber(0);
+        // robber object
+        this.robber = new Robber(0);
 
         populateHexagonIds(); // populate ids
         populateIntersectionIds();
@@ -107,11 +108,6 @@ public class Board implements Serializable, Runnable {
 
         generatePorts(); // create port objects
     } // end Board constructor
-
-    @Override
-    public void run() {
-
-    }
 
     /**
      * @param b - board to copy
