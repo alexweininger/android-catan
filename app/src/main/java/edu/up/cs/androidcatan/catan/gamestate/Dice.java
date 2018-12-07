@@ -54,10 +54,6 @@ public class Dice implements Serializable {
         return this.diceValues;
     }
 
-    public void setDiceValues(int[] diceValues) {
-        this.diceValues = diceValues;
-    }
-
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
