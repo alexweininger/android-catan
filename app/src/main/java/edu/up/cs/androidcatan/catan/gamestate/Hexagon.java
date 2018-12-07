@@ -20,7 +20,7 @@ public class Hexagon implements Serializable {
      * Hexagon constructor
      *
      * @param resourceType - resourceType type of hexagon
-     * @param chitValue    - dice value of hexagon
+     * @param chitValue - dice value of hexagon
      */
     public Hexagon(int resourceType, int chitValue, int hexagonId) {
         this.hexagonId = hexagonId;
