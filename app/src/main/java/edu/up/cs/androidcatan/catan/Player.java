@@ -63,6 +63,7 @@ public class Player implements Serializable {
         this.victoryPointsPrivate = p.victoryPointsPrivate;
         this.victoryPoints = p.victoryPoints;
         this.developmentCards.addAll(p.developmentCards);
+        this.devCardsBuiltThisTurn.addAll(p.devCardsBuiltThisTurn);
         System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length);
         this.devCardsBuiltThisTurn.addAll(p.devCardsBuiltThisTurn);
     }
