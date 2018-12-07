@@ -9,6 +9,8 @@ import java.util.Arrays;
  * @author Daniel Borg
  * @author Niraj Mali
  * https://github.com/alexweininger/android-catan
+ * <p>
+ * Class representing the City bulding of SoC.
  **/
 
 public class City extends Building implements Serializable {
@@ -30,8 +32,6 @@ public class City extends Building implements Serializable {
 
     @Override
     public String toString() {
-        return "City{" +
-                "resourceCost=" + Arrays.toString(resourceCost) +
-                '}';
+        return "City{" + "resourceCost=" + Arrays.toString(resourceCost) + '}';
     }
 }
