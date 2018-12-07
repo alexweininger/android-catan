@@ -8,12 +8,14 @@ import java.io.Serializable;
  * @author Daniel Borg
  * @author Niraj Mali
  * https://github.com/alexweininger/android-catan
+ * <p>
+ * Class representing the Settlement building in the game of SoC.
  **/
 
 public class Settlement extends Building implements Serializable {
+    private static final long serialVersionUID = 71517631622057343L;
 
     public final static int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool
-    private static final long serialVersionUID = 71517631622057343L;
 
     /**
      * @param ownerId - player id of who owns the settlement

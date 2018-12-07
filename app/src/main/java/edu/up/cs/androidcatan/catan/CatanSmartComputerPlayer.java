@@ -15,7 +15,6 @@ import edu.up.cs.androidcatan.catan.actions.CatanRobberMoveAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRobberStealAction;
 import edu.up.cs.androidcatan.catan.actions.CatanRollDiceAction;
 import edu.up.cs.androidcatan.catan.actions.CatanTradeWithBankAction;
-import edu.up.cs.androidcatan.catan.actions.CatanUseDevCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseKnightCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseMonopolyCardAction;
 import edu.up.cs.androidcatan.catan.actions.CatanUseRoadBuildingCardAction;
@@ -150,7 +149,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             } else if (!buildingsBuiltOnThisTurn.contains(0)) {
                 Log.i(TAG, "receiveInfo: Player has not built a road, will attempt now. playerNum=" + this.playerNum);
                 // get adjacent intersections to what we just built
-                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(lastSettlementIntersectionId);
+                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionAdjacencyList().get(lastSettlementIntersectionId);
 
                 Log.d(TAG, "receiveInfo: intersectionsToChooseFrom: " + intersectionsToChooseFrom + " " + this.playerNum);
 
@@ -499,7 +498,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
                 int roadCoordinate = individualRoads.get(randIntersection);
 
                 // get all adjacent intersections
-                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionGraph().get(roadCoordinate);
+                ArrayList<Integer> intersectionsToChooseFrom = gs.getBoard().getIntersectionAdjacencyList().get(roadCoordinate);
                 Log.d(TAG, "IntersectionsToChooseFrom for coordinate: " + roadCoordinate + " for the following cords: " + intersectionsToChooseFrom.toString());
 
                 //int randomRoadIntersection = random.nextInt(intersectionsToChooseFrom.size());
@@ -666,10 +665,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
             }
         }
         Log.d(TAG, "playerRoadCount: Count of player " + this.playerNum + " roads is at " + count);
-        if (count >= 10) {
-            return false;
-        }
-        return true;
+        return count < 10;
     }
 
     /**
@@ -677,10 +673,7 @@ public class CatanSmartComputerPlayer extends GameComputerPlayer {
      * @return true if road intersection is less than 24, false otherwise
      */
     private boolean checkSetupPhaseIntersection(int intersection) {
-        if (intersection > 23) {
-            return false;
-        }
-        return true;
+        return intersection <= 23;
     }
 } // CatanSmartComputerPlayer class END
 
