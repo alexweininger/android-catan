@@ -63,8 +63,8 @@ public class Player implements Serializable {
         this.victoryPointsPrivate = p.victoryPointsPrivate;
         this.victoryPoints = p.victoryPoints;
         this.developmentCards.addAll(p.developmentCards);
-        this.devCardsBuiltThisTurn.addAll(p.devCardsBuiltThisTurn);
         System.arraycopy(p.resourceCards, 0, this.resourceCards, 0, p.resourceCards.length);
+        this.devCardsBuiltThisTurn = new ArrayList<>();
         this.devCardsBuiltThisTurn.addAll(p.devCardsBuiltThisTurn);
     }
 
@@ -173,7 +173,7 @@ public class Player implements Serializable {
         ArrayList<Integer> playableDevCards = new ArrayList<>(developmentCards);
 
         Log.d(TAG, "Checking which dev cards are playable");
-        Log.d(TAG, "Playble" + playableDevCards);
+        Log.d(TAG, "Playable" + playableDevCards);
         Log.d(TAG, "Bought this turn" + devCardsBuiltThisTurn);
 
         for (int i = 0; i < devCardsBuiltThisTurn.size(); i++) {

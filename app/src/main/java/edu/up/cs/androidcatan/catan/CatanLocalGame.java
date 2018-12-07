@@ -143,6 +143,7 @@ public class CatanLocalGame extends LocalGame {
             if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
 
             state.setActionPhase(false); // set action phase to false
+            state.getCurrentPlayer().setDevCardsBuiltThisTurn(new ArrayList<Integer>());
             Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
         }
