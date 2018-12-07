@@ -88,6 +88,15 @@ public class CatanGameStateTest {
 
     @Test
     //by Niraj Mali
+    public void testGetPlayerWithMostVPsExcludingCurrentPlayer(){
+        CatanGameState state = new CatanGameState();
+        assertEquals(0, state.getPlayerWithMostVPsExcludingCurrentPlayer(1));
+        assertEquals(1, state.getPlayerWithMostVPsExcludingCurrentPlayer(1));
+        assertEquals(0, state.getPlayerWithMostVPsExcludingCurrentPlayer(-1));
+    }
+
+    @Test
+    //by Niraj Mali
     public void testMoveRobber() {
         CatanGameState state = new CatanGameState();
         state.setCurrentPlayerId(0);

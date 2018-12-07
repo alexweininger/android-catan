@@ -258,7 +258,6 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanUseKnightCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(0);
-            state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
 
             state.setRobberPhase(true);
             for (int i = 0; i < state.getPlayerList().size(); i++) {
