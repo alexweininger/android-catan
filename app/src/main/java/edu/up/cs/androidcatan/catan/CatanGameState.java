@@ -22,6 +22,7 @@ import edu.up.cs.androidcatan.game.infoMsg.GameState;
 
 public class CatanGameState extends GameState {
 
+    //Serializable variables
     private static final String TAG = "CatanGameState";
     private static final long serialVersionUID = -5201889928776982853L;
 
@@ -40,6 +41,7 @@ public class CatanGameState extends GameState {
     private boolean isRobberPhase = false; // is the robber phase
     private int playerStealingFrom = 0; // playerNum of who is getting a resource taken during Robber Steal Phase
 
+    //Setup phase variables
     static final int setupPhaseTurnOrder[] = {0, 1, 2, 3, 3, 2, 1, 0};
     private int setupPhaseTurnCounter;
 
@@ -112,6 +114,7 @@ public class CatanGameState extends GameState {
      * Creates a 'deck' of int representing the exact number each type of card. This allows us to accurately select a card at random.
      */
     private void generateDevCardDeck() {
+        //Specified dev card ratios in real game deck
         int[] devCardCounts = {14, 5, 2, 2, 2};
         developmentCards = new ArrayList<>();
         for (int i = 0; i < devCardCounts.length; i++) {
@@ -170,6 +173,8 @@ public class CatanGameState extends GameState {
 
     /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
+     *
+     * @param playerId
      */
     public void checkArmySize(int playerId) {
         Log.d(TAG, "checkArmySize() called");
@@ -201,18 +206,24 @@ public class CatanGameState extends GameState {
      */
     void produceResources(int diceSum) {
         Log.d(TAG, "produceResources() called with: diceSum = [" + diceSum + "]");
+
+        //Make sure it is not the action phase
         if (isActionPhase) {
             Log.e(TAG, "produceResources: It is the action phase. Returned false.");
             return;
         }
 
+        //Make sure it is not the setup phase
         if (isSetupPhase) {
             Log.e(TAG, "produceResources: not producing any resources since it is the setup phase.");
             return;
         }
 
+        //Get Hexagons with chit values matching the dice value rolled
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
         Log.i(TAG, "produceResources: Hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
+
+        //Iterate through the Hexagons
         for (Integer i : productionHexagonIds) {
             Hexagon hex = board.getHexagonFromId(i);
             Log.i(TAG, "produceResources: Hexagon " + i + " producing " + hex.getResourceId());
@@ -283,6 +294,8 @@ public class CatanGameState extends GameState {
     public boolean validDiscard(int playerId, int[] resourcesDiscarded) {
         int totalDiscarded = 0;
         Log.i(TAG, "discardResources: Amount is " + totalDiscarded + ", Need: " + playerList.get(playerId).getTotalResourceCardCount() / 2);
+
+        //Make sure player has the correct amount of resources; iterate through and add to total
         for (int i = 0; i < resourcesDiscarded.length; i++) {
             if (resourcesDiscarded[i] > playerList.get(playerId).getResourceCards()[i]) {
                 Log.i(TAG, "validDiscard: Invalid due to not having enough resources, returning false");
@@ -290,6 +303,8 @@ public class CatanGameState extends GameState {
             }
             totalDiscarded += resourcesDiscarded[i];
         }
+
+        //Check if total discarded is the required amount (half their resources rounded down)
         return totalDiscarded == playerList.get(playerId).getTotalResourceCardCount() / 2;
     }
 
@@ -303,15 +318,13 @@ public class CatanGameState extends GameState {
      */
     public boolean discardResources(int playerId, int[] resourcesDiscarded) {
         Log.w(TAG, "discardResources: " + this.getCurrentPlayer().printResourceCards());
+
+        //If they've already discarded, no need to discard, return true
         if (robberPlayerListHasDiscarded[playerId]) {
             Log.i(TAG, "discardResources: Player is not required to discard at this time");
             return true;
         }
-        int totalDiscarded = 0;
-        for (int i = 0; i < resourcesDiscarded.length; i++) {
-            totalDiscarded += resourcesDiscarded[i];
-        }
-        Log.i(TAG, "discardResources: Amount is " + totalDiscarded);
+
         Log.i(TAG, "discardResources: Discarded resources");
         for (int i = 0; i < resourcesDiscarded.length; i++) {
             this.playerList.get(playerId).removeResourceCard(i, resourcesDiscarded[i]);
