@@ -215,7 +215,6 @@ public class CatanLocalGame extends LocalGame {
                 Log.d(TAG, "makeMove() returned: " + true);
                 return true;
             } else {
-
                 // remove resources from players inventory (also does checks)
                 if (state.getCurrentPlayer().removeResourceBundle(Settlement.resourceCost)) {
                     // add settlement to the board
@@ -230,12 +229,11 @@ public class CatanLocalGame extends LocalGame {
             }
         }
 
+        //Player is building a City
         if (action instanceof CatanBuildCityAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
-            // remove resources from players inventory (also does checks)
-            //            state.getCurrentPlayer().addResourceCard(3,3);
-            //            state.getCurrentPlayer().addResourceCard(1,1);
+            //Remove resources from player who called the action
             if (state.getCurrentPlayer().removeResourceBundle(City.resourceCost)) {
                 // add building to the board
                 state.getBoard().addBuilding(((CatanBuildCityAction) action).getIntersectionId(), new City(((CatanBuildCityAction) action).getOwnerId()));
@@ -250,9 +248,11 @@ public class CatanLocalGame extends LocalGame {
 
         /*------------------------------- Development Card Actions -------------------------------*/
 
+        //Player would like to buy a development card
         if (action instanceof CatanBuyDevCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
 
+            //Get the current player who wants the dev card
             Player player = state.getCurrentPlayer();
 
             // remove resources from players inventory (also does checks)
@@ -266,49 +266,74 @@ public class CatanLocalGame extends LocalGame {
             return true;
         }
 
+        //Player would like to player a Knight Dev Card
         if (action instanceof CatanUseKnightCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+            //Remove the dev card from their hand
             state.getCurrentPlayer().removeDevCard(0);
+
+            //Check and update the army size to see if they can claim the "Largest Army" trophy
             state.checkArmySize(state.getCurrentPlayerId());
 
+            //Activate Robber phase
             state.setRobberPhase(true);
+
+            //Skip the discarding phase and move to the move robber phase
             for (int i = 0; i < state.getPlayerList().size(); i++) {
                 state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
             }
 
+            //Return
             return true;
         }
 
+        //Player would like to use the Victory Points Dev Card
         if (action instanceof CatanUseVictoryPointCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+            //Remove the dev card and add victory points to the player's private victory points
             state.getCurrentPlayer().removeDevCard(1);
             state.getCurrentPlayer().addPrivateVictoryPoints(1);
             return true;
         }
 
+        //Player would like to use Catan Year of Plenty Dev Card
         if (action instanceof CatanUseYearOfPlentyCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+            //Add 2 of the specified resource to the player's hand then remove the dev card
             state.getCurrentPlayer().addResourceCard(((CatanUseYearOfPlentyCardAction) action).getChosenResource(), 2);
             state.getCurrentPlayer().removeDevCard(2);
             return true;
         }
 
+        //Player would like to use the Monopoly Dev Card
         if (action instanceof CatanUseMonopolyCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+            //Set total resources and get the resource the player wants
             int totalResources = 0;
             int resourceId = ((CatanUseMonopolyCardAction) action).getChosenResource();
+
+            //Iterate through all players and remove the specified resource, adding the the totalResources
             for (Player player : state.getPlayerList()) {
                 int resCount = player.getResourceCards()[resourceId];
                 player.removeResourceCard(resourceId, resCount);
                 totalResources += resCount;
             }
+
+            //Add the totalResources of the specified resource then remove the dev card
             state.getCurrentPlayer().addResourceCard(resourceId, totalResources);
             state.getCurrentPlayer().removeDevCard(3);
             return true;
         }
 
+        //Player would like to use the Road Building Dev Card
         if (action instanceof CatanUseRoadBuildingCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+            //Add the resources to the player's hand to build two roads then remove the dev card
             state.getCurrentPlayer().addResourceCard(0, 2);
             state.getCurrentPlayer().addResourceCard(2, 2);
             state.getCurrentPlayer().removeDevCard(4);
@@ -317,16 +342,25 @@ public class CatanLocalGame extends LocalGame {
 
         /*---------------------------------- Robber Actions --------------------------------------*/
 
+        //Player is Discarding Cards during Robber Discard Phase
         if (action instanceof CatanRobberDiscardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "], playerId=" + ((CatanRobberDiscardAction) action).getPlayerId());
+
+            //Discard specified resources
             return state.discardResources(((CatanRobberDiscardAction) action).getPlayerId(), ((CatanRobberDiscardAction) action).getRobberDiscardedResources());
         }
+
+        //Player is Moving robber during Move Robber Phase
         if (action instanceof CatanRobberMoveAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]. playerId=" + ((CatanRobberMoveAction) action).getPlayerId());
+
+            //Don't move if they've already moved the robber
             if (state.getHasMovedRobber()) {
                 Log.d(TAG, "makeMove: the robber has already been moved");
                 return false;
             }
+
+            //Move the robber if valid; then set hasMovedRobber to true
             if (state.getBoard().moveRobber(((CatanRobberMoveAction) action).getHexagonId())) {
                 Log.e(TAG, "makeMove() move robber: Player " + ((CatanRobberMoveAction) action).getPlayerId() + " moved the Robber to Hexagon " + ((CatanRobberMoveAction) action).getHexagonId());
                 this.state.setHasMovedRobber(true);
@@ -335,25 +369,34 @@ public class CatanLocalGame extends LocalGame {
             Log.e(TAG, "makeMove: moving the robber failed returning false.");
             return false;
         }
+
+        //Player is Stealing from another player during Steal Phase
         if (action instanceof CatanRobberStealAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
+            //Steal a random resource from a specified player
             return state.robberSteal(((CatanRobberStealAction) action).getPlayerId(), ((CatanRobberStealAction) action).getStealingFromPlayerId());
         }
 
         /*---------------------------------- Trade Actions ---------------------------------------*/
 
+        //Player is trading with the bank
         if (action instanceof CatanTradeWithBankAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
+
             // Player.removeResources returns false if the player does not have enough, if they do it removes them.
             if (!state.getCurrentPlayer().removeResourceCard(((CatanTradeWithBankAction) action).getResourceIdGiving(), 4)) {
                 Log.e(TAG, "makeMove: trade with bank action: not enough resources, player id: " + state.getCurrentPlayerId());
                 return false;
             }
+
+            //Trade 4 of player's own resource for 1 specified resource
             state.getCurrentPlayer().addResourceCard(((CatanTradeWithBankAction) action).getResourceIdRec(), 1); // add resource card to players inventory
             Log.w(TAG, "tradeWithBank - player " + state.getCurrentPlayerId() + " traded " + 4 + " " + ((CatanTradeWithBankAction) action).getResourceIdGiving() + " for a " + ((CatanTradeWithBankAction) action).getResourceIdRec() + " with bank.\n");
             return true;
         }
 
+        //Player is traiding with a port
         if (action instanceof CatanTradeWithPortAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             // remove resources from the player
@@ -361,12 +404,13 @@ public class CatanLocalGame extends LocalGame {
                 // add requested resource to player
                 state.getCurrentPlayer().addResourceCard(((CatanTradeWithPortAction) action).getResourceRecId(), 1);
                 return true;
-            } else {
+            } else { //Invalid trade
                 Log.e(TAG, "makeMove: trade with port: Could not remove resources from player. Returning false");
                 return false;
             }
         }
 
+        //Player is trading with port that gives a specified resource
         if (action instanceof CatanTradeWithCustomPortAction) {
             // remove resources from players inventory
             if (state.getCurrentPlayer().removeResourceCard(((CatanTradeWithCustomPortAction) action).getResourceGiveId(), 3)) {
@@ -414,15 +458,20 @@ public class CatanLocalGame extends LocalGame {
     @Override
     public String checkIfGameOver() {
         Log.d(TAG, "checkIfGameOver() called");
+
+        //NULL check
         if (playerNames == null) {
             Log.e(TAG, "checkIfGameOver: player names is null");
             return null;
         }
+
+        //Iterate through players and see if anyone has 10 or more victory points
         for (int i = 0; i < this.state.getPlayerList().size(); i++) {
 
             int lr = (this.state.getCurrentLongestRoadPlayerId() == i) ? 2 : 0;
             int la = (this.state.getCurrentLargestArmyPlayerId() == i) ? 2 : 0;
 
+            //Player has won the game
             if (this.state.getPlayerList().get(i).getVictoryPointsPrivate() + lr + la + this.state.getPlayerList().get(i).getVictoryPoints() > 9) {
                 return playerNames[i] + " wins!";
             }
