@@ -29,8 +29,7 @@ public class CatanLocalGameTest {
 //    }
 
     @Test
-    public void canMove()
-    {
+    public void canMove() {
         CatanLocalGame catanLocalGame = new CatanLocalGame();
         assertTrue(catanLocalGame.canMove(0));
     }

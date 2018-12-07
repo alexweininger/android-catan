@@ -18,7 +18,6 @@ import edu.up.cs.androidcatan.R;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 
@@ -44,20 +43,21 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
     static int[] resourceDrawables = {R.drawable.brick_icon_25x25, R.drawable.grain_icon_25x25, R.drawable.lumber_icon_25x25, R.drawable.ore_icon_25x25, R.drawable.wool_icon_25x25};
 
     /**
-     *  the method for drawing the hexagon shaped tiles on the board
-     * @param context the app context
-     * @param x the x position
-     * @param y the y position
-     * @param size how big the hexagon is
-     * @param color the colour of the tile
-     * @param isRobber true or false for showing the robber or not
-     * @param isDesert true or false for if it is the desert tile or now
-     * @param chitValue the value of the tile
-     * @param hexagonId the id of where it is on the board
-     * @param highlight the selection box around the hexagon
+     * the method for drawing the hexagon shaped tiles on the board
+     *
+     * @param context    the app context
+     * @param x          the x position
+     * @param y          the y position
+     * @param size       how big the hexagon is
+     * @param color      the colour of the tile
+     * @param isRobber   true or false for showing the robber or not
+     * @param isDesert   true or false for if it is the desert tile or now
+     * @param chitValue  the value of the tile
+     * @param hexagonId  the id of where it is on the board
+     * @param highlight  the selection box around the hexagon
      * @param resourceId which resource it provides
      */
-    public HexagonDrawable (Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight, int resourceId) {
+    public HexagonDrawable(Context context, int x, int y, int size, int color, boolean isRobber, boolean isDesert, int chitValue, int hexagonId, boolean highlight, int resourceId) {
         super(context);
         setWillNotDraw(false);
         this.context = context;
@@ -74,19 +74,19 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
     }
 
     // constructors needed by android
-    public HexagonDrawable (Context context) {
+    public HexagonDrawable(Context context) {
         super(context);
     }
 
-    public HexagonDrawable (Context context, AttributeSet attrs) {
+    public HexagonDrawable(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     /**
-     * @param canvas Canvas to draw the hexagon upon.
+     * @param canvas    Canvas to draw the hexagon upon.
      * @param debugMode Debug mode.
      */
-    public void drawHexagon (Canvas canvas, boolean debugMode) {
+    public void drawHexagon(Canvas canvas, boolean debugMode) {
         Paint hexagonPaint = new Paint();
         hexagonPaint.setColor(this.color);
         hexagonPaint.setStyle(Paint.Style.FILL);
@@ -161,12 +161,12 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
     /**
      * calculateHexagonPoints() generates an array of points (x, y) for the corners of a hexagon
      *
-     * @param x - x position
-     * @param y - y position
+     * @param x    - x position
+     * @param y    - y position
      * @param size - size, measured from center to a corner
      * @return int[][]
      */
-    public int[][] calculateHexagonPoints (int x, int y, int size) {
+    public int[][] calculateHexagonPoints(int x, int y, int size) {
         int[][] points = new int[6][2];
 
         for (int i = 0; i < 6; i++) {
@@ -186,7 +186,7 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
      * @param corners - 2d array of x and y cords for the corners
      * @return Path
      */
-    public Path createHexagonPath (int[][] corners) {
+    public Path createHexagonPath(int[][] corners) {
         this.hexagonPath = new Path();
         this.hexagonPath.moveTo(corners[0][0], corners[0][1]);
 
@@ -200,7 +200,7 @@ public class HexagonDrawable extends BoardSurfaceView implements Serializable {
     /**
      * @return Array of the corner points of a hexagon.
      */
-    public int[][] getHexagonPoints () {
+    public int[][] getHexagonPoints() {
         return this.points;
     }
 }

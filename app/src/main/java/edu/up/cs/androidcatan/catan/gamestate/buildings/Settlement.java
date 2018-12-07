@@ -7,9 +7,9 @@ import java.io.Serializable;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class Settlement extends Building implements Serializable {
 
     public final static int[] resourceCost = {1, 1, 1, 0, 1}; // Brick, Grain, Lumber, Ore, Wool

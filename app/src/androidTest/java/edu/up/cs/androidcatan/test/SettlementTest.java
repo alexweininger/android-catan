@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class SettlementTest {
 
     @Test
-    public void getVictoryPoints () {
+    public void getVictoryPoints() {
         Settlement settlement = new Settlement(0);
         assertEquals(1, settlement.getVictoryPoints());
     }

@@ -7,9 +7,9 @@ import java.io.Serializable;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class Road extends Building implements Serializable {
 
     private static final long serialVersionUID = -2163345533367819700L;
@@ -20,7 +20,7 @@ public class Road extends Building implements Serializable {
      * @param intersectionAId -
      * @param intersectionBId -
      */
-    public Road (int playerId, int intersectionAId, int intersectionBId) {
+    public Road(int playerId, int intersectionAId, int intersectionBId) {
         super(playerId);
 
         this.intersectionAId = intersectionAId;
@@ -31,7 +31,7 @@ public class Road extends Building implements Serializable {
      * @param intersectionId - intersection id of one end of the road
      * @return - the intersection id of the other intersection the road is connected to
      */
-    public int getOppositeIntersection (int intersectionId) {
+    public int getOppositeIntersection(int intersectionId) {
         if (intersectionId == this.intersectionAId) {
             return this.intersectionBId;
         } else {
@@ -41,20 +41,20 @@ public class Road extends Building implements Serializable {
 
     // getters
 
-    public int getIntersectionAId () {
+    public int getIntersectionAId() {
         return this.intersectionAId;
     }
 
-    public int getIntersectionBId () {
+    public int getIntersectionBId() {
         return this.intersectionBId;
     }
 
-    public int getVictoryPoints () {
+    public int getVictoryPoints() {
         return 0;
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return "{ p=" + this.getOwnerId() + " from=" + intersectionAId + " to=" + intersectionBId + " }";
     }
 }

@@ -10,9 +10,9 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class CatanRobberStealAction extends GameAction implements Serializable {
     private static final long serialVersionUID = 9193553751976296741L;
     private int playerId;
@@ -20,8 +20,9 @@ public class CatanRobberStealAction extends GameAction implements Serializable {
 
     /**
      * CaatanRobberStealAction constructor
-     * @param player the player calling the action
-     * @param playerId the ID of the player who is calling the action
+     *
+     * @param player               the player calling the action
+     * @param playerId             the ID of the player who is calling the action
      * @param stealingFromPlayerId the id of the player to steal from
      */
     public CatanRobberStealAction(GamePlayer player, int playerId, int stealingFromPlayerId) {
@@ -30,11 +31,11 @@ public class CatanRobberStealAction extends GameAction implements Serializable {
         this.stealingFromPlayerId = stealingFromPlayerId;
     }
 
-    public int getPlayerId () {
+    public int getPlayerId() {
         return playerId;
     }
 
-    public int getStealingFromPlayerId () {
+    public int getStealingFromPlayerId() {
         return stealingFromPlayerId;
     }
 }

@@ -12,9 +12,9 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class CatanBuildCityAction extends GameAction implements Serializable {
 
     private static final long serialVersionUID = -1248336799340810807L;
@@ -26,10 +26,11 @@ public class CatanBuildCityAction extends GameAction implements Serializable {
     private boolean isSetupPhase;
 
     /**
-     *  CatanBuildCityAction constructor
-     * @param player player that is sending the action
-     * @param isSetupPhase true or false for if it is the setUp phase
-     * @param ownerId who owns the building
+     * CatanBuildCityAction constructor
+     *
+     * @param player         player that is sending the action
+     * @param isSetupPhase   true or false for if it is the setUp phase
+     * @param ownerId        who owns the building
      * @param intersectionId the intersection on the board
      */
     public CatanBuildCityAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionId) {

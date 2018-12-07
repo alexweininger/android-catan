@@ -10,18 +10,19 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class CatanRobberMoveAction extends GameAction implements Serializable {
     private static final long serialVersionUID = -3677845305432070761L;
     private int hexagonId;
     private int playerId;
 
     /**
-     *  CatanRobberMoveAction constructor
-     * @param player the player who is calling the action
-     * @param playerId the ID for the player who is calling the action
+     * CatanRobberMoveAction constructor
+     *
+     * @param player    the player who is calling the action
+     * @param playerId  the ID for the player who is calling the action
      * @param hexagonId the ID of the tile to move the robber to
      */
     public CatanRobberMoveAction(GamePlayer player, int playerId, int hexagonId) {

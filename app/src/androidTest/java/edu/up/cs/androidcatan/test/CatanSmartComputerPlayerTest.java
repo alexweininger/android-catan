@@ -18,11 +18,11 @@ public class CatanSmartComputerPlayerTest {
 
     @Test
     //by Niraj Mali
-    public void testTryMoveRobber(){
+    public void testTryMoveRobber() {
     }
 
     @Test
-    public void testGetBuildingOfPlayer(){
+    public void testGetBuildingOfPlayer() {
         CatanGameState gs = new CatanGameState();
         //CatanSmartComputerPlayer smartComputerPlayer = new CatanSmartComputerPlayer("andrew");
         int ownerId = 1;
@@ -34,13 +34,16 @@ public class CatanSmartComputerPlayerTest {
 
     @Test
     //by Niraj Mali
-    public void testGetPlayerRoads() {}
+    public void testGetPlayerRoads() {
+    }
 
     @Test
     //by Niraj Mali
-    public void testGetPlayerRoadIntersection(){}
+    public void testGetPlayerRoadIntersection() {
+    }
 
     @Test
     //by Niraj Mali
-    public void testCheckIntersectionResource(){}
+    public void testCheckIntersectionResource() {
+    }
 }
