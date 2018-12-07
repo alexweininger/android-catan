@@ -40,6 +40,7 @@ public class Dice implements Serializable {
      */
     public int roll() {
         Random random = new Random();
+        // set the dice values to a random dice roll
         this.diceValues[0] = random.nextInt(6) + 1;
         this.diceValues[1] = random.nextInt(6) + 1;
 
