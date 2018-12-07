@@ -98,4 +98,47 @@ public class PlayerTest {
         assertFalse(player.useDevCard(6));
         assertTrue(player.useDevCard(0));
     }
+
+    @Test //Written By: Daniel
+    public void getPlayableDevCards()
+    {
+        Player player = new Player(0);
+        ArrayList<Integer> devCardsBuiltThisTurn = new ArrayList<>();
+        devCardsBuiltThisTurn.add(2);
+        devCardsBuiltThisTurn.add(1);
+        ArrayList<Integer> devCards = new ArrayList<>();
+        devCards.add(2);
+        devCards.add(4);
+        devCards.add(1);
+        devCards.add(1);
+        devCards.add(0);
+        player.setDevelopmentCards(devCards);
+        player.setDevCardsBuiltThisTurn(devCardsBuiltThisTurn);
+
+        ArrayList<Integer> playableCards = new ArrayList<>(player.getPlayableDevCards());
+        assertTrue(playableCards.contains(4));
+        assertFalse(playableCards.contains(2));
+        assertTrue(playableCards.contains(1));
+        assertTrue(playableCards.contains(0));
+    }
+
+    @Test //Written By: Daniel
+    public void removeDevCard()
+    {
+        Player player = new Player(0);
+        ArrayList<Integer> devCards = new ArrayList<>();
+        devCards.add(2);
+        devCards.add(4);
+        devCards.add(1);
+        devCards.add(1);
+        devCards.add(0);
+        player.setDevelopmentCards(devCards);
+        player.removeDevCard(2);
+        assertFalse(devCards.contains(2));
+        player.removeDevCard(1);
+        assertTrue(devCards.contains(1));
+        player.removeDevCard(1);
+        assertFalse(devCards.contains(1));
+
+    }
 }
