@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import edu.up.cs.androidcatan.catan.Player;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
@@ -383,88 +382,6 @@ public class Board implements Serializable {
      */
     public boolean validRoadPlacement(int playerId, boolean isSetupPhase, int a, int b) {
         return validRoadPlacement(playerId, isSetupPhase, a, b, -1);
-    }
-
-    /**
-     * Depth-First-Search for looking for the longest road
-     *
-     * @param ownerId the ID of the player
-     * @return longest road
-     */
-    public int dfs(int ownerId) {
-        // check owner id validity
-        if (ownerId < 0 || ownerId > 3) {
-            Log.e(TAG, "dfs: ownerId invalid");
-            return -1;
-        }
-        ArrayList<Road> pr = new ArrayList<>();
-        Graph rg = new Graph(54);
-        for (Road road : roads) {
-            if (road.getOwnerId() == ownerId) {
-                rg.addEdge(road.getIntersectionAId(), road.getIntersectionBId());
-                pr.add(road);
-            }
-        }
-
-        if (pr.size() < 5) {
-            return -1;
-        }
-        rg.setPr(pr);
-        Thread roadCalcThread = new Thread(rg);
-        roadCalcThread.start();
-        int m = rg.getMaxRoadLength();
-        Log.d(TAG, "dfs() returned: " + ownerId);
-        return m;
-    }
-
-    /**
-     * Main method to calculate the longest road trophy holder. - AL
-     *
-     * @param playerList list of player objects
-     * @return returns the playerId with the longest road for now (may need to change so that it returns the value instead)
-     */
-    public int getPlayerWithLongestRoad(ArrayList<Player> playerList) {
-        Log.i(TAG, "updatePlayerWithLongestRoad() called with: playerList = [" + playerList + "]");
-        ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
-        for (Player player : playerList) {
-            //for each player there is an adjacency map as well as a list
-            ArrayList<Road> playerRoads = new ArrayList<>();
-            ArrayList<Integer> currentPlayerRoadLength = new ArrayList<>();
-            for (Road road : roads) {
-                if (road.getOwnerId() == player.getPlayerId()) {
-                    playerRoads.add(road);
-                }
-            }
-
-            if (playerRoads.size() < 5) {
-                longestRoadPerPlayer.add(player.getPlayerId(), 0);
-                break;
-            } else {
-                currentPlayerRoadLength.add(dfs(player.getPlayerId()));
-                int max = 0;
-                for (int n = 0; n < currentPlayerRoadLength.size(); n++) {
-                    max = currentPlayerRoadLength.get(0);
-                    if (currentPlayerRoadLength.get(n) >= max) {
-                        max = currentPlayerRoadLength.get(n);
-                    }
-                }
-                longestRoadPerPlayer.add(player.getPlayerId(), max);
-            }
-        }
-        int playerIdLongestRoad = -1;
-        int currLongestRoad = 0;
-        //currently gives the longest road trophy to the most recent player checked within the array if
-        //it shares the longest road with a prior player
-        for (int n = 0; n < longestRoadPerPlayer.size(); n++) {
-            if (longestRoadPerPlayer.get(n) > 0) {
-                if (longestRoadPerPlayer.get(n) > currLongestRoad) {
-                    currLongestRoad = longestRoadPerPlayer.get(n);
-                    playerIdLongestRoad = n;
-                }
-            }
-        }
-        Log.d(TAG, "updatePlayerWithLongestRoad() returned: " + playerIdLongestRoad);
-        return playerIdLongestRoad;
     }
 
     /**
