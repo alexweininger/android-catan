@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class DiceTest {
 
     @Test //Written By: Alex Weininger
-    public void rollTest () {
+    public void rollTest() {
         Dice dice = new Dice();
         for (int i = 0; i < 2000; i++) {
             assertTrue(dice.roll() <= 12 && dice.roll() > 0);

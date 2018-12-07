@@ -24,9 +24,9 @@ import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 9th, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class HexagonGrid extends BoardSurfaceView {
 
     private static final String TAG = "HexagonGrid";
@@ -62,15 +62,16 @@ public class HexagonGrid extends BoardSurfaceView {
 
     /**
      * the board represented as a grid
-     * @param context the app context
-     * @param board the board being drawn on
-     * @param x the x position
-     * @param y the y position
-     * @param size the size of the hexagon
-     * @param margin the marin between the tiles
+     *
+     * @param context   the app context
+     * @param board     the board being drawn on
+     * @param x         the x position
+     * @param y         the y position
+     * @param size      the size of the hexagon
+     * @param margin    the marin between the tiles
      * @param debugMode true or false for if the debugMode should be shown
      */
-    public HexagonGrid (Context context, Board board, int x, int y, int size, int margin, boolean debugMode) {
+    public HexagonGrid(Context context, Board board, int x, int y, int size, int margin, boolean debugMode) {
         super(context);
         setWillNotDraw(false);
         this.x = x;
@@ -92,7 +93,7 @@ public class HexagonGrid extends BoardSurfaceView {
      *
      * @param canvas Canvas to draw on.
      */
-    public void drawGameBoard (Canvas canvas) {
+    public void drawGameBoard(Canvas canvas) {
         generateDrawableHexagons(x, y, size); // get hexes
 
         drawBorder(canvas);
@@ -117,7 +118,7 @@ public class HexagonGrid extends BoardSurfaceView {
      *
      * @param canvas Canvas to draw on.
      */
-    public void drawRoads (Canvas canvas) {
+    public void drawRoads(Canvas canvas) {
         Log.i(TAG, "drawRoads() called");
 
         Paint roadPaint = new Paint(); // paint for drawing the roads
@@ -136,7 +137,7 @@ public class HexagonGrid extends BoardSurfaceView {
     /**
      * @param canvas Canvas object to draw the buildings on.
      */
-    public void drawBuildings (Canvas canvas) {
+    public void drawBuildings(Canvas canvas) {
         Paint highlightPaint = new Paint();
         highlightPaint.setColor(Color.CYAN);
         highlightPaint.setStyle(Paint.Style.STROKE);
@@ -203,7 +204,7 @@ public class HexagonGrid extends BoardSurfaceView {
      *
      * @param canvas Canvas to draw upon.
      */
-    public void drawBorder (Canvas canvas) {
+    public void drawBorder(Canvas canvas) {
         canvas.drawColor(Color.argb(255, 160, 206, 255)); // set the background to ocean color
 
         Paint tanPaint = new Paint(); // paint for island background
@@ -218,11 +219,11 @@ public class HexagonGrid extends BoardSurfaceView {
     /**
      * Generates the individual hexagon objects from the Hexagon class.
      *
-     * @param x X position.
-     * @param y Y position.
+     * @param x    X position.
+     * @param y    Y position.
      * @param size Size of the hexagons.
      */
-    public void generateDrawableHexagons (int x, int y, int size) {
+    public void generateDrawableHexagons(int x, int y, int size) {
         ArrayList<Hexagon> dataHexagons = board.getHexagonListForDrawing();
         drawingHexagons = new ArrayList<>();
         int[] rows = {1, 1, 0, 1, 1};
@@ -251,7 +252,7 @@ public class HexagonGrid extends BoardSurfaceView {
      *
      * @param canvas Canvas to draw ports on.
      */
-    private void drawPorts (Canvas canvas) {
+    private void drawPorts(Canvas canvas) {
         ArrayList<Port> ports = this.board.getPortList();
 
         ports.get(0).drawPort(canvas, this.intersections[ports.get(0).getIntersectionA()].getXPos(), this.intersections[ports.get(0).getIntersectionA()].getYPos() - 100, 40, this.getContext(), this.intersections[ports.get(0).getIntersectionA()], this.intersections[ports.get(0).getIntersectionB()], debugMode);
@@ -268,7 +269,7 @@ public class HexagonGrid extends BoardSurfaceView {
     /**
      * Generates locations of intersections for drawing.
      */
-    public void generateIntersections () {
+    public void generateIntersections() {
         intersections[0] = new IntersectionDrawable(0, 1049, 642);
         intersections[1] = new IntersectionDrawable(1, 887, 574);
         intersections[2] = new IntersectionDrawable(2, 726, 642);
@@ -327,33 +328,43 @@ public class HexagonGrid extends BoardSurfaceView {
 
     /* ---------- getters and setters ------------ */
 
-    public Board getBoard () {
+    public Board getBoard() {
         return board;
     }
 
-    public void setBoard (Board board) {
+    public void setBoard(Board board) {
         this.board = board;
     }
 
-    public IntersectionDrawable[] getIntersections () {
+    public IntersectionDrawable[] getIntersections() {
         return intersections;
     }
 
-    public ArrayList<HexagonDrawable> getDrawingHexagons () {
+    public ArrayList<HexagonDrawable> getDrawingHexagons() {
         return drawingHexagons;
     }
 
-    public int getHighlightedHexagon () { return highlightedHexagon;}
+    public int getHighlightedHexagon() {
+        return highlightedHexagon;
+    }
 
-    public void setHighlightedHexagon (int highlightedHexagon) { this.highlightedHexagon = highlightedHexagon; }
+    public void setHighlightedHexagon(int highlightedHexagon) {
+        this.highlightedHexagon = highlightedHexagon;
+    }
 
-    public void toggleDebugMode () { this.debugMode = !this.debugMode; }
+    public void toggleDebugMode() {
+        this.debugMode = !this.debugMode;
+    }
 
-    public ArrayList<Integer> getHighlightedIntersections () { return highlightedIntersections; }
+    public ArrayList<Integer> getHighlightedIntersections() {
+        return highlightedIntersections;
+    }
 
-    public void clearHighLightedIntersections () { this.highlightedIntersections = new ArrayList<>(); }
+    public void clearHighLightedIntersections() {
+        this.highlightedIntersections = new ArrayList<>();
+    }
 
-    public void addHighlightedIntersection (int intersection) {
+    public void addHighlightedIntersection(int intersection) {
         if (highlightedIntersections.size() > 1) {
             highlightedIntersections.remove(0);
             highlightedIntersections.add(intersection);
@@ -363,11 +374,11 @@ public class HexagonGrid extends BoardSurfaceView {
         }
     }
 
-    public HexagonGrid (Context context, AttributeSet attrs) {
+    public HexagonGrid(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public HexagonGrid (Context context) {
+    public HexagonGrid(Context context) {
         super(context);
     }
 }

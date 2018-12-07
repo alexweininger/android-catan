@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectionBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,brickSelectionBoxGive,woolSelectionBoxReceive,image_trade_menu_rec_brick,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
+        app:constraint_referenced_ids="trade_with_bank_or_port, image_trade_menu_give_ore,lumberSelectionBoxGive,oreSelectionBoxReceive,grainSelectiomBoxGive,button_trade_menu_cancel,image_trade_menu_rec_ore,image_trade_menu_rec_wool,timage_trade_menu_give_lumber,lumberSelectionBoxReceive,image_trade_menu_give_grain,oreSelectionBoxGive,grainSelectionBoxReceive,image_trade_menu_rec_lumber,woolSelectionBoxGive,resourceReceiveText,resourceGiveText,image_trade_menu_give_wool,button_trade_menu_confirm,image_trade_menu_rec_grain,brickSelectionBoxGive,woolSelectionBoxReceive,image_trade_menu_rec_brick,image_trade_menu_give_birck,brickSelectionBoxReceive,imageView" />
 
     <android.support.constraint.Group
         android:id="@+id/group_static_sidebar_menu"
@@ -290,6 +290,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.65" />
+
+
+    <!--External Citation-->
+    <!--Date: 9 November 2018-->
+    <!--Problem: Tried to find a way to use an arrayList of Strings for an Array Spinner-->
+    <!--with the Development Cards-->
+    <!--Resource:-->
+    <!--https://stackoverflow.com/questions/19820803/android-spinner-using-arrayliststring-->
+    <!--Solution: I used the example posted to include the arrayList into the spinner-->
+    <!---->
 
     <Spinner
         android:id="@+id/development_Card_Spinner"
@@ -2222,9 +2232,6 @@ Discard Resource Cards:\n\n
 \n
 \n
 \n
-\n
-\n
-\n
 Moving the Robber\n
     1) Select a tile to move the robber to\n\n
     2) Press the Confirm button in the bottom right\n\n
@@ -2325,6 +2332,13 @@ Moving the Robber\n
         android:text="Back"
         app:layout_constraintEnd_toEndOf="@+id/development_card_menu_background"
         app:layout_constraintTop_toBottomOf="@+id/development_card_help_menu_title_text_view" />
+
+    <TextView
+        android:id="@+id/trade_with_bank_or_port"
+        android:layout_width="82dp"
+        android:layout_height="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_trade_menu_confirm"
+        app:layout_constraintTop_toTopOf="@+id/button_trade_menu_confirm" />
 
     <!--help menus END-->
 </android.support.constraint.ConstraintLayout>

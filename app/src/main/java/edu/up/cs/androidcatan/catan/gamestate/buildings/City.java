@@ -8,9 +8,9 @@ import java.util.Arrays;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version October 31, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class City extends Building implements Serializable {
 
     public static final int[] resourceCost = {0, 2, 0, 3, 0}; // Brick, Grain, Lumber, Ore, Wool

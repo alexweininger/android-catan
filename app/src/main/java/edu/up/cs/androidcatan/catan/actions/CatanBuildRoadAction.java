@@ -13,9 +13,9 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 1, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class CatanBuildRoadAction extends GameAction implements Serializable {
     private static final String TAG = "CatanBuildRoadAction";
     private static final long serialVersionUID = 6154724297447188137L;
@@ -24,11 +24,12 @@ public class CatanBuildRoadAction extends GameAction implements Serializable {
 
     /**
      * CatanBuildAcation constructor
-     * @param player the player calling the action
-     * @param isSetupPhase true or flase for if its the setup phase
-     * @param ownerId the id of the owner
+     *
+     * @param player          the player calling the action
+     * @param isSetupPhase    true or false for if its the setup phase
+     * @param ownerId         the id of the owner
      * @param intersectionAId the first intersection of the road
-     * @param intersectionBid the second intersectio of the road
+     * @param intersectionBid the second intersection of the road
      */
     public CatanBuildRoadAction(GamePlayer player, boolean isSetupPhase, int ownerId, int intersectionAId, int intersectionBid) {
         super(player);
@@ -44,7 +45,7 @@ public class CatanBuildRoadAction extends GameAction implements Serializable {
 
     // getters and setters
 
-    public int getIntAId () {
+    public int getIntAId() {
         return intersectionAId;
     }
 
@@ -52,7 +53,7 @@ public class CatanBuildRoadAction extends GameAction implements Serializable {
         this.intersectionAId = intersectionAId;
     }
 
-    public int getIntBid () {
+    public int getIntBid() {
         return intersectionBid;
     }
 

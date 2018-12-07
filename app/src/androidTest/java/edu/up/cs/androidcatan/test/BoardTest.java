@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertTrue;
 public class BoardTest {
 
     @Test //Written By: Andrew
-    public void testValidBuildingLocationSetupPhaseEmptyIntersection () {
+    public void testValidBuildingLocationSetupPhaseEmptyIntersection() {
         Board board = new Board();
         assertTrue(board.validBuildingLocation(0, true, 0));
         assertFalse(board.validBuildingLocation(0, true, -1));
@@ -28,7 +28,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testValidBuildingLocationSetupPhaseTakenIntersection () {
+    public void testValidBuildingLocationSetupPhaseTakenIntersection() {
         Board board = new Board();
         board.addBuilding(0, new City(0));
         assertFalse(board.validBuildingLocation(1, true, 0));
@@ -42,7 +42,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testHGraph () {
+    public void testHGraph() {
         Board board = new Board();
         boolean hGraph[][] = board.getHGraph();
         assertTrue(hGraph[5][14]);
@@ -54,7 +54,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testIsConnected () {
+    public void testIsConnected() {
         Board board = new Board();
 
         board.getBuildings()[1] = new Settlement(1);
@@ -68,7 +68,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew and Alex Weininger
-    public void testValidRoadPlacement () {
+    public void testValidRoadPlacement() {
         Board board = new Board();
 
         board.getBuildings()[1] = new Settlement(1);
@@ -78,7 +78,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew and Alex Weininger
-    public void testAddRoadArray () {
+    public void testAddRoadArray() {
         Board board = new Board();
 
         board.addRoad(1, 1, 2);
@@ -90,7 +90,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testAddRoadMatrix () {
+    public void testAddRoadMatrix() {
         Board board = new Board();
 
         board.addRoad(1, 1, 2);
@@ -99,7 +99,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew
-    public void testHasRoad () {
+    public void testHasRoad() {
         Board board = new Board();
 
         board.getBuildings()[1] = new Settlement(1);
@@ -126,7 +126,7 @@ public class BoardTest {
 //    }
 
     @Test //Written By: Andrew
-    public void testValidBuildingLocation () {
+    public void testValidBuildingLocation() {
         Board board = new Board();
         int playerId = -1;
 
@@ -142,7 +142,7 @@ public class BoardTest {
     }
 
     @Test //Written By: Andrew and Alex Weininger
-    public void testValidCityLocation () {
+    public void testValidCityLocation() {
         Board board = new Board();
 
         board.getBuildings()[0] = new Settlement(1);
@@ -156,14 +156,14 @@ public class BoardTest {
     }
 
     @Test // by Alex Weininger
-    public void testGetHexagonListForDrawing () {
+    public void testGetHexagonListForDrawing() {
         Board board = new Board();
         assertEquals(19, board.getHexagonListForDrawing().size());
         assertFalse(board.getHexagonListForDrawing().size() == 18);
     }
 
     @Test // by Alex Weininger
-    public void testGetIntersectionOwners () {
+    public void testGetIntersectionOwners() {
         Board board = new Board();
         board.getBuildings()[0] = new Settlement(1);
 
@@ -174,7 +174,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew
-    public void testGetRoadsAtIntersection () {
+    public void testGetRoadsAtIntersection() {
         Board board = new Board();
 
         board.addRoad(1, 0, 1);
@@ -190,7 +190,7 @@ public class BoardTest {
     }
 
     @Test // by Alex Weininger and Andrew Lang
-    public void testGetHexagonsFromChitValue () {
+    public void testGetHexagonsFromChitValue() {
         Board board = new Board();
 
         assertEquals(1, board.getHexagonsFromChitValue(2).size());
@@ -207,7 +207,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew
-    public void testMoveRobber () {
+    public void testMoveRobber() {
         Board board = new Board();
 
         board.getRobber().setHexagonId(1);
@@ -222,7 +222,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew
-    public void testAddBuilding () {
+    public void testAddBuilding() {
         Board board = new Board();
 
         board.getBuildings()[0] = new Settlement(1);
@@ -236,7 +236,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew
-    public void testHasBuilding () {
+    public void testHasBuilding() {
         Board board = new Board();
         Building settlement = new Settlement(0);
         board.addBuilding(0, settlement);
@@ -249,7 +249,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew
-    public void testGetBuildingAtIntersection () {
+    public void testGetBuildingAtIntersection() {
         Board board = new Board();
 
         board.getBuildings()[0] = new Settlement(1);
@@ -258,7 +258,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew and Alex Weininger
-    public void testGetAdjacentHexagons () {
+    public void testGetAdjacentHexagons() {
         Board board = new Board();
 
         assertEquals(6, board.getAdjacentHexagons(0).size());
@@ -272,7 +272,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew and Alex Weininger
-    public void testGetIntersectionId () {
+    public void testGetIntersectionId() {
         Board board = new Board();
 
         assertEquals(0, board.getIntersectionId(0, 0));
@@ -285,7 +285,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew Lang
-    public void testGetHexagonFromId () {
+    public void testGetHexagonFromId() {
         Board board = new Board();
 
         assertEquals(1, board.getHexagonFromId(1).getHexagonId());
@@ -296,7 +296,7 @@ public class BoardTest {
     }
 
     @Test // by Andrew and Alex
-    public void testGenerateChitList () {
+    public void testGenerateChitList() {
         Board board = new Board();
 
         assertEquals(18, board.generateChitList().size());

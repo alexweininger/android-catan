@@ -36,7 +36,6 @@ import edu.up.cs.androidcatan.game.actionMsg.GameAction;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
 
@@ -49,7 +48,7 @@ public class CatanLocalGame extends LocalGame {
     /**
      * constructor for CatanLocalGame
      */
-    public CatanLocalGame () {
+    public CatanLocalGame() {
         super();
         state = new CatanGameState();
     }
@@ -64,7 +63,7 @@ public class CatanLocalGame extends LocalGame {
      * @return true iff the player is allowed to move
      */
     @Override
-    public boolean canMove (int playerIdx) {
+    public boolean canMove(int playerIdx) {
         Log.d(TAG, "canMove() called with: playerIdx = [" + playerIdx + "] currentPlayerId(): " + this.state.getCurrentPlayerId());
 
         // if it is the robber phase
@@ -100,7 +99,7 @@ public class CatanLocalGame extends LocalGame {
      * @return Tells whether the move was a legal one.
      */
     @Override
-    protected synchronized boolean makeMove (GameAction action) {
+    protected synchronized boolean makeMove(GameAction action) {
         Log.d(TAG, "makeMove() called with: action = [" + action + "]");
         Log.d(TAG, "makeMove: state: " + state.toString());
         /* --------------------------- Turn Actions --------------------------------------- */
@@ -144,6 +143,7 @@ public class CatanLocalGame extends LocalGame {
             if (state.isSetupPhase()) this.state.setSetupPhase(this.state.updateSetupPhase());
 
             state.setActionPhase(false); // set action phase to false
+            state.getCurrentPlayer().setDevCardsBuiltThisTurn(new ArrayList<Integer>());
             Log.i(TAG, "makeMove: It is now " + state.getCurrentPlayerId() + "'s turn.");
             return true;
         }
@@ -259,13 +259,13 @@ public class CatanLocalGame extends LocalGame {
         if (action instanceof CatanUseKnightCardAction) {
             Log.d(TAG, "makeMove() called with: action = [" + action + "]");
             state.getCurrentPlayer().removeDevCard(0);
-            state.getCurrentPlayer().setArmySize(state.getCurrentPlayer().getArmySize() + 1);
+            state.checkArmySize(state.getCurrentPlayerId());
 
             state.setRobberPhase(true);
             for (int i = 0; i < state.getPlayerList().size(); i++) {
                 state.setRobberPlayerListHasDiscarded(new boolean[]{true, true, true, true});
             }
-            state.checkArmySize();
+
             return true;
         }
 
@@ -384,7 +384,7 @@ public class CatanLocalGame extends LocalGame {
      * @param p the player to notify
      */
     @Override
-    protected void sendUpdatedStateTo (GamePlayer p) {
+    protected void sendUpdatedStateTo(GamePlayer p) {
         Log.d(TAG, "sendUpdatedStateTo() called with: p = [" + p + "]");
         Log.i(TAG, "sendUpdatedStateTo: state.toSting():" + this.state.toString());
         Log.i(TAG, "sendUpdatedStateTo: board.toString(): " + this.state.getBoard().toString());
@@ -402,7 +402,7 @@ public class CatanLocalGame extends LocalGame {
      * game is not over
      */
     @Override
-    public String checkIfGameOver () {
+    public String checkIfGameOver() {
         Log.d(TAG, "checkIfGameOver() called");
         if (playerNames == null) {
             Log.e(TAG, "checkIfGameOver: player names is null");
@@ -426,12 +426,12 @@ public class CatanLocalGame extends LocalGame {
      * @param players The list of players in the game.
      */
     @Override
-    public void start (GamePlayer[] players) {
+    public void start(GamePlayer[] players) {
         super.start(players);
         state = new CatanGameState(state);
     }
 
-    public void setState (CatanGameState state) {
+    public void setState(CatanGameState state) {
         this.state = state;
     }
 

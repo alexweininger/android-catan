@@ -4,16 +4,25 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * https://github.com/alexweininger/android-catan
+ **/
+
 public class IntersectionDrawable {
     private int intersectionId, xPos, yPos;
 
     /**
      * IntersectionDrawable conatructor
+     *
      * @param id he id of the intersection
-     * @param x the x position
-     * @param y the y position
+     * @param x  the x position
+     * @param y  the y position
      */
-    IntersectionDrawable (int id, int x, int y) {
+    IntersectionDrawable(int id, int x, int y) {
         this.intersectionId = id;
         this.xPos = x;
         this.yPos = y;
@@ -21,7 +30,8 @@ public class IntersectionDrawable {
 
     /**
      * drawing it on the board
-     * @param canvas canvas being drawn on
+     *
+     * @param canvas    canvas being drawn on
      * @param debugMode true or false to show debugMode or not
      */
     void drawIntersection(Canvas canvas, boolean debugMode) {
@@ -32,15 +42,15 @@ public class IntersectionDrawable {
         if (debugMode) canvas.drawText("" + intersectionId, xPos, yPos, paint);
     }
 
-    public int getIntersectionId () {
+    public int getIntersectionId() {
         return this.intersectionId;
     }
 
-    public int getXPos () {
+    public int getXPos() {
         return this.xPos;
     }
 
-    public int getYPos () {
+    public int getYPos() {
         return this.yPos;
     }
 

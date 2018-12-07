@@ -11,6 +11,14 @@ import java.util.LinkedList;
 
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Road;
 
+/**
+ * @author Alex Weininger
+ * @author Andrew Lang
+ * @author Daniel Borg
+ * @author Niraj Mali
+ * https://github.com/alexweininger/android-catan
+ **/
+
 // This class represents a directed graph using adjacency list
 // representation
 public class Graph implements Runnable, Serializable {
@@ -23,31 +31,31 @@ public class Graph implements Runnable, Serializable {
     private int playerIdWithLongestRoad;
     private boolean hasCycle;
 
-    public void setPlayerIdWithLongestRoad (int playerWithLongestRoad) {
+    public void setPlayerIdWithLongestRoad(int playerWithLongestRoad) {
         this.playerIdWithLongestRoad = playerWithLongestRoad;
     }
 
-    public int getPlayerIdWithLongestRoad () {
+    public int getPlayerIdWithLongestRoad() {
         return playerIdWithLongestRoad;
     }
 
-    public void setPr (ArrayList<Road> pr) {
+    public void setPr(ArrayList<Road> pr) {
         this.pr = pr;
     }
 
-    public int getMaxRoadLength () {
+    public int getMaxRoadLength() {
         return maxRoadLength;
     }
 
-    public ArrayList<Road> getAllRoads () {
+    public ArrayList<Road> getAllRoads() {
         return allRoads;
     }
 
-    public void setAllRoads (ArrayList<Road> allRoads) {
+    public void setAllRoads(ArrayList<Road> allRoads) {
         this.allRoads = allRoads;
     }
 
-    public void setMaxRoadLength (int maxRoadLength) {
+    public void setMaxRoadLength(int maxRoadLength) {
         this.maxRoadLength = maxRoadLength;
     }
 
@@ -57,7 +65,7 @@ public class Graph implements Runnable, Serializable {
     private LinkedList<Integer> adj[];
 
     // Constructor
-    public Graph (int v) {
+    public Graph(int v) {
         V = v;
         adj = new LinkedList[v];
         for (int i = 0; i < v; ++i) {
@@ -67,14 +75,14 @@ public class Graph implements Runnable, Serializable {
     }
 
     //Function to add an edge into the graph
-    public void addEdge (int v, int w) {
+    public void addEdge(int v, int w) {
         adj[v].add(w);  // Add w to v's list.
         adj[w].add(v);
         Log.e(TAG, "addEdge: added edge: " + v + ", " + w);
     }
 
     // A function used by DFS
-    public void DFSUtil (int v, boolean visited[], int parent) {
+    public void DFSUtil(int v, boolean visited[], int parent) {
         // Mark the current node as visited and print it
         visited[v] = true;
 
@@ -101,7 +109,7 @@ public class Graph implements Runnable, Serializable {
     }
 
     // The function to do DFS traversal. It uses recursive DFSUtil()
-    int DFS (int v) {
+    int DFS(int v) {
 
         count = 0;
         // Mark all the vertices as not visited(set as
@@ -117,7 +125,7 @@ public class Graph implements Runnable, Serializable {
         return count - 1;
     }
 
-    public int getMaxRoadLength (ArrayList<Road> pr) {
+    public int getMaxRoadLength(ArrayList<Road> pr) {
         maxRoadLength = -1;
 
         for (int i = 0; i < pr.size(); i++) {
@@ -144,7 +152,7 @@ public class Graph implements Runnable, Serializable {
     }
 
     @Override
-    public void run () {
+    public void run() {
         updatePlayerWithLongestRoad();
     }
 
@@ -152,7 +160,7 @@ public class Graph implements Runnable, Serializable {
      * @param ownerId owner id
      * @return dfs
      */
-    public int dfs (int ownerId) {
+    public int dfs(int ownerId) {
         ArrayList<Road> pr = new ArrayList<>();
 
         for (Road road : this.allRoads) {
@@ -176,7 +184,7 @@ public class Graph implements Runnable, Serializable {
      *
      * @return returns the playerid with the longest road for now (may need to change so that it returns the value instead)
      */
-    public synchronized int updatePlayerWithLongestRoad () {
+    public synchronized int updatePlayerWithLongestRoad() {
         Log.d(TAG, "updatePlayerWithLongestRoad() called");
         ArrayList<Integer> longestRoadPerPlayer = new ArrayList<>();
 

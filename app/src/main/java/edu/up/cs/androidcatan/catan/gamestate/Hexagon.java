@@ -7,9 +7,9 @@ import java.io.Serializable;
  * @author Andrew Lang
  * @author Daniel Borg
  * @author Niraj Mali
- * @version November 8th, 2018
  * https://github.com/alexweininger/android-catan
  **/
+
 public class Hexagon implements Serializable {
 
     private static final long serialVersionUID = 675408522730573292L;
@@ -20,9 +20,9 @@ public class Hexagon implements Serializable {
      * Hexagon constructor AW
      *
      * @param resourceType - resourceType type of hexagon
-     * @param chitValue - dice value of hexagon
+     * @param chitValue    - dice value of hexagon
      */
-    public Hexagon (int resourceType, int chitValue, int hexagonId) {
+    public Hexagon(int resourceType, int chitValue, int hexagonId) {
         this.hexagonId = hexagonId;
         this.resourceId = resourceType;
         this.chitValue = chitValue;
@@ -33,7 +33,7 @@ public class Hexagon implements Serializable {
      *
      * @param h Hexagon object to create a copy from.
      */
-    public Hexagon (Hexagon h) {
+    public Hexagon(Hexagon h) {
         this.setHexagonId(h.getHexagonId());
         this.setChitValue(h.getChitValue());
         this.setResourceId(h.getResourceId());
@@ -42,30 +42,30 @@ public class Hexagon implements Serializable {
     /**
      * @return - hexagon resource id, [0-4]
      */
-    public int getResourceId () {
+    public int getResourceId() {
         return resourceId;
     }
 
-    public void setHexagonId (int hexagonId) {
+    public void setHexagonId(int hexagonId) {
         this.hexagonId = hexagonId;
     }
 
     /**
      * @return chit value of the hexagon
      */
-    public int getChitValue () {
+    public int getChitValue() {
         return chitValue;
     }
 
-    public void setResourceId (int resourceId) {
+    public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
     }
 
-    public void setChitValue (int chitValue) {
+    public void setChitValue(int chitValue) {
         this.chitValue = chitValue;
     }
 
-    public int getHexagonId () {
+    public int getHexagonId() {
         return this.hexagonId;
     }
 
@@ -73,7 +73,7 @@ public class Hexagon implements Serializable {
      * @return String representing the Hexagon object.
      */
     @Override
-    public String toString () {
+    public String toString() {
         return "id=" + this.hexagonId + "\tresId=" + this.resourceId + "\tchit=" + this.chitValue;
     }
 }
