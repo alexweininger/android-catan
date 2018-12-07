@@ -2,8 +2,11 @@ package edu.up.cs.androidcatan.test;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import edu.up.cs.androidcatan.catan.CatanGameState;
 import edu.up.cs.androidcatan.catan.gamestate.Board;
+import edu.up.cs.androidcatan.catan.gamestate.Hexagon;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Building;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.City;
 import edu.up.cs.androidcatan.catan.gamestate.buildings.Settlement;
@@ -306,5 +309,25 @@ public class BoardTest {
         assertFalse(board.generateChitList().contains(-1));
         assertFalse(board.generateChitList().contains(13));
         assertFalse(board.generateChitList().contains(7));
+    }
+
+    @Test //Wtritten By: Daniel
+    public void checkChitRule()
+    {
+        Board board = new Board();
+        ArrayList<Hexagon> hexagons = new ArrayList<>();
+        Hexagon hex1 = new Hexagon(1,2,3);
+        Hexagon hex2 = new Hexagon(2,6,4);
+        Hexagon hex3 = new Hexagon(0,8,7);
+        hexagons.add(hex1);
+        hexagons.add(hex2);
+        hexagons.add(hex3);
+        board.setHexagons(hexagons);
+        assertFalse(board.checkChitRule());
+
+        Hexagon hex4 =  new Hexagon(3,6,5);
+        hexagons.add(hex4);
+        board.setHexagons(hexagons);
+        assertFalse(board.checkChitRule());
     }
 }
