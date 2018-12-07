@@ -49,6 +49,7 @@ public class CatanDumbComputerPlayer extends GameComputerPlayer implements Seria
 
         if (!(info instanceof CatanGameState)) return; // must do this check at start of method!
 
+        //creates a new game state object
         CatanGameState gs = (CatanGameState) info;
         Log.d(TAG, "receiveInfo: game state current player: " + gs.getCurrentPlayerId() + " this.playerNum: " + this.playerNum);
         if (this.playerNum != gs.getCurrentPlayerId() && !gs.isRobberPhase()) {
