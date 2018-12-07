@@ -115,19 +115,6 @@ public class BoardTest {
         assertFalse(board.hasRoad(-20));
     }
 
-//    @Test //Written By: Andrew
-//    public void testGetPlayerWithLongestRoad () {
-//        Board board = new Board();
-//        CatanGameState gameState = new CatanGameState();
-//
-//        assertEquals(board.getPlayerWithLongestRoad(gameState.getPlayerList()), -1);
-//
-//        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 0);
-//        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 1);
-//        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 2);
-//        assertFalse(board.getPlayerWithLongestRoad(gameState.getPlayerList()) == 3);
-//    }
-
     @Test //Written By: Andrew
     public void testValidBuildingLocation() {
         Board board = new Board();
