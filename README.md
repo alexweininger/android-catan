@@ -1,6 +1,6 @@
 # Settlers of Catan on Android
 
-Famous Settlers of Catan board game made on Android
+Famous Settlers of Catan board game made into a an Android app. This app supports single player, and local multiplayer. In single player mode you can play against computers of varying difficulty. And with local mulitplayer, you can play with up to 4 players in a single game.
 
 ## Introduction
 
